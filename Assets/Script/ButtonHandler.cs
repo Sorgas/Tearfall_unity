@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonHandler : MonoBehaviour {
+public abstract class ButtonHandler : MonoBehaviour {
     public class ButtonData {
         public string name;
         public KeyCode hotKey;
@@ -25,8 +25,11 @@ public class ButtonHandler : MonoBehaviour {
     public GameObject canvas;
     public int qwer;
 
+    protected abstract void initButtons();
+
     // Start is called before the first frame update
     public void Start() {
+        initButtons();
         buttons.ForEach(data => {
             Button button= transform.Find(data.name).GetComponent<Button>();
             button.onClick.AddListener(data.action.Invoke);

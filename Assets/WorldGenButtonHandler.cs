@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldGenButtonHandler : MonoBehaviour
+public class WorldGenButtonHandler : ButtonHandler
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    protected override void initButtons() {
+        buttons = new List<ButtonData>{
+            new ButtonData("CreateButton", KeyCode.C, createWorld),
+            new ButtonData("BackButton", KeyCode.Q, toMainMenu)
+        };
+        Debug.Log("handler2 start");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void createWorld() {
+
+    }
+
+    public void toMainMenu() {
+        gameObject.SetActive(false);
+        gameObject.transform.parent.Find("MainMenuButtons").gameObject.SetActive(true);
     }
 }
