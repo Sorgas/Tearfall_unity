@@ -17,7 +17,7 @@ public class WorldGenButtonHandler : ButtonHandler
     }
 
     public void toMainMenu() {
-        gameObject.SetActive(false);
+        gameObject.transform.parent.gameObject.SetActive(false);
         gameObject.transform.parent.Find("MainMenuButtons").gameObject.SetActive(true);
     }
 }

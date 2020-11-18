@@ -7,7 +7,7 @@ public class MainMenuButtonHandler : ButtonHandler {
 
     public void toWorldGen() {
         gameObject.SetActive(false);
-        gameObject.transform.parent.Find("CreateWorldButtons").gameObject.SetActive(true);
+        gameObject.transform.parent.Find("WordGenLeftPanel").gameObject.SetActive(true);
     }
 
     public void toPreviousGame() {
