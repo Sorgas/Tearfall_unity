@@ -23,17 +23,21 @@ public abstract class ButtonHandler : MonoBehaviour {
 
     protected abstract void initButtons();
 
-    // Start is called before the first frame update
+    // Tries to associate button data from subclass with actual child buttons of GO
     public void Start() {
         initButtons();
+        Dictionary<String, Button> foundButtons = transform.GetComponentsInChildren<Button>()
+            .ToDictionary(button => button.gameObject.name, button => button);
         buttons.ForEach(data => {
-            Button button = transform.Find(data.name).GetComponent<Button>();
-            button.onClick.AddListener(data.action.Invoke);
-            hotkeyMap.Add(data.hotKey, data);
+            if (foundButtons.Keys.Contains(data.name)) {
+                foundButtons[data.name].onClick.AddListener(data.action.Invoke);
+                hotkeyMap.Add(data.hotKey, data);
+            } else {
+                Debug.Log("Button " + data.name + " not found in " + gameObject.name);
+            }
         });
     }
 
-    // Update is called once per frame
     void Update() {
         foreach(KeyCode key in hotkeyMap.Keys) {
             if(Input.GetKeyDown(key)) hotkeyMap[key].action.Invoke();

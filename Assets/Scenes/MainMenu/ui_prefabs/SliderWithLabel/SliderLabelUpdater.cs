@@ -8,8 +8,10 @@ public class SliderLabelUpdater : MonoBehaviour
 {
     public Text text;
     public int magnitude = 1;
+    public int value;
 
     public void updateText(float value) {
-        text.text = (value * magnitude).ToString();
+        this.value = (int)(value * magnitude);
+        text.text = (this.value).ToString();
     }
 }
