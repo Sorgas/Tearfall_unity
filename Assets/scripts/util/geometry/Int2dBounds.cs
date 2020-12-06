@@ -1,0 +1,117 @@
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace util.geometry {
+    public class Int2dBounds {
+        public int minX;
+        public int minY;
+        public int maxX;
+        public int maxY;
+        public int width;
+        public int height;
+
+        public Int2dBounds() : this(0, 0, 0, 0) {
+        }
+
+        public Int2dBounds(int minX, int minY, int maxX, int maxY) {
+            set(minX, minY, maxX, maxY);
+        }
+
+        public Int2dBounds(IntVector3 start, Vector2 size) : this(start, size.x, size.y) {
+        }
+
+        public Int2dBounds(IntVector3 start, float width, float height) : this(start, (int) Math.Round(width),
+            (int) Math.Round(height)) {
+        }
+
+        public Int2dBounds(IntVector3 start, int width, int height) : this(start.x, start.y, start.x + width - 1,
+            start.y + height - 1) {
+        }
+
+        public Int2dBounds(int width, int height) : this(0, 0, width - 1, height - 1) {
+        }
+
+        public bool isIn(IntVector3 intVector3) {
+            return isIn(intVector3.x, intVector3.y);
+        }
+
+        public bool isIn(int x, int y) {
+            return x >= minX && x <= maxX && y >= minY && y <= maxY;
+        }
+
+        public Int2dBounds set(int minX, int minY, int maxX, int maxY) {
+            this.minX = Math.Min(minX, maxX);
+            this.maxX = Math.Max(minX, maxX);
+            this.minY = Math.Min(minY, maxY);
+            this.maxY = Math.Max(minY, maxY);
+            width = maxX - minX;
+            height = maxY - minY;
+            return this;
+        }
+
+        public void clamp(int minX, int minY, int maxX, int maxY) {
+            this.minX = Math.Max(this.minX, minX);
+            this.minY = Math.Max(this.minY, minY);
+            this.maxX = Math.Min(this.maxX, maxX);
+            this.maxY = Math.Min(this.maxY, maxY);
+        }
+
+        public void extend(int value) {
+            minX -= value;
+            minY -= value;
+            maxX += value;
+            maxY += value;
+        }
+
+        public void iterate(Action<int, int> action) {
+            for (int x = minX; x <= maxX; x++) {
+                for (int y = maxY; y >= minY; y--) {
+                    action.Invoke(x, y);
+                }
+            }
+        }
+
+        public void extendTo(Vector2 vector) {
+            extendTo((int) Math.Round(vector.x), (int) Math.Round(vector.y));
+        }
+
+        public void extendTo(int x, int y) {
+            if (x > 0) maxX += x;
+            if (x < 0) minX += x;
+            if (y > 0) maxY += y;
+            if (y < 0) minY += y;
+        }
+
+        public List<IntVector2> list() {
+            List<IntVector2> list = new List<IntVector2>();
+            for (int x = minX; x <= maxX; x++) {
+                for (int y = minY; y <= maxY; y++) {
+                    list.Add(new IntVector2(x, y));
+                }
+            }
+            return list;
+        }
+
+        public List<IntVector2> listBorders() {
+            List<IntVector2> list = new List<IntVector2>();
+            for (int x = minX; x <= maxX; x++) {
+                list.Add(new IntVector2(x, minY));
+                list.Add(new IntVector2(x, maxY));
+            }
+            for (int y = minY + 1; y < maxY; y++) {
+                list.Add(new IntVector2(minX, y));
+                list.Add(new IntVector2(maxX, y));
+            }
+            return list;
+        }
+
+        public bool isCorner(int x, int y) {
+            return (x == minX || x == maxX) && (y == minY || y == maxY);
+        }
+
+        public String toString() {
+            return "Int3dBounds{" + " " + minX + " " + minY + " " + maxX + " " + maxY + '}';
+        }
+    }
+}

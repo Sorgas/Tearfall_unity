@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 // Gets generation parameters from ui, launches generation, renders world to tilemap
-public class WorldGenLauncher : MonoBehaviour
+public class WorldGenLauncher
 {
     public Tilemap tilemap;
     public TileBase tile;
