@@ -32,11 +32,15 @@ namespace util.geometry {
         public Int2dBounds(int width, int height) : this(0, 0, width - 1, height - 1) {
         }
 
-        public bool isIn(IntVector3 intVector3) {
-            return isIn(intVector3.x, intVector3.y);
+        public bool isIn(IntVector3 vector) {
+            return isIn(vector.x, vector.y);
         }
 
-        public bool isIn(int x, int y) {
+        public bool isIn(Vector3 vector) {
+            return isIn(vector.x, vector.y);
+        }
+
+        public bool isIn(float x, float y) {
             return x >= minX && x <= maxX && y >= minY && y <= maxY;
         }
 
@@ -110,6 +114,12 @@ namespace util.geometry {
             return (x == minX || x == maxX) && (y == minY || y == maxY);
         }
 
+        public Vector3 putInto(Vector3 vector) {
+            vector.x = Math.Min(maxX, Math.Max(minX, vector.x));
+            vector.y = Math.Min(maxY, Math.Max(minY, vector.y));
+            return vector;
+        }
+        
         public String toString() {
             return "Int3dBounds{" + " " + minX + " " + minY + " " + maxX + " " + maxY + '}';
         }
