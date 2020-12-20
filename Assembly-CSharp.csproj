@@ -70,6 +70,7 @@
      <Compile Include="Assets\scripts\mainMenu\worldgen\WorldGenSequence.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldgen\generators\WorldGenerator.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldgen\generators\elevation\ElevationGenerator.cs" />
+     <Compile Include="Assets\scripts\util\ScrollableCameraController.cs" />
      <Compile Include="Assets\scripts\util\geometry\FloatBounds2.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntBounds2.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntVector2.cs" />
