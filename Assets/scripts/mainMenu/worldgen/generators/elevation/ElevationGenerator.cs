@@ -6,7 +6,7 @@ namespace mainMenu.WorldGen.generators.elevation {
     public class ElevationGenerator : WorldGenerator {
         private int size;
         private float[,] elevation;
-        private Int2dBounds bounds;
+        private IntBounds2 bounds;
         private WorldGenConfig config;
         private WorldGenContainer container;
 
@@ -14,7 +14,7 @@ namespace mainMenu.WorldGen.generators.elevation {
             this.container = container;
             size = config.size;
             elevation = new float[size, size];
-            bounds = new Int2dBounds(0, 0, size - 1, size - 1);
+            bounds = new IntBounds2(0, 0, size - 1, size - 1);
             Debug.Log("generating elevation");
             addElevation(5, 0.5f, 0.005f, 0.7f);
             addElevation(6, 0.5f, 0.015f, 0.2f);

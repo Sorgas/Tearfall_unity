@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace util.geometry {
-    public class Int2dBounds {
+    public class IntBounds2 {
         public int minX;
         public int minY;
         public int maxX;
@@ -11,25 +11,25 @@ namespace util.geometry {
         public int width;
         public int height;
 
-        public Int2dBounds() : this(0, 0, 0, 0) {
+        public IntBounds2() : this(0, 0, 0, 0) {
         }
 
-        public Int2dBounds(int minX, int minY, int maxX, int maxY) {
+        public IntBounds2(int minX, int minY, int maxX, int maxY) {
             set(minX, minY, maxX, maxY);
         }
 
-        public Int2dBounds(IntVector3 start, Vector2 size) : this(start, size.x, size.y) {
+        public IntBounds2(IntVector3 start, Vector2 size) : this(start, size.x, size.y) {
         }
 
-        public Int2dBounds(IntVector3 start, float width, float height) : this(start, (int) Math.Round(width),
+        public IntBounds2(IntVector3 start, float width, float height) : this(start, (int) Math.Round(width),
             (int) Math.Round(height)) {
         }
 
-        public Int2dBounds(IntVector3 start, int width, int height) : this(start.x, start.y, start.x + width - 1,
+        public IntBounds2(IntVector3 start, int width, int height) : this(start.x, start.y, start.x + width - 1,
             start.y + height - 1) {
         }
 
-        public Int2dBounds(int width, int height) : this(0, 0, width - 1, height - 1) {
+        public IntBounds2(int width, int height) : this(0, 0, width - 1, height - 1) {
         }
 
         public bool isIn(IntVector3 vector) {
@@ -44,7 +44,7 @@ namespace util.geometry {
             return x >= minX && x <= maxX && y >= minY && y <= maxY;
         }
 
-        public Int2dBounds set(int minX, int minY, int maxX, int maxY) {
+        public IntBounds2 set(int minX, int minY, int maxX, int maxY) {
             this.minX = Math.Min(minX, maxX);
             this.maxX = Math.Max(minX, maxX);
             this.minY = Math.Min(minY, maxY);
