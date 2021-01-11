@@ -18,7 +18,8 @@ public class WorldGenButtonHandler : ButtonHandler {
     protected override void initButtons() {
         buttons = new List<ButtonData> {
             new ButtonData("CreateButton", KeyCode.C, createWorld),
-            new ButtonData("BackButton", KeyCode.Q, toMainMenu)
+            new ButtonData("BackButton", KeyCode.Q, toMainMenu),
+            new ButtonData("ContinueButton", KeyCode.V, toGamePreparation)
         };
     }
 
@@ -28,17 +29,22 @@ public class WorldGenButtonHandler : ButtonHandler {
     }
     
     public void createWorld() {
-        Debug.Log("world");
         int seed = Convert.ToInt32(seedField.text);
         int size = (int) sizeSlider.value * 100;
+        Debug.Log("creating world " + seed + " " + size);
         WorldGenConfig config = new WorldGenConfig(seed, size);
         WorldGenContainer container = sequence.run(config);
-        worldMap = container.createWorldMap();
+        worldMap = container.createWorldMap(); // actual generation
         drawer.drawWorld(worldMap);
     }
 
     public void toMainMenu() {
         gameObject.SetActive(false);
         gameObject.transform.parent.Find("MainMenuButtons").gameObject.SetActive(true);
+    }
+
+    public void toGamePreparation() {
+        gameObject.SetActive(false);
+        gameObject.transform.parent.Find("PrepareMenuButtons").gameObject.SetActive(true);
     }
 }
