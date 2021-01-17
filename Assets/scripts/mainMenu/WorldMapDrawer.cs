@@ -33,6 +33,6 @@ public class WorldMapDrawer : MonoBehaviour {
     }
 
     private void Update() {
-        controller.handleInput();
+        if(controller != null) controller.handleInput();
     }
 }

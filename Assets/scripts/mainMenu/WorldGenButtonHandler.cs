@@ -11,7 +11,9 @@ public class WorldGenButtonHandler : ButtonHandler {
 
     public InputField seedField;
     public WorldMapDrawer drawer;
-    public Button continueButton;
+
+    public GameObject mainMenuStage;
+    public GameObject preparationStage;
 
     private WorldGenSequence sequence = new WorldGenSequence();
     private WorldMap worldMap;
@@ -20,8 +22,8 @@ public class WorldGenButtonHandler : ButtonHandler {
     protected override void initButtons() {
         buttons = new List<ButtonData> {
             new ButtonData("CreateButton", KeyCode.C, createWorld),
-            new ButtonData("BackButton", KeyCode.Q, toMainMenu),
-            new ButtonData("ContinueButton", KeyCode.V, toGamePreparation)
+            new ButtonData("BackButton", KeyCode.Q, () => switchTo(mainMenuStage)),
+            new ButtonData("ContinueButton", KeyCode.V, () => switchTo(preparationStage))
         };
     }
 
@@ -38,16 +40,5 @@ public class WorldGenButtonHandler : ButtonHandler {
         WorldGenContainer container = sequence.run(config);
         worldMap = container.createWorldMap(); // actual generation
         drawer.drawWorld(worldMap);
-
-    }
-
-    public void toMainMenu() {
-        gameObject.SetActive(false);
-        gameObject.transform.parent.Find("MainMenuStage").gameObject.SetActive(true);
-    }
-
-    public void toGamePreparation() {
-        gameObject.SetActive(false);
-        gameObject.transform.parent.Find("PreparationStage").gameObject.SetActive(true);
     }
 }
