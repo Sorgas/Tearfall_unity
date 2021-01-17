@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Transactions;
 using Assets.Scenes.MainMenu.script;
 using mainMenu.WorldGen;
 using UnityEngine;
@@ -12,8 +11,11 @@ public class WorldGenButtonHandler : ButtonHandler {
 
     public InputField seedField;
     public WorldMapDrawer drawer;
+    public Button continueButton;
+
     private WorldGenSequence sequence = new WorldGenSequence();
     private WorldMap worldMap;
+
 
     protected override void initButtons() {
         buttons = new List<ButtonData> {
@@ -23,7 +25,7 @@ public class WorldGenButtonHandler : ButtonHandler {
         };
     }
 
-    public void Start() {
+    new public void Start() {
         base.Start();
         seedField.text = new Random().Next().ToString();
     }
@@ -36,15 +38,16 @@ public class WorldGenButtonHandler : ButtonHandler {
         WorldGenContainer container = sequence.run(config);
         worldMap = container.createWorldMap(); // actual generation
         drawer.drawWorld(worldMap);
+
     }
 
     public void toMainMenu() {
         gameObject.SetActive(false);
-        gameObject.transform.parent.Find("MainMenuButtons").gameObject.SetActive(true);
+        gameObject.transform.parent.Find("MainMenuStage").gameObject.SetActive(true);
     }
 
     public void toGamePreparation() {
         gameObject.SetActive(false);
-        gameObject.transform.parent.Find("PrepareMenuButtons").gameObject.SetActive(true);
+        gameObject.transform.parent.Find("PreparationStage").gameObject.SetActive(true);
     }
 }

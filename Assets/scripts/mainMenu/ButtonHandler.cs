@@ -42,4 +42,11 @@ public abstract class ButtonHandler : MonoBehaviour {
             if(Input.GetKeyDown(key)) hotkeyMap[key].action.Invoke();
         }
     }
+
+    // disables current GO and enables given GO
+    public void switchTo(GameObject value) {
+        if (value == null) return;
+        gameObject.SetActive(false);
+        value.SetActive(true);
+    }
 }

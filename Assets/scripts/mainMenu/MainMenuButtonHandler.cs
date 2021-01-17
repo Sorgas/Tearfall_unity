@@ -1,25 +1,27 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 // handler to be attached to parent object of button group
 public class MainMenuButtonHandler : ButtonHandler {
+    public GameObject worldGenStage;
+    public GameObject optionsStage;
+    public GameObject gameLoadStage;
+
 
     public void toWorldGen() {
-        gameObject.SetActive(false);
-        gameObject.transform.parent.Find("WorldGenStage").gameObject.SetActive(true);
+        switchTo(worldGenStage);
     }
 
     public void toPreviousGame() {
         // todo
     }
 
-    public void toSaveGameSelection() {    
+    public void toSaveGameSelection() {
         // todo
     }
 
     public void toOptions() {
-        // todo
+        switchTo(optionsStage);
     }
 
     public void quitGame() {
