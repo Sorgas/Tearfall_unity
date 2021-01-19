@@ -32,6 +32,14 @@ public class WorldMapDrawer : MonoBehaviour {
         }
     }
 
+    public void handleClick() {
+
+    }
+
+    public void clear() {
+        tilemap.ClearAllTiles();
+    }
+
     private void Update() {
         if(controller != null) controller.handleInput();
     }

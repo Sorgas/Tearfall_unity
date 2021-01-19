@@ -11,6 +11,7 @@ public class WorldGenButtonHandler : ButtonHandler {
 
     public InputField seedField;
     public WorldMapDrawer drawer;
+    public Button continueButton;
 
     public GameObject mainMenuStage;
     public GameObject preparationStage;
@@ -22,23 +23,36 @@ public class WorldGenButtonHandler : ButtonHandler {
     protected override void initButtons() {
         buttons = new List<ButtonData> {
             new ButtonData("CreateButton", KeyCode.C, createWorld),
-            new ButtonData("BackButton", KeyCode.Q, () => switchTo(mainMenuStage)),
+            new ButtonData("BackButton", KeyCode.Q, backToMainMenu),
             new ButtonData("ContinueButton", KeyCode.V, () => switchTo(preparationStage))
         };
     }
 
-    new public void Start() {
+    public void Start() {
+        Debug.Log("handler start");
         base.Start();
         seedField.text = new Random().Next().ToString();
     }
-    
+
     public void createWorld() {
+        Debug.Log("creating world");
         int seed = Convert.ToInt32(seedField.text);
-        int size = (int) sizeSlider.value * 100;
+        int size = (int)sizeSlider.value * 100;
         Debug.Log("creating world " + seed + " " + size);
         WorldGenConfig config = new WorldGenConfig(seed, size);
         WorldGenContainer container = sequence.run(config);
         worldMap = container.createWorldMap(); // actual generation
         drawer.drawWorld(worldMap);
+        continueButton.gameObject.SetActive(true);
+    }
+
+    private void backToMainMenu() {
+        switchTo(mainMenuStage);
+        resetState();
+    }
+
+    private void resetState() {
+        drawer.clear();
+        continueButton.gameObject.SetActive(false);
     }
 }

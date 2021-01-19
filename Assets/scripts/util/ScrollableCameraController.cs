@@ -8,6 +8,7 @@ namespace util {
         public Rect paneSize;
         public int worldSize;
 
+        private Vector2Int pointerPosition = new Vector2Int();
         public ValueRange cameraFovRange = new ValueRange(4, 40);
         private Vector3 speed = new Vector3();
         private FloatBounds2 bounds = new FloatBounds2();
@@ -19,7 +20,7 @@ namespace util {
             this.worldSize = worldSize;
             defineCameraBounds();
         }
-        
+
         public void handleInput() {
             if (Input.GetKey(KeyCode.UpArrow)) scrollMinimap(0, 1);
             if (Input.GetKey(KeyCode.DownArrow)) scrollMinimap(0, -1);
@@ -55,16 +56,19 @@ namespace util {
             if (Math.Round(speed.y) < 0.1f) speed.y = 0;
         }
 
-        /**
-        * Defines rectangular bounds where camera can move. Supports fixed padding on world borders.
-        */
+        //Defines rectangular bounds where camera can move. Supports fixed padding on world borders.
         private void defineCameraBounds() {
             bounds.set(0, 0, worldSize, worldSize);
             bounds.extend(padding - camera.orthographicSize); // add padding to map to clearly show world's borders
+            if(bounds.minX > bounds.maxX) {
+                bounds.minX = (worldSize + padding) / 2;
+                bounds.maxX = bounds.minX;
+            }
             float hiddenTiles = (1f - paneSize.height / paneSize.width) * camera.orthographicSize;
             Debug.Log(hiddenTiles);
             bounds.minY -= hiddenTiles;
             bounds.maxY += hiddenTiles;
+            cameraFovRange.max = worldSize / 2 + padding + hiddenTiles;
         }
 
         private void ensureCameraBounds() {
