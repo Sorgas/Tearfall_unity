@@ -10,7 +10,7 @@ public class WorldGenButtonHandler : ButtonHandler {
     public Slider sizeSlider;
 
     public InputField seedField;
-    public WorldMapDrawer drawer;
+    public WorldmapController worldmapController;
     public Button continueButton;
 
     public GameObject mainMenuStage;
@@ -42,7 +42,7 @@ public class WorldGenButtonHandler : ButtonHandler {
         WorldGenConfig config = new WorldGenConfig(seed, size);
         WorldGenContainer container = sequence.run(config);
         worldMap = container.createWorldMap(); // actual generation
-        drawer.drawWorld(worldMap);
+        worldmapController.drawWorld(worldMap);
         continueButton.gameObject.SetActive(true);
     }
 
@@ -52,7 +52,7 @@ public class WorldGenButtonHandler : ButtonHandler {
     }
 
     private void resetState() {
-        drawer.clear();
+        worldmapController.clear();
         continueButton.gameObject.SetActive(false);
     }
 }
