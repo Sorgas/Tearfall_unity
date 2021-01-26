@@ -4,15 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using util.geometry;
 
+// Moves pointer around world map. Updates target position for camera.
 public class WorldmapPointerController {
-    private IntBounds2 bounds;
+    public Vector2 targetPosition = new Vector2Int(); // target position for worldmap camera
+    
+    private IntBounds2 bounds; // allowed pointer positions
+    private IntBounds2 targetBounds; // allowed target positions
     private Transform pointer;
     private List<DelayedKeyController> controllers = new List<DelayedKeyController>();
-
+    private Vector2 cachePosition = new Vector2();
 
     public WorldmapPointerController(int worldSize, Transform pointer) {
         this.pointer = pointer;
-        bounds = new IntBounds2(0,0, worldSize, worldSize);
+        bounds = new IntBounds2(0, 0, worldSize - 1, worldSize - 1);
+        targetBounds = new IntBounds2(bounds).extend(2);
         controllers.Add((new DelayedKeyController(KeyCode.UpArrow, () => movePointer(0, 1))));
         controllers.Add((new DelayedKeyController(KeyCode.DownArrow, () => movePointer(0, -1))));
         controllers.Add((new DelayedKeyController(KeyCode.LeftArrow, () => movePointer(-1, 0))));
@@ -28,11 +33,15 @@ public class WorldmapPointerController {
             dx *= 10;
             dy *= 10;
         }
-        Vector3 position = pointer.localPosition;
-        if (position.x + dx < bounds.minX) dx = (int)(bounds.minX - position.x);
-        if (position.x + dx > bounds.maxX) dx = (int)(bounds.maxX - position.x);
-        if (position.y + dy < bounds.minY) dy = (int)(bounds.minY - position.y);
-        if (position.y + dy > bounds.maxY) dy = (int)(bounds.maxY - position.y);
-        pointer.Translate(dx, dy, 0);
+        cachePosition.Set(pointer.localPosition.x + dx, pointer.localPosition.y + dy); // player moves pointer
+        pointer.localPosition = bounds.putInto(cachePosition); // limit pointer by bounds
+        targetPosition = pointer.localPosition;
+        if(!pointer.localPosition.Equals(cachePosition)) {
+            if (cachePosition.x < bounds.minX) targetPosition.x = targetBounds.minX;
+            if (cachePosition.x > bounds.maxX) targetPosition.x = targetBounds.maxX;
+            if (cachePosition.y < bounds.minY) targetPosition.y = targetBounds.minY;
+            if (cachePosition.y > bounds.maxY) targetPosition.y = targetBounds.maxY;
+        }
+        // Debug.Log("pointer: " + pointer.localPosition + " target:" + targetPosition);
     }
 }

@@ -6,44 +6,29 @@ using util.geometry;
 public class ScrollableCameraController {
     public Camera camera;
     public Rect paneSize;
-    private RectTransform imageTransform;
     public int worldSize;
-    public Sprite pointer;
 
-    private Vector2Int pointerPosition = new Vector2Int();
-
-    public ValueRange cameraFovRange = new ValueRange(4, 40);
+    private WorldmapPointerController pointerController;
+    private ValueRange cameraFovRange = new ValueRange(4, 40);
     private Vector3 speed = new Vector3();
-    private FloatBounds2 bounds = new FloatBounds2();
-    private int padding = 2;
-    private Vector2 previousMousePosition = new Vector2();
+    private FloatBounds2 bounds = new FloatBounds2(); // camera bounds
+    private int padding = 2; // blang tiles on map sides
+    private FloatBounds2 effectiveCameraSize = new FloatBounds2(); // number of visible tiles, relative to camera position
+    private FloatBounds2 visibleArea = new FloatBounds2();
 
-    public ScrollableCameraController(Rect paneSize, RectTransform image, Camera camera, int worldSize, Transform pointer) {
+    public ScrollableCameraController(Rect paneSize, RectTransform image, Camera camera, int worldSize, WorldmapPointerController pointerController) {
         this.paneSize = paneSize;
         this.camera = camera;
         this.worldSize = worldSize;
+        this.pointerController = pointerController;
         defineCameraBounds();
     }
 
     public void handleInput() {
-        //if (Input.GetKey(KeyCode.UpArrow)) scrollMinimap(0, 1);
-        //if (Input.GetKey(KeyCode.DownArrow)) scrollMinimap(0, -1);
-        //if (Input.GetKey(KeyCode.LeftArrow)) scrollMinimap(-1, 0);
-        //if (Input.GetKey(KeyCode.RightArrow)) scrollMinimap(1, 0);
         zoomMinimap(Input.GetAxis("Mouse ScrollWheel"));
         ensureCameraBounds();
         updateCameraPosition();
-        if (!Input.mousePosition.Equals(previousMousePosition)) {
-            updatePointer();
-        }
-    }
-
-    private void scrollMinimap(int x, int y) {
-        Vector3 position = camera.transform.localPosition;
-        if (x > 0 && position.x < bounds.maxX ||
-            x < 0 && position.x > bounds.minX) speed.x += x * 0.3f;
-        if (y > 0 && position.y < bounds.maxY ||
-            y < 0 && position.y > bounds.minY) speed.y += y * 0.3f;
+        checkPointer();
     }
 
     private void updateCameraPosition() {
@@ -59,8 +44,8 @@ public class ScrollableCameraController {
         camera.transform.Translate(speed, Space.Self);
         speed.x *= 0.9f;
         speed.y *= 0.9f;
-        if (Math.Round(speed.x) < 0.1f) speed.x = 0;
-        if (Math.Round(speed.y) < 0.1f) speed.y = 0;
+        if (Math.Abs(speed.x) < 0.1f) speed.x = 0;
+        if (Math.Abs(speed.y) < 0.1f) speed.y = 0;
     }
 
     //Defines rectangular bounds where camera can move. Supports fixed padding on world borders.
@@ -72,9 +57,10 @@ public class ScrollableCameraController {
             bounds.maxX = bounds.minX;
         }
         float hiddenTiles = (1f - paneSize.height / paneSize.width) * camera.orthographicSize;
-        Debug.Log(hiddenTiles);
         bounds.minY -= hiddenTiles;
         bounds.maxY += hiddenTiles;
+        effectiveCameraSize.set(-camera.orthographicSize, hiddenTiles - camera.orthographicSize, camera.orthographicSize - 1, camera.orthographicSize - hiddenTiles - 1);
+        Debug.Log(effectiveCameraSize);
         cameraFovRange.max = worldSize / 2 + padding + hiddenTiles;
     }
 
@@ -97,14 +83,11 @@ public class ScrollableCameraController {
         if (oldZoom != camera.orthographicSize) defineCameraBounds();
     }
 
-    private void updatePointer() {
-        Vector2 position = Input.mousePosition;
-        //imageTransform.TransformPoint
-
-        // to image position == incamera position
-        // to tilemap position
-        // to tile
-        // check tile new
-
+    // moves camera towards pointer
+    private void checkPointer() {
+        visibleArea.set(effectiveCameraSize).move(camera.transform.localPosition);
+        Vector3 camPos = camera.transform.localPosition;
+        Vector2 targetPosition = pointerController.targetPosition;
+        speed = visibleArea.getDirectionVector(targetPosition);
     }
 }

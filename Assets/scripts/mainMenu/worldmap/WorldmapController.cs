@@ -30,21 +30,17 @@ public class WorldmapController : MonoBehaviour {
         Vector3 bounds = new Vector3(worldSize * tileSize, worldSize * tileSize, 0);
         grid.GetComponent<RectTransform>().sizeDelta = new Vector2(bounds.x, bounds.y);
         
-        controller = new ScrollableCameraController(mask.rect, image, _camera, worldSize, pointer);
         pointerController = new WorldmapPointerController(worldSize, pointer);
+        controller = new ScrollableCameraController(mask.rect, image, _camera, worldSize, pointerController);
         Unity.Mathematics.Random random = new Unity.Mathematics.Random();
         random.InitState();
         Vector3Int cachePosition = new Vector3Int();
-        for (int x = 0; x <= worldSize; x++) {
-            for (int y = 0; y <= worldSize; y++) {
+        for (int x = 0; x < worldSize; x++) {
+            for (int y = 0; y < worldSize; y++) {
                 cachePosition.Set(x, y, 0);
                 tilemap.SetTile(cachePosition, tileBases[random.NextInt(tileBases.Length - 1)]);
             }
         }
-    }
-
-    public void handleClick() {
-
     }
 
     public void clear() {
