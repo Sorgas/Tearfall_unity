@@ -1,3 +1,5 @@
+namespace Assets.scripts.game
+{
 public class GameMvc {
     //private static GameMvc instance;
     //private GameModel model;
@@ -40,4 +42,5 @@ public class GameMvc {
     //public static GameController controller() {
     //    return instance.controller;
     //}
+}
 }

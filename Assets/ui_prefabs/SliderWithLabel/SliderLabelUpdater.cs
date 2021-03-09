@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace Assets.ui_prefabs.SliderWithLabel
+{
 public class SliderLabelUpdater : MonoBehaviour
 {
     public Text text;
@@ -14,4 +16,5 @@ public class SliderLabelUpdater : MonoBehaviour
         this.value = (int)(value * magnitude);
         text.text = (this.value).ToString();
     }
+}
 }

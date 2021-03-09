@@ -3,7 +3,8 @@ using System.Linq;
 using UnityEngine;
 using Vector3 = System.Numerics.Vector3;
 
-namespace util.geometry {
+namespace Assets.scripts.util.geometry {
+    // position
     public class IntVector3 {
         public int x;
         public int y;
@@ -131,5 +132,7 @@ namespace util.geometry {
         public IntVector3[] getNeighbours(IntVector3[] deltas) {
             return deltas.Select(position => add(position, this)).ToArray();
         }
+
+
     }
 }

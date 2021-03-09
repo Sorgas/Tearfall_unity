@@ -1,7 +1,9 @@
 ﻿using System;
+using Assets.scripts.util.geometry;
 using UnityEngine;
-using util.geometry;
 
+namespace Assets.scripts.mainMenu.worldmap
+{
 // controls camera of worldmap.
 public class ScrollableCameraController {
     public Camera camera;
@@ -86,8 +88,7 @@ public class ScrollableCameraController {
     // moves camera towards pointer
     private void checkPointer() {
         visibleArea.set(effectiveCameraSize).move(camera.transform.localPosition);
-        Vector3 camPos = camera.transform.localPosition;
-        Vector2 targetPosition = pointerController.targetPosition;
-        speed = visibleArea.getDirectionVector(targetPosition);
+        speed = visibleArea.getDirectionVector(pointerController.targetPosition);
     }
+}
 }

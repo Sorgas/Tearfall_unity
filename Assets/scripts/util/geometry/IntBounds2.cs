@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using util.geometry;
 
+namespace Assets.scripts.util.geometry
+{
 public class IntBounds2 {
     public int minX;
     public int minY;
@@ -133,4 +134,5 @@ public class IntBounds2 {
     public String toString() {
         return "Int3dBounds{" + " " + minX + " " + minY + " " + maxX + " " + maxY + '}';
     }
+}
 }

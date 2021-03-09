@@ -3,19 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.scripts.game.model.system;
 using System;
+using Assets.scripts.mainMenu;
+using Assets.scripts.game.model.localmap;
+using Assets.scripts.util.lang;
 
-namespace Assets.scripts.game {
+namespace Assets.scripts.game.model {
     public class GameModel {
+        public static GameModel instance;
+        public WorldMap worldMap;
+        public LocalMap localMap;
+        public static readonly object qwer = new object();
         private Dictionary<Type, ModelComponent> components = new Dictionary<Type, ModelComponent>();
         private List<Updatable> updatableComponents; // not all components are Updatable
-        //public const GameTime gameTime = new GameTime();
+                                                     //public const GameTime gameTime = new GameTime();
 
-        //public <T extends ModelComponent> T get(Class<T> type) {
-        //    return (T)components.get(type);
-        //}
-        //public <T extends ModelComponent> Optional<T> optional(Class<T> type) {
-        //    return Optional.ofNullable(get(type));
-        //}
+        public static GameModel get() {
+            if (instance == null) {
+                lock (qwer) {
+                    instance = new GameModel();
+                }
+            }
+            return instance;
+        }
+
+        public static T get<T>() where T : ModelComponent {
+            return (T)get().components[typeof(T)];
+        }
+        public static Optional<T> optional<T>() where T : ModelComponent {
+            return new Optional<T>(get<T>());
+        }
 
         //public <T extends ModelComponent> void put(T object) {
         //    components.put(object.getClass(), object);

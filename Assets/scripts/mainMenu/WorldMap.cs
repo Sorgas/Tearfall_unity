@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Assets.Scenes.MainMenu.script {
+namespace Assets.scripts.mainMenu {
     public class WorldMap {
         public float[,] elevation;
         public float[,] drainage;

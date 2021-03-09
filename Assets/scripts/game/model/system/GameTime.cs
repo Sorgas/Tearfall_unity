@@ -1,4 +1,5 @@
-
+namespace Assets.scripts.game.model.system
+{
 /**
  * Rolls time for game.
  * {@link Timer} provides update calls with specific interval ({@link GameTime#gameSpeed}).
@@ -83,4 +84,5 @@ public class GameTime {
     //        return ++progress >= unit.SIZE && (progress = 0) == 0;
     //    }
     //}
+}
 }

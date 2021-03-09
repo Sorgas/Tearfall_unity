@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+namespace Assets.scripts.mainMenu
+{
 // handler to be attached to parent object of button group
 public class MainMenuButtonHandler : ButtonHandler {
     public GameObject worldGenStage;
@@ -29,4 +31,5 @@ public class MainMenuButtonHandler : ButtonHandler {
         };
         Debug.Log("handler2 start");
     }
+}
 }

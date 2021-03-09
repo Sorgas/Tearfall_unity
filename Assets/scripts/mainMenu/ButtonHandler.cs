@@ -4,30 +4,15 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class ButtonHandler : MonoBehaviour {
-    public class ButtonData {
-        public string name;
-        public KeyCode hotKey;
-        public Action action;
-        public Button button;
-
-        public ButtonData(string name, KeyCode hotKey, Action action) : this(hotKey, action) {
-            this.name = name;
-        }
-
-        public ButtonData(Button button, KeyCode hotKey, Action action) : this(hotKey, action) {
-            this.button = button;
-        }
-
-        public ButtonData(KeyCode hotKey, Action action) {
-            this.hotKey = hotKey;
-            this.action = action;
-        }
-    }
-
+namespace Assets.scripts.mainMenu
+{
+// class for initiating button menus. searches buttons in hierarchy, inits them with provided data, 
+// assigns them a click handlers, and handles hotkeys presses.
+public abstract partial class ButtonHandler : MonoBehaviour {
     public List<ButtonData> buttons = new List<ButtonData>();
     private Dictionary<KeyCode, ButtonData> hotkeyMap = new Dictionary<KeyCode, ButtonData>();
 
+    // subclasses should fill buttons list
     protected abstract void initButtons();
 
     // Tries to associate button data from subclass with actual child buttons of GO
@@ -67,4 +52,5 @@ public abstract class ButtonHandler : MonoBehaviour {
         gameObject.SetActive(false);
         value.SetActive(true);
     }
+}
 }
