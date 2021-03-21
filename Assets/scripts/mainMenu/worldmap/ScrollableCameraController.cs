@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.scripts.mainMenu.worldmap
 {
-// controls camera of worldmap.
+// controls camera of worldmap. handles zoom input, moves camera to make pointer visible.
 public class ScrollableCameraController {
     public Camera camera;
     public Rect paneSize;

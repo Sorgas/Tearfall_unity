@@ -9,19 +9,10 @@ using Assets.scripts.mainMenu;
 using Assets.scripts.util.geometry;
 
 namespace Assets.scripts.generation.localgen {
-    abstract class LocalGenerator {
-        protected LocalMap map;
-        protected WorldMap worldMap;
-        protected IntVector2 position;
-        protected LocalGenConfig config;
+    public abstract class LocalGenerator {
 
-        protected LocalGenerator(LocalMap map, WorldMap worldMap, IntVector2 position, LocalGenConfig config) {
-            this.map = map;
-            this.worldMap = worldMap;
-            this.position = position;
-            this.config = config;
-        }
+        protected LocalGenerator() { }
 
-        public abstract void generate();
+        public abstract void generate(LocalGenConfig config, LocalGenContainer container);
     }
 }

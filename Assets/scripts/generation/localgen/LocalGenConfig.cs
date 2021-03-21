@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Assets.scripts.util.geometry;
 
 namespace Assets.scripts.generation.localgen {
-    class LocalGenConfig {
-        public IntVector2 location;
+    public class LocalGenConfig {
+        public IntVector2 location; // position on WorldMap
         public float seaLevel = 0.5f;
         public int worldToLocalElevationModifier = 100;
         public int airLayersAboveGround = 20;
@@ -16,5 +16,6 @@ namespace Assets.scripts.generation.localgen {
         public int[] sublayerMinThickness = { 4, 4, 6, 8 };
         public int minCaveLayerHeight = 10;
         public int maxCaveLayerHeight = 20;
+        public int localElevation;
     }
 }

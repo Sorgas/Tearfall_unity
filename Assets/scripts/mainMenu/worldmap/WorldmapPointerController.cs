@@ -11,7 +11,7 @@ namespace Assets.scripts.mainMenu.worldmap {
         public Transform pointer;
         public bool pointerMoved = false;
 
-        private IntBounds2 bounds; // allowed pointer positions
+        private IntBounds2 bounds; // allowed pointer positions, set to world size
         private IntBounds2 targetBounds; // allowed target positions
         private List<DelayedKeyController> controllers = new List<DelayedKeyController>();
         private Vector2 cachePosition = new Vector2();

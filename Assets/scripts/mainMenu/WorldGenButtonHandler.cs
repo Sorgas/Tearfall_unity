@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.scripts.game.model;
+using Assets.scripts.generation;
 using Assets.scripts.generation.worldgen;
 using Assets.scripts.mainMenu.worldmap;
+using Assets.scripts.util.geometry;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -17,7 +20,7 @@ namespace Assets.scripts.mainMenu {
         public GameObject mainMenuStage;
         public GameObject preparationStage;
 
-        private WorldGenSequence sequence = new WorldGenSequence();
+        
         private WorldMap worldMap;
 
 
@@ -25,7 +28,7 @@ namespace Assets.scripts.mainMenu {
             buttons = new List<ButtonData> {
             new ButtonData("CreateButton", KeyCode.C, createWorld),
             new ButtonData("BackButton", KeyCode.Q, backToMainMenu),
-            new ButtonData("ContinueButton", KeyCode.V, () => switchTo(preparationStage))
+            new ButtonData("ContinueButton", KeyCode.V, toPreparation)
         };
         }
 
@@ -41,9 +44,9 @@ namespace Assets.scripts.mainMenu {
             int seed = Convert.ToInt32(seedField.text);
             int size = (int)sizeSlider.value * 100;
             Debug.Log("creating world " + seed + " " + size);
-            WorldGenConfig config = new WorldGenConfig(seed, size);
-            WorldGenContainer container = sequence.run(config); // actual generation
-            worldMap = container.createWorldMap();
+            GenerationState.get().generateWorld(seed, size);
+            // TODO separate world generation
+            worldMap = GenerationState.get().world.worldMap;
             worldmapController.drawWorld(worldMap);
             continueButton.gameObject.SetActive(true);
         }
@@ -58,8 +61,11 @@ namespace Assets.scripts.mainMenu {
             continueButton.gameObject.SetActive(false);
         }
 
-        private void qwer() {
-            
+        private void toPreparation() {
+            Vector3 pointerPosition = worldmapController.pointer.localPosition;
+            GenerationState.get().setLocalPosition(new IntVector2((int)pointerPosition.x, (int)pointerPosition.y));
+            Debug.Log("player position = " + pointerPosition);
+            switchTo(preparationStage);
         }
     }
 }

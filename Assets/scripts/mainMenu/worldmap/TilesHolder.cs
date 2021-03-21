@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 namespace Assets.scripts.mainMenu.worldmap
 {
-// associates tile assets to world cell types
+// TODO associates tile assets to world cell types
 public class TilesHolder : MonoBehaviour {
     public Dictionary<string, TileBase> tiles = new Dictionary<string, TileBase>();
     public int qwer;

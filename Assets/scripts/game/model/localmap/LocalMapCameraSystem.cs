@@ -1,16 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Assets.scripts.game.model;
 using UnityEngine;
 
-public class TileMapUpdater : MonoBehaviour
+public class LocalMapCameraSystem : MonoBehaviour
 {
-    public GameObject mapHolder;
-
-    public void flush() {
-        // GameModel.instance.localMap; // iterate and update
-
-    }
+    public Camera camera;
 
     // Start is called before the first frame update
     void Start()
@@ -22,9 +16,5 @@ public class TileMapUpdater : MonoBehaviour
     void Update()
     {
         
-    }
-
-    public void updateTile() {
-
     }
 }

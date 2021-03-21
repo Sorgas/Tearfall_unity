@@ -1,33 +1,23 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using Assets.scripts.game.model.system;
 using System;
-using Assets.scripts.mainMenu;
 using Assets.scripts.game.model.localmap;
 using Assets.scripts.util.lang;
 
 namespace Assets.scripts.game.model {
-    public class GameModel {
-        public static GameModel instance;
-        public WorldMap worldMap;
+    public class GameModel : Singleton<GameModel> {
+        public World world;
         public LocalMap localMap;
-        public static readonly object qwer = new object();
+        public Vector2Int position; // position of player settlement in the world.
         private Dictionary<Type, ModelComponent> components = new Dictionary<Type, ModelComponent>();
         private List<Updatable> updatableComponents; // not all components are Updatable
                                                      //public const GameTime gameTime = new GameTime();
 
-        public static GameModel get() {
-            if (instance == null) {
-                lock (qwer) {
-                    instance = new GameModel();
-                }
-            }
-            return instance;
-        }
-
         public static T get<T>() where T : ModelComponent {
-            return (T)get().components[typeof(T)];
+            ModelComponent value = null;
+            get().components.TryGetValue(typeof(T), out value);
+            return (T)value;
         }
         public static Optional<T> optional<T>() where T : ModelComponent {
             return new Optional<T>(get<T>());

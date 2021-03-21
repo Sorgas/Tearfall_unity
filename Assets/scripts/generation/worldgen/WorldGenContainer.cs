@@ -34,6 +34,7 @@ namespace Assets.scripts.generation.worldgen {
             debug = new IntVector2[size, size];
         }
 
+        // collect intermediate results into worldMap
         public WorldMap createWorldMap() {
             WorldMap worldMap = new WorldMap(size);
             for (int x = 0; x < size; x++) {
