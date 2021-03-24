@@ -20,16 +20,12 @@ namespace Assets.scripts.mainMenu {
         public GameObject mainMenuStage;
         public GameObject preparationStage;
 
-        
-        private WorldMap worldMap;
-
-
         protected override void initButtons() {
             buttons = new List<ButtonData> {
-            new ButtonData("CreateButton", KeyCode.C, createWorld),
-            new ButtonData("BackButton", KeyCode.Q, backToMainMenu),
-            new ButtonData("ContinueButton", KeyCode.V, toPreparation)
-        };
+                new ButtonData("CreateButton", KeyCode.C, createWorld),
+                new ButtonData("BackButton", KeyCode.Q, backToMainMenu),
+                new ButtonData("ContinueButton", KeyCode.V, toPreparation)
+            };
         }
 
         public new void Start() {
@@ -45,9 +41,7 @@ namespace Assets.scripts.mainMenu {
             int size = (int)sizeSlider.value * 100;
             Debug.Log("creating world " + seed + " " + size);
             GenerationState.get().generateWorld(seed, size);
-            // TODO separate world generation
-            worldMap = GenerationState.get().world.worldMap;
-            worldmapController.drawWorld(worldMap);
+            worldmapController.drawWorld(GenerationState.get().world.worldMap);
             continueButton.gameObject.SetActive(true);
         }
 

@@ -13,6 +13,6 @@ namespace Assets.scripts.generation.localgen {
 
         protected LocalGenerator() { }
 
-        public abstract void generate(LocalGenConfig config, LocalGenContainer container);
+        public abstract void generate();
     }
 }

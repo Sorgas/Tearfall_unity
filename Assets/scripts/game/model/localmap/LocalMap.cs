@@ -1,11 +1,10 @@
 ﻿using System;
 using Assets.scripts.game.model.localmap.passage;
-using Assets.scripts.game.model.system;
 using Assets.scripts.util.geometry;
 using static Assets.scripts.enums.PassageEnum;
 
 namespace Assets.scripts.game.model.localmap {
-    public class LocalMap : ModelComponent {
+    public class LocalMap {
         public readonly BlockTypeMap blockType;
         public readonly IntBounds3 bounds;
 

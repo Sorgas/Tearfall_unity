@@ -29,7 +29,7 @@ namespace Assets.scripts.game.model.localmap {
             }
             // TODO destroy buildings if type != floor
             // TODO kill units if type == wall
-            GameModel.get<LocalMap>().updateTile(cachePosition);
+            GameModel.get().localMap.updateTile(cachePosition);
         }
 
         public void set(int x, int y, int z, BlockType type) {

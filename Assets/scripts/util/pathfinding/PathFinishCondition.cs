@@ -22,7 +22,7 @@ namespace Assets.scripts.util.pathfinding {
         public PathFinishCondition(IntVector3 target, ActionTargetTypeEnum targetType) {
             if (targetType == EXACT || targetType == ANY) acceptable.Add(target);
             if (targetType == NEAR || targetType == ANY) { // add near tiles
-                LocalMap map = GameModel.get<LocalMap>(); // add near tiles
+                LocalMap map = GameModel.get().localMap; // add near tiles
                 PositionUtil.allNeighbour
                         .Select(delta => IntVector3.add(target, delta))
                         .Where(pos => map.inMap(pos))

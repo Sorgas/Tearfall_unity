@@ -26,12 +26,10 @@ namespace Assets.scripts.util {
             for(int i = 0; i < suffixes.Length; i++) {
                 Tile tile = cutTile(i, FLOOR_TILE_HEIGHT, WALL_TILE_HEIGHT, new Vector2(0.5f, DEPTH2 / WALL_TILE_HEIGHT), texture);
                 tiles.Add(suffixes[i], tile);
-                Debug.Log(suffixes[i]);
             }
             for(int i = 0; i < suffixes.Length; i++) {
                 Tile tile = cutTile(i, 0, FLOOR_TILE_HEIGHT, new Vector2(0.5f, (FLOOR_TILE_HEIGHT - DEPTH2) / FLOOR_TILE_HEIGHT), texture);
                 tiles.Add(suffixes[i] + "F", tile);
-                Debug.Log("F " + suffixes[i]);
             }
             return tiles;
         }

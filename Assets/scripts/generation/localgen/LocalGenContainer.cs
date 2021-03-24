@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Assets.scripts.game.model;
 using Assets.scripts.game.model.localmap;
 using Assets.scripts.util.geometry;
@@ -19,14 +15,11 @@ namespace Assets.scripts.generation.localgen {
         public List<IntVector3> waterSources = new List<IntVector3>();
         public List<IntVector3> waterTiles = new List<IntVector3>();
 
-        public LocalGenContainer(LocalGenConfig config, World world) {
-            this.config = config;
-            this.world = world;
+        public LocalGenContainer() {
+            this.config = GenerationState.get().localGenConfig;
+            this.world = GenerationState.get().world;
             heightsMap = new int[config.areaSize, config.areaSize];
             config.localElevation = (int)(world.worldMap.elevation[config.location.x, config.location.y] * config.worldToLocalElevationModifier);
-        }
-
-        public void createLocalMap() {
             localMap = new LocalMap(config.areaSize, config.areaSize, config.localElevation + config.airLayersAboveGround);
         }
     }

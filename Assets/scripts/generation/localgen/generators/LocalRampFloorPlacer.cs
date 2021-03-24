@@ -14,8 +14,9 @@ namespace Assets.scripts.generation.localgen.generators {
         private int spaceCode = BlockTypeEnum.SPACE.CODE;
         private int rampCode = BlockTypeEnum.RAMP.CODE;
 
-        public override void generate(LocalGenConfig config, LocalGenContainer container) {
+        public override void generate() {
             Debug.Log("placing ramps");
+            localMap = GenerationState.get().localGenContainer.localMap;
             fillRamps();
             fillFloors();
         }

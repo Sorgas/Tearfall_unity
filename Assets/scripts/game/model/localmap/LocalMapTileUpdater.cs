@@ -6,7 +6,6 @@ using Assets.scripts.game.model;
 using Assets.scripts.game.model.localmap;
 using Assets.scripts.util;
 using Assets.scripts.util.geometry;
-using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static Assets.scripts.enums.BlockTypeEnum;
@@ -28,7 +27,7 @@ public class LocalMapTileUpdater : MonoBehaviour {
     }
 
     public void flush() {
-        map = GameModel.get<LocalMap>();
+        map = GameModel.get().localMap;
         if(map == null) {
             Debug.Log("map is null");
             return;
@@ -56,6 +55,7 @@ public class LocalMapTileUpdater : MonoBehaviour {
     }
 
     private void createLayers(LocalMap map) {
+        Debug.Log("map size = " + map.zSize);
         for (int i = 0; i < map.zSize; i++) {
             GameObject layer = Instantiate(layerPrefab, new Vector3(0, 0, i * BlockTilesetLoader.WALL_HEIGHT), Quaternion.identity, gameObject.transform);
             layers.Add(layer.transform.GetComponentInChildren<Tilemap>());

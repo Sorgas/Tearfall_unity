@@ -12,11 +12,11 @@ namespace Assets.scripts.generation {
         public WorldGenSequence worldGenSequence;
         public WorldGenConfig worldGenConfig;
         public WorldGenContainer worldGenContainer;
-        public World world; // contains worldmap
+        public World world;
 
         public LocalGenSequence localGenSequence;
         public LocalGenConfig localGenConfig;
-        public LocalMap localMap;
+        public LocalGenContainer localGenContainer;
 
         public void generateWorld(int seed, int size) {
             worldGenSequence = new WorldGenSequence();
@@ -28,12 +28,12 @@ namespace Assets.scripts.generation {
         public void setLocalPosition(IntVector2 position) {
             localGenConfig = new LocalGenConfig();
             localGenConfig.location = position;
-            
         }
 
-        public void generateLocalMap() {
-            localGenSequence = new LocalGenSequence(localGenConfig, world);
-            localMap = localGenSequence.run();
+        public LocalMap generateLocalMap() {
+            localGenContainer = new LocalGenContainer();
+            localGenSequence = new LocalGenSequence();
+            return localGenSequence.run();
         }
     }
 }

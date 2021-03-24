@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.scripts.game.model;
-using Assets.scripts.game.model.localmap;
+﻿using Assets.scripts.game.model.localmap;
 using Assets.scripts.generation.localgen.generators;
 
 namespace Assets.scripts.generation.localgen {
     public class LocalGenSequence {
-        private LocalGenConfig config;
-        private World world;
-        private LocalGenContainer container;
-
         private LocalElevationGenerator localElevationGenerator;
         //private LocalStoneLayersGenerator localStoneLayersGenerator;
         //private LocalRiverGenerator localRiverGenerator;
@@ -29,17 +18,15 @@ namespace Assets.scripts.generation.localgen {
         //private LocalSurfaceWaterPoolsGenerator localSurfaceWaterPoolsGenerator;
         //private LocalOresGenerator localOresGenerator;
 
-
-        public LocalGenSequence(LocalGenConfig config, World world) {
-            this.config = config;
-            this.world = world;
+        public LocalGenSequence() {
+            
             createGenerators();
         }
 
         private void createGenerators() {
             localElevationGenerator = new LocalElevationGenerator();
             //localStoneLayersGenerator = new LocalStoneLayersGenerator(localGenContainer);
-            ////        localOresGenerator = new
+            //localOresGenerator = new
             //localCaveGenerator = new LocalCaveGenerator(localGenContainer);
             localRampFloorPlacer = new LocalRampFloorPlacer();
             //localTemperatureGenerator = new LocalTemperatureGenerator(localGenContainer);
@@ -54,17 +41,15 @@ namespace Assets.scripts.generation.localgen {
         }
 
         public LocalMap run() {
-            container = new LocalGenContainer(config, world);
-            
             //landscape
-            localElevationGenerator.generate(config, container);
+            localElevationGenerator.generate();
             //creates heights map
             //localStoneLayersGenerator.execute(); //fills localmap with blocks by heightsmap
             //localCaveGenerator.execute(); //digs caves
             //                              //water
             //                              //        localRiverGenerator.execute(); // carves river beds
             //localSurfaceWaterPoolsGenerator.execute(); // digs ponds
-            localRampFloorPlacer.generate(config, container); // places floors and ramps upon all top blocks
+            localRampFloorPlacer.generate(); // places floors and ramps upon all top blocks
             //                                   //plants
             //localTemperatureGenerator.execute(); // generates year temperature cycle
             //localForestGenerator.execute(); // places trees
@@ -76,8 +61,7 @@ namespace Assets.scripts.generation.localgen {
             //localBuildingGenerator.execute();
             ////item
             //localItemsGenerator.execute(); // places item
-            container.createLocalMap();
-            return container.localMap;
+            return GenerationState.get().localGenContainer.localMap;
         }
     }
 }

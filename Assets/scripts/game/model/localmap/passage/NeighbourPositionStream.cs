@@ -40,7 +40,7 @@ namespace Assets.scripts.game.model.localmap.passage {
         }
 
         private NeighbourPositionStream() {
-            localMap = GameModel.get<LocalMap>();
+            localMap = GameModel.get().localMap;
             passageMap = localMap.passageMap;
         }
 

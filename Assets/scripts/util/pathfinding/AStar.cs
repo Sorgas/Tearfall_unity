@@ -19,7 +19,7 @@ namespace Assets.scripts.util.pathfinding {
          * the A* heuristics (h must not overestimate). initialNode and last found node included.
          */
         public List<IntVector3> makeShortestPath(IntVector3 initialPos, IntVector3 targetPos, ActionTargetTypeEnum targetType) {
-            localMap = GameModel.get<LocalMap>();
+            localMap = GameModel.get().localMap;
             Node initialNode = new Node(initialPos);
             initialNode.pathLength = 0;
             initialNode.heuristic = initialPos.getDistance(targetPos);
