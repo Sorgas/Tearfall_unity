@@ -14,7 +14,7 @@ namespace Assets.scripts.generation.localgen {
             IntVector2 location = config.location;
             float worldElevation = GenerationState.get().world.worldMap.elevation[location.x, location.y];
             Debug.Log("world elevation " + worldElevation);
-            int localElevation = (int)(worldElevation * config.worldToLocalElevationModifier);
+            int localElevation = (int)(worldElevation * config.worldToLocalElevationModifier) + 5;
             Debug.Log("elevation " + localElevation);
             for (int x = 0; x < config.areaSize; x++) {
                 for (int y = 0; y < config.areaSize; y++) {

@@ -4,11 +4,11 @@ using Assets.scripts.util;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileSetHolder : MonoBehaviour
+public class TileSetHolder
 {
     public Dictionary<string, Dictionary<string, Tile>> tilesets = new Dictionary<string, Dictionary<string, Tile>>();
 
-    public void Start() {
+    public void loadAll() {
         BlockTilesetLoader loader = new BlockTilesetLoader();
 
         string path = "tilesets/local_blocks/";

@@ -13,6 +13,7 @@ namespace Assets.scripts.game.model {
         private Dictionary<Type, ModelComponent> components = new Dictionary<Type, ModelComponent>();
         private List<Updatable> updatableComponents; // not all components are Updatable
                                                      //public const GameTime gameTime = new GameTime();
+        public float id = Time.realtimeSinceStartup ;
 
         public static T get<T>() where T : ModelComponent {
             ModelComponent value = null;

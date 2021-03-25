@@ -7,8 +7,8 @@ using static Assets.scripts.enums.PassageEnum;
 namespace Assets.scripts.enums {
     public static class BlockTypeEnum {
         public static BlockType SPACE = new BlockType(0, IMPASSABLE, 16, true, 0, "space", null);
-        public static BlockType WALL = new BlockType(1, IMPASSABLE, 0, false, 3, "wall", "W"); // not passable
-        public static BlockType FLOOR = new BlockType(2, PASSABLE, 12, true, 1, "floor", "WF"); // passable, liquids don't fall
+        public static BlockType WALL = new BlockType(1, IMPASSABLE, 0, false, 3, "wall", "WALL"); // not passable
+        public static BlockType FLOOR = new BlockType(2, PASSABLE, 12, true, 1, "floor", "WALLF"); // passable, liquids don't fall
         public static BlockType STAIRS = new BlockType(3, PASSABLE, 8, false, 2, "stairs", "ST"); // DF-like stairs
         public static BlockType DOWNSTAIRS = new BlockType(4, PASSABLE, 14, true, 1, "downstairs", "STF");
         public static BlockType RAMP = new BlockType(5, PASSABLE, 6, false, 2, "ramp", ""); // passable, liquids don't fall

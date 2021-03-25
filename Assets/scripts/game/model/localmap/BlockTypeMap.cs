@@ -12,9 +12,11 @@ namespace Assets.scripts.game.model.localmap {
     public class BlockTypeMap : UtilByteArray {
         public int[,,] material;
         private IntVector3 cachePosition;
+        private LocalMap localMap;
 
-        public BlockTypeMap(int xSize, int ySize, int zSize) : base(xSize, ySize, zSize) {
-            material = new int[xSize, ySize, zSize];
+        public BlockTypeMap(LocalMap localMap) : base(localMap.xSize, localMap.ySize, localMap.zSize) {
+            this.localMap = localMap;
+            material = new int[localMap.xSize, localMap.ySize, localMap.zSize];
             cachePosition = new IntVector3();
         }
 
@@ -29,7 +31,7 @@ namespace Assets.scripts.game.model.localmap {
             }
             // TODO destroy buildings if type != floor
             // TODO kill units if type == wall
-            GameModel.get().localMap.updateTile(cachePosition);
+            localMap.updateTile(cachePosition);
         }
 
         public void set(int x, int y, int z, BlockType type) {

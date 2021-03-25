@@ -18,6 +18,7 @@ namespace Assets.scripts.mainMenu {
         // preparation to game model 
         private void startGame() {
             GameModel.get().localMap = GenerationState.get().generateLocalMap();
+            Debug.Log(GameModel.get() + " " + GameModel.get().localMap);
             SceneManager.LoadScene("LocalWorldScene");
         }
 

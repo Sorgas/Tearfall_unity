@@ -16,13 +16,14 @@ public class LocalMapTileUpdater : MonoBehaviour {
     private List<Tilemap> layers = new List<Tilemap>();
     private Vector3Int cachePosition = new Vector3Int();
     private Vector3Int cachePosition2 = new Vector3Int();
-    public TileSetHolder tileSetHolder;
+    public TileSetHolder tileSetHolder = new TileSetHolder();
     public GameObject layerPrefab;
     private LocalMap map;
 
     private const int FLOOR_LAYER = 0;
     private const int WALL_LAYER = 1;
     void Start() {
+        tileSetHolder.loadAll();
         flush();
     }
 
@@ -43,12 +44,13 @@ public class LocalMapTileUpdater : MonoBehaviour {
         cachePosition2.Set(x, y, WALL_LAYER);
         string material = "template"; //TODO
         BlockType blockType = BlockTypeEnum.get(map.blockType.get(x, y, z));
+        // Debug.Log(blockType.NAME);
         if (blockType == SPACE) { // delete tile
             layers[z].SetTile(cachePosition, null);
             layers[z].SetTile(cachePosition2, null);
             setToppingForSpace(x, y, z);
         } else {
-            layers[z].SetTile(cachePosition, tileSetHolder.tilesets[material]["F"]); // floor is drawn under all tiles
+            layers[z].SetTile(cachePosition, tileSetHolder.tilesets[material]["WALLF"]); // floor is drawn under all tiles
             string type = blockType == RAMP ? selectRamp() : blockType.PREFIX;
             layers[z].SetTile(cachePosition2, tileSetHolder.tilesets[material][type]); // draw wall part
         }
@@ -56,8 +58,10 @@ public class LocalMapTileUpdater : MonoBehaviour {
 
     private void createLayers(LocalMap map) {
         Debug.Log("map size = " + map.zSize);
+        Transform transform = gameObject.transform;
         for (int i = 0; i < map.zSize; i++) {
-            GameObject layer = Instantiate(layerPrefab, new Vector3(0, 0, i * BlockTilesetLoader.WALL_HEIGHT), Quaternion.identity, gameObject.transform);
+            GameObject layer = Instantiate(layerPrefab, new Vector3(0, 0, i * BlockTilesetLoader.WALL_HEIGHT) + transform.position, Quaternion.identity, transform);
+
             layers.Add(layer.transform.GetComponentInChildren<Tilemap>());
         }
     }
@@ -65,10 +69,11 @@ public class LocalMapTileUpdater : MonoBehaviour {
         if (z <= 0) return;
         string material = "template"; //TODO
         BlockType blockType = BlockTypeEnum.get(map.blockType.get(x, y, z - 1));
-        if (blockType == SPACE) { // no topping 
+        if (blockType == SPACE || blockType == FLOOR) { // no topping 
             layers[z].SetTile(cachePosition, null);
         } else {
-            string type = "F" + (blockType == RAMP ? selectRamp() : blockType.PREFIX);
+            string type = (blockType == RAMP ? selectRamp() : blockType.PREFIX) + "F";
+            Debug.Log(type);
             layers[z].SetTile(cachePosition, tileSetHolder.tilesets[material][type]); // topping corresponds lower tile
         }
     }

@@ -17,10 +17,10 @@ namespace Assets.scripts.game.model.localmap {
         public readonly int zSize;
 
         public LocalMap(int xSize, int ySize, int zSize) {
-            blockType = new BlockTypeMap(xSize, ySize, zSize);
             this.xSize = xSize;
             this.ySize = ySize;
             this.zSize = zSize;
+            blockType = new BlockTypeMap(this);
             //light = new LightMap(this);
             bounds = new IntBounds3(0, 0, 0, xSize - 1, ySize - 1, zSize - 1);
         }
