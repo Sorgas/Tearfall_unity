@@ -36,7 +36,7 @@ namespace Assets.scripts.util {
 
         private Tile cutTile(int i, int y, int height, Vector2 pivot, Texture2D texture) {
             cacheRect.Set(i * WIDTH, y, WIDTH, height);
-            Sprite sprite = Sprite.Create(texture, cacheRect, pivot);
+            Sprite sprite = Sprite.Create(texture, cacheRect, pivot, 64);
             Tile tile = ScriptableObject.CreateInstance<Tile>() as Tile;
             tile.sprite = sprite;
             return tile;
