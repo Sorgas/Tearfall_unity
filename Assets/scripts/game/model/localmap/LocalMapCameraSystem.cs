@@ -1,20 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.scripts.game.model;
+using Assets.scripts.mainMenu.worldmap;
+using Tearfall_unity.Assets.scripts.game.view;
 using UnityEngine;
 
-public class LocalMapCameraSystem : MonoBehaviour
-{
+// system for controlling camera on local map;
+public class LocalMapCameraSystem : MonoBehaviour {
     public Camera camera;
+    private LocalMapCameraController controller;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    void Start() {
+        controller = new LocalMapCameraController(camera, GameModel.get().localMap.xSize);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
+        if(controller != null) controller.handleInput();;
     }
 }

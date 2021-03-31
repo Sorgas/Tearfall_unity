@@ -28,7 +28,8 @@ namespace Assets.scripts.mainMenu.worldmap {
 
         public void update() {
             pointerMoved = false;
-            controllers.ForEach(controller => controller.update(Time.deltaTime));
+            float deltaTime = Time.deltaTime;
+            controllers.ForEach(controller => controller.update(deltaTime));
         }
 
         private void movePointer(int dx, int dy) {

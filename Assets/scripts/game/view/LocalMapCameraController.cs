@@ -1,38 +1,55 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using Assets.scripts.util.geometry;
+using Assets.scripts.util.input;
 using UnityEngine;
 
-namespace Assets.scripts.mainMenu.worldmap {
-    // controls camera of worldmap. handles zoom input, moves camera to make pointer visible.
-    public class ScrollableCameraController {
+namespace Tearfall_unity.Assets.scripts.game.view {
+    public class LocalMapCameraController {
         public Camera camera;
-        public Rect paneSize;
         public int worldSize;
 
-        private WorldmapPointerController pointerController;
+        //TODO private WorldmapPointerController pointerController; 
         private ValueRange cameraFovRange = new ValueRange(4, 40);
         private Vector3 speed = new Vector3();
-        private FloatBounds2 bounds = new FloatBounds2(); // camera bounds
-        private int padding = 2; // blang tiles on map sides
+        private FloatBounds2 bounds = new FloatBounds2(); // camera bounds for current layer
+        private int padding = 2; // blanc tiles on map sides
         private FloatBounds2 effectiveCameraSize = new FloatBounds2(); // number of visible tiles, relative to camera position
         private FloatBounds2 visibleArea = new FloatBounds2();
+        private List<DelayedKeyController> controllers = new List<DelayedKeyController>();
 
-        public ScrollableCameraController(Rect paneSize, RectTransform image, Camera camera, int worldSize, WorldmapPointerController pointerController) {
-            this.paneSize = paneSize;
+        public LocalMapCameraController(Camera camera, int worldSize) {
             this.camera = camera;
             this.worldSize = worldSize;
-            this.pointerController = pointerController;
             defineCameraBounds();
+            controllers.Add(new DelayedKeyController(KeyCode.W, () => moveCamera(0, 1, 0)));
+            controllers.Add(new DelayedKeyController(KeyCode.A, () => moveCamera(-1, 0, 0)));
+            controllers.Add(new DelayedKeyController(KeyCode.S, () => moveCamera(0, -1, 0)));
+            controllers.Add(new DelayedKeyController(KeyCode.D, () => moveCamera(1, 0, 0)));
+            controllers.Add(new DelayedKeyController(KeyCode.R, () => moveCamera(0, 0, 1)));
+            controllers.Add(new DelayedKeyController(KeyCode.F, () => moveCamera(0, 0, -1)));
         }
 
         public void handleInput() {
-            zoomMinimap(Input.GetAxis("Mouse ScrollWheel"));
-            ensureCameraBounds();
+            zoom(Input.GetAxis("Mouse ScrollWheel"));
+            float deltaTime = Time.deltaTime;
+            controllers.ForEach(controller => controller.update(deltaTime));
+            // ensureCameraBounds();
             updateCameraPosition();
-            checkPointer();
+            // checkPointer();
         }
 
         private void updateCameraPosition() {
+            clampSpeed();
+            camera.transform.Translate(speed, Space.Self);
+            speed.x *= 0.9f;
+            speed.y *= 0.9f;
+            if (Math.Abs(speed.x) < 0.1f) speed.x = 0;
+            if (Math.Abs(speed.y) < 0.1f) speed.y = 0;
+        }
+
+        // ensures, that speed not too high to move camera offbounds in one update
+        private void clampSpeed() {
             Vector3 position = camera.transform.localPosition;
             if (speed.x != 0) {
                 if (position.x - bounds.minX < -speed.x) speed.x = bounds.minX - position.x;
@@ -42,11 +59,6 @@ namespace Assets.scripts.mainMenu.worldmap {
                 if (position.y - bounds.minY < -speed.y) speed.y = bounds.minY - position.y;
                 if (bounds.maxY - position.y < speed.y) speed.y = bounds.maxY - position.y;
             }
-            camera.transform.Translate(speed, Space.Self);
-            speed.x *= 0.9f;
-            speed.y *= 0.9f;
-            if (Math.Abs(speed.x) < 0.1f) speed.x = 0;
-            if (Math.Abs(speed.y) < 0.1f) speed.y = 0;
         }
 
         //Defines rectangular bounds where camera can move. Supports fixed padding on world borders.
@@ -57,12 +69,12 @@ namespace Assets.scripts.mainMenu.worldmap {
                 bounds.minX = (worldSize + padding) / 2;
                 bounds.maxX = bounds.minX;
             }
-            float hiddenTiles = (1f - paneSize.height / paneSize.width) * camera.orthographicSize;
-            bounds.minY -= hiddenTiles;
-            bounds.maxY += hiddenTiles;
-            effectiveCameraSize.set(-camera.orthographicSize, hiddenTiles - camera.orthographicSize, camera.orthographicSize - 1, camera.orthographicSize - hiddenTiles - 1);
-            Debug.Log(effectiveCameraSize);
-            cameraFovRange.max = worldSize / 2 + padding + hiddenTiles;
+            // float hiddenTiles = (1f - paneSize.height / paneSize.width) * camera.orthographicSize;
+            // bounds.minY -= hiddenTiles;
+            // bounds.maxY += hiddenTiles;
+            // effectiveCameraSize.set(-camera.orthographicSize, hiddenTiles - camera.orthographicSize, camera.orthographicSize - 1, camera.orthographicSize - hiddenTiles - 1);
+            // Debug.Log(effectiveCameraSize);
+            // cameraFovRange.max = worldSize / 2 + padding + hiddenTiles;
         }
 
         private void ensureCameraBounds() {
@@ -77,17 +89,21 @@ namespace Assets.scripts.mainMenu.worldmap {
             }
         }
 
-        private void zoomMinimap(float delta) {
+        private void zoom(float delta) {
             if (delta == 0) return;
             float oldZoom = camera.orthographicSize;
             camera.orthographicSize = cameraFovRange.clamp(camera.orthographicSize + delta * 2);
             if (oldZoom != camera.orthographicSize) defineCameraBounds();
         }
 
-        // moves camera towards pointer
-        private void checkPointer() {
-            visibleArea.set(effectiveCameraSize).move(camera.transform.localPosition);
-            speed = visibleArea.getDirectionVector(pointerController.targetPosition);
+        private void moveCamera(int x, int y, int z) {
+            camera.transform.Translate(x, y, z, Space.World);
         }
+
+        // moves camera towards pointer
+        // private void checkPointer() {
+        //     visibleArea.set(effectiveCameraSize).move(camera.transform.localPosition);
+        //     speed = visibleArea.getDirectionVector(pointerController.targetPosition);
+        // }
     }
 }
