@@ -24,6 +24,7 @@ namespace Assets.scripts.mainMenu.worldmap {
         private IntVector2 cacheVector = new IntVector2();
 
         public void drawWorld(WorldMap worldMap) {
+            clear();
             this.worldMap = worldMap;
             worldSize = worldMap.size;
             pointer.gameObject.SetActive(true);
@@ -40,6 +41,7 @@ namespace Assets.scripts.mainMenu.worldmap {
                     tilemap.SetTile(cachePosition, tileBases[random.NextInt(tileBases.Length - 1)]);
                 }
             }
+            updateHintText();
         }
 
         public void clear() {

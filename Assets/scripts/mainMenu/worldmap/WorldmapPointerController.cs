@@ -14,7 +14,7 @@ namespace Assets.scripts.mainMenu.worldmap {
         private IntBounds2 bounds; // allowed pointer positions, set to world size
         private IntBounds2 targetBounds; // allowed target positions
         private List<DelayedKeyController> controllers = new List<DelayedKeyController>();
-        private Vector2 cachePosition = new Vector2();
+        private Vector3 cachePosition = new Vector3();
 
         public WorldmapPointerController(int worldSize, Transform pointer) {
             this.pointer = pointer;
@@ -37,14 +37,14 @@ namespace Assets.scripts.mainMenu.worldmap {
                 dx *= 10;
                 dy *= 10;
             }
-            cachePosition.Set(pointer.localPosition.x + dx, pointer.localPosition.y + dy); // player moves pointer
+            cachePosition.Set(pointer.localPosition.x + dx, pointer.localPosition.y + dy, -1); // player moves pointer
             pointer.localPosition = bounds.putInto(cachePosition); // limit pointer by bounds
             targetPosition = pointer.localPosition;
             pointerMoved = true;
             if (!pointer.localPosition.Equals(cachePosition)) {
-                if (cachePosition.x < bounds.minX) targetPosition.x = targetBounds.minX;
                 if (cachePosition.x > bounds.maxX) targetPosition.x = targetBounds.maxX;
                 if (cachePosition.y < bounds.minY) targetPosition.y = targetBounds.minY;
+                if (cachePosition.x < bounds.minX) targetPosition.x = targetBounds.minX;
                 if (cachePosition.y > bounds.maxY) targetPosition.y = targetBounds.maxY;
             }
         }

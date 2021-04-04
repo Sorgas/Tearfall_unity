@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Assets.scripts.util;
 using Assets.scripts.util.geometry;
 using Assets.scripts.util.input;
 using UnityEngine;
@@ -26,8 +27,8 @@ namespace Tearfall_unity.Assets.scripts.game.view {
             controllers.Add(new DelayedKeyController(KeyCode.A, () => moveCamera(-1, 0, 0)));
             controllers.Add(new DelayedKeyController(KeyCode.S, () => moveCamera(0, -1, 0)));
             controllers.Add(new DelayedKeyController(KeyCode.D, () => moveCamera(1, 0, 0)));
-            controllers.Add(new DelayedKeyController(KeyCode.R, () => moveCamera(0, 0, 1)));
-            controllers.Add(new DelayedKeyController(KeyCode.F, () => moveCamera(0, 0, -1)));
+            controllers.Add(new DelayedKeyController(KeyCode.R, () => moveCamera(0, 0.5f, -2)));
+            controllers.Add(new DelayedKeyController(KeyCode.F, () => moveCamera(0, -0.5f, 2)));
         }
 
         public void handleInput() {
@@ -96,7 +97,7 @@ namespace Tearfall_unity.Assets.scripts.game.view {
             if (oldZoom != camera.orthographicSize) defineCameraBounds();
         }
 
-        private void moveCamera(int x, int y, int z) {
+        private void moveCamera(int x, float y, int z) {
             camera.transform.Translate(x, y, z, Space.World);
         }
 
