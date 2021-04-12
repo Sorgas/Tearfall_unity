@@ -21,7 +21,7 @@ namespace Assets.scripts.generation.worldgen {
         public WorldGenContainer(int size) {
             this.size = size;
             random = new Random();
-            Random.seed = seed;
+            Random.InitState(seed);
             elevation = new float[size, size];
             drainage = new float[size, size];
             summerTemperature = new float[size, size];

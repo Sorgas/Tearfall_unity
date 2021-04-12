@@ -33,6 +33,16 @@ namespace Assets.scripts.util.geometry {
             if (topRight.y > maxY) vector.y = topRight.y - maxY;
             return vector;
         }
+
+        public Vector2 getInVector(Vector2 position) {
+            Vector2 vector = new Vector2();
+            if (position.x < minX) vector.x = minX - position.x;
+            if (position.x > maxX) vector.x = maxX - position.x;
+            if (position.y < minY) vector.y = minY - position.y;
+            if (position.y > maxY) vector.y = maxY - position.y;
+            return vector;
+        }
+
         // returns vector that shows distance to target
         public Vector2 getDirectionVector(Vector2 target) {
             Vector2 vector = new Vector2();

@@ -4,7 +4,7 @@ namespace Assets.scripts.generation.worldgen {
     public class WorldGenSequence {
         public WorldGenContainer container; // container for generation intermediate results 
 
-        private ElevationGenerator elevationGenerator;
+        private WorldElevationGenerator elevationGenerator;
         // private OceanFiller oceanFiller;
         // private TemperatureGenerator temperatureGenerator;
         // private RainfallGenerator rainfallGenerator;
@@ -18,8 +18,8 @@ namespace Assets.scripts.generation.worldgen {
         // private CelestialBodiesGenerator celestialBodiesGenerator;
 
         public WorldGenSequence() {
-            elevationGenerator = new ElevationGenerator();
-            // oceanFiller = new OceanFiller();
+            elevationGenerator = new WorldElevationGenerator();
+            // oceanFiller = new WorldOceanFiller();
             // riverGenerator = new RiverGenerator();
             // brookGenerator = new BrookGenerator();
             // temperatureGenerator = new TemperatureGenerator();
@@ -34,8 +34,8 @@ namespace Assets.scripts.generation.worldgen {
 
         public WorldGenContainer run(WorldGenConfig config) {
             container = new WorldGenContainer(config.size);
-            elevationGenerator.generate(config, container);
-            // celestialBodiesGenerator.execute(container);
+            elevationGenerator.generate(config, container); // generates elevation [0, 1]
+            // celestialBodiesGenerator.execute(container); 
             // container.fillMap();
             // oceanFiller.execute(container);
             // erosionGenerator.execute(container);

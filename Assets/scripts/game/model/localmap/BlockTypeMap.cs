@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.scripts.enums;
+﻿using Assets.scripts.enums;
 using Assets.scripts.util;
 using Assets.scripts.util.geometry;
+using UnityEngine;
 using static Assets.scripts.enums.BlockTypeEnum;
 
 namespace Assets.scripts.game.model.localmap {
@@ -20,15 +16,15 @@ namespace Assets.scripts.game.model.localmap {
             cachePosition = new IntVector3();
         }
 
-        public void set(int x, int y, int z, int value) {
+        public new void set(int x, int y, int z, int value) {
             base.set(x, y, z, value);
-            if (value == WALL.CODE && withinBounds(x, y, z + 1) && get(x, y, z + 1) == SPACE.CODE) {
-                setBlock(x, y, z + 1, FLOOR.CODE, material[x, y, z]);
-            }
+            // if (value == WALL.CODE && withinBounds(x, y, z + 1) && get(x, y, z + 1) == SPACE.CODE) {
+            //     setBlock(x, y, z + 1, FLOOR.CODE, material[x, y, z]);
+            // }
             cachePosition.set(x, y, z);
-            if (value != FARM.CODE && value != FLOOR.CODE) { // remove plants if block becomes unsuitable for plants
-                //GameModel.get(PlantContainer).removeBlock(cachePosition, false);
-            }
+            // if (value != FARM.CODE && value != FLOOR.CODE) { // remove plants if block becomes unsuitable for plants
+            //     //GameModel.get(PlantContainer).removeBlock(cachePosition, false);
+            // }
             // TODO destroy buildings if type != floor
             // TODO kill units if type == wall
             localMap.updateTile(cachePosition);
@@ -76,7 +72,7 @@ namespace Assets.scripts.game.model.localmap {
             return BlockTypeEnum.get(get(x, y, z));
         }
 
-        public int get(int x, int y, int z) {
+        public new int get(int x, int y, int z) {
             return withinBounds(x, y, z) ? base.get(x, y, z) : SPACE.CODE;
         }
     }

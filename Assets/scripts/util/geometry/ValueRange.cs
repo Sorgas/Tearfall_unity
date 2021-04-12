@@ -11,6 +11,8 @@ namespace Assets.scripts.util.geometry {
             this.max = max;
         }
 
+        public ValueRange() : this(0, 0) { }
+
         public bool check(float value) {
             return value >= min && value <= max;
         }

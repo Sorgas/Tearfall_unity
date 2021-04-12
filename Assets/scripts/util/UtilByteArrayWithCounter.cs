@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Assets.scripts.util {
     // byte array which counts number of each byte value in array
@@ -14,13 +10,13 @@ namespace Assets.scripts.util {
             numbers.Add(0, xSize * ySize * zSize); // init counter
         }
 
-        public void set(int x, int y, int z, int value) {
+        public new void set(int x, int y, int z, int value) {
             byte oldValue = get(x, y, z);
             base.set(x, y, z, value);
             updateMap(x, y, z, oldValue);
         }
 
-        public void change(int x, int y, int z, byte delta) {
+        public new void change(int x, int y, int z, byte delta) {
             byte oldValue = get(x, y, z);
             base.change(x, y, z, delta);
             updateMap(x, y, z, oldValue);

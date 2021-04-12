@@ -46,6 +46,10 @@ namespace Assets.scripts.util.geometry {
             return new IntVector3(pos1.x - x, pos1.y - y, pos1.z - z);
         }
 
+        public IntVector3 add(IntVector3 vector) {
+            return add(vector.x, vector.y, vector.z);
+        }
+
         public float getDistance(IntVector3 pos) {
             return getDistance(pos.x, pos.y, pos.z);
         }

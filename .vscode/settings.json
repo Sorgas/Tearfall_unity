@@ -5,7 +5,18 @@
         "**/.hg": true,
         "**/CVS": true,
         "**/.DS_Store": true,
-        "**/*.meta": true
+        "**/*.meta": true,
+        "build": true,
+        "bin": true,
+        "Library": true,
+        "Logs": true,
+        "obj": true,
+        "Temp": true
     },
-    "explorerExclude.backup": null
+    "explorerExclude.backup": null,
+    "cSpell.words": [
+        "behaviour",
+        "instanceof",
+        "wallf"
+    ]
 }

@@ -2,10 +2,10 @@
 using Assets.scripts.game.model;
 using Assets.scripts.game.model.localmap;
 using Assets.scripts.util.geometry;
+using UnityEngine;
 
 namespace Assets.scripts.generation.localgen {
     public class LocalGenContainer {
-        public LocalGenConfig config;
         private World world;
         public LocalMap localMap;
 
@@ -16,10 +16,11 @@ namespace Assets.scripts.generation.localgen {
         public List<IntVector3> waterTiles = new List<IntVector3>();
 
         public LocalGenContainer() {
-            this.config = GenerationState.get().localGenConfig;
+            LocalGenConfig config = GenerationState.get().localGenConfig;
             this.world = GenerationState.get().world;
             heightsMap = new int[config.areaSize, config.areaSize];
             config.localElevation = (int)(world.worldMap.elevation[config.location.x, config.location.y] * config.worldToLocalElevationModifier);
+            Debug.Log("localGenContainer: area size" + config.areaSize);
             localMap = new LocalMap(config.areaSize, config.areaSize, config.localElevation + config.airLayersAboveGround);
         }
     }

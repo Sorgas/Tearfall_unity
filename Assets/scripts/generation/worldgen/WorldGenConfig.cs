@@ -1,8 +1,8 @@
 ﻿namespace Assets.scripts.generation.worldgen {
     public
         class WorldGenConfig {
-        public int size;
-        public int seed;
+        public int seed = 0; // add random
+        public int size = 100;
 
         //for ocean filler
         public float seaLevel = 0.5f;
@@ -27,5 +27,7 @@
             this.seed = seed;
             this.size = size;
         }
+
+        public WorldGenConfig() { }
     }
 }

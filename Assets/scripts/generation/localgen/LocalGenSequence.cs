@@ -19,11 +19,6 @@ namespace Assets.scripts.generation.localgen {
         //private LocalOresGenerator localOresGenerator;
 
         public LocalGenSequence() {
-            
-            createGenerators();
-        }
-
-        private void createGenerators() {
             localElevationGenerator = new LocalElevationGenerator();
             //localStoneLayersGenerator = new LocalStoneLayersGenerator(localGenContainer);
             //localOresGenerator = new

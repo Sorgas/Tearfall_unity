@@ -4,7 +4,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Assets.scripts.generation.worldgen.generators.elevation {
-    public class ElevationGenerator : WorldGenerator {
+    public class WorldElevationGenerator : WorldGenerator {
         private int size;
         private float[,] elevation;
         private IntBounds2 bounds;

@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\OptionsMenuButtonHandler.cs" />
+     <Compile Include="Assets\Resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\entity\plant\AbstractPlant.cs" />
      <Compile Include="Assets\scripts\entity\plant\PlantBlock.cs" />
      <Compile Include="Assets\scripts\enums\BlockTypeEnum.cs" />
@@ -47,7 +48,9 @@
      <Compile Include="Assets\scripts\enums\plant\PlantType.cs" />
      <Compile Include="Assets\scripts\enums\plant\raw\RawPlantLifeStage.cs" />
      <Compile Include="Assets\scripts\enums\plant\raw\RawPlantType.cs" />
+     <Compile Include="Assets\scripts\game\LocalGameRunner.cs" />
      <Compile Include="Assets\scripts\game\model\GameModel.cs" />
+     <Compile Include="Assets\scripts\game\model\GameView.cs" />
      <Compile Include="Assets\scripts\game\model\World.cs" />
      <Compile Include="Assets\scripts\game\model\WorldMap.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\BlockTilesetLoader.cs" />
@@ -76,11 +79,11 @@
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenContainer.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenSequence.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\WorldGenerator.cs" />
+     <Compile Include="Assets\scripts\generation\worldgen\generators\drainage\WorldOceanFiller.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\elevation\ElevationGenerator.cs" />
      <Compile Include="Assets\scripts\mainMenu\ButtonData.cs" />
      <Compile Include="Assets\scripts\mainMenu\ButtonHandler.cs" />
      <Compile Include="Assets\scripts\mainMenu\MainMenuButtonHandler.cs" />
-     <Compile Include="Assets\scripts\mainMenu\MenuButtonHandler.cs" />
      <Compile Include="Assets\scripts\mainMenu\PreparationButtonHandler.cs" />
      <Compile Include="Assets\scripts\mainMenu\WorldGenButtonHandler.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\ScrollableCameraController.cs" />
@@ -108,7 +111,6 @@
      <Compile Include="Assets\scripts\util\pathfinding\OpenSet.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\PassageUtil.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\PathFinishCondition.cs" />
-     <Compile Include="Assets\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

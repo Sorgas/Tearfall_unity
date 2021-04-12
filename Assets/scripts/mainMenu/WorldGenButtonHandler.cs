@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.scripts.game.model;
 using Assets.scripts.generation;
-using Assets.scripts.generation.worldgen;
 using Assets.scripts.mainMenu.worldmap;
 using Assets.scripts.util.geometry;
 using UnityEngine;
@@ -36,11 +34,11 @@ namespace Assets.scripts.mainMenu {
         }
 
         public void createWorld() {
-            Debug.Log("creating world");
             int seed = Convert.ToInt32(seedField.text);
             int size = (int)sizeSlider.value * 100;
-            Debug.Log("creating world " + seed + " " + size);
-            GenerationState.get().generateWorld(seed, size);
+            GenerationState.get().worldGenConfig.seed = seed;
+            GenerationState.get().worldGenConfig.size = size;
+            GenerationState.get().generateWorld();
             worldmapController.drawWorld(GenerationState.get().world.worldMap);
             continueButton.gameObject.SetActive(true);
         }
@@ -57,8 +55,7 @@ namespace Assets.scripts.mainMenu {
 
         private void toPreparation() {
             Vector3 pointerPosition = worldmapController.pointer.localPosition;
-            GenerationState.get().setLocalPosition(new IntVector2((int)pointerPosition.x, (int)pointerPosition.y));
-            Debug.Log("player position = " + pointerPosition);
+            GenerationState.get().localGenConfig.location = new IntVector2((int)pointerPosition.x, (int)pointerPosition.y);
             switchTo(preparationStage);
         }
     }

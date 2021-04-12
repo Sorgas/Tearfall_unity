@@ -9,19 +9,25 @@ namespace Assets.scripts.game.model {
     public class GameModel : Singleton<GameModel> {
         public World world;
         public LocalMap localMap;
-        public Vector2Int position; // position of player settlement in the world.
         private Dictionary<Type, ModelComponent> components = new Dictionary<Type, ModelComponent>();
         private List<Updatable> updatableComponents; // not all components are Updatable
                                                      //public const GameTime gameTime = new GameTime();
-        public float id = Time.realtimeSinceStartup ;
+        public float id = Time.realtimeSinceStartup;
 
         public static T get<T>() where T : ModelComponent {
             ModelComponent value = null;
             get().components.TryGetValue(typeof(T), out value);
             return (T)value;
         }
+
+        
         public static Optional<T> optional<T>() where T : ModelComponent {
             return new Optional<T>(get<T>());
+        }
+
+        // updates all systems
+        public void update() {
+
         }
 
         //public <T extends ModelComponent> void put(T object) {

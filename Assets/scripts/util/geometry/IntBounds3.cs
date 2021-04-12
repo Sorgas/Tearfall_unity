@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.scripts.util.geometry {
     public class IntBounds3 : IntBounds2 {
         public int minZ;
         public int maxZ;
+        private Vector3 cacheVector = new Vector3();
 
         public IntBounds3(IntVector3 pos1, IntVector3 pos2) : this(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z) { }
 
@@ -19,11 +17,15 @@ namespace Assets.scripts.util.geometry {
             set(minX, minY, minZ, maxX, maxY, maxZ);
         }
 
-        public bool isIn(IntVector3 position) {
-            return isIn(position.x, position.y, position.z);
+        public bool isIn(IntVector3 vector) {
+            return isIn(vector.x, vector.y, vector.z);
         }
 
-        public bool isIn(int x, int y, int z) {
+        public bool isIn(Vector3 vector) {
+            return isIn(vector.x, vector.y, vector.z);
+        }
+
+        public bool isIn(float x, float y, float z) {
             return base.isIn(x, y) && z <= maxZ && z >= minZ;
         }
 
@@ -41,6 +43,28 @@ namespace Assets.scripts.util.geometry {
             base.clamp(minX, minY, maxX, maxY);
             this.minZ = Math.Max(this.minZ, minZ);
             this.maxZ = Math.Min(this.maxZ, maxZ);
+        }
+
+        public Vector3 getInVector(Vector3 position) {
+            Vector3 vector = new Vector3();
+            if (position.x < minX) vector.x = minX - position.x;
+            if (position.x > maxX) vector.x = maxX - position.x;
+            if (position.y < minY) vector.y = minY - position.y;
+            if (position.y > maxY) vector.y = maxY - position.y;
+            if (position.z < minZ) vector.z = minZ - position.z;
+            if (position.z > maxZ) vector.z = maxZ - position.z;
+            return vector;
+        }
+
+        public IntVector3 getInVector(IntVector3 position) {
+            IntVector3 vector = new IntVector3();
+            if (position.x < minX) vector.x = minX - position.x;
+            if (position.x > maxX) vector.x = maxX - position.x;
+            if (position.y < minY) vector.y = minY - position.y;
+            if (position.y > maxY) vector.y = maxY - position.y;
+            if (position.z < minZ) vector.z = minZ - position.z;
+            if (position.z > maxZ) vector.z = maxZ - position.z;
+            return vector;
         }
 
         /**
@@ -65,7 +89,7 @@ namespace Assets.scripts.util.geometry {
 
         public void iterate(Action<int, int, int> consumer) {
             for (int x = minX; x <= maxX; x++) {
-                for (int y = maxY; y >= minY; y--) {
+                for (int y = minY; y <= maxY; y++) {
                     for (int z = minZ; z <= maxZ; z++) {
                         consumer.Invoke(x, y, z);
                     }
@@ -77,7 +101,7 @@ namespace Assets.scripts.util.geometry {
             return new IntBounds3(this);
         }
 
-        public string toString() {
+        public new string toString() {
             return "Int3dBounds{" + " " + minX + " " + minY + " " + minZ + " " + maxX + " " + maxY + " " + maxZ + '}';
         }
     }

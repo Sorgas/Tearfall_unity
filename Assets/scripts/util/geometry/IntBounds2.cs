@@ -41,7 +41,7 @@ public class IntBounds2 {
         return isIn(vector.x, vector.y);
     }
 
-    public bool isIn(Vector3 vector) {
+    public bool isIn(Vector2 vector) {
         return isIn(vector.x, vector.y);
     }
 
