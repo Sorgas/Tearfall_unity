@@ -11,9 +11,9 @@ using static Assets.scripts.enums.BlockTypeEnum;
 // tiles are organized into layers: floor tiles, wall tiles, plants & buildings, liquids
 public class LocalMapTileUpdater : MonoBehaviour {
     private readonly List<Tilemap> layers = new List<Tilemap>();
-    private readonly Vector3Int floorPosition = new Vector3Int();
-    private readonly Vector3Int wallPosition = new Vector3Int();
-    
+    private Vector3Int floorPosition = new Vector3Int();
+    private Vector3Int wallPosition = new Vector3Int();
+
     public readonly TileSetHolder tileSetHolder = new TileSetHolder();
     public GameObject layerPrefab;
     private GameObject mapHolder;
@@ -42,10 +42,8 @@ public class LocalMapTileUpdater : MonoBehaviour {
     public void updateTile(IntVector3 position) => updateTile(position.x, position.y, position.z);
 
     public void updateTile(int x, int y, int z) {
-        Debug.Log("int: " + x);
         wallPosition.Set(x, y, WALL_LAYER);
         floorPosition.Set(x, y, FLOOR_LAYER);
-        Debug.Log("vector: " + wallPosition.x);
         string material = "template"; //TODO
         BlockType blockType = BlockTypeEnum.get(map.blockType.get(x, y, z));
         if (blockType == SPACE) { // delete tile
