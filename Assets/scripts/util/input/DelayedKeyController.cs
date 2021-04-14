@@ -3,50 +3,12 @@ using System.Collections;
 using UnityEngine;
 
 namespace Assets.scripts.util.input {
-    // hides some input events to emulate continuous typing a key.
-    public class DelayedKeyController {
+    // uses pressed key check as calling condition
+    public class DelayedKeyController : DelayedConditionController{
         private KeyCode keycode;
-        private Action action;
-        private float delay1 = 0.4f;
-        private float delay2 = 0.1f;
-        private float time = 0f; // time from last activation
-        private bool active = false;
-        private bool firstDelay = true;
 
-        public DelayedKeyController(KeyCode keycode, Action action) {
+        public DelayedKeyController(KeyCode keycode, Action action) : base(action, () => Input.GetKey(keycode)){
             this.keycode = keycode;
-            this.action = action;
-        }
-
-        public void update(float deltaTime) {
-            if (Input.GetKeyUp(keycode)) {
-                time = 0;
-                active = false;
-                firstDelay = true;
-                return;
-            }
-            if (Input.GetKeyDown(keycode)) {
-                active = true;
-                action.Invoke();
-                return;
-            }
-            if (active && Input.GetKey(keycode)) {
-                time += deltaTime;
-                if (!firstDelay) checkDelay(delay2);
-                if (firstDelay && checkDelay(delay1)) {
-                    firstDelay = false;
-                    return;
-                }
-            }
-        }
-
-        public bool checkDelay(float delay) {
-            if (time > delay) {
-                action.Invoke();
-                time -= delay; // keep extra time
-                return true;
-            }
-            return false;
         }
     }
 }

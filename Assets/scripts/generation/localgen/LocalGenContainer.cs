@@ -9,7 +9,7 @@ namespace Assets.scripts.generation.localgen {
         private World world;
         public LocalMap localMap;
 
-        public int[,] heightsMap;
+        public float[,] heightsMap;
         public float[] monthlyTemperatures = new float[12];
 
         public List<IntVector3> waterSources = new List<IntVector3>();
@@ -18,7 +18,7 @@ namespace Assets.scripts.generation.localgen {
         public LocalGenContainer() {
             LocalGenConfig config = GenerationState.get().localGenConfig;
             this.world = GenerationState.get().world;
-            heightsMap = new int[config.areaSize, config.areaSize];
+            heightsMap = new float[config.areaSize, config.areaSize];
             config.localElevation = (int)(world.worldMap.elevation[config.location.x, config.location.y] * config.worldToLocalElevationModifier);
             Debug.Log("localGenContainer: area size" + config.areaSize);
             localMap = new LocalMap(config.areaSize, config.areaSize, config.localElevation + config.airLayersAboveGround);
