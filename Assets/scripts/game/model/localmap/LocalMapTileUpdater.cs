@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using Assets.scripts.enums;
 using Assets.scripts.game.model;
 using Assets.scripts.game.model.localmap;
@@ -6,8 +7,9 @@ using Assets.scripts.util.geometry;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static Assets.scripts.enums.BlockTypeEnum;
+using Assets.scripts.util.lang;
 
-// updates tilemaps on change of localmap cells
+// changes unity tilemaps to be consistent with local map in game model
 // tiles are organized into layers: floor tiles, wall tiles, plants & buildings, liquids
 public class LocalMapTileUpdater : MonoBehaviour {
     private readonly List<Tilemap> layers = new List<Tilemap>();
@@ -30,18 +32,16 @@ public class LocalMapTileUpdater : MonoBehaviour {
     }
 
     public void flush() {
-        map = GameModel.get().localMap;
-        if (map == null) {
-            Debug.Log("map is null");
-            return;
-        }
-        createLayers(map);
-        map.bounds.iterate(position => updateTile(position));
+        new Optional<LocalMap>(GameModel.get().localMap)
+            .ifPresent(map => {
+                createLayers(map);
+                map.bounds.iterate(position => updateTile(position, false)); // no need to update ramps on whole map update
+            });
     }
 
-    public void updateTile(IntVector3 position) => updateTile(position.x, position.y, position.z);
+    public void updateTile(IntVector3 position, bool withRamps) => updateTile(position.x, position.y, position.z, withRamps);
 
-    public void updateTile(int x, int y, int z) {
+    public void updateTile(int x, int y, int z, bool withRamps) {
         wallPosition.Set(x, y, WALL_LAYER);
         floorPosition.Set(x, y, FLOOR_LAYER);
         string material = "template"; //TODO
@@ -53,7 +53,7 @@ public class LocalMapTileUpdater : MonoBehaviour {
         } else {
             // Debug.Log("placing tile at " + wallPosition.x + " " + wallPosition.y + " " + z);
             layers[z].SetTile(floorPosition, tileSetHolder.tilesets[material]["WALLF"]); // floor is drawn under all tiles
-            string type = blockType == RAMP ? selectRamp() : blockType.PREFIX;
+            string type = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;
             layers[z].SetTile(wallPosition, tileSetHolder.tilesets[material][type]); // draw wall part
         }
     }
@@ -73,13 +73,63 @@ public class LocalMapTileUpdater : MonoBehaviour {
         if (blockType == SPACE || blockType == FLOOR) { // no topping 
             layers[z].SetTile(floorPosition, null);
         } else {
-            string type = (blockType == RAMP ? selectRamp() : blockType.PREFIX) + "F";
+            string type = (blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX) + "F";
             Debug.Log(type);
             layers[z].SetTile(floorPosition, tileSetHolder.tilesets[material][type]); // topping corresponds lower tile
         }
     }
 
-    private string selectRamp() {
-        return "E"; //TODO select ramp direction by surrounding walls
+    //Observes tiles around given one, and updates atlasX for ramps.
+    private void updateRampsAround(IntVector3 center) {
+        PositionUtil.allNeighbour
+                .Select(delta => IntVector3.add(center, delta)) // get absolute position
+                .Where(pos => map.inMap(pos))
+                .Where(pos => map.blockType.get(pos) == BlockTypeEnum.RAMP.CODE)
+                .ToList().ForEach(pos => updateTile(pos, false));
+    }
+
+    // Chooses ramp tile by surrounding walls.
+    private string selectRamp(int x, int y, int z) {
+        uint walls = observeWalls(x, y, z);
+        if ((walls & 0b00001010) == 0b00001010) {
+            return "SW";
+        } else if ((walls & 0b01010000) == 0b01010000) {
+            return "NE";
+        } else if ((walls & 0b00010010) == 0b00010010) {
+            return "SE";
+        } else if ((walls & 0b01001000) == 0b01001000) {
+            return "NW";
+        } else if ((walls & 0b00010000) != 0) {
+            return "E";
+        } else if ((walls & 0b01000000) != 0) {
+            return "N";
+        } else if ((walls & 0b00000010) != 0) {
+            return "S";
+        } else if ((walls & 0b00001000) != 0) {
+            return "W";
+        } else if ((walls & 0b10000000) != 0) {
+            return "CNE";
+        } else if ((walls & 0b00000100) != 0) {
+            return "CSE";
+        } else if ((walls & 0b00100000) != 0) {
+            return "CNW";
+        } else if ((walls & 0b00000001) != 0) {
+            return "CSW";
+        } else
+            return "C";
+    }
+
+    // Counts neighbour walls to choose ramp type and orientation.
+    public uint observeWalls(int cx, int cy, int cz) {
+        uint bitpos = 1;
+        uint walls = 0;
+        for (int y = cy - 1; y <= cy + 1; y++) {
+            for (int x = cx - 1; x <= cx + 1; x++) {
+                if ((x == cx) && (y == cy)) continue;
+                if (map.blockType.get(x, y, cz) == BlockTypeEnum.WALL.CODE) walls |= bitpos;
+                bitpos *= 2; // shift to 1 bit
+            }
+        }
+        return walls;
     }
 }

@@ -1,10 +1,12 @@
+using Assets.scripts.game.model;
 using Assets.scripts.util.geometry;
 using UnityEngine;
 
 namespace Tearfall_unity.Assets.scripts.game.view {
-    // applies speed to camera for smooth movement
-    public class LocalMapCameraController {
-        public Camera camera;
+    // moves tile selector on local map. Selector is instantly moved in game model. 
+    // Selector sprite is smoothly moved to in-model selector position.
+    public class LocalMapSelectorController {
+        public RectTransform selector;
         public int mapSize;
         public int mapLayers;
 
@@ -21,8 +23,8 @@ namespace Tearfall_unity.Assets.scripts.game.view {
         private Vector3 maxSpeedScaleVector = new Vector3(2, 2, 2);
         private Vector3 speedScale = new Vector3(0.3f, 0.3f, 0.3f);
 
-        public LocalMapCameraController(Camera camera, int mapSize, int mapLayers) {
-            this.camera = camera;
+        public LocalMapSelectorController(RectTransform selector, int mapSize, int mapLayers) {
+            this.selector = selector;
             this.mapSize = mapSize;
             this.mapLayers = mapLayers;
             bounds.set(0, 0, 0, mapSize, mapSize, mapLayers);
@@ -30,23 +32,19 @@ namespace Tearfall_unity.Assets.scripts.game.view {
 
         // smoothly moves camera towards cameraTarget
         public void update() {
-            if(camera.transform.localPosition != target) camera.transform.localPosition = Vector3.SmoothDamp(camera.transform.localPosition, target, ref speed, 0.2f);
-        }
-
-        public void zoomCamera(float delta) {
-            if (delta == 0) return;
-            float oldZoom = camera.orthographicSize;
-            camera.orthographicSize = cameraFovRange.clamp(camera.orthographicSize + delta * 2);
+            selector.localPosition = Vector3.SmoothDamp(selector.localPosition, target, ref speed, 0.2f);
         }
 
         public void moveTarget(int dx, int dy, int dz) {
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) { // adjust speed for faster scrolling
                 dx *= 10;
                 dy *= 10;
             }
             logicalTarget.x += dx;
             logicalTarget.y += dy;
             logicalTarget.z += dz;
+            // GameModel.get().
+        
             ensureTargetInBounds();
             translateTarget();
         }
@@ -55,13 +53,12 @@ namespace Tearfall_unity.Assets.scripts.game.view {
             if (!bounds.isIn(logicalTarget)) logicalTarget.add(bounds.getInVector(logicalTarget));
         }
 
-
         public void translateTarget() {
-            target.Set(logicalTarget.x, logicalTarget.y + logicalTarget.z * 0.5f, -2 * logicalTarget.z - 1);
+            target.Set(logicalTarget.x, logicalTarget.y + logicalTarget.z * 0.5f, -2 * logicalTarget.z - 0.1f);
         }
 
-        public void setCameraPosition(int x, float y, int z) {
-            camera.transform.Translate(x, y, z, Space.World);
+        public void setSpritePosition(int x, float y, int z) {
+            selector.Translate(x, y, z, Space.World);
         }
     }
 }

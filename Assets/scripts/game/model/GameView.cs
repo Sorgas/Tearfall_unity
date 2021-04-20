@@ -5,13 +5,13 @@ using UnityEngine;
 namespace Assets.scripts.game.model {
     // component for binding GameModel and GameObjects in scene. 
     public class GameView : Singleton<GameView> {
-        private LocalMapTileUpdater tileUpdater;
+        public LocalMapTileUpdater tileUpdater;
         private LocalMapCameraSystem cameraSystem;
 
         public void init(LocalGameRunner initializer) {
             Debug.Log("initing game view");
             tileUpdater = new LocalMapTileUpdater(initializer.mapHolder);
-            cameraSystem = new LocalMapCameraSystem(initializer.mainCamera);
+            cameraSystem = new LocalMapCameraSystem(initializer.mainCamera, initializer.selector);
             tileUpdater.flush();
         }
 

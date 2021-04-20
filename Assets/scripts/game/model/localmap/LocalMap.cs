@@ -57,10 +57,12 @@ namespace Assets.scripts.game.model.localmap {
             return isBorder(position.x, position.y);
         }
 
+        // change postition to move it inside map
         public void normalizePosition(IntVector3 position) {
             normalizeRectangle(position, 1, 1);
         }
 
+        // change position to move rectangle with position in [0,0] inside map
         public void normalizeRectangle(IntVector3 position, int width, int height) {
             position.x = Math.Min(Math.Max(0, position.x), xSize - width);
             position.y = Math.Min(Math.Max(0, position.y), ySize - height);
@@ -81,17 +83,13 @@ namespace Assets.scripts.game.model.localmap {
             return inMap(x, y, z) && blockType.getEnumValue(x, y, z).CODE != IMPASSABLE.VALUE;
         }
 
-        public void updateTile(IntVector3 position) {
+        public void updateTile(IntVector3 position, bool updateRamps) {
             updatePassage(position);
-            // if (localTileMapUpdater != null) localTileMapUpdater.updateTile(position);
+            if(GameView.get().tileUpdater != null) GameView.get().tileUpdater.updateTile(position, false);
         }
 
         public void updatePassage(IntVector3 position) {
-            // if (passageMap != null) passageMap.updater.update(position.x, position.y, position.z);
-        }
-
-        public IntBounds3 getBounds() {
-            return bounds;
+            if (passageMap != null) passageMap.updater.update(position.x, position.y, position.z);
         }
     }
 }

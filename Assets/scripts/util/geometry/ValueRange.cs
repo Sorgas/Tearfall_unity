@@ -1,6 +1,4 @@
-﻿using Unity.Mathematics;
-
-namespace Assets.scripts.util.geometry {
+﻿namespace Assets.scripts.util.geometry {
     //Represents continuous range of a value.
     public class ValueRange {
         public float min;

@@ -33,6 +33,7 @@ namespace Assets.scripts.mainMenu.worldmap {
             pointerController = new WorldmapPointerController(worldSize, pointer);
             controller = new ScrollableCameraController(mask.rect, image, _camera, worldSize, pointerController);
             Unity.Mathematics.Random random = new Unity.Mathematics.Random();
+            
             random.InitState();
             Vector3Int cachePosition = new Vector3Int();
             for (int x = 0; x < worldSize; x++) {

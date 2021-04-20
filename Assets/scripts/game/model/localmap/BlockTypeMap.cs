@@ -1,7 +1,6 @@
 ﻿using Assets.scripts.enums;
 using Assets.scripts.util;
 using Assets.scripts.util.geometry;
-using UnityEngine;
 using static Assets.scripts.enums.BlockTypeEnum;
 
 namespace Assets.scripts.game.model.localmap {
@@ -16,62 +15,42 @@ namespace Assets.scripts.game.model.localmap {
             cachePosition = new IntVector3();
         }
 
-        public new void set(int x, int y, int z, int value) {
+        public new void set(int x, int y, int z, int value) => set(x, y, z, value, getMaterial(x, y, z));
+
+        public void set(int x, int y, int z, int value, int material) {
+            this.material[x, y, z] = material;
+            int currentBlock = get(x, y, z);
+            bool updateRamps = currentBlock != value && (currentBlock == RAMP.CODE || value == RAMP.CODE);
             base.set(x, y, z, value);
-            // if (value == WALL.CODE && withinBounds(x, y, z + 1) && get(x, y, z + 1) == SPACE.CODE) {
-            //     setBlock(x, y, z + 1, FLOOR.CODE, material[x, y, z]);
-            // }
-            cachePosition.set(x, y, z);
-            // if (value != FARM.CODE && value != FLOOR.CODE) { // remove plants if block becomes unsuitable for plants
-            //     //GameModel.get(PlantContainer).removeBlock(cachePosition, false);
-            // }
+            localMap.updateTile(cachePosition.set(x, y, z), updateRamps);
             // TODO destroy buildings if type != floor
             // TODO kill units if type == wall
-            localMap.updateTile(cachePosition);
+            if (value == WALL.CODE && withinBounds(x, y, z + 1) && get(x, y, z + 1) == SPACE.CODE) {
+                set(x, y, z + 1, FLOOR.CODE, this.material[x, y, z]);
+            }
         }
 
-        public void set(int x, int y, int z, BlockType type) {
-            set(x, y, z, type.CODE);
-        }
+        public void set(IntVector3 position, BlockType type) => set(position.x, position.y, position.z, type);
 
-        public void set(IntVector3 position, BlockType type) {
-            set(position.x, position.y, position.z, type);
-        }
+        public void set(int x, int y, int z, BlockType type) => set(x, y, z, type, getMaterial(x, y, z));
 
-        public void setBlock(IntVector3 position, BlockType type, int material) {
-            setBlock(position, type.CODE, material);
-        }
+        public void set(IntVector3 position, BlockType type, int material) => set(position, type, material);
 
-        public void setBlock(int x, int y, int z, BlockType type, int material) {
-            setBlock(x, y, z, type.CODE, material);
-        }
+        public void set(int x, int y, int z, BlockType type, int material) => set(x, y, z, type.CODE, material);
 
-
-        public void setBlock(IntVector3 position, int type, int material) {
-            setBlock(position.x, position.y, position.z, type, material);
-        }
-
-        public void setBlock(int x, int y, int z, int type, int material) {
-            this.material[x, y, z] = material;
-            set(x, y, z, type);
-        }
-
-        public int getMaterial(IntVector3 pos) {
-            return material[pos.x, pos.y, pos.z];
-        }
+        public int getMaterial(IntVector3 pos) => getMaterial(pos.x, pos.y, pos.z);
 
         public int getMaterial(int x, int y, int z) {
-            return material[x, y, z];
+            return withinBounds(x, y, z) ? material[x, y, z] : -1; // todo
         }
 
-        public BlockType getEnumValue(IntVector3 position) {
-            return getEnumValue(position.x, position.y, position.z);
-        }
+        public BlockType getEnumValue(IntVector3 position) => getEnumValue(position.x, position.y, position.z);
 
         public BlockType getEnumValue(int x, int y, int z) {
             return BlockTypeEnum.get(get(x, y, z));
         }
 
+        // returns code of block
         public new int get(int x, int y, int z) {
             return withinBounds(x, y, z) ? base.get(x, y, z) : SPACE.CODE;
         }

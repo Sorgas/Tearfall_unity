@@ -9,6 +9,7 @@ namespace Assets.scripts.game.model {
     public class GameModel : Singleton<GameModel> {
         public World world;
         public LocalMap localMap;
+        
         private Dictionary<Type, ModelComponent> components = new Dictionary<Type, ModelComponent>();
         private List<Updatable> updatableComponents; // not all components are Updatable
                                                      //public const GameTime gameTime = new GameTime();

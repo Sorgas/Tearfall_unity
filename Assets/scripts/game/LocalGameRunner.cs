@@ -11,6 +11,7 @@ namespace Tearfall_unity.Assets.scripts.game {
     public class LocalGameRunner : MonoBehaviour {
         public GameObject mapHolder;
         public Camera mainCamera;
+        public RectTransform selector;
 
         public void Start() {
             Debug.Log("starting game");

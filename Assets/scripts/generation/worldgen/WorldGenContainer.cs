@@ -16,11 +16,11 @@ namespace Assets.scripts.generation.worldgen {
 
         public int size;
         public int seed;
-        public Random random;
+        // public Random random;
 
         public WorldGenContainer(int size) {
             this.size = size;
-            random = new Random();
+            // random = new Random();
             Random.InitState(seed);
             elevation = new float[size, size];
             drainage = new float[size, size];
