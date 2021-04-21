@@ -18,13 +18,13 @@ public class LocalMapTileUpdater : MonoBehaviour {
 
     public readonly TileSetHolder tileSetHolder = new TileSetHolder();
     public GameObject layerPrefab;
-    private GameObject mapHolder;
+    private RectTransform mapHolder;
     private LocalMap map;
 
     private const int FLOOR_LAYER = 0;
     private const int WALL_LAYER = 1;
 
-    public LocalMapTileUpdater(GameObject mapHolder) {
+    public LocalMapTileUpdater(RectTransform mapHolder) {
         this.mapHolder = mapHolder;
         layerPrefab = Resources.Load<GameObject>("prefabs/LocalMapLayer");
         map = GameModel.get().localMap;

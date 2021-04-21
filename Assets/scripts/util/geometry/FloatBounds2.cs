@@ -34,6 +34,7 @@ namespace Assets.scripts.util.geometry {
             return vector;
         }
 
+        // vector from outside position to nearest border
         public Vector2 getInVector(Vector2 position) {
             Vector2 vector = new Vector2();
             if (position.x < minX) vector.x = minX - position.x;
@@ -43,13 +44,13 @@ namespace Assets.scripts.util.geometry {
             return vector;
         }
 
-        // returns vector that shows distance to target
-        public Vector2 getDirectionVector(Vector2 target) {
+        // vector from border to outside position
+        public Vector2 getDirectionVector(Vector2 position) {
             Vector2 vector = new Vector2();
-            if (target.x < minX) vector.x = target.x - minX;
-            if (target.x > maxX) vector.x = target.x - maxX;
-            if (target.y < minY) vector.y = target.y - minY;
-            if (target.y > maxY) vector.y = target.y - maxY;
+            if (position.x < minX) vector.x = position.x - minX;
+            if (position.x > maxX) vector.x = position.x - maxX;
+            if (position.y < minY) vector.y = position.y - minY;
+            if (position.y > maxY) vector.y = position.y - maxY;
             return vector;
         }
 

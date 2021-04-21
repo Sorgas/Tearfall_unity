@@ -4,16 +4,28 @@ using Assets.scripts.game.model.system;
 using System;
 using Assets.scripts.game.model.localmap;
 using Assets.scripts.util.lang;
+using Leopotam.Ecs;
 
 namespace Assets.scripts.game.model {
     public class GameModel : Singleton<GameModel> {
         public World world;
         public LocalMap localMap;
-        
+        public EcsWorld ecsWorld;
+        public EcsSystems systems;
+
         private Dictionary<Type, ModelComponent> components = new Dictionary<Type, ModelComponent>();
         private List<Updatable> updatableComponents; // not all components are Updatable
-                                                     //public const GameTime gameTime = new GameTime();
         public float id = Time.realtimeSinceStartup;
+
+        public void init() {
+            ecsWorld = new EcsWorld();
+            systems = new EcsSystems(ecsWorld);
+            systems.Init();
+        }
+
+        public void update() {
+            systems.Run();
+        }
 
         public static T get<T>() where T : ModelComponent {
             ModelComponent value = null;
@@ -24,13 +36,8 @@ namespace Assets.scripts.game.model {
         
         public static Optional<T> optional<T>() where T : ModelComponent {
             return new Optional<T>(get<T>());
+        
         }
-
-        // updates all systems
-        public void update() {
-
-        }
-
         //public <T extends ModelComponent> void put(T object) {
         //    components.put(object.getClass(), object);
         //    if (object instanceof Updatable) updatableComponents.add((Updatable)object);

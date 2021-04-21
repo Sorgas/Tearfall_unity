@@ -5,13 +5,13 @@ namespace Tearfall_unity.Assets.scripts.game.view {
     // applies speed to camera for smooth movement
     public class LocalMapCameraController {
         public Camera camera;
+        public RectTransform selector;
         public int mapSize;
         public int mapLayers;
 
         private IntVector3 logicalTarget = new IntVector3();
         private IntBounds3 bounds = new IntBounds3(); // bounds for logical target
-        private Vector3 target = new Vector3();
-
+        private Vector3 target = new Vector3(0,0,-1);
 
         private ValueRange cameraFovRange = new ValueRange(4, 40);
         private Vector3 speed = new Vector3();
@@ -30,6 +30,11 @@ namespace Tearfall_unity.Assets.scripts.game.view {
 
         // smoothly moves camera towards cameraTarget
         public void update() {
+            // updateVisibleArea();
+            // if (!visibleArea.isIn(selector.)) {
+            //     camera.transform.Translate(visibleArea.getDirectionVector(camera.transform.localPosition));
+            // }
+            target.Set(logicalTarget.x, logicalTarget.y + logicalTarget.z / 2f, -2 * logicalTarget.z - 1);
             if(camera.transform.localPosition != target) camera.transform.localPosition = Vector3.SmoothDamp(camera.transform.localPosition, target, ref speed, 0.2f);
         }
 
@@ -39,29 +44,26 @@ namespace Tearfall_unity.Assets.scripts.game.view {
             camera.orthographicSize = cameraFovRange.clamp(camera.orthographicSize + delta * 2);
         }
 
-        public void moveTarget(int dx, int dy, int dz) {
+        public void move(int dx, int dy, int dz) {
             if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
                 dx *= 10;
                 dy *= 10;
             }
-            logicalTarget.x += dx;
-            logicalTarget.y += dy;
-            logicalTarget.z += dz;
-            ensureTargetInBounds();
-            translateTarget();
-        }
-
-        private void ensureTargetInBounds() {
+            logicalTarget.add(dx, dy, dz);
             if (!bounds.isIn(logicalTarget)) logicalTarget.add(bounds.getInVector(logicalTarget));
-        }
-
-
-        public void translateTarget() {
-            target.Set(logicalTarget.x, logicalTarget.y + logicalTarget.z * 0.5f, -2 * logicalTarget.z - 1);
         }
 
         public void setCameraPosition(int x, float y, int z) {
             camera.transform.Translate(x, y, z, Space.World);
+        }
+
+        private void updateVisibleArea() {
+            float x = camera.transform.localPosition.x;
+            float y = camera.transform.localPosition.y;
+            // cacheVector.Set(x, y, camera.transfom);
+            float cameraWidth = camera.orthographicSize * Screen.width / Screen.height;
+            visibleArea.set((int)(x - cameraWidth + 1), (int)(y - camera.orthographicSize + 1), (int)(x + cameraWidth - 1), (int)(y + camera.orthographicSize - 1));
+            visibleArea.extend(-2);
         }
     }
 }

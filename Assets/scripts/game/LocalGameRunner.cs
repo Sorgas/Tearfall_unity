@@ -9,13 +9,14 @@ namespace Tearfall_unity.Assets.scripts.game {
     // Calls update() for game model
     // Generates local map if none is generated (for testing)
     public class LocalGameRunner : MonoBehaviour {
-        public GameObject mapHolder;
+        public RectTransform mapHolder;
         public Camera mainCamera;
         public RectTransform selector;
 
         public void Start() {
             Debug.Log("starting game");
             ensureLocalMap();
+            GameModel.get().init();
             GameView.get().init(this); // TODO wrap into object if new parameters added
         }
 

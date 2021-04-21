@@ -11,7 +11,7 @@ namespace Assets.scripts.game.model {
         public void init(LocalGameRunner initializer) {
             Debug.Log("initing game view");
             tileUpdater = new LocalMapTileUpdater(initializer.mapHolder);
-            cameraSystem = new LocalMapCameraSystem(initializer.mainCamera, initializer.selector);
+            cameraSystem = new LocalMapCameraSystem(initializer.mainCamera, initializer.selector, initializer.mapHolder);
             tileUpdater.flush();
         }
 
