@@ -71,6 +71,7 @@
      <Compile Include="Assets\scripts\game\model\localmap\passage\PassageUpdater.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\WorldGenerator.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\PassageUtil.cs" />
+     <Compile Include="Assets\scripts\game\view\FollowingCameraController.cs" />
      <Compile Include="Assets\scripts\entity\plant\AbstractPlant.cs" />
      <Compile Include="Assets\scripts\util\geometry\ValueRange.cs" />
      <Compile Include="Assets\scripts\util\lang\EnumerableUtil.cs" />
@@ -111,11 +112,9 @@
      <Compile Include="Assets\scripts\game\model\WorldMap.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\TilesHolder.cs" />
      <Compile Include="Assets\scripts\game\model\system\Updatable.cs" />
-     <Compile Include="Assets\scripts\game\view\LocalMapSelectorController.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />
      <Compile Include="Assets\scripts\util\geometry\PositionUtil.cs" />
      <Compile Include="Assets\Resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
-     <Compile Include="Assets\scripts\game\view\FollowingCameraController.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

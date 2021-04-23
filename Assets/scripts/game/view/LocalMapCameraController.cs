@@ -2,68 +2,93 @@ using Assets.scripts.util.geometry;
 using UnityEngine;
 
 namespace Tearfall_unity.Assets.scripts.game.view {
-    // applies speed to camera for smooth movement
+    // controls camera and selector movement on local map
+    // TODO document controls
     public class LocalMapCameraController {
+        // common
         public Camera camera;
         public RectTransform selector;
         public int mapSize;
         public int mapLayers;
-
-        private IntVector3 logicalTarget = new IntVector3();
+        public RectTransform mapHolder;
         private IntBounds3 bounds = new IntBounds3(); // bounds for logical target
-        private Vector3 target = new Vector3(0,0,-1);
+        public bool enabled = true;
 
+        // camera
+        private Vector3 cameraSpeed = new Vector3();
         private ValueRange cameraFovRange = new ValueRange(4, 40);
-        private Vector3 speed = new Vector3();
-        private FloatBounds2 effectiveCameraSize = new FloatBounds2(); // number of visible tiles, relative to camera position
-        private FloatBounds2 visibleArea = new FloatBounds2();
+        private FloatBounds2 visibleArea = new FloatBounds2(); // visible area around !cameraTarget!
+        private Vector3 cameraTarget = new Vector3(0, 0, -1);
 
-        private Vector3 maxSpeedScaleVector = new Vector3(2, 2, 2);
-        private Vector3 speedScale = new Vector3(0.3f, 0.3f, 0.3f);
+        // selector
+        private IntVector3 selectorPosition = new IntVector3();
+        private Vector3 selectorSpeed = new Vector3();
+        private Vector3 selectorTarget = new Vector3(0, 0, -1);
 
-        public LocalMapCameraController(Camera camera, int mapSize, int mapLayers) {
+        public LocalMapCameraController(Camera camera, RectTransform selector, RectTransform mapHolder, int mapSize, int mapLayers) {
             this.camera = camera;
+            this.selector = selector;
+            this.mapHolder = mapHolder;
             this.mapSize = mapSize;
             this.mapLayers = mapLayers;
             bounds.set(0, 0, 0, mapSize, mapSize, mapLayers);
         }
 
-        // smoothly moves camera towards cameraTarget
         public void update() {
-            // updateVisibleArea();
-            // if (!visibleArea.isIn(selector.)) {
-            //     camera.transform.Translate(visibleArea.getDirectionVector(camera.transform.localPosition));
-            // }
-            target.Set(logicalTarget.x, logicalTarget.y + logicalTarget.z / 2f, -2 * logicalTarget.z - 1);
-            if(camera.transform.localPosition != target) camera.transform.localPosition = Vector3.SmoothDamp(camera.transform.localPosition, target, ref speed, 0.2f);
+            if (!enabled) return;
+            if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0) handleMouseMovement(); // update selector position if mouse moved
+            // update and move selector
+            selectorTarget.Set(selectorPosition.x, selectorPosition.y + selectorPosition.z / 2f, -2 * selectorPosition.z - 0.1f); // update target by in-model position
+            selector.localPosition = Vector3.SmoothDamp(selector.localPosition, selectorTarget, ref selectorSpeed, 0.05f); // move selector
+
+            if (camera.transform.localPosition.z != selector.localPosition.z - 0.9f) { // keep camera on same level as selector
+                camera.transform.Translate(0,0, selector.localPosition.z - 0.9f - camera.transform.localPosition.z);
+            }
+            updateVisibleArea();
+            if (!visibleArea.isIn(selector.localPosition)) {
+                Vector2 vector = visibleArea.getDirectionVector(selector.localPosition);
+                cameraTarget.x += vector.x;
+                cameraTarget.y += vector.y;
+            }
+            if (camera.transform.localPosition != cameraTarget) camera.transform.localPosition = Vector3.SmoothDamp(camera.transform.localPosition, cameraTarget, ref cameraSpeed, 0.2f);
+        }
+
+        private void updateVisibleArea() {
+            float cameraWidth = camera.orthographicSize * Screen.width / Screen.height;
+            visibleArea.set((int)(cameraTarget.x - cameraWidth + 1),
+                (int)(cameraTarget.y - camera.orthographicSize + 1),
+                (int)(cameraTarget.x + cameraWidth - 1),
+                (int)(cameraTarget.y + camera.orthographicSize - 1));
+        }
+
+        // moves model position of selector and visual movement target. takes parameters in model coordinates
+        public void move(int dx, int dy, int dz) {
+            if (!enabled) return;
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) { // adjust delta for faster scrolling
+                dx *= 10;
+                dy *= 10;
+            }
+            // TODO replace with in-model selector
+            selectorPosition.add(dx, dy, dz); // update model position of selector
+            ensureSelectorBounds();
+        }
+
+        // reset selector to mouse position on current level
+        private void handleMouseMovement() {
+            Vector3 worldPosition = camera.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mapHolderPosition = mapHolder.InverseTransformPoint(worldPosition);
+            selectorPosition.set((int)mapHolderPosition.x, -selectorPosition.z / 2f + mapHolderPosition.y, selectorPosition.z); // update model position of selector
+            ensureSelectorBounds();
+        }
+
+        private void ensureSelectorBounds() {
+            if (!bounds.isIn(selectorPosition)) selectorPosition.add(bounds.getInVector(selectorPosition)); // return selector into map, if needed
         }
 
         public void zoomCamera(float delta) {
             if (delta == 0) return;
             float oldZoom = camera.orthographicSize;
             camera.orthographicSize = cameraFovRange.clamp(camera.orthographicSize + delta * 2);
-        }
-
-        public void move(int dx, int dy, int dz) {
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
-                dx *= 10;
-                dy *= 10;
-            }
-            logicalTarget.add(dx, dy, dz);
-            if (!bounds.isIn(logicalTarget)) logicalTarget.add(bounds.getInVector(logicalTarget));
-        }
-
-        public void setCameraPosition(int x, float y, int z) {
-            camera.transform.Translate(x, y, z, Space.World);
-        }
-
-        private void updateVisibleArea() {
-            float x = camera.transform.localPosition.x;
-            float y = camera.transform.localPosition.y;
-            // cacheVector.Set(x, y, camera.transfom);
-            float cameraWidth = camera.orthographicSize * Screen.width / Screen.height;
-            visibleArea.set((int)(x - cameraWidth + 1), (int)(y - camera.orthographicSize + 1), (int)(x + cameraWidth - 1), (int)(y + camera.orthographicSize - 1));
-            visibleArea.extend(-2);
         }
     }
 }

@@ -5,7 +5,6 @@ namespace Tearfall_unity.Assets.scripts.game.model.entity_selector {
     public class EntitySelectorSystem {
         // public final EntitySelector selector; // TODO not required before large building are implemented
         public readonly IntVector3 selector = new IntVector3();
-        public readonly LocalMapSelectorController inputHandler;
         private IntVector3 cachePosition = new IntVector3();
         public bool allowChangingZLevelOnSelection = true;
         public bool allowTwoDimensionsOnSelection = true;

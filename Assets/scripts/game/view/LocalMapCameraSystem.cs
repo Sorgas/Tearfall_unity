@@ -11,7 +11,6 @@ public class LocalMapCameraSystem {
     public Camera camera;
     public bool enabled = true;
     private LocalMapCameraController cameraController;
-    private LocalMapSelectorController selectorController;
     private LocalMapFollowingCameraController followingController;
 
     private List<DelayedConditionController> controllers = new List<DelayedConditionController>();
@@ -23,31 +22,30 @@ public class LocalMapCameraSystem {
         this.camera = camera;
         int xSize = GameModel.get().localMap.xSize;
         int ySize = GameModel.get().localMap.ySize;
-        cameraController = new LocalMapCameraController(camera, xSize, ySize);
-        selectorController = new LocalMapSelectorController(camera, selector, mapHolder, xSize, ySize);
-        followingController = new LocalMapFollowingCameraController(camera, selector);
+        cameraController = new LocalMapCameraController(camera, selector, mapHolder, xSize, ySize);
+        // followingController = new LocalMapFollowingCameraController(camera, selector);
         initControllers();
     }
 
     private void initControllers() {
-        controllers.Add(new DelayedKeyController(KeyCode.W, () => selectorController.move(0, 1, 0)));
-        controllers.Add(new DelayedKeyController(KeyCode.A, () => selectorController.move(-1, 0, 0)));
-        controllers.Add(new DelayedKeyController(KeyCode.S, () => selectorController.move(0, -1, 0)));
-        controllers.Add(new DelayedKeyController(KeyCode.D, () => selectorController.move(1, 0, 0)));
+        controllers.Add(new DelayedKeyController(KeyCode.W, () => cameraController.move(0, 1, 0)));
+        controllers.Add(new DelayedKeyController(KeyCode.A, () => cameraController.move(-1, 0, 0)));
+        controllers.Add(new DelayedKeyController(KeyCode.S, () => cameraController.move(0, -1, 0)));
+        controllers.Add(new DelayedKeyController(KeyCode.D, () => cameraController.move(1, 0, 0)));
         // layers of map are placed with z gap 2 and shifted by y by 0.5
         controllers.Add(new DelayedKeyController(KeyCode.R, () => {
+            // cameraController.move(0, 0, 1);
             cameraController.move(0, 0, 1);
-            selectorController.move(0, 0, 1);
         })); 
         controllers.Add(new DelayedKeyController(KeyCode.F, () => {
+            // cameraController.move(0, 0, -1);
             cameraController.move(0, 0, -1);
-            selectorController.move(0, 0, -1);
         }));
         // move camera when mouse on screen border
-        cameraControllers.Add(new DelayedConditionController(() => cameraController.move(0, 1, 0), () => (Input.mousePosition.y > Screen.height - borderPanWidth)));
-        cameraControllers.Add(new DelayedConditionController(() => cameraController.move(0, -1, 0), () => (Input.mousePosition.y < borderPanWidth)));
-        cameraControllers.Add(new DelayedConditionController(() => cameraController.move(1, 0, 0), () => (Input.mousePosition.x > Screen.width - borderPanWidth)));
-        cameraControllers.Add(new DelayedConditionController(() => cameraController.move(-1, 0, 0), () => (Input.mousePosition.x < borderPanWidth)));
+        // cameraControllers.Add(new DelayedConditionController(() => cameraController.move(0, 1, 0), () => (Input.mousePosition.y > Screen.height - borderPanWidth)));
+        // cameraControllers.Add(new DelayedConditionController(() => cameraController.move(0, -1, 0), () => (Input.mousePosition.y < borderPanWidth)));
+        // cameraControllers.Add(new DelayedConditionController(() => cameraController.move(1, 0, 0), () => (Input.mousePosition.x > Screen.width - borderPanWidth)));
+        // cameraControllers.Add(new DelayedConditionController(() => cameraController.move(-1, 0, 0), () => (Input.mousePosition.x < borderPanWidth)));
         
         // move camera when mouse on screen border
         // selectorControllers.Add(new DelayedConditionController(() => selectorController.moveTarget(0, 1, 0), () => (Input.mousePosition.y > Screen.height - borderPanWidth)));
@@ -62,7 +60,5 @@ public class LocalMapCameraSystem {
         controllers.ForEach(controller => controller.update(deltaTime));
         cameraController.zoomCamera(Input.GetAxis("Mouse ScrollWheel"));
         cameraController.update();
-        selectorController.update();
-        // followingController.update();
     }
 }
