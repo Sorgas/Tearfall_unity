@@ -4,12 +4,14 @@
         public float min;
         public float max;
 
-        public ValueRange(float min, float max) {
+        public ValueRange(float min, float max) => set(min, max);
+
+        public ValueRange() : this(0, 0) { }
+
+        public void set(float min, float max) {
             this.min = min;
             this.max = max;
         }
-
-        public ValueRange() : this(0, 0) { }
 
         public bool check(float value) {
             return value >= min && value <= max;

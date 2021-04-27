@@ -33,25 +33,13 @@ public class LocalMapCameraSystem {
         controllers.Add(new DelayedKeyController(KeyCode.S, () => cameraController.move(0, -1, 0)));
         controllers.Add(new DelayedKeyController(KeyCode.D, () => cameraController.move(1, 0, 0)));
         // layers of map are placed with z gap 2 and shifted by y by 0.5
-        controllers.Add(new DelayedKeyController(KeyCode.R, () => {
-            // cameraController.move(0, 0, 1);
-            cameraController.move(0, 0, 1);
-        })); 
-        controllers.Add(new DelayedKeyController(KeyCode.F, () => {
-            // cameraController.move(0, 0, -1);
-            cameraController.move(0, 0, -1);
-        }));
+        controllers.Add(new DelayedKeyController(KeyCode.R, () => cameraController.move(0, 0, 1))); 
+        controllers.Add(new DelayedKeyController(KeyCode.F, () => cameraController.move(0, 0, -1)));
         // move camera when mouse on screen border
-        // cameraControllers.Add(new DelayedConditionController(() => cameraController.move(0, 1, 0), () => (Input.mousePosition.y > Screen.height - borderPanWidth)));
-        // cameraControllers.Add(new DelayedConditionController(() => cameraController.move(0, -1, 0), () => (Input.mousePosition.y < borderPanWidth)));
-        // cameraControllers.Add(new DelayedConditionController(() => cameraController.move(1, 0, 0), () => (Input.mousePosition.x > Screen.width - borderPanWidth)));
-        // cameraControllers.Add(new DelayedConditionController(() => cameraController.move(-1, 0, 0), () => (Input.mousePosition.x < borderPanWidth)));
-        
-        // move camera when mouse on screen border
-        // selectorControllers.Add(new DelayedConditionController(() => selectorController.moveTarget(0, 1, 0), () => (Input.mousePosition.y > Screen.height - borderPanWidth)));
-        // selectorControllers.Add(new DelayedConditionController(() => selectorController.moveTarget(0, -1, 0), () => (Input.mousePosition.y < borderPanWidth)));
-        // selectorControllers.Add(new DelayedConditionController(() => selectorController.moveTarget(1, 0, 0), () => (Input.mousePosition.x > Screen.width - borderPanWidth)));
-        // selectorControllers.Add(new DelayedConditionController(() => selectorController.moveTarget(-1, 0, 0), () => (Input.mousePosition.x < borderPanWidth)));
+        controllers.Add(new DelayedConditionController(() => cameraController.moveCamera(0, 1), () => (Input.mousePosition.y > Screen.height - borderPanWidth)));
+        controllers.Add(new DelayedConditionController(() => cameraController.moveCamera(0, -1), () => (Input.mousePosition.y < borderPanWidth)));
+        controllers.Add(new DelayedConditionController(() => cameraController.moveCamera(1, 0), () => (Input.mousePosition.x > Screen.width - borderPanWidth)));
+        controllers.Add(new DelayedConditionController(() => cameraController.moveCamera(-1, 0), () => (Input.mousePosition.x < borderPanWidth)));
     }
 
     public void update() {

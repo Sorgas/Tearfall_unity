@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Assets.scripts.util.geometry {
     // TODO Vector2.x = value doesn't work!
@@ -35,6 +36,11 @@ namespace Assets.scripts.util.geometry {
             return vector;
         }
 
+        public void putIn(IntVector3 vector) {
+            vector.x = (int)Math.Max(minX, Math.Min(maxX, vector.x));
+            vector.y = (int)Math.Max(minY, Math.Min(maxY, vector.y));
+        }
+
         // vector from outside position to nearest border
         public Vector2 getInVector(Vector2 position) {
             Vector2 vector = new Vector2();
@@ -55,9 +61,9 @@ namespace Assets.scripts.util.geometry {
             return vector;
         }
 
-        public bool isIn(Vector3 vector) {
-            return isIn(vector.x, vector.y);
-        }
+        public bool isIn(Vector3 vector) => isIn(vector.x, vector.y);
+        
+        public bool isIn(IntVector3 vector) => isIn(vector.x, vector.y);
 
         public bool isIn(float x, float y) {
             return x >= minX && x <= maxX && y >= minY && y <= maxY;
@@ -71,11 +77,13 @@ namespace Assets.scripts.util.geometry {
         }
 
         // adds vector components to bounds components, 'moving' the frame
-        public void move(Vector2 vector) {
-            maxX += vector.x;
-            minX += vector.x;
-            maxY += vector.y;
-            minY += vector.y;
+        public void move(Vector2 vector) => move(vector.x, vector.y);
+
+        public void move(float x, float y) {
+            maxX += x;
+            minX += x;
+            maxY += y;
+            minY += y;
         }
 
         public override string ToString() {
