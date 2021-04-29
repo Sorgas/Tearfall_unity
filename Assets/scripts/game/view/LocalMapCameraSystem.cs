@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Assets.scripts.game.model;
+using Assets.scripts.util.geometry;
 using Assets.scripts.util.input;
 using Tearfall_unity.Assets.scripts.game.view;
 using UnityEngine;
@@ -11,11 +13,9 @@ public class LocalMapCameraSystem {
     public Camera camera;
     public bool enabled = true;
     private LocalMapCameraController cameraController;
-    private LocalMapFollowingCameraController followingController;
+    private IntBounds2 screenBounds = new IntBounds2(Screen.width, Screen.height);
 
     private List<DelayedConditionController> controllers = new List<DelayedConditionController>();
-    private List<DelayedConditionController> cameraControllers = new List<DelayedConditionController>();
-    private List<DelayedConditionController> selectorControllers = new List<DelayedConditionController>();
     private const int borderPanWidth = 10;
 
     public LocalMapCameraSystem(Camera camera, RectTransform selector, RectTransform mapHolder) {
@@ -23,8 +23,11 @@ public class LocalMapCameraSystem {
         int xSize = GameModel.get().localMap.xSize;
         int ySize = GameModel.get().localMap.ySize;
         cameraController = new LocalMapCameraController(camera, selector, mapHolder, xSize, ySize);
-        // followingController = new LocalMapFollowingCameraController(camera, selector);
         initControllers();
+    }
+
+    public void init() {
+        cameraController.setCameraPosition(GameModel.get().selector.position);
     }
 
     private void initControllers() {
@@ -47,6 +50,9 @@ public class LocalMapCameraSystem {
         if (!enabled) return;
         controllers.ForEach(controller => controller.update(deltaTime));
         cameraController.zoomCamera(Input.GetAxis("Mouse ScrollWheel"));
+        if (screenBounds.isIn(Input.mousePosition)) { // mouse inside screen
+            if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0) cameraController.handleMouseMovement(); // update selector position if mouse moved
+        }
         cameraController.update();
     }
 }

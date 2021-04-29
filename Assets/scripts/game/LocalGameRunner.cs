@@ -13,11 +13,12 @@ namespace Tearfall_unity.Assets.scripts.game {
         public Camera mainCamera;
         public RectTransform selector;
 
+        // when scene is loaded, inits game model and view
         public void Start() {
             Debug.Log("starting game");
             ensureLocalMap();
             GameModel.get().init();
-            GameView.get().init(this); // TODO wrap into object if new parameters added
+            GameView.get().init(this);
         }
 
         public void Update() {
@@ -25,6 +26,7 @@ namespace Tearfall_unity.Assets.scripts.game {
             GameView.get().update();
         }
 
+        // creates mock local map for testing purposes
         private void ensureLocalMap() {
             LocalMap localmap = GameModel.get().localMap;
             if (localmap != null) return;

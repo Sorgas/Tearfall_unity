@@ -1,3 +1,4 @@
+using Assets.scripts.game.model;
 using Assets.scripts.util.geometry;
 using UnityEngine;
 
@@ -10,7 +11,6 @@ namespace Tearfall_unity.Assets.scripts.game.view {
         public RectTransform selector;
         public RectTransform mapHolder;
         public bool enabled = true;
-        private IntBounds2 screenBounds = new IntBounds2(Screen.width, Screen.height);
         private int mapSize;
 
         // camera
@@ -21,7 +21,7 @@ namespace Tearfall_unity.Assets.scripts.game.view {
         private IntBounds2 cameraBounds = new IntBounds2(); // bounds for camera target
 
         // selector
-        private IntVector3 selectorPosition = new IntVector3(); // TODO replace to in-model position
+        private IntVector3 selectorPosition = GameModel.get().selector.position;
         private Vector3 selectorTarget = new Vector3(0, 0, -1); // target in scene coordinates
         private Vector3 selectorSpeed = new Vector3();
         private ValueRange zRange = new ValueRange(); // inclusive range for selector z
@@ -39,10 +39,6 @@ namespace Tearfall_unity.Assets.scripts.game.view {
 
         public void update() {
             if (!enabled) return;
-            if (screenBounds.isIn(Input.mousePosition)) { // mouse inside screen
-                if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0) handleMouseMovement(); // update selector position if mouse moved
-            }
-            // update and move selector
             selectorTarget.Set(selectorPosition.x, selectorPosition.y + selectorPosition.z / 2f, -2 * selectorPosition.z - 0.1f); // update target by in-model position
             if (selector.localPosition != selectorTarget)
                 selector.localPosition = Vector3.SmoothDamp(selector.localPosition, selectorTarget, ref selectorSpeed, 0.05f); // move selector
@@ -73,7 +69,6 @@ namespace Tearfall_unity.Assets.scripts.game.view {
                 dx *= 10;
                 dy *= 10;
             }
-            // TODO replace with in-model selector
             if (dz != 0) handleZChange(dz);
             selectorPosition.add(dx, dy, 0); // update model position of selector
             ensureSelectorBounds();
@@ -86,7 +81,7 @@ namespace Tearfall_unity.Assets.scripts.game.view {
         }
 
         // reset selector to mouse position on current level
-        private void handleMouseMovement() {
+        public void handleMouseMovement() {
             Vector3 worldPosition = camera.ScreenToWorldPoint(Input.mousePosition);
             Vector3 mapHolderPosition = mapHolder.InverseTransformPoint(worldPosition);
             selectorPosition.set((int)mapHolderPosition.x, -selectorPosition.z / 2f + mapHolderPosition.y, selectorPosition.z); // update model position of selector
@@ -117,6 +112,12 @@ namespace Tearfall_unity.Assets.scripts.game.view {
             cameraBounds.set(0, 0, mapSize - 1, mapSize - 1);
             cameraBounds.extendX((int)(3 - cameraWidth));
             cameraBounds.extendY((int)(3 - camera.orthographicSize));
+        }
+
+        public void setCameraPosition(IntVector3 position) {
+            Vector3 scenePosition = new Vector3(position.x, position.y -position.z / 2f, position.z * -2f -1);
+            camera.transform.Translate(scenePosition - camera.transform.localPosition, Space.Self);
+            cameraTarget.Set(scenePosition.x , scenePosition.y, scenePosition.z);
         }
     }
 }

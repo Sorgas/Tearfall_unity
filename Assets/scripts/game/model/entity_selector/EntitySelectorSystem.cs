@@ -1,15 +1,19 @@
+using Assets.scripts.enums;
+using Assets.scripts.game.model;
+using Assets.scripts.game.model.localmap;
 using Assets.scripts.util.geometry;
 using Tearfall_unity.Assets.scripts.game.view;
 
 namespace Tearfall_unity.Assets.scripts.game.model.entity_selector {
     public class EntitySelectorSystem {
         // public final EntitySelector selector; // TODO not required before large building are implemented
-        public readonly IntVector3 selector = new IntVector3();
+        public EntitySelector selector;
         private IntVector3 cachePosition = new IntVector3();
         public bool allowChangingZLevelOnSelection = true;
         public bool allowTwoDimensionsOnSelection = true;
 
         public EntitySelectorSystem() {
+            // selector = GameModel.get().selector;
             // selector.add(new SelectionAspect(selector));
             // selector.add(new BoxSelectionAspect(selector));
             // selector.add(new RenderAspect(AtlasesEnum.ui_tiles.getBlockTile(0, 0)));
@@ -21,7 +25,7 @@ namespace Tearfall_unity.Assets.scripts.game.model.entity_selector {
         }
 
         public void selectorMoved() {
-            // GameMvc.get().view().localWorldStage.getCamera().handleSelectorMove();
+            // GameModel.get().localWorldStage.getCamera().handleSelectorMove();
         }
 
         public void rotateSelector(bool clockwise) {
@@ -30,29 +34,28 @@ namespace Tearfall_unity.Assets.scripts.game.model.entity_selector {
         }
 
         public void moveSelector(int dx, int dy, int dz) {
-            // setSelectorPosition(cachePosition.set(selector.position).add(dx, dy, dz));
+            setSelectorPosition(cachePosition.set(selector.position).add(dx, dy, dz));
         }
 
         public void setSelectorPosition(IntVector3 position) {
-            // GameMvc.model().get(LocalMap.class).normalizeRectangle(position, selector.size.x, selector.size.y); // selector should not move out of map
+            GameModel.get().localMap.normalizeRectangle(position, selector.size.x, selector.size.y); // selector should not move out of map
 
-            // if (position.equals(selector.position)) return; // no move happens
-            // selector.position.set(position);
-            // ensureMovementRestrictions();
-            // selectorMoved(); // updates if selector did move
+            if (position == selector.position) return; // no move happens
+            selector.position.set(position);
+            ensureMovementRestrictions();
+            selectorMoved(); // updates if selector did move
         }
 
         public void placeSelectorAtMapCenter() {
-            // LocalMap localMap = GameMvc.model().get(LocalMap.class);
-            // selector.position.x = localMap.xSize / 2;
-            // selector.position.y = localMap.ySize / 2;
-            // for (int z = localMap.zSize - 1; z >= 0; z--) {
-            //     if (localMap.blockType.get(selector.position.x, selector.position.y, z) != BlockTypeEnum.SPACE.CODE) {
-            //         selector.position.z = z;
-            //         break;
-            //     }
-            // }
-            // selectorMoved();
+            LocalMap localMap = GameModel.get().localMap;
+            selector.position.x = localMap.xSize / 2;
+            selector.position.y = localMap.ySize / 2;
+            for (int z = localMap.zSize - 1; z >= 0; z--) {
+                if (localMap.blockType.get(selector.position.x, selector.position.y, z) != BlockTypeEnum.SPACE.CODE) {
+                    selector.position.z = z;
+                    break;
+                }
+            }
         }
 
         /**

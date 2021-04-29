@@ -30,6 +30,13 @@ namespace Assets.scripts.util.geometry {
             this.z = (int) Math.Round(vector.Z);
         }
 
+        public static IntVector3 operator +(IntVector3 pos1, IntVector3 pos2) => new IntVector3(pos1.x + pos2.x, pos1.y + pos2.y, pos1.z + pos2.z);
+
+        public static bool operator ==(IntVector3 pos1, IntVector3 pos2) => pos1 != null && pos2 != null && pos1.x == pos2.x && pos1.y == pos2.y && pos1.z == pos2.z;
+
+        public static bool operator !=(IntVector3 pos1, IntVector3 pos2) => pos1 != null && pos2 != null && 
+        pos1.x != pos2.x || pos1.y != pos2.y || pos1.z != pos2.z;
+
         public static IntVector3 add(IntVector3 pos1, IntVector3 pos2) {
             return new IntVector3(pos1.x + pos2.x, pos1.y + pos2.y, pos1.z + pos2.z);
         }
