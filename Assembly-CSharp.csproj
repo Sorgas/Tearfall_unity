@@ -97,6 +97,7 @@
      <Compile Include="Assets\scripts\util\pathfinding\OpenSet.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\NeighbourPositionStream.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenerator.cs" />
+     <Compile Include="Assets\scripts\game\model\entity_selector\EntitySelector.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\AStar.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntBounds2.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntVector3.cs" />
@@ -115,7 +116,6 @@
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />
      <Compile Include="Assets\scripts\util\geometry\PositionUtil.cs" />
      <Compile Include="Assets\Resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
-     <Compile Include="Assets\scripts\game\model\entity_selector\EntitySelector.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

@@ -15,7 +15,7 @@ namespace Assets.scripts.game.model {
         public EcsWorld ecsWorld;
         public EcsSystems systems;
         public EntitySelector selector = new EntitySelector(); // in-model representation of mouse
-        private EntitySelectorSystem selectorSystem = new EntitySelectorSystem();
+        public EntitySelectorSystem selectorSystem = new EntitySelectorSystem();
 
         private Dictionary<Type, ModelComponent> components = new Dictionary<Type, ModelComponent>();
         private List<Updatable> updatableComponents; // not all components are Updatable

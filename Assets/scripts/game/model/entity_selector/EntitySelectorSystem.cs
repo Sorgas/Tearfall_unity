@@ -2,13 +2,13 @@ using Assets.scripts.enums;
 using Assets.scripts.game.model;
 using Assets.scripts.game.model.localmap;
 using Assets.scripts.util.geometry;
-using Tearfall_unity.Assets.scripts.game.view;
+using UnityEngine;
 
 namespace Tearfall_unity.Assets.scripts.game.model.entity_selector {
     public class EntitySelectorSystem {
         // public final EntitySelector selector; // TODO not required before large building are implemented
         public EntitySelector selector;
-        private IntVector3 cachePosition = new IntVector3();
+        private Vector3Int cachePosition = new Vector3Int();
         public bool allowChangingZLevelOnSelection = true;
         public bool allowTwoDimensionsOnSelection = true;
 
@@ -24,26 +24,24 @@ namespace Tearfall_unity.Assets.scripts.game.model.entity_selector {
             // selector.get(SelectionAspect).tool.handleSelection(selector.get(BoxSelectionAspect.class).getBox());
         }
 
-        public void selectorMoved() {
-            // GameModel.get().localWorldStage.getCamera().handleSelectorMove();
-        }
-
         public void rotateSelector(bool clockwise) {
             // selector.get(SelectionAspect).tool.rotate(clockwise);
             // setSelectorPosition(selector.position);
         }
 
-        public void moveSelector(int dx, int dy, int dz) {
-            setSelectorPosition(cachePosition.set(selector.position).add(dx, dy, dz));
+        public Vector3Int moveSelector(int dx, int dy, int dz) {
+            return setSelectorPosition(selector.position.x + dx, selector.position.y + dy, selector.position.z + dz);
         }
 
-        public void setSelectorPosition(IntVector3 position) {
-            GameModel.get().localMap.normalizeRectangle(position, selector.size.x, selector.size.y); // selector should not move out of map
-
-            if (position == selector.position) return; // no move happens
-            selector.position.set(position);
+        public Vector3Int setSelectorPosition(int x, int y, int z) {
+            selector.position.Set(x, y, z);
+            GameModel.get().localMap.normalizeRectangle(ref selector.position, selector.size.x, selector.size.y); // selector should not move out of map
             ensureMovementRestrictions();
-            selectorMoved(); // updates if selector did move
+            return selector.position;
+        }
+
+        public Vector3Int setSelectorPosition(Vector3Int position) {
+            return setSelectorPosition(position.x, position.y, position.z);
         }
 
         public void placeSelectorAtMapCenter() {
@@ -74,7 +72,7 @@ namespace Tearfall_unity.Assets.scripts.game.model.entity_selector {
             //     if (GameSettings.CLOSE_TOOLBAR_ON_TOOL_CANCEL.VALUE == 1) GameMvc.view().toolbarStage.toolbar.reset();
             //     return true;
             // }
-            
+
             return false;
         }
 
@@ -82,7 +80,7 @@ namespace Tearfall_unity.Assets.scripts.game.model.entity_selector {
          * Corrects selector position if selection is active.
          */
         private void ensureMovementRestrictions() {
-        
+
             //     Position boxStart = selector.get(BoxSelectionAspect.class).boxStart;
             // if (boxStart == null) return; // no correction for no selection
             // if (!allowChangingZLevelOnSelection) selector.position.z = boxStart.z; // should stay on same z level

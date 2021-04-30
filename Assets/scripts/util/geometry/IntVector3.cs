@@ -4,6 +4,21 @@ using UnityEngine;
 using Vector3 = System.Numerics.Vector3;
 
 namespace Assets.scripts.util.geometry {
+
+    public static class Vector3IntExtension {
+        public static Vector3Int add(this Vector3Int vector, int dx, int dy, int dz) {
+            vector.x += dx;
+            vector.y += dy;
+            vector.z += dz;
+            return vector;
+        }
+
+        public static Vector3Int set(this Vector3Int vector, Vector3Int value) {
+            vector.Set(value.x, value.y, value.z);
+            return vector;
+        }
+    }
+
     // position
     public class IntVector3 {
         public int x;
@@ -14,28 +29,27 @@ namespace Assets.scripts.util.geometry {
         }
 
         public IntVector3(int x, int y, int z) {
-            Mathf.PerlinNoise(1, 1);
             set(x, y, z);
         }
 
         public IntVector3(float x, float y, float z) {
-            this.x = (int) Math.Round(x);
-            this.y = (int) Math.Round(y);
-            this.z = (int) Math.Round(z);
+            this.x = (int)Math.Round(x);
+            this.y = (int)Math.Round(y);
+            this.z = (int)Math.Round(z);
         }
 
         public IntVector3(Vector3 vector) {
-            this.x = (int) Math.Round(vector.X);
-            this.y = (int) Math.Round(vector.Y);
-            this.z = (int) Math.Round(vector.Z);
+            this.x = (int)Math.Round(vector.X);
+            this.y = (int)Math.Round(vector.Y);
+            this.z = (int)Math.Round(vector.Z);
         }
-
-        public static IntVector3 operator +(IntVector3 pos1, IntVector3 pos2) => new IntVector3(pos1.x + pos2.x, pos1.y + pos2.y, pos1.z + pos2.z);
 
         public static bool operator ==(IntVector3 pos1, IntVector3 pos2) => pos1 != null && pos2 != null && pos1.x == pos2.x && pos1.y == pos2.y && pos1.z == pos2.z;
 
-        public static bool operator !=(IntVector3 pos1, IntVector3 pos2) => pos1 != null && pos2 != null && 
+        public static bool operator !=(IntVector3 pos1, IntVector3 pos2) => pos1 != null && pos2 != null &&
         pos1.x != pos2.x || pos1.y != pos2.y || pos1.z != pos2.z;
+
+        public static IntVector3 operator +(IntVector3 pos1, IntVector3 pos2) => new IntVector3(pos1.x + pos2.x, pos1.y + pos2.y, pos1.z + pos2.z);
 
         public static IntVector3 add(IntVector3 pos1, IntVector3 pos2) {
             return new IntVector3(pos1.x + pos2.x, pos1.y + pos2.y, pos1.z + pos2.z);
@@ -63,7 +77,7 @@ namespace Assets.scripts.util.geometry {
 
         //Real distance.
         public float getDistance(int x, int y, int z) {
-            return (float) Math.Sqrt(Math.Pow(this.x - x, 2) + Math.Pow(this.y - y, 2) + Math.Pow(this.z - z, 2));
+            return (float)Math.Sqrt(Math.Pow(this.x - x, 2) + Math.Pow(this.y - y, 2) + Math.Pow(this.z - z, 2));
         }
 
         // For using in comparators. Coordinates should be positive.
@@ -98,7 +112,7 @@ namespace Assets.scripts.util.geometry {
         }
 
         public IntVector3 set(double x, double y, double z) {
-            return set((int) x, (int) y, (int) z);
+            return set((int)x, (int)y, (int)z);
         }
 
         public IntVector3 add(IntVector2 vector) {
@@ -120,7 +134,7 @@ namespace Assets.scripts.util.geometry {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((IntVector3) obj);
+            return Equals((IntVector3)obj);
         }
 
         public override int GetHashCode() {
@@ -143,7 +157,5 @@ namespace Assets.scripts.util.geometry {
         public IntVector3[] getNeighbours(IntVector3[] deltas) {
             return deltas.Select(position => add(position, this)).ToArray();
         }
-
-
     }
 }

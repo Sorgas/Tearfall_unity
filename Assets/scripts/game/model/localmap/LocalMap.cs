@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets.scripts.game.model.localmap.passage;
 using Assets.scripts.util.geometry;
+using UnityEngine;
 using static Assets.scripts.enums.PassageEnum;
 
 namespace Assets.scripts.game.model.localmap {
@@ -58,12 +59,12 @@ namespace Assets.scripts.game.model.localmap {
         }
 
         // change postition to move it inside map
-        public void normalizePosition(IntVector3 position) {
-            normalizeRectangle(position, 1, 1);
+        public void normalizePosition(Vector3Int position) {
+            normalizeRectangle(ref position, 1, 1);
         }
 
         // change position to move rectangle with position in [0,0] inside map
-        public void normalizeRectangle(IntVector3 position, int width, int height) {
+        public void normalizeRectangle(ref Vector3Int position, int width, int height) {
             position.x = Math.Min(Math.Max(0, position.x), xSize - width);
             position.y = Math.Min(Math.Max(0, position.y), ySize - height);
             position.z = Math.Min(Math.Max(0, position.z), zSize - 1);

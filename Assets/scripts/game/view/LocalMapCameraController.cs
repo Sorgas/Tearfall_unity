@@ -1,51 +1,46 @@
 using Assets.scripts.game.model;
 using Assets.scripts.util.geometry;
+using Tearfall_unity.Assets.scripts.game.model.entity_selector;
 using UnityEngine;
 
 namespace Tearfall_unity.Assets.scripts.game.view {
-    // controls camera and selector movement on local map
-    // TODO document controls
+    // controls camera and selector movement on local map. Moves selector in game model, selector sprite and camara on the scene.
+    // TODO update visible area for rectangular selector
     public class LocalMapCameraController {
         // common
         public Camera camera;
-        public RectTransform selector;
+        public RectTransform selectorSprite;
         public RectTransform mapHolder;
         public bool enabled = true;
-        private int mapSize;
-
         // camera
         private Vector3 cameraSpeed = new Vector3();
         private ValueRange cameraFovRange = new ValueRange(4, 40);
         private FloatBounds2 visibleArea = new FloatBounds2(); // visible area around !cameraTarget!
         private Vector3 cameraTarget = new Vector3(0, 0, -1);
         private IntBounds2 cameraBounds = new IntBounds2(); // bounds for camera target
-
         // selector
-        private IntVector3 selectorPosition = GameModel.get().selector.position;
+        private EntitySelector selector = GameModel.get().selector;
+        private EntitySelectorSystem system = GameModel.get().selectorSystem;
         private Vector3 selectorTarget = new Vector3(0, 0, -1); // target in scene coordinates
         private Vector3 selectorSpeed = new Vector3();
-        private ValueRange zRange = new ValueRange(); // inclusive range for selector z
-        private IntBounds2 bounds = new IntBounds2(); // inclusive bounds for selector xy
 
-        public LocalMapCameraController(Camera camera, RectTransform selector, RectTransform mapHolder, int mapSize, int mapLayers) {
+        public LocalMapCameraController(Camera camera, RectTransform selectorSprite, RectTransform mapHolder) {
             this.camera = camera;
-            this.selector = selector;
+            this.selectorSprite = selectorSprite;
             this.mapHolder = mapHolder;
-            this.mapSize = mapSize;
-            bounds.set(0, 0, mapSize - 1, mapSize - 1);
-            zRange.set(0, mapLayers - 1);
             updateCameraBounds();
         }
 
         public void update() {
             if (!enabled) return;
-            selectorTarget.Set(selectorPosition.x, selectorPosition.y + selectorPosition.z / 2f, -2 * selectorPosition.z - 0.1f); // update target by in-model position
-            if (selector.localPosition != selectorTarget)
-                selector.localPosition = Vector3.SmoothDamp(selector.localPosition, selectorTarget, ref selectorSpeed, 0.05f); // move selector
+            // Debug.Log("update "+ selector.position.x);
+            selectorTarget.Set(selector.position.x, selector.position.y + selector.position.z / 2f, -2 * selector.position.z - 0.1f); // update target by in-model position
+            if (selectorSprite.localPosition != selectorTarget)
+                selectorSprite.localPosition = Vector3.SmoothDamp(selectorSprite.localPosition, selectorTarget, ref selectorSpeed, 0.05f); // move selector
 
             updateVisibleArea();
-            if (!visibleArea.isIn(selector.localPosition)) { // move camera to see selector
-                Vector2 vector = visibleArea.getDirectionVector(selector.localPosition);
+            if (!visibleArea.isIn(selectorSprite.localPosition)) { // move camera to see selector
+                Vector2 vector = visibleArea.getDirectionVector(selectorSprite.localPosition);
                 cameraTarget.x += vector.x;
                 cameraTarget.y += vector.y;
             }
@@ -53,43 +48,23 @@ namespace Tearfall_unity.Assets.scripts.game.view {
                 camera.transform.localPosition = Vector3.SmoothDamp(camera.transform.localPosition, cameraTarget, ref cameraSpeed, 0.05f); // move camera
         }
 
-        private void updateVisibleArea() {
-            float cameraWidth = camera.orthographicSize * Screen.width / Screen.height;
-            visibleArea.set((int)(cameraTarget.x - cameraWidth + 1),
-                (int)(cameraTarget.y - camera.orthographicSize + 1),
-                (int)(cameraTarget.x + cameraWidth - 1),
-                (int)(cameraTarget.y + camera.orthographicSize - 1));
-            visibleArea.extend(-1);
-        }
-
         // moves model position of selector and visual movement target. takes parameters in model coordinates
-        public void move(int dx, int dy, int dz) {
+        public void moveSelector(int dx, int dy, int dz) {
             if (!enabled) return;
             if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) { // adjust delta for faster scrolling
                 dx *= 10;
                 dy *= 10;
             }
-            if (dz != 0) handleZChange(dz);
-            selectorPosition.add(dx, dy, 0); // update model position of selector
-            ensureSelectorBounds();
+            int prevZ = selector.position.z;
+            system.moveSelector(dx, dy, dz); // update model position of selector
+            if (selector.position.z != prevZ) cameraTarget.Set(cameraTarget.x, cameraTarget.y + dz / 2f, cameraTarget.z - dz * 2f); // move camera to other z-level
         }
 
-        private void handleZChange(int dz) {
-            if (!zRange.check(selectorPosition.z + dz)) return; // new position out of range
-            selectorPosition.add(0, 0, dz); // move selector
-            cameraTarget.Set(cameraTarget.x, cameraTarget.y + dz / 2f, cameraTarget.z - dz * 2f); // move camera
-        }
-
-        // reset selector to mouse position on current level
-        public void handleMouseMovement() {
+        public void resetSelectorToMousePosition() {
             Vector3 worldPosition = camera.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 mapHolderPosition = mapHolder.InverseTransformPoint(worldPosition);
-            selectorPosition.set((int)mapHolderPosition.x, -selectorPosition.z / 2f + mapHolderPosition.y, selectorPosition.z); // update model position of selector
-            ensureSelectorBounds();
-        }
-
-        private void ensureSelectorBounds() {
-            bounds.putInto(selectorPosition); // return selector into map, if needed
+            Vector3 mapHolderPosition = mapHolder.InverseTransformPoint(worldPosition); // position relative to mapHolder
+            int zLayer = selector.position.z; // z-layer cannot be changed by moving mouse
+            system.setSelectorPosition((int)mapHolderPosition.x, (int)(-zLayer / 2f + mapHolderPosition.y), zLayer);
         }
 
         public void zoomCamera(float delta) {
@@ -102,22 +77,30 @@ namespace Tearfall_unity.Assets.scripts.game.view {
             cameraTarget.x += dx;
             cameraTarget.y += dy;
             updateVisibleArea();
-            selectorPosition.x += dx;
-            selectorPosition.y += dy;
-            ensureSelectorBounds();
+            system.moveSelector(dx, dy, 0);
+        }
+
+        public void setCameraPosition(Vector3Int position) {
+            Vector3 scenePosition = new Vector3(position.x, position.y - position.z / 2f, position.z * -2f - 1);
+            camera.transform.Translate(scenePosition - camera.transform.localPosition, Space.Self);
+            cameraTarget.Set(scenePosition.x, scenePosition.y, scenePosition.z);
+        }
+
+        private void updateVisibleArea() {
+            float cameraWidth = camera.orthographicSize * Screen.width / Screen.height;
+            visibleArea.set((int)(cameraTarget.x - cameraWidth + 1),
+                (int)(cameraTarget.y - camera.orthographicSize + 1),
+                (int)(cameraTarget.x + cameraWidth - 1),
+                (int)(cameraTarget.y + camera.orthographicSize - 1));
+            visibleArea.extend(-1);
         }
 
         private void updateCameraBounds() {
             float cameraWidth = camera.orthographicSize * Screen.width / Screen.height;
+            int mapSize = GameModel.get().localMap.xSize;
             cameraBounds.set(0, 0, mapSize - 1, mapSize - 1);
             cameraBounds.extendX((int)(3 - cameraWidth));
             cameraBounds.extendY((int)(3 - camera.orthographicSize));
-        }
-
-        public void setCameraPosition(IntVector3 position) {
-            Vector3 scenePosition = new Vector3(position.x, position.y -position.z / 2f, position.z * -2f -1);
-            camera.transform.Translate(scenePosition - camera.transform.localPosition, Space.Self);
-            cameraTarget.Set(scenePosition.x , scenePosition.y, scenePosition.z);
         }
     }
 }

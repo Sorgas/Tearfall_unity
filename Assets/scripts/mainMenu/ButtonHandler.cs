@@ -12,7 +12,7 @@ public abstract partial class ButtonHandler : MonoBehaviour {
     public List<ButtonData> buttons = new List<ButtonData>();
     private Dictionary<KeyCode, ButtonData> hotkeyMap = new Dictionary<KeyCode, ButtonData>();
 
-    // subclasses should fill buttons list
+    // subclasses should fill buttons listHell
     protected abstract void initButtons();
 
     // Tries to associate button data from subclass with actual child buttons of GO

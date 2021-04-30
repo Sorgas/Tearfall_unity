@@ -3,6 +3,7 @@ using Assets.scripts.game.model.localmap;
 using Assets.scripts.generation;
 using Assets.scripts.util.geometry;
 using UnityEngine;
+
 namespace Tearfall_unity.Assets.scripts.game {
 
     // Creates GameView when local map scene is loaded
@@ -12,6 +13,7 @@ namespace Tearfall_unity.Assets.scripts.game {
         public RectTransform mapHolder;
         public Camera mainCamera;
         public RectTransform selector;
+        // public Text debugTextPanel;
 
         // when scene is loaded, inits game model and view
         public void Start() {
