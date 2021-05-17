@@ -1,7 +1,6 @@
 using Assets.scripts.enums;
 using Assets.scripts.game.model;
 using Assets.scripts.game.model.localmap;
-using Assets.scripts.util.geometry;
 using UnityEngine;
 
 namespace Tearfall_unity.Assets.scripts.game.model.entity_selector {
@@ -29,10 +28,14 @@ namespace Tearfall_unity.Assets.scripts.game.model.entity_selector {
             // setSelectorPosition(selector.position);
         }
 
+        // changes selector position by delta. takes map bounds into account, returns applied delta
         public Vector3Int moveSelector(int dx, int dy, int dz) {
-            return setSelectorPosition(selector.position.x + dx, selector.position.y + dy, selector.position.z + dz);
+            Vector3Int prev = selector.position;
+            setSelectorPosition(selector.position.x + dx, selector.position.y + dy, selector.position.z + dz);
+            return selector.position - prev;
         }
 
+        // updates selector position, applies map size restriction. returns new position of selector
         public Vector3Int setSelectorPosition(int x, int y, int z) {
             selector.position.Set(x, y, z);
             GameModel.get().localMap.normalizeRectangle(ref selector.position, selector.size.x, selector.size.y); // selector should not move out of map

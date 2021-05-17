@@ -1,6 +1,7 @@
 ﻿using Assets.scripts.enums;
 using Assets.scripts.util;
 using Assets.scripts.util.geometry;
+using UnityEngine;
 using static Assets.scripts.enums.BlockTypeEnum;
 
 namespace Assets.scripts.game.model.localmap {
@@ -44,7 +45,7 @@ namespace Assets.scripts.game.model.localmap {
             return withinBounds(x, y, z) ? material[x, y, z] : -1; // todo
         }
 
-        public BlockType getEnumValue(IntVector3 position) => getEnumValue(position.x, position.y, position.z);
+        public BlockType getEnumValue(Vector3Int position) => getEnumValue(position.x, position.y, position.z);
 
         public BlockType getEnumValue(int x, int y, int z) {
             return BlockTypeEnum.get(get(x, y, z));

@@ -7,7 +7,7 @@ using UnityEngine;
 // When accumulated time value reaches value of current delay, time is reset, and action is called.
 public class DelayedController {
     private Action action;
-    protected float[] delays = { 0, 0.3f, 0.08f }; // first 0 means first call always invokes action
+    protected float[] delays = { 0, 0.3f, 0.2f, 0.1f, 0.08f }; // first 0 means first call always invokes action
     private int currentDelay = 0;
     private float time = 0f; // time from last activation
 
@@ -22,7 +22,7 @@ public class DelayedController {
         if (time > delay) { // enough time accumulated
             time -= delay; // keep extra time
             action.Invoke();
-            if(currentDelay < delays.Length - 1) currentDelay++; // switch to next delay, if there is one
+            if (currentDelay < delays.Length - 1) currentDelay++; // switch to next delay, if there is one
         }
     }
 

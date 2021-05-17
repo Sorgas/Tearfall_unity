@@ -850,6 +850,7 @@ MonoBehaviour:
   mapHolder: {fileID: 2093393974}
   mainCamera: {fileID: 86752578}
   selector: {fileID: 574724694}
+  text: {fileID: 998889396}
 --- !u!1 &2115314813
 GameObject:
   m_ObjectHideFlags: 0

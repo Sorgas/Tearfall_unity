@@ -35,7 +35,7 @@ public class LocalMapTileUpdater : MonoBehaviour {
         new Optional<LocalMap>(GameModel.get().localMap)
             .ifPresent(map => {
                 createLayers(map);
-                map.bounds.iterate(position => updateTile(position, false)); // no need to update ramps on whole map update
+                map.bounds.iterate(position => updateTile(position, true)); // no need to update ramps on whole map update
             });
     }
 
@@ -93,7 +93,7 @@ public class LocalMapTileUpdater : MonoBehaviour {
         uint walls = observeWalls(x, y, z);
         if ((walls & 0b00001010) == 0b00001010) {
             return "SW";
-        } else if ((walls & 0b01010000) == 0b01010000) {
+        } else if ((walls & 0b01010000) == 0b01010000) { 
             return "NE";
         } else if ((walls & 0b00010010) == 0b00010010) {
             return "SE";

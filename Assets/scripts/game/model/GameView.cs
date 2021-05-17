@@ -9,11 +9,12 @@ namespace Assets.scripts.game.model {
         public LocalMapCameraInputSystem cameraSystem;
 
         public void init(LocalGameRunner initializer) {
-            Debug.Log("initing game view");
+            Debug.Log("initializing view");
             tileUpdater = new LocalMapTileUpdater(initializer.mapHolder);
             cameraSystem = new LocalMapCameraInputSystem(initializer);
             cameraSystem.init();
             tileUpdater.flush();
+            Debug.Log("view initialized");
         }
 
         public void update() {

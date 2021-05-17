@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.scripts.enums;
+﻿using Assets.scripts.enums;
 using Assets.scripts.game.model.localmap;
 using UnityEngine;
 
@@ -26,6 +21,7 @@ namespace Assets.scripts.generation.localgen.generators {
                 for (int y = 0; y < localMap.xSize; y++) {
                     for (int z = 1; z < localMap.zSize; z++) {
                         if (isGround(x, y, z) && hasAdjacentWall(x, y, z)) {
+                            Debug.Log("ramp set");
                             localMap.blockType.set(x, y, z, (byte)rampCode, adjacentWallMaterial(x, y, z));
                         }
                     }
@@ -37,7 +33,7 @@ namespace Assets.scripts.generation.localgen.generators {
             for (int x = 0; x < localMap.xSize; x++) {
                 for (int y = 0; y < localMap.ySize; y++) {
                     for (int z = localMap.zSize - 1; z > 0; z--) {
-                        if (isFloorCell(x, y, z)) { //non space sell
+                        if (isGround(x, y, z)) { //non space sell
                             localMap.blockType.set(x, y, z, BlockTypeEnum.FLOOR.CODE, localMap.blockType.getMaterial(x, y, z - 1));
                         }
                     }
@@ -52,11 +48,7 @@ namespace Assets.scripts.generation.localgen.generators {
         private bool hasAdjacentWall(int xc, int yc, int z) {
             for (int x = xc - 1; x <= xc + 1; x++) {
                 for (int y = yc - 1; y <= yc + 1; y++) {
-                    if (localMap.inMap(x, y, z)) {
-                        if (localMap.blockType.get(x, y, z) == wallCode) {
-                            return true;
-                        }
-                    }
+                    if (localMap.inMap(x, y, z) && localMap.blockType.get(x, y, z) == wallCode) return true;
                 }
             }
             return false;
@@ -65,19 +57,10 @@ namespace Assets.scripts.generation.localgen.generators {
         private int adjacentWallMaterial(int xc, int yc, int z) {
             for (int x = xc - 1; x <= xc + 1; x++) {
                 for (int y = yc - 1; y <= yc + 1; y++) {
-                    if (localMap.inMap(x, y, z)) {
-                        if (localMap.blockType.get(x, y, z) == wallCode) {
-                            return localMap.blockType.getMaterial(x, y, z);
-                        }
-                    }
+                    if (localMap.inMap(x, y, z) && localMap.blockType.get(x, y, z) == wallCode) return localMap.blockType.getMaterial(x, y, z);
                 }
             }
             return 0;
-        }
-
-        private bool isFloorCell(int x, int y, int z) {
-            return localMap.blockType.get(x, y, z) == BlockTypeEnum.SPACE.CODE &&
-                    localMap.blockType.get(x, y, z - 1) == BlockTypeEnum.WALL.CODE;
         }
     }
 }

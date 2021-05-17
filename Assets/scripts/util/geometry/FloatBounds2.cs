@@ -61,8 +61,14 @@ namespace Assets.scripts.util.geometry {
             return vector;
         }
 
+       public Vector3 putInto(Vector3 vector) {
+            vector.x = Math.Min(maxX, Math.Max(minX, vector.x));
+            vector.y = Math.Min(maxY, Math.Max(minY, vector.y));
+            return vector;
+        }
+
         public bool isIn(Vector3 vector) => isIn(vector.x, vector.y);
-        
+
         public bool isIn(IntVector3 vector) => isIn(vector.x, vector.y);
 
         public bool isIn(float x, float y) {
@@ -70,9 +76,17 @@ namespace Assets.scripts.util.geometry {
         }
 
         public void extend(float value) {
+            extendX(value);
+            extendY(value);
+        }
+
+        public void extendX(float value) {
             minX -= value;
-            minY -= value;
             maxX += value;
+        }
+
+        public void extendY(float value) {
+            minY -= value;
             maxY += value;
         }
 

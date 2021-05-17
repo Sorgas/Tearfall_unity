@@ -22,11 +22,13 @@ namespace Assets.scripts.game.model {
         public float id = Time.realtimeSinceStartup;
 
         public void init() {
+            Debug.Log("initializing model");
             ecsWorld = new EcsWorld();
             systems = new EcsSystems(ecsWorld);
             systems.Init();
             selectorSystem.selector = selector;
             selectorSystem.placeSelectorAtMapCenter();
+            Debug.Log("model initialized");
         }
 
         public void update() {
@@ -42,7 +44,6 @@ namespace Assets.scripts.game.model {
         
         public static Optional<T> optional<T>() where T : ModelComponent {
             return new Optional<T>(get<T>());
-        
         }
 
         //public <T extends ModelComponent> void put(T object) {
