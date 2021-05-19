@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Assets.scripts.util;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileSetHolder
-{
+public class TileSetHolder {
     public Dictionary<string, Dictionary<string, Tile>> tilesets = new Dictionary<string, Dictionary<string, Tile>>();
 
     public void loadAll() {
@@ -13,7 +11,7 @@ public class TileSetHolder
 
         string path = "tilesets/local_blocks/";
         string name = "template";
-        
+
         foreach (var obj in Resources.LoadAll(".")) {
             Debug.Log(obj);
         }

@@ -29,7 +29,7 @@ namespace Assets.scripts.generation.localgen {
             for (int x = 0; x < config.areaSize; x++) {
                 for (int y = 0; y < config.areaSize; y++) {
                     for (int z = 0; z < container.heightsMap[x,y]; z++) {
-                        container.localMap.blockType.set(x, y, z, BlockTypeEnum.WALL.CODE);
+                        container.localMap.blockType.setRaw(x, y, z, BlockTypeEnum.WALL.CODE);
                     }
                 }
             }

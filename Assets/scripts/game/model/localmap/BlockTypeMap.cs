@@ -16,13 +16,18 @@ namespace Assets.scripts.game.model.localmap {
             cachePosition = new IntVector3();
         }
 
-        public new void set(int x, int y, int z, int value) => set(x, y, z, value, getMaterial(x, y, z));
+        // set block type without maintaining tile consistency.
+        public void setRaw(int x, int y, int z, int value, int material) {
+            this.material[x, y, z] = material;
+            base.set(x, y, z, value);
+        }
+
+        public new void setRaw(int x, int y, int z, int value) => setRaw(x, y, z, value, getMaterial(x, y, z));
 
         public void set(int x, int y, int z, int value, int material) {
-            this.material[x, y, z] = material;
             int currentBlock = get(x, y, z);
             bool updateRamps = currentBlock != value && (currentBlock == RAMP.CODE || value == RAMP.CODE);
-            base.set(x, y, z, value);
+            setRaw(x, y, z, value, material);
             localMap.updateTile(cachePosition.set(x, y, z), updateRamps);
             // TODO destroy buildings if type != floor
             // TODO kill units if type == wall
@@ -30,6 +35,8 @@ namespace Assets.scripts.game.model.localmap {
                 set(x, y, z + 1, FLOOR.CODE, this.material[x, y, z]);
             }
         }
+
+        public new void set(int x, int y, int z, int value) => set(x, y, z, value, getMaterial(x, y, z));
 
         public void set(IntVector3 position, BlockType type) => set(position.x, position.y, position.z, type);
 

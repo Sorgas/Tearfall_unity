@@ -13,6 +13,7 @@ using Assets.scripts.util.lang;
 // tiles are organized into layers: floor tiles, wall tiles, plants & buildings, liquids
 public class LocalMapTileUpdater : MonoBehaviour {
     private readonly List<Tilemap> layers = new List<Tilemap>();
+    // cache tilemap position of a tile
     private Vector3Int floorPosition = new Vector3Int();
     private Vector3Int wallPosition = new Vector3Int();
 
@@ -44,18 +45,18 @@ public class LocalMapTileUpdater : MonoBehaviour {
     public void updateTile(int x, int y, int z, bool withRamps) {
         wallPosition.Set(x, y, WALL_LAYER);
         floorPosition.Set(x, y, FLOOR_LAYER);
-        string material = "template"; //TODO
+        string material = selectMaterial(x, y, z);
         BlockType blockType = BlockTypeEnum.get(map.blockType.get(x, y, z));
-        if (blockType == SPACE) { // delete tile
-            layers[z].SetTile(floorPosition, null);
-            layers[z].SetTile(wallPosition, null);
-            setToppingForSpace(x, y, z);
-        } else {
-            // Debug.Log("placing tile at " + wallPosition.x + " " + wallPosition.y + " " + z);
-            layers[z].SetTile(floorPosition, tileSetHolder.tilesets[material]["WALLF"]); // floor is drawn under all tiles
+        Tile floorTile = null;
+        Tile wallTile = null;
+        if (blockType != SPACE) {
             string type = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;
-            layers[z].SetTile(wallPosition, tileSetHolder.tilesets[material][type]); // draw wall part
+            floorTile = tileSetHolder.tilesets[material]["WALLF"]; // floor is drawn under all tiles
+            wallTile = tileSetHolder.tilesets[material][type]; // draw wall part
         }
+        layers[z].SetTile(floorPosition, floorTile);
+        layers[z].SetTile(wallPosition, wallTile);
+        if (blockType == SPACE) setToppingForSpace(x, y, z);
     }
 
     private void createLayers(LocalMap map) {
@@ -66,17 +67,19 @@ public class LocalMapTileUpdater : MonoBehaviour {
         }
     }
 
+    // when current tile is SPACE, draw special topping tile if lower tile is not SPACE.
     private void setToppingForSpace(int x, int y, int z) {
         if (z <= 0) return;
-        string material = "template"; //TODO
+        string material = selectMaterial(x, y, z - 1);
         BlockType blockType = BlockTypeEnum.get(map.blockType.get(x, y, z - 1));
-        if (blockType == SPACE || blockType == FLOOR) { // no topping 
-            layers[z].SetTile(floorPosition, null);
-        } else {
-            string type = (blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX) + "F";
-            Debug.Log(type);
+        if (blockType != SPACE && blockType != FLOOR) {
+            string type = (blockType == RAMP ? selectRamp(x, y, z - 1) : blockType.PREFIX) + "F";
             layers[z].SetTile(floorPosition, tileSetHolder.tilesets[material][type]); // topping corresponds lower tile
         }
+    }
+
+    private string selectMaterial(int x, int y, int z) {
+        return "template"; // TODO select material from map
     }
 
     //Observes tiles around given one, and updates atlasX for ramps.
@@ -93,7 +96,7 @@ public class LocalMapTileUpdater : MonoBehaviour {
         uint walls = observeWalls(x, y, z);
         if ((walls & 0b00001010) == 0b00001010) {
             return "SW";
-        } else if ((walls & 0b01010000) == 0b01010000) { 
+        } else if ((walls & 0b01010000) == 0b01010000) {
             return "NE";
         } else if ((walls & 0b00010010) == 0b00010010) {
             return "SE";
@@ -119,7 +122,7 @@ public class LocalMapTileUpdater : MonoBehaviour {
             return "C";
     }
 
-    // Counts neighbour walls to choose ramp type and orientation.
+    // Counts walls to choose ramp type and orientation.
     public uint observeWalls(int cx, int cy, int cz) {
         uint bitpos = 1;
         uint walls = 0;
