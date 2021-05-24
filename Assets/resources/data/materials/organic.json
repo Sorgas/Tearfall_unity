@@ -1,0 +1,10 @@
+[
+    {
+        "name": "meat",
+        "tags": ["meat", "edible", "raw", "cookable"],
+        "density": "1",
+        "value": "0",
+        "atlasY": "-1",
+        "color": "ffffffff"
+    }
+]

@@ -1,0 +1,49 @@
+[
+    {
+        "name": "air",
+        "tags": ["air"],
+        "density": "0.1",
+        "reactions": {},
+        "value": "0",
+        "atlasY": "-1",
+        "color": "ffffffff"
+    },{
+    "name": "wood",
+    "tags": ["wood"],
+    "density": "0.8",
+    "reactions": {
+        "burn": ["3600"]
+    },
+    "value": "10",
+    "atlasY": "1",
+    "color": "ffffffff"
+}, {
+    "name": "soil",
+    "tags": ["soil"],
+    "density": "1.5",
+    "reactions": {
+        "melt": ["1000"]
+    },
+    "value": "0",
+    "atlasY": "1",
+    "color": "ffffffff"
+}, {
+    "name": "water",
+    "tags": ["liquid", "water"],
+    "density": "1",
+    "reactions": {},
+    "value": "0",
+    "atlasY": "-1",
+    "color": "ffffffff"
+}, {
+    "name": "generic_plant",
+    "tags": ["biomass"],
+    "density": "1",
+    "reactions": {
+        "burn": ["2500"]
+    },
+    "value": "0",
+    "atlasY": "-1",
+    "color": "ffffffff"
+}
+]

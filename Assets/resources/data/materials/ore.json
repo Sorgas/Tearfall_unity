@@ -1,0 +1,121 @@
+[
+    {
+        "name": "chalcopyrite ",
+        "tags": ["ore"],
+        "density": "4.2",
+        "reactions": {
+            "melt": ["1223"],
+            "_smelt": ["copper"]
+        },
+        "value": "10",
+        "atlasY": "0",
+        "color": "ffffffff"
+    }, {
+    "name": "tetrahedrite",
+    "tags": ["ore"],
+    "density": "5",
+    "reactions": {
+        "melt": ["890"],
+        "_smelt": ["copper"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "magnetite",
+    "tags": ["ore"],
+    "density": "5.2",
+    "reactions": {
+        "melt": ["1867"],
+        "_smelt": ["iron"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "hematite",
+    "tags": ["ore"],
+    "density": "5.2",
+    "reactions": {
+        "melt": ["1838"],
+        "_smelt": ["iron"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "native gold",
+    "tags": ["ore"],
+    "density": "19",
+    "reactions": {
+        "melt": ["1337"],
+        "_smelt": ["gold"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "galena",
+    "tags": ["ore"],
+    "density": "7.4",
+    "reactions": {
+        "melt": ["1386"],
+        "_smelt": ["copper"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "sphalerite(blende)",
+    "tags": ["ore"],
+    "density": "4.1",
+    "reactions": {
+        "melt": ["1973"],
+        "_smelt": ["copper"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "garnierite",
+    "tags": ["ore"],
+    "density": "2.4",
+    "reactions": {
+        "melt": ["1010"],
+        "_smelt": ["copper"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "cassiterite",
+    "tags": ["ore"],
+    "density": "6.9",
+    "reactions": {
+        "melt": ["1395"],
+        "_smelt": ["copper"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "native silver",
+    "tags": ["ore"],
+    "aspects": ["ore(silver, 1)"],
+    "density": "10.5",
+    "reactions": {
+        "melt": ["1235"],
+        "_smelt": ["silver"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "coal",
+    "tags": ["ore", "fuel"],
+    "density": "10.5",
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}
+]

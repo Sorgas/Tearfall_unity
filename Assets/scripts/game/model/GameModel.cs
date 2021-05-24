@@ -7,6 +7,7 @@ using Assets.scripts.util.lang;
 using Leopotam.Ecs;
 using Tearfall_unity.Assets.scripts.game.model.entity_selector;
 using Assets.scripts.util.geometry;
+using Tearfall_unity.Assets.scripts.enums.material;
 
 namespace Assets.scripts.game.model {
     public class GameModel : Singleton<GameModel> {
@@ -26,6 +27,7 @@ namespace Assets.scripts.game.model {
             ecsWorld = new EcsWorld();
             systems = new EcsSystems(ecsWorld);
             systems.Init();
+            MaterialMap.load();
             selectorSystem.selector = selector;
             selectorSystem.placeSelectorAtMapCenter();
             Debug.Log("model initialized");

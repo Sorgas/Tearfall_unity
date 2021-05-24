@@ -1,0 +1,31 @@
+{ "materials": [
+    {
+        "name": "linen",
+        "tags": ["cloth"],
+        "density": "200",
+        "value": "10",
+        "atlasY": "0",
+        "color": "ffffffff"
+    }, {
+        "name": "silk",
+        "tags": ["cloth"],
+        "density": "200",
+        "value": "10",
+        "atlasY": "0",
+        "color": "ffffffff"
+    }, {
+        "name": "wool",
+        "tags": ["cloth"],
+        "density": "200",
+        "value": "10",
+        "atlasY": "0",
+        "color": "ffffffff"
+    }, {
+        "name": "cotton",
+        "tags": ["cloth"],
+        "density": "200",
+        "value": "10",
+        "atlasY": "0",
+        "color": "ffffffff"
+    }
+]}
