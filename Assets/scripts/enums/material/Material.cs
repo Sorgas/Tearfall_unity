@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,10 +31,10 @@ namespace Tearfall_unity.Assets.scripts.enums.material {
 
         public Color parseColor(string color) {
             color.Substring(0,2);
-            float r = float.Parse(color.Substring(0,2));
-            float g = float.Parse(color.Substring(2,2));
-            float b = float.Parse(color.Substring(4,2));
-            float a = float.Parse(color.Substring(6,2));
+            float r = Int32.Parse(color.Substring(0,2), System.Globalization.NumberStyles.HexNumber);
+            float g = Int32.Parse(color.Substring(2,2), System.Globalization.NumberStyles.HexNumber);
+            float b = Int32.Parse(color.Substring(4,2), System.Globalization.NumberStyles.HexNumber);
+            float a = Int32.Parse(color.Substring(6,2), System.Globalization.NumberStyles.HexNumber);
             return new Color(r, g, b, a);
         }
     }

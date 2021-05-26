@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using Assets.scripts.util.lang;
+using Tearfall_unity.Assets.scripts.util.input;
 using UnityEngine;
 
 namespace Tearfall_unity.Assets.scripts.enums.material {
@@ -16,26 +16,14 @@ namespace Tearfall_unity.Assets.scripts.enums.material {
             int id = 0;
             TextAsset[] files = Resources.LoadAll<TextAsset>("data/materials");
             foreach (TextAsset file in files) {
-                Materials materials = JsonUtility.FromJson<Materials>(file.text);
-                Debug.Log(materials);
-                Debug.Log(materials.materials);
-
-
-                foreach (RawMaterial raw in materials.materials) {
+                RawMaterial[] materials = JsonArrayReader.readArray<RawMaterial>(file.text);
+                if (materials == null) continue;
+                foreach (RawMaterial raw in materials) {
                     Material material = new Material(id++, raw);
                     map.Add(material.name, material);
                     Debug.Log("material loaded:" + material.name);
                 }
             }
-        }
-
-        public override string ToString() {
-            return base.ToString();
-        }
-
-        [Serializable]
-        public class Materials {
-            public RawMaterial[] materials;
         }
     }
 }
