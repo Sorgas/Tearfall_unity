@@ -1,6 +1,7 @@
 ﻿using Assets.scripts.enums;
 using Assets.scripts.util;
 using Assets.scripts.util.geometry;
+using Tearfall_unity.Assets.scripts.enums.material;
 using UnityEngine;
 using static Assets.scripts.enums.BlockTypeEnum;
 
@@ -23,6 +24,8 @@ namespace Assets.scripts.game.model.localmap {
         }
 
         public new void setRaw(int x, int y, int z, int value) => setRaw(x, y, z, value, getMaterial(x, y, z));
+
+        public void setRaw(int x, int y, int z, int value, string material) => setRaw(x, y, z, value, MaterialMap.get().id(material));
 
         public void set(int x, int y, int z, int value, int material) {
             int currentBlock = get(x, y, z);

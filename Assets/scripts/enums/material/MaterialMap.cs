@@ -6,6 +6,7 @@ using UnityEngine;
 namespace Tearfall_unity.Assets.scripts.enums.material {
     public class MaterialMap : Singleton<MaterialMap> {
         private Dictionary<string, Material> map = new Dictionary<string, Material>();
+        private Dictionary<int, Material> idMap = new Dictionary<int, Material>();
 
         public static void load() {
             get().loadFiles();
@@ -24,6 +25,18 @@ namespace Tearfall_unity.Assets.scripts.enums.material {
                     Debug.Log("material loaded:" + material.name);
                 }
             }
+        }
+
+        public Material material(int id) {
+            return idMap[id];
+        }
+
+        public Material material(string name) {
+            return map[name];
+        }
+
+        public int id(string name) {
+            return material(name).id;
         }
     }
 }

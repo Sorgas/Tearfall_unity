@@ -12,7 +12,7 @@ namespace Tearfall_unity.Assets.scripts.game.view {
         public RectTransform selectorSprite;
         public RectTransform mapHolder;
         // camera
-        private ValueRange cameraFovRange = new ValueRange(4, 40);
+        private ValueRange cameraFovRange = new ValueRange(4, 15);
         private FloatBounds2 visibleArea = new FloatBounds2(); // visible area around !cameraTarget!
         private Vector3 cameraTarget = new Vector3(0, 0, -1); // target in scene coordinates
         private FloatBounds2 cameraBounds = new FloatBounds2(); // bounds for camera target

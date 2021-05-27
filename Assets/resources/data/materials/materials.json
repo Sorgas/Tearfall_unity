@@ -20,12 +20,7 @@
 }, {
     "name": "soil",
     "tags": ["soil"],
-    "density": "1.5",
-    "reactions": {
-        "melt": ["1000"]
-    },
-    "value": "0",
-    "atlasY": "1",
+    "tileset": "soil",
     "color": "ffffffff"
 }, {
     "name": "water",

@@ -3,9 +3,6 @@
         "name": "granite",
         "tags": ["stone", "stone_intrusive", "natural"],
         "density": "2.7",
-        "reactions": {
-            "melt": ["1513"]
-        },
         "value": "10",
         "atlasY": "0",
         "color": "ffffffff"
@@ -13,9 +10,6 @@
     "name": "diorite",
     "tags": ["stone", "stone_intrusive"],
     "density": "2.8",
-    "reactions": {
-        "melt": ["1523"]
-    },
     "value": "10",
     "atlasY": "0",
     "color": "ffffffff"
@@ -23,9 +17,6 @@
     "name": "gabbro",
     "tags": ["stone", "stone_intrusive"],
     "density": "3",
-    "reactions": {
-        "melt": ["1523"]
-    },
     "value": "10",
     "atlasY": "0",
     "color": "ffffffff"
@@ -33,9 +24,6 @@
     "name": "rhyolite",
     "tags": ["stone", "stone_extrusive"],
     "density": "2.4",
-    "reactions": {
-        "melt": ["1513"]
-    },
     "value": "10",
     "atlasY": "0",
     "color": "ffffffff"
@@ -43,9 +31,6 @@
     "name": "obsidian",
     "tags": ["stone", "stone_extrusive"],
     "density": "4",
-    "reactions": {
-        "melt": ["4000"]
-    },
     "value": "10",
     "atlasY": "0",
     "color": "ffffffff"
@@ -53,9 +38,6 @@
     "name": "basalt",
     "tags": ["stone", "stone_extrusive"],
     "density": "3",
-    "reactions": {
-        "melt": ["1450"]
-    },
     "value": "10",
     "atlasY": "0",
     "color": "ffffffff"
@@ -65,9 +47,6 @@
         "stone", "stone_metamorfic"
     ],
     "density": "2.7",
-    "reactions": {
-        "melt": ["1713"]
-    },
     "value": "10",
     "atlasY": "0",
     "color": "ffffffff"
@@ -75,9 +54,6 @@
     "name": "gneiss",
     "tags": ["stone", "stone_metamorfic"],
     "density": "1.6",
-    "reactions": {
-        "melt": ["4000"]
-    },
     "value": "10",
     "atlasY": "0",
     "color": "ffffffff"
@@ -85,9 +61,6 @@
     "name": "marble",
     "tags": ["stone", "stone_metamorfic"],
     "density": "2.7",
-    "reactions": {
-        "melt": ["4000"]
-    },
     "value": "10",
     "atlasY": "0",
     "color": "ffffffff"
@@ -95,9 +68,6 @@
     "name": "shale",
     "tags": ["stone", "stone_sedimentary"],
     "density": "1.9",
-    "reactions": {
-        "melt": ["4000"]
-    },
     "value": "10",
     "atlasY": "0",
     "color": "ffffffff"
@@ -105,9 +75,6 @@
     "name": "limestone",
     "tags": ["stone", "stone_sedimentary"],
     "density": "2.4",
-    "reactions": {
-        "melt": ["1515"]
-    },
     "value": "10",
     "atlasY": "0",
     "color": "ffffffff"
@@ -115,9 +82,6 @@
     "name": "sandstone",
     "tags": ["stone", "stone_sedimentary", "solid"],
     "density": "2.6",
-    "reactions": {
-        "melt": ["1673"]
-    },
     "value": "10",
     "atlasY": "0",
     "color": "ffffffff"
@@ -125,9 +89,6 @@
     "name": "dolomite",
     "tags": ["stone", "stone_sedimentary"],
     "density": "2.9",
-    "reactions": {
-        "melt": ["4000"]
-    },
     "value": "10",
     "atlasY": "0",
     "color": "ffffffff"

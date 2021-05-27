@@ -1,10 +1,11 @@
 ﻿using Assets.scripts.game.model.localmap;
 using Assets.scripts.generation.localgen.generators;
+using Tearfall_unity.Assets.scripts.generation.localgen.generators;
 
 namespace Assets.scripts.generation.localgen {
     public class LocalGenSequence {
         private LocalElevationGenerator localElevationGenerator;
-        //private LocalStoneLayersGenerator localStoneLayersGenerator;
+        private LocalStoneLayersGenerator localStoneLayersGenerator;
         //private LocalRiverGenerator localRiverGenerator;
         //private LocalCaveGenerator localCaveGenerator;
         private LocalRampFloorPlacer localRampFloorPlacer;
@@ -20,7 +21,7 @@ namespace Assets.scripts.generation.localgen {
 
         public LocalGenSequence() {
             localElevationGenerator = new LocalElevationGenerator();
-            //localStoneLayersGenerator = new LocalStoneLayersGenerator(localGenContainer);
+            localStoneLayersGenerator = new LocalStoneLayersGenerator();
             //localOresGenerator = new
             //localCaveGenerator = new LocalCaveGenerator(localGenContainer);
             localRampFloorPlacer = new LocalRampFloorPlacer();
@@ -39,7 +40,7 @@ namespace Assets.scripts.generation.localgen {
             //landscape
             localElevationGenerator.generate();
             //creates heights map
-            //localStoneLayersGenerator.execute(); //fills localmap with blocks by heightsmap
+            localStoneLayersGenerator.generate(); //fills localmap with blocks by heightsmap
             //localCaveGenerator.execute(); //digs caves
             //                              //water
             //                              //        localRiverGenerator.execute(); // carves river beds
