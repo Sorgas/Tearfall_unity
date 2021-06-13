@@ -6,23 +6,20 @@ namespace Tearfall_unity.Assets.scripts.enums.material {
     public class Material {
         public int id;
         public string name;
-        // public List<string> tags;
+        public List<string> tags;
         public float density;
         public int value;
-        public int atlasY;
+        public string tileset;
         public Color color;
-        public float workAmountModifier; // changes time of building and crafting
 
         public Material(int id, RawMaterial raw) {
             this.id = id;
             name = raw.name;
-            // tags = new List<string>(raw.tags);
+            tags = new List<string>(raw.tags);
             density = raw.density;
-            // reactions = raw.reactions;
             value = raw.value;
-            atlasY = raw.atlasY;
+            tileset = raw.tileset;
             color = parseColor(raw.color);
-            // workAmountModifier = raw.workAmountModifier;
         }
 
         public string toString() {

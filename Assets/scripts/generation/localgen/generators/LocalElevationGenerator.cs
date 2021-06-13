@@ -18,10 +18,12 @@ namespace Assets.scripts.generation.localgen {
             bounds.set(0, 0, config.areaSize - 1, config.areaSize - 1);
             // GenerationState.get().world.worldMap.biome;
             createElevation();
+            modifyElevation(8, 20);
         }
 
+        // TODO use different settings for different biomes
         private void createElevation() {
-            addElevation(5, 0.5f, 0.05f, 6f);
+            addElevation(5, 0.5f, 0.05f, 1f);
             // addElevation(6, 0.5f, 0.015f, 2f);
             // addElevation(7, 0.5f, 0.03f, 1f);
         }
@@ -29,7 +31,14 @@ namespace Assets.scripts.generation.localgen {
         private void addElevation(int octaves, float roughness, float scale, float amplitude) {
             xOffset = Random.value * 10000;
             yOffset = Random.value * 10000;
-            bounds.iterate((x, y) => { container.heightsMap[x, y] += Mathf.PerlinNoise(xOffset + x * scale, yOffset + y * scale) * amplitude; });
+            bounds.iterate((x, y) => container.heightsMap[x, y] += Mathf.PerlinNoise(xOffset + x * scale, yOffset + y * scale) * amplitude);
+        }
+
+        private void modifyElevation(float modifier, int addition) {
+            bounds.iterate((x, y) => {
+                container.heightsMap[x, y] *= modifier;
+                container.heightsMap[x, y] += addition;
+            });
         }
     }
 }

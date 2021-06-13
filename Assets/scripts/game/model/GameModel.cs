@@ -27,7 +27,6 @@ namespace Assets.scripts.game.model {
             ecsWorld = new EcsWorld();
             systems = new EcsSystems(ecsWorld);
             systems.Init();
-            MaterialMap.load();
             selectorSystem.selector = selector;
             selectorSystem.placeSelectorAtMapCenter();
             Debug.Log("model initialized");

@@ -13,6 +13,8 @@
             this.max = max;
         }
 
+        public float getRandom() => UnityEngine.Random.value * (max - min) + min;
+
         public bool check(float value) {
             return value >= min && value <= max;
         }

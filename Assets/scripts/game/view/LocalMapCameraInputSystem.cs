@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Security.Cryptography.X509Certificates;
+using System.Collections.Generic;
 using Assets.scripts.game.model;
 using Assets.scripts.game.model.localmap;
 using Assets.scripts.util.geometry;
@@ -8,8 +9,10 @@ using Tearfall_unity.Assets.scripts.game.model.entity_selector;
 using Tearfall_unity.Assets.scripts.game.view;
 using UnityEngine;
 using UnityEngine.UI;
+using Tearfall_unity.Assets.scripts.enums.material;
 
 // system for controlling camera on local map;
+// has controllers for handling single key press or single mouse position condition. on update, calls all controllers.
 // on key presses camera speed is updated
 // on update() camera is moved with it's speed
 public class LocalMapCameraInputSystem {
@@ -85,7 +88,6 @@ public class LocalMapCameraInputSystem {
 
     private void updateText() {
         text.text = "[" + selector.position.x + ",  " + selector.position.y + ",  " + selector.position.z + "]" + "\n"
-        + localMap.blockType.getEnumValue(selector.position).NAME;
-
+        + localMap.blockType.getEnumValue(selector.position).NAME + " " + MaterialMap.get().material(localMap.blockType.getMaterial(selector.position)).name;
     }
 }

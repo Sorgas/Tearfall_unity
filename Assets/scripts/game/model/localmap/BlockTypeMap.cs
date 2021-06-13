@@ -49,7 +49,7 @@ namespace Assets.scripts.game.model.localmap {
 
         public void set(int x, int y, int z, BlockType type, int material) => set(x, y, z, type.CODE, material);
 
-        public int getMaterial(IntVector3 pos) => getMaterial(pos.x, pos.y, pos.z);
+        public int getMaterial(Vector3Int pos) => getMaterial(pos.x, pos.y, pos.z);
 
         public int getMaterial(int x, int y, int z) {
             return withinBounds(x, y, z) ? material[x, y, z] : -1; // todo

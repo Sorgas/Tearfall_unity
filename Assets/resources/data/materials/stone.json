@@ -1,96 +1,52 @@
 [
     {
         "name": "granite",
-        "tags": ["stone", "stone_intrusive", "natural"],
+        "tags": ["stone", "stone_igneous", "natural"],
         "density": "2.7",
         "value": "10",
-        "atlasY": "0",
-        "color": "ffffffff"
+        "tileset": "stone",
+        "color": "63595bff"
     }, {
-    "name": "diorite",
-    "tags": ["stone", "stone_intrusive"],
-    "density": "2.8",
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
     "name": "gabbro",
-    "tags": ["stone", "stone_intrusive"],
+    "tags": ["stone", "stone_igneous"],
     "density": "3",
     "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
-    "name": "rhyolite",
-    "tags": ["stone", "stone_extrusive"],
-    "density": "2.4",
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
+    "tileset": "stone",
+    "color": "484a4aff"
 }, {
     "name": "obsidian",
-    "tags": ["stone", "stone_extrusive"],
+    "tags": ["stone", "stone_igneous"],
     "density": "4",
     "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
-    "name": "basalt",
-    "tags": ["stone", "stone_extrusive"],
-    "density": "3",
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
-    "name": "quarzite",
-    "tags": [
-        "stone", "stone_metamorfic"
-    ],
-    "density": "2.7",
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
+    "tileset": "stone",
+    "color": "242222ff"
 }, {
     "name": "gneiss",
     "tags": ["stone", "stone_metamorfic"],
     "density": "1.6",
     "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
+    "tileset": "stone",
+    "color": "676958ff"
 }, {
     "name": "marble",
     "tags": ["stone", "stone_metamorfic"],
     "density": "2.7",
     "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
-    "name": "shale",
-    "tags": ["stone", "stone_sedimentary"],
-    "density": "1.9",
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
+    "tileset": "stone",
+    "color": "dbd8d5ff"
 }, {
     "name": "limestone",
     "tags": ["stone", "stone_sedimentary"],
     "density": "2.4",
     "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
+    "tileset": "stone",
+    "color": "adad95ff"
 }, {
     "name": "sandstone",
     "tags": ["stone", "stone_sedimentary", "solid"],
     "density": "2.6",
     "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
-    "name": "dolomite",
-    "tags": ["stone", "stone_sedimentary"],
-    "density": "2.9",
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
+    "tileset": "stone",
+    "color": "a8915eff"
 }
 ]

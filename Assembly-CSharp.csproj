@@ -106,9 +106,9 @@
      <Compile Include="Assets\scripts\util\geometry\IntVector3.cs" />
      <Compile Include="Assets\scripts\game\model\World.cs" />
      <Compile Include="Assets\scripts\mainMenu\ButtonHandler.cs" />
+     <Compile Include="Assets\scripts\generation\localgen\generators\LocalStoneLayersGenerator.cs" />
      <Compile Include="Assets\scripts\util\UtilByteArray.cs" />
      <Compile Include="Assets\scripts\enums\material\Material.cs" />
-     <Compile Include="Assets\scripts\game\view\LocalMapCameraSystem.cs" />
      <Compile Include="Assets\scripts\enums\plant\raw\RawPlantLifeStage.cs" />
      <Compile Include="Assets\scripts\mainMenu\MainMenuButtonHandler.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenConfig.cs" />
@@ -120,7 +120,7 @@
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />
      <Compile Include="Assets\scripts\util\geometry\PositionUtil.cs" />
      <Compile Include="Assets\Resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
-     <Compile Include="Assets\scripts\generation\localgen\generators\LocalStoneLayersGenerator.cs" />
+     <Compile Include="Assets\scripts\game\view\LocalMapCameraInputSystem.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

@@ -13,7 +13,7 @@ namespace Assets.scripts.generation.localgen.generators {
             Debug.Log("placing ramps");
             localMap = GenerationState.get().localGenContainer.localMap;
             fillRamps();
-            // fillFloors();
+            fillFloors();
         }
 
         private void fillRamps() {
@@ -22,6 +22,7 @@ namespace Assets.scripts.generation.localgen.generators {
                     for (int z = 1; z < localMap.zSize; z++) {
                         if (isGround(x, y, z) && hasAdjacentWall(x, y, z)) {
                             localMap.blockType.setRaw(x, y, z, BlockTypeEnum.RAMP.CODE, adjacentWallMaterial(x, y, z));
+                            
                         }
                     }
                 }

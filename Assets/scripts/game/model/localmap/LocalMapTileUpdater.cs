@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using static Assets.scripts.enums.BlockTypeEnum;
 using Assets.scripts.util.lang;
+using Tearfall_unity.Assets.scripts.enums.material;
 
 // changes unity tilemaps to be consistent with local map in game model
 // tiles are organized into layers: floor tiles, wall tiles, plants & buildings, liquids
@@ -33,10 +34,11 @@ public class LocalMapTileUpdater : MonoBehaviour {
     }
 
     public void flush() {
+        Debug.Log("flushing localMap tiles");
         new Optional<LocalMap>(GameModel.get().localMap)
             .ifPresent(map => {
                 createLayers(map);
-                map.bounds.iterate(position => updateTile(position, true)); // no need to update ramps on whole map update
+                map.bounds.iterate(position => updateTile(position, false)); // no need to update ramps on whole map update
             });
     }
 
@@ -79,7 +81,7 @@ public class LocalMapTileUpdater : MonoBehaviour {
     }
 
     private string selectMaterial(int x, int y, int z) {
-        return "template"; // TODO select material from map
+        return MaterialMap.get().material(map.blockType.material[x,y,z]).name;
     }
 
     //Observes tiles around given one, and updates atlasX for ramps.

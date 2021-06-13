@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace Assets.scripts.util {
-    // creates tiles from textures. name example: "NW", "NW_F"
+    // creates block tiles from textures. name example: "NW", "NW_F"
     class BlockTilesetLoader {
         private const int WIDTH = 64;
         private const int DEPTH = 64;
@@ -21,12 +17,13 @@ namespace Assets.scripts.util {
         private readonly string[] suffixes = { "WALL", "ST", "N", "S", "W", "E", "NW", "NE", "SW", "SE", "CNW", "CNE", "CSW", "CSE", "C" };
         private Rect cacheRect = new Rect();
 
-
+        // returns map of <tilecode -> tile>
         public Dictionary<string, Tile> slice(Texture2D texture) {
             Debug.Log(texture);
             Vector2 wallPivot = new Vector2(0.5f, (DEPTH / 2f) / (WALL_HEIGHT));
             Vector2 floorPivot = new Vector2(0.5f, (FLOOR + (DEPTH / 2f)) / (FLOOR_HEIGHT));
             Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
+            
             for (int i = 0; i < suffixes.Length; i++) {
                 Tile tile = cutTile(i, FLOOR_HEIGHT, WALL_HEIGHT, wallPivot, texture);
                 tiles.Add(suffixes[i], tile);
