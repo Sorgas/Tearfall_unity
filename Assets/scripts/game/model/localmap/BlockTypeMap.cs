@@ -6,6 +6,7 @@ using UnityEngine;
 using static Assets.scripts.enums.BlockTypeEnum;
 
 namespace Assets.scripts.game.model.localmap {
+    // stores tile types and materials for local map
     public class BlockTypeMap : UtilByteArray {
         public int[,,] material;
         private IntVector3 cachePosition;
@@ -19,15 +20,13 @@ namespace Assets.scripts.game.model.localmap {
 
         // set block type without maintaining tile consistency.
         public void setRaw(int x, int y, int z, int value, int material) {
+            if(!withinBounds(x,y,z)) return;
             this.material[x, y, z] = material;
             base.set(x, y, z, value);
         }
 
-        public new void setRaw(int x, int y, int z, int value) => setRaw(x, y, z, value, getMaterial(x, y, z));
-
-        public void setRaw(int x, int y, int z, int value, string material) => setRaw(x, y, z, value, MaterialMap.get().id(material));
-
         public void set(int x, int y, int z, int value, int material) {
+            if(!withinBounds(x,y,z)) return;
             int currentBlock = get(x, y, z);
             bool updateRamps = currentBlock != value && (currentBlock == RAMP.CODE || value == RAMP.CODE);
             setRaw(x, y, z, value, material);
@@ -38,6 +37,10 @@ namespace Assets.scripts.game.model.localmap {
                 set(x, y, z + 1, FLOOR.CODE, this.material[x, y, z]);
             }
         }
+
+        public new void setRaw(int x, int y, int z, int value) => setRaw(x, y, z, value, getMaterial(x, y, z));
+
+        public void setRaw(int x, int y, int z, int value, string material) => setRaw(x, y, z, value, MaterialMap.get().id(material));
 
         public new void set(int x, int y, int z, int value) => set(x, y, z, value, getMaterial(x, y, z));
 

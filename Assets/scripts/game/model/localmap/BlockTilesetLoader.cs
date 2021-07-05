@@ -18,29 +18,39 @@ namespace Assets.scripts.util {
         private Rect cacheRect = new Rect();
 
         // returns map of <tilecode -> tile>
-        public Dictionary<string, Tile> slice(Texture2D texture) {
-            Debug.Log(texture);
+        public Dictionary<string, Tile> slice(Sprite sprite) {
             Vector2 wallPivot = new Vector2(0.5f, (DEPTH / 2f) / (WALL_HEIGHT));
             Vector2 floorPivot = new Vector2(0.5f, (FLOOR + (DEPTH / 2f)) / (FLOOR_HEIGHT));
+            Rect textureRect = getTextureRect(sprite);
             Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
             
             for (int i = 0; i < suffixes.Length; i++) {
-                Tile tile = cutTile(i, FLOOR_HEIGHT, WALL_HEIGHT, wallPivot, texture);
+                Tile tile = cutTile(i, FLOOR_HEIGHT, WALL_HEIGHT, wallPivot, sprite);
                 tiles.Add(suffixes[i], tile);
             }
             for (int i = 0; i < suffixes.Length; i++) {
-                Tile tile = cutTile(i, 0, FLOOR_HEIGHT, floorPivot, texture);
+                Tile tile = cutTile(i, 0, FLOOR_HEIGHT, floorPivot, sprite);
                 tiles.Add(suffixes[i] + "F", tile);
             }
             return tiles;
         }
 
-        private Tile cutTile(int i, int y, int height, Vector2 pivot, Texture2D texture) {
-            cacheRect.Set(i * WIDTH, y, WIDTH, height);
-            Sprite sprite = Sprite.Create(texture, cacheRect, pivot, 64);
+        private Tile cutTile(int i, int y, int height, Vector2 pivot, Sprite sprite) {
+            Texture2D texture = sprite.texture;
+            cacheRect.Set(sprite.uv[2].x * texture.width + i * WIDTH, sprite.uv[2].y * texture.height + y, WIDTH, height);
+            Sprite tileSprite = Sprite.Create(texture, cacheRect, pivot, 64);
             Tile tile = ScriptableObject.CreateInstance<Tile>() as Tile;
-            tile.sprite = sprite;
+            tile.sprite = tileSprite;
             return tile;
+        }
+
+        // gets sprite rect as sprite.textureRect not working
+        // works for non-rotated rectangular sprites
+        private Rect getTextureRect(Sprite sprite) {
+            Rect rect = new Rect(sprite.rect);
+            rect.x = sprite.uv[2].x * sprite.texture.width;
+            rect.y = sprite.uv[2].y * sprite.texture.height;
+            return rect;
         }
     }
 }

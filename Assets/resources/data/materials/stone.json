@@ -1,5 +1,6 @@
 [
     {
+        "id": 5,
         "name": "granite",
         "tags": ["stone", "stone_igneous", "natural"],
         "density": "2.7",
@@ -7,6 +8,7 @@
         "tileset": "stone",
         "color": "63595bff"
     }, {
+        "id": 6,
     "name": "gabbro",
     "tags": ["stone", "stone_igneous"],
     "density": "3",
@@ -14,6 +16,7 @@
     "tileset": "stone",
     "color": "484a4aff"
 }, {
+    "id": 7,
     "name": "obsidian",
     "tags": ["stone", "stone_igneous"],
     "density": "4",
@@ -21,6 +24,7 @@
     "tileset": "stone",
     "color": "242222ff"
 }, {
+    "id": 8,
     "name": "gneiss",
     "tags": ["stone", "stone_metamorfic"],
     "density": "1.6",
@@ -28,6 +32,7 @@
     "tileset": "stone",
     "color": "676958ff"
 }, {
+    "id": 9,
     "name": "marble",
     "tags": ["stone", "stone_metamorfic"],
     "density": "2.7",
@@ -35,6 +40,7 @@
     "tileset": "stone",
     "color": "dbd8d5ff"
 }, {
+    "id": 10,
     "name": "limestone",
     "tags": ["stone", "stone_sedimentary"],
     "density": "2.4",
@@ -42,6 +48,7 @@
     "tileset": "stone",
     "color": "adad95ff"
 }, {
+    "id": 11,
     "name": "sandstone",
     "tags": ["stone", "stone_sedimentary", "solid"],
     "density": "2.6",

@@ -12,7 +12,7 @@ using Tearfall_unity.Assets.scripts.enums.material;
 
 // changes unity tilemaps to be consistent with local map in game model
 // tiles are organized into layers: floor tiles, wall tiles, plants & buildings, liquids
-public class LocalMapTileUpdater : MonoBehaviour {
+public class LocalMapTileUpdater {
     private readonly List<Tilemap> layers = new List<Tilemap>();
     // cache tilemap position of a tile
     private Vector3Int floorPosition = new Vector3Int();

@@ -1,5 +1,6 @@
 [
     {
+        "id": 30,
         "name": "linen",
         "tags": ["cloth"],
         "density": 200,
@@ -7,6 +8,7 @@
         "atlasY": 0,
         "color": "ffffffff"
     }, {
+        "id": 31,
         "name": "silk",
         "tags": ["cloth"],
         "density": 200,
@@ -14,6 +16,7 @@
         "atlasY": 0,
         "color": "ffffffff"
     }, {
+        "id": 32,
         "name": "wool",
         "tags": ["cloth"],
         "density": 200,
@@ -21,6 +24,7 @@
         "atlasY": 0,
         "color": "ffffffff"
     }, {
+        "id": 33,
         "name": "cotton",
         "tags": ["cloth"],
         "density": 200,

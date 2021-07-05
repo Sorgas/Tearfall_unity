@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Tearfall_unity.Assets.scripts.enums.material {
-    public class Material {
+    public class Material_ {
         public int id;
         public string name;
         public List<string> tags;
@@ -12,8 +12,8 @@ namespace Tearfall_unity.Assets.scripts.enums.material {
         public string tileset;
         public Color color;
 
-        public Material(int id, RawMaterial raw) {
-            this.id = id;
+        public Material_(RawMaterial raw) {
+            this.id = raw.id;
             name = raw.name;
             tags = new List<string>(raw.tags);
             density = raw.density;

@@ -51,10 +51,10 @@ public class LocalMapCameraInputSystem {
         controllers.Add(new DelayedKeyController(KeyCode.R, () => controller.moveSelector(0, 0, 1)));
         controllers.Add(new DelayedKeyController(KeyCode.F, () => controller.moveSelector(0, 0, -1)));
         // move camera when mouse on screen border
-        controllers.Add(new DelayedConditionController(() => handleScreenBorder(0, 1), () => (Input.mousePosition.y > Screen.height * 0.99f)));
-        controllers.Add(new DelayedConditionController(() => handleScreenBorder(0, -1), () => (Input.mousePosition.y < Screen.height * 0.01f)));
-        controllers.Add(new DelayedConditionController(() => handleScreenBorder(1, 0), () => (Input.mousePosition.x > Screen.width * 0.99f)));
-        controllers.Add(new DelayedConditionController(() => handleScreenBorder(-1, 0), () => (Input.mousePosition.x < Screen.width * 0.01f)));
+        // controllers.Add(new DelayedConditionController(() => handleScreenBorder(0, 1), () => (Input.mousePosition.y > Screen.height * 0.99f)));
+        // controllers.Add(new DelayedConditionController(() => handleScreenBorder(0, -1), () => (Input.mousePosition.y < Screen.height * 0.01f)));
+        // controllers.Add(new DelayedConditionController(() => handleScreenBorder(1, 0), () => (Input.mousePosition.x > Screen.width * 0.99f)));
+        // controllers.Add(new DelayedConditionController(() => handleScreenBorder(-1, 0), () => (Input.mousePosition.x < Screen.width * 0.01f)));
     }
 
     public void update() {
@@ -63,9 +63,9 @@ public class LocalMapCameraInputSystem {
         Vector3Int currentPosition = selector.position;
         controllers.ForEach(controller => controller.update(deltaTime));
         controller.zoomCamera(Input.GetAxis("Mouse ScrollWheel"));
-        if (screenBounds.isIn(Input.mousePosition)) { // mouse inside screen
-            if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0) controller.resetSelectorToMousePosition(Input.mousePosition); // update selector position if mouse moved
-        }
+        // if (screenBounds.isIn(Input.mousePosition)) { // mouse inside screen
+        //     if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0) controller.resetSelectorToMousePosition(Input.mousePosition); // update selector position if mouse moved
+        // }
         controller.update();
         if (selector.position != currentPosition) updateText();
     }

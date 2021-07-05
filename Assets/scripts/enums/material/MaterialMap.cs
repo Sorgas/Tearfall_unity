@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace Tearfall_unity.Assets.scripts.enums.material {
     public class MaterialMap : Singleton<MaterialMap> {
-        private Dictionary<string, Material> map = new Dictionary<string, Material>();
-        private Dictionary<int, Material> idMap = new Dictionary<int, Material>();
+        private Dictionary<string, Material_> map = new Dictionary<string, Material_>();
+        private Dictionary<int, Material_> idMap = new Dictionary<int, Material_>();
 
         public MaterialMap() {
             loadFiles();
@@ -16,14 +16,13 @@ namespace Tearfall_unity.Assets.scripts.enums.material {
         private void loadFiles() {
             Debug.Log("loading materials");
             map.Clear();
-            int id = 0;
             TextAsset[] files = Resources.LoadAll<TextAsset>("data/materials");
             foreach (TextAsset file in files) {
                 int count = 0;
                 RawMaterial[] materials = JsonArrayReader.readArray<RawMaterial>(file.text);
                 if (materials == null) continue;
                 foreach (RawMaterial raw in materials) {
-                    Material material = new Material(id++, raw);
+                    Material_ material = new Material_(raw);
                     map.Add(material.name, material);
                     idMap.Add(material.id, material);
                     count++;
@@ -32,11 +31,11 @@ namespace Tearfall_unity.Assets.scripts.enums.material {
             }
         }
 
-        public Material material(int id) {
+        public Material_ material(int id) {
             return idMap[id];
         }
 
-        public Material material(string name) {
+        public Material_ material(string name) {
             return map[name];
         }
 
@@ -44,13 +43,13 @@ namespace Tearfall_unity.Assets.scripts.enums.material {
             return material(name).id;
         }
 
-        public List<Material> getByTag(string tag) {
+        public List<Material_> getByTag(string tag) {
             return map.Values
                 .Select(material => material)
                 .Where(material => material.tags.Contains(tag))
                 .ToList();
         }
 
-        public List<Material> all => map.Values.ToList();
+        public List<Material_> all => map.Values.ToList();
     }
 }

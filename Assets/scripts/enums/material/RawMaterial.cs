@@ -2,7 +2,8 @@ using System;
 
 namespace Tearfall_unity.Assets.scripts.enums.material {
     [Serializable]
-    public class RawMaterial {
+    public class RawMaterial {        
+        public int id;
         public string name;
         public string[] tags;
         public float density;
