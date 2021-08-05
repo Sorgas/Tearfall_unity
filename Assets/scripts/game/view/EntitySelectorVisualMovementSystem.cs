@@ -16,7 +16,7 @@ public class EntitySelectorVisualMovementSystem {
     Vector3Int cacheVector = new Vector3Int();
 
     public EntitySelectorVisualMovementSystem(Camera camera, RectTransform selectorSprite, RectTransform mapHolder) {
-        this.camera = camera;
+        this.camera = camera; 
         this.selectorSprite = selectorSprite;
         this.mapHolder = mapHolder;
     }

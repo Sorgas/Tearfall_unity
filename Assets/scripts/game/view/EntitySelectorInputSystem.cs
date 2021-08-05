@@ -50,10 +50,10 @@ public class EntitySelectorInputSystem {
         controllers.Add(new DelayedKeyController(KeyCode.R, () => changeLayer(1)));
         controllers.Add(new DelayedKeyController(KeyCode.F, () => changeLayer(-1)));
         // move camera when mouse on screen border
-        controllers.Add(new DelayedConditionController(() => system.moveSelector(0, 1, 0), () => (Input.mousePosition.y > Screen.height * 0.99f)));
-        controllers.Add(new DelayedConditionController(() => system.moveSelector(0, -1, 0), () => (Input.mousePosition.y < Screen.height * 0.01f)));
-        controllers.Add(new DelayedConditionController(() => system.moveSelector(1, 0, 0), () => (Input.mousePosition.x > Screen.width * 0.99f)));
-        controllers.Add(new DelayedConditionController(() => system.moveSelector(-1, 0, 0), () => (Input.mousePosition.x < Screen.width * 0.01f)));
+        controllers.Add(new DelayedConditionController(() => system.moveSelector(0, 1, 0), () => (Input.mousePosition.y > Screen.height * 0.99f && Input.mousePosition.y <= Screen.height)));
+        controllers.Add(new DelayedConditionController(() => system.moveSelector(0, -1, 0), () => (Input.mousePosition.y < Screen.height * 0.01f && Input.mousePosition.y >= 0)));
+        controllers.Add(new DelayedConditionController(() => system.moveSelector(1, 0, 0), () => (Input.mousePosition.x > Screen.width * 0.99f && Input.mousePosition.x <= Screen.width)));
+        controllers.Add(new DelayedConditionController(() => system.moveSelector(-1, 0, 0), () => (Input.mousePosition.x < Screen.width * 0.01f && Input.mousePosition.x >= 0)));
     }
 
     public void update() {

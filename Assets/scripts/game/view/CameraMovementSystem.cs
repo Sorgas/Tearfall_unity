@@ -45,6 +45,7 @@ public class CameraMovementSystem {
 
     // sets camera to model position
     public void setCameraPosition(Vector3Int position) {
+        Debug.Log("setting camera position to " + position);
         Vector3 scenePosition = new Vector3(position.x, position.y - position.z / 2f, position.z * -2f - 1);
         camera.transform.Translate(scenePosition - camera.transform.localPosition, Space.Self);
         setCameraTarget(scenePosition.x, scenePosition.y, scenePosition.z);

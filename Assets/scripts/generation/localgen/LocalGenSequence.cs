@@ -34,6 +34,7 @@ namespace Assets.scripts.generation.localgen {
             //localSubstrategenerator = new LocalSubstrateGenerator(localGenContainer);
             //localSurfaceWaterPoolsGenerator = new LocalSurfaceWaterPoolsGenerator(localGenContainer);
             //localRiverGenerator = new LocalRiverGenerator(localGenContainer);
+            
         }
 
         public LocalMap run() {

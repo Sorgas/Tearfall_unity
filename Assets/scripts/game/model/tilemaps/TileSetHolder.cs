@@ -36,9 +36,9 @@ public class TileSetHolder {
             addNotFound(notFound, material.tileset, material.name);
             sprite = atlas.GetSprite("template");
         }
-        Debug.Log("getting sprite " + material.tileset + " " + sprite);
-        Debug.Log(sprite.uv[0] + " " + sprite.uv[1] + " " + sprite.uv[2] + " " + sprite.uv[3]);
-        Debug.Log(sprite.textureRect);
+        // Debug.Log("getting sprite " + material.tileset + " " + sprite);
+        // Debug.Log(sprite.uv[0] + " " + sprite.uv[1] + " " + sprite.uv[2] + " " + sprite.uv[3]);
+        // Debug.Log(sprite.textureRect);
         return sprite;
     }
 

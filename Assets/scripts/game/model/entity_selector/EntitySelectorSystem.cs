@@ -51,6 +51,7 @@ namespace Tearfall_unity.Assets.scripts.game.model.entity_selector {
             LocalMap localMap = GameModel.get().localMap;
             selector.position.x = localMap.xSize / 2;
             selector.position.y = localMap.ySize / 2;
+            Debug.Log("placing selector at " + selector.position.x + " " + selector.position.y);
             for (int z = localMap.zSize - 1; z >= 0; z--) {
                 if (localMap.blockType.get(selector.position.x, selector.position.y, z) != BlockTypeEnum.SPACE.CODE) {
                     selector.position.z = z;
