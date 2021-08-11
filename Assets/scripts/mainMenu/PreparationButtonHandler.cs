@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Assets.scripts.game.model;
+using Assets.scripts.game.model.localmap;
 using Assets.scripts.generation;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,13 +18,30 @@ namespace Assets.scripts.mainMenu {
 
         // preparation to game model 
         private void startGame() {
+            for (int i = 0; i < 3; i++)
+            {
+                GenerationState.get().startGameData.settlers.Add(new SettlerData());
+            }
             GameModel.get().localMap = GenerationState.get().generateLocalMap();
-            Debug.Log(GameModel.get() + " " + GameModel.get().localMap);
             SceneManager.LoadScene("LocalWorldScene");
         }
 
         private void back() {
             switchTo(worldGenStage);
+        }
+
+        private void spawnSettlers() {
+            LocalMap localMap = GenerationState.get().localGenContainer.localMap;
+            Vector2Int center = new Vector2Int(localMap.xSize / 2, localMap.ySize / 2);
+            
+            GenerationState.get().startGameData.settlers.ForEach(settler => {
+                Vector3Int spawnPoint = new Vector3Int(Random.Range(center.x - 5, center.x + 5), Random.Range(center.x - 5, center.x + 5),0);
+            }); 
+        }
+
+        private Vector3Int getSpawnPosition(Vector2Int center, int range) {
+            Vector3Int spawnPoint = new Vector3Int(Random.Range(center.x - 5, center.x + 5), Random.Range(center.x - 5, center.x + 5),0);
+            return spawnPoint;
         }
     }
 }

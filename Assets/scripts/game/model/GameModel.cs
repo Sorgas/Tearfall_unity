@@ -6,8 +6,7 @@ using Assets.scripts.game.model.localmap;
 using Assets.scripts.util.lang;
 using Leopotam.Ecs;
 using Tearfall_unity.Assets.scripts.game.model.entity_selector;
-using Assets.scripts.util.geometry;
-using Tearfall_unity.Assets.scripts.enums.material;
+using qwer;
 
 namespace Assets.scripts.game.model {
     public class GameModel : Singleton<GameModel> {
@@ -24,9 +23,7 @@ namespace Assets.scripts.game.model {
 
         public void init() {
             Debug.Log("initializing model");
-            ecsWorld = new EcsWorld();
-            systems = new EcsSystems(ecsWorld);
-            systems.Init();
+            initEcs();
             selectorSystem.selector = selector;
             selectorSystem.placeSelectorAtMapCenter();
             Debug.Log("model initialized");
@@ -45,6 +42,13 @@ namespace Assets.scripts.game.model {
         
         public static Optional<T> optional<T>() where T : ModelComponent {
             return new Optional<T>(get<T>());
+        }
+
+        private void initEcs() {
+            ecsWorld = new EcsWorld();
+            systems = new EcsSystems(ecsWorld);
+            systems.Add(new TestSystem());
+            systems.Init();
         }
 
         //public <T extends ModelComponent> void put(T object) {

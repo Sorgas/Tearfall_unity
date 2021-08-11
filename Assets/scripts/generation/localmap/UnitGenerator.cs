@@ -6,6 +6,7 @@ class UnitGenerator {
 
     public void generateUnit(string specimen, Vector3Int position) {
         EcsEntity unitEntity = GameModel.get().ecsWorld.NewEntity();
+        string qwer;
         TestComponent test = new TestComponent();
         test.value = "test Value 123";
         unitEntity.Replace(new PositionComponent() { position = new Vector3Int(0, 0, 0) })

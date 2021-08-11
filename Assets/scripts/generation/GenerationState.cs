@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Assets.scripts.game.model;
 using Assets.scripts.game.model.localmap;
 using Assets.scripts.generation.localgen;
@@ -16,6 +17,8 @@ namespace Assets.scripts.generation {
         public LocalGenSequence localGenSequence;
         public LocalGenContainer localGenContainer;
 
+        public StartGameData startGameData = new StartGameData();
+
         public World world = new World();
 
         public void generateWorld() {
@@ -29,5 +32,16 @@ namespace Assets.scripts.generation {
             localGenSequence = new LocalGenSequence();
             return localGenSequence.run();
         }
+    }
+
+    public class StartGameData {
+        public List<SettlerData> settlers = new List<SettlerData>();
+    }
+
+    // Descriptor for settler. Used to generate unit when game starts.
+    public class SettlerData {
+        public string name;
+        public int age;
+        // todo 
     }
 }

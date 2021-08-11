@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Tearfall_unity.Assets.scripts.entity.item {
 
     // main component for all items
@@ -84,7 +86,7 @@ namespace Tearfall_unity.Assets.scripts.entity.item {
 
     // item is cursed and will put negative effect when used
     public struct CursedComponent {
-        boolean revealed; // curses are initially hidden
+        bool revealed; // curses are initially hidden
         string effect; // todo
     }
 
