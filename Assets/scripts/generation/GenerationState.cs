@@ -17,7 +17,7 @@ namespace Assets.scripts.generation {
         public LocalGenSequence localGenSequence;
         public LocalGenContainer localGenContainer;
 
-        public StartGameData startGameData = new StartGameData();
+        public PreparationState preparationState = new PreparationState();
 
         public World world = new World();
 
@@ -34,7 +34,7 @@ namespace Assets.scripts.generation {
         }
     }
 
-    public class StartGameData {
+    public class PreparationState {
         public List<SettlerData> settlers = new List<SettlerData>();
     }
 
