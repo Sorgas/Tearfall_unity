@@ -1,44 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.scripts.util.geometry {
     class PositionUtil {
-        public static List<IntVector3> fourNeighbour;
+        public static List<Vector3Int> fourNeighbour;
 
         // 8 on same level except center
-        public static List<IntVector3> allNeighbour;
+        public static List<Vector3Int> allNeighbour;
 
-        public static List<IntVector3> waterflow;
+        public static List<Vector3Int> waterflow;
 
-        public static List<IntVector3> all = new List<IntVector3>();
+        public static List<Vector3Int> all = new List<Vector3Int>();
 
         static PositionUtil() {
             // four orthogonally adjacent
-            fourNeighbour = new List<IntVector3>{
-                new IntVector3(1, 0, 0),
-                new IntVector3(0, 1, 0),
-                new IntVector3(-1, 0, 0),
-                new IntVector3(0, -1, 0)};
+            fourNeighbour = new List<Vector3Int>{
+                new Vector3Int(1, 0, 0),
+                new Vector3Int(0, 1, 0),
+                new Vector3Int(-1, 0, 0),
+                new Vector3Int(0, -1, 0)};
 
-            allNeighbour = new List<IntVector3>(fourNeighbour);
+            allNeighbour = new List<Vector3Int>(fourNeighbour);
             // four diagonally adjacent
-            allNeighbour.Add(new IntVector3(1, 1, 0));
-            allNeighbour.Add(new IntVector3(1, -1, 0));
-            allNeighbour.Add(new IntVector3(-1, 1, 0));
-            allNeighbour.Add(new IntVector3(-1, -1, 0));
+            allNeighbour.Add(new Vector3Int(1, 1, 0));
+            allNeighbour.Add(new Vector3Int(1, -1, 0));
+            allNeighbour.Add(new Vector3Int(-1, 1, 0));
+            allNeighbour.Add(new Vector3Int(-1, -1, 0));
 
-            waterflow = new List<IntVector3>(allNeighbour);
+            waterflow = new List<Vector3Int>(allNeighbour);
             // upper and lower
-            waterflow.Add(new IntVector3(0, 0, -1));
-            waterflow.Add(new IntVector3(0, 0, 1));
+            waterflow.Add(new Vector3Int(0, 0, -1));
+            waterflow.Add(new Vector3Int(0, 0, 1));
 
             for (int z = -1; z <= 1; z++) {
                 for (int y = -1; y <= 1; y++) {
                     for (int x = -1; x <= 1; x++) {
-                        if (x != 0 || y != 0 || z != 0) all.Add(new IntVector3(x, y, z));
+                        if (x != 0 || y != 0 || z != 0) all.Add(new Vector3Int(x, y, z));
                     }
                 }
             }

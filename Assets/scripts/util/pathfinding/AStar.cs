@@ -1,33 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using Assets.scripts.enums.action;
 using Assets.scripts.game.model;
 using Assets.scripts.game.model.localmap;
 using Assets.scripts.game.model.system;
 using Assets.scripts.util.geometry;
+using Assets.scripts.util.lang;
+using UnityEngine;
 
 namespace Assets.scripts.util.pathfinding {
-    public class AStar : ModelComponent {
+    public class AStar : Singleton<AStar> {
         private LocalMap localMap;
 
         /**
          * Returns the shortest Path from a start node to an end node according to
          * the A* heuristics (h must not overestimate). initialNode and last found node included.
          */
-        public List<IntVector3> makeShortestPath(IntVector3 initialPos, IntVector3 targetPos, ActionTargetTypeEnum targetType) {
+
+        public List<Vector3Int> makeShortestPath(Vector3Int initialPos, Vector3Int targetPos, ActionTargetTypeEnum targetType) {
             localMap = GameModel.get().localMap;
             Node initialNode = new Node(initialPos);
             initialNode.pathLength = 0;
-            initialNode.heuristic = initialPos.getDistance(targetPos);
+            initialNode.heuristic = (targetPos - initialPos).magnitude;
 
             return search(initialNode, targetPos, targetType)?.getPath();
         }
 
-        public List<IntVector3> makeShortestPath(IntVector3 initialPos, IntVector3 targetPos) {
+        public List<Vector3Int> makeShortestPath(Vector3Int initialPos, Vector3Int targetPos) {
             return makeShortestPath(initialPos, targetPos, ActionTargetTypeEnum.EXACT);
         }
 
@@ -37,9 +36,9 @@ namespace Assets.scripts.util.pathfinding {
          * @param targetType  see {@link ActionTarget}
          * @return goal node to restore path from
          */
-        private Node search(Node initialNode, IntVector3 targetPos, ActionTargetTypeEnum targetType) {
+        private Node search(Node initialNode, Vector3Int targetPos, ActionTargetTypeEnum targetType) {
             OpenSet openSet = new OpenSet();
-            HashSet<IntVector3> closedSet = new HashSet<IntVector3>();
+            HashSet<Vector3Int> closedSet = new HashSet<Vector3Int>();
             PathFinishCondition finishCondition = new PathFinishCondition(targetPos, targetType);
 
             openSet.add(initialNode);
@@ -55,7 +54,7 @@ namespace Assets.scripts.util.pathfinding {
                     Node oldNode = openSet.get(newNode);
                     if ((oldNode == null) || (oldNode.pathLength > newNode.pathLength)) { // if successor node is newly found, or has shorter path
                         newNode.parent = currentNode;
-                        newNode.heuristic = newNode.position.getDistance(targetPos);
+                        newNode.heuristic = (targetPos - newNode.position).magnitude;
                         openSet.add(newNode); // replace old node
                     }
                 });
@@ -70,7 +69,7 @@ namespace Assets.scripts.util.pathfinding {
          */
         private List<Node> getSuccessors(Node node) {
             return PositionUtil.all
-                .Select(vector => IntVector3.add(node.position, vector))
+                .Select(vector => node.position + vector)
                 .Where(vector => localMap.inMap(vector))
                 .Where(vector => localMap.passageMap.hasPathBetweenNeighbours(node.position, vector))
                 .Select(vector => new Node(vector)).ToList();

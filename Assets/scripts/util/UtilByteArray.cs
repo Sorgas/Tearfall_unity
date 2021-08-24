@@ -1,4 +1,5 @@
 ﻿using Assets.scripts.util.geometry;
+using UnityEngine;
 
 namespace Assets.scripts.util {
     public class UtilByteArray {
@@ -18,11 +19,15 @@ namespace Assets.scripts.util {
             return get(position.x, position.y, position.z);
         }
 
+        public byte get(Vector3Int position) {
+            return get(position.x, position.y, position.z);
+        }
+
         public void set(int x, int y, int z, int value) {
             array[x, y, z] = (byte)value;
         }
 
-        public void set(IntVector3 position, int value) {
+        public void set(Vector3Int position, int value) {
             set(position.x, position.y, position.z, value);
         }
 

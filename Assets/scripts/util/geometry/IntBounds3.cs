@@ -83,8 +83,8 @@ namespace Assets.scripts.util.geometry {
             minZ = Math.Min(minZ, z);
         }
 
-        public void iterate(Action<IntVector3> consumer) {
-            iterate((x, y, z) => consumer.Invoke(new IntVector3(x, y, z)));
+        public void iterate(Action<Vector3Int> consumer) {
+            iterate((x, y, z) => consumer.Invoke(new Vector3Int(x, y, z)));
         }
 
         public void iterate(Action<int, int, int> consumer) {

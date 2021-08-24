@@ -13,9 +13,21 @@ namespace Assets.scripts.util.geometry {
             return vector;
         }
 
+        public static Vector3Int set(this Vector3Int vector, int x, int y, int z) {
+            vector.Set(x, y, z);
+            return vector;
+        }
+
         public static Vector3Int set(this Vector3Int vector, Vector3Int value) {
             vector.Set(value.x, value.y, value.z);
             return vector;
+        }
+
+        public static bool isNeighbour(this Vector3Int vector, Vector3Int value) {
+            Vector3Int result = vector - value;
+            return result.x > -2 && result.x < 2 &&
+                   result.y > -2 && result.y < 2 &&
+                   result.z > -2 && result.z < 2;
         }
     }
 

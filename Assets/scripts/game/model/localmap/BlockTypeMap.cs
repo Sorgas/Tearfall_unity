@@ -9,13 +9,13 @@ namespace Assets.scripts.game.model.localmap {
     // stores tile types and materials for local map
     public class BlockTypeMap : UtilByteArray {
         public int[,,] material;
-        private IntVector3 cachePosition;
+        private Vector3Int cachePosition;
         private LocalMap localMap;
 
         public BlockTypeMap(LocalMap localMap) : base(localMap.xSize, localMap.ySize, localMap.zSize) {
             this.localMap = localMap;
             material = new int[localMap.xSize, localMap.ySize, localMap.zSize];
-            cachePosition = new IntVector3();
+            cachePosition = new Vector3Int();
         }
 
         // set block type without maintaining tile consistency.

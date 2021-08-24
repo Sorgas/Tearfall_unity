@@ -50,6 +50,10 @@ namespace Assets.scripts.game.model.localmap {
             return inMap(vector.x, vector.y, 0);
         }
 
+        public bool inMap(Vector3Int vector) {
+            return inMap(vector.x, vector.y, vector.z);
+        }
+
         public bool isBorder(int x, int y) {
             return x == 0 || y == 0 || x == xSize - 1 || y == ySize - 1;
         }
@@ -84,12 +88,12 @@ namespace Assets.scripts.game.model.localmap {
             return inMap(x, y, z) && blockType.getEnumValue(x, y, z).CODE != IMPASSABLE.VALUE;
         }
 
-        public void updateTile(IntVector3 position, bool updateRamps) {
+        public void updateTile(Vector3Int position, bool updateRamps) {
             updatePassage(position);
             if(GameView.get().tileUpdater != null) GameView.get().tileUpdater.updateTile(position, false);
         }
 
-        public void updatePassage(IntVector3 position) {
+        public void updatePassage(Vector3Int position) {
             if (passageMap != null) passageMap.updater.update(position.x, position.y, position.z);
         }
     }

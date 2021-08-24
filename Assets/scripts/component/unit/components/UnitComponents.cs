@@ -1,8 +1,11 @@
+using System.Collections.Generic;
+using Assets.scripts.enums.action;
+using UnityEngine;
+
 // stores unit's position, task target position and path to target
-// 
 public struct MovementComponent {
     public Vector3Int position;
-    public Vector3int target;
+    public Vector3Int target;
     public ActionTargetTypeEnum targetType;
     public List<Vector3Int> path;
     public float speed;
@@ -29,7 +32,7 @@ public struct BodyComponent {
 }
 
 public struct HealthComponent {
-    public List<stirng> injures;
+    public List<string> injures;
 }
 
 public struct JobsComponent {
@@ -38,6 +41,10 @@ public struct JobsComponent {
 
 public struct OwnershipComponent {
     
+}
+
+public struct TestComponent {
+    public string value;
 }
 
 // stores body temperature

@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.scripts.enums;
 using Assets.scripts.util.geometry;
+using UnityEngine;
 
 namespace Assets.scripts.game.model.localmap.passage {
     class NeighbourPositionStream {
-        public IEnumerable<IntVector3> stream;
-        private IntVector3 center;
+        public IEnumerable<Vector3Int> stream;
+        private Vector3Int center;
         private PassageMap passageMap;
         private LocalMap localMap;
 
-        public NeighbourPositionStream(IntVector3 center) : this() {
+        public NeighbourPositionStream(Vector3Int center) : this() {
             this.center = center;
-            HashSet<IntVector3> neighbours = new HashSet<IntVector3>();
+            HashSet<Vector3Int> neighbours = new HashSet<Vector3Int>();
             for (int x = center.x - 1; x < center.x + 2; x++) {
                 for (int y = center.y - 1; y < center.y + 2; y++) {
                     for (int z = center.z - 1; z < center.z + 2; z++) {
-                        IntVector3 position = new IntVector3(x, y, z);
+                        Vector3Int position = new Vector3Int(x, y, z);
                         if (position != center) neighbours.Add(position);
                     }
                 }
@@ -25,14 +26,14 @@ namespace Assets.scripts.game.model.localmap.passage {
             stream = neighbours.Where(position => localMap.inMap(position));
         }
 
-        public NeighbourPositionStream(IntVector3 center, bool orthogonal) : this() {
-            HashSet<IntVector3> neighbours = new HashSet<IntVector3>();
+        public NeighbourPositionStream(Vector3Int center, bool orthogonal) : this() {
+            HashSet<Vector3Int> neighbours = new HashSet<Vector3Int>();
 
 
-            neighbours.Add(IntVector3.add(center, 1, 0, 0));
-            neighbours.Add(IntVector3.add(center, -1, 0, 0));
-            neighbours.Add(IntVector3.add(center, 0, 1, 0));
-            neighbours.Add(IntVector3.add(center, 0, -1, 0));
+            neighbours.Add(center.add(1, 0, 0));
+            neighbours.Add(center.add(-1, 0, 0));
+            neighbours.Add(center.add(0, 1, 0));
+            neighbours.Add(center.add(0, -1, 0));
 
             stream = neighbours.Where(position => localMap.inMap(position));
         }
@@ -79,7 +80,7 @@ namespace Assets.scripts.game.model.localmap.passage {
             return this;
         }
 
-        public NeighbourPositionStream filter(Func<IntVector3, bool> predicate) {
+        public NeighbourPositionStream filter(Func<Vector3Int, bool> predicate) {
             stream = stream.Where(predicate);
             return this;
         }

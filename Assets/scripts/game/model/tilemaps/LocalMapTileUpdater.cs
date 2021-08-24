@@ -42,7 +42,7 @@ public class LocalMapTileUpdater {
             });
     }
 
-    public void updateTile(IntVector3 position, bool withRamps) => updateTile(position.x, position.y, position.z, withRamps);
+    public void updateTile(Vector3Int position, bool withRamps) => updateTile(position.x, position.y, position.z, withRamps);
 
     public void updateTile(int x, int y, int z, bool withRamps) {
         wallPosition.Set(x, y, WALL_LAYER);
@@ -85,9 +85,9 @@ public class LocalMapTileUpdater {
     }
 
     //Observes tiles around given one, and updates atlasX for ramps.
-    private void updateRampsAround(IntVector3 center) {
+    private void updateRampsAround(Vector3Int center) {
         PositionUtil.allNeighbour
-                .Select(delta => IntVector3.add(center, delta)) // get absolute position
+                .Select(delta => center + delta) // get absolute position
                 .Where(pos => map.inMap(pos))
                 .Where(pos => map.blockType.get(pos) == BlockTypeEnum.RAMP.CODE)
                 .ToList().ForEach(pos => updateTile(pos, false));

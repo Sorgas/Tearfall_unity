@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Assets.scripts.entity.plant;
-using Assets.scripts.util.geometry;
+using UnityEngine;
 
 namespace Assets.scripts.game.model.system.plant {
     class PlantContainer : ModelComponent {
-        private Dictionary<IntVector3, PlantBlock> plantBlocks; // trees and plants blocks
+        private Dictionary<Vector3Int, PlantBlock> plantBlocks; // trees and plants blocks
                                                                 //    private PlantProductGenerator plantProductGenerator;
                                                                 //    private LocalMap localMap;
                                                                 //    private final Position cachePosition;
@@ -126,7 +122,7 @@ namespace Assets.scripts.game.model.system.plant {
         //    return plantBlocks.containsKey(position);
         //}
 
-        public bool isPlantBlockPassable(IntVector3 position) {
+        public bool isPlantBlockPassable(Vector3Int position) {
             return !plantBlocks.ContainsKey(position) || plantBlocks[position].isPassable();
         }
 

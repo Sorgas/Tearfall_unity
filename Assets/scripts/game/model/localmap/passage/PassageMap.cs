@@ -23,12 +23,12 @@ namespace Assets.scripts.game.model.localmap.passage {
         public UtilByteArrayWithCounter area; // number of area
         public UtilByteArray passage; // see {@link BlockTypesEnum} for passage values.
 
-        private IntVector3 cachePosition;
+        private Vector3Int cachePosition;
 
         public PassageMap(LocalMap localMap) {
             this.localMap = localMap;
             blockTypeMap = localMap.blockType;
-            cachePosition = new IntVector3();
+            cachePosition = new Vector3Int();
             area = new UtilByteArrayWithCounter(localMap.xSize, localMap.ySize, localMap.zSize);
             passage = new UtilByteArray(localMap.xSize, localMap.ySize, localMap.zSize);
             updater = new PassageUpdater(localMap, this);
@@ -74,11 +74,11 @@ namespace Assets.scripts.game.model.localmap.passage {
             return lower == STAIRS && (upper == STAIRS || upper == DOWNSTAIRS);
         }
 
-        public bool tileIsAccessibleFromNeighbour(IntVector3 target, IntVector3 position, BlockType type) {
+        public bool tileIsAccessibleFromNeighbour(Vector3Int target, Vector3Int position, BlockType type) {
             return tileIsAccessibleFromNeighbour(target.x, target.y, target.z, position.x, position.y, position.z, type);
         }
 
-        public bool hasPathBetweenNeighbours(IntVector3 from, IntVector3 to) {
+        public bool hasPathBetweenNeighbours(Vector3Int from, Vector3Int to) {
             return hasPathBetweenNeighbours(from.x, from.y, from.z, to.x, to.y, to.z);
         }
 
@@ -86,7 +86,7 @@ namespace Assets.scripts.game.model.localmap.passage {
          * Tile is passable, if its block type allows walking(like floor, ramp, etc.), plants are passable(not tree trunks), buildings are impassable.
          * TODO add water depth checking, etc.
          */
-        public Passage calculateTilePassage(IntVector3 position) {
+        public Passage calculateTilePassage(Vector3Int position) {
             Passage tilePassage = BlockTypeEnum.get(blockTypeMap.get(position)).PASSAGE;
             if (tilePassage == PASSABLE) { // tile still can be blocked by plants or buildings
                 bool plantPassable = GameModel.optional<PlantContainer>()
@@ -112,7 +112,7 @@ namespace Assets.scripts.game.model.localmap.passage {
             return passage.get(x, y, z);
         }
 
-        public bool inSameArea(IntVector3 pos1, IntVector3 pos2) {
+        public bool inSameArea(Vector3Int pos1, Vector3Int pos2) {
             return localMap.inMap(pos1) && localMap.inMap(pos2) && area.get(pos1) == area.get(pos2);
         }
     }
