@@ -30,11 +30,11 @@ namespace Assets.scripts.mainMenu {
 
         // preparation to game model 
         private void startGame() {
-            for (int i = 0; i < 3; i++)
-            {
+            for (int i = 0; i < 3; i++) {
                 GenerationState.get().preparationState.settlers.Add(new SettlerData());
             }
-            GameModel.get().localMap = GenerationState.get().generateLocalMap();
+            GenerationState.get().generateLocalMap();
+            GameModel.get().localMap = GenerationState.get().world.localMap;
             SceneManager.LoadScene("LocalWorldScene");
         }
 
@@ -45,14 +45,14 @@ namespace Assets.scripts.mainMenu {
         private void spawnSettlers() {
             LocalMap localMap = GenerationState.get().localGenContainer.localMap;
             Vector2Int center = new Vector2Int(localMap.xSize / 2, localMap.ySize / 2);
-            
+
             GenerationState.get().preparationState.settlers.ForEach(settler => {
-                Vector3Int spawnPoint = new Vector3Int(Random.Range(center.x - 5, center.x + 5), Random.Range(center.x - 5, center.x + 5),0);
-            }); 
+                Vector3Int spawnPoint = new Vector3Int(Random.Range(center.x - 5, center.x + 5), Random.Range(center.x - 5, center.x + 5), 0);
+            });
         }
 
         private Vector3Int getSpawnPosition(Vector2Int center, int range) {
-            Vector3Int spawnPoint = new Vector3Int(Random.Range(center.x - 5, center.x + 5), Random.Range(center.x - 5, center.x + 5),0);
+            Vector3Int spawnPoint = new Vector3Int(Random.Range(center.x - 5, center.x + 5), Random.Range(center.x - 5, center.x + 5), 0);
             return spawnPoint;
         }
     }

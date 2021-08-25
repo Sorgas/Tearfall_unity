@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Tearfall_unity.Assets.scripts.game {
 
-    // Creates GameView when local map scene is loaded
+    // Entry point from Unity scene to game logic. Creates GameModel and GameView when local map scene is loaded. 
     // Calls update() for game model
     // Generates local map if none is generated (for testing)
     public class LocalGameRunner : MonoBehaviour {
@@ -21,8 +21,8 @@ namespace Tearfall_unity.Assets.scripts.game {
         public void Start() {
             Debug.Log("starting game");
             ensureLocalMap();
-            GameModel.get().init();
-            GameView.get().init(this);
+            GameModel.get().init(GenerationState.get().ecsWorld);
+            GameView.get().init(this, GenerationState.get().ecsWorld);
         }
 
         public void Update() {
@@ -38,7 +38,9 @@ namespace Tearfall_unity.Assets.scripts.game {
             state.worldGenConfig.size = 10;
             state.generateWorld();
             state.localGenConfig.location = new IntVector2(5,5);
-            GameModel.get().localMap = state.generateLocalMap();
+            state.generateLocalMap();
+            GameModel.get().world = state.world;
+            GameModel.get().localMap = state.world.localMap;
         }
     }
 }

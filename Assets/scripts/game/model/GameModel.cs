@@ -6,14 +6,13 @@ using Assets.scripts.game.model.localmap;
 using Assets.scripts.util.lang;
 using Leopotam.Ecs;
 using Tearfall_unity.Assets.scripts.game.model.entity_selector;
-using qwer;
 
 namespace Assets.scripts.game.model {
     public class GameModel : Singleton<GameModel> {
         public World world;
         public LocalMap localMap;
         public EcsWorld ecsWorld;
-        public EcsSystems systems;
+        public EcsSystems systems; // model systems
         public EntitySelector selector = new EntitySelector(); // in-model representation of mouse
         public EntitySelectorSystem selectorSystem = new EntitySelectorSystem();
 
@@ -21,9 +20,10 @@ namespace Assets.scripts.game.model {
         private List<Updatable> updatableComponents; // not all components are Updatable
         public float id = Time.realtimeSinceStartup;
 
-        public void init() {
+        // init with entities generated on new game or loaded from savegame
+        public void init(EcsWorld ecsWorld) {
             Debug.Log("initializing model");
-            initEcs();
+            initEcs(ecsWorld);
             selectorSystem.selector = selector;
             selectorSystem.placeSelectorAtMapCenter();
             Debug.Log("model initialized");
@@ -39,40 +39,15 @@ namespace Assets.scripts.game.model {
             return (T)value;
         }
 
-        
         public static Optional<T> optional<T>() where T : ModelComponent {
             return new Optional<T>(get<T>());
         }
 
-        private void initEcs() {
-            ecsWorld = new EcsWorld();
+        private void initEcs(EcsWorld ecsWorld) {
+            this.ecsWorld = ecsWorld;
             systems = new EcsSystems(ecsWorld);
-            systems.Add(new TestSystem());
+            // systems.Add(new TestSystem());
             systems.Init();
         }
-
-        //public <T extends ModelComponent> void put(T object) {
-        //    components.put(object.getClass(), object);
-        //    if (object instanceof Updatable) updatableComponents.add((Updatable)object);
-        //}
-
-        ///**
-        // * Inits all stored components that are {@link Initable}.
-        // * Used for components binding.
-        // */
-        //@Override
-        //public void init() {
-        //    components.values().stream()
-        //            .filter(component->component instanceof Initable)
-        //            .map(component-> (Initable) component)
-        //            .forEach(Initable::init);
-        //    gameTime.initTimer();
-        //}
-
-        //@Override
-        //public void update(TimeUnitEnum unit) {
-        //    updatableComponents.forEach(component->component.update(unit));
-        //    if (unit == TimeUnitEnum.TICK) GameMvc.view().overlayStage.update(); // count model updates
-        //}
     }
 }

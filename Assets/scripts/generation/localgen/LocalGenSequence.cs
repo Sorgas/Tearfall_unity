@@ -56,8 +56,9 @@ namespace Assets.scripts.generation.localgen {
             //localFaunaGenerator.execute(); // places animals
             //                               //buildings
             //localBuildingGenerator.execute();
-            ////item
+            //localUnitGenerator.generate();
             //localItemsGenerator.execute(); // places item
+
             return GenerationState.get().localGenContainer.localMap;
         }
     }

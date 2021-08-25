@@ -8,6 +8,7 @@ namespace Assets.scripts.generation.localgen {
     public class LocalGenContainer {
         private World world;
         public LocalMap localMap;
+        // public List<
 
         public float[,] heightsMap;
         public float[] monthlyTemperatures = new float[12];
