@@ -19,6 +19,7 @@ namespace Assets.scripts.generation.localgen {
             // GenerationState.get().world.worldMap.biome;
             createElevation();
             modifyElevation(8, 20);
+            logElevation();
         }
 
         // TODO use different settings for different biomes
@@ -39,6 +40,17 @@ namespace Assets.scripts.generation.localgen {
                 container.heightsMap[x, y] *= modifier;
                 container.heightsMap[x, y] += addition;
             });
+        }
+
+        private void logElevation() {
+            float min = container.heightsMap[0, 0];
+            float max = container.heightsMap[0, 0];
+            bounds.iterate((x, y) => {
+                float current = container.heightsMap[x, y];
+                if(min > current) min = current;
+                if(max < current) max = current;
+            });
+            Debug.Log("elevation generated, min: " + min + ", max: " + max);
         }
     }
 }

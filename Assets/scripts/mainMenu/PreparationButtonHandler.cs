@@ -2,6 +2,7 @@
 using Assets.scripts.game.model;
 using Assets.scripts.game.model.localmap;
 using Assets.scripts.generation;
+using Tearfall_unity.Assets.scripts.generation;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,10 +19,7 @@ namespace Assets.scripts.mainMenu {
 
         // generate and add new settler
         public void addSettler() {
-            // generate
-            // add to state
-            // add to view
-            // unlock buttons
+            // generate // add to state // add to view // unlock buttons
         }
 
         public void removeSettler() {
@@ -34,7 +32,6 @@ namespace Assets.scripts.mainMenu {
                 GenerationState.get().preparationState.settlers.Add(new SettlerData());
             }
             GenerationState.get().generateLocalMap();
-            GameModel.get().localMap = GenerationState.get().world.localMap;
             SceneManager.LoadScene("LocalWorldScene");
         }
 

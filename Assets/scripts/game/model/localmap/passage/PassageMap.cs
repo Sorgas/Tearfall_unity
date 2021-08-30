@@ -88,9 +88,10 @@ namespace Assets.scripts.game.model.localmap.passage {
          */
         public Passage calculateTilePassage(Vector3Int position) {
             Passage tilePassage = BlockTypeEnum.get(blockTypeMap.get(position)).PASSAGE;
+            // TODO
             if (tilePassage == PASSABLE) { // tile still can be blocked by plants or buildings
-                bool plantPassable = GameModel.optional<PlantContainer>()
-                    .map(plantContainer => plantContainer.isPlantBlockPassable(position)).orElse(true);
+                bool plantPassable = true;
+                //  GameModel.map(plantContainer => plantContainer.isPlantBlockPassable(position)).orElse(true);
                 if (!plantPassable) return IMPASSABLE;
 
                 bool buildingPassable = true;

@@ -1,3 +1,4 @@
+using Assets.scripts.generation;
 using Assets.scripts.util.lang;
 using Leopotam.Ecs;
 using Tearfall_unity.Assets.scripts.game;
@@ -10,9 +11,9 @@ namespace Assets.scripts.game.model {
         public EntitySelectorInputSystem cameraSystem;
         public EcsSystems systems; // systems for updating scene
 
-        public void init(LocalGameRunner initializer, EcsWorld ecsWorld) {
+        public void init(LocalGameRunner initializer) {
             Debug.Log("initializing view");
-            initEcs(ecsWorld);
+            initEcs(GenerationState.get().ecsWorld);
             tileUpdater = new LocalMapTileUpdater(initializer.mapHolder);
             cameraSystem = new EntitySelectorInputSystem(initializer);
             cameraSystem.init();
@@ -28,6 +29,7 @@ namespace Assets.scripts.game.model {
 
         private void initEcs(EcsWorld ecsWorld) {
             systems = new EcsSystems(ecsWorld);
+            systems.Init();
         }
     }
 }

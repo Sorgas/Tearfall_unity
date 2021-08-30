@@ -21,8 +21,8 @@ namespace Tearfall_unity.Assets.scripts.game {
         public void Start() {
             Debug.Log("starting game");
             ensureLocalMap();
-            GameModel.get().init(GenerationState.get().ecsWorld);
-            GameView.get().init(this, GenerationState.get().ecsWorld);
+            GameModel.get().init();
+            GameView.get().init(this);
         }
 
         public void Update() {
@@ -41,6 +41,14 @@ namespace Tearfall_unity.Assets.scripts.game {
             state.generateLocalMap();
             GameModel.get().world = state.world;
             GameModel.get().localMap = state.world.localMap;
+        }        
+
+        private void resolveWorld() {
+            if(GenerationState.get().ready) {
+                GameModel.get().setWorld(GenerationState.get().world, GenerationState.get().ecsWorld);
+            } else if(true) { // check selected savegame
+                ensureLocalMap(); //TODO
+            } 
         }
     }
 }

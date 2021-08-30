@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using Assets.scripts.game.model.system;
-using System;
 using Assets.scripts.game.model.localmap;
 using Assets.scripts.util.lang;
 using Leopotam.Ecs;
@@ -16,14 +13,10 @@ namespace Assets.scripts.game.model {
         public EntitySelector selector = new EntitySelector(); // in-model representation of mouse
         public EntitySelectorSystem selectorSystem = new EntitySelectorSystem();
 
-        private Dictionary<Type, ModelComponent> components = new Dictionary<Type, ModelComponent>();
-        private List<Updatable> updatableComponents; // not all components are Updatable
-        public float id = Time.realtimeSinceStartup;
-
         // init with entities generated on new game or loaded from savegame
-        public void init(EcsWorld ecsWorld) {
+        public void init() {
             Debug.Log("initializing model");
-            initEcs(ecsWorld);
+            initEcs();
             selectorSystem.selector = selector;
             selectorSystem.placeSelectorAtMapCenter();
             Debug.Log("model initialized");
@@ -33,21 +26,16 @@ namespace Assets.scripts.game.model {
             systems.Run();
         }
 
-        public static T get<T>() where T : ModelComponent {
-            ModelComponent value = null;
-            get().components.TryGetValue(typeof(T), out value);
-            return (T)value;
-        }
-
-        public static Optional<T> optional<T>() where T : ModelComponent {
-            return new Optional<T>(get<T>());
-        }
-
-        private void initEcs(EcsWorld ecsWorld) {
-            this.ecsWorld = ecsWorld;
-            systems = new EcsSystems(ecsWorld);
-            // systems.Add(new TestSystem());
+        private void initEcs() {
+            systems = new EcsSystems(ecsWorld); // TODO add all systems
             systems.Init();
+        }
+
+        //get full world state from GenerationState or savefile
+        public void setWorld(World world, EcsWorld ecsWorld) {
+            this.world = world;
+            this.localMap = world.localMap;
+            this.ecsWorld = ecsWorld;
         }
     }
 }

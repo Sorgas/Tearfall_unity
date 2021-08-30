@@ -33,6 +33,7 @@ namespace Assets.scripts.mainMenu {
             EventSystem.current.SetSelectedGameObject(null, null);
         }
 
+        // invoked several times
         public void createWorld() {
             int seed = Convert.ToInt32(seedField.text);
             int size = (int)sizeSlider.value * 100;

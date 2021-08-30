@@ -87,8 +87,9 @@ public class EntitySelectorInputSystem {
     }
 
     private void changeLayer(int dz) {
-        system.moveSelector(0, 0, dz);
-        cameraSystem.moveCameraTarget(0, 0, dz);
+        if(system.moveSelector(0, 0, dz).z != 0) {
+            cameraSystem.moveCameraTarget(0, 0, dz);
+        }
     }
 
     private void updateText() {

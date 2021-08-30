@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.scripts.game.model;
-using Assets.scripts.game.model.localmap;
-using Assets.scripts.mainMenu;
-using Assets.scripts.util.geometry;
+﻿using Assets.scripts.util.geometry;
 
 namespace Assets.scripts.generation.localgen {
     public abstract class LocalGenerator {
-
-        protected LocalGenerator() { }
+        protected LocalGenContainer container;
+        protected LocalGenConfig config;
+        protected IntBounds2 bounds = new IntBounds2();
+        
+        protected LocalGenerator() { 
+            container = GenerationState.get().localGenContainer;
+            config = GenerationState.get().localGenConfig;
+            bounds.set(0, 0, config.areaSize - 1, config.areaSize - 1);
+        }
 
         public abstract void generate();
     }
