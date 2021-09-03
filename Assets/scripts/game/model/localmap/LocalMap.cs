@@ -22,7 +22,6 @@ namespace Assets.scripts.game.model.localmap {
             this.ySize = ySize;
             this.zSize = zSize;
             blockType = new BlockTypeMap(this);
-            //light = new LightMap(this);
             bounds = new IntBounds3(0, 0, 0, xSize - 1, ySize - 1, zSize - 1);
         }
 
@@ -42,30 +41,20 @@ namespace Assets.scripts.game.model.localmap {
             return !(x < 0 || y < 0 || z < 0 || x >= xSize || y >= ySize || z >= zSize);
         }
 
-        public bool inMap(IntVector3 position) {
-            return inMap(position.x, position.y, position.z);
-        }
+        public bool inMap(IntVector3 position) => inMap(position.x, position.y, position.z);
 
-        public bool inMap(IntVector2 vector) {
-            return inMap(vector.x, vector.y, 0);
-        }
+        public bool inMap(IntVector2 vector) => inMap(vector.x, vector.y, 0);
 
-        public bool inMap(Vector3Int vector) {
-            return inMap(vector.x, vector.y, vector.z);
-        }
+        public bool inMap(Vector3Int vector) => inMap(vector.x, vector.y, vector.z);
 
         public bool isBorder(int x, int y) {
             return x == 0 || y == 0 || x == xSize - 1 || y == ySize - 1;
         }
 
-        public bool isBorder(IntVector3 position) {
-            return isBorder(position.x, position.y);
-        }
+        public bool isBorder(IntVector3 position) => isBorder(position.x, position.y);
 
         // change postition to move it inside map
-        public void normalizePosition(Vector3Int position) {
-            normalizeRectangle(ref position, 1, 1);
-        }
+        public void normalizePosition(Vector3Int position) => normalizeRectangle(ref position, 1, 1);
 
         // change position to move rectangle with position in [0,0] inside map
         public void normalizeRectangle(ref Vector3Int position, int width, int height) {
@@ -74,9 +63,7 @@ namespace Assets.scripts.game.model.localmap {
             position.z = Math.Min(Math.Max(0, position.z), zSize - 1);
         }
 
-        public bool isWalkPassable(IntVector3 pos) {
-            return isWalkPassable(pos.x, pos.y, pos.z);
-        }
+        public bool isWalkPassable(IntVector3 pos) => isWalkPassable(pos.x, pos.y, pos.z);
 
         public bool isWalkPassable(int x, int y, int z) {
             //TODO reuse

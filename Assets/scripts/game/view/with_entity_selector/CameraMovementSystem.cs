@@ -1,15 +1,12 @@
 using Assets.scripts.game.model;
 using Assets.scripts.game.model.localmap;
 using Assets.scripts.util.geometry;
-using Tearfall_unity.Assets.scripts.game.model.entity_selector;
 using UnityEngine;
 
 // moves camera to be on same z-level with entity selector and see ES on screen
 public class CameraMovementSystem {
-    // common
     public Camera camera;
     public RectTransform selectorSprite;
-    // camera
     private Vector3 cameraTarget = new Vector3(0, 0, -1); // target in scene coordinates
     private ValueRange cameraFovRange = new ValueRange(4, 15);
     private FloatBounds2 visibleArea = new FloatBounds2(); // visible tiles area around !cameraTarget!
@@ -43,17 +40,9 @@ public class CameraMovementSystem {
         updateVisibleArea(); // visible area size changed
     }
 
-    // sets camera to model position
-    public void setCameraPosition(Vector3Int position) {
-        Debug.Log("setting camera position to " + position);
-        Vector3 scenePosition = new Vector3(position.x, position.y - position.z / 2f, position.z * -2f - 1);
-        camera.transform.Translate(scenePosition - camera.transform.localPosition, Space.Self);
-        setCameraTarget(scenePosition.x, scenePosition.y, scenePosition.z);
-    }
-
     // changes camera target by value
     public void moveCameraTarget(float dx, float dy, float dz) {
-        setCameraTarget(cameraTarget.x + dx, cameraTarget.y + dy + dz / 2f, cameraTarget.z -dz * 2);
+        setCameraTarget(cameraTarget.x + dx, cameraTarget.y + dy + dz / 2f, cameraTarget.z - dz * 2);
     }
 
     // sets camera target by value

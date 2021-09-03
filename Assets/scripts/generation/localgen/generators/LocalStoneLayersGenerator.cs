@@ -13,14 +13,16 @@ namespace Tearfall_unity.Assets.scripts.generation.localgen.generators {
     public class LocalStoneLayersGenerator : LocalGenerator {
         private List<LayerDescriptor> layers = new List<LayerDescriptor>();
         private ValueRange layerThicknessRange = new ValueRange();
+        private LocalGenContainer container;
         private int[,] currentHeight;
         private float xOffset;
         private float yOffset;
 
-        private float averageElevation = 0;
+        private float effectiveElevation = 0;
         private float maxElevation = 0;
 
         public override void generate() {
+            container = GenerationState.get().localGenContainer;
             currentHeight = new int[config.areaSize, config.areaSize];
             bounds.iterate((x, y) => currentHeight[x, y] = (int)container.heightsMap[x, y]);
             countAverageElevation();
@@ -28,8 +30,10 @@ namespace Tearfall_unity.Assets.scripts.generation.localgen.generators {
             layers.ForEach(layer => {
                 fillLayer(layer);
             });
+            finalizeBottom();
         }
 
+        // counts average
         private void countAverageElevation() {
             float average = 0;
             maxElevation = 0;
@@ -38,32 +42,41 @@ namespace Tearfall_unity.Assets.scripts.generation.localgen.generators {
                 average += elevation;
                 if (maxElevation < elevation) maxElevation = elevation;
             });
-            averageElevation /= (config.areaSize * config.areaSize);
+            float averageElevation = average / (config.areaSize * config.areaSize);
+            effectiveElevation = averageElevation + (maxElevation - averageElevation) / 2;
         }
 
         private void generateLayers() {
-            float mainElevation = averageElevation + (maxElevation - averageElevation) / 2;
-            int soilLayer = (int)math.max((mainElevation * config.soilThickness), 1);
-            int sedimentaryLayer = (int)(mainElevation * (0.25 + UnityEngine.Random.Range(0, 0.1f)));
-            int metamorficLayer = (int)(mainElevation * (0.25 + UnityEngine.Random.Range(0, 0.1f)));
-            int igneousLayer = (int)(mainElevation - soilLayer - sedimentaryLayer - metamorficLayer);
-            List<Material_> sedimentary = MaterialMap.get().getByTag("stone_sedimentary");
-            List<Material_> metamorfic = MaterialMap.get().getByTag("stone_metamorfic");
-            List<Material_> igneous = MaterialMap.get().getByTag("stone_igneous");
-            createLayerGroup(sedimentary, sedimentaryLayer);
-            createLayerGroup(metamorfic, metamorficLayer);
-            createLayerGroup(igneous, igneousLayer);
+            int soilLayer = (int)math.max((effectiveElevation * config.soilThickness), 1);
+            layers.Add(generateLayer("soil", soilLayer - 1, soilLayer + 1));
+            int sedimentaryLayer = (int)(effectiveElevation * (0.25 + UnityEngine.Random.Range(0, 0.1f)));
+            int metamorficLayer = (int)(effectiveElevation * (0.25 + UnityEngine.Random.Range(0, 0.1f)));
+            int igneousLayer = (int)(effectiveElevation - soilLayer - sedimentaryLayer - metamorficLayer);
+            createLayerGroup("stone_sedimentary", sedimentaryLayer, "sedimentary");
+            createLayerGroup("stone_metamorfic", metamorficLayer, "metamorfic");
+            createLayerGroup("stone_igneous", igneousLayer, "igneous");
             Debug.Log(layers.Count + " layers generated");
         }
 
-        private void createLayerGroup(List<Material_> materials, int totalThickness) {
+        private void createLayerGroup(string tag, int totalThickness, string type) {
+            List<Material_> materials = MaterialMap.get().getByTag(tag);
             int singleLayerThickness = totalThickness / materials.Count;
             materials.ForEach(material => layers.Add(generateLayer(material.name, singleLayerThickness - 1, singleLayerThickness + 1)));
+            Debug.Log(type + " stone layers created, total: " + totalThickness + ", single: " + singleLayerThickness);
+        }
+
+        private LayerDescriptor generateLayer(string material, int minThickness, int maxThickness) {
+            LayerDescriptor layer = new LayerDescriptor(material, config.areaSize);
+            layer.material = material;
+            xOffset = UnityEngine.Random.value * 10000;
+            yOffset = UnityEngine.Random.value * 10000;
+            int noiseMod = maxThickness - minThickness;
+            bounds.iterate((x, y) => layer.layer[x, y] = minThickness + (int)Mathf.PerlinNoise(xOffset + x * 0.05f, yOffset + y * 0.05f) * noiseMod);
+            return layer;
         }
 
         // adds layers blocks beneath currentHeight values
         private void fillLayer(LayerDescriptor layer) {
-            container = GenerationState.get().localGenContainer;
             bounds.iterate((x, y) => {
                 if (currentHeight[x, y] > 0) {
                     for (int z = 0; z <= layer.layer[x, y]; z++) {
@@ -76,21 +89,17 @@ namespace Tearfall_unity.Assets.scripts.generation.localgen.generators {
             });
         }
 
-        private LayerDescriptor generateLayer(string material, int minThickness, int maxThickness) {
-            LayerDescriptor layer = new LayerDescriptor(material, config.areaSize);
-            layer.material = material;
-            xOffset = UnityEngine.Random.value * 10000;
-            yOffset = UnityEngine.Random.value * 10000;
-            bounds.iterate((x, y) => layer.layer[x, y] += (int)Mathf.PerlinNoise(xOffset + x * 0.05f, yOffset + y * 0.05f));
-            return layer;
+        // fills all free space in the map bottom with last layer material
+        private void finalizeBottom() {
+            string material = layers[layers.Count - 1].material;
+            bounds.iterate((x, y) => {
+                if (currentHeight[x, y] >= 0) {
+                    for(int z = 0; z <= currentHeight[x, y]; z++) {
+                        container.localMap.blockType.setRaw(x, y, z, BlockTypeEnum.WALL.CODE, material);
+                    }
+                }
+            });
         }
-
-        // // soil sedimentary metamorfic igneous
-        // private int[] defineLayersSize() {
-        //     List<Material_> sedimentary = MaterialMap.get().getByTag("stone_sedimentary");
-        //     List<Material_> metamorfic = MaterialMap.get().getByTag("stone_metamorfic");
-        //     List<Material_> igneous = MaterialMap.get().getByTag("stone_igneous");
-        // }
 
         private class LayerDescriptor {
             public string material;

@@ -20,7 +20,7 @@ namespace Tearfall_unity.Assets.scripts.game {
         // when scene is loaded, inits game model and view
         public void Start() {
             Debug.Log("starting game");
-            ensureLocalMap();
+            resolveWorld();
             GameModel.get().init();
             GameView.get().init(this);
         }

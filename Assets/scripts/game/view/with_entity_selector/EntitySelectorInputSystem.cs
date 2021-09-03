@@ -17,11 +17,11 @@ public class EntitySelectorInputSystem {
     private RectTransform mapHolder;
     private EntitySelector selector = GameModel.get().selector;
     private EntitySelectorSystem system = GameModel.get().selectorSystem;
-    private EntitySelectorVisualMovementSystem movementSystem;
-    private CameraMovementSystem cameraSystem;
+    // private EntitySelectorVisualMovementSystem visualSystem;
+    private CameraMovementSystem cameraSystem; // for zoom
     private List<DelayedConditionController> controllers = new List<DelayedConditionController>();
     private IntBounds2 screenBounds = new IntBounds2(Screen.width, Screen.height);
-    private Text text;
+    // private Text text;
 
     public EntitySelectorInputSystem(LocalGameRunner initializer) {
         this.camera = initializer.mainCamera;
@@ -29,16 +29,16 @@ public class EntitySelectorInputSystem {
         localMap = GameModel.get().localMap;
         int xSize = localMap.xSize;
         int ySize = localMap.ySize;
-        this.text = initializer.text;
+        // this.text = initializer.text;
         screenBounds.extendX((int)(-Screen.width * 0.01f));
         screenBounds.extendY((int)(-Screen.height * 0.01f));
-        movementSystem = new EntitySelectorVisualMovementSystem(camera, initializer.selector, initializer.mapHolder);
+        // visualSystem = new EntitySelectorVisualMovementSystem(camera, initializer.selector, initializer.mapHolder);
         cameraSystem = new CameraMovementSystem(camera, initializer.selector);
         initControllers();
     }
 
     public void init() {
-        cameraSystem.setCameraPosition(GameModel.get().selector.position);
+        // cameraSystem.setCameraPosition(GameModel.get().selector.position);
     }
 
     private void initControllers() {
@@ -50,10 +50,10 @@ public class EntitySelectorInputSystem {
         controllers.Add(new DelayedKeyController(KeyCode.R, () => changeLayer(1)));
         controllers.Add(new DelayedKeyController(KeyCode.F, () => changeLayer(-1)));
         // move camera when mouse on screen border
-        controllers.Add(new DelayedConditionController(() => system.moveSelector(0, 1, 0), () => (Input.mousePosition.y > Screen.height * 0.99f && Input.mousePosition.y <= Screen.height)));
-        controllers.Add(new DelayedConditionController(() => system.moveSelector(0, -1, 0), () => (Input.mousePosition.y < Screen.height * 0.01f && Input.mousePosition.y >= 0)));
-        controllers.Add(new DelayedConditionController(() => system.moveSelector(1, 0, 0), () => (Input.mousePosition.x > Screen.width * 0.99f && Input.mousePosition.x <= Screen.width)));
-        controllers.Add(new DelayedConditionController(() => system.moveSelector(-1, 0, 0), () => (Input.mousePosition.x < Screen.width * 0.01f && Input.mousePosition.x >= 0)));
+        controllers.Add(new DelayedConditionController(() => moveSelector(0, 1), () => (Input.mousePosition.y > Screen.height * 0.99f && Input.mousePosition.y <= Screen.height)));
+        controllers.Add(new DelayedConditionController(() => moveSelector(0, -1), () => (Input.mousePosition.y < Screen.height * 0.01f && Input.mousePosition.y >= 0)));
+        controllers.Add(new DelayedConditionController(() => moveSelector(1, 0), () => (Input.mousePosition.x > Screen.width * 0.99f && Input.mousePosition.x <= Screen.width)));
+        controllers.Add(new DelayedConditionController(() => moveSelector(-1, 0), () => (Input.mousePosition.x < Screen.width * 0.01f && Input.mousePosition.x >= 0)));
     }
 
     public void update() {
@@ -65,9 +65,9 @@ public class EntitySelectorInputSystem {
         // mouse moved inside screen
         if (screenBounds.isIn(Input.mousePosition) && (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0))
             resetSelectorToMousePosition(Input.mousePosition); // update selector position
-        movementSystem.update();
-        cameraSystem.update();
-        if (selector.position != currentPosition) updateText();
+        // visualSystem.update();
+        // cameraSystem.update();
+        // if (selector.position != currentPosition) updateText();
     }
 
     // moves selector in current z-layer
@@ -76,7 +76,13 @@ public class EntitySelectorInputSystem {
             dx *= 10;
             dy *= 10;
         }
-        system.moveSelector(dx, dy, 0);
+        moveSelector(dx, dy);
+    }
+
+    private void moveSelector(int dx, int dy) {
+        Vector3Int delta = system.moveSelector(dx, dy, 0);
+        GameView.get().selectorOverlook.x = dx - delta.x;
+        GameView.get().selectorOverlook.y = dy - delta.y;
     }
 
     public void resetSelectorToMousePosition(Vector3 mousePosition) {
@@ -87,13 +93,14 @@ public class EntitySelectorInputSystem {
     }
 
     private void changeLayer(int dz) {
-        if(system.moveSelector(0, 0, dz).z != 0) {
-            cameraSystem.moveCameraTarget(0, 0, dz);
-        }
+        system.moveSelector(0, 0, dz);
+        // if( != 0) {
+        // cameraSystem.moveCameraTarget(0, 0, dz);
+        // }
     }
 
-    private void updateText() {
-        text.text = "[" + selector.position.x + ",  " + selector.position.y + ",  " + selector.position.z + "]" + "\n"
-        + localMap.blockType.getEnumValue(selector.position).NAME + " " + MaterialMap.get().material(localMap.blockType.getMaterial(selector.position)).name;
-    }
+    // private void updateText() {
+    //     text.text = "[" + selector.position.x + ",  " + selector.position.y + ",  " + selector.position.z + "]" + "\n"
+    //     + localMap.blockType.getEnumValue(selector.position).NAME + " " + MaterialMap.get().material(localMap.blockType.getMaterial(selector.position)).name;
+    // }
 }

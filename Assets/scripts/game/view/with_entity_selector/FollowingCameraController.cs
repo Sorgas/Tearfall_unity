@@ -14,7 +14,5 @@ namespace Tearfall_unity.Assets.scripts.game.view {
             this.camera = camera;
             this.target = target;
         }
-
-       
     }
 }
