@@ -3,34 +3,30 @@ using Assets.scripts.game.model.localmap;
 using Assets.scripts.util.geometry;
 using UnityEngine;
 
-// moves camera to be on same z-level with entity selector and see ES on screen
+// moves camera to be on same z-level with entity selector sprite and see it on screen
 public class CameraMovementSystem {
     public Camera camera;
     public RectTransform selectorSprite;
     private Vector3 cameraTarget = new Vector3(0, 0, -1); // target in scene coordinates
-    private ValueRange cameraFovRange = new ValueRange(4, 15);
-    private FloatBounds2 visibleArea = new FloatBounds2(); // visible tiles area around !cameraTarget!
-    private FloatBounds2 cameraBounds = new FloatBounds2(); // bounds for camera target
+    private ValueRange cameraFovRange = new ValueRange(3, 20);
+    private FloatBounds2 visibleArea = new FloatBounds2(); // scene
+    private FloatBounds2 cameraBounds = new FloatBounds2(); // scene
     private Vector3 cameraSpeed = new Vector3();
-
-    Vector3Int cacheVector = new Vector3Int();
+    private readonly int overlookTiles = 3;
+    private Vector3Int cacheVector = new Vector3Int();
 
     public CameraMovementSystem(Camera camera, RectTransform selectorSprite) {
         this.camera = camera;
         this.selectorSprite = selectorSprite;
-        updateCameraBounds();
-        updateVisibleArea();
     }
 
     public void update() {
+        // move target to selector layer
+        if (cameraTarget.z != selectorSprite.localPosition.z - 0.4f) moveCameraTargetZ(selectorSprite.localPosition.z - 0.4f - cameraTarget.z);
         // move camera target to see selector
-        if (!visibleArea.isIn(selectorSprite.localPosition)) {
-            Vector2 vector = visibleArea.getDirectionVector(selectorSprite.localPosition);
-            moveCameraTarget(vector.x, vector.y, 0);
-        }
-        // move camera smoothly
-        if (camera.transform.localPosition != cameraTarget)
-            camera.transform.localPosition = Vector3.SmoothDamp(camera.transform.localPosition, cameraTarget, ref cameraSpeed, 0.05f);
+        if (!visibleArea.isIn(selectorSprite.localPosition) || GameView.get().selectorOverlook.magnitude != 0) 
+            moveCameraTarget(visibleArea.getDirectionVector(selectorSprite.localPosition) + GameView.get().selectorOverlook * overlookTiles);
+        movecamera();
     }
 
     public void zoomCamera(float delta) {
@@ -40,12 +36,16 @@ public class CameraMovementSystem {
         updateVisibleArea(); // visible area size changed
     }
 
-    // changes camera target by value
-    public void moveCameraTarget(float dx, float dy, float dz) {
-        setCameraTarget(cameraTarget.x + dx, cameraTarget.y + dy + dz / 2f, cameraTarget.z - dz * 2);
+    public void moveCameraTarget(Vector2 delta) {
+        setCameraTarget(cameraTarget.x + delta.x, cameraTarget.y + delta.y, cameraTarget.z);
     }
 
-    // sets camera target by value
+    public void moveCameraTargetZ(float dz) {
+        setCameraTarget(cameraTarget.x, cameraTarget.y - dz / 4f, cameraTarget.z + dz);
+        updateCameraBounds();
+    }
+
+    // sets camera target by value (scene)
     private void setCameraTarget(float x, float y, float z) {
         cameraTarget.Set(x, y, z);
         cameraTarget = cameraBounds.putInto(cameraTarget);
@@ -65,9 +65,14 @@ public class CameraMovementSystem {
     private void updateCameraBounds() {
         LocalMap map = GameModel.get().localMap;
         cameraBounds.set(0, 0, map.xSize, map.ySize);
-        cameraBounds.extendX((int)(3 - cameraWidth()));
-        cameraBounds.extendY((int)(3 - camera.orthographicSize));
+        cameraBounds.extendX((int)(overlookTiles - cameraWidth()));
+        cameraBounds.extendY((int)(overlookTiles - camera.orthographicSize));
         cameraBounds.move(0, GameModel.get().selector.position.z / 2f);
+    }
+
+    private void movecamera() {
+        if (camera.transform.localPosition != cameraTarget)
+            camera.transform.localPosition = Vector3.SmoothDamp(camera.transform.localPosition, cameraTarget, ref cameraSpeed, 0.05f);
     }
 
     private float cameraWidth() {

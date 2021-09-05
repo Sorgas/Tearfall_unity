@@ -6,8 +6,6 @@ using Assets.scripts.util.input;
 using Tearfall_unity.Assets.scripts.game;
 using Tearfall_unity.Assets.scripts.game.model.entity_selector;
 using UnityEngine;
-using UnityEngine.UI;
-using Tearfall_unity.Assets.scripts.enums.material;
 
 // moves selector in model
 public class EntitySelectorInputSystem {
@@ -38,7 +36,6 @@ public class EntitySelectorInputSystem {
     }
 
     public void init() {
-        // cameraSystem.setCameraPosition(GameModel.get().selector.position);
     }
 
     private void initControllers() {
@@ -58,6 +55,7 @@ public class EntitySelectorInputSystem {
 
     public void update() {
         if (!enabled) return;
+        GameView.get().selectorOverlook.Set(0, 0);
         float deltaTime = Time.deltaTime;
         Vector3Int currentPosition = selector.position;
         controllers.ForEach(controller => controller.update(deltaTime));
@@ -65,9 +63,7 @@ public class EntitySelectorInputSystem {
         // mouse moved inside screen
         if (screenBounds.isIn(Input.mousePosition) && (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0))
             resetSelectorToMousePosition(Input.mousePosition); // update selector position
-        // visualSystem.update();
-        // cameraSystem.update();
-        // if (selector.position != currentPosition) updateText();
+            
     }
 
     // moves selector in current z-layer
@@ -81,8 +77,16 @@ public class EntitySelectorInputSystem {
 
     private void moveSelector(int dx, int dy) {
         Vector3Int delta = system.moveSelector(dx, dy, 0);
-        GameView.get().selectorOverlook.x = dx - delta.x;
-        GameView.get().selectorOverlook.y = dy - delta.y;
+        if(dx - delta.x < 0) {
+            GameView.get().selectorOverlook.x = -1;
+        } else if(dx - delta.x > 0) {
+            GameView.get().selectorOverlook.x = 1;
+        }
+        if(dy - delta.y < 0) {
+            GameView.get().selectorOverlook.y = -1;
+        } else if(dy - delta.y > 0) {
+            GameView.get().selectorOverlook.y = 1;
+        }
     }
 
     public void resetSelectorToMousePosition(Vector3 mousePosition) {
@@ -94,13 +98,5 @@ public class EntitySelectorInputSystem {
 
     private void changeLayer(int dz) {
         system.moveSelector(0, 0, dz);
-        // if( != 0) {
-        // cameraSystem.moveCameraTarget(0, 0, dz);
-        // }
     }
-
-    // private void updateText() {
-    //     text.text = "[" + selector.position.x + ",  " + selector.position.y + ",  " + selector.position.z + "]" + "\n"
-    //     + localMap.blockType.getEnumValue(selector.position).NAME + " " + MaterialMap.get().material(localMap.blockType.getMaterial(selector.position)).name;
-    // }
 }

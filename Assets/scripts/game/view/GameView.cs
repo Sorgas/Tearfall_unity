@@ -20,10 +20,9 @@ namespace Assets.scripts.game.model {
             tileUpdater = new LocalMapTileUpdater(initializer.mapHolder);
             entitySelectorInputSystem = new EntitySelectorInputSystem(initializer);
             entitySelectorInputSystem.init();
-            entitySelectorVisualMovementSystem = new EntitySelectorVisualMovementSystem(initializer.mainCamera, initializer.selector, initializer.mapHolder);
+            entitySelectorVisualMovementSystem = new EntitySelectorVisualMovementSystem(initializer);
             cameraMovementSystem = new CameraMovementSystem(initializer.mainCamera, initializer.selector);
             tileUpdater.flush();
-
             Debug.Log("view initialized");
         }
 
