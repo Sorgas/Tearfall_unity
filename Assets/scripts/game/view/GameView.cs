@@ -2,6 +2,7 @@ using Assets.scripts.generation;
 using Assets.scripts.util.lang;
 using Leopotam.Ecs;
 using Tearfall_unity.Assets.scripts.game;
+using Tearfall_unity.Assets.scripts.game.view.system.unit;
 using UnityEngine;
 
 namespace Assets.scripts.game.model {
@@ -27,14 +28,17 @@ namespace Assets.scripts.game.model {
         }
 
         public void update() {
-            if(entitySelectorInputSystem != null) entitySelectorInputSystem.update();
-            if(entitySelectorVisualMovementSystem != null) entitySelectorVisualMovementSystem.update();
-            if(cameraMovementSystem != null) cameraMovementSystem.update();
+            if (entitySelectorInputSystem != null) entitySelectorInputSystem.update();
+            if (entitySelectorVisualMovementSystem != null) entitySelectorVisualMovementSystem.update();
+            if (cameraMovementSystem != null) cameraMovementSystem.update();
             systems.Run();
         }
 
         private void initEcs(EcsWorld ecsWorld) {
             systems = new EcsSystems(ecsWorld);
+            systems.Add(new MovementSystem())
+            .Add(new UnitVisualSystem())
+            .Add(new UnitVisualMovementSystem());
             systems.Init();
         }
     }

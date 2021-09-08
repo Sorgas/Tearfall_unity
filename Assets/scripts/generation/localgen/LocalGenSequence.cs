@@ -18,6 +18,7 @@ namespace Assets.scripts.generation.localgen {
         //private LocalTemperatureGenerator localTemperatureGenerator;
         //private LocalSurfaceWaterPoolsGenerator localSurfaceWaterPoolsGenerator;
         //private LocalOresGenerator localOresGenerator;
+        private LocalUnitGenerator localUnitGenerator;
 
         public LocalGenSequence() {
             localElevationGenerator = new LocalElevationGenerator();
@@ -34,7 +35,7 @@ namespace Assets.scripts.generation.localgen {
             //localSubstrategenerator = new LocalSubstrateGenerator(localGenContainer);
             //localSurfaceWaterPoolsGenerator = new LocalSurfaceWaterPoolsGenerator(localGenContainer);
             //localRiverGenerator = new LocalRiverGenerator(localGenContainer);
-            
+            localUnitGenerator = new LocalUnitGenerator();
         }
 
         public LocalMap run() {
@@ -56,7 +57,7 @@ namespace Assets.scripts.generation.localgen {
             //localFaunaGenerator.execute(); // places animals
             //                               //buildings
             //localBuildingGenerator.execute();
-            //localUnitGenerator.generate();
+            localUnitGenerator.generate();
             //localItemsGenerator.execute(); // places item
 
             return GenerationState.get().localGenContainer.localMap;

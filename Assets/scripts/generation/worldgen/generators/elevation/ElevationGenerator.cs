@@ -25,14 +25,14 @@ namespace Assets.scripts.generation.worldgen.generators.elevation {
             addElevation(5, 0.5f, 0.005f, 0.7f);
             addElevation(6, 0.5f, 0.015f, 0.2f);
             addElevation(7, 0.5f, 0.03f, 0.1f);
-            lowerBorders();
+            // lowerBorders();
             normalizeElevation();
             // hack. noise generator always has 0 in (0,0)
             // container.elevation[0, 0] = (elevation[0, 1] + elevation[1, 1] + elevation[1, 0]) / 3f;
         }
 
         private void addElevation(int octaves, float roughness, float scale, float amplitude) {
-            bounds.iterate((x, y) => { elevation[x, y] += Mathf.PerlinNoise(xOffset + x * scale, yOffset + y * scale) * amplitude; });
+            bounds.iterate((x, y) => { elevation[x, y] += Mathf.PerlinNoise(xOffset + (x * scale), yOffset + (y * scale)) * amplitude; });
         }
 
         /**

@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using Assets.scripts.enums;
 using Assets.scripts.game.model.localmap;
 using Assets.scripts.generation;
 using Assets.scripts.generation.localgen;
+using Leopotam.Ecs;
 using UnityEngine;
 
 namespace Tearfall_unity.Assets.scripts.generation.localgen.generators {
@@ -12,31 +14,28 @@ namespace Tearfall_unity.Assets.scripts.generation.localgen.generators {
 
         public override void generate() {
             map = GenerationState.get().localGenContainer.localMap;
-            Vector3Int spawn = selectSpawnPosition();
+            spawnSettlers(GenerationState.get().preparationState.settlers);
         }
 
-        // selects flat area on map without lakes to spawn settlers on
-        private Vector3Int selectSpawnPosition() {
-            int attempt = 0;
-            while (attempt < spawnSearchMaxAttempts) {
-                Vector3Int position = getSurfaceZ(map.xSize / 2 + Random.Range(-10, 10), map.ySize / 2 + Random.Range(-10, 10));
-                if (position.z != -1) {
-                    return position;
-                }
-            }
-            return new Vector3Int(-1, -1, -1); // TODO fail localgen
+        private void spawnSettlers(List<SettlerData> settlers) {
+            Vector2Int center = new Vector2Int(map.xSize / 2, map.ySize / 2);
+            settlers.ForEach(settler => {
+                Vector3Int spawnPoint = getSpawnPosition(center, 5);
+                EcsEntity entity = GenerationState.get().ecsWorld.NewEntity();
+                unitGenerator.generateToEntity(entity, settler);
+            });
         }
 
-        private Vector3Int getSurfaceZ(int x, int y) {
-            Vector3Int position = new Vector3Int(x, y, -1);
+        private Vector3Int getSpawnPosition(Vector2Int center, int range) {
+            Vector3Int spawnPoint = new Vector3Int(center.x + Random.Range(-range, +range), center.y + Random.Range(-range, range), 0);
             for (int z = map.zSize - 1; z >= 0; z--) {
-                int blockType = map.blockType.get(x, y, z);
+                int blockType = map.blockType.get(spawnPoint.x, spawnPoint.y, z);
                 if (blockType == BlockTypeEnum.FLOOR.CODE || blockType == BlockTypeEnum.RAMP.CODE) {
-                    position.z = z;
+                    spawnPoint.z = z;
                     break;
                 }
             }
-            return position; // not found if -1
+            return spawnPoint;
         }
     }
 }
