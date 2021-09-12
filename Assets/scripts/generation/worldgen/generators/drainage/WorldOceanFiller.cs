@@ -9,7 +9,7 @@ namespace Assets.scripts.generation.worldgen.generators.drainage {
             seaLevel = GenerationState.get().worldGenConfig.seaLevel;
         }
 
-        public override void generate(WorldGenConfig config, WorldGenContainer container) {
+        public override void generate() {
             WorldMap map = GenerationState.get().world.worldMap;
             float oceanCount = 0;
             int size = GenerationState.get().worldGenConfig.size;

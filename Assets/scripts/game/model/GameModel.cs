@@ -23,7 +23,7 @@ namespace Assets.scripts.game.model {
         }
 
         public void update() {
-            systems.Run();
+            if(systems != null) systems.Run();
         }
 
         private void initEcs() {

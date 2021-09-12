@@ -15,13 +15,13 @@ namespace Assets.scripts.generation.worldgen {
         public int[,] biome;
 
         public int size;
-        public int seed;
         // public Random random;
 
-        public WorldGenContainer(int size) {
-            this.size = size;
-            // random = new Random();
-            Random.InitState(seed);
+        public WorldGenContainer() {
+            
+            WorldGenConfig config = GenerationState.get().worldGenConfig;
+            this.size = config.size;
+            Random.InitState(config.seed);
             elevation = new float[size, size];
             drainage = new float[size, size];
             summerTemperature = new float[size, size];

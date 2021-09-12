@@ -1,5 +1,6 @@
 using Assets.scripts.util.pathfinding;
 using Leopotam.Ecs;
+using UnityEngine;
 
 public class MovementSystem : IEcsRunSystem {
     EcsFilter<MovementComponent> filter = null;
@@ -7,8 +8,7 @@ public class MovementSystem : IEcsRunSystem {
     public void Run() {
         foreach(int i in filter) {
             MovementComponent component = filter.Get1(i);
-            if(component.target == null) continue; // target is set by TaskSystem
-            updateMovement(component);
+            if(component.hasTarget) updateMovement(component);
         }
     }
 

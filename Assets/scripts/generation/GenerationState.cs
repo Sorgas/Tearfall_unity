@@ -25,16 +25,19 @@ namespace Assets.scripts.generation {
         public bool ready = false;
 
         public void generateWorld() {
+            if(ecsWorld != null) ecsWorld.Destroy();
             ecsWorld = new EcsWorld();
+            worldGenContainer = new WorldGenContainer();
             worldGenSequence = new WorldGenSequence();
-            worldGenContainer = worldGenSequence.run(worldGenConfig);
+            worldGenSequence.run();
             world.worldMap = worldGenContainer.createWorldMap();
         }
 
         public void generateLocalMap() {
             localGenContainer = new LocalGenContainer();
             localGenSequence = new LocalGenSequence();
-            world.localMap = localGenSequence.run();
+            localGenSequence.run();
+            world.localMap = localGenContainer.localMap;
             ready = true;
         }
     }

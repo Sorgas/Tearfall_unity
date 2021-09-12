@@ -13,5 +13,7 @@ namespace Assets.scripts.generation.localgen {
         }
 
         public abstract void generate();
+
+        public abstract string getMessage();
     }
 }

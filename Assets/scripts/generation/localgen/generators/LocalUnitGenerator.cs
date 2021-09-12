@@ -10,7 +10,7 @@ namespace Tearfall_unity.Assets.scripts.generation.localgen.generators {
     public class LocalUnitGenerator : LocalGenerator {
         private LocalMap map;
         private int spawnSearchMaxAttempts = 100;
-        private UnitGenerator unitGenerator;
+        private UnitGenerator unitGenerator = new UnitGenerator();
 
         public override void generate() {
             map = GenerationState.get().localGenContainer.localMap;
@@ -36,6 +36,10 @@ namespace Tearfall_unity.Assets.scripts.generation.localgen.generators {
                 }
             }
             return spawnPoint;
+        }
+
+        public override string getMessage() {
+            return "generating units..";
         }
     }
 }

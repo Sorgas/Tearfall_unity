@@ -62,5 +62,9 @@ namespace Assets.scripts.generation.localgen.generators {
             }
             return 0;
         }
+
+        public override string getMessage() {
+            return "making surface..";
+        }
     }
 }

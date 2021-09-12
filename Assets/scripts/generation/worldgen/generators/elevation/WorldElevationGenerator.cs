@@ -8,14 +8,11 @@ namespace Assets.scripts.generation.worldgen.generators.elevation {
         private int size;
         private float[,] elevation;
         private IntBounds2 bounds;
-        private WorldGenConfig config;
-        private WorldGenContainer container;
 
         private float xOffset;
         private float yOffset;
 
-        public override void generate(WorldGenConfig config, WorldGenContainer container) {
-            this.container = container;
+        public override void generate() {
             xOffset = Random.value * 10000;
             yOffset = Random.value * 10000;
             size = config.size;
@@ -35,9 +32,7 @@ namespace Assets.scripts.generation.worldgen.generators.elevation {
             bounds.iterate((x, y) => { elevation[x, y] += Mathf.PerlinNoise(xOffset + (x * scale), yOffset + (y * scale)) * amplitude; });
         }
 
-        /**
-        * Decreases elevation in a circle near borders, to create ocean on map sides
-        */
+        // Decreases elevation in a circle near borders, to create ocean on map sides
         private void lowerBorders() {
             float mapRadius = (float) (size * Math.Sqrt(2) / 2f);
             bounds.iterate((x, y) => {
@@ -46,18 +41,14 @@ namespace Assets.scripts.generation.worldgen.generators.elevation {
             });
         }
 
-        /**
-        * Counts distance from map center to given point
-        */
+        // Counts distance from map center to given point
         private float getAbsoluteDistanceToCenter(int x, int y) {
             float dx = x - size / 2f;
             float dy = y - size / 2f;
             return (float) Math.Sqrt(dx * dx + dy * dy);
         }
 
-        /**
-        * Modifies elevation map to be within [0,1]
-        */
+        // Modifies elevation map to be within [0,1]
         private void normalizeElevation() {
             bounds.iterate((x, y) => container.elevation[x, y] = (elevation[x, y] = (elevation[x, y] + 1) / 2f));
         }

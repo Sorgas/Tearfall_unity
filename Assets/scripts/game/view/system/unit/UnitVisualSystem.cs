@@ -4,7 +4,6 @@ namespace Tearfall_unity.Assets.scripts.game.view.system.unit {
     public class UnitVisualSystem : IEcsRunSystem {
         public EcsFilter<UnitVisualComponent, VisualMovementComponent> filter;
 
-        // 
         public void Run() {
             foreach (int i in filter) {
                 EcsEntity entity = filter.GetEntity(i);

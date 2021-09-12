@@ -52,5 +52,9 @@ namespace Assets.scripts.generation.localgen {
             });
             Debug.Log("elevation generated, min: " + min + ", max: " + max);
         }
+
+        public override string getMessage() {
+            return "generating elevation..";
+        }
     }
 }

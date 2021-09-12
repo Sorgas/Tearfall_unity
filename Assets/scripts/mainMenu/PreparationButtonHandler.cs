@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 namespace Assets.scripts.mainMenu {
     public class PreparationButtonHandler : ButtonHandler {
         public GameObject worldGenStage;
+        public GameObject localGenStage;
 
         protected override void initButtons() {
             buttons = new List<ButtonData> {
@@ -33,8 +34,7 @@ namespace Assets.scripts.mainMenu {
                 settler.age = 30;
                 GenerationState.get().preparationState.settlers.Add(settler);
             }
-            GenerationState.get().generateLocalMap(); // TODO move to generation stage with progress bar
-            SceneManager.LoadScene("LocalWorldScene");
+            switchTo(localGenStage);
         }
 
         private void back() {

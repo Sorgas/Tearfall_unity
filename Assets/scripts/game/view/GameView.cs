@@ -31,14 +31,14 @@ namespace Assets.scripts.game.model {
             if (entitySelectorInputSystem != null) entitySelectorInputSystem.update();
             if (entitySelectorVisualMovementSystem != null) entitySelectorVisualMovementSystem.update();
             if (cameraMovementSystem != null) cameraMovementSystem.update();
-            systems.Run();
+            if (systems != null) systems.Run();
         }
 
         private void initEcs(EcsWorld ecsWorld) {
             systems = new EcsSystems(ecsWorld);
             systems.Add(new MovementSystem())
             .Add(new UnitVisualSystem())
-            .Add(new UnitVisualMovementSystem());
+            .Add(new UnitOrientationSystem());
             systems.Init();
         }
     }

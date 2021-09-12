@@ -101,6 +101,10 @@ namespace Tearfall_unity.Assets.scripts.generation.localgen.generators {
             });
         }
 
+        public override string getMessage() {
+            return "generating stone layers..";
+        }
+
         private class LayerDescriptor {
             public string material;
             public int[,] layer;

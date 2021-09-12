@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using Assets.scripts.enums.action;
+using Tearfall_unity.Assets.scripts.enums;
 using UnityEngine;
 
 // stores unit's position, task target position and path to target
 public struct MovementComponent {
     public Vector3Int position; // model position
     public Vector3Int target;
+    public bool hasTarget;
     public ActionTargetTypeEnum targetType; // near/exact/any
     public List<Vector3Int> path;
     public float speed;
@@ -16,12 +18,15 @@ public struct MovementComponent {
 public struct VisualMovementComponent {
     public Vector3Int lastPosition; // tracked MovementComponent.position
     public Vector3 position;
-    public int orientation;
+    public OrientationEnum orientation;
+}
+
+public struct UnitVisualComponent {
+    public SpriteRenderer spriteRenderer;
 }
 
 public struct TaskComponent {
     public string currentTask;
-
 }
 
 public struct EquipmentComponent {
@@ -59,8 +64,4 @@ public struct UnitNameComponent {
 
 public struct AgeComponent {
     public int age;
-}
-
-public struct UnitVisualComponent {
-    public SpriteRenderer spriteRenderer;
 }
