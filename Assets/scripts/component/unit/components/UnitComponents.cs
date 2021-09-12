@@ -10,15 +10,9 @@ public struct MovementComponent {
     public bool hasTarget;
     public ActionTargetTypeEnum targetType; // near/exact/any
     public List<Vector3Int> path;
+    public OrientationEnum orientation;
     public float speed;
     public float step; // speed is added to this value; when reaches 1, position changed
-}
-
-// stores info for drawing unit sprite
-public struct VisualMovementComponent {
-    public Vector3Int lastPosition; // tracked MovementComponent.position
-    public Vector3 position;
-    public OrientationEnum orientation;
 }
 
 public struct UnitVisualComponent {

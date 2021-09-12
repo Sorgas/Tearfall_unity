@@ -43,7 +43,6 @@
      <Compile Include="Assets\scripts\util\input\DelayedKeyController.cs" />
      <Compile Include="Assets\scripts\component\plant\AbstractPlant.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\ScrollableCameraController.cs" />
-     <Compile Include="Assets\scripts\game\view\system\unit\UnitOrientationSystem.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\TestSystem.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldmapPointerController.cs" />
      <Compile Include="Assets\scripts\game\model\tilemaps\BlockTilesetLoader.cs" />

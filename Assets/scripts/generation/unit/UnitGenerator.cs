@@ -7,7 +7,6 @@ class UnitGenerator {
         entity.Replace<UnitNameComponent>(new UnitNameComponent() { name = data.name }) // TODO add name generator
             .Replace<AgeComponent>(new AgeComponent() { age = data.age }) // TODO add name generator
             .Replace<MovementComponent>(new MovementComponent() {position = new Vector3Int(), speed = 6, step = 0, hasTarget = false })
-            .Replace<VisualMovementComponent>(new VisualMovementComponent() { })
             .Replace<UnitVisualComponent>(new UnitVisualComponent() { });
     }
 

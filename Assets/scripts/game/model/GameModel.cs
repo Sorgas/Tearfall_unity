@@ -28,6 +28,7 @@ namespace Assets.scripts.game.model {
 
         private void initEcs() {
             systems = new EcsSystems(ecsWorld); // TODO add all systems
+            systems.Add(new MovementSystem());
             systems.Init();
         }
 

@@ -23,6 +23,7 @@ namespace Tearfall_unity.Assets.scripts.generation.localgen.generators {
                 Vector3Int spawnPoint = getSpawnPosition(center, 5);
                 EcsEntity entity = GenerationState.get().ecsWorld.NewEntity();
                 unitGenerator.generateToEntity(entity, settler);
+                entity.Get<MovementComponent>().position = spawnPoint;
             });
         }
 
