@@ -3,11 +3,14 @@ using Assets.scripts.enums.action;
 using Tearfall_unity.Assets.scripts.enums;
 using UnityEngine;
 
+// entity with this is a unit
+public struct UnitComponent {
+
+}
+
 // stores unit's position, task target position and path to target
 public struct MovementComponent {
     public Vector3Int position; // model position
-    public Vector3Int target;
-    public bool hasTarget;
     public ActionTargetTypeEnum targetType; // near/exact/any
     public List<Vector3Int> path;
     public OrientationEnum orientation;
@@ -15,12 +18,12 @@ public struct MovementComponent {
     public float step; // speed is added to this value; when reaches 1, position changed
 }
 
-public struct UnitVisualComponent {
-    public SpriteRenderer spriteRenderer;
+public struct MovementTargetComponent {
+    public Vector3Int target;
 }
 
-public struct TaskComponent {
-    public string currentTask;
+public struct UnitVisualComponent {
+    public SpriteRenderer spriteRenderer;
 }
 
 public struct EquipmentComponent {
@@ -40,7 +43,7 @@ public struct JobsComponent {
 }
 
 public struct OwnershipComponent {
-    
+
 }
 
 public struct TestComponent {
@@ -58,4 +61,22 @@ public struct UnitNameComponent {
 
 public struct AgeComponent {
     public int age;
+}
+
+// unit has this when task assigned
+public struct TaskComponent {
+    public Action initialAction;
+    public List<Action> preActions;
+
+    public Action getNextAction() {
+        if(preActions.Count > 0) {
+            return preActions[0];
+        }
+        return initialAction;
+    }
+}
+
+// unit with this is performing action
+public struct CurrentActionComponent {
+    public Action currentAction;
 }

@@ -4,18 +4,20 @@ using Tearfall_unity.Assets.scripts.enums;
 using UnityEngine;
 
 public class MovementSystem : IEcsRunSystem {
-    EcsFilter<MovementComponent> filter = null;
+    EcsFilter<MovementComponent, MovementTargetComponent> filter = null;
 
     public void Run() {
         foreach (int i in filter) {
             MovementComponent component = filter.Get1(i);
-            if (component.hasTarget) updateMovement(component);
+            MovementTargetComponent target = filter.Get2(i);
+            EcsEntity unit = filter.GetEntity(i);
+            updateMovement(component, target);
         }
     }
 
-    private void updateMovement(MovementComponent component) {
+    private void updateMovement(MovementComponent component, MovementTargetComponent target) {
         if (component.path == null) { // target wo path, create path
-            component.path = AStar.get().makeShortestPath(component.position, component.target, component.targetType);
+            component.path = AStar.get().makeShortestPath(component.position, target.target, component.targetType);
             // TODO if no path found, cancel task
         } else if (component.path.Count > 0) { // not empty path exists
             component.step += component.speed;

@@ -16,6 +16,7 @@ namespace Tearfall_unity.Assets.scripts.game {
         public RectTransform selector;
         public Text text;
         // public Text debugTextPanel;
+        private bool started = false;
 
         // when scene is loaded, inits game model and view
         public void Start() {
@@ -23,9 +24,11 @@ namespace Tearfall_unity.Assets.scripts.game {
             resolveWorld();
             GameModel.get().init();
             GameView.get().init(this);
+            started = true;
         }
 
         public void Update() {
+            if(!started) return;
             GameModel.get().update();
             GameView.get().update();
         }

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.scripts.enums;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using static Assets.scripts.enums.PassageEnum;
 
 namespace Assets.scripts.enums {

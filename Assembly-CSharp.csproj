@@ -36,18 +36,23 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\scripts\enums\action\ActionStatusEnum.cs" />
      <Compile Include="Assets\scripts\util\lang\Singleton.cs" />
      <Compile Include="Assets\scripts\mainMenu\WorldGenButtonHandler.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalRampFloorPlacer.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\TaskComponents.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\LocalMap.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedKeyController.cs" />
-     <Compile Include="Assets\scripts\component\plant\AbstractPlant.cs" />
+     <Compile Include="Assets\scripts\game\model\component\plant\AbstractPlant.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\Action.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\ScrollableCameraController.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\TestSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTarget.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTargetStatusEnum.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldmapPointerController.cs" />
      <Compile Include="Assets\scripts\game\model\tilemaps\BlockTilesetLoader.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\drainage\WorldOceanFiller.cs" />
-     <Compile Include="Assets\scripts\component\plant\PlantBlock.cs" />
+     <Compile Include="Assets\scripts\game\model\component\plant\PlantBlock.cs" />
      <Compile Include="Assets\scripts\game\view\with_entity_selector\FollowingCameraController.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenConfig.cs" />
      <Compile Include="Assets\scripts\generation\PreparationState.cs" />
@@ -68,6 +73,7 @@
      <Compile Include="Assets\scripts\mainMenu\LocalGenerationHandler.cs" />
      <Compile Include="Assets\scripts\game\model\GameModel.cs" />
      <Compile Include="Assets\scripts\game\model\system\GameTime.cs" />
+     <Compile Include="Assets\scripts\enums\action\TaskStatusEnum.cs" />
      <Compile Include="Assets\scripts\enums\action\ActionTargetTypeEnum.cs" />
      <Compile Include="Assets\scripts\mainMenu\PreparationButtonHandler.cs" />
      <Compile Include="Assets\scripts\util\extension\IEnumerableExtensions.cs" />
@@ -88,7 +94,7 @@
      <Compile Include="Assets\scripts\enums\plant\PlantLifeStage.cs" />
      <Compile Include="Assets\scripts\game\view\system\unit\UnitVisualSystem.cs" />
      <Compile Include="Assets\scripts\enums\PassageEnum.cs" />
-     <Compile Include="Assets\scripts\component\CommonComponents.cs" />
+     <Compile Include="Assets\scripts\game\model\component\CommonComponents.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenSequence.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalUnitGenerator.cs" />
      <Compile Include="Assets\scripts\generation\GenerationState.cs" />
@@ -96,12 +102,14 @@
      <Compile Include="Assets\scripts\util\pathfinding\Node.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\AreaInitializer.cs" />
      <Compile Include="Assets\scripts\enums\BlockTypeEnum.cs" />
+     <Compile Include="Assets\scripts\generation\worldgen\generators\elevation\WorldElevationGenerator.cs" />
      <Compile Include="Assets\scripts\util\input\JsonArrayReader.cs" />
      <Compile Include="Assets\scripts\util\UtilByteArrayWithCounter.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantContainer.cs" />
-     <Compile Include="Assets\scripts\component\unit\components\UnitComponents.cs" />
+     <Compile Include="Assets\scripts\game\model\component\unit\components\UnitComponents.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntBounds3.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenSequence.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\ActionPart.cs" />
      <Compile Include="Assets\scripts\game\LocalGameRunner.cs" />
      <Compile Include="Assets\scripts\game\model\system\ModelComponent.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\PassageMap.cs" />
@@ -122,6 +130,7 @@
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalStoneLayersGenerator.cs" />
      <Compile Include="Assets\scripts\util\UtilByteArray.cs" />
      <Compile Include="Assets\scripts\enums\material\Material.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\TaskAssignmentSystem.cs" />
      <Compile Include="Assets\scripts\ui\CharacterMenuLineHandler.cs" />
      <Compile Include="Assets\scripts\enums\plant\raw\RawPlantLifeStage.cs" />
      <Compile Include="Assets\scripts\mainMenu\MainMenuButtonHandler.cs" />
@@ -132,10 +141,12 @@
      <Compile Include="Assets\scripts\game\model\system\Updatable.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />
      <Compile Include="Assets\scripts\util\geometry\PositionUtil.cs" />
-     <Compile Include="Assets\Resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
+     <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorInputSystem.cs" />
-     <Compile Include="Assets\scripts\component\item\ItemComponents.cs" />
-     <Compile Include="Assets\scripts\generation\worldgen\generators\elevation\WorldElevationGenerator.cs" />
+     <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\TaskSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\ActionPerformingSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\ActionConditionStatusEnum.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
