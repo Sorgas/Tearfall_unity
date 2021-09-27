@@ -7,7 +7,6 @@ using UnityEngine;
 
 public abstract class ActionTarget {
     public ActionTargetTypeEnum type;
-    public Action action;
 
     public ActionTarget(ActionTargetTypeEnum type) {
         this.type = type;
@@ -37,7 +36,6 @@ public abstract class ActionTarget {
 
     private int getDistance(Vector3Int current) {
         Vector3Int target = getPosition();
-
         if (current == target) return 0;
         if (!current.isNeighbour(target)) return 2;
         if (current.z == target.z) return 1;

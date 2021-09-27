@@ -1,6 +1,7 @@
-
 using System;
-using static Tearfall_unity.Assets.scripts.game.model.component.task.TaskComponents;
+using Leopotam.Ecs;
+using Tearfall_unity.Assets.scripts.enums.action;
+using UnityEngine;
 /**
 * Action of a unit. All units behaviour except moving are defined in actions. Actions are parts of {@link Task}.
 * During performing unit adds certain amount of 'work' to an action. Skills, health and other conditions may influence unit's work speed.
@@ -19,7 +20,7 @@ using static Tearfall_unity.Assets.scripts.game.model.component.task.TaskCompone
 * If start condition is not met, action and its task are failed.
 * Default implementation is an action with no requirements nor effect, which is finished immediately;
 */
-public abstract class Action {
+public abstract class _Action {
     public TaskComponent task; // can be modified during execution
     public ActionTarget target;
     public ActionStatusEnum status = ActionStatusEnum.OPEN;
@@ -30,9 +31,9 @@ public abstract class Action {
      * Should check tool, consumed items, target reachability for performer. 
      * Can use {@code task.performer}, as it is assigned to task before calling by {@link CreaturePlanningSystem}.
      */
-    public Func<ActionConditionStatusEnum> startCondition; // called before performing, can create sub actions
+    public Func<EcsEntity, ActionConditionStatusEnum> startCondition; // called before performing, can create sub actions
     public System.Action onStart; // performed on phase start
-    public System.Action<float> progressConsumer; // performs logic
+    public System.Action<EcsEntity, float> progressConsumer; // performs logic
     public Func<Boolean> finishCondition; // when reached, action ends
     public System.Action onFinish; // performed on phase finish
 
@@ -42,33 +43,32 @@ public abstract class Action {
     public float speed = 1;
     public float maxProgress = 1;
 
-    protected Action(ActionTarget target) : this(target, null) {}
+    protected _Action(ActionTarget target) : this(target, null) {}
 
-    public Action(ActionTarget target, String skill) {
+    public _Action(ActionTarget target, string skill) {
         this.target = target;
-        if(skill != null && SkillMap.getSkill(skill) == null) Logger.TASKS.logError("Skill " + skill + " not found.");
+        if(skill != null && SkillMap.getSkill(skill) == null) Debug.LogError("Skill " + skill + " not found.");
         this.skill = skill;
-        target.action = this;
-        startCondition = () -> FAIL; // prevent starting
-        onStart = () -> {};
-        progressConsumer = delta -> progress += delta;
-        finishCondition = () -> progress >= maxProgress;
-        onFinish = () -> {};
+        startCondition = (unit) => ActionConditionStatusEnum.FAIL; // prevent starting
+        onStart = () => {};
+        progressConsumer = (unit, delta) => progress += delta;
+        finishCondition = () => progress >= maxProgress;
+        onFinish = () => {};
         reset();
     }
 
     /**
      * Performs action logic. Changes status.
      */
-    public final void perform() {
-        if (status == OPEN) { // first execution of perform()
-            status = ACTIVE;
-            onStart.run();
+    public void perform(EcsEntity unit) {
+        if (status == ActionStatusEnum.OPEN) { // first execution of perform()
+            status = ActionStatusEnum.ACTIVE;
+            onStart.Invoke();
         }
-        progressConsumer.accept(speed);
-        if (finishCondition.get()) { // last execution of perform()
-            onFinish.run();
-            status = COMPLETE;
+        progressConsumer.Invoke(unit, speed);
+        if (finishCondition.Invoke()) { // last execution of perform()
+            onFinish.Invoke();
+            status = ActionStatusEnum.COMPLETE;
         }
     }
 
@@ -78,21 +78,21 @@ public abstract class Action {
         maxProgress = 1;
     }
 
-    public ActionConditionStatusEnum addPreAction(Action action) {
+    public ActionConditionStatusEnum addPreAction(_Action action) {
         task.addFirstPreAction(action);
-        return NEW;
+        return ActionConditionStatusEnum.NEW;
     }
 
-    protected float performance() {
-        return task.performer.get(HealthAspect.class).stats.get(GameplayStatEnum.WORK_SPEED) + 
-                0.05f * performerLevel();
-    }
+    // protected float performance() {
+    //     return task.performer.get(HealthAspect.class).stats.get(GameplayStatEnum.WORK_SPEED) + 
+    //             0.05f * performerLevel();
+    // }
 
-    protected int performerLevel() {
-        return task.performer.get(JobSkillAspect.class).skills.get(skill).level();
-    }
+    // protected int performerLevel() {
+    //     return task.performer.get(JobSkillAspect.class).skills.get(skill).level();
+    // }
 
-    protected Skill skill() {
-        return SkillMap.getSkill(skill);
-    }
+    // protected Skill skill() {
+    //     return SkillMap.getSkill(skill);
+    // }
 }

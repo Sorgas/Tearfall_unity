@@ -14,6 +14,6 @@ namespace Assets.scripts.generation.localgen {
         public int localElevation = 50; // TODO take from game settings
         public int elevationVariation = 6; // TODO base on world cell's biome (plains/mountains)
         public float soilThickness = 0.05f; // TODO base on world cell's moisture (swamps/mountains)
-        public int settlerNumber = 3;
+        public int settlerNumber = 1;
     }
 }

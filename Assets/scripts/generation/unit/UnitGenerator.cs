@@ -6,8 +6,9 @@ class UnitGenerator {
     public void generateToEntity(EcsEntity entity, SettlerData data) {
         entity.Replace<UnitNameComponent>(new UnitNameComponent() { name = data.name }) // TODO add name generator
             .Replace<AgeComponent>(new AgeComponent() { age = data.age }) // TODO add name generator
-            .Replace<MovementComponent>(new MovementComponent() {position = new Vector3Int(), speed = 6, step = 0, hasTarget = false })
-            .Replace<UnitVisualComponent>(new UnitVisualComponent() { });
+            .Replace<MovementComponent>(new MovementComponent() { position = new Vector3Int(), speed = 6, step = 0 })
+            .Replace<UnitVisualComponent>(new UnitVisualComponent() { })
+            .Replace<UnitComponent>(new UnitComponent() { });
     }
 
     // public void generateUnit(string specimen, Vector3Int position) {

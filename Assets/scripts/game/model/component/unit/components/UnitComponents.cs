@@ -4,9 +4,7 @@ using Tearfall_unity.Assets.scripts.enums;
 using UnityEngine;
 
 // entity with this is a unit
-public struct UnitComponent {
-
-}
+public struct UnitComponent { }
 
 // stores unit's position, task target position and path to target
 public struct MovementComponent {
@@ -65,18 +63,26 @@ public struct AgeComponent {
 
 // unit has this when task assigned
 public struct TaskComponent {
-    public Action initialAction;
-    public List<Action> preActions;
+    public _Action initialAction;
+    public List<_Action> preActions;
 
-    public Action getNextAction() {
-        if(preActions.Count > 0) {
+    public _Action getNextAction() {
+        if (preActions.Count > 0) {
             return preActions[0];
         }
         return initialAction;
+    }
+
+    public void addFirstPreAction(_Action action) {
+        preActions.Insert(0, action);
+    }
+
+    public void removeFirstPreAction() {
+        preActions.RemoveAt(0);
     }
 }
 
 // unit with this is performing action
 public struct CurrentActionComponent {
-    public Action currentAction;
+    public _Action action;
 }

@@ -1,17 +1,14 @@
-using System;
-using UnityEngine;
-
 // translates continuous input into sequence of action calls with specified delays.
 // Each delay except the last one is used only once. 
 // Passes delta time is accumulated. 
 // When accumulated time value reaches value of current delay, time is reset, and action is called.
 public class DelayedController {
-    private Action action;
+    private System.Action action;
     protected float[] delays = { 0, 0.3f, 0.2f, 0.1f, 0.08f }; // first 0 means first call always invokes action
     private int currentDelay = 0;
     private float time = 0f; // time from last activation
 
-    public DelayedController(Action action) {
+    public DelayedController(System.Action action) {
         this.action = action;
     }
 

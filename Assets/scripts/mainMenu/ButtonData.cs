@@ -14,7 +14,7 @@ public class ButtonData {
         this.name = name;
     }
 
-    public ButtonData(Button button, KeyCode hotKey, Action action) : this(hotKey, action) {
+    public ButtonData(Button button, KeyCode hotKey,    Action action) : this(hotKey, action) {
         this.button = button;
     }
 

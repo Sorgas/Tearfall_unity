@@ -3,6 +3,7 @@ using Assets.scripts.game.model.localmap;
 using Assets.scripts.util.lang;
 using Leopotam.Ecs;
 using Tearfall_unity.Assets.scripts.game.model.entity_selector;
+using Tearfall_unity.Assets.scripts.game.model.system.unit;
 
 namespace Assets.scripts.game.model {
     public class GameModel : Singleton<GameModel> {
@@ -19,16 +20,21 @@ namespace Assets.scripts.game.model {
             initEcs();
             selectorSystem.selector = selector;
             selectorSystem.placeSelectorAtMapCenter();
+            localMap.initAreas();
             Debug.Log("model initialized");
         }
 
         public void update() {
-            if(systems != null) systems.Run();
+            if (systems != null) systems.Run();
         }
 
         private void initEcs() {
-            systems = new EcsSystems(ecsWorld); // TODO add all systems
-            systems.Add(new MovementSystem());
+            systems = new EcsSystems(ecsWorld);
+            systems.Add(new MovementSystem())
+            .Add(new TaskAssignmentSystem())
+            .Add(new TaskSystem())
+            .Add(new ActionSystem())
+            .Add(new ActionPerformingSystem());
             systems.Init();
         }
 

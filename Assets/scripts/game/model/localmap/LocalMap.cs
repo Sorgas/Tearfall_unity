@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets.scripts.game.model.localmap.passage;
 using Assets.scripts.util.geometry;
+using Tearfall_unity.Assets.scripts.game.model.localmap;
 using UnityEngine;
 using static Assets.scripts.enums.PassageEnum;
 
@@ -8,6 +9,7 @@ namespace Assets.scripts.game.model.localmap {
     public class LocalMap {
         public readonly BlockTypeMap blockType;
         public readonly IntBounds3 bounds;
+        public readonly LocalMapUtil util;
 
         // public LightMap light;
         public PassageMap passageMap;                                 // not saved to savegame,
@@ -23,6 +25,7 @@ namespace Assets.scripts.game.model.localmap {
             this.zSize = zSize;
             blockType = new BlockTypeMap(this);
             bounds = new IntBounds3(0, 0, 0, xSize - 1, ySize - 1, zSize - 1);
+            util = new LocalMapUtil(this);
         }
 
         public void init() {

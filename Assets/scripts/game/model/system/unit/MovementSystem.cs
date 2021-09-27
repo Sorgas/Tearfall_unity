@@ -11,11 +11,11 @@ public class MovementSystem : IEcsRunSystem {
             MovementComponent component = filter.Get1(i);
             MovementTargetComponent target = filter.Get2(i);
             EcsEntity unit = filter.GetEntity(i);
-            updateMovement(component, target);
+            updateMovement(component, target, unit);
         }
     }
 
-    private void updateMovement(MovementComponent component, MovementTargetComponent target) {
+    private void updateMovement(MovementComponent component, MovementTargetComponent target, EcsEntity unit) {
         if (component.path == null) { // target wo path, create path
             component.path = AStar.get().makeShortestPath(component.position, target.target, component.targetType);
             // TODO if no path found, cancel task
@@ -23,16 +23,19 @@ public class MovementSystem : IEcsRunSystem {
             component.step += component.speed;
             if (component.step > 1f) {
                 component.step -= 1f;
-                makeStep(component);
+                makeStep(component, unit);
             }
         }
     }
 
     // change position to next position in path
-    private void makeStep(MovementComponent component) {
+    private void makeStep(MovementComponent component, EcsEntity unit) {
         updateOrientation(component);
         component.position = component.path[0];
         component.path.RemoveAt(0);
+        if(component.path.Count == 0) { // path finished
+            unit.Del<MovementTargetComponent>(); // remove target
+        }
     }
 
     private void updateOrientation(MovementComponent component) {

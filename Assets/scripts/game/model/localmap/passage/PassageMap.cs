@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.scripts.enums;
-using Assets.scripts.game.model.system.plant;
+﻿using Assets.scripts.enums;
 using Assets.scripts.util;
 using Assets.scripts.util.geometry;
 using Assets.scripts.util.pathfinding;
@@ -35,9 +29,7 @@ namespace Assets.scripts.game.model.localmap.passage {
             util = new PassageUtil(localMap, this);
         }
 
-        /**
-         * Resets values to the whole map.
-         */
+        // Resets values to the whole map.
         public void init() {
             localMap.bounds.iterate((x, y, z) => passage.set(x, y, z, calculateTilePassage(cachePosition.set(x, y, z)).VALUE));
             new AreaInitializer(localMap).formPassageMap(this);
@@ -51,7 +43,6 @@ namespace Assets.scripts.game.model.localmap.passage {
             if (!localMap.inMap(x1, y1, z1) || !localMap.inMap(x2, y2, z2)) return false; // out of map
             if (passage.get(x1, y1, z1) == IMPASSABLE.VALUE || passage.get(x2, y2, z2) == IMPASSABLE.VALUE) return false;
             if (z1 == z2) return true; // passable tiles on same level
-
             int lower = z1 < z2 ? blockTypeMap.get(x1, y1, z1) : blockTypeMap.get(x2, y2, z2);
             if (x1 != x2 || y1 != y2) return lower == RAMP.CODE; // handle ramps
             int upper = z1 > z2 ? blockTypeMap.get(x1, y1, z1) : blockTypeMap.get(x2, y2, z2);

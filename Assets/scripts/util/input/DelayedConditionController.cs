@@ -6,7 +6,7 @@ public class DelayedConditionController : DelayedController {
     private Func<bool> condition;
     private bool active;
 
-    public DelayedConditionController(Action action, Func<bool> condition) : base(action) {
+    public DelayedConditionController(System.Action action, Func<bool> condition) : base(action) {
         this.condition = condition;
     }
 

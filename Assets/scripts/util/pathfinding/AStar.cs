@@ -45,17 +45,16 @@ namespace Assets.scripts.util.pathfinding {
             while (openSet.size() > 0) {
                 Node currentNode = openSet.poll(); //get element with the least sum of costs
                 if (finishCondition.check(currentNode.position)) return currentNode; //check if path is complete
+                List<Node> nodes = getSuccessors(currentNode); // TODO rewrite to positions
+                nodes = nodes.Where(node => !closedSet.Contains(node.position)).ToList();
                 int pathLength = currentNode.pathLength + 1;
-                List<Node> nodes = getSuccessors(currentNode);
-                nodes = nodes.Where(node => !closedSet.Contains(node.position))
-                    .ToList();
-                nodes.ForEach(newNode => {
-                    newNode.pathLength = pathLength;
-                    Node oldNode = openSet.get(newNode);
-                    if ((oldNode == null) || (oldNode.pathLength > newNode.pathLength)) { // if successor node is newly found, or has shorter path
-                        newNode.parent = currentNode;
-                        newNode.heuristic = (targetPos - newNode.position).magnitude;
-                        openSet.add(newNode); // replace old node
+                nodes.ForEach(node => {
+                    Node oldNode = openSet.get(node);
+                    node.pathLength = pathLength;
+                    if ((oldNode == null) || (oldNode.pathLength > node.pathLength)) { // if successor node is newly found, or has shorter path
+                        node.parent = currentNode;
+                        node.heuristic = (targetPos - node.position).magnitude;
+                        openSet.add(node); // replace old node
                     }
                 });
                 closedSet.Add(currentNode.position); // node processed

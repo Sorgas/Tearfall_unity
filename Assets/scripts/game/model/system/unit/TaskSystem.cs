@@ -12,6 +12,7 @@ namespace Tearfall_unity.Assets.scripts.game.model.system.unit {
 
         public void Run() {
             foreach (int i in filter) {
+                Debug.Log("handling task");
                 EcsEntity unit = filter.GetEntity(i);
                 ref TaskComponent task = ref filter.Get1(i);
                 int checkResult = checkAction(task.getNextAction(), unit);
@@ -33,7 +34,7 @@ namespace Tearfall_unity.Assets.scripts.game.model.system.unit {
         }
 
         // checks if unit can perform action
-        private int checkAction(Action action, EcsEntity unit) {
+        private int checkAction(_Action action, EcsEntity unit) {
             return PERFORM;
         }
     }

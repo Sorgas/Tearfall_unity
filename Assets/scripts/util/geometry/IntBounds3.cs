@@ -13,6 +13,8 @@ namespace Assets.scripts.util.geometry {
 
         public IntBounds3(IntBounds3 source) : this(source.minX, source.minY, source.minZ, source.maxX, source.maxY, source.maxZ) { }
 
+        public IntBounds3(Vector3Int c, int x, int y, int z) : this(c.x - x, c.y - y, c.z - z, c.x + x, c.y + y, c.z + z) { }
+
         public IntBounds3(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
             set(minX, minY, minZ, maxX, maxY, maxZ);
         }

@@ -2,6 +2,7 @@ using Assets.scripts.game.model;
 using Assets.scripts.game.model.localmap;
 using Assets.scripts.generation;
 using Assets.scripts.util.geometry;
+using Tearfall_unity.Assets.scripts.generation;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,9 +29,20 @@ namespace Tearfall_unity.Assets.scripts.game {
         }
 
         public void Update() {
-            if(!started) return;
+            if (!started) return;
             GameModel.get().update();
             GameView.get().update();
+        }
+
+        private void resolveWorld() {
+            if (!GenerationState.get().ready) {
+                if (true) {
+                    ensureLocalMap();
+                } else {
+                    // TODO load save game
+                }
+            }
+            GameModel.get().setWorld(GenerationState.get().world, GenerationState.get().ecsWorld);
         }
 
         // creates mock local map for testing purposes
@@ -40,18 +52,13 @@ namespace Tearfall_unity.Assets.scripts.game {
             GenerationState state = GenerationState.get();
             state.worldGenConfig.size = 10;
             state.generateWorld();
-            state.localGenConfig.location = new IntVector2(5,5);
+            SettlerData settler = new SettlerData();
+            settler.name = "test settler";
+            settler.age = 30;
+            GenerationState.get().preparationState.settlers.Add(settler);
+            state.localGenConfig.location = new IntVector2(5, 5);
             state.generateLocalMap();
-            GameModel.get().world = state.world;
-            GameModel.get().localMap = state.world.localMap;
-        }        
-
-        private void resolveWorld() {
-            if(GenerationState.get().ready) {
-                GameModel.get().setWorld(GenerationState.get().world, GenerationState.get().ecsWorld);
-            } else if(true) { // check selected savegame
-                ensureLocalMap(); //TODO
-            } 
+            GameModel.get().setWorld(GenerationState.get().world, GenerationState.get().ecsWorld);
         }
     }
 }

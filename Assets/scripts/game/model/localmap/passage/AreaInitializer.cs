@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Assets.scripts.util.lang;
+using UnityEngine;
 using static Assets.scripts.enums.PassageEnum;
 
 namespace Assets.scripts.game.model.localmap.passage {
@@ -11,28 +9,27 @@ namespace Assets.scripts.game.model.localmap.passage {
     class AreaInitializer {
         private LocalMap localMap;
         private PassageMap passage;
-        private HashSet<HashSet<byte>> connected; // sets contain numbers of connected areas
+        private HashSet<HashSet<byte>> synonyms; // sets contain numbers of connected areas
         private Dictionary<byte, byte> areaMapping; // synonym values to synonym min
 
         public AreaInitializer(LocalMap localMap) {
             this.localMap = localMap;
         }
 
-        /**
-         * Creates {@link PassageMap} based on localMap.
-         */
+        // Creates {@link PassageMap} based on localMap.
         public void formPassageMap(PassageMap passage) {
             this.passage = passage;
-            connected = new HashSet<HashSet<byte>>();
+            synonyms = new HashSet<HashSet<byte>>();
             areaMapping = new Dictionary<byte, byte>();
             initAreaNumbers();
+            Debug.Log(synonyms.Count);
             processSynonyms();
+            Debug.Log(synonyms.Count);
             applyMapping();
+            Debug.Log(synonyms.Count);
         }
 
-        /**
-         * Assigns initial area numbers to cells, generates synonyms.
-         */
+        // Assigns initial area numbers to cells, generates synonyms.
         private void initAreaNumbers() {
             byte areaNum = 1;
             for (int x = 0; x < localMap.xSize; x++) {
@@ -51,11 +48,11 @@ namespace Assets.scripts.game.model.localmap.passage {
                 }
             }
         }
-
         
         // Maps values from synonyms to lowest value from synonym
         private void processSynonyms() {
-            foreach (HashSet<byte> synonym in connected) {
+            foreach (HashSet<byte> synonym in synonyms) {
+                Debug.Log("processing synonym");
                 byte min = synonym.Min(); // select minimal number from synonym
                 synonym.ToList().ForEach(value => areaMapping.Add(value, min));
             }
@@ -70,13 +67,18 @@ namespace Assets.scripts.game.model.localmap.passage {
                     for (int z = 0; z < localMap.zSize; z++) {
                         area = passage.area.get(x, y, z); // unmapped value
                         if (area != 0) { // passable tile
-                            areaMapping.TryGetValue(area, out area);
-                            passage.area.set(x, y, z, areaMapping[area]); // set mapped value
-                            passage.area.numbers[area]++; // increment 
+                            if(areaMapping.ContainsKey(area)) {
+                                passage.area.set(x, y, z, areaMapping[area]); // set mapped value
+                            }
                         }
                     }
                 }
             }
+
+            foreach (byte i in passage.area.numbers.Keys) {
+                Debug.Log(i + " " + passage.area.numbers[i]);
+            }
+
         }
 
         /**
@@ -84,19 +86,16 @@ namespace Assets.scripts.game.model.localmap.passage {
          * Returns first number from synonym.
          */
         private void addSynonyms(HashSet<byte> neighbours) {
+            if(synonyms.Any(set => set.includesAll(neighbours))) return; // if new synonym is fully contained in another one, do nothing
             // synonyms, intersecting with new one
-            HashSet<HashSet<byte>> intersectingSynonyms = new HashSet<HashSet<byte>>();
-            connected.Where(bytes => !bytes.Intersect(neighbours).Any())
-                .ToList()
-                .ForEach(bytes => intersectingSynonyms.Add(bytes));
-            // if new synonym is fully contained in another one
-            if (intersectingSynonyms.Count == 1 && EnumerableUtil.includesAll(intersectingSynonyms.First(), neighbours)) return;
+            List<HashSet<byte>> intersecting = synonyms.Where(synonym => synonym.Intersect(neighbours).Any()).ToList();
             // merge all found synonyms
-            connected.RemoveWhere(bytes => intersectingSynonyms.Contains(bytes));
+            intersecting.ForEach(set => synonyms.Remove(set));
             HashSet<byte> mergedSynonym = new HashSet<byte>();
-            intersectingSynonyms.ToList().ForEach(bytes => mergedSynonym.UnionWith(bytes)); // merge intersecting synonyms
-            mergedSynonym.UnionWith(neighbours);
-            connected.Add(mergedSynonym);
+            foreach(HashSet<byte> set in intersecting) {
+                mergedSynonym.UnionWith(set);
+            }
+            synonyms.Add(mergedSynonym);
         }
 
         /**

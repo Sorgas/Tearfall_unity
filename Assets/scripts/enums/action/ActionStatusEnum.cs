@@ -1,5 +1,5 @@
 public enum ActionStatusEnum {
     OPEN,
-    ACTIVE,
+    ACTIVE, 
     COMPLETE
 }

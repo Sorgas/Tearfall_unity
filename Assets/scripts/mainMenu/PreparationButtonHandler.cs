@@ -28,7 +28,7 @@ namespace Assets.scripts.mainMenu {
 
         // preparation to game model 
         private void startGame() {
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 1; i++) {
                 SettlerData settler = new SettlerData();
                 settler.name = "qwer" + i;
                 settler.age = 30;
