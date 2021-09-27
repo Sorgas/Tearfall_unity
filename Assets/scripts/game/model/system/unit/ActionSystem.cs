@@ -1,4 +1,5 @@
 using Leopotam.Ecs;
+using UnityEngine;
 
 namespace Tearfall_unity.Assets.scripts.game.model.system.unit {
     public class ActionSystem : IEcsRunSystem {
@@ -12,14 +13,23 @@ namespace Tearfall_unity.Assets.scripts.game.model.system.unit {
 
         // creates action sequence in a task
         private void handleTask(TaskComponent task, EcsEntity unit) {
-            if(task.getNextAction().status == ActionStatusEnum.COMPLETE) {
+            Debug.Log("handling task " + task + " of unit " + unit);
+            if(task.initialAction.status == ActionStatusEnum.COMPLETE) {
+                Debug.Log("completing task");
+                unit.Del<TaskComponent>(); // task complete
+                return;
+            }
+            if(task.getNextAction() != task.initialAction && task.getNextAction().status == ActionStatusEnum.COMPLETE) {
+                Debug.Log("completing action");
                 task.removeFirstPreAction();
+                return;
             }
             switch (task.getNextAction().startCondition.Invoke(unit)) {
                 case ActionConditionStatusEnum.OK:
                     checkActionTarget(task.getNextAction(), unit);
                     break;
                 case ActionConditionStatusEnum.FAIL:
+                    Debug.Log("failed");
                     unit.Del<TaskComponent>(); // remove failed task from unit
                     break;
             }
@@ -27,19 +37,23 @@ namespace Tearfall_unity.Assets.scripts.game.model.system.unit {
 
         // check unit's position against action target
         private void checkActionTarget(_Action action, EcsEntity unit) {
+            Debug.Log("checking action target of action " + action + " for unit " + unit);
             switch (action.target.check(unit)) {
                 case ActionTargetStatusEnum.READY: // start performing
-                    action.status = ActionStatusEnum.ACTIVE;
+                    Debug.Log("ready");
                     unit.Replace<CurrentActionComponent>(new CurrentActionComponent() { action = action });
                     break;
                 case ActionTargetStatusEnum.WAIT: // start movement
-                    action.status = ActionStatusEnum.ACTIVE;
+                    Debug.Log("move to " + action.target.getPosition());
+                    action.status = ActionStatusEnum.OPEN;
                     unit.Replace<MovementTargetComponent>(new MovementTargetComponent() { target = action.target.getPosition() });
                     break;
                 case ActionTargetStatusEnum.STEP_OFF:
+                    Debug.Log("step off");
                     // TODO add stepoff action
                     break;
                 case ActionTargetStatusEnum.FAIL:
+                    Debug.Log("failed");
                     unit.Del<TaskComponent>(); // remove failed task from unit
                     break;
             }

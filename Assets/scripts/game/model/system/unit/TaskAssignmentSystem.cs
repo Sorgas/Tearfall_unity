@@ -25,6 +25,7 @@ namespace Tearfall_unity.Assets.scripts.game.model.system.unit {
         }
 
         private TaskComponent? createIdleTask(EcsEntity unit) {
+            Debug.Log("creating idle task for unit " + unit);
             Vector3Int current = unit.Get<MovementComponent>().position;
             Vector3Int position = GameModel.get().localMap.util.getRandomPosition(current, 10, 4);
             if (position != null) {

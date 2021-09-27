@@ -80,6 +80,10 @@ public struct TaskComponent {
     public void removeFirstPreAction() {
         preActions.RemoveAt(0);
     }
+
+    public string toString() {
+        return initialAction.ToString();
+    }
 }
 
 // unit with this is performing action

@@ -21,6 +21,7 @@ using UnityEngine;
 * Default implementation is an action with no requirements nor effect, which is finished immediately;
 */
 public abstract class _Action {
+    public string name;
     public TaskComponent task; // can be modified during execution
     public ActionTarget target;
     public ActionStatusEnum status = ActionStatusEnum.OPEN;
@@ -57,9 +58,7 @@ public abstract class _Action {
         reset();
     }
 
-    /**
-     * Performs action logic. Changes status.
-     */
+    // Performs action logic. Changes status.
     public void perform(EcsEntity unit) {
         if (status == ActionStatusEnum.OPEN) { // first execution of perform()
             status = ActionStatusEnum.ACTIVE;
@@ -95,4 +94,7 @@ public abstract class _Action {
     // protected Skill skill() {
     //     return SkillMap.getSkill(skill);
     // }
+    public override string ToString() {
+        return name;
+    }
 }

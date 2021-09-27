@@ -20,8 +20,8 @@ namespace Tearfall_unity.Assets.scripts.game.model.system.unit {
                     case FAIL:
                     break;
                     case PERFORM:
-                        unit.Replace<MovementTargetComponent>(new MovementTargetComponent()
-                        {target = task.getNextAction().target.getPosition()});
+                        // unit.Replace<MovementTargetComponent>(new MovementTargetComponent()
+                        // {target = task.getNextAction().target.getPosition()});
                     break;
                     case MOVE: // set target for movement
                         unit.Replace<MovementTargetComponent>(new MovementTargetComponent()

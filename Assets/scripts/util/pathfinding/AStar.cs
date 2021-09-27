@@ -3,7 +3,6 @@ using System.Linq;
 using Assets.scripts.enums.action;
 using Assets.scripts.game.model;
 using Assets.scripts.game.model.localmap;
-using Assets.scripts.game.model.system;
 using Assets.scripts.util.geometry;
 using Assets.scripts.util.lang;
 using UnityEngine;

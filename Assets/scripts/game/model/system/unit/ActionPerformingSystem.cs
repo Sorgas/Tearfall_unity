@@ -10,6 +10,9 @@ namespace Tearfall_unity.Assets.scripts.game.model.system.unit {
                 CurrentActionComponent component = filter.Get1(i);
                 _Action action = component.action;
                 action.perform(unit);
+                if(action.status == ActionStatusEnum.COMPLETE) {
+                    unit.Del<CurrentActionComponent>();
+                }
             }
         }
     }

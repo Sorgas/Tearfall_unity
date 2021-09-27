@@ -14,17 +14,20 @@ namespace Tearfall_unity.Assets.scripts.game.view.system.unit {
                 if (component.spriteRenderer == null) {
                     createUnit(ref component, movement);
                 }
+                updatePosition(ref component, movement);
             }
+        }
+
+        private void updatePosition(ref UnitVisualComponent component, MovementComponent movement) {
+            Vector3Int position = movement.position;
+            component.spriteRenderer.gameObject.transform.localPosition = new Vector3(position.x, position.y + position.z / 2f + 0.25f, - position.z * 2 - 0.1f);
         }
 
         private void createUnit(ref UnitVisualComponent component, MovementComponent movement) {
             GameObject prefab = Resources.Load<GameObject>("prefabs/Unit");
-            Vector3Int position = movement.position;
             GameObject instance = GameObject.Instantiate(prefab, new Vector3(), Quaternion.identity);
-            Debug.Log("unit created " + position);
             component.spriteRenderer = instance.GetComponent<SpriteRenderer>();
-            instance.transform.parent = GameView.get().mapHolder;
-            instance.transform.localPosition = new Vector3(position.x, position.y + position.z / 2 + 0.25f, - position.z * 2 - 0.1f);
+            instance.transform.SetParent(GameView.get().mapHolder);
         }
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 public class MoveAction : _Action {
 
     public MoveAction(Vector3Int targetPosition) : base(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.EXACT)) {
+        
         startCondition = (unit) => {
             if (unit.Has<MovementComponent>()) {
                 Vector3Int currentPosition = unit.Get<MovementComponent>().position;
@@ -17,6 +18,7 @@ public class MoveAction : _Action {
             Debug.LogWarning("Creature cannot move to " + targetPosition);
             return ActionConditionStatusEnum.FAIL;
         };
+        finishCondition = () => true;
     }
 
     public string toString() {
