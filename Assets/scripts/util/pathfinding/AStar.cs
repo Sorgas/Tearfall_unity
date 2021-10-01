@@ -11,70 +11,56 @@ namespace Assets.scripts.util.pathfinding {
     public class AStar : Singleton<AStar> {
         private LocalMap localMap;
 
-        /**
-         * Returns the shortest Path from a start node to an end node according to
-         * the A* heuristics (h must not overestimate). initialNode and last found node included.
-         */
-
-        public List<Vector3Int> makeShortestPath(Vector3Int initialPos, Vector3Int targetPos, ActionTargetTypeEnum targetType) {
+        public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, ActionTargetTypeEnum targetType) {
             localMap = GameModel.get().localMap;
-            Node initialNode = new Node(initialPos);
-            initialNode.pathLength = 0;
-            initialNode.heuristic = (targetPos - initialPos).magnitude;
-
-            return search(initialNode, targetPos, targetType)?.getPath();
+            Node initialNode = new Node(start, null, 0, getHeuristic(target, start));
+            return search(initialNode, target, targetType)?.getPath();
         }
 
-        public List<Vector3Int> makeShortestPath(Vector3Int initialPos, Vector3Int targetPos) {
-            return makeShortestPath(initialPos, targetPos, ActionTargetTypeEnum.EXACT);
-        }
+        public List<Vector3Int> makeShortestPath(Vector3Int initialPos, Vector3Int targetPos) => makeShortestPath(initialPos, targetPos, ActionTargetTypeEnum.EXACT);
 
         /**
-         * @param initialNode start of the search
-         * @param targetPos   end of the search
          * @param targetType  see {@link ActionTarget}
          * @return goal node to restore path from
          */
-        private Node search(Node initialNode, Vector3Int targetPos, ActionTargetTypeEnum targetType) {
+        private Node search(Node initialNode, Vector3Int target, ActionTargetTypeEnum targetType) {
             OpenSet openSet = new OpenSet();
             HashSet<Vector3Int> closedSet = new HashSet<Vector3Int>();
-            PathFinishCondition finishCondition = new PathFinishCondition(targetPos, targetType);
+            PathFinishCondition finishCondition = new PathFinishCondition(target, targetType);
 
             openSet.add(initialNode);
             while (openSet.size() > 0) {
                 Node currentNode = openSet.poll(); //get element with the least sum of costs
+                // Debug.Log(currentNode.position + " " + openSet.size());
+                // openSet.logSize();
                 if (finishCondition.check(currentNode.position)) return currentNode; //check if path is complete
-                List<Node> nodes = getSuccessors(currentNode); // TODO rewrite to positions
-                nodes = nodes.Where(node => !closedSet.Contains(node.position)).ToList();
+
+                List<Vector3Int> vectors = getSuccessors(currentNode.position, closedSet); // TODO rewrite to positions
                 int pathLength = currentNode.pathLength + 1;
-                nodes.ForEach(node => {
+                vectors.ForEach(vector => {
+                    Node node = new Node(vector, currentNode, pathLength, getHeuristic(target, vector));
                     Node oldNode = openSet.get(node);
-                    node.pathLength = pathLength;
-                    if ((oldNode == null) || (oldNode.pathLength > node.pathLength)) { // if successor node is newly found, or has shorter path
-                        node.parent = currentNode;
-                        node.heuristic = (targetPos - node.position).magnitude;
+                    if(oldNode != null) {Debug.Log("old node exists");}
+                    if ((oldNode == null) || (oldNode.pathLength > pathLength)) { // if successor node is newly found, or has shorter path
                         openSet.add(node); // replace old node
                     }
                 });
                 closedSet.Add(currentNode.position); // node processed
             }
-            //        Logger.PATH.logDebug("No path found");
+            Debug.Log("No path found");
             return null;
         }
 
-        /**
-         * Gets tiles that can be stepped in from given tile.
-         */
-        private List<Node> getSuccessors(Node node) {
+        private float getHeuristic(Vector3Int target, Vector3Int current) {
+            return (target - current).magnitude;
+        }
+
+        // Gets tiles that can be stepped in from given tile.
+        private List<Vector3Int> getSuccessors(Vector3Int center, HashSet<Vector3Int> closedSet) {
             return PositionUtil.all
-                .Select(vector => node.position + vector)
-                .Where(vector => localMap.inMap(vector))
-                .Where(vector => localMap.passageMap.hasPathBetweenNeighbours(node.position, vector))
-                .Select(vector => new Node(vector)).ToList();
-            //.map(delta->Position.add(node.position, delta))
-            //.filter(localMap::inMap)
-            //.filter(pos->localMap.passageMap.hasPathBetweenNeighbours(node.position, pos))
-            //.map(Node::new);
+                .Select(vector => center + vector)
+                .Where(vector => localMap.inMap(vector) && localMap.passageMap.hasPathBetweenNeighbours(center, vector))
+                .Where(vector => !closedSet.Contains(vector)).ToList();
         }
     }
 }

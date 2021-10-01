@@ -13,6 +13,7 @@ namespace Assets.scripts.game.model {
         public EcsSystems systems; // model systems
         public EntitySelector selector = new EntitySelector(); // in-model representation of mouse
         public EntitySelectorSystem selectorSystem = new EntitySelectorSystem();
+        private int count = 0;
 
         // init with entities generated on new game or loaded from savegame
         public void init() {
@@ -25,14 +26,17 @@ namespace Assets.scripts.game.model {
         }
 
         public void update() {
-            if (systems != null) systems.Run();
+            count++;
+            if(count >= 5) {
+                count = 0;
+                if (systems != null) systems.Run();
+            }
         }
 
         private void initEcs() {
             systems = new EcsSystems(ecsWorld);
             systems.Add(new MovementSystem())
             .Add(new TaskAssignmentSystem()) // finds or creates tasks for units
-            // .Add(new TaskSystem())
             .Add(new ActionSystem())
             .Add(new ActionPerformingSystem());
             systems.Init();

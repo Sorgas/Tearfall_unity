@@ -7,6 +7,7 @@ namespace Tearfall_unity.Assets.scripts.game.model.system.unit {
 
         public void Run() {
             foreach (int i in filter) {
+                Debug.Log("acting");
                 handleTask(filter.Get1(i), filter.GetEntity(i));
             }
         }

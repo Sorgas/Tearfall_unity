@@ -3,17 +3,18 @@ using UnityEngine;
 
 namespace Assets.scripts.util.pathfinding {
     public class Node {
-        public Vector3Int position;
-        public Node parent;
-        public int pathLength;
-        public float heuristic;
+        public readonly Vector3Int position;
+        public readonly Node parent;
+        public readonly int pathLength;
+        public readonly float heuristic;
+        public readonly float cost;
 
-        public Node(Vector3Int position) {
+        public Node(Vector3Int position, Node parent, int pathLength, float heuristic) {
             this.position = position;
-        }
-
-        public float cost() {
-            return pathLength + heuristic;
+            this.parent = parent;
+            this.pathLength = pathLength;
+            this.heuristic = heuristic;
+            this.cost = pathLength + heuristic;
         }
 
         public List<Vector3Int> getPath() {
@@ -25,6 +26,10 @@ namespace Assets.scripts.util.pathfinding {
                 current = current.parent;
             }
             return path;
+        }
+
+        public override string ToString() {
+            return position.ToString();
         }
 
         public override bool Equals(object obj) {

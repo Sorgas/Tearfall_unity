@@ -11,6 +11,7 @@ namespace Tearfall_unity.Assets.scripts.game.model.system.unit {
         public void Run() {
             foreach (int i in filter) {
                 EcsEntity unit = filter.GetEntity(i);
+                Debug.Log("assigning task " + unit);
                 // TODO get task from container
                 TaskComponent? task = getTaskForUnit();
                 // TODO add needs
