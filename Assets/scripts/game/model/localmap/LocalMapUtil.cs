@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Assets.scripts.enums;
 using Assets.scripts.game.model.localmap;
 using Assets.scripts.util.geometry;
 using UnityEngine;
@@ -17,7 +18,9 @@ namespace Tearfall_unity.Assets.scripts.game.model.localmap {
             List<Vector3Int> positions = new List<Vector3Int>();
             bounds.iterate((x, y, z) => {
                 int blockType = map.blockType.get(x, y, z);
-                if (blockType != 0 && blockType != 1 && blockType != 6) { // passable position
+                if (blockType != BlockTypeEnum.SPACE.CODE
+                        && blockType != BlockTypeEnum.WALL.CODE
+                        && blockType != BlockTypeEnum.FARM.CODE) { // passable position
                     positions.Add(new Vector3Int(x, y, z));
                 }
             });

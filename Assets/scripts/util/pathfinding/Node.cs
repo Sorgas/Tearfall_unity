@@ -9,10 +9,10 @@ namespace Assets.scripts.util.pathfinding {
         public readonly float heuristic;
         public readonly float cost;
 
-        public Node(Vector3Int position, Node parent, int pathLength, float heuristic) {
+        public Node(Vector3Int position, Node parent, float heuristic) {
             this.position = position;
             this.parent = parent;
-            this.pathLength = pathLength;
+            this.pathLength = parent != null ? parent.pathLength + 1 : 0;
             this.heuristic = heuristic;
             this.cost = pathLength + heuristic;
         }

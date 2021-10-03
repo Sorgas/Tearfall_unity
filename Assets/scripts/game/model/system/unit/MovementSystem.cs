@@ -16,12 +16,15 @@ public class MovementSystem : IEcsRunSystem {
     }
 
     private void updateMovement(ref MovementComponent component, MovementTargetComponent target, ref EcsEntity unit) {
-        if (component.path.Count == 0) { // target w/o path, create path
-            Debug.Log("searching path from " + component.position + " to " + target.target);
+        if (component.path == null || component.path.Count == 0) { // target w/o path, create path
             component.path = AStar.get().makeShortestPath(component.position, target.target, component.targetType);
-            Debug.Log(component.path.Count);
+            // Debug.Log(component.path.Count);
+            if(component.path == null) {
+                Debug.Log("no path");
+            }
             // TODO if no path found, cancel task
         } else if (component.path.Count > 0) { // not empty path exists
+            // Debug.Log("moving");
             component.step += component.speed;
             if (component.step > 1f) {
                 component.step -= 1f;
@@ -35,9 +38,9 @@ public class MovementSystem : IEcsRunSystem {
         updateOrientation(ref component);
         component.position = component.path[0];
         component.path.RemoveAt(0);
-        Debug.Log("stepped to " + component.position + " " + component.path.Count);
+        // Debug.Log("stepped to " + component.position + " " + component.path.Count);
         if(component.path.Count == 0) { // path finished
-            Debug.Log("removing path ");
+            // Debug.Log("removing path ");
             component.path.Clear();
             unit.Del<MovementTargetComponent>(); // remove target
         }

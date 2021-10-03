@@ -1,4 +1,5 @@
 using Leopotam.Ecs;
+using UnityEngine;
 
 namespace Tearfall_unity.Assets.scripts.game.model.system.unit {
     public class ActionPerformingSystem : IEcsRunSystem {
@@ -6,6 +7,7 @@ namespace Tearfall_unity.Assets.scripts.game.model.system.unit {
 
         public void Run() {
             foreach (int i in filter) {
+                Debug.Log("performing");
                 EcsEntity unit = filter.GetEntity(i);
                 CurrentActionComponent component = filter.Get1(i);
                 _Action action = component.action;

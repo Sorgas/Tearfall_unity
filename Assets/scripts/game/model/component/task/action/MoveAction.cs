@@ -11,6 +11,7 @@ public class MoveAction : _Action {
         startCondition = (unit) => {
             if (unit.Has<MovementComponent>()) {
                 Vector3Int currentPosition = unit.Get<MovementComponent>().position;
+                Debug.Log("checking in same area");
                 if (GameModel.get().localMap.passageMap.inSameArea(currentPosition, targetPosition)) {
                     return ActionConditionStatusEnum.OK;
                 }

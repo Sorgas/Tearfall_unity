@@ -26,16 +26,17 @@ namespace Assets.scripts.game.model {
         }
 
         public void update() {
-            count++;
-            if(count >= 5) {
-                count = 0;
+            // count++;
+            // if(count >= 5) {
+            //     count = 0;
                 if (systems != null) systems.Run();
-            }
+            // }
         }
 
         private void initEcs() {
             systems = new EcsSystems(ecsWorld);
-            systems.Add(new MovementSystem())
+            systems
+            .Add(new MovementSystem())
             .Add(new TaskAssignmentSystem()) // finds or creates tasks for units
             .Add(new ActionSystem())
             .Add(new ActionPerformingSystem());

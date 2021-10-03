@@ -60,6 +60,7 @@ public abstract class _Action {
 
     // Performs action logic. Changes status.
     public void perform(EcsEntity unit) {
+        Debug.LogError("performing action");
         if (status == ActionStatusEnum.OPEN) { // first execution of perform()
             status = ActionStatusEnum.ACTIVE;
             onStart.Invoke();
@@ -72,12 +73,15 @@ public abstract class _Action {
     }
 
     public void reset() {
+        Debug.LogError("resetting action");
+
         speed = 1;
         progress = 0;
         maxProgress = 1;
     }
 
     public ActionConditionStatusEnum addPreAction(_Action action) {
+        Debug.LogError("adding pre action");
         task.addFirstPreAction(action);
         return ActionConditionStatusEnum.NEW;
     }

@@ -13,7 +13,9 @@ namespace Assets.scripts.util.pathfinding {
 
         public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, ActionTargetTypeEnum targetType) {
             localMap = GameModel.get().localMap;
-            Node initialNode = new Node(start, null, 0, getHeuristic(target, start));
+            Debug.Log("searching path from " + start + " to " + target);
+            Debug.Log("searching path from " + localMap.passageMap.area.get(start) + " to " + localMap.passageMap.area.get(start)); 
+            Node initialNode = new Node(start, null, getHeuristic(target, start));
             return search(initialNode, target, targetType)?.getPath();
         }
 
@@ -29,22 +31,30 @@ namespace Assets.scripts.util.pathfinding {
             PathFinishCondition finishCondition = new PathFinishCondition(target, targetType);
 
             openSet.add(initialNode);
-            while (openSet.size() > 0) {
+            int count = 0;
+            while (openSet.size() > 0 && count < 1000) {
+                count++;
+                Debug.Log(openSet.size());
                 Node currentNode = openSet.poll(); //get element with the least sum of costs
-                // Debug.Log(currentNode.position + " " + openSet.size());
+                Debug.Log(openSet.dictionary.Keys.Contains(currentNode));
+                Debug.Log(currentNode.position + " " + openSet.size());
                 // openSet.logSize();
                 if (finishCondition.check(currentNode.position)) return currentNode; //check if path is complete
 
                 List<Vector3Int> vectors = getSuccessors(currentNode.position, closedSet); // TODO rewrite to positions
+                Debug.Log(vectors.Count);
                 int pathLength = currentNode.pathLength + 1;
                 vectors.ForEach(vector => {
-                    Node node = new Node(vector, currentNode, pathLength, getHeuristic(target, vector));
+                    Debug.Log(vector);
+                    Node node = new Node(vector, currentNode, getHeuristic(target, vector));
                     Node oldNode = openSet.get(node);
-                    if(oldNode != null) {Debug.Log("old node exists");}
+                    // if(oldNode != null) {Debug.Log("old node exists");}
                     if ((oldNode == null) || (oldNode.pathLength > pathLength)) { // if successor node is newly found, or has shorter path
+                        Debug.Log("adding " + node.position);
                         openSet.add(node); // replace old node
                     }
                 });
+                Debug.Log("closing " + currentNode.position);
                 closedSet.Add(currentNode.position); // node processed
             }
             Debug.Log("No path found");

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.scripts.util.pathfinding {
     public class OpenSet {
-        private SortedDictionary<Node, Node> dictionary = new SortedDictionary<Node, Node>(new NodeComparer());
+        public SortedDictionary<Node, Node> dictionary = new SortedDictionary<Node, Node>(new NodeComparer());
         // SortedSet<Node> set = new SortedSet<Node>(new NodeComparer());
         // private Dictionary<Vector3Int, Node> vectorDictionary = new Dictionary<Vector3Int, Node>();
 
@@ -12,16 +12,17 @@ namespace Assets.scripts.util.pathfinding {
             // set.Add(node);
             dictionary[node] = node;
             // vectorDictionary[node.position] = node;
-            log("add", node.position);
+            // log("add", node.position);
         }
 
         public Node poll() {
             if (dictionary.Count <= 0) return null;
-            KeyValuePair<Node, Node> pair = dictionary.First();
+            // KeyValuePair<Node, Node> pair = dictionary.First();
+            Node node = dictionary.Keys.First();
             // vectorDictionary.Remove(pair.Key.position);
-            dictionary.Remove(pair.Key);
+            dictionary.Remove(node);
             // log("poll", pair.Key.position);
-            return pair.Key;
+            return node;
         }
 
         // public Node get(Vector3Int vector) {
@@ -47,9 +48,9 @@ namespace Assets.scripts.util.pathfinding {
         }
 
         public void log(string action, Vector3Int vector) {
-            Debug.Log(action + " " + vector + " nodes: " + dictionary.Count 
+            // Debug.Log(action + " " + vector + " nodes: " + dictionary.Count 
             // + " vectors: " + vectorDictionary.Count
-            );
+            // );
             // foreach (Vector3Int qwer in vectorDictionary.Keys) {
             //     if (!dictionary.ContainsKey(vectorDictionary[qwer])) {
             //         Debug.Log("inconsistent: " + qwer + " to " + vectorDictionary[qwer].position);
