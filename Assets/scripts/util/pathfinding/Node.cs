@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.scripts.util.pathfinding {
-    public class Node {
+    public class Node : IEquatable<Node>, IComparable<Node> {
         public readonly Vector3Int position;
         public readonly Node parent;
         public readonly int pathLength;
@@ -33,12 +34,20 @@ namespace Assets.scripts.util.pathfinding {
         }
 
         public override bool Equals(object obj) {
-            return obj is Node node &&
-                   EqualityComparer<Vector3Int>.Default.Equals(position, node.position);
+            return obj != null && obj is Node node && this.Equals(node);
+        }
+
+        public bool Equals(Node other) {
+            return other != null && other.position.Equals(position);
+        }
+
+        public int CompareTo(Node other) {
+            if (other.position.Equals(position)) return 0;
+            return other.cost < cost ? -1 : 1;
         }
 
         public override int GetHashCode() {
-            return 1206833562 + EqualityComparer<Vector3Int>.Default.GetHashCode(position);
+            return position.GetHashCode();
         }
     }
 }

@@ -34,8 +34,7 @@ namespace Assets.scripts.game.model {
         }
 
         private void initEcs() {
-            systems = new EcsSystems(ecsWorld);
-            systems
+            systems = new EcsSystems(ecsWorld)
             .Add(new MovementSystem())
             .Add(new TaskAssignmentSystem()) // finds or creates tasks for units
             .Add(new ActionSystem())
