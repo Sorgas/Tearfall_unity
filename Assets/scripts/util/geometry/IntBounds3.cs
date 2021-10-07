@@ -1,11 +1,11 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.scripts.util.geometry {
+namespace util.geometry {
     public class IntBounds3 : IntBounds2 {
         public int minZ;
         public int maxZ;
-        private Vector3 cacheVector = new Vector3();
+        // private Vector3 cacheVector = new Vector3();
 
         public IntBounds3(IntVector3 pos1, IntVector3 pos2) : this(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z) { }
 
@@ -19,7 +19,7 @@ namespace Assets.scripts.util.geometry {
             set(minX, minY, minZ, maxX, maxY, maxZ);
         }
 
-        public bool isIn(IntVector3 vector) {
+        public new bool isIn(IntVector3 vector) {
             return isIn(vector.x, vector.y, vector.z);
         }
 

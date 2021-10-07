@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.ui_prefabs.SliderWithLabel
+namespace resources.ui_prefabs.SliderWithLabel
 {
 public class SliderLabelUpdater : MonoBehaviour
 {

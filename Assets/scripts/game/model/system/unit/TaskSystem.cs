@@ -1,7 +1,9 @@
+using game.model.component.task.action;
+using game.model.component.unit.components;
 using Leopotam.Ecs;
 using UnityEngine;
 
-namespace Tearfall_unity.Assets.scripts.game.model.system.unit {
+namespace game.model.system.unit {
     public class TaskSystem : IEcsRunSystem {
         public EcsFilter<TaskComponent>.Exclude<MovementTargetComponent> filter;
         private const int FAIL = -1; // action cannot be performed, fail task

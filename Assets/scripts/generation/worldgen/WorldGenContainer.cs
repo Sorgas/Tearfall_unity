@@ -1,8 +1,8 @@
-﻿using Assets.scripts.mainMenu;
-using Assets.scripts.util.geometry;
+﻿using game.model;
 using UnityEngine;
+using util.geometry;
 
-namespace Assets.scripts.generation.worldgen {
+namespace generation.worldgen {
     public class WorldGenContainer {
         public float[,] elevation;
         public float[,] drainage;

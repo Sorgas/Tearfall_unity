@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.scripts.enums.plant;
-using Assets.scripts.util.geometry;
+﻿using enums.plant;
+using util.geometry;
 
-namespace Assets.scripts.entity.plant {
+namespace game.model.component.plant {
     class AbstractPlant {
         public readonly PlantType type;
 

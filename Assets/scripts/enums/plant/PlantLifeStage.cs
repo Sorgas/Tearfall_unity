@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.scripts.enums.plant.raw;
+using enums.plant.raw;
 
-namespace Assets.scripts.enums.plant {
+namespace enums.plant {
     class PlantLifeStage {
         public String[] titlePrefixSuffix;
         public int stageLength;

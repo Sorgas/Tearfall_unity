@@ -1,10 +1,10 @@
-using System.Linq;
 using System.Collections.Generic;
-using Assets.scripts.util.lang;
-using Tearfall_unity.Assets.scripts.util.input;
+using System.Linq;
 using UnityEngine;
+using util.input;
+using util.lang;
 
-namespace Tearfall_unity.Assets.scripts.enums.material {
+namespace enums.material {
     public class MaterialMap : Singleton<MaterialMap> {
         private Dictionary<string, Material_> map = new Dictionary<string, Material_>();
         private Dictionary<int, Material_> idMap = new Dictionary<int, Material_>();

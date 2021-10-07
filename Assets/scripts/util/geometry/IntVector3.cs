@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using Vector3 = System.Numerics.Vector3;
 
-namespace Assets.scripts.util.geometry {
+namespace util.geometry {
 
     public static class Vector3IntExtension {
         public static Vector3Int add(this Vector3Int vector, int dx, int dy, int dz) {

@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using Assets.scripts.enums;
-using Assets.scripts.game.model.localmap;
-using Assets.scripts.util.geometry;
+using enums;
 using UnityEngine;
+using util.geometry;
 
-namespace Tearfall_unity.Assets.scripts.game.model.localmap {
+namespace game.model.localmap {
     public class LocalMapUtil {
         private LocalMap map;
 

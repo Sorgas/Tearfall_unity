@@ -1,9 +1,9 @@
 ﻿using System;
-using Assets.scripts.util.geometry;
 using UnityEngine;
+using util.geometry;
 using Random = UnityEngine.Random;
 
-namespace Assets.scripts.generation.worldgen.generators.elevation {
+namespace generation.worldgen.generators.elevation {
     public class WorldElevationGenerator : WorldGenerator {
         private int size;
         private float[,] elevation;

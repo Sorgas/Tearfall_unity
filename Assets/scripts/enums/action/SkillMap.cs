@@ -1,6 +1,6 @@
-using Assets.scripts.util.lang;
+using util.lang;
 
-namespace Tearfall_unity.Assets.scripts.enums.action {
+namespace enums.action {
     public class SkillMap : Singleton<SkillMap>{
 
         public SkillMap() {}

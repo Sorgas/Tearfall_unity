@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using Assets.scripts.game.model.localmap;
-using Assets.scripts.generation.localgen.generators;
-using Tearfall_unity.Assets.scripts.generation.localgen.generators;
+using generation.localgen.generators;
 
-namespace Assets.scripts.generation.localgen {
+namespace generation.localgen {
     public class LocalGenSequence {
         public int progress = 0;
         public int maxProgress = 0;

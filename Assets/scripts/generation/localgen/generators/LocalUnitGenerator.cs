@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using Assets.scripts.enums;
-using Assets.scripts.game.model.localmap;
-using Assets.scripts.generation;
-using Assets.scripts.generation.localgen;
+using enums;
+using game.model.component.unit.components;
+using game.model.localmap;
+using generation.unit;
 using Leopotam.Ecs;
 using UnityEngine;
 
-namespace Tearfall_unity.Assets.scripts.generation.localgen.generators {
+namespace generation.localgen.generators {
     public class LocalUnitGenerator : LocalGenerator {
         private LocalMap map;
         private int spawnSearchMaxAttempts = 100;

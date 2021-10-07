@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Tearfall_unity.Assets.scripts.entity.item {
+namespace game.model.component.item {
 
     // main component for all items
     public struct ItemComponent {

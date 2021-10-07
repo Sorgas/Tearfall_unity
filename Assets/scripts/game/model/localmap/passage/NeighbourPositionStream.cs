@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.scripts.enums;
-using Assets.scripts.util.geometry;
+using enums;
 using UnityEngine;
+using util.geometry;
 
-namespace Assets.scripts.game.model.localmap.passage {
+namespace game.model.localmap.passage {
     class NeighbourPositionStream {
         public IEnumerable<Vector3Int> stream;
         private Vector3Int center;

@@ -1,7 +1,7 @@
-﻿using Assets.scripts.util.geometry;
-using UnityEngine;
+﻿using UnityEngine;
+using util.geometry;
 
-namespace Assets.scripts.util {
+namespace util {
     public class UtilByteArray {
         protected byte[,,] array;
         IntVector3 size;

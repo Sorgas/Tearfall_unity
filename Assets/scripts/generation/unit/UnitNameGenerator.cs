@@ -1,6 +1,8 @@
-class UnitNameGenerator {
+namespace generation.unit {
+    class UnitNameGenerator {
 
-    public string generate(string race, string sex) {
-        return "mock name"; 
+        public string generate(string race, string sex) {
+            return "mock name"; 
+        }
     }
 }

@@ -1,11 +1,12 @@
-using Assets.scripts.generation;
-using Assets.scripts.util.lang;
+using game.model.tilemaps;
+using game.view.system.unit;
+using game.view.with_entity_selector;
+using generation;
 using Leopotam.Ecs;
-using Tearfall_unity.Assets.scripts.game;
-using Tearfall_unity.Assets.scripts.game.view.system.unit;
 using UnityEngine;
+using util.lang;
 
-namespace Assets.scripts.game.model {
+namespace game.view {
     // component for binding GameModel and GameObjects in scene. 
     public class GameView : Singleton<GameView> {
         public LocalMapTileUpdater tileUpdater;

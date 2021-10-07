@@ -1,9 +1,10 @@
 using System.Collections.Generic;
-using Assets.scripts.game.model;
+using game.model.component.task.action;
+using game.model.component.unit.components;
 using Leopotam.Ecs;
 using UnityEngine;
 
-namespace Tearfall_unity.Assets.scripts.game.model.system.unit {
+namespace game.model.system.unit {
     public class TaskAssignmentSystem : IEcsRunSystem {
         EcsFilter<UnitComponent>.Exclude<TaskComponent> filter;
         // EcsFilter<TaskComponent> filter;

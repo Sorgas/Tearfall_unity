@@ -1,7 +1,8 @@
+using game.model.component.unit.components;
 using Leopotam.Ecs;
 using UnityEngine;
 
-namespace qwer {
+namespace game.model.system.unit {
     class TestSystem : IEcsRunSystem {
         EcsFilter<TestComponent> testFilter = null;
 

@@ -1,5 +1,7 @@
-public enum ActionStatusEnum {
-    OPEN,
-    ACTIVE, 
-    COMPLETE
+namespace enums.action {
+    public enum ActionStatusEnum {
+        OPEN,
+        ACTIVE, 
+        COMPLETE
+    }
 }

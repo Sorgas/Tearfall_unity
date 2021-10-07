@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Assets.scripts.enums;
-using Assets.scripts.util.extension;
-using Assets.scripts.util.geometry;
-using Assets.scripts.util.pathfinding;
+using enums;
 using UnityEngine;
-using static Assets.scripts.enums.PassageEnum;
+using util.extension;
+using util.geometry;
+using util.pathfinding;
+using static enums.PassageEnum;
 
-namespace Assets.scripts.game.model.localmap.passage {
+namespace game.model.localmap.passage {
     public class PassageUpdater {
         private LocalMap map;
         private PassageMap passage;

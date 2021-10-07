@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Assets.scripts.mainMenu.worldmap
+namespace mainMenu.worldmap
 {
 // TODO associates tile assets to world cell types
 public class TilesHolder : MonoBehaviour {

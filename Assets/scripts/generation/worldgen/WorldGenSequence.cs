@@ -1,6 +1,6 @@
-﻿using Assets.scripts.generation.worldgen.generators.elevation;
+﻿using generation.worldgen.generators.elevation;
 
-namespace Assets.scripts.generation.worldgen {
+namespace generation.worldgen {
     public class WorldGenSequence {
         
         private WorldElevationGenerator elevationGenerator;

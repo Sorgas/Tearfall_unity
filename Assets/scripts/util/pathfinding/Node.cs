@@ -1,53 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.scripts.util.pathfinding {
-    public class Node : IEquatable<Node>, IComparable<Node> {
+namespace util.pathfinding {
+    public readonly struct Node : IEquatable<Node>, IComparable<Node> {
         public readonly Vector3Int position;
-        public readonly Node parent;
+        public readonly Vector3Int? parent; // points to parent
         public readonly int pathLength;
-        public readonly float heuristic;
         public readonly float cost;
 
-        public Node(Vector3Int position, Node parent, float heuristic) {
+        public Node(Vector3Int position, Vector3Int? parent, float heuristic, int pathLength) {
             this.position = position;
             this.parent = parent;
-            this.pathLength = parent != null ? parent.pathLength + 1 : 0;
-            this.heuristic = heuristic;
-            this.cost = pathLength + heuristic;
+            this.pathLength = pathLength;
+            cost = pathLength + heuristic;
         }
 
-        public List<Vector3Int> getPath() {
-            List<Vector3Int> path = new List<Vector3Int>();
-            path.Add(position);
-            Node current = this;
-            while (current != null) {
-                path.Insert(0, current.position);
-                current = current.parent;
-            }
-            return path;
+        public Node(Vector3Int position, float heuristic) : this(position, null, heuristic, 0) {
         }
 
-        public override string ToString() {
-            return position.ToString();
-        }
+        public static bool operator >(Node node, Node node2) => node.position != node2.position && node.cost > node2.cost;
+
+        public static bool operator <(Node node, Node node2) => node.position != node2.position && node.cost < node2.cost;
+
+        public override string ToString() => position.ToString();
 
         public override bool Equals(object obj) {
-            return obj != null && obj is Node node && this.Equals(node);
+            return obj is Node node && Equals(node);
         }
 
-        public bool Equals(Node other) {
-            return other != null && other.position.Equals(position);
-        }
+        public bool Equals(Node other) => other.position.Equals(position);
 
         public int CompareTo(Node other) {
             if (other.position.Equals(position)) return 0;
-            return other.cost < cost ? -1 : 1;
+            return other.cost > cost ? -1 : 1;
         }
 
-        public override int GetHashCode() {
-            return position.GetHashCode();
-        }
+        public override int GetHashCode() => position.GetHashCode();
     }
 }

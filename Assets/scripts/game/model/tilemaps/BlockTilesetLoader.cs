@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Assets.scripts.util {
+namespace game.model.tilemaps {
     // creates block tiles from textures. name example: "NW", "NW_F"
     class BlockTilesetLoader {
         private const int WIDTH = 64;

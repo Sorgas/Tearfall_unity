@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Assets.scripts.mainMenu;
+using mainMenu;
 using UnityEngine;
 
-namespace Assets
-{
 public class OptionsMenuButtonHandler : ButtonHandler {
     public GameObject mainMenuStage;
 
@@ -17,5 +15,4 @@ public class OptionsMenuButtonHandler : ButtonHandler {
             new ButtonData("BackButton", KeyCode.Q, () => switchTo(mainMenuStage))
         };
     }
-}
 }

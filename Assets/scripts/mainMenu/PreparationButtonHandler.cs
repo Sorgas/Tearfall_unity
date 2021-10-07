@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using Assets.scripts.game.model.localmap;
-using Assets.scripts.generation;
-using Tearfall_unity.Assets.scripts.generation;
+using generation;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-namespace Assets.scripts.mainMenu {
+namespace mainMenu {
     public class PreparationButtonHandler : ButtonHandler {
         public GameObject worldGenStage;
         public GameObject localGenStage;

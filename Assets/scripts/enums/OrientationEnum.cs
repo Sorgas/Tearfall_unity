@@ -1,4 +1,4 @@
-namespace Tearfall_unity.Assets.scripts.enums {
+namespace enums {
     public enum OrientationEnum {
         N = 0,
         E = 1,

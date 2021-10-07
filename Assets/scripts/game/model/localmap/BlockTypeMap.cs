@@ -1,11 +1,11 @@
-﻿using Assets.scripts.enums;
-using Assets.scripts.util;
-using Assets.scripts.util.geometry;
-using Tearfall_unity.Assets.scripts.enums.material;
+﻿using enums;
+using enums.material;
 using UnityEngine;
-using static Assets.scripts.enums.BlockTypeEnum;
+using util;
+using util.geometry;
+using static enums.BlockTypeEnum;
 
-namespace Assets.scripts.game.model.localmap {
+namespace game.model.localmap {
     // stores tile types and materials for local map
     public class BlockTypeMap : UtilByteArray {
         public int[,,] material;

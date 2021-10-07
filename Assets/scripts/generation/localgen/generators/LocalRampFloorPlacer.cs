@@ -1,8 +1,8 @@
-﻿using Assets.scripts.enums;
-using Assets.scripts.game.model.localmap;
+﻿using enums;
+using game.model.localmap;
 using UnityEngine;
 
-namespace Assets.scripts.generation.localgen.generators {
+namespace generation.localgen.generators {
     public class LocalRampFloorPlacer : LocalGenerator {
         private LocalMap localMap;
         private int wallCode = BlockTypeEnum.WALL.CODE;

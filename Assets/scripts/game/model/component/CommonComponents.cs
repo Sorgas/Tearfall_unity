@@ -1,9 +1,11 @@
 using UnityEngine;
 
-public struct PositionComponent {
-    public Vector3Int position;
-}
+namespace game.model.component {
+    public struct PositionComponent {
+        public Vector3Int position;
+    }
 
-public struct NameComponent {
-    public string name;
+    public struct NameComponent {
+        public string name;
+    }
 }

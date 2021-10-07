@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.scripts.util.geometry;
-using Assets.scripts.util.input;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using util.geometry;
+using util.input;
 
-namespace Assets.scripts.mainMenu.worldmap {
+namespace mainMenu.worldmap {
     // Moves pointer around world map. Updates target position for camera.
     public class WorldmapPointerController {
         public Vector2 targetPosition = new Vector2Int(); // target position for worldmap camera

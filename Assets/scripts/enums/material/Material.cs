@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Tearfall_unity.Assets.scripts.enums.material {
+namespace enums.material {
     public class Material_ {
         public int id;
         public string name;

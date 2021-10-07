@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.scripts.util.input {
+namespace util.input {
     // uses pressed key check as calling condition
     public class DelayedKeyController : DelayedConditionController{
         private KeyCode keycode;

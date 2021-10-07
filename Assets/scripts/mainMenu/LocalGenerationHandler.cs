@@ -1,10 +1,10 @@
-using Assets.scripts.generation;
-using Assets.scripts.generation.localgen;
+using generation;
+using generation.localgen;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Tearfall_unity.Assets.scripts.mainMenu {
+namespace mainMenu {
     public class LocalGenerationHandler : MonoBehaviour {
         public Slider slider;
         public Text text;

@@ -128,7 +128,6 @@
      <Compile Include="Assets\scripts\util\lang\Optional.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntVector2.cs" />
      <Compile Include="Assets\scripts\game\model\tilemaps\TileSetHolder.cs" />
-     <Compile Include="Assets\scripts\util\pathfinding\OpenSet.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\NeighbourPositionStream.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\entity_selector\EntitySelector.cs" />
@@ -155,12 +154,7 @@
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
-     <Compile Include="Assets\scripts\util\pathfinding copy\Node.cs" />
-     <Compile Include="Assets\scripts\util\pathfinding copy\PassageUtil.cs" />
-     <Compile Include="Assets\scripts\util\pathfinding copy\AStar.cs" />
-     <Compile Include="Assets\scripts\util\pathfinding copy\mit\AStar2.cs" />
-     <Compile Include="Assets\scripts\util\pathfinding copy\OpenSet.cs" />
-     <Compile Include="Assets\scripts\util\pathfinding copy\PathFinishCondition.cs" />
+     <Compile Include="Assets\scripts\util\pathfinding\BinaryHeap.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

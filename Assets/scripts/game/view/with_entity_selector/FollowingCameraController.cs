@@ -1,7 +1,7 @@
-using Assets.scripts.util.geometry;
 using UnityEngine;
+using util.geometry;
 
-namespace Tearfall_unity.Assets.scripts.game.view {
+namespace game.view.with_entity_selector {
     public class LocalMapFollowingCameraController {
         private Camera camera;
         private RectTransform target;

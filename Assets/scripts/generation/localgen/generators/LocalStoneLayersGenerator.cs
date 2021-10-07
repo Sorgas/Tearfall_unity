@@ -1,13 +1,11 @@
 using System.Collections.Generic;
-using Assets.scripts.enums;
-using Assets.scripts.generation;
-using Assets.scripts.generation.localgen;
-using Assets.scripts.util.geometry;
-using Tearfall_unity.Assets.scripts.enums.material;
+using enums;
+using enums.material;
 using Unity.Mathematics;
 using UnityEngine;
+using util.geometry;
 
-namespace Tearfall_unity.Assets.scripts.generation.localgen.generators {
+namespace generation.localgen.generators {
 
     // generates several layers of stone and soil materials and flushes them to map from surface to 
     public class LocalStoneLayersGenerator : LocalGenerator {

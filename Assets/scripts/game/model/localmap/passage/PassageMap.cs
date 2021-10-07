@@ -1,12 +1,12 @@
-﻿using Assets.scripts.enums;
-using Assets.scripts.util;
-using Assets.scripts.util.geometry;
-using Assets.scripts.util.pathfinding;
+﻿using enums;
 using UnityEngine;
-using static Assets.scripts.enums.BlockTypeEnum;
-using static Assets.scripts.enums.PassageEnum;
+using util;
+using util.geometry;
+using util.pathfinding;
+using static enums.BlockTypeEnum;
+using static enums.PassageEnum;
 
-namespace Assets.scripts.game.model.localmap.passage {
+namespace game.model.localmap.passage {
     // stores isolated areas on local map to enhance pathfinding
     public class PassageMap {
         private readonly LocalMap localMap;

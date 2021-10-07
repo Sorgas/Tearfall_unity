@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Assets.scripts.enums {
+namespace enums {
     public static class PassageEnum {
         public static Passage IMPASSABLE = new Passage(0);
         public static Passage PASSABLE = new Passage(1);

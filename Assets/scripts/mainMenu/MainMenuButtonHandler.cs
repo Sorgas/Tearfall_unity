@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.scripts.mainMenu
+namespace mainMenu
 {
 // handler to be attached to parent object of button group
 public class MainMenuButtonHandler : ButtonHandler {

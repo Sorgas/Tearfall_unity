@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.scripts.mainMenu {
+namespace mainMenu {
     // class for initiating button menus. searches buttons in hierarchy, inits them with provided data, 
     // assigns them a click handlers, and handles hotkeys presses.
     public abstract partial class ButtonHandler : MonoBehaviour {

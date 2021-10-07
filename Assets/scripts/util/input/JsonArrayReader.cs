@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Tearfall_unity.Assets.scripts.util.input {
+namespace util.input {
     public class JsonArrayReader {
 
         public static T[] readArray<T>(string json) {

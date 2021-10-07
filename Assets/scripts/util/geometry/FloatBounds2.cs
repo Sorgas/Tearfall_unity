@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.scripts.util.geometry {
+namespace util.geometry {
     // TODO Vector2.x = value doesn't work!
     public class FloatBounds2 {
         public float minX;

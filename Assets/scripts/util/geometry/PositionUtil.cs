@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.scripts.util.geometry {
+namespace util.geometry {
     class PositionUtil {
         public static List<Vector3Int> fourNeighbour;
 

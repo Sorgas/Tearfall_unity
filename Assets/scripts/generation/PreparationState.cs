@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Tearfall_unity.Assets.scripts.generation
+namespace generation
 {
     public class PreparationState {
         public List<SettlerData> settlers = new List<SettlerData>();

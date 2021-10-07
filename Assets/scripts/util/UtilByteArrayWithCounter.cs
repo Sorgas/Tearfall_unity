@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Assets.scripts.util {
+namespace util {
     // byte array which counts number of each byte value in array
     public class UtilByteArrayWithCounter : UtilByteArray {
         public Dictionary<byte, int> numbers;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assets.scripts.entity.plant {
+﻿namespace game.model.component.plant {
     class PlantBlock {
         public AbstractPlant plant;
         public readonly int material;

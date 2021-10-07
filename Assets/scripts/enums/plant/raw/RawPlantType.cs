@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace Assets.scripts.enums.plant.raw {
+namespace enums.plant.raw {
     class RawPlantType {
         public string name;
         public string title;

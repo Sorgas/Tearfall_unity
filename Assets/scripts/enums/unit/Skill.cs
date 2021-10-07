@@ -1,4 +1,4 @@
-namespace Tearfall_unity.Assets.scripts.enums.unit {
+namespace enums.unit {
     public class Skill {
         public string name;
         public float speed;

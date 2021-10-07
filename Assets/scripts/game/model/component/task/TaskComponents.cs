@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace Tearfall_unity.Assets.scripts.game.model.component.task {
+namespace game.model.component.task {
     public class TaskComponents {
 
 

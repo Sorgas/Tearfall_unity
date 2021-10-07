@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Assets.scripts.game.model;
-using Assets.scripts.game.model.localmap;
-using Assets.scripts.util.geometry;
+using game.model;
+using game.model.localmap;
 using UnityEngine;
+using util.geometry;
 
-namespace Assets.scripts.generation.localgen {
+namespace generation.localgen {
     public class LocalGenContainer {
         private World world;
         public LocalMap localMap;

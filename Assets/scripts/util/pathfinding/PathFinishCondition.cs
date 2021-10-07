@@ -1,24 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Assets.scripts.enums.action;
-using Assets.scripts.game.model;
-using Assets.scripts.game.model.localmap;
-using Assets.scripts.util.extension;
-using Assets.scripts.util.geometry;
-using static Assets.scripts.enums.action.ActionTargetTypeEnum;
-using static Assets.scripts.enums.PassageEnum;
-using static Assets.scripts.enums.BlockTypeEnum;
+using enums.action;
+using game.model;
+using game.model.localmap;
 using UnityEngine;
+using util.extension;
+using util.geometry;
+using static enums.action.ActionTargetTypeEnum;
+using static enums.PassageEnum;
+using static enums.BlockTypeEnum;
 
-namespace Assets.scripts.util.pathfinding {
+namespace util.pathfinding {
     class PathFinishCondition {
         // positions, where path can finish
-        public readonly HashSet<Vector3Int> acceptable = new HashSet<Vector3Int>();
+        private readonly HashSet<Vector3Int> acceptable = new HashSet<Vector3Int>();
 
         public PathFinishCondition(Vector3Int target, ActionTargetTypeEnum targetType) {
             if (targetType == EXACT || targetType == ANY) acceptable.Add(target);
             if (targetType == NEAR || targetType == ANY) { // add near tiles
-                LocalMap map = GameModel.get().localMap; // add near tiles
+                LocalMap map = GameModel.get().localMap;
                 PositionUtil.allNeighbour
                         .Select(delta => target + delta)
                         .Where(pos => map.inMap(pos))

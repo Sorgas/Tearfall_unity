@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Assets.scripts.entity.plant;
+using game.model.component.plant;
 using UnityEngine;
 
-namespace Assets.scripts.game.model.system.plant {
+namespace game.model.system.plant {
     class PlantContainer : ModelComponent {
         private Dictionary<Vector3Int, PlantBlock> plantBlocks; // trees and plants blocks
                                                                 //    private PlantProductGenerator plantProductGenerator;

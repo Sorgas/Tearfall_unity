@@ -1,8 +1,8 @@
-﻿using Assets.scripts.util.geometry;
-using UnityEngine;
+﻿using UnityEngine;
+using util.geometry;
 
 // fills heights map in local gen container. properties selected based on world cell's biome
-namespace Assets.scripts.generation.localgen {
+namespace generation.localgen.generators {
     public class LocalElevationGenerator : LocalGenerator {
         private LocalGenContainer container;
         private IntBounds2 bounds = new IntBounds2();

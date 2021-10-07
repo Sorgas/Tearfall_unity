@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.scripts.mainMenu
+namespace mainMenu
 {
 public class ButtonData {
     public string name;

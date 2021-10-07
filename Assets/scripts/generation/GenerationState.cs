@@ -1,11 +1,10 @@
-using Assets.scripts.game.model;
-using Assets.scripts.generation.localgen;
-using Assets.scripts.generation.worldgen;
-using Assets.scripts.util.lang;
+using game.model;
+using generation.localgen;
+using generation.worldgen;
 using Leopotam.Ecs;
-using Tearfall_unity.Assets.scripts.generation;
+using util.lang;
 
-namespace Assets.scripts.generation {
+namespace generation {
     // singleton to hold all data related to world and localmap generation
     // configs exist during all generations
     public class GenerationState : Singleton<GenerationState> {

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-
-namespace Assets.scripts.mainMenu.worldmap
+﻿namespace mainMenu.worldmap
 {
 public enum WorldTiles {
         FIELD,

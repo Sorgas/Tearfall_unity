@@ -1,7 +1,11 @@
+using enums.action;
+using game.model.component.task.action;
+using game.model.component.task.action.target;
+using game.model.component.unit.components;
 using Leopotam.Ecs;
 using UnityEngine;
 
-namespace Tearfall_unity.Assets.scripts.game.model.system.unit {
+namespace game.model.system.unit {
     public class ActionSystem : IEcsRunSystem {
         public EcsFilter<TaskComponent>.Exclude<MovementTargetComponent, CurrentActionComponent> filter;
 

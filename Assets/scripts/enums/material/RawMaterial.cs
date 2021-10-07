@@ -1,6 +1,6 @@
 using System;
 
-namespace Tearfall_unity.Assets.scripts.enums.material {
+namespace enums.material {
     [Serializable]
     public class RawMaterial {        
         public int id;

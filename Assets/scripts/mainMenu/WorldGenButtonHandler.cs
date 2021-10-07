@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.scripts.generation;
-using Assets.scripts.mainMenu.worldmap;
-using Assets.scripts.util.geometry;
+using generation;
+using mainMenu.worldmap;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using util.geometry;
 using Random = System.Random;
 
-namespace Assets.scripts.mainMenu {
+namespace mainMenu {
     public class WorldGenButtonHandler : ButtonHandler {
         public Slider sizeSlider;
         public InputField seedField;

@@ -1,7 +1,7 @@
-using Assets.scripts.mainMenu;
+using game.model;
 using UnityEngine;
 
-namespace Assets.scripts.generation.worldgen.generators.drainage {
+namespace generation.worldgen.generators.drainage {
     public class WorldOceanFiller : WorldGenerator {
         private float seaLevel;
 

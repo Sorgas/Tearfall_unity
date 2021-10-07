@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using Assets.scripts.game.model.localmap;
-using Assets.scripts.util.lang;
+﻿using game.model.entity_selector;
+using game.model.localmap;
+using game.model.system.unit;
 using Leopotam.Ecs;
-using Tearfall_unity.Assets.scripts.game.model.entity_selector;
-using Tearfall_unity.Assets.scripts.game.model.system.unit;
+using UnityEngine;
+using util.lang;
 
-namespace Assets.scripts.game.model {
+namespace game.model {
     public class GameModel : Singleton<GameModel> {
         public World world;
         public LocalMap localMap;
@@ -34,8 +34,8 @@ namespace Assets.scripts.game.model {
         }
 
         private void initEcs() {
-            systems = new EcsSystems(ecsWorld)
-            .Add(new MovementSystem())
+            systems = new EcsSystems(ecsWorld);
+            systems.Add(new MovementSystem())
             .Add(new TaskAssignmentSystem()) // finds or creates tasks for units
             .Add(new ActionSystem())
             .Add(new ActionPerformingSystem());

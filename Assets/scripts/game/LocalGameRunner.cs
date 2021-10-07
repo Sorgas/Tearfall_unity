@@ -1,12 +1,12 @@
-using Assets.scripts.game.model;
-using Assets.scripts.game.model.localmap;
-using Assets.scripts.generation;
-using Assets.scripts.util.geometry;
-using Tearfall_unity.Assets.scripts.generation;
+using game.model;
+using game.model.localmap;
+using game.view;
+using generation;
 using UnityEngine;
 using UnityEngine.UI;
+using util.geometry;
 
-namespace Tearfall_unity.Assets.scripts.game {
+namespace game {
 
     // Entry point from Unity scene to game logic. Creates GameModel and GameView when local map scene is loaded. 
     // Calls update() for game model

@@ -1,6 +1,6 @@
-﻿using Assets.scripts.util.geometry;
+﻿using util.geometry;
 
-namespace Assets.scripts.generation.localgen {
+namespace generation.localgen {
     public abstract class LocalGenerator {
         protected LocalGenContainer container;
         protected LocalGenConfig config;

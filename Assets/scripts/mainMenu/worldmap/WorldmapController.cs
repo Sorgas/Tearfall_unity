@@ -1,9 +1,10 @@
-﻿using Assets.scripts.util.geometry;
+﻿using game.model;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using util.geometry;
 
-namespace Assets.scripts.mainMenu.worldmap {
+namespace mainMenu.worldmap {
     public class WorldmapController : MonoBehaviour {
         // external objects
         public RectTransform mask;

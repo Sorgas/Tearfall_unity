@@ -1,4 +1,4 @@
-namespace Assets.scripts.game.model.system
+namespace game.model.system
 {
 /**
  * Rolls time for game.

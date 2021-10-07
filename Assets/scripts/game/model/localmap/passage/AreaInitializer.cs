@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Assets.scripts.util.lang;
 using UnityEngine;
-using static Assets.scripts.enums.PassageEnum;
+using util.lang;
+using static enums.PassageEnum;
 
-namespace Assets.scripts.game.model.localmap.passage {
+namespace game.model.localmap.passage {
     // synonym - a set of areas that are connected with each other. exists only on area inialization step
     class AreaInitializer {
         private LocalMap localMap;

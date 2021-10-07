@@ -1,9 +1,8 @@
-using Assets.scripts.enums;
-using Assets.scripts.game.model;
-using Assets.scripts.game.model.localmap;
+using enums;
+using game.model.localmap;
 using UnityEngine;
 
-namespace Tearfall_unity.Assets.scripts.game.model.entity_selector {
+namespace game.model.entity_selector {
     public class EntitySelectorSystem {
         // public final EntitySelector selector; // TODO not required before large building are implemented
         public EntitySelector selector;

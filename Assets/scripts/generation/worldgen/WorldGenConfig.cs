@@ -1,4 +1,4 @@
-﻿namespace Assets.scripts.generation.worldgen {
+﻿namespace generation.worldgen {
     public
         class WorldGenConfig {
         public int seed = 0; // add random

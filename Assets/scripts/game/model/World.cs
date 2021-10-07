@@ -1,7 +1,6 @@
-﻿using Assets.scripts.game.model.localmap;
-using Assets.scripts.mainMenu;
+﻿using game.model.localmap;
 
-namespace Assets.scripts.game.model {
+namespace game.model {
     public class World {
         public WorldMap worldMap;
         public LocalMap localMap;

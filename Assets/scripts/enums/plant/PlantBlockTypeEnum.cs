@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace Assets.scripts.enums.plant {
+namespace enums.plant {
     class PlantBlockTypeEnum {
         public static readonly PlantBlockType STOMP = new PlantBlockType(10, false, "log");
         public static readonly PlantBlockType ROOT = new PlantBlockType(11, false, "root");

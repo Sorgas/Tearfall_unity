@@ -1,6 +1,6 @@
-﻿using Assets.scripts.util.geometry;
+﻿using util.geometry;
 
-namespace Assets.scripts.generation.localgen {
+namespace generation.localgen {
     public class LocalGenConfig {
         public IntVector2 location; // position on WorldMap
         public float seaLevel = 0.5f;

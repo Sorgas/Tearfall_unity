@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
-namespace Assets.scripts.game.model.system {
+﻿namespace game.model.system {
     public class Updatable {
 
     }

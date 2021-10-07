@@ -1,69 +1,56 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Assets.scripts.enums.action;
-using Assets.scripts.game.model;
-using Assets.scripts.game.model.localmap;
-using Assets.scripts.util.geometry;
-using Assets.scripts.util.lang;
+using enums.action;
+using game.model;
+using game.model.localmap;
 using UnityEngine;
+using util.geometry;
+using util.lang;
 
-namespace Assets.scripts.util.pathfinding {
+namespace util.pathfinding {
     public class AStar : Singleton<AStar> {
         private LocalMap localMap;
 
         public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, ActionTargetTypeEnum targetType) {
             localMap = GameModel.get().localMap;
             Debug.Log("searching path from " + start + " to " + target);
-            Debug.Log("searching path from " + localMap.passageMap.area.get(start) + " to " + localMap.passageMap.area.get(start)); 
-            Node initialNode = new Node(start, null, getHeuristic(target, start));
-            return search(initialNode, target, targetType)?.getPath();
+            return search(new Node(start, null, getH(target, start), 0), target, targetType);
         }
 
-        public List<Vector3Int> makeShortestPath(Vector3Int initialPos, Vector3Int targetPos) => makeShortestPath(initialPos, targetPos, ActionTargetTypeEnum.EXACT);
+        public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target) =>
+            makeShortestPath(start, target, ActionTargetTypeEnum.EXACT);
 
         /**
          * @param targetType  see {@link ActionTarget}
          * @return goal node to restore path from
          */
-        private Node search(Node initialNode, Vector3Int target, ActionTargetTypeEnum targetType) {
-            OpenSet openSet = new OpenSet();
-            HashSet<Vector3Int> closedSet = new HashSet<Vector3Int>();
-            PathFinishCondition finishCondition = new PathFinishCondition(target, targetType);
+        private List<Vector3Int> search(Node initialNode, Vector3Int target, ActionTargetTypeEnum targetType) {
+            var openSet = new BinaryHeap();
+            var closedSet = new HashSet<Vector3Int>();
+            var fetchedNodes = new Dictionary<Vector3Int, Vector3Int?>();
+            var finishCondition = new PathFinishCondition(target, targetType);
 
-            openSet.add(initialNode);
-            int count = 0;
-            while (openSet.size() > 0 && count < 1000) {
-                count++;
-                Debug.Log(openSet.size());
-                Node currentNode = openSet.poll(); //get element with the least sum of costs
-                Debug.Log(openSet.dictionary.Keys.Contains(currentNode));
-                Debug.Log(currentNode.position + " " + openSet.size());
-                // openSet.logSize();
-                if (finishCondition.check(currentNode.position)) return currentNode; //check if path is complete
-
-                List<Vector3Int> vectors = getSuccessors(currentNode.position, closedSet); // TODO rewrite to positions
-                Debug.Log(vectors.Count);
-                int pathLength = currentNode.pathLength + 1;
-                vectors.ForEach(vector => {
-                    Debug.Log(vector);
-                    Node node = new Node(vector, currentNode, getHeuristic(target, vector));
-                    Node oldNode = openSet.get(node);
-                    // if(oldNode != null) {Debug.Log("old node exists");}
-                    if ((oldNode == null) || (oldNode.pathLength > pathLength)) { // if successor node is newly found, or has shorter path
-                        Debug.Log("adding " + node.position);
-                        openSet.add(node); // replace old node
-                    }
+            openSet.push(initialNode);
+            while (openSet.Count > 0) {
+                if (!openSet.tryPop(out var currentNode)) return null; // get node from open set or return not found
+                if (finishCondition.check(currentNode.position))
+                    return getPath(currentNode, fetchedNodes); //check if path is complete
+                var vectors = getSuccessors(currentNode.position, closedSet);
+                var pathLength = currentNode.pathLength + 1;
+                vectors.ForEach(vector => { // iterate passable near positions
+                    openSet.tryGet(vector, out var oldNode);
+                    if (oldNode == null || oldNode.Value.pathLength > pathLength) // if successor node is newly found, or has shorter path
+                        openSet.push(new Node(vector, currentNode.position, getH(target, vector), pathLength)); // replace old node
                 });
-                Debug.Log("closing " + currentNode.position);
                 closedSet.Add(currentNode.position); // node processed
+                fetchedNodes[currentNode.position] = currentNode.parent;
             }
             Debug.Log("No path found");
             return null;
         }
 
-        private float getHeuristic(Vector3Int target, Vector3Int current) {
-            return (target - current).magnitude;
-        }
+        // counts heuristic for current vector
+        private static float getH(Vector3Int target, Vector3Int current) => (target - current).magnitude;
 
         // Gets tiles that can be stepped in from given tile.
         private List<Vector3Int> getSuccessors(Vector3Int center, HashSet<Vector3Int> closedSet) {
@@ -71,6 +58,16 @@ namespace Assets.scripts.util.pathfinding {
                 .Select(vector => center + vector)
                 .Where(vector => localMap.inMap(vector) && localMap.passageMap.hasPathBetweenNeighbours(center, vector))
                 .Where(vector => !closedSet.Contains(vector)).ToList();
+        }
+
+        private List<Vector3Int> getPath(Node node, Dictionary<Vector3Int, Vector3Int?> nodes) {
+            var path = new List<Vector3Int>();
+            Vector3Int? current = node.position;
+            while (current.HasValue) {
+                path.Insert(0, current.Value);
+                current = nodes[current.Value];
+            }
+            return path;
         }
     }
 }

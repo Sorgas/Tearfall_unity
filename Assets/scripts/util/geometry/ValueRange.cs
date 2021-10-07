@@ -1,4 +1,4 @@
-﻿namespace Assets.scripts.util.geometry {
+﻿namespace util.geometry {
     //Represents continuous range of a value.
     public class ValueRange {
         public float min;

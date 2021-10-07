@@ -1,6 +1,4 @@
-﻿using UnityEngine.Tilemaps;
-
-namespace Assets.scripts.generation.worldgen.generators {
+﻿namespace generation.worldgen.generators {
     // Gets generation parameters from ui, launches generation, renders world to tilemap
     public abstract class WorldGenerator {
         protected WorldGenConfig config;

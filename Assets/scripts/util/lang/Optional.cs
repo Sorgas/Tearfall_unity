@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.scripts.util.lang {
+namespace util.lang {
     public class Optional<T> {
         private T value;
 

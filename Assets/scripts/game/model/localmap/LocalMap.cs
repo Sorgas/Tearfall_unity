@@ -1,11 +1,11 @@
 ﻿using System;
-using Assets.scripts.game.model.localmap.passage;
-using Assets.scripts.util.geometry;
-using Tearfall_unity.Assets.scripts.game.model.localmap;
+using game.model.localmap.passage;
+using game.view;
 using UnityEngine;
-using static Assets.scripts.enums.PassageEnum;
+using util.geometry;
+using static enums.PassageEnum;
 
-namespace Assets.scripts.game.model.localmap {
+namespace game.model.localmap {
     public class LocalMap {
         public readonly BlockTypeMap blockType;
         public readonly IntBounds3 bounds;

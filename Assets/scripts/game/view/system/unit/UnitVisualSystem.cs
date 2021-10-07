@@ -1,8 +1,8 @@
-using Assets.scripts.game.model;
+using game.model.component.unit.components;
 using Leopotam.Ecs;
 using UnityEngine;
 
-namespace Tearfall_unity.Assets.scripts.game.view.system.unit {
+namespace game.view.system.unit {
     public class UnitVisualSystem : IEcsRunSystem {
         public EcsFilter<UnitVisualComponent, MovementComponent> filter;
 
