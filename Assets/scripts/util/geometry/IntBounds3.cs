@@ -99,6 +99,13 @@ namespace util.geometry {
             }
         }
 
+        public Vector3Int putInto(Vector3Int vector) {
+            vector.x = Math.Min(maxX, Math.Max(minX, vector.x));
+            vector.y = Math.Min(maxY, Math.Max(minY, vector.y));
+            vector.z = Math.Min(maxZ, Math.Max(minZ, vector.z));
+            return vector;
+        }
+        
         public IntBounds3 clone() {
             return new IntBounds3(this);
         }

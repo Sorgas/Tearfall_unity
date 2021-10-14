@@ -1,14 +1,12 @@
-
-// calls and resets itself using specified condition
-
 using System;
 
+// calls and resets itself using specified condition
 namespace util.input {
     public class DelayedConditionController : DelayedController {
         private Func<bool> condition;
         private bool active;
 
-        public DelayedConditionController(System.Action action, Func<bool> condition) : base(action) {
+        public DelayedConditionController(Action action, Func<bool> condition) : base(action) {
             this.condition = condition;
         }
 

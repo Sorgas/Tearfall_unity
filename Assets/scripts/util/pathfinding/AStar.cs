@@ -61,8 +61,8 @@ namespace util.pathfinding {
         }
 
         private List<Vector3Int> getPath(Node node, Dictionary<Vector3Int, Vector3Int?> nodes) {
-            var path = new List<Vector3Int>();
-            Vector3Int? current = node.position;
+            var path = new List<Vector3Int> { node.position };
+            Vector3Int? current = node.parent;
             while (current.HasValue) {
                 path.Insert(0, current.Value);
                 current = nodes[current.Value];

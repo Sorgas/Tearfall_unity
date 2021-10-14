@@ -51,6 +51,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTargetStatusEnum.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldmapPointerController.cs" />
      <Compile Include="Assets\scripts\game\model\tilemaps\BlockTilesetLoader.cs" />
+     <Compile Include="Assets\scripts\game\view\no_es\MouseMovementSystem.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\drainage\WorldOceanFiller.cs" />
      <Compile Include="Assets\scripts\game\model\component\plant\PlantBlock.cs" />
      <Compile Include="Assets\scripts\util\lang\EnumerableExtension.cs" />
@@ -60,6 +61,7 @@
      <Compile Include="Assets\scripts\generation\PreparationState.cs" />
      <Compile Include="Assets\OptionsMenuButtonHandler.cs" />
      <Compile Include="Assets\scripts\util\extension\ListExtensions.cs" />
+     <Compile Include="Assets\scripts\game\view\no_es\CameraInputSystem.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldTiles.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldmapController.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\ActionPerformingSystem.cs" />
@@ -81,6 +83,7 @@
      <Compile Include="Assets\scripts\game\model\system\GameTime.cs" />
      <Compile Include="Assets\scripts\enums\action\TaskStatusEnum.cs" />
      <Compile Include="Assets\scripts\enums\action\ActionTargetTypeEnum.cs" />
+     <Compile Include="Assets\scripts\util\geometry\ValueRangeInt.cs" />
      <Compile Include="Assets\scripts\mainMenu\PreparationButtonHandler.cs" />
      <Compile Include="Assets\scripts\util\extension\IEnumerableExtensions.cs" />
      <Compile Include="Assets\scripts\enums\plant\PlantBlockTypeEnum.cs" />
@@ -116,11 +119,13 @@
      <Compile Include="Assets\scripts\util\UtilByteArrayWithCounter.cs" />
      <Compile Include="Assets\scripts\enums\unit\Skill.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantContainer.cs" />
+     <Compile Include="Assets\scripts\game\view\no_es\CameraMovementSystem2.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\MoveAction.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\components\UnitComponents.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntBounds3.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenSequence.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\ActionPart.cs" />
+     <Compile Include="Assets\scripts\util\pathfinding\BinaryHeap.cs" />
      <Compile Include="Assets\scripts\game\LocalGameRunner.cs" />
      <Compile Include="Assets\scripts\game\model\system\ModelComponent.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\PassageMap.cs" />
@@ -140,6 +145,7 @@
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalStoneLayersGenerator.cs" />
      <Compile Include="Assets\scripts\util\UtilByteArray.cs" />
      <Compile Include="Assets\scripts\enums\material\Material.cs" />
+     <Compile Include="Assets\scripts\game\view\no_es\MouseInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\TaskAssignmentSystem.cs" />
      <Compile Include="Assets\scripts\ui\CharacterMenuLineHandler.cs" />
      <Compile Include="Assets\scripts\enums\plant\raw\RawPlantLifeStage.cs" />
@@ -154,7 +160,6 @@
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
-     <Compile Include="Assets\scripts\util\pathfinding\BinaryHeap.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

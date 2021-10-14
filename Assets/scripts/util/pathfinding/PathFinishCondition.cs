@@ -37,5 +37,5 @@ namespace util.pathfinding {
         public bool check(Vector3Int current) {
             return acceptable.Contains(current);
         }
-    }
+    } 
 }

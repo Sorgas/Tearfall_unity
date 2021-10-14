@@ -144,6 +144,13 @@ namespace util.geometry {
             return vector;
         }
 
+        public void move(int dx, int dy) {
+            minX += dx;
+            maxX += dx;
+            minY += dy;
+            maxY += dy;
+        }
+        
         public String toString() {
             return "Int3dBounds{" + " " + minX + " " + minY + " " + maxX + " " + maxY + '}';
         }

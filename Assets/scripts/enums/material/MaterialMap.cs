@@ -32,6 +32,7 @@ namespace enums.material {
         }
 
         public Material_ material(int id) {
+            // Debug.Log(id + " " + idMap.Count + " " + map.Count);
             return idMap[id];
         }
 

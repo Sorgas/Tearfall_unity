@@ -15,9 +15,9 @@ namespace game.view.with_entity_selector {
         private RectTransform mapHolder;
         private EntitySelector selector = GameModel.get().selector;
         private EntitySelectorSystem system = GameModel.get().selectorSystem;
-        // private EntitySelectorVisualMovementSystem visualSystem;
         private CameraMovementSystem cameraSystem; // for zoom
         private List<DelayedConditionController> controllers = new List<DelayedConditionController>();
+
         private IntBounds2 screenBounds = new IntBounds2(Screen.width, Screen.height);
         // private Text text;
 
@@ -25,8 +25,6 @@ namespace game.view.with_entity_selector {
             this.camera = initializer.mainCamera;
             mapHolder = initializer.mapHolder;
             localMap = GameModel.get().localMap;
-            int xSize = localMap.xSize;
-            int ySize = localMap.ySize;
             // this.text = initializer.text;
             screenBounds.extendX((int)(-Screen.width * 0.01f));
             screenBounds.extendY((int)(-Screen.height * 0.01f));
@@ -47,10 +45,14 @@ namespace game.view.with_entity_selector {
             controllers.Add(new DelayedKeyController(KeyCode.R, () => changeLayer(1)));
             controllers.Add(new DelayedKeyController(KeyCode.F, () => changeLayer(-1)));
             // move camera when mouse on screen border
-            controllers.Add(new DelayedConditionController(() => moveSelector(0, 1), () => (Input.mousePosition.y > Screen.height * 0.99f && Input.mousePosition.y <= Screen.height)));
-            controllers.Add(new DelayedConditionController(() => moveSelector(0, -1), () => (Input.mousePosition.y < Screen.height * 0.01f && Input.mousePosition.y >= 0)));
-            controllers.Add(new DelayedConditionController(() => moveSelector(1, 0), () => (Input.mousePosition.x > Screen.width * 0.99f && Input.mousePosition.x <= Screen.width)));
-            controllers.Add(new DelayedConditionController(() => moveSelector(-1, 0), () => (Input.mousePosition.x < Screen.width * 0.01f && Input.mousePosition.x >= 0)));
+            controllers.Add(new DelayedConditionController(() => moveSelector(0, 1),
+                () => (Input.mousePosition.y > Screen.height * 0.99f && Input.mousePosition.y <= Screen.height)));
+            controllers.Add(new DelayedConditionController(() => moveSelector(0, -1),
+                () => (Input.mousePosition.y < Screen.height * 0.01f && Input.mousePosition.y >= 0)));
+            controllers.Add(new DelayedConditionController(() => moveSelector(1, 0),
+                () => (Input.mousePosition.x > Screen.width * 0.99f && Input.mousePosition.x <= Screen.width)));
+            controllers.Add(new DelayedConditionController(() => moveSelector(-1, 0),
+                () => (Input.mousePosition.x < Screen.width * 0.01f && Input.mousePosition.x >= 0)));
         }
 
         public void update() {
@@ -61,14 +63,15 @@ namespace game.view.with_entity_selector {
             controllers.ForEach(controller => controller.update(deltaTime));
             cameraSystem.zoomCamera(Input.GetAxis("Mouse ScrollWheel"));
             // mouse moved inside screen
-            if (screenBounds.isIn(Input.mousePosition) && (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0))
+            if (screenBounds.isIn(Input.mousePosition) &&
+                (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0))
                 resetSelectorToMousePosition(Input.mousePosition); // update selector position
-            
         }
 
         // moves selector in current z-layer
         private void handleWASD(int dx, int dy) {
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) { // adjust delta for faster scrolling
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
+                // adjust delta for faster scrolling
                 dx *= 10;
                 dy *= 10;
             }
@@ -77,27 +80,33 @@ namespace game.view.with_entity_selector {
 
         private void moveSelector(int dx, int dy) {
             Vector3Int delta = system.moveSelector(dx, dy, 0);
-            if(dx - delta.x < 0) {
+            if (dx - delta.x < 0) {
                 GameView.get().selectorOverlook.x = -1;
-            } else if(dx - delta.x > 0) {
+            } else if (dx - delta.x > 0) {
                 GameView.get().selectorOverlook.x = 1;
             }
-            if(dy - delta.y < 0) {
+            if (dy - delta.y < 0) {
                 GameView.get().selectorOverlook.y = -1;
-            } else if(dy - delta.y > 0) {
+            } else if (dy - delta.y > 0) {
                 GameView.get().selectorOverlook.y = 1;
             }
         }
 
         public void resetSelectorToMousePosition(Vector3 mousePosition) {
             Vector3 worldPosition = camera.ScreenToWorldPoint(mousePosition);
-            Vector3 mapHolderPosition = mapHolder.InverseTransformPoint(worldPosition); // position relative to mapHolder
+            Vector3 mapHolderPosition =
+                mapHolder.InverseTransformPoint(worldPosition); // position relative to mapHolder
             int zLayer = selector.position.z; // z-layer cannot be changed by moving mouse
             system.setSelectorPosition((int)mapHolderPosition.x, (int)(-zLayer / 2f + mapHolderPosition.y), zLayer);
         }
 
-        private void changeLayer(int dz) {
-            system.moveSelector(0, 0, dz);
+        private void changeLayer(int dz) => system.moveSelector(0, 0, dz);
+
+        private void moveSelectorIntoVisibleArea() {
+            FloatBounds2 bounds = GameView.get().cameraMovementSystem.visibleArea;
+            if (!bounds.isIn(selector.position)) {
+                bounds.putInto(selector.position);
+            }
         }
     }
 }
