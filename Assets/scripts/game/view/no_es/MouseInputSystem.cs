@@ -5,17 +5,16 @@ using util.input;
 
 namespace game.view.no_es {
     public class MouseInputSystem {
-        public bool enabled = true;
         private readonly Camera camera;
         private readonly RectTransform mapHolder;
         private readonly MouseMovementSystem mouseMovementSystem;
-        private readonly CameraMovementSystem2 cameraMovementSystem;
+        private readonly CameraMovementSystem cameraMovementSystem;
         private readonly List<DelayedConditionController> controllers = new List<DelayedConditionController>();
         private readonly IntBounds2 screenBounds = new IntBounds2(Screen.width, Screen.height);
 
-        public MouseInputSystem(LocalGameRunner initializer) {
-            mouseMovementSystem = GameView.get().mouseMovementSystem;
-            cameraMovementSystem = GameView.get().cameraMovementSystem2;
+        public MouseInputSystem(LocalGameRunner initializer, MouseMovementSystem mouseMovementSystem, CameraMovementSystem cameraMovementSystem) {
+            this.mouseMovementSystem = mouseMovementSystem;
+            this.cameraMovementSystem = cameraMovementSystem;
             mapHolder = initializer.mapHolder;
             camera = initializer.mainCamera;
             screenBounds.extendX((int)(-Screen.width * 0.01f));
@@ -37,12 +36,14 @@ namespace game.view.no_es {
         }
 
         public void update() {
-            if (!enabled) return;
             float deltaTime = Time.deltaTime;
             controllers.ForEach(controller => controller.update(deltaTime));
             // mouse moved inside screen
             if (screenBounds.isIn(Input.mousePosition) && (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0))
                 mouseMovementSystem.setTarget(screenToScenePosition(Input.mousePosition));
+            if (Input.GetMouseButton(0)) {
+                
+            }
         }
 
         // moves camera when mouse is on screen border

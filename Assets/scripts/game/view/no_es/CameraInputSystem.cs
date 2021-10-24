@@ -5,14 +5,13 @@ using util.input;
 // moves selector in model
 namespace game.view.no_es {
     public class CameraInputSystem {
-        public bool enabled = true;
-        private readonly CameraMovementSystem2 cameraMovementSystem; // for zoom
+        private readonly CameraMovementSystem cameraMovementSystem; // for zoom
         private readonly MouseMovementSystem mouseMovementSystem;
         private readonly List<DelayedConditionController> controllers = new List<DelayedConditionController>();
 
-        public CameraInputSystem() {
-            cameraMovementSystem = GameView.get().cameraMovementSystem2;
-            mouseMovementSystem = GameView.get().mouseMovementSystem;
+        public CameraInputSystem(MouseMovementSystem mouseMovementSystem, CameraMovementSystem cameraMovementSystem) {
+            this.cameraMovementSystem = cameraMovementSystem;
+            this.mouseMovementSystem = mouseMovementSystem;
             initControllers();
         }
 
@@ -36,7 +35,6 @@ namespace game.view.no_es {
         }
 
         public void update() {
-            if (!enabled) return;
             float deltaTime = Time.deltaTime;
             controllers.ForEach(controller => controller.update(deltaTime));
             cameraMovementSystem.zoomCamera(Input.GetAxis("Mouse ScrollWheel"));

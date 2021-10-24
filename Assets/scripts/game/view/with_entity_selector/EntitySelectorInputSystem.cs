@@ -10,18 +10,17 @@ using util.input;
 namespace game.view.with_entity_selector {
     public class EntitySelectorInputSystem {
         public Camera camera;
-        public bool enabled = true;
         private LocalMap localMap;
         private RectTransform mapHolder;
         private EntitySelector selector = GameModel.get().selector;
         private EntitySelectorSystem system = GameModel.get().selectorSystem;
-        private CameraMovementSystem cameraSystem; // for zoom
+        private CameraWithEsMovementSystem cameraWithEsMovementSystem; // for zoom
         private List<DelayedConditionController> controllers = new List<DelayedConditionController>();
 
         private IntBounds2 screenBounds = new IntBounds2(Screen.width, Screen.height);
         // private Text text;
 
-        public EntitySelectorInputSystem(LocalGameRunner initializer) {
+        public EntitySelectorInputSystem(LocalGameRunner initializer, CameraWithEsMovementSystem cameraWithEsMovementSystem) {
             this.camera = initializer.mainCamera;
             mapHolder = initializer.mapHolder;
             localMap = GameModel.get().localMap;
@@ -29,11 +28,7 @@ namespace game.view.with_entity_selector {
             screenBounds.extendX((int)(-Screen.width * 0.01f));
             screenBounds.extendY((int)(-Screen.height * 0.01f));
             // visualSystem = new EntitySelectorVisualMovementSystem(camera, initializer.selector, initializer.mapHolder);
-            cameraSystem = new CameraMovementSystem(camera, initializer.selector);
             initControllers();
-        }
-
-        public void init() {
         }
 
         private void initControllers() {
@@ -56,12 +51,11 @@ namespace game.view.with_entity_selector {
         }
 
         public void update() {
-            if (!enabled) return;
             GameView.get().selectorOverlook.Set(0, 0);
             float deltaTime = Time.deltaTime;
             Vector3Int currentPosition = selector.position;
             controllers.ForEach(controller => controller.update(deltaTime));
-            cameraSystem.zoomCamera(Input.GetAxis("Mouse ScrollWheel"));
+            cameraWithEsMovementSystem.zoomCamera(Input.GetAxis("Mouse ScrollWheel"));
             // mouse moved inside screen
             if (screenBounds.isIn(Input.mousePosition) &&
                 (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0))
@@ -103,7 +97,7 @@ namespace game.view.with_entity_selector {
         private void changeLayer(int dz) => system.moveSelector(0, 0, dz);
 
         private void moveSelectorIntoVisibleArea() {
-            FloatBounds2 bounds = GameView.get().cameraMovementSystem.visibleArea;
+            FloatBounds2 bounds = cameraWithEsMovementSystem.visibleArea;
             if (!bounds.isIn(selector.position)) {
                 bounds.putInto(selector.position);
             }

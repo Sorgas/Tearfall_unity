@@ -16,6 +16,7 @@ namespace game {
         public Camera mainCamera;
         public RectTransform selector;
         public Text text;
+        public RectTransform jobsMenu;
         // public Text debugTextPanel;
         private bool started = false;
 
@@ -34,19 +35,19 @@ namespace game {
             GameView.get().update();
         }
 
+        // gets world either from worldgen/localgen, savefile, or creates test one
         private void resolveWorld() {
             if (!GenerationState.get().ready) {
                 if (true) {
-                    ensureLocalMap();
+                    createTestLocalMap();
                 } else {
                     // TODO load save game
                 }
             }
             GameModel.get().setWorld(GenerationState.get().world, GenerationState.get().ecsWorld);
         }
-
-        // creates mock local map for testing purposes
-        private void ensureLocalMap() {
+        
+        private void createTestLocalMap() {
             LocalMap localmap = GameModel.get().localMap;
             if (localmap != null) return;
             GenerationState state = GenerationState.get();
@@ -58,7 +59,6 @@ namespace game {
             GenerationState.get().preparationState.settlers.Add(settler);
             state.localGenConfig.location = new IntVector2(5, 5);
             state.generateLocalMap();
-            GameModel.get().setWorld(GenerationState.get().world, GenerationState.get().ecsWorld);
         }
     }
 }

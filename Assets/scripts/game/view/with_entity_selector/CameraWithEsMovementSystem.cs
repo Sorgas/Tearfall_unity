@@ -6,7 +6,7 @@ using util.geometry;
 
 // moves camera to be on same z-level with entity selector sprite and see it on screen
 namespace game.view.with_entity_selector {
-    public class CameraMovementSystem {
+    public class CameraWithEsMovementSystem {
         private readonly Camera camera;
         private RectTransform selectorSprite;
         private Vector3 cameraTarget = new Vector3(0, 0, -1); // target in scene coordinates
@@ -16,7 +16,7 @@ namespace game.view.with_entity_selector {
         private Vector3 cameraSpeed = new Vector3();
         private const int overlookTiles = 3;
 
-        public CameraMovementSystem(Camera camera, RectTransform selectorSprite) {
+        public CameraWithEsMovementSystem(Camera camera, RectTransform selectorSprite) {
             this.camera = camera;
             this.selectorSprite = selectorSprite;
         }

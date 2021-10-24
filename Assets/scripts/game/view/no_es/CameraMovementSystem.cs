@@ -9,7 +9,7 @@ namespace game.view.no_es {
     // smoothly moves camera to camera target
     // keeps target within bounds for camera target
     // TODO add camera velocity
-    public class CameraMovementSystem2 {
+    public class CameraMovementSystem {
         private readonly Camera camera;
         private Vector3 target = new Vector3(0, 0, -1); // target in scene coordinates
         private readonly FloatBounds2 cameraBounds = new FloatBounds2(); // scene
@@ -17,7 +17,7 @@ namespace game.view.no_es {
         private Vector3 cameraSpeed = new Vector3();
         private const int overlookTiles = 3;
 
-        public CameraMovementSystem2(Camera camera) {
+        public CameraMovementSystem(Camera camera) {
             this.camera = camera;
         }
 

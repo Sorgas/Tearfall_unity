@@ -14,17 +14,13 @@ namespace game.view {
     // component for binding GameModel and GameObjects in scene. 
     public class GameView : Singleton<GameView> {
         public LocalMapTileUpdater tileUpdater;
-        private EntitySelectorInputSystem entitySelectorInputSystem;
-        private EntitySelectorVisualMovementSystem entitySelectorVisualMovementSystem;
-        public CameraMovementSystem cameraMovementSystem;
+        public CameraHandler cameraHandler;
+        private HotKeyInputSystem hotKeyInputSystem = new HotKeyInputSystem();
 
-        private CameraInputSystem cameraInputSystem;
-        public CameraMovementSystem2 cameraMovementSystem2;
-        private MouseInputSystem mouseInputSystem;
-        public MouseMovementSystem mouseMovementSystem;
         private EcsSystems systems; // systems for updating scene
         public Vector2Int selectorOverlook = new Vector2Int();
         public RectTransform mapHolder;
+        public RectTransform jobsMenu;
         public bool useSelector = false;
         private readonly ValueRangeInt zRange = new ValueRangeInt(); // range for current z in model units 
         public int currentZ;
@@ -32,42 +28,44 @@ namespace game.view {
         public void init(LocalGameRunner initializer) {
             Debug.Log("initializing view");
             mapHolder = initializer.mapHolder;
+            jobsMenu = initializer.jobsMenu;
             initEcs(GenerationState.get().ecsWorld);
             tileUpdater = new LocalMapTileUpdater(initializer.mapHolder);
+            cameraHandler = new CameraHandler(initializer, false);
             zRange.set(0, GameModel.get().localMap.zSize - 1);
-            if (useSelector) {
-                entitySelectorInputSystem = new EntitySelectorInputSystem(initializer);
-                entitySelectorInputSystem.init();
-                entitySelectorVisualMovementSystem = new EntitySelectorVisualMovementSystem(initializer);
-                cameraMovementSystem = new CameraMovementSystem(initializer.mainCamera, initializer.selector);
-            } else {
-                mouseMovementSystem = new MouseMovementSystem(initializer);
-                cameraMovementSystem2 = new CameraMovementSystem2(initializer.mainCamera);
-                mouseInputSystem = new MouseInputSystem(initializer);
-                cameraInputSystem = new CameraInputSystem();
-            }
             tileUpdater.flush();
             Debug.Log("view initialized");
         }
 
         public void update() {
-            if (!useSelector) {
-                mouseInputSystem.update();
-                mouseMovementSystem.update();
-                cameraInputSystem.update();
-                cameraMovementSystem2.update();
-            }
-            if (entitySelectorInputSystem != null) entitySelectorInputSystem.update();
-            if (entitySelectorVisualMovementSystem != null) entitySelectorVisualMovementSystem.update();
-            if (cameraMovementSystem != null) cameraMovementSystem.update();
-            if (cameraInputSystem != null) cameraInputSystem.update();
-            if (systems != null) systems.Run();
+            cameraHandler.update();
+            hotKeyInputSystem?.update();
+            systems?.Run();
         }
 
         private void initEcs(EcsWorld ecsWorld) {
             systems = new EcsSystems(ecsWorld);
             systems.Add(new UnitVisualSystem());
             systems.Init();
+        }
+
+        public void toggleJobsMenu() {
+            toggleMenu(jobsMenu.gameObject);
+        }
+
+        private void toggleMenu(GameObject menu) {
+            if (!menu.active) {
+                hideAllMenus();
+                cameraHandler.enabled = false;
+                menu.SetActive(true);
+            } else {
+                hideAllMenus();
+            }
+        }
+
+        public void hideAllMenus() {
+            cameraHandler.enabled = true;
+            jobsMenu.gameObject.SetActive(false);
         }
 
         public int changeLayer(int dz) {

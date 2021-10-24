@@ -1,13 +1,17 @@
 using System.Collections.Generic;
 using enums;
 using enums.action;
+using enums.unit;
 using game.model.component.task.action;
 using UnityEngine;
 
 namespace game.model.component.unit.components { // entity with this is a unit
-    public struct UnitComponent { }
-
-// stores unit's position, task target position and path to target
+    
+    public struct UnitComponent {
+        public int id;
+    }
+    
+    // stores unit's position, task target position and path to target
     public struct MovementComponent {
         public Vector3Int position; // model position
         public ActionTargetTypeEnum targetType; // near/exact/any
@@ -38,7 +42,7 @@ namespace game.model.component.unit.components { // entity with this is a unit
     }
 
     public struct JobsComponent {
-        public List<string> enabledJobs;
+        public List<JobsEnum> enabledJobs;
     }
 
     public struct OwnershipComponent {
@@ -91,4 +95,6 @@ namespace game.model.component.unit.components { // entity with this is a unit
     public struct CurrentActionComponent {
         public _Action action;
     }
+    
+    
 }
