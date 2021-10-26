@@ -1,14 +1,12 @@
 using game.model;
 using game.model.tilemaps;
-using game.view.no_es;
 using game.view.system.unit;
-using game.view.with_entity_selector;
+using game.view.ui.jobs_widget;
 using generation;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.geometry;
 using util.lang;
-using EntitySelectorVisualMovementSystem = game.view.with_entity_selector.EntitySelectorVisualMovementSystem;
 
 namespace game.view {
     // component for binding GameModel and GameObjects in scene. 
@@ -54,9 +52,10 @@ namespace game.view {
         }
 
         private void toggleMenu(GameObject menu) {
-            if (!menu.active) {
+            if (!menu.activeSelf) {
                 hideAllMenus();
                 cameraHandler.enabled = false;
+                menu.GetComponent<JobsWidgetHandler>().refill();
                 menu.SetActive(true);
             } else {
                 hideAllMenus();

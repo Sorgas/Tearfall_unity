@@ -42,7 +42,7 @@ namespace game.model.component.unit.components { // entity with this is a unit
     }
 
     public struct JobsComponent {
-        public List<JobsEnum> enabledJobs;
+        public List<string> enabledJobs;
     }
 
     public struct OwnershipComponent {

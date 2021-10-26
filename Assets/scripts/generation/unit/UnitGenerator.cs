@@ -12,7 +12,7 @@ namespace generation.unit {
                 .Replace(new AgeComponent { age = data.age }) // TODO add name generator
                 .Replace(new MovementComponent { position = new Vector3Int(), path = new List<Vector3Int>(), speed = 0.06f, step = 0 })
                 .Replace(new UnitVisualComponent())
-                .Replace(new JobsComponent {enabledJobs = new List<JobsEnum>()})
+                .Replace(new JobsComponent {enabledJobs = new List<string>()})
                 .Replace(new NameComponent() {name = "mockName"})
                 .Replace(new UnitComponent());
         }
