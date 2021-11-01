@@ -11,9 +11,10 @@ using util.lang;
 namespace game.view {
     // component for binding GameModel and GameObjects in scene. 
     public class GameView : Singleton<GameView> {
-        public LocalMapTileUpdater tileUpdater;
+        private KeyInputSystem keyInputSystem = KeyInputSystem.get();
         public CameraHandler cameraHandler;
-        private HotKeyInputSystem hotKeyInputSystem = new HotKeyInputSystem();
+        
+        public LocalMapTileUpdater tileUpdater;
 
         private EcsSystems systems; // systems for updating scene
         public Vector2Int selectorOverlook = new Vector2Int();
@@ -37,7 +38,7 @@ namespace game.view {
 
         public void update() {
             cameraHandler.update();
-            hotKeyInputSystem?.update();
+            // hotKeyInputSystem?.update();
             systems?.Run();
         }
 

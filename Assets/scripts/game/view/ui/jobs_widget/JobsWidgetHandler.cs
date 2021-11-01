@@ -11,9 +11,9 @@ namespace game.view.ui.jobs_widget {
     public class JobsWidgetHandler : MonoBehaviour {
         public RectTransform header;
         public RectTransform content;
-        private string iconPath = "prefabs/jobsmenu/JobIcon";
-        private string rowPath = "prefabs/jobsmenu/UnitJobRow";
-        private string togglePath = "prefabs/jobsmenu/JobToggle";
+        private const string iconPath = "prefabs/jobsmenu/JobIcon";
+        private const string rowPath = "prefabs/jobsmenu/UnitJobRow";
+        private const string togglePath = "prefabs/jobsmenu/JobToggle";
 
         private void Start() {
             fillIcons();

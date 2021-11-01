@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ui {
+namespace game.view.ui.generation {
     public class CharacterMenuLineHandler : MonoBehaviour {
         public Text titleText;
         public Text bioText;

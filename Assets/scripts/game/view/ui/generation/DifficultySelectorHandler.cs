@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ui {
+namespace game.view.ui.generation {
     public class DifficultySelectorHandler : MonoBehaviour
     {
         // Start is called before the first frame update
