@@ -6,7 +6,7 @@ namespace game.view.ui.toolbar {
     // holds and manages sub-panels for toolbar panel
     // only one sub-panel can be enabled at once
     // passes input to sub-panels
-    public class ToolbarPanelHandler : MonoBehaviour, IHotKeyAcceptor, IWindow{
+    public class ToolbarPanelHandler : MonoBehaviour, IHotKeyAcceptor, IWindow {
         protected Dictionary<string, ToolbarPanelHandler> subPanels = new Dictionary<string, ToolbarPanelHandler>();
         
         public bool accept(KeyCode key) {
@@ -37,6 +37,10 @@ namespace game.view.ui.toolbar {
             foreach (var toolbarPanelHandler in subPanels.Values) {
                 toolbarPanelHandler.close();
             }
+        }
+        
+        public string getName() {
+            return "toolbar";
         }
     }
 }

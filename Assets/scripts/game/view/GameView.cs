@@ -1,4 +1,4 @@
-using game.model;
+ using game.model;
 using game.model.tilemaps;
 using game.view.system.unit;
 using game.view.ui.jobs_widget;
@@ -19,7 +19,6 @@ namespace game.view {
         private EcsSystems systems; // systems for updating scene
         public Vector2Int selectorOverlook = new Vector2Int();
         public RectTransform mapHolder;
-        public RectTransform jobsMenu;
         public bool useSelector = false;
         private readonly ValueRangeInt zRange = new ValueRangeInt(); // range for current z in model units 
         public int currentZ;
@@ -27,7 +26,7 @@ namespace game.view {
         public void init(LocalGameRunner initializer) {
             Debug.Log("initializing view");
             mapHolder = initializer.mapHolder;
-            jobsMenu = initializer.jobsMenu;
+            keyInputSystem.windowManager.addWindow(initializer.jobsWindow, KeyCode.J);
             initEcs(GenerationState.get().ecsWorld);
             tileUpdater = new LocalMapTileUpdater(initializer.mapHolder);
             cameraHandler = new CameraHandler(initializer, false);
@@ -38,7 +37,7 @@ namespace game.view {
 
         public void update() {
             cameraHandler.update();
-            // hotKeyInputSystem?.update();
+            keyInputSystem?.update();
             systems?.Run();
         }
 
@@ -47,27 +46,7 @@ namespace game.view {
             systems.Add(new UnitVisualSystem());
             systems.Init();
         }
-
-        public void toggleJobsMenu() {
-            toggleMenu(jobsMenu.gameObject);
-        }
-
-        private void toggleMenu(GameObject menu) {
-            if (!menu.activeSelf) {
-                hideAllMenus();
-                cameraHandler.enabled = false;
-                menu.GetComponent<JobsWidgetHandler>().refill();
-                menu.SetActive(true);
-            } else {
-                hideAllMenus();
-            }
-        }
-
-        public void hideAllMenus() {
-            cameraHandler.enabled = true;
-            jobsMenu.gameObject.SetActive(false);
-        }
-
+        
         public int changeLayer(int dz) {
             int oldZ = currentZ;
             currentZ = zRange.clamp(currentZ + dz);

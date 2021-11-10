@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using util.lang.extension;
 
 namespace game.view.ui.jobs_widget {
-    public class JobsWidgetHandler : MonoBehaviour {
+    public class JobsWindowHandler : MbWindow, IHotKeyAcceptor {
         public RectTransform header;
         public RectTransform content;
         private const string iconPath = "prefabs/jobsmenu/JobIcon";
@@ -19,9 +19,17 @@ namespace game.view.ui.jobs_widget {
             fillIcons();
         }
 
-        public void refill() {
+        public override void open()  {
+            base.open();
             deleteRows();
             fillRows();
+        }
+
+        // creates toggles associated to actual JobEnum, adds listeners
+        private void deleteRows() {
+            foreach (Transform child in content.transform) {
+                Destroy(child.gameObject);
+            }
         }
 
         // creates icons for actual JobsEnum
@@ -36,13 +44,6 @@ namespace game.view.ui.jobs_widget {
                 icon.transform.localPosition = new Vector3(startX + iconWidth * i, 0, 0);
                 Sprite sprite = Resources.Load<Sprite>("icons/jobs/" + job.iconName);
                 icon.transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-            }
-        }
-
-        // creates toggles associated to actual JobEnum, adds listeners
-        private void deleteRows() {
-            foreach (Transform child in content.transform) {
-                Destroy(child.gameObject);
             }
         }
 
@@ -62,7 +63,7 @@ namespace game.view.ui.jobs_widget {
                 }
             }
         }
-        
+
         private void createToggles(GameObject row, JobsComponent component) {
             GameObject togglePrefab = Resources.Load<GameObject>(togglePath);
             RectTransform unitName = row.transform.GetChild(0).GetComponent<RectTransform>();
@@ -87,6 +88,24 @@ namespace game.view.ui.jobs_widget {
         private string getUnitName(EcsEntity unit) {
             NameComponent? name = unit.get<NameComponent>();
             return name.HasValue ? name.Value.name : "no name";
+        }
+
+        public new string getName() {
+            return "jobs";
+        }
+
+        public bool accept(KeyCode key) {
+            switch (key) {
+                case KeyCode.J:
+                case KeyCode.Q: 
+                    WindowManager.get().closeWindow(this);
+                    return true;
+            }
+            return false;
+        }
+
+        public void closeFromUI() {
+            WindowManager.get().closeWindow(this);
         }
     }
 }
