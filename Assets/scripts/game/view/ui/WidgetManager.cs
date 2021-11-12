@@ -16,5 +16,9 @@ namespace game.view {
             }
             return false;
         }
+
+        public void addWidget(IHotKeyAcceptor widget) {
+            widgets.Add(widget);
+        }
     }
 }

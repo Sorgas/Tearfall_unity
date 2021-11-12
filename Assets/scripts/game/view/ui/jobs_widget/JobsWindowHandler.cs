@@ -90,7 +90,7 @@ namespace game.view.ui.jobs_widget {
             return name.HasValue ? name.Value.name : "no name";
         }
 
-        public new string getName() {
+        public override string getName() {
             return "jobs";
         }
 

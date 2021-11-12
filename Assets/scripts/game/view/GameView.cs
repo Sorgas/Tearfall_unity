@@ -27,6 +27,7 @@ namespace game.view {
             Debug.Log("initializing view");
             mapHolder = initializer.mapHolder;
             keyInputSystem.windowManager.addWindow(initializer.jobsWindow, KeyCode.J);
+            keyInputSystem.widgetManager.addWidget(initializer.menuWidget);
             initEcs(GenerationState.get().ecsWorld);
             tileUpdater = new LocalMapTileUpdater(initializer.mapHolder);
             cameraHandler = new CameraHandler(initializer, false);

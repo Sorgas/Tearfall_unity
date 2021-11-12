@@ -2,6 +2,7 @@ using game.model;
 using game.model.localmap;
 using game.view;
 using game.view.ui.jobs_widget;
+using game.view.ui.menu_widget;
 using generation;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -18,7 +19,8 @@ namespace game {
         public Camera mainCamera;
         public RectTransform selector;
         public Text text;
-        [FormerlySerializedAs("jobsMenu")] public JobsWindowHandler jobsWindow;
+        public JobsWindowHandler jobsWindow;
+        public MenuWidgetHandler menuWidget;
         // public Text debugTextPanel;
         private bool started = false;
 

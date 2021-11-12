@@ -13,7 +13,7 @@ namespace game.view.ui {
             gameObject.SetActive(true);
         }
 
-        public string getName() {
+        public virtual string getName() {
             return "";
         }
     }
