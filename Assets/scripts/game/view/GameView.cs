@@ -1,7 +1,7 @@
- using game.model;
+using game.model;
 using game.model.tilemaps;
+using game.view.camera;
 using game.view.system.unit;
-using game.view.ui.jobs_widget;
 using generation;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -12,8 +12,7 @@ namespace game.view {
     // component for binding GameModel and GameObjects in scene. 
     public class GameView : Singleton<GameView> {
         private KeyInputSystem keyInputSystem = KeyInputSystem.get();
-        public CameraHandler cameraHandler;
-        
+        public CameraAndMouseHandler cameraAndMouseHandler;
         public LocalMapTileUpdater tileUpdater;
 
         private EcsSystems systems; // systems for updating scene
@@ -30,14 +29,14 @@ namespace game.view {
             keyInputSystem.widgetManager.addWidget(initializer.menuWidget);
             initEcs(GenerationState.get().ecsWorld);
             tileUpdater = new LocalMapTileUpdater(initializer.mapHolder);
-            cameraHandler = new CameraHandler(initializer, false);
+            cameraAndMouseHandler = new CameraAndMouseHandler(initializer);
             zRange.set(0, GameModel.get().localMap.zSize - 1);
             tileUpdater.flush();
             Debug.Log("view initialized");
         }
 
         public void update() {
-            cameraHandler.update();
+            cameraAndMouseHandler.update();
             keyInputSystem?.update();
             systems?.Run();
         }
@@ -47,7 +46,7 @@ namespace game.view {
             systems.Add(new UnitVisualSystem());
             systems.Init();
         }
-        
+
         public int changeLayer(int dz) {
             int oldZ = currentZ;
             currentZ = zRange.clamp(currentZ + dz);

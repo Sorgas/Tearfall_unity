@@ -57,12 +57,16 @@ namespace game {
             GenerationState state = GenerationState.get();
             state.worldGenConfig.size = 10;
             state.generateWorld();
+            // createTestSettler();
+            state.localGenConfig.location = new IntVector2(5, 5);
+            state.generateLocalMap();
+        }
+
+        private void createTestSettler() {
             SettlerData settler = new SettlerData();
             settler.name = "test settler";
             settler.age = 30;
             GenerationState.get().preparationState.settlers.Add(settler);
-            state.localGenConfig.location = new IntVector2(5, 5);
-            state.generateLocalMap();
         }
     }
 }

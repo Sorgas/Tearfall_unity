@@ -7,7 +7,7 @@ namespace util.geometry {
         public int maxZ;
         // private Vector3 cacheVector = new Vector3();
 
-        public IntBounds3(IntVector3 pos1, IntVector3 pos2) : this(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z) { }
+        public IntBounds3(Vector3Int pos1, Vector3Int pos2) : this(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z) { }
 
         public IntBounds3() : this(0, 0, 0, 0, 0, 0) { }
 
@@ -99,6 +99,7 @@ namespace util.geometry {
             }
         }
 
+        // modifies vector to be included into bounds with minimal change
         public Vector3Int putInto(Vector3Int vector) {
             vector.x = Math.Min(maxX, Math.Max(minX, vector.x));
             vector.y = Math.Min(maxY, Math.Max(minY, vector.y));

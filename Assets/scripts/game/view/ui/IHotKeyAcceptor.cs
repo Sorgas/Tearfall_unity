@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace game.view {
+namespace game.view.ui {
     public interface IHotKeyAcceptor {
         public bool accept(KeyCode key);
     }

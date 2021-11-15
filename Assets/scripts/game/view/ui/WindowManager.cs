@@ -39,7 +39,7 @@ namespace game.view.ui {
         public void closeWindow(IWindow window) {
             activeWindow = null;
             window.close();
-            GameView.get().cameraHandler.enabled = true;
+            GameView.get().cameraAndMouseHandler.enabled = true;
         }
 
         private bool toggleWindow(IWindow window) {
@@ -55,7 +55,7 @@ namespace game.view.ui {
             closeAll();
             activeWindow = window;
             activeWindow.open();
-            GameView.get().cameraHandler.enabled = false;
+            GameView.get().cameraAndMouseHandler.enabled = false;
             return true;
         }
     }

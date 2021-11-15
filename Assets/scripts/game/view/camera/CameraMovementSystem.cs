@@ -1,5 +1,6 @@
 using game.model;
 using game.model.localmap;
+using game.view.camera;
 using UnityEngine;
 using util.geometry;
 
@@ -15,6 +16,7 @@ namespace game.view.no_es {
         private readonly ValueRange cameraFovRange = new ValueRange(2, 20);
         private Vector3 cameraSpeed = new Vector3();
         private const int overlookTiles = 3;
+        public MouseInputSystem mouseInputSystem;
 
         public CameraMovementSystem(Camera camera) {
             this.camera = camera;
@@ -25,9 +27,9 @@ namespace game.view.no_es {
         }
 
         public void update() {
-            if (camera.transform.localPosition != target)
-                camera.transform.localPosition =
-                    Vector3.SmoothDamp(camera.transform.localPosition, target, ref cameraSpeed, 0.1f);
+            if (camera.transform.localPosition == target) return;
+            camera.transform.localPosition = Vector3.SmoothDamp(camera.transform.localPosition, target, ref cameraSpeed, 0.08f);
+            mouseInputSystem.setSelectorToMousePosition();
         }
 
         public void zoomCamera(float delta) {

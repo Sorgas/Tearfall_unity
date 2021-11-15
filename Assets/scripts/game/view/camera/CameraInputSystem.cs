@@ -1,17 +1,20 @@
 using System.Collections.Generic;
+using game.view.camera;
 using UnityEngine;
 using util.input;
 
 // moves selector in model
 namespace game.view.no_es {
     public class CameraInputSystem {
-        private readonly CameraMovementSystem cameraMovementSystem; // for zoom
+        private readonly MouseInputSystem mouseInputSystem;
         private readonly MouseMovementSystem mouseMovementSystem;
+        private readonly CameraMovementSystem cameraMovementSystem; // for zoom
         private readonly List<DelayedConditionController> controllers = new List<DelayedConditionController>();
 
-        public CameraInputSystem(MouseMovementSystem mouseMovementSystem, CameraMovementSystem cameraMovementSystem) {
+        public CameraInputSystem(MouseInputSystem mouseInputSystem, MouseMovementSystem mouseMovementSystem, CameraMovementSystem cameraMovementSystem) {
             this.cameraMovementSystem = cameraMovementSystem;
             this.mouseMovementSystem = mouseMovementSystem;
+            this.mouseInputSystem = mouseInputSystem;
             initControllers();
         }
 
@@ -50,7 +53,10 @@ namespace game.view.no_es {
             moveCameraTarget(dx, dy);
         }
 
-        private void moveCameraTarget(int dx, int dy) => cameraMovementSystem.moveCameraTarget(dx, dy);
+        private void moveCameraTarget(int dx, int dy) {
+            cameraMovementSystem.moveCameraTarget(dx, dy);
+            mouseInputSystem.setSelectorToMousePosition();
+        }
 
         private void changeLayer(int dz) {
             dz = GameView.get().changeLayer(dz);

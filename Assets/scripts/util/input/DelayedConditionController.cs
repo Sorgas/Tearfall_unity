@@ -2,6 +2,8 @@ using System;
 
 // calls and resets itself using specified condition
 namespace util.input {
+    // Adds condition to DelayedController. When updated, checks condition and only then calls DelayedController to run time with delays.
+    // If condition is failed, time counter is reset.
     public class DelayedConditionController : DelayedController {
         private Func<bool> condition;
         private bool active;

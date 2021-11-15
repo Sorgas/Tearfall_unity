@@ -25,6 +25,7 @@ namespace game.model.tilemaps {
 
         private const int FLOOR_LAYER = 0;
         private const int WALL_LAYER = 1;
+        private const int SELECTION_LAYER = 2;
 
         public LocalMapTileUpdater(RectTransform mapHolder) {
             this.mapHolder = mapHolder;
@@ -93,7 +94,7 @@ namespace game.model.tilemaps {
                 .ToList().ForEach(pos => updateTile(pos, false));
         }
 
-        // Chooses ramp tile by surrounding walls.
+        // Chooses ramp tile by surrounding walls. Don't touch!
         private string selectRamp(int x, int y, int z) {
             uint walls = observeWalls(x, y, z);
             if ((walls & 0b00001010) == 0b00001010) {
@@ -136,6 +137,25 @@ namespace game.model.tilemaps {
                 }
             }
             return walls;
+        }
+
+        public void crateSelectionTile(Vector3Int pos) {
+            int x = pos.x;
+            int y = pos.y;
+            int z = pos.z;
+            Vector3Int vector = new Vector3Int(x, y, SELECTION_LAYER);
+            BlockType blockType = BlockTypeEnum.get(map.blockType.get(x, y, z));
+            Tile tile = null;
+            if (blockType != SPACE) {
+                string type = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;
+                tile = tileSetHolder.tilesets["SELECTION"]["WALLF"];
+            }
+            layers[z].SetTile(vector, tile);
+            if (blockType == SPACE) setToppingForSpace(x, y, z);
+        }
+        
+        public void hideSelectionTile(Vector3Int position) {
+            
         }
     }
 }
