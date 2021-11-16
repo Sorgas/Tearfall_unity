@@ -23,11 +23,10 @@ namespace game.model.tilemaps {
                     tilesets.Add(material.name, tileset);
                 }
             }
-            materials.ForEach(material => {
-            
-            });
+            Sprite selection = atlas.GetSprite("selection");
+            Dictionary<string, Tile> tileset2 = loader.slice(selection);
+            tilesets.Add("selection", tileset2);
             flushNotFound();
-        
         }
 
         private Sprite getSprite(SpriteAtlas atlas, Material_ material) {

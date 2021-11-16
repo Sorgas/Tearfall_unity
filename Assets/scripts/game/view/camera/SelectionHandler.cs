@@ -7,7 +7,7 @@ namespace game.view.camera {
         private Vector3Int start; // inclusive start of selection
         private Vector3Int finish; // inclusive finish of selection
         private MouseMovementSystem mouseMovementSystem;
-        private SelectionDisplayState displayState = new SelectionDisplayState();
+        private SelectionState state = new SelectionState();
         private bool started = false;
         private IntBounds3 bounds = new IntBounds3();
         public bool enabled = true;
@@ -43,17 +43,20 @@ namespace game.view.camera {
         
         public void handleMouseMove() {
             if (started) {
-                // displayState.update(mouseMovementSystem.getTarget());
+                Vector3Int newPosition = mouseMovementSystem.getTarget();
+                state.update(newPosition);
             }
         }
         
         private void startSelection() {
             started = true;
+            state.startSelection(mouseMovementSystem.getTarget());
             Debug.Log("selection started " + mouseMovementSystem.getTarget());
         }
 
         private void finishSelection() {
             started = false;
+            state.reset();
             Debug.Log("selection finished " + mouseMovementSystem.getTarget());
 
         }
@@ -61,10 +64,6 @@ namespace game.view.camera {
         private void cancelSelection() {
             started = false;
             Debug.Log("selection canceled " + mouseMovementSystem.getTarget());
-        }
-
-        public void normalizeSelection() {
-
         }
     }
 }

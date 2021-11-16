@@ -1,4 +1,6 @@
-﻿namespace util.geometry {
+﻿using System;
+
+namespace util.geometry {
     public class ValueRangeInt {
         public int min;
         public int max;
@@ -11,7 +13,19 @@
             this.min = min;
             this.max = max;
         }
+        
+        public ValueRangeInt setAndNormalize(int value1, int value2) {
+            min = Math.Min(value1, value2);
+            max = Math.Max(value1, value2);
+            return this;
+        }
 
+        public void iterate(Action<int> action) {
+            for (int i = min; i <= max; i++) {
+                action.Invoke(i);
+            }
+        }
+        
         public int random() => ((int)UnityEngine.Random.value * (max - min)) + min;
 
         public bool check(int value) {
@@ -24,6 +38,13 @@
                 : value > max
                     ? max
                     : value;
+        }
+
+        // expands range to include value
+        public ValueRangeInt expandTo(int value) {
+            if (value < min) min = value;
+            if (value > max) max = value;
+            return this;
         }
     }
 }

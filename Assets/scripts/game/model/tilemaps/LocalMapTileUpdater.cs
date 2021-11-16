@@ -139,23 +139,20 @@ namespace game.model.tilemaps {
             return walls;
         }
 
-        public void crateSelectionTile(Vector3Int pos) {
-            int x = pos.x;
-            int y = pos.y;
-            int z = pos.z;
+        public void createSelectionTile(int x, int y, int z) {
             Vector3Int vector = new Vector3Int(x, y, SELECTION_LAYER);
             BlockType blockType = BlockTypeEnum.get(map.blockType.get(x, y, z));
             Tile tile = null;
             if (blockType != SPACE) {
                 string type = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;
-                tile = tileSetHolder.tilesets["SELECTION"]["WALLF"];
+                tile = tileSetHolder.tilesets["selection"][type];
             }
             layers[z].SetTile(vector, tile);
             if (blockType == SPACE) setToppingForSpace(x, y, z);
         }
         
-        public void hideSelectionTile(Vector3Int position) {
-            
+        public void hideSelectionTile(int x, int y, int z) {
+            layers[z].SetTile(new Vector3Int(x, y, SELECTION_LAYER), null);
         }
     }
 }

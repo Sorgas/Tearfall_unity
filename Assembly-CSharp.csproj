@@ -61,6 +61,7 @@
      <Compile Include="Assets\scripts\game\model\localmap\LocalMap.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedKeyController.cs" />
      <Compile Include="Assets\scripts\game\model\component\plant\AbstractPlant.cs" />
+     <Compile Include="Assets\scripts\game\view\camera\SelectionState.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\ScrollableCameraController.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\TestSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTarget.cs" />
@@ -89,7 +90,7 @@
      <Compile Include="Assets\scripts\util\pathfinding\PathFinishCondition.cs" />
      <Compile Include="Assets\scripts\enums\OrientationEnum.cs" />
      <Compile Include="Assets\scripts\game\view\ui\IWindow.cs" />
-     <Compile Include="Assets\scripts\util\geometry\FloatBounds2.cs" />
+     <Compile Include="Assets\scripts\util\geometry\bounds\FloatBounds2.cs" />
      <Compile Include="Assets\scripts\game\model\tilemaps\LocalMapTileUpdater.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedConditionController.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenContainer.cs" />
@@ -127,6 +128,7 @@
      <Compile Include="Assets\scripts\enums\unit\JobsEnum.cs" />
      <Compile Include="Assets\scripts\enums\plant\PlantLifeStage.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\TaskSystem.cs" />
+     <Compile Include="Assets\scripts\game\view\camera\SelectionHandler.cs" />
      <Compile Include="Assets\scripts\game\view\system\unit\UnitVisualSystem.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EnumerableExtension.cs" />
      <Compile Include="Assets\scripts\enums\PassageEnum.cs" />
@@ -151,7 +153,7 @@
      <Compile Include="Assets\scripts\game\view\ui\menu_widget\MenuWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\MoveAction.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\components\UnitComponents.cs" />
-     <Compile Include="Assets\scripts\util\geometry\IntBounds3.cs" />
+     <Compile Include="Assets\scripts\util\geometry\bounds\IntBounds3.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenSequence.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\ActionPart.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\BinaryHeap.cs" />
@@ -167,7 +169,7 @@
      <Compile Include="Assets\scripts\game\model\entity_selector\EntitySelector.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\GameObjectExtension.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\AStar.cs" />
-     <Compile Include="Assets\scripts\util\geometry\IntBounds2.cs" />
+     <Compile Include="Assets\scripts\util\geometry\bounds\IntBounds2.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntVector3.cs" />
      <Compile Include="Assets\scripts\game\view\GameView.cs" />
      <Compile Include="Assets\scripts\game\model\World.cs" />
@@ -191,8 +193,7 @@
      <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\view\ui\WindowManager.cs" />
-     <Compile Include="Assets\scripts\game\view\camera\SelectionHandler.cs" />
-     <Compile Include="Assets\scripts\game\view\camera\SelectionDisplayState.cs" />
+     <Compile Include="Assets\scripts\util\geometry\bounds\TwoPointIntBounds3.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

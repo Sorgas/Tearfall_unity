@@ -5,7 +5,6 @@ namespace util.geometry {
     public class IntBounds3 : IntBounds2 {
         public int minZ;
         public int maxZ;
-        // private Vector3 cacheVector = new Vector3();
 
         public IntBounds3(Vector3Int pos1, Vector3Int pos2) : this(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z) { }
 
@@ -15,21 +14,15 @@ namespace util.geometry {
 
         public IntBounds3(Vector3Int c, int x, int y, int z) : this(c.x - x, c.y - y, c.z - z, c.x + x, c.y + y, c.z + z) { }
 
-        public IntBounds3(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
-            set(minX, minY, minZ, maxX, maxY, maxZ);
-        }
+        public IntBounds3(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) => set(minX, minY, minZ, maxX, maxY, maxZ);
 
-        public new bool isIn(IntVector3 vector) {
-            return isIn(vector.x, vector.y, vector.z);
-        }
+        public new bool isIn(IntVector3 vector) => isIn(vector.x, vector.y, vector.z);
 
-        public bool isIn(Vector3 vector) {
-            return isIn(vector.x, vector.y, vector.z);
-        }
+        public bool isIn(Vector3 vector) => isIn(vector.x, vector.y, vector.z);
 
-        public bool isIn(float x, float y, float z) {
-            return base.isIn(x, y) && z <= maxZ && z >= minZ;
-        }
+        public bool isIn(float x, float y, float z) => base.isIn(x, y) && z <= maxZ && z >= minZ;
+
+        public void set(Vector3Int pos1, Vector3Int pos2) => set(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z);
 
         public void set(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
             base.set(minX, minY, maxX, maxY);
@@ -37,8 +30,11 @@ namespace util.geometry {
             this.maxZ = Math.Max(minZ, maxZ);
         }
 
-        public void set(IntVector3 pos1, IntVector3 pos2) {
-            set(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z);
+        public IntBounds3 set(IntBounds3 source) {
+            base.set(source);
+            minZ = Math.Min(source.minZ, source.maxZ);
+            maxZ = Math.Max(source.minZ, source.maxZ);
+            return this;
         }
 
         public void clamp(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
@@ -72,9 +68,7 @@ namespace util.geometry {
         /**
          * Extends bounds so given position becomes included.
          */
-        public void extendTo(IntVector3 position) {
-            extendTo(position.x, position.y, position.z);
-        }
+        public void extendTo(Vector3Int position) => extendTo(position.x, position.y, position.z);
 
         public void extendTo(int x, int y, int z) {
             maxX = Math.Max(maxX, x);
@@ -85,9 +79,7 @@ namespace util.geometry {
             minZ = Math.Min(minZ, z);
         }
 
-        public void iterate(Action<Vector3Int> consumer) {
-            iterate((x, y, z) => consumer.Invoke(new Vector3Int(x, y, z)));
-        }
+        public void iterate(Action<Vector3Int> consumer) => iterate((x, y, z) => consumer.Invoke(new Vector3Int(x, y, z)));
 
         public void iterate(Action<int, int, int> consumer) {
             for (int x = minX; x <= maxX; x++) {
@@ -99,6 +91,18 @@ namespace util.geometry {
             }
         }
 
+        public void iterateX(Action<int> action) => iterateSingle(action, minX, maxX);
+
+        public void iterateY(Action<int> action) => iterateSingle(action, minY, maxY);
+
+        public void iterateZ(Action<int> action) => iterateSingle(action, minZ, maxZ);
+
+        private void iterateSingle(Action<int> action, int min, int max) {
+            for (int i = min; i <= max; i++) {
+                action.Invoke(i);
+            }
+        }
+        
         // modifies vector to be included into bounds with minimal change
         public Vector3Int putInto(Vector3Int vector) {
             vector.x = Math.Min(maxX, Math.Max(minX, vector.x));
@@ -106,7 +110,7 @@ namespace util.geometry {
             vector.z = Math.Min(maxZ, Math.Max(minZ, vector.z));
             return vector;
         }
-        
+
         public IntBounds3 clone() {
             return new IntBounds3(this);
         }
