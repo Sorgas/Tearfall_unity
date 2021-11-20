@@ -17,10 +17,13 @@ namespace game.view.camera {
             mouseInputSystem = new MouseInputSystem(initializer);
             cameraInputSystem = new CameraInputSystem(mouseInputSystem, mouseMovementSystem, cameraMovementSystem);
             cameraMovementSystem.mouseInputSystem = mouseInputSystem;
+        }
+
+        public void init() {
             selectionHandler.init();
             mouseInputSystem.init();
         }
-
+        
         public void update() {
             if (!enabled) return;
             mouseInputSystem.update();

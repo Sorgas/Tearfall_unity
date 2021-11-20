@@ -14,6 +14,7 @@ namespace game.view.camera {
         
         public void init() {
             mouseMovementSystem = GameView.get().cameraAndMouseHandler.mouseMovementSystem;
+            state.updater = GameView.get().tileUpdater;
         }
         
         public void update() {

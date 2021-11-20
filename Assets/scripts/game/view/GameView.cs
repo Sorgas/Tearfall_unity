@@ -30,6 +30,7 @@ namespace game.view {
             initEcs(GenerationState.get().ecsWorld);
             tileUpdater = new LocalMapTileUpdater(initializer.mapHolder);
             cameraAndMouseHandler = new CameraAndMouseHandler(initializer);
+            cameraAndMouseHandler.init();
             zRange.set(0, GameModel.get().localMap.zSize - 1);
             tileUpdater.flush();
             Debug.Log("view initialized");

@@ -46,5 +46,9 @@ namespace util.geometry {
             if (value > max) max = value;
             return this;
         }
+
+        public string toString() {
+            return min + " " + max;
+        }
     }
 }
