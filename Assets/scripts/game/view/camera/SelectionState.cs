@@ -1,16 +1,14 @@
-﻿using System;
-using game.model.tilemaps;
+﻿using game.model.tilemaps;
 using UnityEngine;
 using util.geometry;
 
 namespace game.view.camera {
-
     // stores bounds of tiles, displayed as selected
     // adds new tiles when selection is updated.
     public class SelectionState {
         public LocalMapTileUpdater updater;
+        public TwoPointIntBounds3 bounds = new TwoPointIntBounds3(); // actual bounds of selection
         private Vector3Int previousPos; // mouse position
-        private TwoPointIntBounds3 bounds = new TwoPointIntBounds3(); // actual bounds of selection
         private TwoPointIntBounds3 previousBounds = new TwoPointIntBounds3();
 
         public void startSelection(Vector3Int pos) {
@@ -30,6 +28,7 @@ namespace game.view.camera {
 
         public void reset() {
             bounds.iterate((x, y, z) => updater.hideSelectionTile(x,y,z));
+            bounds.set(-1, -1, -1, -1, -1, -1);
         }
         
         private void updateView(Vector3Int newPos) {

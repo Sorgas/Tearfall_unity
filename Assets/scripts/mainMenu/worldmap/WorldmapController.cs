@@ -33,14 +33,12 @@ namespace mainMenu.worldmap {
 
             pointerController = new WorldmapPointerController(worldSize, pointer);
             controller = new ScrollableCameraController(mask.rect, image, _camera, worldSize, pointerController);
-            Unity.Mathematics.Random random = new Unity.Mathematics.Random();
             
-            random.InitState();
             Vector3Int cachePosition = new Vector3Int();
             for (int x = 0; x < worldSize; x++) {
                 for (int y = 0; y < worldSize; y++) {
                     cachePosition.Set(x, y, 0);
-                    tilemap.SetTile(cachePosition, tileBases[random.NextInt(tileBases.Length - 1)]);
+                    tilemap.SetTile(cachePosition, tileBases[Random.Range(0, tileBases.Length - 1)]);
                 }
             }
             updateHintText();

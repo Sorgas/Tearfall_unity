@@ -1,0 +1,147 @@
+[
+    {
+        "name": "log",
+        "description": "Large part of a tree.",
+        "aspects": ["fuel(1)"],
+        "atlasXY": ["2", "0"],
+        "color": "0xffffffff",
+        "tags": ["material"]
+    }, {
+    "name": "branch",
+    "description": "Small part of a tree.",
+    "aspects": ["fuel(1)"],
+    "atlasXY": ["3", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "root",
+    "description": "Underground tree part.",
+    "aspects": ["fuel(1)"],
+    "atlasXY": ["3", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "plank",
+    "description": "Fine formed piece of wood.",
+    "aspects": ["fuel(0)"],
+    "atlasXY": ["3", "0"],
+    "color": "0xffffffff",
+    "tags": ["material"]
+}, {
+    "name": "rock",
+    "description": "Rock.",
+    "atlasXY": ["4", "0"],
+    "color": "0xffffffff",
+    "tags": ["material"]
+}, {
+    "name": "bar",
+    "description": "Piece of metal, formed for further use.",
+    "atlasXY": ["9", "0"],
+    "color": "0xffffffff",
+    "tags": ["material"]
+}, {
+    "name": "roll",
+    "description": "Rolled cloth.",
+    "atlasXY": ["10", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "leather",
+    "description": "Large leather piece.",
+    "atlasXY": ["11", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "brick",
+    "description": "Building brick made of clay.",
+    "atlasXY": ["12", "0"],
+    "color": "0xffffffff",
+    "tags": ["material"]
+}, {
+    "name": "pot",
+    "description": "For storing things or growing small plants.",
+    "atlasXY": ["13", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "rope",
+    "description": "For binding items to each other.",
+    "atlasXY": ["14", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "lantern",
+    "description": "Shows path in the dark.",
+    "atlasXY": ["14", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "flask",
+    "description": "Keeps drinks close.",
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "torch",
+    "description": "Lights the way.",
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "meal",
+    "description": "Edible meal",
+    "aspects": ["food()"],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "liquid",
+    "description": "Should be replaced with dynamic description.",
+    "aspects": ["liquid()"],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "meat_piece",
+    "title": "Piece",
+    "aspects": ["food(30)"],
+    "tags": ["cookable"],
+    "atlasXY": ["4", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "bucket",
+    "description": "Can hold liquids.",
+    "aspects": ["item_container(liquid/solid/grain,1)"],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "bottle",
+    "description": "Bottle for drinks.",
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "chain",
+    "description": "Strong metal chain.",
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "book",
+    "description": "Source of knowledge.",
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "cup",
+    "description": "Holds liquids.",
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "pouch",
+    "description": "Bag for small things.",
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "nail",
+    "description": "Metal nail for building.",
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "arrow",
+    "description": "Ammunition for bows.",
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "bolt",
+    "description": "Ammunition for crossbows.",
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}
+]

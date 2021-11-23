@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using util.geometry;
 
 namespace game.view.camera {
@@ -8,9 +9,9 @@ namespace game.view.camera {
         private Vector3Int finish; // inclusive finish of selection
         private MouseMovementSystem mouseMovementSystem;
         private SelectionState state = new SelectionState();
-        private bool started = false;
-        private IntBounds3 bounds = new IntBounds3();
+        private bool started;
         public bool enabled = true;
+        public Action<IntBounds3> consumer;
         
         public void init() {
             mouseMovementSystem = GameView.get().cameraAndMouseHandler.mouseMovementSystem;
@@ -52,19 +53,19 @@ namespace game.view.camera {
         private void startSelection() {
             started = true;
             state.startSelection(mouseMovementSystem.getTarget());
-            Debug.Log("selection started " + mouseMovementSystem.getTarget());
+            // Debug.Log("selection started " + mouseMovementSystem.getTarget());
         }
 
         private void finishSelection() {
             started = false;
+            consumer?.Invoke(state.bounds);
             state.reset();
-            Debug.Log("selection finished " + mouseMovementSystem.getTarget());
-
+            // Debug.Log("selection finished " + mouseMovementSystem.getTarget());
         }
 
         private void cancelSelection() {
             started = false;
-            Debug.Log("selection canceled " + mouseMovementSystem.getTarget());
+            // Debug.Log("selection canceled " + mouseMovementSystem.getTarget());
         }
     }
 }

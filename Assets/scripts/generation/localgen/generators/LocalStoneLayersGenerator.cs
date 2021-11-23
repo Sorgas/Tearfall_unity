@@ -1,7 +1,7 @@
+using System;
 using System.Collections.Generic;
 using enums;
 using enums.material;
-using Unity.Mathematics;
 using UnityEngine;
 using util.geometry;
 
@@ -45,7 +45,7 @@ namespace generation.localgen.generators {
         }
 
         private void generateLayers() {
-            int soilLayer = (int)math.max((effectiveElevation * config.soilThickness), 1);
+            int soilLayer = (int) Math.Max((effectiveElevation * config.soilThickness), 1);
             layers.Add(generateLayer("soil", soilLayer - 1, soilLayer + 1));
             int sedimentaryLayer = (int)(effectiveElevation * (0.25 + UnityEngine.Random.Range(0, 0.1f)));
             int metamorficLayer = (int)(effectiveElevation * (0.25 + UnityEngine.Random.Range(0, 0.1f)));
