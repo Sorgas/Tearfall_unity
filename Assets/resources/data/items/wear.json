@@ -3,37 +3,37 @@
         "name": "shirt",
         "description": "Wear for covering upper body and arms.",
         "aspects": ["value(0)", "wear(humanoid,body,medium)"],
-        "atlasXY": ["6", "0"],
+        "atlasXY": [6, 0],
         "color": "0xffffffff"
     }, {
     "name": "pants",
     "description": "Wear for legs.",
     "aspects": ["value(0)", "wear(humanoid,legs,medium)", "container(solid)"],
-    "atlasXY": ["5", "0"],
+    "atlasXY": [5, 0],
     "color": "0xffffffff"
 }, {
     "name": "hat",
     "description": "Wear for head.",
     "aspects": ["value(0)", "wear(humanoid,head,medium)"],
-    "atlasXY": ["5", "0"],
+    "atlasXY": [5, 0],
     "color": "0xffffffff"
 }, {
     "name": "glove",
     "description": "Wear for hand.",
     "aspects": ["value(0)", "wear(humanoid,hand,medium)"],
-    "atlasXY": ["5", "0"],
+    "atlasXY": [5, 0],
     "color": "0xffffffff"
 }, {
     "name": "backpack",
     "description": "Sac with two straps. Allows to carry many items, keeping hands free.",
     "aspects": ["value(0)", "wear(humanoid,body,above)", "container(solid)"],
-    "atlasXY": ["4", "0"],
+    "atlasXY": [4, 0],
     "color": "0xffffffff"
 }, {
     "name": "boot",
     "description": "Wear for feet.",
     "aspects": ["value(0)", "wear(humanoid,foot,medium)"],
-    "atlasXY": ["5", "0"],
+    "atlasXY": [5, 0],
     "color": "0xffffffff"
 }
 ]

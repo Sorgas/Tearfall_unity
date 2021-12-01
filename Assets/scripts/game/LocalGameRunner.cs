@@ -1,16 +1,17 @@
 using game.model;
+using game.model.component;
 using game.model.localmap;
 using game.view;
 using game.view.ui.jobs_widget;
 using game.view.ui.menu_widget;
 using generation;
+using generation.item;
+using Leopotam.Ecs;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using util.geometry;
 
 namespace game {
-
     // Entry point from Unity scene to game logic. Creates GameModel and GameView when local map scene is loaded. 
     // Calls update() for game model
     // Generates local map if none is generated (for testing)
@@ -58,6 +59,7 @@ namespace game {
             state.worldGenConfig.size = 10;
             state.generateWorld();
             // createTestSettler();
+            createTestItem();
             state.localGenConfig.location = new IntVector2(5, 5);
             state.generateLocalMap();
         }
@@ -67,6 +69,11 @@ namespace game {
             settler.name = "test settler";
             settler.age = 30;
             GenerationState.get().preparationState.settlers.Add(settler);
+        }
+
+        private void createTestItem() {
+            ItemData item = new ItemData() {material = "iron", type = "pickaxe", quantity = 1};
+            GenerationState.get().preparationState.items.Add(item);
         }
     }
 }

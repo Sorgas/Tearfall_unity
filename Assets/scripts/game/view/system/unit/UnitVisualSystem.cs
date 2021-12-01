@@ -8,11 +8,11 @@ namespace game.view.system.unit {
 
         public void Run() {
             foreach (int i in filter) {
-                EcsEntity entity = filter.GetEntity(i);
+                // EcsEntity entity = filter.GetEntity(i);
                 ref UnitVisualComponent component = ref filter.Get1(i);
                 MovementComponent movement = filter.Get2(i);
                 if (component.spriteRenderer == null) {
-                    createUnit(ref component, movement);
+                    createUnit(ref component);
                 }
                 updatePosition(ref component, movement);
             }
@@ -23,7 +23,7 @@ namespace game.view.system.unit {
             component.spriteRenderer.gameObject.transform.localPosition = new Vector3(position.x, position.y + position.z / 2f + 0.25f, - position.z * 2 - 0.1f);
         }
 
-        private void createUnit(ref UnitVisualComponent component, MovementComponent movement) {
+        private void createUnit(ref UnitVisualComponent component) {
             GameObject prefab = Resources.Load<GameObject>("prefabs/Unit");
             GameObject instance = GameObject.Instantiate(prefab, new Vector3(), Quaternion.identity);
             component.spriteRenderer = instance.GetComponent<SpriteRenderer>();

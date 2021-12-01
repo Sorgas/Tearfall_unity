@@ -14,7 +14,7 @@ namespace generation
         // todo 
     }
 
-    public class ItemData {
+    public struct ItemData {
         public string type;
         public string material;
         public int quantity;

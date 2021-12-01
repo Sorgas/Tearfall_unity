@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace game.model.component.item {
 
     // main component for all items
     public struct ItemComponent {
-        public int weight;
+        public float weight;
         public int material;
         public int volume; // used for containers
 
@@ -98,5 +99,10 @@ namespace game.model.component.item {
     // item is held or worn by creature. it will not take part in non-hostile operations
     public struct OccupiedComponent {
         public string holder;
+    }
+    
+    // item is held or worn by creature. it will not take part in non-hostile operations
+    public struct ItemVisualComponent {
+        public SpriteRenderer spriteRenderer;
     }
 }

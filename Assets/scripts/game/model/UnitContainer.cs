@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Leopotam.Ecs;
 
-namespace game.model.system.unit {
+namespace game.model {
     public class UnitContainer {
         public readonly Dictionary<int, EcsEntity> playerUnits = new Dictionary<int, EcsEntity>();
         public readonly List<EcsEntity> units = new List<EcsEntity>();

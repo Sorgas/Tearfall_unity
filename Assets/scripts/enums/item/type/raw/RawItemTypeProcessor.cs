@@ -15,11 +15,11 @@ namespace enums.item.type.raw {
             return addAspectsFromRawType(new ItemType(baseType, rawType, namePrefix), rawType);
         }
 
-        private ItemType addAspectsFromRawType(ItemType type, RawItemType rawType) {
-            foreach (var rawTypeTypeAspect in rawType.typeAspects) { // create type aspects
+        private ItemType addAspectsFromRawType(ItemType type, RawItemType raw) {
+            foreach (var rawTypeTypeAspect in raw.typeAspects) { // create type aspects
                 type.add(createAspect(rawTypeTypeAspect, type));
             }
-            foreach (var rawAspect in rawType.aspects) {
+            foreach (var rawAspect in raw.aspects) {
                 KeyValuePair<string, string[]> pair = parseAspectString(rawAspect);
                 type.itemAspects.Add(pair.Key, new List<string>(pair.Value));
             }

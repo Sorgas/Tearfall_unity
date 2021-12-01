@@ -46,7 +46,7 @@ namespace game.model {
             systems.Init();
         }
 
-//get full world state from GenerationState or savefile
+        //get full world state from GenerationState or savefile
         public void setWorld(World world, EcsWorld ecsWorld) {
             this.world = world;
             localMap = world.localMap;
