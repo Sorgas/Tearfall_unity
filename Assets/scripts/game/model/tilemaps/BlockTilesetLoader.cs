@@ -21,7 +21,6 @@ namespace game.model.tilemaps {
         public Dictionary<string, Tile> slice(Sprite sprite) {
             Vector2 wallPivot = new Vector2(0.5f, (DEPTH / 2f) / (WALL_HEIGHT));
             Vector2 floorPivot = new Vector2(0.5f, (FLOOR + (DEPTH / 2f)) / (FLOOR_HEIGHT));
-            Rect textureRect = getTextureRect(sprite);
             Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
             
             for (int i = 0; i < suffixes.Length; i++) {
@@ -39,18 +38,9 @@ namespace game.model.tilemaps {
             Texture2D texture = sprite.texture;
             cacheRect.Set(sprite.uv[2].x * texture.width + i * WIDTH, sprite.uv[2].y * texture.height + y, WIDTH, height);
             Sprite tileSprite = Sprite.Create(texture, cacheRect, pivot, 64);
-            Tile tile = ScriptableObject.CreateInstance<Tile>() as Tile;
+            Tile tile = ScriptableObject.CreateInstance<Tile>();
             tile.sprite = tileSprite;
             return tile;
-        }
-
-        // gets sprite rect as sprite.textureRect not working
-        // works for non-rotated rectangular sprites
-        private Rect getTextureRect(Sprite sprite) {
-            Rect rect = new Rect(sprite.rect);
-            rect.x = sprite.uv[2].x * sprite.texture.width;
-            rect.y = sprite.uv[2].y * sprite.texture.height;
-            return rect;
         }
     }
 }

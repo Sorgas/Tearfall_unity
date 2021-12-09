@@ -1,6 +1,7 @@
 using game.model;
 using game.model.tilemaps;
 using game.view.camera;
+using game.view.system.item;
 using game.view.system.unit;
 using generation;
 using Leopotam.Ecs;
@@ -45,6 +46,7 @@ namespace game.view {
         private void initEcs(EcsWorld ecsWorld) {
             systems = new EcsSystems(ecsWorld);
             systems.Add(new UnitVisualSystem());
+            systems.Add(new ItemVisualSystem());
             systems.Init();
         }
 

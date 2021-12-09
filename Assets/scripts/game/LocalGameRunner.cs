@@ -1,12 +1,9 @@
 using game.model;
-using game.model.component;
 using game.model.localmap;
 using game.view;
 using game.view.ui.jobs_widget;
 using game.view.ui.menu_widget;
 using generation;
-using generation.item;
-using Leopotam.Ecs;
 using UnityEngine;
 using UnityEngine.UI;
 using util.geometry;
@@ -58,7 +55,7 @@ namespace game {
             GenerationState state = GenerationState.get();
             state.worldGenConfig.size = 10;
             state.generateWorld();
-            // createTestSettler();
+            createTestSettler();
             createTestItem();
             state.localGenConfig.location = new IntVector2(5, 5);
             state.generateLocalMap();

@@ -12,6 +12,7 @@ namespace generation.localgen.generators {
         private ItemGenerator generator = new ItemGenerator();
         
         public override void generate() {
+            Debug.Log("generating local items");
             map = GenerationState.get().localGenContainer.localMap;
             spawnItems(GenerationState.get().preparationState.items);
         }

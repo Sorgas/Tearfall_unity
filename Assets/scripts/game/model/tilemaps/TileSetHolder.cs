@@ -19,7 +19,7 @@ namespace game.model.tilemaps {
                 if (material.tileset != null) {
                     Sprite sprite = getSprite(atlas, material);
                     Dictionary<string, Tile> tileset = loader.slice(sprite);
-                    tileset.Values.ToList<Tile>().ForEach(tile => tile.color = material.color); // update tile colors
+                    tileset.Values.ToList().ForEach(tile => tile.color = material.color); // update tile colors
                     tilesets.Add(material.name, tileset);
                 }
             }

@@ -108,6 +108,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\_Action.cs" />
      <Compile Include="Assets\scripts\mainMenu\LocalGenerationHandler.cs" />
      <Compile Include="Assets\scripts\game\model\GameModel.cs" />
+     <Compile Include="Assets\scripts\game\view\util\ViewUtil.cs" />
      <Compile Include="Assets\scripts\game\model\system\GameTime.cs" />
      <Compile Include="Assets\scripts\enums\action\TaskStatusEnum.cs" />
      <Compile Include="Assets\scripts\enums\action\ActionTargetTypeEnum.cs" />
