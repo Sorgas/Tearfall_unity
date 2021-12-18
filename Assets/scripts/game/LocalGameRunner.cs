@@ -3,6 +3,7 @@ using game.model.localmap;
 using game.view;
 using game.view.ui.jobs_widget;
 using game.view.ui.menu_widget;
+using game.view.ui.toolbar;
 using generation;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,7 @@ namespace game {
         public Text text;
         public JobsWindowHandler jobsWindow;
         public MenuWidgetHandler menuWidget;
+        public ToolbarWidgetHandler toolbarWidget;
         // public Text debugTextPanel;
         private bool started = false;
 
@@ -50,12 +52,12 @@ namespace game {
         }
         
         private void createTestLocalMap() {
-            LocalMap localmap = GameModel.get().localMap;
+            LocalMap localmap = GameModel.localMap;
             if (localmap != null) return;
             GenerationState state = GenerationState.get();
             state.worldGenConfig.size = 10;
             state.generateWorld();
-            createTestSettler();
+            // createTestSettler();
             createTestItem();
             state.localGenConfig.location = new IntVector2(5, 5);
             state.generateLocalMap();

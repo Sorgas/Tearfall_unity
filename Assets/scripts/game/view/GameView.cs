@@ -28,11 +28,12 @@ namespace game.view {
             mapHolder = initializer.mapHolder;
             keyInputSystem.windowManager.addWindow(initializer.jobsWindow, KeyCode.J);
             keyInputSystem.widgetManager.addWidget(initializer.menuWidget);
+            keyInputSystem.widgetManager.addWidget(initializer.toolbarWidget);
             initEcs(GenerationState.get().ecsWorld);
             tileUpdater = new LocalMapTileUpdater(initializer.mapHolder);
             cameraAndMouseHandler = new CameraAndMouseHandler(initializer);
             cameraAndMouseHandler.init();
-            zRange.set(0, GameModel.get().localMap.zSize - 1);
+            zRange.set(0, GameModel.localMap.zSize - 1);
             tileUpdater.flush();
             Debug.Log("view initialized");
         }

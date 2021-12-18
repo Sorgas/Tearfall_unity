@@ -144,12 +144,13 @@
      <Compile Include="Assets\scripts\game\view\system\unit\UnitVisualSystem.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EnumerableExtension.cs" />
      <Compile Include="Assets\scripts\enums\PassageEnum.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarInputHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\CommonComponents.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenSequence.cs" />
      <Compile Include="Assets\scripts\game\view\ui\jobs_widget\JobsWindowHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\IHotKeyAcceptor.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalUnitGenerator.cs" />
+     <Compile Include="Assets\scripts\game\model\system\task\DesignationVisualSystem.cs" />
      <Compile Include="Assets\scripts\generation\GenerationState.cs" />
      <Compile Include="Assets\scripts\enums\plant\raw\RawPlantType.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\Node.cs" />
@@ -180,6 +181,7 @@
      <Compile Include="Assets\scripts\game\model\localmap\passage\NeighbourPositionStream.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenerator.cs" />
      <Compile Include="Assets\scripts\enums\item\FoodCategoryEnum.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\ICloseable.cs" />
      <Compile Include="Assets\scripts\enums\item\ItemTagEnum.cs" />
      <Compile Include="Assets\scripts\game\model\entity_selector\EntitySelector.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\GameObjectExtension.cs" />

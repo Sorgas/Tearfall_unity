@@ -30,7 +30,6 @@ namespace game.view.camera {
             mouseMovementSystem.update();
             cameraInputSystem.update();
             cameraMovementSystem.update();
-            selectionHandler.update();
         }
 
         // with ES

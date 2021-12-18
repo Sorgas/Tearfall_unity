@@ -39,7 +39,7 @@ namespace game.model.localmap.passage {
         }
 
         private NeighbourPositionStream() {
-            localMap = GameModel.get().localMap;
+            localMap = GameModel.localMap;
             passageMap = localMap.passageMap;
         }
 

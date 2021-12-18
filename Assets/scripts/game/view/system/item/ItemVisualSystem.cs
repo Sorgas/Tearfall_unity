@@ -38,7 +38,6 @@ namespace game.view.system.item {
 
         private void updatePosition(ref ItemVisualComponent component, PositionComponent positionComponent) {
             Vector3Int pos = positionComponent.position;
-            Debug.Log(pos);
             Vector3 scenePos = ViewUtil.fromModelToScene(pos);
             component.spriteRenderer.gameObject.transform.localPosition = scenePos;
         }

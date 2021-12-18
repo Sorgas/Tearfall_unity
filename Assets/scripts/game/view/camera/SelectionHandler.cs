@@ -17,22 +17,9 @@ namespace game.view.camera {
             mouseMovementSystem = GameView.get().cameraAndMouseHandler.mouseMovementSystem;
             state.updater = GameView.get().tileUpdater;
         }
-        
-        public void update() {
-            if (!enabled) return;
-            if (Input.GetMouseButtonDown(0)) {
-                handleMouseDown();
-            }
-            if (Input.GetMouseButtonUp(0)) {
-                handleMouseUp();
-            }
-            if (Input.GetMouseButtonDown(1)) {
-                handleSecondaryMouseClick();
-            }
-        }
 
         public void handleMouseDown() {
-            if(!started) startSelection();
+            if(enabled && !started) startSelection();
         }
 
         public void handleMouseUp() {

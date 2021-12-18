@@ -18,7 +18,7 @@ namespace util.pathfinding {
         public PathFinishCondition(Vector3Int target, ActionTargetTypeEnum targetType) {
             if (targetType == EXACT || targetType == ANY) acceptable.Add(target);
             if (targetType == NEAR || targetType == ANY) { // add near tiles
-                LocalMap map = GameModel.get().localMap;
+                LocalMap map = GameModel.localMap;
                 PositionUtil.allNeighbour
                         .Select(delta => target + delta)
                         .Where(pos => map.inMap(pos))

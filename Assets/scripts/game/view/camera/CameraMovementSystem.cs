@@ -58,7 +58,7 @@ namespace game.view.no_es {
 
         // updates camera bounds to make 3 tiles around map visible
         private void updateCameraBounds() {
-            LocalMap map = GameModel.get().localMap;
+            LocalMap map = GameModel.localMap;
             cameraBounds.set(0, 0, map.xSize, map.ySize);
             cameraBounds.extendX((int)(overlookTiles - cameraWidth()));
             cameraBounds.extendY((int)(overlookTiles - camera.orthographicSize));

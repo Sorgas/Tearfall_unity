@@ -20,7 +20,7 @@ namespace game.view.camera {
         public MouseMovementSystem(LocalGameRunner initializer) {
             text = initializer.text;
             sprite = initializer.selector;
-            map = GameModel.get().localMap;
+            map = GameModel.localMap;
             bounds = new IntBounds3(0, 0, 0, map.xSize, map.ySize, map.zSize);
         }
 

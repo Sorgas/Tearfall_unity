@@ -13,7 +13,7 @@ namespace game.view {
         private List<KeyCode> pressedKeys = new List<KeyCode>();
 
         public KeyInputSystem() {
-            KeyCode[] keys = { KeyCode.J, KeyCode.Q }; // TODO add all key except view scrolls
+            KeyCode[] keys = { KeyCode.J, KeyCode.Q, KeyCode.Z, KeyCode.X, KeyCode.C, KeyCode.V, KeyCode.B, KeyCode.N }; // TODO add all key except view scrolls
             keyCodes = new List<KeyCode>(keys);
         }
 

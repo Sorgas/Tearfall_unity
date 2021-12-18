@@ -29,7 +29,7 @@ namespace game.model.system.unit {
         private TaskComponent? createIdleTask(EcsEntity unit) {
             Debug.Log("creating idle task for unit " + unit);
             Vector3Int current = unit.Get<MovementComponent>().position;
-            Vector3Int position = GameModel.get().localMap.util.getRandomPosition(current, 10, 4);
+            Vector3Int position = GameModel.localMap.util.getRandomPosition(current, 10, 4);
             if (position != null) {
                 TaskComponent task = new TaskComponent() { preActions = new List<_Action>() };
                 task.initialAction = new MoveAction(position);

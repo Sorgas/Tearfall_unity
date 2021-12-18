@@ -9,7 +9,7 @@ using util.lang;
 namespace game.model {
     public class GameModel : Singleton<GameModel> {
         public World world;
-        public LocalMap localMap;
+        public LocalMap _localMap;
         public EcsWorld _ecsWorld;
         public EcsSystems systems; // model systems
         public EntitySelector selector = new EntitySelector(); // in-model representation of mouse
@@ -18,6 +18,7 @@ namespace game.model {
         private int count = 0;
 
         public static EcsWorld ecsWorld => get()._ecsWorld;
+        public static LocalMap localMap => get()._localMap;
 
         // init with entities generated on new game or loaded from savegame
         public void init() {
@@ -30,11 +31,7 @@ namespace game.model {
         }
 
         public void update() {
-            // count++;
-            // if(count >= 5) {
-            //     count = 0;
-            if (systems != null) systems.Run();
-            // }
+            systems?.Run();
         }
 
         private void initEcs() {
@@ -49,7 +46,7 @@ namespace game.model {
         //get full world state from GenerationState or savefile
         public void setWorld(World world, EcsWorld ecsWorld) {
             this.world = world;
-            localMap = world.localMap;
+            _localMap = world.localMap;
             _ecsWorld = ecsWorld;
             // add units to container
             // TODO add generated wild animals

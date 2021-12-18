@@ -23,7 +23,7 @@ namespace game.view.with_entity_selector {
         public EntitySelectorInputSystem(LocalGameRunner initializer, CameraWithEsMovementSystem cameraWithEsMovementSystem) {
             this.camera = initializer.mainCamera;
             mapHolder = initializer.mapHolder;
-            localMap = GameModel.get().localMap;
+            localMap = GameModel.localMap;
             // this.text = initializer.text;
             screenBounds.extendX((int)(-Screen.width * 0.01f));
             screenBounds.extendY((int)(-Screen.height * 0.01f));

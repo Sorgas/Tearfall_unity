@@ -12,7 +12,7 @@ namespace util.pathfinding {
         private LocalMap localMap;
 
         public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, ActionTargetTypeEnum targetType) {
-            localMap = GameModel.get().localMap;
+            localMap = GameModel.localMap;
             Debug.Log("searching path from " + start + " to " + target);
             return search(new Node(start, null, getH(target, start), 0), target, targetType);
         }

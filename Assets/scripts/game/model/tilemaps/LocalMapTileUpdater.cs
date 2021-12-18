@@ -30,13 +30,13 @@ namespace game.model.tilemaps {
         public LocalMapTileUpdater(RectTransform mapHolder) {
             this.mapHolder = mapHolder;
             layerPrefab = Resources.Load<GameObject>("prefabs/LocalMapLayer");
-            map = GameModel.get().localMap;
+            map = GameModel.localMap;
             tileSetHolder.loadAll();
         }
 
         public void flush() {
             Debug.Log("flushing localMap tiles");
-            new Optional<LocalMap>(GameModel.get().localMap)
+            new Optional<LocalMap>(GameModel.localMap)
                 .ifPresent(map => {
                     createLayers(map);
                     map.bounds.iterate(position => updateTile(position, false)); // no need to update ramps on whole map update
