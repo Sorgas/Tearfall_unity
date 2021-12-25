@@ -13,11 +13,15 @@ namespace game.view {
         private List<KeyCode> pressedKeys = new List<KeyCode>();
 
         public KeyInputSystem() {
-            KeyCode[] keys = { KeyCode.J, KeyCode.Q, KeyCode.Z, KeyCode.X, KeyCode.C, KeyCode.V, KeyCode.B, KeyCode.N }; // TODO add all key except view scrolls
+            KeyCode[] keys = {
+                KeyCode.Q, KeyCode.E, KeyCode.T, KeyCode.Y, KeyCode.U, KeyCode.I, KeyCode.O, KeyCode.P,
+                KeyCode.G, KeyCode.H, KeyCode.J, KeyCode.K, KeyCode.L,
+                KeyCode.Z, KeyCode.X, KeyCode.C, KeyCode.V, KeyCode.B, KeyCode.N, KeyCode.M
+            };
             keyCodes = new List<KeyCode>(keys);
         }
 
-        public void update() { // TODO split to separate methods
+        public void update() {
             collectPressedKeys();
             handlePressedKeys();
         }

@@ -7,9 +7,14 @@ namespace util.lang {
             if (instance == null) {
                 lock (lockObject) {
                     instance = new T();
+                    instance.init();
                 }
             }
             return instance;
+        }
+
+        protected virtual void init() {
+            
         }
     }
 }

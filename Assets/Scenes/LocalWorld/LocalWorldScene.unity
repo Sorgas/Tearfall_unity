@@ -1480,9 +1480,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3ab24ae49564ce7bbdbc72f9a051b85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toolbarPanel: {fileID: 1020864535}
-  ordersPanel: {fileID: 1149785420}
-  buildingsPanel: {fileID: 392188330}
 --- !u!1 &1490312148
 GameObject:
   m_ObjectHideFlags: 0
@@ -2010,6 +2007,27 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2093393974}
     m_Modifications:
+    - target: {fileID: 5043444838764810366, guid: ed2304fc2911c0c459ab36220b34895a,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 5.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043444838764810366, guid: ed2304fc2911c0c459ab36220b34895a,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 5.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043444838764810366, guid: ed2304fc2911c0c459ab36220b34895a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bc49e7e086a12ff4cbf39f53f5949bbc,
+        type: 3}
+    - target: {fileID: 5043444838764810366, guid: ed2304fc2911c0c459ab36220b34895a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8487312526842453012, guid: ed2304fc2911c0c459ab36220b34895a,
         type: 3}
       propertyPath: m_Name

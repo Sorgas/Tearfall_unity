@@ -15,20 +15,22 @@ namespace game.view {
         private KeyInputSystem keyInputSystem = KeyInputSystem.get();
         public CameraAndMouseHandler cameraAndMouseHandler;
         public LocalMapTileUpdater tileUpdater;
-
+        public RectTransform selector;
+        
         private EcsSystems systems; // systems for updating scene
         public Vector2Int selectorOverlook = new Vector2Int();
         public RectTransform mapHolder;
-        public bool useSelector = false;
         private readonly ValueRangeInt zRange = new ValueRangeInt(); // range for current z in model units 
         public int currentZ;
 
         public void init(LocalGameRunner initializer) {
             Debug.Log("initializing view");
             mapHolder = initializer.mapHolder;
+            selector = initializer.selector;
             keyInputSystem.windowManager.addWindow(initializer.jobsWindow, KeyCode.J);
             keyInputSystem.widgetManager.addWidget(initializer.menuWidget);
             keyInputSystem.widgetManager.addWidget(initializer.toolbarWidget);
+            
             initEcs(GenerationState.get().ecsWorld);
             tileUpdater = new LocalMapTileUpdater(initializer.mapHolder);
             cameraAndMouseHandler = new CameraAndMouseHandler(initializer);
@@ -39,8 +41,8 @@ namespace game.view {
         }
 
         public void update() {
-            cameraAndMouseHandler.update();
             keyInputSystem?.update();
+            cameraAndMouseHandler.update();
             systems?.Run();
         }
 

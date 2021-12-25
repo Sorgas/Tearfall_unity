@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using game.view.camera;
+using game.view.no_es;
 using UnityEngine;
 using util.geometry;
 using util.input;
 
 // moves selector in model
-namespace game.view.no_es {
+namespace game.view.camera {
     public class CameraInputSystem {
         private readonly MouseInputSystem mouseInputSystem;
         private readonly MouseMovementSystem mouseMovementSystem;
@@ -24,7 +24,7 @@ namespace game.view.no_es {
             controllers.Add(new DelayedKeyController(KeyCode.W, () => handleWasd(0, 1)));
             controllers.Add(new DelayedKeyController(KeyCode.A, () => handleWasd(-1, 0)));
             controllers.Add(new DelayedKeyController(KeyCode.S, () => handleWasd(0, -1)));
-            controllers.Add(new DelayedKeyController(KeyCode.D, () => handleWasd(1, 0)));
+             controllers.Add(new DelayedKeyController(KeyCode.D, () => handleWasd(1, 0)));
             // layers of map are placed with z gap 2 and shifted by y by 0.5
             controllers.Add(new DelayedKeyController(KeyCode.R, () => changeLayer(1)));
             controllers.Add(new DelayedKeyController(KeyCode.F, () => changeLayer(-1)));
