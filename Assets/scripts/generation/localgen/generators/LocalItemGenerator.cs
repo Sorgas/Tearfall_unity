@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using enums;
-using game.model.component.unit.components;
 using game.model.localmap;
 using generation.item;
 using Leopotam.Ecs;

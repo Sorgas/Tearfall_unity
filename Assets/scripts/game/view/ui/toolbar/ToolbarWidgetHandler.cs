@@ -1,4 +1,5 @@
 ﻿using game.view.system;
+using game.view.system.mouse_tool;
 using UnityEngine;
 
 namespace game.view.ui.toolbar {
@@ -45,7 +46,7 @@ namespace game.view.ui.toolbar {
             panel.createButton("zone 4", "toolbar/cancel", () => Debug.Log("press Z 4"), KeyCode.V);
         }
 
-        private void createDigButton(ToolbarPanelHandler panel, string text, string iconName, MouseToolEnum tool, KeyCode key) {
+        private void createDigButton(ToolbarPanelHandler panel, string text, string iconName, MouseToolType tool, KeyCode key) {
             panel.createButton(text, iconName, () => MouseToolManager.set(tool), key);
         }
     }

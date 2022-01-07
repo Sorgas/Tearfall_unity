@@ -1,41 +1,47 @@
 using System.Collections.Generic;
+using game.model.component;
 using game.model.component.task.action;
-using game.model.component.unit.components;
+using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
+using static game.model.component.task.TaskComponents;
 
 namespace game.model.system.unit {
+    // finds and assigns appropriate tasks to units
     public class TaskAssignmentSystem : IEcsRunSystem {
-        EcsFilter<UnitComponent>.Exclude<TaskComponent> filter;
-        // EcsFilter<TaskComponent> filter;
+        EcsFilter<UnitComponent>.Exclude<TaskComponent> filter; // units without tasks
 
         public void Run() {
             foreach (int i in filter) {
                 EcsEntity unit = filter.GetEntity(i);
                 Debug.Log("assigning task " + unit);
                 // TODO get task from container
-                TaskComponent? task = getTaskForUnit();
+                EcsEntity? task = getTaskForUnit();
                 // TODO add needs
                 if (task == null) task = createIdleTask(unit);
-                if (task != null) unit.Replace<TaskComponent>((TaskComponent)task);
+                assignTask(unit, task.Value);
             }
         }
 
         // gets any task for unit
-        private TaskComponent? getTaskForUnit() {
+        private EcsEntity? getTaskForUnit() {
+            // GameModel.get().designationContainer.designations;
             return null; // TODO get from task container
         }
 
-        private TaskComponent? createIdleTask(EcsEntity unit) {
+        private EcsEntity createIdleTask(EcsEntity unit) {
             Debug.Log("creating idle task for unit " + unit);
             Vector3Int current = unit.Get<MovementComponent>().position;
             Vector3Int position = GameModel.localMap.util.getRandomPosition(current, 10, 4);
-            if (position != null) {
-                TaskComponent task = new TaskComponent() { preActions = new List<_Action>() };
-                task.initialAction = new MoveAction(position);
-                return task;
-            }
-            return null;
+            EcsEntity task = GameModel.get().createEntity();
+            task.Replace(new TaskActionsComponent { initialAction = new MoveAction(position), preActions = new List<Action>() });
+            return task;
+        }
+
+        // bind unit and task entities
+        private void assignTask(EcsEntity unit, EcsEntity task) {
+            unit.Replace(new TaskComponent { task = task });
+            task.Replace(new TaskPerformerComponent { performer = unit });
         }
     }
 }

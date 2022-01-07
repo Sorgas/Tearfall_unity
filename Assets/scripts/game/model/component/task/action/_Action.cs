@@ -1,9 +1,9 @@
 using System;
 using enums.action;
 using game.model.component.task.action.target;
-using game.model.component.unit.components;
 using Leopotam.Ecs;
 using UnityEngine;
+using static game.model.component.task.TaskComponents;
 
 namespace game.model.component.task.action {
     /**
@@ -24,9 +24,9 @@ namespace game.model.component.task.action {
 * If start condition is not met, action and its task are failed.
 * Default implementation is an action with no requirements nor effect, which is finished immediately;
 */
-    public abstract class _Action {
+    public abstract class Action {
         public string name;
-        public TaskComponent task; // can be modified during execution
+        public EcsEntity task; // can be modified during execution
         public ActionTarget target;
         public ActionStatusEnum status = ActionStatusEnum.OPEN;
         protected string skill;
@@ -48,9 +48,9 @@ namespace game.model.component.task.action {
         public float speed = 1;
         public float maxProgress = 1;
 
-        protected _Action(ActionTarget target) : this(target, null) {}
+        protected Action(ActionTarget target) : this(target, null) {}
 
-        public _Action(ActionTarget target, string skill) {
+        public Action(ActionTarget target, string skill) {
             this.target = target;
             if(skill != null && SkillMap.getSkill(skill) == null) Debug.LogError("Skill " + skill + " not found.");
             this.skill = skill;
@@ -77,16 +77,14 @@ namespace game.model.component.task.action {
         }
 
         public void reset() {
-            Debug.LogError("resetting action");
-
             speed = 1;
             progress = 0;
             maxProgress = 1;
         }
 
-        public ActionConditionStatusEnum addPreAction(_Action action) {
+        public ActionConditionStatusEnum addPreAction(Action action) {
             Debug.LogError("adding pre action");
-            task.addFirstPreAction(action);
+            task.Get<TaskActionsComponent>().addFirstPreAction(action);
             return ActionConditionStatusEnum.NEW;
         }
 

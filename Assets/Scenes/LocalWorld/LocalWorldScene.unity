@@ -2021,12 +2021,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: bc49e7e086a12ff4cbf39f53f5949bbc,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 5043444838764810366, guid: ed2304fc2911c0c459ab36220b34895a,
         type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8487312526842453012, guid: ed2304fc2911c0c459ab36220b34895a,
         type: 3}
@@ -2046,7 +2045,7 @@ PrefabInstance:
     - target: {fileID: 8487312526842453015, guid: ed2304fc2911c0c459ab36220b34895a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8487312526842453015, guid: ed2304fc2911c0c459ab36220b34895a,
         type: 3}

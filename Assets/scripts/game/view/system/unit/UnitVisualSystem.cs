@@ -1,4 +1,4 @@
-using game.model.component.unit.components;
+using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -19,13 +19,15 @@ namespace game.view.system.unit {
         }
 
         private void updatePosition(ref UnitVisualComponent component, MovementComponent movement) {
+            // TODO use view utils
             Vector3Int position = movement.position;
             component.spriteRenderer.gameObject.transform.localPosition = new Vector3(position.x, position.y + position.z / 2f + 0.25f, - position.z * 2 - 0.1f);
         }
 
         private void createUnit(ref UnitVisualComponent component) {
+            //TODO use prefabLoader
             GameObject prefab = Resources.Load<GameObject>("prefabs/Unit");
-            GameObject instance = GameObject.Instantiate(prefab, new Vector3(), Quaternion.identity);
+            GameObject instance = Object.Instantiate(prefab, new Vector3(), Quaternion.identity);
             component.spriteRenderer = instance.GetComponent<SpriteRenderer>();
             instance.transform.SetParent(GameView.get().mapHolder);
         }

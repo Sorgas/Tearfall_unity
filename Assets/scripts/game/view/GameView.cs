@@ -1,6 +1,7 @@
 using game.model;
 using game.model.tilemaps;
 using game.view.camera;
+using game.view.system;
 using game.view.system.item;
 using game.view.system.unit;
 using generation;
@@ -42,7 +43,7 @@ namespace game.view {
 
         public void update() {
             keyInputSystem?.update();
-            cameraAndMouseHandler.update();
+            cameraAndMouseHandler?.update();
             systems?.Run();
         }
 
@@ -50,6 +51,7 @@ namespace game.view {
             systems = new EcsSystems(ecsWorld);
             systems.Add(new UnitVisualSystem());
             systems.Add(new ItemVisualSystem());
+            systems.Add(new DesignationVisualSystem());
             systems.Init();
         }
 

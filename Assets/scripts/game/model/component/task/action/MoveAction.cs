@@ -1,12 +1,12 @@
 using enums.action;
 using game.model.component.task.action.target;
-using game.model.component.unit.components;
+using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
 
 //Action for moving to tile. Has no check or logic.
 namespace game.model.component.task.action {
-    public class MoveAction : _Action {
+    public class MoveAction : Action {
 
         public MoveAction(Vector3Int targetPosition) : base(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.EXACT)) {
         

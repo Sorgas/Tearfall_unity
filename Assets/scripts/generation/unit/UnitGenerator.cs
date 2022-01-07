@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using game.model.component;
-using game.model.component.unit.components;
+using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -12,7 +12,7 @@ namespace generation.unit {
                 .Replace(new MovementComponent { position = new Vector3Int(), path = new List<Vector3Int>(), speed = 0.06f, step = 0 })
                 .Replace(new UnitVisualComponent())
                 .Replace(new JobsComponent {enabledJobs = new List<string>()})
-                .Replace(new NameComponent() {name = "mockName"})
+                .Replace(new NameComponent {name = "mockName"})
                 .Replace(new UnitComponent());
         }
     }

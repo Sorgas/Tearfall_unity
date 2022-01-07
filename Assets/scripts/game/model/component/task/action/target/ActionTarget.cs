@@ -1,6 +1,6 @@
 using enums;
 using enums.action;
-using game.model.component.unit.components;
+using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.geometry;

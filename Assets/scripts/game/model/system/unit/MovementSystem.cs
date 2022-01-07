@@ -1,5 +1,5 @@
 using enums;
-using game.model.component.unit.components;
+using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.pathfinding;

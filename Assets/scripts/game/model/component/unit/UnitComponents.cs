@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using enums;
 using enums.action;
-using enums.unit;
 using game.model.component.task.action;
 using UnityEngine;
 
-namespace game.model.component.unit.components { // entity with this is a unit
+namespace game.model.component.unit { 
     
+    // entity with this is a unit
     public struct UnitComponent {
         public int id;
     }
@@ -66,35 +66,8 @@ namespace game.model.component.unit.components { // entity with this is a unit
         public int age;
     }
 
-// unit has this when task assigned
-    public struct TaskComponent {
-        public _Action initialAction;
-        public List<_Action> preActions;
-
-        public _Action getNextAction() {
-            if (preActions.Count > 0) {
-                return preActions[0];
-            }
-            return initialAction;
-        }
-
-        public void addFirstPreAction(_Action action) {
-            preActions.Insert(0, action);
-        }
-
-        public void removeFirstPreAction() {
-            preActions.RemoveAt(0);
-        }
-
-        public string toString() {
-            return initialAction.ToString();
-        }
-    }
-
-// unit with this is performing action
+    // unit with this is performing action
     public struct CurrentActionComponent {
-        public _Action action;
+        public Action action;
     }
-    
-    
 }

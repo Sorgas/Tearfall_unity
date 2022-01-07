@@ -11,6 +11,10 @@ namespace game.view.util {
             return get().getPrefab(name);
         }
 
+        public static GameObject create(string name) {
+            return GameObject.Instantiate(get(name));
+        }
+        
         private GameObject getPrefab(string name) {
             if (!prefabs.ContainsKey(name)) {
                 if (!paths.ContainsKey(name)) {
@@ -25,6 +29,7 @@ namespace game.view.util {
         protected override void init() {
             paths.Add("toolbarButton", "prefabs/toolbar/toolbarButton");
             paths.Add("toolbarPanel", "prefabs/toolbar/toolbarPanel");
+            paths.Add("designation", "prefabs/Designation");
         }
     }
 }

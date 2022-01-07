@@ -57,7 +57,7 @@ namespace game {
             GenerationState state = GenerationState.get();
             state.worldGenConfig.size = 10;
             state.generateWorld();
-            // createTestSettler();
+            createTestSettler();
             createTestItem();
             state.localGenConfig.location = new IntVector2(5, 5);
             state.generateLocalMap();

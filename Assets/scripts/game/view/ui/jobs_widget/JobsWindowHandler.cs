@@ -1,7 +1,7 @@
 ﻿using enums.unit;
 using game.model;
 using game.model.component;
-using game.model.component.unit.components;
+using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
 using UnityEngine.UI;

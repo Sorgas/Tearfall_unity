@@ -1,3 +1,4 @@
+using Leopotam.Ecs;
 using UnityEngine;
 
 namespace game.model.component {
@@ -7,5 +8,10 @@ namespace game.model.component {
 
     public struct NameComponent {
         public string name;
+    }
+
+    // for unit and designation
+    public struct TaskComponent {
+        public EcsEntity task;
     }
 }

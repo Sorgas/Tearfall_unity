@@ -1,4 +1,5 @@
-﻿using game.model.component.unit.components;
+﻿using game.model.component.unit;
+using game.model.container;
 using game.model.entity_selector;
 using game.model.localmap;
 using game.model.system.unit;
@@ -15,6 +16,8 @@ namespace game.model {
         public EntitySelector selector = new EntitySelector(); // in-model representation of mouse
         public EntitySelectorSystem selectorSystem = new EntitySelectorSystem();
         public readonly UnitContainer unitContainer = new UnitContainer();
+        public readonly DesignationsContainer designationContainer = new DesignationsContainer();
+        public readonly TaskContainer taskContainer = new TaskContainer();
         private int count = 0;
 
         public static EcsWorld ecsWorld => get()._ecsWorld;
@@ -38,6 +41,7 @@ namespace game.model {
             systems = new EcsSystems(ecsWorld);
             systems.Add(new MovementSystem())
                 .Add(new TaskAssignmentSystem()) // finds or creates tasks for units
+                .Add(new TaskSystem()) // finds or creates tasks for units
                 .Add(new ActionSystem())
                 .Add(new ActionPerformingSystem());
             systems.Init();
@@ -54,6 +58,10 @@ namespace game.model {
             foreach (var i in filter) {
                 unitContainer.addNewPlayerUnit(filter.GetEntity(i));
             }
+        }
+
+        public EcsEntity createEntity() {
+            return ecsWorld.NewEntity();
         }
     }
 }

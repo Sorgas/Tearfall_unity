@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using enums;
-using game.model.component.unit.components;
+using game.model.component.unit;
 using game.model.localmap;
 using generation.unit;
 using Leopotam.Ecs;
@@ -24,6 +24,8 @@ namespace generation.localgen.generators {
                 EcsEntity entity = GenerationState.get().ecsWorld.NewEntity();
                 unitGenerator.generateToEntity(entity, settler);
                 entity.Get<MovementComponent>().position = spawnPoint;
+                // Debug.Log("unit spawned at " + spawnPoint);
+                // Debug.Log(entity.Get<MovementComponent>().position);
             });
         }
 

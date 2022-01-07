@@ -1,4 +1,6 @@
 ﻿using System;
+using game.view.system;
+using game.view.system.mouse_tool;
 using UnityEngine;
 using util.geometry;
 
@@ -11,8 +13,7 @@ namespace game.view.camera {
         private SelectionState state = new SelectionState();
         private bool started;
         public bool enabled = true;
-        public Action<IntBounds3> consumer;
-        
+
         public void init() {
             mouseMovementSystem = GameView.get().cameraAndMouseHandler.mouseMovementSystem;
             state.updater = GameView.get().tileUpdater;
@@ -45,7 +46,7 @@ namespace game.view.camera {
 
         private void finishSelection() {
             started = false;
-            consumer?.Invoke(state.bounds);
+            MouseToolManager.handleSelection(state.bounds);
             state.reset();
             // Debug.Log("selection finished " + mouseMovementSystem.getTarget());
         }

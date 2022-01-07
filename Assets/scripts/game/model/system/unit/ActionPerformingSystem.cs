@@ -1,10 +1,11 @@
 using enums.action;
 using game.model.component.task.action;
-using game.model.component.unit.components;
+using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
 
 namespace game.model.system.unit {
+    // runs active actions for units
     public class ActionPerformingSystem : IEcsRunSystem {
         public EcsFilter<CurrentActionComponent> filter;
 
@@ -13,7 +14,7 @@ namespace game.model.system.unit {
                 Debug.Log("performing");
                 EcsEntity unit = filter.GetEntity(i);
                 CurrentActionComponent component = filter.Get1(i);
-                _Action action = component.action;
+                Action action = component.action;
                 action.perform(unit);
                 if(action.status == ActionStatusEnum.COMPLETE) {
                     unit.Del<CurrentActionComponent>();
