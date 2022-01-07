@@ -1,6 +1,7 @@
 ﻿using enums.material;
 using game.model;
 using game.model.localmap;
+using game.view.util;
 using UnityEngine;
 using UnityEngine.UI;
 using util.geometry;
@@ -32,9 +33,15 @@ namespace game.view.camera {
 
         public void setTarget(Vector3 value) {
             int z = GameView.get().currentZ;
-            modelPosition.Set((int)value.x, (int)(value.y - z / 2f), z); // get model position by scene position
+            Vector3Int vector = new Vector3Int((int)value.x, (int)(value.y - z / 2f), z);
+            setTargetModel(vector);
+        }
+
+        public void setTargetModel(Vector3Int value) {
+            modelPosition.Set(value.x, value.y, value.z);
             modelPosition = bounds.putInto(modelPosition);
-            target.Set(modelPosition.x, modelPosition.y + z / 2f, -z * 2f - 0.1f); // get scene position by model)
+            Vector3 scenePosition = ViewUtil.fromModelToScene(modelPosition);
+            target.Set(scenePosition.x, scenePosition.y, scenePosition.z - 0.1f); // get scene position by model
         }
 
         public Vector3Int getTarget() {

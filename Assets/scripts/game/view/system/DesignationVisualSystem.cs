@@ -24,7 +24,9 @@ namespace game.view.system {
             GameObject go = PrefabLoader.create("designation");
             SpriteRenderer spriteRenderer = go.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = IconLoader.get("designation/" + designation.type.spriteName);
-            go.GetComponent<RectTransform>().localPosition = ViewUtil.fromModelToScene(position.position);
+            Vector3 spritePosition = ViewUtil.fromModelToScene(position.position);
+            spritePosition.z -= 0.1f;
+            go.GetComponent<RectTransform>().localPosition = spritePosition;
             // add visual component
             entity.Replace(new DesignationVisualComponent {spriteRenderer = spriteRenderer});
         }

@@ -1,6 +1,7 @@
 using game.model;
 using game.model.localmap;
 using game.view.camera;
+using game.view.util;
 using UnityEngine;
 using util.geometry;
 
@@ -39,12 +40,21 @@ namespace game.view.no_es {
             ensureCameraBounds();
         }
 
+        // set camera target by model
+        public void setCameraTarget(Vector3Int position) {
+            GameView.get().setLayer(position.z);
+            Vector3 scenePosition = ViewUtil.fromModelToScene(position); 
+            setCameraTarget(scenePosition.x, scenePosition.y, scenePosition.z -1);
+        }
+        
         public void moveCameraTarget(int dx, int dy) {
             setCameraTarget(target.x + dx, target.y + dy, target.z);
         }
 
         // dz in model units
         public void moveCameraTargetZ(int dz) {
+            dz = GameView.get().changeLayer(dz);
+            if (dz == 0) return;
             setCameraTarget(target.x, target.y + dz / 2f, target.z - dz * 2f);
             updateCameraBounds();
         }

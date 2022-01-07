@@ -1,3 +1,4 @@
+using enums;
 using game.model;
 using game.model.tilemaps;
 using game.view.camera;
@@ -37,6 +38,7 @@ namespace game.view {
             cameraAndMouseHandler = new CameraAndMouseHandler(initializer);
             cameraAndMouseHandler.init();
             zRange.set(0, GameModel.localMap.zSize - 1);
+            resetCameraPosition();
             tileUpdater.flush();
             Debug.Log("view initialized");
         }
@@ -55,10 +57,24 @@ namespace game.view {
             systems.Init();
         }
 
-        public int changeLayer(int dz) {
+        public int changeLayer(int dz) => setLayer(currentZ + dz);
+
+        public int setLayer(int z) {
             int oldZ = currentZ;
-            currentZ = zRange.clamp(currentZ + dz);
+            currentZ = zRange.clamp(z);
             return currentZ - oldZ;
+        }
+        
+        private void resetCameraPosition() {
+            Vector3Int cameraPosition = new Vector3Int(GameModel.localMap.xSize / 2, GameModel.localMap.ySize / 2, 0);
+            for (int z = GameModel.localMap.zSize - 1; z >=0 ; z--) {
+                if (GameModel.localMap.blockType.get(cameraPosition.x, cameraPosition.y, z) != BlockTypeEnum.SPACE.CODE) {
+                    cameraPosition.z = z;
+                    break;
+                }
+            }
+            cameraAndMouseHandler.cameraMovementSystem.setCameraTarget(cameraPosition);
+            cameraAndMouseHandler.mouseMovementSystem.setTargetModel(cameraPosition);
         }
     }
 }

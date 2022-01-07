@@ -63,7 +63,6 @@ namespace game.view.camera {
         }
 
         private void changeLayer(int dz) {
-            dz = GameView.get().changeLayer(dz);
             if (dz != 0) cameraMovementSystem.moveCameraTargetZ(dz);
         }
     }

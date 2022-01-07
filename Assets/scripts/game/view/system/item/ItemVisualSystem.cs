@@ -30,10 +30,12 @@ namespace game.view.system.item {
             ItemVisualComponent visual = new ItemVisualComponent();
             visual.go = Object.Instantiate(itemPrefab, position.position, Quaternion.identity);
             visual.go.transform.SetParent(GameView.get().mapHolder);
-            visual.go.transform.position = ViewUtil.fromModelToScene(entity.Get<PositionComponent>().position);
+            Vector3 spritePosition = ViewUtil.fromModelToScene(entity.Get<PositionComponent>().position);
+            spritePosition.z -= 0.1f;
+            visual.go.transform.localPosition = spritePosition;
             visual.spriteRenderer = visual.go.GetComponent<SpriteRenderer>();
             visual.spriteRenderer.sprite = createSprite(ItemTypeMap.getItemType(item.type));
-            entity.Replace<ItemVisualComponent>(visual);
+            entity.Replace(visual);
         }
 
         private void updatePosition(ref ItemVisualComponent component, PositionComponent positionComponent) {

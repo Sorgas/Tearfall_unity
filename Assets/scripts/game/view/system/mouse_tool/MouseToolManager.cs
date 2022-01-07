@@ -1,4 +1,5 @@
-﻿using game.model.component;
+﻿using game.model;
+using game.model.component;
 using game.view.ui;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -27,7 +28,7 @@ namespace game.view.system.mouse_tool {
         public void _handleSelection(IntBounds3 bounds) {
             bounds.iterate((x,y,z) => {
                 if (currentTool.validator.validate(x, y, z)) {
-                    EcsEntity entity = new EcsEntity();
+                    EcsEntity entity = GameModel.get().createEntity();
                     entity.Replace(new DesignationComponent { type = currentTool.designation });
                     entity.Replace(new PositionComponent { position = new Vector3Int(x, y, z)});
                     entity.Replace(new OpenDesignation());
