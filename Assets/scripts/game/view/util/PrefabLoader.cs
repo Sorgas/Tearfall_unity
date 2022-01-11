@@ -12,7 +12,15 @@ namespace game.view.util {
         }
 
         public static GameObject create(string name) {
-            return GameObject.Instantiate(get(name));
+            return Object.Instantiate(get(name));
+        }
+        
+        public static GameObject create(string name, Transform parent) {
+            return Object.Instantiate(get(name), parent);
+        }
+        
+        public static GameObject create(string name, Transform parent, Vector3 localPosition) {
+            return Object.Instantiate(get(name), localPosition, Quaternion.identity, parent);
         }
         
         private GameObject getPrefab(string name) {

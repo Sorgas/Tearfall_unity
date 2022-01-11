@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using enums.action;
 using game.model.component.task.action;
 using Leopotam.Ecs;
 
@@ -12,7 +13,8 @@ namespace game.model.component.task {
         public struct TaskActionsComponent {
             public Action initialAction;
             public List<Action> preActions;
-
+            public TaskStatusEnum status;
+            
             public Action getNextAction() {
                 return preActions.Count > 0 ? preActions[0] : initialAction;
             }
