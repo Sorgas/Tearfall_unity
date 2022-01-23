@@ -38,7 +38,7 @@ namespace game.model.component.task.action {
      */
         public Func<EcsEntity, ActionConditionStatusEnum> startCondition; // called before performing, can create sub actions
         public System.Action onStart; // performed on phase start
-        public System.Action<EcsEntity, float> progressConsumer; // performs logic
+        public Action<EcsEntity, float> progressConsumer; // performs logic
         public Func<Boolean> finishCondition; // when reached, action ends
         public System.Action onFinish; // performed on phase finish
 
@@ -54,7 +54,7 @@ namespace game.model.component.task.action {
             this.target = target;
             if(skill != null && SkillMap.getSkill(skill) == null) Debug.LogError("Skill " + skill + " not found.");
             this.skill = skill;
-            startCondition = (unit) => ActionConditionStatusEnum.FAIL; // prevent starting
+            startCondition = unit => ActionConditionStatusEnum.FAIL; // prevent starting
             onStart = () => {};
             progressConsumer = (unit, delta) => progress += delta;
             finishCondition = () => progress >= maxProgress;

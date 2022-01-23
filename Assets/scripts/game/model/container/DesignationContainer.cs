@@ -9,7 +9,7 @@ using static game.model.component.task.DesignationComponents;
 using static UnityEngine.Object;
 
 namespace game.model.container {
-    public class DesignationsContainer {
+    public class DesignationContainer {
         public readonly Dictionary<Vector3Int, EcsEntity> designations = new Dictionary<Vector3Int, EcsEntity>();
 
         // public readonly Dictionary<string, TaskList> tasks; // task job to all tasks with this job
@@ -20,7 +20,7 @@ namespace game.model.container {
 
         // private PassageMap map;
 
-        public DesignationsContainer() {
+        public DesignationContainer() {
             // tasks = new HashMap<>();
             // JobMap.all().forEach(job->tasks.put(job.name, new TaskList()));
             // assignedTasks = new HashSet<>();
@@ -41,18 +41,19 @@ namespace game.model.container {
         
         public void removeDesignation(Vector3Int position) {
             if (designations.ContainsKey(position)) {
-                EcsEntity entity = designations[position];
-                if (entity.Has<TaskComponent>()) {
-                    ref EcsEntity task = ref entity.Get<TaskComponent>().task;
+                EcsEntity designation = designations[position];
+                if (designation.Has<TaskComponent>()) {
+                    ref EcsEntity task = ref designation.Get<TaskComponent>().task;
                     ref TaskComponents.TaskActionsComponent actions = ref task.Get<TaskComponents.TaskActionsComponent>();
+                    
                     actions.status = TaskStatusEnum.CANCELED;
                     // TODO cancel task (task status system)
                 }
-                if (entity.Has<DesignationVisualComponent>()) {
-                    ref DesignationVisualComponent visual = ref entity.Get<DesignationVisualComponent>();
+                if (designation.Has<DesignationVisualComponent>()) {
+                    ref DesignationVisualComponent visual = ref designation.Get<DesignationVisualComponent>();
                     Destroy(visual.spriteRenderer.gameObject);
                 }
-                entity.Destroy();
+                designation.Destroy();
             }
         }
 

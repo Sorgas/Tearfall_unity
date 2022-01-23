@@ -29,9 +29,9 @@ namespace game.model.system.task.designation {
         private EcsEntity? createTaskForDesignation(DesignationComponent designation, PositionComponent position) {
             // TODO create job component
             if (designation.type.JOB == "miner") {
-                EcsEntity entity = new EcsEntity();
-                TaskActionsComponent taskActions = new TaskActionsComponent {initialAction = new DigAction(designation, position), preActions = new List<Action>()};
-                entity.Replace(taskActions);
+                EcsEntity entity = GameModel.get().createEntity();
+                entity.Replace(new TaskActionsComponent {initialAction = new DigAction(designation, position), preActions = new List<Action>()});
+                // entity.Replace(new OpenTaskComponent());
                 return entity;
             }
             // switch (designation.type.NAME) {

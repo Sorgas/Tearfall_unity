@@ -15,8 +15,7 @@ namespace game.model.system.unit {
             foreach (int i in filter) {
                 EcsEntity unit = filter.GetEntity(i);
                 Debug.Log("assigning task " + unit);
-                // TODO get task from container
-                EcsEntity? task = getTaskForUnit();
+                EcsEntity? task = getTaskFromContainer(); 
                 // TODO add needs
                 if (task == null) task = createIdleTask(unit);
                 assignTask(unit, task.Value);
@@ -24,8 +23,8 @@ namespace game.model.system.unit {
         }
 
         // gets any task for unit
-        private EcsEntity? getTaskForUnit() {
-            // GameModel.get().designationContainer.designations;
+        private EcsEntity? getTaskFromContainer() {
+            // GameModel.get().taskContainer.openTasks;
             return null; // TODO get from task container
         }
 

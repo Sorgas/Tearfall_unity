@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using Leopotam.Ecs;
+using UnityEngine;
 using util.lang.extension;
 using static game.model.component.task.TaskComponents;
 
 namespace game.model.container {
     public class TaskContainer {
+        private Dictionary<string, HashSet<EcsEntity>> openTasks = new Dictionary<string, HashSet<EcsEntity>>();
         private Dictionary<string, HashSet<EcsEntity>> tasks = new Dictionary<string, HashSet<EcsEntity>>();
 
         public void addTask(EcsEntity task) {
@@ -12,5 +14,11 @@ namespace game.model.container {
             string jobName = job.HasValue ? job.Value.job : "none";
             tasks[jobName].Add(task);
         }
+
+        // public EcsEntity getTask(string job, Vector3Int position) {
+        //     if (openTasks[job].Count > 0) {
+        //         // return openTasks[job].
+        //     }
+        // }
     }
 }

@@ -21,7 +21,7 @@ namespace enums {
         public readonly int VALUE;
 
         public Passage(int value) {
-            this.VALUE = value;
+            VALUE = value;
         }
     }
 }

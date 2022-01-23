@@ -14,7 +14,6 @@ namespace game.model.component.unit {
     // stores unit's position, task target position and path to target
     public struct MovementComponent {
         public Vector3Int position; // model position
-        public ActionTargetTypeEnum targetType; // near/exact/any
         public List<Vector3Int> path;
         public OrientationEnum orientation;
         public float speed;
@@ -23,6 +22,7 @@ namespace game.model.component.unit {
 
     public struct MovementTargetComponent {
         public Vector3Int target;
+        public ActionTargetTypeEnum targetType; // near/exact/any
     }
 
     public struct UnitVisualComponent {
@@ -47,10 +47,6 @@ namespace game.model.component.unit {
 
     public struct OwnershipComponent {
 
-    }
-
-    public struct TestComponent {
-        public string value;
     }
 
 // stores body temperature

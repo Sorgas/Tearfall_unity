@@ -90,16 +90,15 @@
      <Compile Include="Assets\scripts\util\lang\extension\ListExtensions.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EcsEntityExtension.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\MouseToolManager.cs" />
-     <Compile Include="Assets\scripts\game\model\container\DesignationsContainer.cs" />
+     <Compile Include="Assets\scripts\game\model\container\DesignationContainer.cs" />
      <Compile Include="Assets\scripts\game\view\camera\CameraInputSystem.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldTiles.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldmapController.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\ActionPerformingSystem.cs" />
      <Compile Include="Assets\scripts\game\model\entity_selector\EntitySelectorSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\PositionActionTarget.cs" />
-     <Compile Include="Assets\scripts\game\model\system\unit\MovementSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitMovementSystem.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\BlockTypeMap.cs" />
-     <Compile Include="Assets\scripts\game\model\system\unit\ActionSystem.cs" />
      <Compile Include="Assets\scripts\game\model\system\item\ItemSystem.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\PathFinishCondition.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\DesignationComponents.cs" />
@@ -148,7 +147,7 @@
      <Compile Include="Assets\scripts\util\geometry\ValueRange.cs" />
      <Compile Include="Assets\scripts\enums\unit\JobsEnum.cs" />
      <Compile Include="Assets\scripts\enums\plant\PlantLifeStage.cs" />
-     <Compile Include="Assets\scripts\game\model\system\unit\TaskSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\ActionCheckingSystem.cs" />
      <Compile Include="Assets\scripts\game\view\camera\SelectionHandler.cs" />
      <Compile Include="Assets\scripts\game\view\system\unit\UnitVisualSystem.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EnumerableExtension.cs" />
@@ -226,6 +225,7 @@
      <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\view\ui\WindowManager.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\ActionCompletionSystem.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

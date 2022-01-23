@@ -16,7 +16,7 @@ namespace game.model {
         public EntitySelector selector = new EntitySelector(); // in-model representation of mouse
         public EntitySelectorSystem selectorSystem = new EntitySelectorSystem();
         public readonly UnitContainer unitContainer = new UnitContainer();
-        public readonly DesignationsContainer designationContainer = new DesignationsContainer();
+        public readonly DesignationContainer designationContainer = new DesignationContainer();
         public readonly TaskContainer taskContainer = new TaskContainer();
         private int count = 0;
 
@@ -39,11 +39,11 @@ namespace game.model {
 
         private void initEcs() {
             systems = new EcsSystems(ecsWorld);
-            systems.Add(new MovementSystem())
+            systems.Add(new UnitMovementSystem())
                 .Add(new TaskAssignmentSystem()) // finds or creates tasks for units
-                .Add(new TaskSystem()) // finds or creates tasks for units
-                .Add(new ActionSystem())
-                .Add(new ActionPerformingSystem());
+                .Add(new ActionCheckingSystem()) // check action condition and target reachability
+                .Add(new ActionPerformingSystem())
+                .Add(new ActionCompletionSystem());
             systems.Init();
         }
 

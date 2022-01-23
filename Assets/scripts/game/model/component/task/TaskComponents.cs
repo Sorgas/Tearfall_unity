@@ -5,16 +5,11 @@ using Leopotam.Ecs;
 
 namespace game.model.component.task {
     public class TaskComponents {
-        // displayed name of a task
-        public struct TaskNameComponent {
-            public string name;
-        }
-        
+
         public struct TaskActionsComponent {
             public Action initialAction;
             public List<Action> preActions;
-            public TaskStatusEnum status;
-            
+
             public Action getNextAction() {
                 return preActions.Count > 0 ? preActions[0] : initialAction;
             }
@@ -41,7 +36,22 @@ namespace game.model.component.task {
             public string job;
         }
 
+        // task can be taken by TaskAssignmentSystem
         public struct OpenTaskComponent {
+            
+        }
+
+        public struct TaskStatusComponent {
+            public TaskStatusEnum status;
+        }
+
+        // task reopened by TaskReopenSystem
+        public struct FailedTaskComponent {
+            public int timeout;
+        }
+        
+        // completed or canceled task
+        public struct ToRemoveTaskComponent {
             
         }
     }
