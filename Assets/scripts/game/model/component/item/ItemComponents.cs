@@ -55,7 +55,7 @@ namespace game.model.component.item {
     // two items of same type can be merged into one.
     public struct MergeableComponent {}
 
-    public struct ToolComponent {
+    public struct ItemToolComponent {
         public string operation;
     }
 
@@ -106,5 +106,13 @@ namespace game.model.component.item {
     public struct ItemVisualComponent {
         public SpriteRenderer spriteRenderer;
         public GameObject go;
+    }
+
+    // item with this was moved recently, and requires to update its visual and position components
+    public struct ItemManipulationComponent {
+        public const string toMap = "toMap";
+        public const string fromMap = "fromMap";
+
+        public string type;
     }
 }

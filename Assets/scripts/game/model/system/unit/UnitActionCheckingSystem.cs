@@ -11,8 +11,8 @@ using static game.model.component.task.action.target.ActionTargetStatusEnum;
 using static game.model.component.task.TaskComponents;
 
 namespace game.model.system.unit {
-    public class ActionCheckingSystem : IEcsRunSystem {
-        public EcsFilter<UnitComponent, TaskComponent>.Exclude<MovementTargetComponent, CurrentActionComponent> filter;
+    public class UnitActionCheckingSystem : IEcsRunSystem {
+        public EcsFilter<UnitComponent, TaskComponent>.Exclude<UnitMovementTargetComponent, CurrentActionComponent> filter;
 
         public void Run() {
             foreach (int i in filter) {
@@ -29,7 +29,7 @@ namespace game.model.system.unit {
         private bool checkCompletion(EcsEntity unit, TaskActionsComponent task) {
             if (task.initialAction.status == ActionStatusEnum.COMPLETE) { // main action and task are complete
                 Debug.Log("completing task");
-                unit.Replace(new TaskStatusComponent { status = COMPLETE });
+                unit.Replace(new TaskFinishedComponent { status = COMPLETE });
                 return true;
             }
             if (task.preActions.Count > 0 && task.getNextAction().status == ActionStatusEnum.COMPLETE) { // roll to next action when current is complete
@@ -40,7 +40,8 @@ namespace game.model.system.unit {
 
         // checks action start condition. Created sub action handled on next tick
         private bool checkActionCondition(EcsEntity unit, TaskActionsComponent actions) {
-            ActionConditionStatusEnum checkResult = actions.getNextAction().startCondition.Invoke(unit);
+            Debug.Log("checking action " + actions.getNextAction().name);
+            ActionConditionStatusEnum checkResult = actions.getNextAction().startCondition.Invoke();
             if (checkResult == OK) {
                 return false;
             }
@@ -60,8 +61,13 @@ namespace game.model.system.unit {
                     unit.Replace(new CurrentActionComponent { action = action });
                     break;
                 case WAIT: // start movement
-                    Debug.Log("move to " + action.target.getPosition());
-                    unit.Replace(new MovementTargetComponent { target = action.target.getPosition(), targetType = action.target.type });
+                    Vector3Int? target = action.target.getPosition();
+                    if (!target.HasValue) {
+                        Debug.LogWarning("action " + action + " has not target position.");
+                        break;
+                    }
+                    Debug.Log("move to " + target.Value);
+                    unit.Replace(new UnitMovementTargetComponent { target = target.Value, targetType = action.target.type });
                     break;
                 case STEP_OFF:
                     Debug.Log("step off");
@@ -76,7 +82,7 @@ namespace game.model.system.unit {
 
         private void failTask(EcsEntity unit) {
             Debug.Log("task failed");
-            unit.Replace(new TaskStatusComponent { status = FAILED });
+            unit.Replace(new TaskFinishedComponent { status = FAILED });
         }
     }
 }

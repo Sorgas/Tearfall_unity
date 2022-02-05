@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using enums.unit;
 using game.model.component;
 using game.model.component.task.action;
 using Leopotam.Ecs;
+using UnityEngine;
 using static game.model.component.task.DesignationComponents;
 using static game.model.component.task.TaskComponents;
 
@@ -12,11 +14,11 @@ namespace game.model.system.task.designation {
 
         public void Run() {
             foreach (var i in filter) {
-                EcsEntity entity = filter.GetEntity(i);
-                if (!validateDesignation(entity)) continue;
+                EcsEntity designation = filter.GetEntity(i);
+                if (!validateDesignation(designation)) continue;
                 EcsEntity? task = createTaskForDesignation(filter.Get1(i), filter.Get2(i));
                 if (task.HasValue) {
-                    entity.Replace(new TaskComponent { task = task.Value });
+                    designation.Replace(new TaskComponent { task = task.Value });
                     GameModel.get().taskContainer.addTask(task.Value);
                 }
             }
@@ -28,11 +30,11 @@ namespace game.model.system.task.designation {
 
         private EcsEntity? createTaskForDesignation(DesignationComponent designation, PositionComponent position) {
             // TODO create job component
-            if (designation.type.JOB == "miner") {
-                EcsEntity entity = GameModel.get().createEntity();
-                entity.Replace(new TaskActionsComponent {initialAction = new DigAction(designation, position), preActions = new List<Action>()});
-                // entity.Replace(new OpenTaskComponent());
-                return entity;
+            if (designation.type.JOB.Equals(JobsEnum.MINER.name)) {
+                Debug.Log("mining task created.");
+                EcsEntity taskEntity = GameModel.get().taskContainer.createTask(new DigAction(position.position, designation.type));
+                taskEntity.Replace(new TaskJobComponent { job = JobsEnum.MINER.name });
+                return taskEntity;
             }
             // switch (designation.type.NAME) {
             //     case "cutting stairs": {

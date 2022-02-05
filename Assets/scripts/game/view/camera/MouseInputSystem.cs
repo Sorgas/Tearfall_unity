@@ -1,11 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using game.model;
 using game.view.no_es;
 using game.view.util;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 using util.geometry;
 using util.input;
+using util.lang;
+using util.lang.extension;
+using Image = UnityEngine.UI.Image;
 
 namespace game.view.camera {
     public class MouseInputSystem {
@@ -51,7 +56,9 @@ namespace game.view.camera {
                 if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0) {
                     setSelectorToMousePosition();
                 }
-                if (Input.GetMouseButtonDown(0) && GameModel.localMap.bounds.isIn(ViewUtil.fromSceneToModel(screenToScenePosition(Input.mousePosition)))) {
+                if (Input.GetMouseButtonDown(0) 
+                    && GameModel.localMap.bounds.isIn(ViewUtil.fromSceneToModel(screenToScenePosition(Input.mousePosition)))
+                    && !checkClickIsOverUi()) {
                     selectionHandler.handleMouseDown();
                 }
             }
@@ -74,6 +81,14 @@ namespace game.view.camera {
         private Vector3 screenToScenePosition(Vector3 screenPosition) {
             Vector3 worldPosition = camera.ScreenToWorldPoint(screenPosition);
             return mapHolder.InverseTransformPoint(worldPosition); // position relative to mapHolder
+        }
+
+        private bool checkClickIsOverUi() {
+            PointerEventData data = new PointerEventData(EventSystem.current);
+            data.position = Input.mousePosition;
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(data, results);
+            return results.Any(result => result.gameObject.hasComponent<Image>());
         }
     }
 }

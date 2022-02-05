@@ -1,3 +1,4 @@
+using enums.action;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -13,5 +14,14 @@ namespace game.model.component {
     // for unit and designation
     public struct TaskComponent {
         public EcsEntity task;
+    }
+    
+    public struct TaskFinishedComponent {
+        public TaskStatusEnum status;
+    }
+
+    // shows that entity is ready to be deleted
+    public struct DeletionComponent {
+        
     }
 }

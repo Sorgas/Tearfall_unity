@@ -19,7 +19,7 @@ namespace game.view.ui.jobs_widget {
             fillIcons();
         }
 
-        public override void open()  {
+        public override void open() {
             base.open();
             deleteRows();
             fillRows();
@@ -49,22 +49,19 @@ namespace game.view.ui.jobs_widget {
 
         // creates rows for all units
         private void fillRows() {
-            EcsFilter filter = GameModel.ecsWorld.GetFilter(typeof(EcsFilter<JobsComponent>));
+            EcsFilter filter = GameModel.ecsWorld.GetFilter(typeof(EcsFilter<UnitJobsComponent>));
             GameObject rowPrefab = Resources.Load<GameObject>(rowPath);
             float rowHeight = rowPrefab.GetComponent<RectTransform>().rect.height;
             foreach (var i in filter) {
                 EcsEntity unit = filter.GetEntity(i);
-                JobsComponent? component = unit.get<JobsComponent>();
-                if (component.HasValue) {
-                    GameObject row = Instantiate(rowPrefab, content.transform, false);
-                    row.transform.localPosition = new Vector3(0, -rowHeight * i, 0);
-                    row.GetComponentInChildren<Text>().text = getUnitName(unit);
-                    createToggles(row, component.Value);
-                }
+                GameObject row = Instantiate(rowPrefab, content.transform, false);
+                row.transform.localPosition = new Vector3(0, -rowHeight * i, 0);
+                row.GetComponentInChildren<Text>().text = getUnitName(unit);
+                createToggles(row, unit);
             }
         }
 
-        private void createToggles(GameObject row, JobsComponent component) {
+        private void createToggles(GameObject row, EcsEntity unit) {
             GameObject togglePrefab = Resources.Load<GameObject>(togglePath);
             RectTransform unitName = row.transform.GetChild(0).GetComponent<RectTransform>();
             float startX = unitName.rect.width + unitName.localPosition.x;
@@ -74,12 +71,12 @@ namespace game.view.ui.jobs_widget {
                 GameObject toggle = Instantiate(togglePrefab, row.transform, false);
                 toggle.transform.localPosition = new Vector3(startX + iconWidth * i, 0, 0);
                 Toggle toggleComponent = toggle.GetComponentInChildren<Toggle>();
-                toggleComponent.isOn = component.enabledJobs.Contains(job.name);
+                toggleComponent.isOn = unit.Get<UnitJobsComponent>().enabledJobs.Contains(job.name);
                 toggleComponent.onValueChanged.AddListener(value => {
                     if (value) {
-                        component.enabledJobs.Add(job.name);
+                        unit.Get<UnitJobsComponent>().enabledJobs.Add(job.name);
                     } else {
-                        component.enabledJobs.Remove(job.name);
+                        unit.Get<UnitJobsComponent>().enabledJobs.Remove(job.name);
                     }
                 });
             }
@@ -97,7 +94,7 @@ namespace game.view.ui.jobs_widget {
         public bool accept(KeyCode key) {
             switch (key) {
                 case KeyCode.J:
-                case KeyCode.Q: 
+                case KeyCode.Q:
                     WindowManager.get().closeWindow(this);
                     return true;
             }

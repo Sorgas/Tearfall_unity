@@ -2,13 +2,13 @@
 using enums;
 using enums.action;
 using game.model.component;
-using game.model.component.task;
 using Leopotam.Ecs;
 using UnityEngine;
 using static game.model.component.task.DesignationComponents;
 using static UnityEngine.Object;
 
 namespace game.model.container {
+    // registry of designation entities, creates and destroys designations, called by ECS systems
     public class DesignationContainer {
         public readonly Dictionary<Vector3Int, EcsEntity> designations = new Dictionary<Vector3Int, EcsEntity>();
 
@@ -32,31 +32,38 @@ namespace game.model.container {
             EcsEntity entity = GameModel.get().createEntity();
             entity.Replace(new DesignationComponent { type = type });
             entity.Replace(new PositionComponent { position = position });
-            entity.Replace(new OpenDesignation());
-            if (designations.ContainsKey(position)) {
-                removeDesignation(position);
+            if (designations.ContainsKey(position)) { // replace previous designation
+                cancelDesignation(position); // cancel previous designation
             }
             designations[position] = entity;
         }
         
+        // removes designation in given position
         public void removeDesignation(Vector3Int position) {
             if (designations.ContainsKey(position)) {
-                EcsEntity designation = designations[position];
-                if (designation.Has<TaskComponent>()) {
-                    ref EcsEntity task = ref designation.Get<TaskComponent>().task;
-                    ref TaskComponents.TaskActionsComponent actions = ref task.Get<TaskComponents.TaskActionsComponent>();
-                    
-                    actions.status = TaskStatusEnum.CANCELED;
-                    // TODO cancel task (task status system)
-                }
-                if (designation.Has<DesignationVisualComponent>()) {
-                    ref DesignationVisualComponent visual = ref designation.Get<DesignationVisualComponent>();
-                    Destroy(visual.spriteRenderer.gameObject);
-                }
-                designation.Destroy();
+                removeDesignation(designations[position]);
+            } else {
+                Debug.LogWarning("deleting designation by position " + position + " unregistered in DesignationContainer");
             }
         }
 
+        public void removeDesignation(EcsEntity designation) {
+            if (designation.Has<DesignationVisualComponent>()) {
+                Destroy(designation.Get<DesignationVisualComponent>().spriteRenderer.gameObject);
+                designation.Del<DesignationVisualComponent>();
+            } else {
+                Debug.LogWarning("deleting designation without DesignationVisualComponent");
+            }
+            designation.Destroy();
+        }
+
+        // mark designation as canceled. will be handled in DesignationCompletionSystem
+        public void cancelDesignation(Vector3Int position) {
+            if (designations.ContainsKey(position)) {
+                designations[position].Replace(new TaskFinishedComponent { status = TaskStatusEnum.CANCELED });
+            }
+        }
+        
         //    public void update(TimeUnitEnum unit) {
         //        designationSystem.update();
         //        taskStatusSystem.update();

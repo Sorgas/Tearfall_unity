@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace game.model.system.unit {
     // runs active actions for units
-    public class ActionPerformingSystem : IEcsRunSystem {
+    public class UnitActionPerformingSystem : IEcsRunSystem {
         public EcsFilter<CurrentActionComponent> filter;
 
         public void Run() {

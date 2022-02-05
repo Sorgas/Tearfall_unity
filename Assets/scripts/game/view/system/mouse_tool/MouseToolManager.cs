@@ -7,7 +7,7 @@ using static game.view.system.mouse_tool.MouseToolEnum;
 
 namespace game.view.system.mouse_tool {
     public class MouseToolManager : Singleton<MouseToolManager> {
-        private MouseToolType currentTool;
+        private MouseToolType currentTool = NONE;
         
         public static void set(MouseToolType newTool) => get()._set(newTool);
 
@@ -24,7 +24,7 @@ namespace game.view.system.mouse_tool {
             _set(NONE);
         }
         
-        public void _handleSelection(IntBounds3 bounds) {
+        private void _handleSelection(IntBounds3 bounds) {
             if (currentTool == NONE) return; // TODO add unit/building/item/plant/block selection for NONE tool
             bounds.iterate((x, y, z) => {
                 if (currentTool.designation != null) { // tool applies designation
@@ -32,7 +32,8 @@ namespace game.view.system.mouse_tool {
                         GameModel.get().designationContainer.createDesignation(new Vector3Int(x, y, z), currentTool.designation);
                     }
                 } else if (currentTool == CLEAR) {
-                    GameModel.get().designationContainer.removeDesignation(new Vector3Int(x, y, z));
+                    
+                    GameModel.get().designationContainer.cancelDesignation(new Vector3Int(x, y, z));
                 }
             });
         }

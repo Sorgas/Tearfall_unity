@@ -6,13 +6,17 @@ using UnityEngine;
 
 namespace generation.unit {
     class UnitGenerator {
+        private UnitEquipmentComponentGenerator equipmentGenerator = new UnitEquipmentComponentGenerator();
+        
         public void generateToEntity(EcsEntity entity, SettlerData data) {
             entity.Replace(new UnitNameComponent { name = data.name }) // TODO add name generator
                 .Replace(new AgeComponent { age = data.age }) // TODO add name generator
-                .Replace(new MovementComponent { position = new Vector3Int(), path = new List<Vector3Int>(), speed = 0.06f, step = 0 })
+                .Replace(new UnitMovementComponent { speed = 0.06f, step = 0 })
                 .Replace(new UnitVisualComponent())
-                .Replace(new JobsComponent {enabledJobs = new List<string>()})
+                .Replace(new UnitJobsComponent {enabledJobs = new List<string>()})
                 .Replace(new NameComponent {name = "mockName"})
+                .Replace(new PositionComponent {position = new Vector3Int()})
+                .Replace(equipmentGenerator.generate())
                 .Replace(new UnitComponent());
         }
     }

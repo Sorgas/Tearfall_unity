@@ -1,7 +1,11 @@
 ﻿using game.model.component.unit;
 using game.model.container;
+using game.model.container.item;
 using game.model.entity_selector;
 using game.model.localmap;
+using game.model.system.item;
+using game.model.system.task;
+using game.model.system.task.designation;
 using game.model.system.unit;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -18,6 +22,7 @@ namespace game.model {
         public readonly UnitContainer unitContainer = new UnitContainer();
         public readonly DesignationContainer designationContainer = new DesignationContainer();
         public readonly TaskContainer taskContainer = new TaskContainer();
+        public readonly ItemContainer itemContainer = new ItemContainer(); 
         private int count = 0;
 
         public static EcsWorld ecsWorld => get()._ecsWorld;
@@ -39,12 +44,18 @@ namespace game.model {
 
         private void initEcs() {
             systems = new EcsSystems(ecsWorld);
-            systems.Add(new UnitMovementSystem())
-                .Add(new TaskAssignmentSystem()) // finds or creates tasks for units
-                .Add(new ActionCheckingSystem()) // check action condition and target reachability
-                .Add(new ActionPerformingSystem())
-                .Add(new ActionCompletionSystem());
-            systems.Init();
+            systems
+                .Add(new UnitTaskAssignmentSystem()) // finds or creates tasks for units
+                .Add(new UnitActionCheckingSystem()) // check action condition and target reachability, creates sub actions
+                .Add(new UnitActionPerformingSystem())
+                .Add(new UnitMovementSystem())
+                .Add(new UnitPathfindingSystem()) // finds paths to action targets
+                .Add(new UnitTaskCompletionSystem()) // handles completed tasks
+                .Add(new TaskCompletionSystem())
+                .Add(new DesignationTaskCreationSystem())
+                .Add(new DesignationCompletionSystem())
+                .Add(new ItemRegisterInitSystem())
+                .Init();
         }
 
         //get full world state from GenerationState or savefile
@@ -54,7 +65,7 @@ namespace game.model {
             _ecsWorld = ecsWorld;
             // add units to container
             // TODO add generated wild animals
-            EcsFilter filter = ecsWorld.GetFilter(typeof(EcsFilter<JobsComponent>));
+            EcsFilter filter = ecsWorld.GetFilter(typeof(EcsFilter<UnitJobsComponent>));
             foreach (var i in filter) {
                 unitContainer.addNewPlayerUnit(filter.GetEntity(i));
             }

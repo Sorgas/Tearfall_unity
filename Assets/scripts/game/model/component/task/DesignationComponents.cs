@@ -1,5 +1,4 @@
 ﻿using enums;
-using Leopotam.Ecs;
 using UnityEngine;
 
 namespace game.model.component.task {
@@ -7,12 +6,6 @@ namespace game.model.component.task {
 
         public struct DesignationComponent {
             public DesignationType type;
-        }
-
-        public struct OpenDesignation {
-        }
-
-        public struct DesignationFinished {
         }
 
         public struct DesignationVisualComponent {

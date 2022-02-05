@@ -1,26 +1,28 @@
+using game.model.component;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
 
 namespace game.view.system.unit {
     public class UnitVisualSystem : IEcsRunSystem {
-        public EcsFilter<UnitVisualComponent, MovementComponent> filter;
+        public EcsFilter<UnitVisualComponent, UnitMovementComponent> filter;
 
         public void Run() {
             foreach (int i in filter) {
-                // EcsEntity entity = filter.GetEntity(i);
+                EcsEntity entity = filter.GetEntity(i);
                 ref UnitVisualComponent component = ref filter.Get1(i);
-                MovementComponent movement = filter.Get2(i);
+                UnitMovementComponent unitMovement = filter.Get2(i);
+                PositionComponent positionComponent = entity.Get<PositionComponent>();
                 if (component.spriteRenderer == null) {
                     createUnit(ref component);
                 }
-                updatePosition(ref component, movement);
+                updatePosition(ref component, unitMovement, positionComponent);
             }
         }
 
-        private void updatePosition(ref UnitVisualComponent component, MovementComponent movement) {
+        private void updatePosition(ref UnitVisualComponent component, UnitMovementComponent unitMovement, PositionComponent positionComponent) {
             // TODO use view utils
-            Vector3Int position = movement.position;
+            Vector3Int position = positionComponent.position;
             component.spriteRenderer.gameObject.transform.localPosition = new Vector3(position.x, position.y + position.z / 2f + 0.25f, - position.z * 2 - 0.1f);
         }
 

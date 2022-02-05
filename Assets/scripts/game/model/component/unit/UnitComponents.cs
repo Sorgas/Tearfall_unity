@@ -11,20 +11,23 @@ namespace game.model.component.unit {
         public int id;
     }
     
-    // stores unit's position, task target position and path to target
-    public struct MovementComponent {
-        public Vector3Int position; // model position
-        public List<Vector3Int> path;
+    // stores unit's movement properties
+    public struct UnitMovementComponent {
+        // public Vector3Int position; // model position
         public OrientationEnum orientation;
         public float speed;
         public float step; // speed is added to this value; when reaches 1, position changed
     }
 
-    public struct MovementTargetComponent {
+    public struct UnitMovementTargetComponent {
         public Vector3Int target;
         public ActionTargetTypeEnum targetType; // near/exact/any
     }
 
+    public struct UnitMovementPathComponent {
+        public List<Vector3Int> path;
+    }
+    
     public struct UnitVisualComponent {
         public SpriteRenderer spriteRenderer;
     }
@@ -41,7 +44,8 @@ namespace game.model.component.unit {
         public List<string> injures;
     }
 
-    public struct JobsComponent {
+    public struct UnitJobsComponent {
+        // TODO add priorities as {job, priority} entry. handle in taskcontainer and task assignment system
         public List<string> enabledJobs;
     }
 

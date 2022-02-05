@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using enums.action;
 using game.model.component.task.action;
 using Leopotam.Ecs;
 
@@ -38,20 +37,15 @@ namespace game.model.component.task {
 
         // task can be taken by TaskAssignmentSystem
         public struct OpenTaskComponent {
-            
+
         }
 
-        public struct TaskStatusComponent {
-            public TaskStatusEnum status;
+        // exists, if task is generated from designation
+        public struct TaskDesignationComponent {
+            public EcsEntity designation;
         }
 
-        // task reopened by TaskReopenSystem
-        public struct FailedTaskComponent {
-            public int timeout;
-        }
-        
-        // completed or canceled task
-        public struct ToRemoveTaskComponent {
+        public struct TaskPriorityComponent {
             
         }
     }

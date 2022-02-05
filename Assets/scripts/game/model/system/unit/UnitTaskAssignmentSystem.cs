@@ -4,18 +4,18 @@ using game.model.component.task.action;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
+using util.lang.extension;
 using static game.model.component.task.TaskComponents;
 
 namespace game.model.system.unit {
     // finds and assigns appropriate tasks to units
-    public class TaskAssignmentSystem : IEcsRunSystem {
+    public class UnitTaskAssignmentSystem : IEcsRunSystem {
         EcsFilter<UnitComponent>.Exclude<TaskComponent> filter; // units without tasks
 
         public void Run() {
             foreach (int i in filter) {
                 EcsEntity unit = filter.GetEntity(i);
-                Debug.Log("assigning task " + unit);
-                EcsEntity? task = getTaskFromContainer(); 
+                EcsEntity? task = getTaskFromContainer(unit); 
                 // TODO add needs
                 if (task == null) task = createIdleTask(unit);
                 assignTask(unit, task.Value);
@@ -23,18 +23,26 @@ namespace game.model.system.unit {
         }
 
         // gets any task for unit
-        private EcsEntity? getTaskFromContainer() {
-            // GameModel.get().taskContainer.openTasks;
+        private EcsEntity? getTaskFromContainer(EcsEntity unit) {
+            if (unit.Has<UnitJobsComponent>()) {
+                UnitJobsComponent jobs = unit.Get<UnitJobsComponent>();
+                Debug.Log("enabled jobs: " + jobs.enabledJobs.Count);
+                
+                foreach (var enabledJob in jobs.enabledJobs) { // TODO add jobs priorities
+                    EcsEntity? task = GameModel.get().taskContainer.getTask(enabledJob, unit.pos());
+                    if (task.HasValue) return task;
+                }
+            } else {
+                Debug.LogError("unit without jobs component attempts to get jobs from container.");
+            }
             return null; // TODO get from task container
         }
 
         private EcsEntity createIdleTask(EcsEntity unit) {
-            Debug.Log("creating idle task for unit " + unit);
-            Vector3Int current = unit.Get<MovementComponent>().position;
+            // Debug.Log("creating idle task for unit " + unit);
+            Vector3Int current = unit.pos();
             Vector3Int position = GameModel.localMap.util.getRandomPosition(current, 10, 4);
-            EcsEntity task = GameModel.get().createEntity();
-            task.Replace(new TaskActionsComponent { initialAction = new MoveAction(position), preActions = new List<Action>() });
-            return task;
+            return GameModel.get().taskContainer.createTask(new MoveAction(position));
         }
 
         // bind unit and task entities

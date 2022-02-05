@@ -3,6 +3,7 @@ using game.model.component.task.action.target;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
+using util.lang.extension;
 
 //Action for moving to tile. Has no check or logic.
 namespace game.model.component.task.action {
@@ -10,9 +11,9 @@ namespace game.model.component.task.action {
 
         public MoveAction(Vector3Int targetPosition) : base(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.EXACT)) {
         
-            startCondition = (unit) => {
-                if (unit.Has<MovementComponent>()) {
-                    Vector3Int currentPosition = unit.Get<MovementComponent>().position;
+            startCondition = () => {
+                if (performer().Has<UnitMovementComponent>()) {
+                    Vector3Int currentPosition = performer().pos();
                     Debug.Log("checking in same area");
                     if (GameModel.localMap.passageMap.inSameArea(currentPosition, targetPosition)) {
                         return ActionConditionStatusEnum.OK;
