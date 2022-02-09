@@ -20,7 +20,7 @@
     "baseItem": "generic_fruit",
     "description": "Large orange vegetable with thick walls and many seeds inside.",
     "aspects": ["food(100)"],
-    "atlasXY": [2, 0]
+    "atlasXY": [2, 0] 
 }, {
     "name": "tomato",
     "baseItem": "generic_fruit",

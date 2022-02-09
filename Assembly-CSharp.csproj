@@ -251,6 +251,16 @@
      <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\view\ui\WindowManager.cs" />
+     <Compile Include="Assets\scripts\enums\unit\CreatureTypeMap.cs" />
+     <Compile Include="Assets\scripts\enums\unit\body\BodyPart.cs" />
+     <Compile Include="Assets\scripts\enums\unit\body\raw\RawBodyPart.cs" />
+     <Compile Include="Assets\scripts\enums\unit\body\raw\RawBodyTemplate.cs" />
+     <Compile Include="Assets\scripts\enums\unit\body\BodyTemplate.cs" />
+     <Compile Include="Assets\scripts\enums\unit\body\raw\BodyTemplateProcessor.cs" />
+     <Compile Include="Assets\scripts\enums\unit\CreatureType.cs" />
+     <Compile Include="Assets\scripts\enums\unit\need\NeedEnum.cs" />
+     <Compile Include="Assets\scripts\enums\unit\race\CombinedAppearance.cs" />
+     <Compile Include="Assets\scripts\enums\unit\RawCreatureType.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

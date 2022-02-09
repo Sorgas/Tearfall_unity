@@ -5,12 +5,17 @@ namespace game.model.component.unit {
     public class UnitEquipmentComponentGenerator {
 
         public UnitEquipmentComponent generate() {
-            return new UnitEquipmentComponent {
-                slots = new Dictionary<string, EquipmentSlot>(),
-                grabSlots = new Dictionary<string, GrabEquipmentSlot>(),
-                items = new HashSet<EcsEntity>(), 
-                desiredSlots = new List<EquipmentSlot>()
-            };
+            var component = new UnitEquipmentComponent();
+            component.slots = new Dictionary<string, EquipmentSlot>();
+            component.grabSlots = new Dictionary<string, GrabEquipmentSlot>();
+            component.items = new HashSet<EcsEntity>();
+            component.desiredSlots = new List<EquipmentSlot>();
+            fillSlots(ref component);
+            return component;
+        }
+
+        private void fillSlots(ref UnitEquipmentComponent component) {
+            component.grabSlots.Add("left", new GrabEquipmentSlot("left", new ));
         }
     }
-}
+}  

@@ -22,7 +22,7 @@ namespace generation.localgen.generators {
             settlers.ForEach(settler => {
                 Vector3Int spawnPoint = getSpawnPosition(center, 5);
                 EcsEntity entity = GenerationState.get().ecsWorld.NewEntity();
-                unitGenerator.generateToEntity(entity, settler);
+                unitGenerator.generateUnit(entity, settler);
                 entity.Get<PositionComponent>().position = spawnPoint;
                 // Debug.Log("unit spawned at " + spawnPoint);
                 // Debug.Log(entity.Get<MovementComponent>().position);
