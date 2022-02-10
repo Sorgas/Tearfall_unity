@@ -53,6 +53,9 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\scripts\enums\action\ActionStatusEnum.cs" />
+     <Compile Include="Assets\scripts\enums\unit\CreatureTypeProcessor.cs" />
+     <Compile Include="Assets\scripts\enums\unit\health\GameplayStatEnum.cs" />
+     <Compile Include="Assets\scripts\enums\unit\need\Need.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\mit\AStar2.cs" />
      <Compile Include="Assets\scripts\util\lang\Singleton.cs" />
      <Compile Include="Assets\scripts\enums\item\type\ItemTypeMap.cs" />
@@ -892,8 +895,6 @@
  <Reference Include="Unity.Mathematics">
  <HintPath>D:/projects/Tearfall_unity/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

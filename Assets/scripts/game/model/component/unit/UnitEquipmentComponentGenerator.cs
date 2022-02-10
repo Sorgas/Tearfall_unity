@@ -18,4 +18,4 @@ namespace game.model.component.unit {
             component.grabSlots.Add("left", new GrabEquipmentSlot("left", new ));
         }
     }
-}  
+}

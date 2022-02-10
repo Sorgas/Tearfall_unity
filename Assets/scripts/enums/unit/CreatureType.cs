@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using enums.unit.body;
 using enums.unit.need;
-using UnityEditor;
 
 namespace enums.unit {
     public class CreatureType {
