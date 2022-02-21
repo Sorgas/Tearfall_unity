@@ -48,12 +48,10 @@ namespace game {
                     // TODO load save game
                 }
             }
-            GameModel.get().setWorld(GenerationState.get().world, GenerationState.get().ecsWorld);
         }
         
         private void createTestLocalMap() {
-            LocalMap localmap = GameModel.localMap;
-            if (localmap != null) return;
+            if(GameModel.get().world != null && GameModel.get().world.localMap != null) return;
             GenerationState state = GenerationState.get();
             state.worldGenConfig.size = 10;
             state.generateWorld();
@@ -67,6 +65,7 @@ namespace game {
             SettlerData settler = new SettlerData();
             settler.name = "test settler";
             settler.age = 30;
+            settler.type = "human";
             GenerationState.get().preparationState.settlers.Add(settler);
         }
 

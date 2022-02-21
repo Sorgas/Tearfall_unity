@@ -15,13 +15,14 @@ namespace enums.unit {
 
         public CreatureType process(RawCreatureType raw) {
             CreatureType type = new CreatureType(raw);
+            Debug.Log("processing creature type  " + type.name);
+            
             if (!typeMap.templates.ContainsKey(raw.bodyTemplate)) {
                 Debug.LogWarning("Creature " + type.name + " has invalid body template " + raw.bodyTemplate);
                 return null;
             }
 
             // if(type.combinedAppearance != null) type.combinedAppearance.process();
-            
             // Arrays.stream(GameplayStatEnum.values())
             //     .forEach(value -> type.statMap.put(value, value.DEFAULT)); // save default values
             // for (String statName : raw.statMap.keySet()) { // override default values

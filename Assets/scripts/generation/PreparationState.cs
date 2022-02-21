@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using util.lang;
 
 namespace generation
 {
-    public class PreparationState {
+    // filled from UI when player selects settlers and items
+    public class PreparationState : Singleton<PreparationState>{
         public List<SettlerData> settlers = new List<SettlerData>();
         public List<ItemData> items = new List<ItemData>();
     }
@@ -11,6 +13,7 @@ namespace generation
     public class SettlerData {
         public string name;
         public int age;
+        public string type;
         // todo 
     }
 

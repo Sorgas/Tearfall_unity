@@ -23,7 +23,7 @@ namespace game.model.container {
         }
 
         public void addTask(EcsEntity task) {
-            TaskJobComponent? job = task.get<TaskJobComponent>();
+            TaskJobComponent? job = task.optional<TaskJobComponent>();
             string jobName = job.HasValue ? job.Value.job : "none";
             openTasks[jobName].Add(task);
         }

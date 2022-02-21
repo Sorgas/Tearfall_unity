@@ -11,19 +11,19 @@ namespace game.model.localmap {
             this.map = map;
         }
 
-        public Vector3Int getRandomPosition(Vector3Int center, int xRange, int zRange) {
+        public Vector3Int? getRandomPosition(Vector3Int center, int xRange, int zRange) {
             IntBounds3 bounds = new IntBounds3(center, xRange, xRange, zRange);
             normalizeBounds(bounds);
             List<Vector3Int> positions = new List<Vector3Int>();
             bounds.iterate((x, y, z) => {
                 int blockType = map.blockType.get(x, y, z);
                 if (blockType != BlockTypeEnum.SPACE.CODE
-                        && blockType != BlockTypeEnum.WALL.CODE
-                        && blockType != BlockTypeEnum.FARM.CODE) { // passable position
+                    && blockType != BlockTypeEnum.WALL.CODE
+                    && blockType != BlockTypeEnum.FARM.CODE) { // passable position
                     positions.Add(new Vector3Int(x, y, z));
                 }
             });
-            return positions[Random.Range(0, positions.Count - 1)];
+            return positions.Count != 0 ? positions[Random.Range(0, positions.Count - 1)] : (Vector3Int?)null;
         }
 
         public IntBounds3 normalizeBounds(IntBounds3 bounds) {

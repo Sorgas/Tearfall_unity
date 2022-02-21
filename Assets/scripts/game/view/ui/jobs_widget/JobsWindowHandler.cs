@@ -83,7 +83,7 @@ namespace game.view.ui.jobs_widget {
         }
 
         private string getUnitName(EcsEntity unit) {
-            NameComponent? name = unit.get<NameComponent>();
+            NameComponent? name = unit.optional<NameComponent>();
             return name.HasValue ? name.Value.name : "no name";
         }
 

@@ -1,4 +1,7 @@
-﻿namespace enums.unit.race {
+﻿using System;
+
+namespace enums.unit.race {
+    [Serializable]
     public class CombinedAppearance {
         public string body;
         public string head;

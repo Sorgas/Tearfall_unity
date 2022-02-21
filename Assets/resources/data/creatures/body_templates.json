@@ -5,22 +5,22 @@
             {
                 "name": "upper torso",
                 "root": "body",
-                "internal": ["left lung", "right lung", "heart"]
+                "internalOrgans": ["left lung", "right lung", "heart"]
             }, {
                 "name": "lower torso",
                 "root": "body",
                 "layers": ["skin", "fat", "muscle"],
-                "internal": ["stomach"]
+                "internalOrgans": ["stomach"]
             }, {
                 "name": "neck",
                 "root": "upper torso",
                 "layers": ["skin", "fat", "muscle"],
-                "internal": ["neck part spine"]
+                "internalOrgans": ["neck part spine"]
             }, {
                 "name": "head",
                 "root": "neck",
-                "internal": ["brain", "tongue", "teeth"],
-                "external": ["left eye", "right eye", "nose", "left ear", "right ear"]
+                "internalOrgans": ["brain", "tongue", "teeth"],
+                "externalOrgans": ["left eye", "right eye", "nose", "left ear", "right ear"]
             }, {
                 "name": "front upper leg",
                 "root": "upper torso",
@@ -53,22 +53,22 @@
         {
             "name": "upper torso",
             "root": "body",
-            "internal": ["left lung", "right lung", "heart"]
+            "internalOrgans": ["left lung", "right lung", "heart"]
         }, {
             "name": "lower torso",
             "root": "body",
             "layers": ["skin", "fat", "muscle"],
-            "internal": ["stomach"]
+            "internalOrgans": ["stomach"]
         }, {
             "name": "neck",
             "root": "upper torso",
             "layers": ["skin", "fat", "muscle"],
-            "internal": ["neck part spine"]
+            "internalOrgans": ["neck part spine"]
         }, {
             "name": "head",
             "root": "neck",
-            "internal": ["brain", "tongue", "teeth"],
-            "external": ["left eye", "right eye", "nose", "left ear", "right ear"]
+            "internalOrgans": ["brain", "tongue", "teeth"],
+            "externalOrgans": ["left eye", "right eye", "nose", "left ear", "right ear"]
         }, {
             "name": "upper arm",
             "root": "upper torso",
@@ -118,22 +118,22 @@
             {
                 "name": "upper torso",
                 "root": "body",
-                "internal": ["left lung", "right lung", "heart"]
+                "internalOrgans": ["left lung", "right lung", "heart"]
             }, {
                 "name": "lower torso",
                 "root": "body",
                 "layers": ["skin", "fat", "muscle"],
-                "internal": ["stomach"]
+                "internalOrgans": ["stomach"]
             }, {
                 "name": "neck",
                 "root": "upper torso",
                 "layers": ["skin", "fat", "muscle"],
-                "internal": ["neck part spine"]
+                "internalOrgans": ["neck part spine"]
             }, {
                 "name": "head",
                 "root": "neck",
-                "internal": ["brain", "tongue", "beak"],
-                "external": ["left eye", "right eye", "nose", "left ear", "right ear"]
+                "internalOrgans": ["brain", "tongue", "beak"],
+                "externalOrgans": ["left eye", "right eye", "nose", "left ear", "right ear"]
             }, {
                 "name": "wing",
                 "root": "upper torso",

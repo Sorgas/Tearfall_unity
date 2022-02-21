@@ -2,7 +2,7 @@
     {
         "name": "human",
         "title" : "Human",
-        "description": "This is a human",
+        "description": "",
         "bodyTemplate": "humanoid",
         "aspects" : ["equipment", "jobs"],
         "combinedAppearance" : {
@@ -17,141 +17,65 @@
     {
         "name": "dog",
         "title" : "Dog",
-        "description": "This is a dog",
+        "description": "",
         "bodyTemplate": "beast",
         "atlasXY": ["0", "0"],
         "color": "0xffffffff"
     },
     {
-        "name": "child",
-        "title": "Child",
-        "description": "Like a human, but littler",
-        "bodyTemplate": "humanoid",
-        "atlasXY": [
-            "0",
-            "0"
-        ],
-        "color": "0xffffffff"
-    },
-    {
-        "name": "dog",
-        "title": "Dog",
-        "description": "Man's best friend",
-        "bodyTemplate": "beast",
-        "atlasXY": [
-            "0",
-            "0"
-        ],
-        "color": "0xffffffff"
-    },
-    {
         "name": "cow",
         "title": "Cow",
-        "description": "Maker of tasty milk",
+        "description": "",
         "bodyTemplate": "beast",
-        "atlasXY": [
-            "0",
-            "0"
-        ],
+        "atlasXY": ["0","0"],
         "color": "0xffffffff"
     },
     {
         "name": "cat",
         "title": "Cat",
-        "description": "Man's fussier, more standoffish friend",
+        "description": "",
         "bodyTemplate": "beast",
-        "atlasXY": [
-            "0",
-            "0"
-        ],
+        "atlasXY": ["0","0"],
         "color": "0xffffffff"
     },
     {
         "name": "horse",
         "title": "Horse",
-        "description": "Who doesn't love horses? Great faithful working animals",
+        "description": "",
         "bodyTemplate": "beast",
-        "atlasXY": [
-            "0",
-            "0"
-        ],
-        "color": "0xffffffff"
-    },
-    {
-        "name": "spider",
-        "title": "Spider",
-        "description": "How can something have so many eyes?",
-        "bodyTemplate": "insect",
-        "atlasXY": [
-            "0",
-            "0"
-        ],
+        "atlasXY": ["0","0"],
         "color": "0xffffffff"
     },
     {
         "name": "bird",
         "title": "Bird",
-        "description": "Is it a bird, is it a plane? It's a bird",
+        "description": "",
         "bodyTemplate": "bird",
-        "atlasXY": [
-            "0",
-            "0"
-        ],
-        "color": "0xffffffff"
-    },
-    {
-        "name": "bat",
-        "title": "Bat",
-        "description": "Mind your blood around these pesky flying mice",
-        "bodyTemplate": "flyingBeast",
-        "atlasXY": [
-            "0",
-            "0"
-        ],
+        "atlasXY": ["0","0"],
         "color": "0xffffffff"
     },
     {
         "name": "mouse",
         "title": "Mouse",
-        "description": "quiet and likes cheese",
+        "description": "",
         "bodyTemplate": "beast",
-        "atlasXY": [
-            "0",
-            "0"
-        ],
+        "atlasXY": ["0","0"],
         "color": "0xffffffff"
     },
     {
         "name": "rat",
         "title": "Rat",
-        "description": "Like a mouse, but bigger and bitier",
+        "description": "",
         "bodyTemplate": "beast",
-        "atlasXY": [
-            "0",
-            "0"
-        ],
+        "atlasXY": ["0","0"],
         "color": "0xffffffff"
     },
     {
         "name": "bear",
         "title": "Bear",
-        "description": "Surprisingly grumpy for something that sleeps most of the year",
+        "description": "",
         "bodyTemplate": "beast",
-        "atlasXY": [
-            "0",
-            "0"
-        ],
-        "color": "0xffffffff"
-    },
-    {
-        "name": "dummy",
-        "title": "Bear",
-        "description": "Surprisingly grumpy for something that sleeps most of the year",
-        "bodyTemplate": "beast",
-        "atlasXY": [
-            "0",
-            "0"
-        ],
+        "atlasXY": ["0","0"],
         "color": "0xffffffff"
     }
 ]

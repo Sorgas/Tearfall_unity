@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using enums.material;
 using enums.unit.body;
 using enums.unit.body.raw;
+using Newtonsoft.Json;
 using UnityEngine;
 using util.input;
 using util.lang;
@@ -21,18 +21,21 @@ namespace enums.unit {
         
         private void loadTemplates() {
             // Logger.LOADING.logDebug("loading body templates");
-            TextAsset file = Resources.Load<TextAsset>("data/creatures/body_templates.json");
+            TextAsset file = Resources.Load<TextAsset>("data/creatures/body_templates");
             BodyTemplateProcessor templateProcessor = new BodyTemplateProcessor();
             RawBodyTemplate[] rawTemplates = JsonArrayReader.readArray<RawBodyTemplate>(file.text);
+            Debug.Log(rawTemplates);
             rawTemplates.Select(template => templateProcessor.process(template)).ToList().ForEach(template => templates.Add(template.name, template));
         }
 
         private void loadCreatures() {
             // Logger.LOADING.logDebug("loading creature types");
-            TextAsset file = Resources.Load<TextAsset>("data/creatures/creatures.json");
+            TextAsset file = Resources.Load<TextAsset>("data/creatures/creatures");
             CreatureTypeProcessor typeProcessor = new CreatureTypeProcessor(this);
-            RawCreatureType[] rawTypes = JsonArrayReader.readArray<RawCreatureType>(file.text);
-            rawTypes.Select(type => typeProcessor.process(type)).ToList().ForEach(type => creatureTypes.Add(type.name, type));
+            List<RawCreatureType> types = JsonConvert.DeserializeObject<List<RawCreatureType>>(file.text);
+            Debug.Log("typs size " + types.Count);
+            // RawCreatureType[] rawTypes = JsonArrayReader.readArray<RawCreatureType>(file.text);
+            types.Select(type => typeProcessor.process(type)).ToList().ForEach(type => creatureTypes.Add(type.name, type));
         }
     
         public static CreatureType getType(String specimen) {

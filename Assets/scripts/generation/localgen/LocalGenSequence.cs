@@ -2,6 +2,8 @@
 using generation.localgen.generators;
 
 namespace generation.localgen {
+    // holds and launches local generators
+    // generators generate final data into GameModel and intermediate data to LocalGenContainer 
     public class LocalGenSequence {
         public int progress = 0;
         public int maxProgress = 0;

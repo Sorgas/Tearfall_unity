@@ -5,7 +5,6 @@ namespace enums.unit.body {
     public class BodyPart {
         //determine wear items, that can be equipped (slot name = side + type)
         public string name; //
-
         public BodyPart root; // each body part points to one it`s connected to
         public readonly List<string> layers = new List<string>(); // tissue layers
         public readonly List<string> externalOrgans = new List<string>();
@@ -14,10 +13,10 @@ namespace enums.unit.body {
 
         public BodyPart(RawBodyPart rawBodyPart) {
             name = rawBodyPart.name;
-            layers.AddRange(rawBodyPart.layers);
-            internalOrgans.AddRange(rawBodyPart.internalOrgans);
-            externalOrgans.AddRange(rawBodyPart.externalOrgans);
-            tags.AddRange(rawBodyPart.tags);
+            if(rawBodyPart.layers != null) layers.AddRange(rawBodyPart.layers);
+            if(rawBodyPart.tags != null) tags.AddRange(rawBodyPart.tags);
+            if(rawBodyPart.internalOrgans != null) internalOrgans.AddRange(rawBodyPart.internalOrgans);
+            if(rawBodyPart.externalOrgans != null) externalOrgans.AddRange(rawBodyPart.externalOrgans);
         }
 
         public BodyPart() {}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using game.model;
 using generation;
 using mainMenu.worldmap;
 using UnityEngine;
@@ -40,7 +41,7 @@ namespace mainMenu {
             GenerationState.get().worldGenConfig.seed = seed;
             GenerationState.get().worldGenConfig.size = size;
             GenerationState.get().generateWorld();
-            worldmapController.drawWorld(GenerationState.get().world.worldMap);
+            worldmapController.drawWorld(GameModel.get().world.worldMap);
             continueButton.gameObject.SetActive(true);
         }
 

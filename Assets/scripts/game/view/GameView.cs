@@ -33,7 +33,7 @@ namespace game.view {
             keyInputSystem.widgetManager.addWidget(initializer.menuWidget);
             keyInputSystem.widgetManager.addWidget(initializer.toolbarWidget);
             
-            initEcs(GenerationState.get().ecsWorld);
+            initEcs(GameModel.ecsWorld);
             tileUpdater = new LocalMapTileUpdater(initializer.mapHolder);
             cameraAndMouseHandler = new CameraAndMouseHandler(initializer);
             cameraAndMouseHandler.init();

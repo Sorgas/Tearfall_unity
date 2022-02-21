@@ -53,7 +53,6 @@ namespace game.model.container.item {
         }
 
         public void registerItem(EcsEntity item) {
-            validateForPlacing(item);
             Vector3Int position = item.pos();
             if (!itemsOnMap.ContainsKey(position)) itemsOnMap.Add(position, new List<EcsEntity>());
             itemsOnMap[position].Add(item);

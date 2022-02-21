@@ -14,7 +14,6 @@ using util.lang;
 namespace game.model {
     public class GameModel : Singleton<GameModel> {
         public World world;
-        public LocalMap _localMap;
         public EcsWorld _ecsWorld;
         public EcsSystems systems; // model systems
         public EntitySelector selector = new EntitySelector(); // in-model representation of mouse
@@ -26,9 +25,13 @@ namespace game.model {
         private int count = 0;
 
         public static EcsWorld ecsWorld => get()._ecsWorld;
-        public static LocalMap localMap => get()._localMap;
+        public static LocalMap localMap => get().world.localMap;
 
         // init with entities generated on new game or loaded from savegame
+        public void update() {
+            systems?.Run();
+        }
+        
         public void init() {
             Debug.Log("initializing model");
             initEcs();
@@ -36,10 +39,6 @@ namespace game.model {
             selectorSystem.placeSelectorAtMapCenter();
             localMap.initAreas();
             Debug.Log("model initialized");
-        }
-
-        public void update() {
-            systems?.Run();
         }
 
         private void initEcs() {
@@ -60,19 +59,32 @@ namespace game.model {
 
         //get full world state from GenerationState or savefile
         public void setWorld(World world, EcsWorld ecsWorld) {
+            if (_ecsWorld != null) {
+                // destroy old world
+            }
             this.world = world;
-            _localMap = world.localMap;
             _ecsWorld = ecsWorld;
-            // add units to container
-            // TODO add generated wild animals
+            fillContainers();
+        }
+
+        private void fillContainers() {
             EcsFilter filter = ecsWorld.GetFilter(typeof(EcsFilter<UnitJobsComponent>));
             foreach (var i in filter) {
                 unitContainer.addNewPlayerUnit(filter.GetEntity(i));
             }
+            // add units to container
+            // TODO add generated wild animals
         }
 
         public EcsEntity createEntity() {
             return ecsWorld.NewEntity();
+        }
+
+        public void clear() {
+            if(_ecsWorld != null) _ecsWorld.Destroy();
+            _ecsWorld = new EcsWorld();
+            world = new World();
+            // TODO clear model
         }
     }
 }

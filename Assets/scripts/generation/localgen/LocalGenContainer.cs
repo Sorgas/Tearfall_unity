@@ -6,9 +6,6 @@ using util.geometry;
 
 namespace generation.localgen {
     public class LocalGenContainer {
-        private World world;
-        public LocalMap localMap;
-        // public List<
 
         public float[,] heightsMap;
         public float[] monthlyTemperatures = new float[12];
@@ -18,11 +15,11 @@ namespace generation.localgen {
 
         public LocalGenContainer() {
             LocalGenConfig config = GenerationState.get().localGenConfig;
-            this.world = GenerationState.get().world;
+            World world = GameModel.get().world;
             heightsMap = new float[config.areaSize, config.areaSize];
             config.localElevation = (int)(world.worldMap.elevation[config.location.x, config.location.y] * config.localElevation);
             Debug.Log("localGenContainer: area size" + config.areaSize);
-            localMap = new LocalMap(config.areaSize, config.areaSize, config.localElevation + config.airLayersAboveGround);
+            world.localMap = new LocalMap(config.areaSize, config.areaSize, config.localElevation + config.airLayersAboveGround);
         }
     }
 }

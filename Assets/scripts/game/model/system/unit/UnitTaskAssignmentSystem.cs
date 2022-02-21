@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using game.model.component;
 using game.model.component.task.action;
 using game.model.component.unit;
@@ -17,8 +16,8 @@ namespace game.model.system.unit {
                 EcsEntity unit = filter.GetEntity(i);
                 EcsEntity? task = getTaskFromContainer(unit); 
                 // TODO add needs
-                if (task == null) task = createIdleTask(unit);
-                assignTask(unit, task.Value);
+                if (!task.HasValue) task = createIdleTask(unit);
+                if (task.HasValue) assignTask(unit, task.Value);
             }
         }
 
@@ -38,11 +37,14 @@ namespace game.model.system.unit {
             return null; // TODO get from task container
         }
 
-        private EcsEntity createIdleTask(EcsEntity unit) {
+        private EcsEntity? createIdleTask(EcsEntity unit) {
             // Debug.Log("creating idle task for unit " + unit);
             Vector3Int current = unit.pos();
-            Vector3Int position = GameModel.localMap.util.getRandomPosition(current, 10, 4);
-            return GameModel.get().taskContainer.createTask(new MoveAction(position));
+            Debug.Log("creating idle task for unit in position " + current);
+            Vector3Int? position = GameModel.localMap.util.getRandomPosition(current, 10, 4);
+            return position.HasValue 
+                ? (EcsEntity?)GameModel.get().taskContainer.createTask(new MoveAction(position.Value)) 
+                : null;
         }
 
         // bind unit and task entities

@@ -1,5 +1,6 @@
 ﻿using enums.item.type;
 using enums.material;
+using game.model;
 using game.model.component;
 using game.model.component.item;
 using Leopotam.Ecs;
@@ -12,15 +13,16 @@ namespace generation.item {
 
         public EcsEntity generateItem(ItemData data, Vector3Int position, EcsEntity entity) => generateItem(data.type, data.material, position, entity);
 
-        public EcsEntity generateItem(string typeName, string materialName, Vector3Int position, EcsEntity entity) {
+        public EcsEntity generateItem(string typeName, string materialName, Vector3Int position, EcsEntity itemEntity) {
             ItemType type = ItemTypeMap.getItemType(typeName);
             if (type == null) Debug.LogError("Type " + typeName + " not found.");
             Material_ material = MaterialMap.get().material(materialName);
-            entity.Replace(new ItemComponent { material = material.id, type = typeName, materialString = material.name, volume = 1, weight = material.density * 1 });
-            entity.Replace(new PositionComponent { position = position });
-            entity.Replace(new NameComponent());
+            itemEntity.Replace(new ItemComponent { material = material.id, type = typeName, materialString = material.name, volume = 1, weight = material.density * 1 });
+            itemEntity.Replace(new PositionComponent { position = position });
+            itemEntity.Replace(new NameComponent());
+            GameModel.get().itemContainer.registerItem(itemEntity);
             // entity.Replace(new ItemVisualComponent());
-            return entity;
+            return itemEntity;
         }
     }
 }

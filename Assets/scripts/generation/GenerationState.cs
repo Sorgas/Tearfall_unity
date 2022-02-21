@@ -8,9 +8,6 @@ namespace generation {
     // singleton to hold all data related to world and localmap generation
     // configs exist during all generations
     public class GenerationState : Singleton<GenerationState> {
-        public EcsWorld ecsWorld; // some local generators generate entities
-        public World world = new World();
-
         public WorldGenConfig worldGenConfig = new WorldGenConfig();
         public WorldGenSequence worldGenSequence;
         public WorldGenContainer worldGenContainer;
@@ -24,19 +21,16 @@ namespace generation {
         public bool ready = false;
 
         public void generateWorld() {
-            if(ecsWorld != null) ecsWorld.Destroy();
-            ecsWorld = new EcsWorld();
             worldGenContainer = new WorldGenContainer();
             worldGenSequence = new WorldGenSequence();
             worldGenSequence.run();
-            world.worldMap = worldGenContainer.createWorldMap();
+            GameModel.get().world.worldMap = worldGenContainer.createWorldMap();
         }
 
         public void generateLocalMap() {
             localGenContainer = new LocalGenContainer();
             localGenSequence = new LocalGenSequence();
             localGenSequence.run();
-            world.localMap = localGenContainer.localMap;
             ready = true;
         }
     }

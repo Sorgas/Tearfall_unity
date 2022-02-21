@@ -1,10 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace enums.unit.body.raw {
+
+    [Serializable]
     public class RawBodyTemplate {
         public string name;
-        public List<RawBodyPart> body;
-        public List<string> desiredSlots = new List<string>();
-        public List<List<string>> slots = new List<List<string>>();
+        public RawBodyPart[] body;
+        public string[][] slots;
+        public string[] desiredSlots;
+
+        public RawBodyTemplate() {
+            body = Array.Empty<RawBodyPart>();
+            slots = Array.Empty<string[]>();
+            desiredSlots = Array.Empty<string>();
+        }
     }
 }

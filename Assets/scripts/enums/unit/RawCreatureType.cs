@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using enums.unit.race;
 
 namespace enums.unit {
+    [Serializable]
     public class RawCreatureType {
         public string name;
         public string title;

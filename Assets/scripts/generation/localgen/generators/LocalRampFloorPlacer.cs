@@ -1,4 +1,5 @@
 ﻿using enums;
+using game.model;
 using game.model.localmap;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace generation.localgen.generators {
 
         public override void generate() {
             Debug.Log("placing ramps");
-            localMap = GenerationState.get().localGenContainer.localMap;
+            localMap = GameModel.localMap;
             fillRamps();
             fillFloors();
         }

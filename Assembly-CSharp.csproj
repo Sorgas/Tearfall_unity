@@ -53,13 +53,11 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\scripts\enums\action\ActionStatusEnum.cs" />
-     <Compile Include="Assets\scripts\enums\unit\CreatureTypeProcessor.cs" />
-     <Compile Include="Assets\scripts\enums\unit\health\GameplayStatEnum.cs" />
-     <Compile Include="Assets\scripts\enums\unit\need\Need.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\mit\AStar2.cs" />
      <Compile Include="Assets\scripts\util\lang\Singleton.cs" />
      <Compile Include="Assets\scripts\enums\item\type\ItemTypeMap.cs" />
      <Compile Include="Assets\scripts\mainMenu\WorldGenButtonHandler.cs" />
+     <Compile Include="Assets\scripts\enums\unit\CreatureTypeProcessor.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalRampFloorPlacer.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\TaskComponents.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\LocalMap.cs" />
@@ -73,6 +71,7 @@
      <Compile Include="Assets\scripts\enums\PlaceValidatorEnum.cs" />
      <Compile Include="Assets\scripts\entity\WearAspect.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTargetStatusEnum.cs" />
+     <Compile Include="Assets\scripts\enums\unit\CreatureType.cs" />
      <Compile Include="Assets\scripts\enums\item\type\raw\RawItemTypeProcessor.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldmapPointerController.cs" />
      <Compile Include="Assets\scripts\entity\FuelAspect.cs" />
@@ -81,12 +80,14 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\EquipmentAction.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\drainage\WorldOceanFiller.cs" />
      <Compile Include="Assets\scripts\game\model\component\plant\PlantBlock.cs" />
+     <Compile Include="Assets\scripts\enums\unit\RawCreatureType.cs" />
      <Compile Include="Assets\scripts\game\view\KeyInputSystem.cs" />
      <Compile Include="Assets\scripts\game\view\util\IconLoader.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\EquippedItemsManager.cs" />
      <Compile Include="Assets\scripts\game\model\system\item\ItemRegisterInitSystem.cs" />
      <Compile Include="Assets\scripts\util\geometry\bounds\TwoPointIntBounds3.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationTaskCreationSystem.cs" />
+     <Compile Include="Assets\scripts\enums\unit\body\raw\BodyTemplateProcessor.cs" />
      <Compile Include="Assets\scripts\enums\item\type\raw\RawItemType.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenConfig.cs" />
      <Compile Include="Assets\scripts\game\view\system\item\ItemVisualSystem.cs" />
@@ -99,8 +100,10 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\ItemAction.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\MouseToolManager.cs" />
      <Compile Include="Assets\scripts\game\model\container\DesignationContainer.cs" />
+     <Compile Include="Assets\scripts\enums\unit\health\GameplayStatEnum.cs" />
      <Compile Include="Assets\scripts\game\view\camera\CameraInputSystem.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldTiles.cs" />
+     <Compile Include="Assets\scripts\enums\unit\race\CombinedAppearance.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldmapController.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitActionPerformingSystem.cs" />
      <Compile Include="Assets\scripts\game\model\entity_selector\EntitySelectorSystem.cs" />
@@ -133,6 +136,7 @@
      <Compile Include="Assets\scripts\enums\action\ActionTargetTypeEnum.cs" />
      <Compile Include="Assets\scripts\util\geometry\ValueRangeInt.cs" />
      <Compile Include="Assets\scripts\mainMenu\PreparationButtonHandler.cs" />
+     <Compile Include="Assets\scripts\util\lang\extension\ArrayExtension.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\IEnumerableExtensions.cs" />
      <Compile Include="Assets\scripts\enums\plant\PlantBlockTypeEnum.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalElevationGenerator.cs" />
@@ -153,6 +157,7 @@
      <Compile Include="Assets\scripts\game\view\ui\jobs_widget\UnitJobRow.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\WorldGenerator.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\PassageUtil.cs" />
+     <Compile Include="Assets\scripts\enums\unit\body\BodyTemplate.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\camera\CameraAndMouseHandler.cs" />
      <Compile Include="Assets\scripts\enums\action\SkillMap.cs" />
@@ -166,6 +171,7 @@
      <Compile Include="Assets\scripts\game\model\system\unit\UnitActionCheckingSystem.cs" />
      <Compile Include="Assets\scripts\game\view\camera\SelectionHandler.cs" />
      <Compile Include="Assets\scripts\game\view\system\unit\UnitVisualSystem.cs" />
+     <Compile Include="Assets\scripts\enums\unit\body\BodyPart.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EnumerableExtension.cs" />
      <Compile Include="Assets\scripts\enums\PassageEnum.cs" />
      <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarWidgetHandler.cs" />
@@ -175,6 +181,7 @@
      <Compile Include="Assets\scripts\game\view\ui\jobs_widget\JobsWindowHandler.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\DiggingChannelValidator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\ObtainItemAction.cs" />
+     <Compile Include="Assets\scripts\enums\unit\body\raw\RawBodyPart.cs" />
      <Compile Include="Assets\scripts\game\view\ui\IHotKeyAcceptor.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\DigAction.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalUnitGenerator.cs" />
@@ -210,12 +217,15 @@
      <Compile Include="Assets\scripts\generation\unit\UnitNameGenerator.cs" />
      <Compile Include="Assets\scripts\util\lang\Optional.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntVector2.cs" />
+     <Compile Include="Assets\scripts\enums\unit\need\Need.cs" />
      <Compile Include="Assets\scripts\game\model\container\TaskContainer.cs" />
+     <Compile Include="Assets\scripts\enums\unit\need\NeedEnum.cs" />
      <Compile Include="Assets\scripts\game\model\tilemaps\TileSetHolder.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromGroundAction.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\NeighbourPositionStream.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenerator.cs" />
      <Compile Include="Assets\scripts\util\item\ToolWithActionItemSelector.cs" />
+     <Compile Include="Assets\scripts\enums\unit\body\raw\RawBodyTemplate.cs" />
      <Compile Include="Assets\scripts\enums\item\FoodCategoryEnum.cs" />
      <Compile Include="Assets\scripts\game\view\ui\ICloseable.cs" />
      <Compile Include="Assets\scripts\enums\item\ItemTagEnum.cs" />
@@ -249,27 +259,19 @@
      <Compile Include="Assets\scripts\game\view\system\item\ItemVIsualRemoveSystem.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />
      <Compile Include="Assets\scripts\util\geometry\PositionUtil.cs" />
+     <Compile Include="Assets\scripts\enums\unit\CreatureTypeMap.cs" />
      <Compile Include="Assets\scripts\util\item\ItemSelector.cs" />
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\view\ui\WindowManager.cs" />
-     <Compile Include="Assets\scripts\enums\unit\CreatureTypeMap.cs" />
-     <Compile Include="Assets\scripts\enums\unit\body\BodyPart.cs" />
-     <Compile Include="Assets\scripts\enums\unit\body\raw\RawBodyPart.cs" />
-     <Compile Include="Assets\scripts\enums\unit\body\raw\RawBodyTemplate.cs" />
-     <Compile Include="Assets\scripts\enums\unit\body\BodyTemplate.cs" />
-     <Compile Include="Assets\scripts\enums\unit\body\raw\BodyTemplateProcessor.cs" />
-     <Compile Include="Assets\scripts\enums\unit\CreatureType.cs" />
-     <Compile Include="Assets\scripts\enums\unit\need\NeedEnum.cs" />
-     <Compile Include="Assets\scripts\enums\unit\race\CombinedAppearance.cs" />
-     <Compile Include="Assets\scripts\enums\unit\RawCreatureType.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+     <None Include="Assets\JsonDotNet\link.xml" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
      <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
@@ -507,6 +509,9 @@
  </Reference>
  <Reference Include="UnityEditor.UnityConnectModule">
  <HintPath>D:/programs/unity/2020.3.4f1/Editor/Data/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
+ </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>D:/projects/Tearfall_unity/Assets/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>D:/programs/unity/2020.3.4f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -895,6 +900,8 @@
  <Reference Include="Unity.Mathematics">
  <HintPath>D:/projects/Tearfall_unity/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

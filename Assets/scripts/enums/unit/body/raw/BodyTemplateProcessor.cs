@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using util.lang.extension;
 
 namespace enums.unit.body.raw {
     public class BodyTemplateProcessor {
@@ -9,88 +11,63 @@ namespace enums.unit.body.raw {
         private bool debugMode = true;
 
         public BodyTemplate process(RawBodyTemplate rawTemplate) {
-            BodyTemplate template = new BodyTemplate(rawTemplate);
             log("processing " + rawTemplate.name + " body template");
-            Dictionary<string, RawBodyPart> rawPartMap = rawTemplate.body
-                .ToDictionary(part => part.name, part => part); // part name to part
-            log("    rawPartMap " + rawPartMap.Count + " " + rawPartMap.Keys);
+            BodyTemplate template = new BodyTemplate(rawTemplate);
+            Dictionary<string, RawBodyPart> rawPartMap = rawTemplate.body.ToDictionary(part => part.name, part => part); // part name to part
+            
+            // process body parts
+            log("    raw parts " + rawPartMap.Count);
             updateLimbsMirroringFlags(rawPartMap);
-            log("    unmirrored slots " + rawTemplate.slots.Count);
-            mirrorSlots(rawTemplate, rawPartMap);
-            foreach (var slot in rawTemplate.slots) { // copy slots to new template
-                template.slots.Add(slot[0], slot.GetRange(1, slot.Count - 1));
-            }
-            log("    mirrored slots " + template.slots.Count + " " + template.slots.Keys);
-            doubleMirroredParts(rawPartMap);
-            log("    doubled parts " + rawPartMap.Count + " " + rawPartMap.Keys);
+            rawPartMap = doubleMirroredParts(rawPartMap);
             fillBodyParts(rawPartMap, template);
-            return template;
-        }
+            log("    processed parts " + template.body.Count);
 
-        /**
-         * Mirrors slots which use only mirrored parts (boots etc.). 
-         * Mirrors only limbs in a slot, if there are non-mirrored limbs in that slot (pants).
-         * Side prefixes are added in this method. After mirroring limbs, limbs and slots become consistent.
-         * Also mirrors desired slots.
-         */
-        private void mirrorSlots(RawBodyTemplate rawTemplate, Dictionary<string, RawBodyPart> rawPartMap) {
-            List<List<string>> newSlots = new List<List<string>>();
-            foreach (List<string> slot in rawTemplate.slots) {
-                string slotName = slot[0];
-                List<string> slotLimbs = slot.GetRange(1, slot.Count - 1);
-                if (containsOnlyMirroredLimbs(slotLimbs, rawPartMap)) { // create two slots (names are prefixed)
-                    log("        slot " + slotName + " gets mirroring");
-                    newSlots.Add(slot.Select(s => LEFT_PREFIX + s).ToList()); // left copy of a slot
-                    newSlots.Add(slot.Select(s => RIGHT_PREFIX + s).ToList()); // right copy of a slot
-                    if (rawTemplate.desiredSlots.Contains(slotName)) {
-                        rawTemplate.desiredSlots.Remove(slotName);
-                        rawTemplate.desiredSlots.Add(LEFT_PREFIX + slotName);
-                        rawTemplate.desiredSlots.Add(RIGHT_PREFIX + slotName);
-                    }
-                } else { // some limbs are single, so mirrored limbs are duplicated in same slot
-                    int notMirroredLimbsSize = slotLimbs.Count;
-                    List<string> newSlotLimbs = slotLimbs // copy some limbs with prefixes
-                        .SelectMany(s => rawPartMap[s].mirrored ? new[] {LEFT_PREFIX + s, RIGHT_PREFIX + s} :new[] {s})
-                        .ToList();
-                    if (newSlotLimbs.Count > notMirroredLimbsSize)
-                        log("        " + (newSlotLimbs.Count - notMirroredLimbsSize) + " limb(s) got mirrored in slot " + slotName);
-                    newSlotLimbs.Insert(0, slotName);
-                    newSlots.Add(newSlotLimbs);
-                }
-            }
-            rawTemplate.slots = newSlots;
+            // process slots
+            log("    raw slots " + rawTemplate.slots.Length);
+            mirrorSlots(template, rawTemplate, rawPartMap);
+            log("    processed slots " + template.slots.Count);
+            
+            return template;
         }
 
         /**
          * Multiplies limbs if they are mirrored.
          */
-        private void doubleMirroredParts(Dictionary<string, RawBodyPart> map) {
-            // double mirrored parts
+        private Dictionary<string, RawBodyPart> doubleMirroredParts(Dictionary<string, RawBodyPart> map) {
             Dictionary<string, RawBodyPart> newMap = new Dictionary<string, RawBodyPart>();
             foreach (RawBodyPart part in map.Values) {
                 if (part.mirrored) {
-                    RawBodyPart leftPart = part.clone(); // copy parts
-                    RawBodyPart rightPart = part.clone();
-                    leftPart.name = LEFT_PREFIX + leftPart.name; // update name
-                    rightPart.name = RIGHT_PREFIX + rightPart.name;
-                    if (map[part.root].mirrored) { // root is mirrored
-                        leftPart.root = LEFT_PREFIX + leftPart.root; // update root links
-                        rightPart.root = RIGHT_PREFIX + rightPart.root;
-                    }
+                    RawBodyPart leftPart = cloneMirroredPart(map, part, LEFT_PREFIX);
                     newMap.Add(leftPart.name, leftPart);
+                    RawBodyPart rightPart = cloneMirroredPart(map, part, RIGHT_PREFIX);
                     newMap.Add(rightPart.name, rightPart);
                 } else {
                     newMap.Add(part.name, part);
                 }
             }
-            map.Clear();
-            foreach (var entry in newMap) {
-                map.Add(entry.Key, entry.Value);
-            }
+            return newMap;
         }
 
-        private bool containsOnlyMirroredLimbs(List<string> slotLimbs, Dictionary<string, RawBodyPart> rawPartMap) {
-            return slotLimbs.TrueForAll(limb => rawPartMap[limb].mirrored);
+        private RawBodyPart cloneMirroredPart(Dictionary<string, RawBodyPart> map, RawBodyPart part, string prefix) {
+            RawBodyPart newPart = part.clone(); // copy parts
+            newPart.name = prefix + newPart.name; // update name
+            if (map[part.root].mirrored) { // root is mirrored
+                newPart.root = prefix + newPart.root; // update root links
+            }
+            return newPart;
+        }
+
+        /**
+         * Creates body parts and links the between each other.
+         */
+        private void fillBodyParts(Dictionary<string, RawBodyPart> rawPartsMap, BodyTemplate bodyTemplate) {
+            foreach (RawBodyPart rawPart in rawPartsMap.Values) { // create limbs
+                bodyTemplate.body.Add(rawPart.name, new BodyPart(rawPart));
+            }
+            foreach (BodyPart part in bodyTemplate.body.Values) { // link limbs
+                if (!rawPartsMap[part.name].root.Equals("body"))
+                    part.root = bodyTemplate.body[rawPartsMap[part.name].root];
+            }
         }
 
         /**
@@ -111,15 +88,37 @@ namespace enums.unit.body.raw {
         }
 
         /**
-         * Creates body parts and links the between each other.
+         * Mirrors slots which use only mirrored parts (boots etc.). 
+         * Mirrors only limbs in a slot, if there are non-mirrored limbs in that slot (pants).
+         * Side prefixes are added in this method. After mirroring limbs, limbs and slots become consistent.
+         * Also mirrors desired slots.
          */
-        private void fillBodyParts(Dictionary<string, RawBodyPart> rawPartsMap, BodyTemplate bodyTemplate) {
-            foreach (RawBodyPart rawPart in rawPartsMap.Values) { // create limbs
-                bodyTemplate.body.Add(rawPart.name, new BodyPart(rawPart));
+        private void mirrorSlots(BodyTemplate template, RawBodyTemplate rawTemplate, Dictionary<string, RawBodyPart> rawPartMap) {
+            foreach (string[] slot in rawTemplate.slots) {
+                string slotName = slot[0];
+                List<string> slotLimbs = slot.subList(1);
+                if (containsOnlyMirroredLimbs(slotLimbs, rawPartMap)) { // create two slots (names are prefixed)
+                    log("        slot " + slotName + " gets mirroring");
+                    template.slots.Add(LEFT_PREFIX + slotName, slotLimbs.Select(s => LEFT_PREFIX + s).ToList());
+                    template.slots.Add(RIGHT_PREFIX + slotName, slotLimbs.Select(s => RIGHT_PREFIX + s).ToList());
+                    if (rawTemplate.desiredSlots.Contains(slotName)) {
+                        template.desiredSlots.Add(LEFT_PREFIX + slotName);
+                        template.desiredSlots.Add(RIGHT_PREFIX + slotName);
+                    }
+                } else { // some limbs are single, so mirrored limbs are duplicated within same slot
+                    slotLimbs = slotLimbs // copy some limbs with prefixes
+                        .SelectMany(s => rawPartMap[s].mirrored ? new[] { LEFT_PREFIX + s, RIGHT_PREFIX + s } : new[] { s })
+                        .ToList();
+                    template.slots.Add(slotName, slotLimbs);
+                    if (rawTemplate.desiredSlots.Contains(slotName)) {
+                        template.desiredSlots.Add(slotName);
+                    }
+                }
             }
-            foreach (BodyPart part in bodyTemplate.body.Values) { // link limbs
-                part.root = bodyTemplate.body[rawPartsMap[part.name].root];
-            }
+        }
+
+        private bool containsOnlyMirroredLimbs(List<string> slotLimbs, Dictionary<string, RawBodyPart> rawPartMap) {
+            return slotLimbs.TrueForAll(limb => rawPartMap[limb].mirrored);
         }
 
         private void log(string message) {

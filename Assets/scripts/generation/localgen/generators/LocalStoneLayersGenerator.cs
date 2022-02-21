@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using enums;
 using enums.material;
+using game.model;
+using game.model.localmap;
 using UnityEngine;
 using util.geometry;
 
@@ -12,6 +14,7 @@ namespace generation.localgen.generators {
         private List<LayerDescriptor> layers = new List<LayerDescriptor>();
         private ValueRange layerThicknessRange = new ValueRange();
         private LocalGenContainer container;
+        private LocalMap map;
         private int[,] currentHeight;
         private float xOffset;
         private float yOffset;
@@ -21,6 +24,7 @@ namespace generation.localgen.generators {
 
         public override void generate() {
             container = GenerationState.get().localGenContainer;
+            map = GameModel.localMap;
             currentHeight = new int[config.areaSize, config.areaSize];
             bounds.iterate((x, y) => currentHeight[x, y] = (int)container.heightsMap[x, y]);
             countAverageElevation();
@@ -79,7 +83,7 @@ namespace generation.localgen.generators {
                 if (currentHeight[x, y] > 0) {
                     for (int z = 0; z <= layer.layer[x, y]; z++) {
                         if (currentHeight[x, y] >= 0) {
-                            container.localMap.blockType.setRaw(x, y, currentHeight[x, y], BlockTypeEnum.WALL.CODE, layer.material);
+                            map.blockType.setRaw(x, y, currentHeight[x, y], BlockTypeEnum.WALL.CODE, layer.material);
                             currentHeight[x, y]--;
                         }
                     }
@@ -93,7 +97,7 @@ namespace generation.localgen.generators {
             bounds.iterate((x, y) => {
                 if (currentHeight[x, y] >= 0) {
                     for(int z = 0; z <= currentHeight[x, y]; z++) {
-                        container.localMap.blockType.setRaw(x, y, z, BlockTypeEnum.WALL.CODE, material);
+                        map.blockType.setRaw(x, y, z, BlockTypeEnum.WALL.CODE, material);
                     }
                 }
             });
