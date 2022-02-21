@@ -4,34 +4,38 @@ using Leopotam.Ecs;
 using static game.model.component.task.TaskComponents;
 
 namespace game.model.system.task {
-    // TODO task is not entity
     public class TaskCompletionSystem : IEcsRunSystem {
-        public EcsFilter<TaskFinishedComponent> filter;
+        public EcsFilter<TaskActionsComponent, TaskFinishedComponent> filter;
 
         public void Run() {
             foreach (var i in filter) {
-                EcsEntity task = filter.GetEntity(i);
-                TaskFinishedComponent component = filter.Get1(i);
-                detachPerformer(task, component);
-                detachDesignation(task, component);
+                ref EcsEntity task = ref filter.GetEntity(i);
+                TaskFinishedComponent component = filter.Get2(i);
+                detachPerformer(ref task, component);
+                detachDesignation(ref task, component);
+                task.Del<TaskFinishedComponent>();
             }
         }
 
         // unlinks unit from task and notifies unit that task is finished
-        private void detachPerformer(EcsEntity task, TaskFinishedComponent component) {
+        private void detachPerformer(ref EcsEntity task, TaskFinishedComponent component) {
             if (task.Has<TaskPerformerComponent>()) {
-                task.Get<TaskPerformerComponent>().performer.Replace(component);
+                ref EcsEntity unit = ref task.Get<TaskPerformerComponent>().performer; 
+                unit.Replace(component);
+                unit.Del<TaskComponent>();
                 task.Del<TaskPerformerComponent>();
             }
         }
 
         // if task was completed, designation is no longer needed
-        private void detachDesignation(EcsEntity task, TaskFinishedComponent component) {
+        private void detachDesignation(ref EcsEntity task, TaskFinishedComponent component) {
             if (component.status == TaskStatusEnum.COMPLETE && task.Has<TaskDesignationComponent>()) {
-                // TODO handle workbenches
-                task.Get<TaskDesignationComponent>().designation.Replace(component);
+                ref EcsEntity designation = ref task.Get<TaskDesignationComponent>().designation; 
+                designation.Replace(component);
+                designation.Del<TaskComponent>();
                 task.Del<TaskDesignationComponent>();
             }
+            // TODO handle workbenches
         }
     }
 }

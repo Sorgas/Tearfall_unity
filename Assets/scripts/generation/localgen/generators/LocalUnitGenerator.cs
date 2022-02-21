@@ -28,12 +28,9 @@ namespace generation.localgen.generators {
                     ref PositionComponent positionComponent = ref entity.Get<PositionComponent>();
                     positionComponent.position = spawnPoint.Value;
                     Debug.Log("unit spawned at " + spawnPoint.Value);
+                } else {
+                    Debug.LogWarning("position to spawn unit not found");
                 }
-                
-                Debug.Log("unit spawned at " + spawnPoint);
-
-                Debug.Log("unit spawned at " + spawnPoint);
-
             });
         }
 

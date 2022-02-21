@@ -44,36 +44,17 @@ namespace game.model {
         private void initEcs() {
             systems = new EcsSystems(ecsWorld);
             systems
-                .Add(new UnitTaskAssignmentSystem()) // finds or creates tasks for units
+                .Add(new UnitTaskAssignmentSystem()) // find or create tasks for units
                 .Add(new UnitActionCheckingSystem()) // check action condition and target reachability, creates sub actions
-                .Add(new UnitActionPerformingSystem())
-                .Add(new UnitMovementSystem())
-                .Add(new UnitPathfindingSystem()) // finds paths to action targets
-                .Add(new UnitTaskCompletionSystem()) // handles completed tasks
+                .Add(new UnitActionPerformingSystem()) // add progress to unit's action and remove it when finished
+                .Add(new UnitPathfindingSystem()) // find paths to action targets
+                .Add(new UnitMovementSystem()) // move unit along path
+                .Add(new UnitTaskCompletionSystem()) // handle completed tasks
                 .Add(new TaskCompletionSystem())
                 .Add(new DesignationTaskCreationSystem())
                 .Add(new DesignationCompletionSystem())
                 .Add(new ItemRegisterInitSystem())
                 .Init();
-        }
-
-        //get full world state from GenerationState or savefile
-        public void setWorld(World world, EcsWorld ecsWorld) {
-            if (_ecsWorld != null) {
-                // destroy old world
-            }
-            this.world = world;
-            _ecsWorld = ecsWorld;
-            fillContainers();
-        }
-
-        private void fillContainers() {
-            EcsFilter filter = ecsWorld.GetFilter(typeof(EcsFilter<UnitJobsComponent>));
-            foreach (var i in filter) {
-                unitContainer.addNewPlayerUnit(filter.GetEntity(i));
-            }
-            // add units to container
-            // TODO add generated wild animals
         }
 
         public EcsEntity createEntity() {

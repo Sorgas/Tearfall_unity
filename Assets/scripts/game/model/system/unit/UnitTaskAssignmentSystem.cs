@@ -13,11 +13,11 @@ namespace game.model.system.unit {
 
         public void Run() {
             foreach (int i in filter) {
-                EcsEntity unit = filter.GetEntity(i);
+                ref EcsEntity unit = ref filter.GetEntity(i);
                 EcsEntity? task = getTaskFromContainer(unit); 
                 // TODO add needs
                 if (!task.HasValue) task = createIdleTask(unit);
-                if (task.HasValue) assignTask(unit, task.Value);
+                if (task.HasValue) assignTask(ref unit, task.Value);
             }
         }
 
@@ -26,7 +26,6 @@ namespace game.model.system.unit {
             if (unit.Has<UnitJobsComponent>()) {
                 UnitJobsComponent jobs = unit.Get<UnitJobsComponent>();
                 Debug.Log("enabled jobs: " + jobs.enabledJobs.Count);
-                
                 foreach (var enabledJob in jobs.enabledJobs) { // TODO add jobs priorities
                     EcsEntity? task = GameModel.get().taskContainer.getTask(enabledJob, unit.pos());
                     if (task.HasValue) return task;
@@ -48,7 +47,7 @@ namespace game.model.system.unit {
         }
 
         // bind unit and task entities
-        private void assignTask(EcsEntity unit, EcsEntity task) {
+        private void assignTask(ref EcsEntity unit, EcsEntity task) {
             unit.Replace(new TaskComponent { task = task });
             task.Replace(new TaskPerformerComponent { performer = unit });
         }

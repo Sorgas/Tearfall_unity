@@ -1,5 +1,6 @@
 ﻿using enums.action;
 using game.model.component;
+using game.model.component.task;
 using Leopotam.Ecs;
 using static game.model.component.task.DesignationComponents;
 
@@ -12,16 +13,19 @@ namespace game.model.system.task.designation {
 
         public void Run() {
             foreach (var i in filter) {
-                EcsEntity designation = filter.GetEntity(i);
+                ref EcsEntity designation = ref filter.GetEntity(i);
                 TaskFinishedComponent taskFinishedComponent = filter.Get2(i);
+                TaskStatusEnum status = taskFinishedComponent.status;
                 // detach task
                 if (designation.Has<TaskComponent>()) {
-                    designation.Get<TaskComponent>().task.Replace(taskFinishedComponent);
+                    ref EcsEntity task = ref designation.Get<TaskComponent>().task;
+                    task.Replace(taskFinishedComponent);
+                    task.Del<TaskComponents.TaskDesignationComponent>();
                     designation.Del<TaskComponent>();
                 }
                 designation.Del<TaskFinishedComponent>();
                 // remove designation entity, failed will recreate task
-                if (taskFinishedComponent.status == TaskStatusEnum.CANCELED || taskFinishedComponent.status == TaskStatusEnum.COMPLETE) {
+                if (status == TaskStatusEnum.CANCELED || status == TaskStatusEnum.COMPLETE) {
                     GameModel.get().designationContainer.removeDesignation(designation);
                 }
             }

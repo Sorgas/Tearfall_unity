@@ -1,8 +1,9 @@
 ﻿using enums.action;
 using game.model.component;
+using game.model.component.task;
 using game.model.component.unit;
 using Leopotam.Ecs;
-using UnityEngine;
+using util.lang.extension;
 
 namespace game.model.system.unit {
     // When unit fails or completes task, it gets UnitTaskFinishedComponent. see UnitActionCheckingSystem.
@@ -14,23 +15,23 @@ namespace game.model.system.unit {
 
         public void Run() {
             foreach (var i in filter) {
-                EcsEntity unit = filter.GetEntity(i);
-                TaskFinishedComponent finishComponent = filter.Get2(i);
-                if (unit.Has<TaskComponent>() ) {
-                    if (finishComponent.status == TaskStatusEnum.FAILED || finishComponent.status == TaskStatusEnum.CANCELED) {
-                        // TODO handle task cancelling and interruption (do cancel effects of action(drop item, etc))
-                    }
-                    detachTask(unit, unit.Get<TaskComponent>().task, finishComponent);
-                } else {
-                    Debug.LogError("Invalid unit state: no TaskComponent and UnitTaskFinishedComponent");
+                ref EcsEntity unit = ref filter.GetEntity(i);
+                TaskStatusEnum status = filter.Get2(i).status;
+                if (status == TaskStatusEnum.FAILED || status == TaskStatusEnum.CANCELED) {
+                    // TODO handle task cancelling and interruption (do cancel effects of action(drop item, etc))
                 }
+                detachTaskFromUnit(ref unit, status);       
+                unit.Del<TaskFinishedComponent>();
             }
         }
-
-        private void detachTask(EcsEntity unit, EcsEntity task, TaskFinishedComponent finishComponent) {
-            unit.Del<TaskFinishedComponent>();
-            unit.Del<TaskComponent>();
-            task.Replace(new TaskFinishedComponent {status = finishComponent.status}); // move status to task, it will be handled by TaskStatusSystem
+        
+        private void detachTaskFromUnit(ref EcsEntity unit, TaskStatusEnum status) {
+            if (unit.Has<TaskComponent>()) {
+                EcsEntity task = unit.take<TaskComponent>().task;
+                task.Del<TaskComponents.TaskPerformerComponent>();
+                task.Replace(new TaskFinishedComponent {status = status}); // move status to task, it will be handled by TaskStatusSystem
+                unit.Del<TaskComponent>();
+            }
         }
     }
 }

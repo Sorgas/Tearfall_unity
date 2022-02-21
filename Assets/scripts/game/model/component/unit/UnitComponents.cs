@@ -67,7 +67,7 @@ namespace game.model.component.unit {
     }
 
     // unit with this is performing action
-    public struct CurrentActionComponent {
+    public struct UnitCurrentActionComponent {
         public Action action;
     }
 }
