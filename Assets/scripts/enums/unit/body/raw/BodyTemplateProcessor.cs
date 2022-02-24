@@ -18,8 +18,8 @@ namespace enums.unit.body.raw {
             // process body parts
             log("    raw parts " + rawPartMap.Count);
             updateLimbsMirroringFlags(rawPartMap);
-            rawPartMap = doubleMirroredParts(rawPartMap);
-            fillBodyParts(rawPartMap, template);
+            Dictionary<string, RawBodyPart> doubledRawPartMap = doubleMirroredParts(rawPartMap);
+            fillBodyParts(doubledRawPartMap, template);
             log("    processed parts " + template.body.Count);
 
             // process slots
@@ -105,7 +105,7 @@ namespace enums.unit.body.raw {
                         template.desiredSlots.Add(LEFT_PREFIX + slotName);
                         template.desiredSlots.Add(RIGHT_PREFIX + slotName);
                     }
-                } else { // some limbs are single, so mirrored limbs are duplicated within same slot
+                } else { // some  limbs are single, so mirrored limbs are duplicated within same slot
                     slotLimbs = slotLimbs // copy some limbs with prefixes
                         .SelectMany(s => rawPartMap[s].mirrored ? new[] { LEFT_PREFIX + s, RIGHT_PREFIX + s } : new[] { s })
                         .ToList();
@@ -118,7 +118,10 @@ namespace enums.unit.body.raw {
         }
 
         private bool containsOnlyMirroredLimbs(List<string> slotLimbs, Dictionary<string, RawBodyPart> rawPartMap) {
-            return slotLimbs.TrueForAll(limb => rawPartMap[limb].mirrored);
+            return slotLimbs.TrueForAll(limb => {
+                if(!rawPartMap.ContainsKey(limb)) Debug.LogWarning("raw part map not contains " + limb);
+                return rawPartMap[limb].mirrored;
+            });
         }
 
         private void log(string message) {

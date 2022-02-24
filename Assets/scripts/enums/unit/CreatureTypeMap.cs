@@ -23,7 +23,8 @@ namespace enums.unit {
             // Logger.LOADING.logDebug("loading body templates");
             TextAsset file = Resources.Load<TextAsset>("data/creatures/body_templates");
             BodyTemplateProcessor templateProcessor = new BodyTemplateProcessor();
-            RawBodyTemplate[] rawTemplates = JsonArrayReader.readArray<RawBodyTemplate>(file.text);
+            RawBodyTemplate[] rawTemplates = JsonConvert.DeserializeObject<RawBodyTemplate[]>(file.text);
+            // RawBodyTemplate[] rawTemplates = JsonArrayReader.readArray<RawBodyTemplate>(file.text);
             Debug.Log(rawTemplates);
             rawTemplates.Select(template => templateProcessor.process(template)).ToList().ForEach(template => templates.Add(template.name, template));
         }
