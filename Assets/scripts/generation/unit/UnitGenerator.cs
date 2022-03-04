@@ -76,7 +76,6 @@ namespace generation.unit {
         public void generateUnit(string creatureType) {
             CreatureType type = CreatureTypeMap.getType(creatureType);
             type.aspects.Contains("equipment");
-
         }
 
         private void addCommonComponents(ref EcsEntity entity, SettlerData data) {
