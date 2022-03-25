@@ -15,7 +15,7 @@ namespace game.model.component.task.action.target {
             this.type = type;
         }
 
-        public abstract Vector3Int? getPosition();
+        public abstract Vector3Int? getPos();
 
         /**
          * Checks if task performer has reached task target. Does not check target availability (map area).
@@ -23,7 +23,7 @@ namespace game.model.component.task.action.target {
          */
         public ActionTargetStatusEnum check(EcsEntity performer) {
             Vector3Int performerPosition = performer.pos();
-            Vector3Int? target = getPosition();
+            Vector3Int? target = getPos();
             if (!target.HasValue) return READY; // target without position 
             int distance = getDistance(performerPosition, target.Value);
             if (distance > 1) return WAIT; // target not yet reached

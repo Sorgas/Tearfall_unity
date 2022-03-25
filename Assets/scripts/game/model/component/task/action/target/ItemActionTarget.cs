@@ -8,10 +8,10 @@ namespace game.model.component.task.action.target {
     public class ItemActionTarget : EntityActionTarget {
         public EcsEntity item;
 
-        public override Vector3Int? getPosition() {
-            throw new System.NotImplementedException();
+        public override Vector3Int? getPos() {
+            // todo add contained items
+            return item.pos();
         }
-        
 
         public ItemActionTarget(EcsEntity item) : base(item, EXACT) {
             this.item = item;

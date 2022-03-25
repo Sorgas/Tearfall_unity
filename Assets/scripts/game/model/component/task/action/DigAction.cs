@@ -7,6 +7,7 @@ using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.item;
+using util.lang.extension;
 using static enums.action.ActionConditionStatusEnum;
 using static enums.action.ActionTargetTypeEnum;
 
@@ -15,28 +16,33 @@ namespace game.model.component.task.action {
         private DesignationType type;
         private float workAmountModifier = 10f;
         private String toolActionName = "dig";
+        private ToolWithActionItemSelector selector;
 
         public DigAction(Vector3Int position, DesignationType type) : base(new PositionActionTarget(position, NEAR), "mining") {
             name = "dig action";
             this.type = type;
+            selector = new ToolWithActionItemSelector(toolActionName);
             startCondition = () => {
-                if (!type.VALIDATOR.validate(target.getPosition().Value)) return FAIL; // tile still valid
+                if (!type.VALIDATOR.validate(target.getPos().Value)) return FAIL; // tile still valid
                 if (!performer().Has<UnitEquipmentComponent>()) return FAIL;
-                if (performer().Get<UnitEquipmentComponent>().toolWithActionEquipped(toolActionName)) return OK; // tool already equipped
+                if (performer().Get<UnitEquipmentComponent>().toolWithActionEquipped(toolActionName))
+                    return OK; // tool already equipped
                 return addEquipAction();
             };
 
-            onStart = () => {
+            onStart = () => { // TODO
                 // speed = 1 + skill().speed * performerLevel() + performance();
                 // maxProgress = getWorkAmount(designation) * workAmountModifier; // 480 for wall to floor in marble
             };
 
-
             onFinish = () => {
-                // BlockTypeEnum oldType = GameMvc.model().get(LocalMap.class).blockType.getEnumValue(target.getPosition());
-                // if (!type.VALIDATOR.apply(target.getPosition())) return;
-                // updateMap();
-                // leaveStone(oldType);
+                Vector3Int targetPosition = target.getPos().Value;
+                // if (targetPosition.HasValue != null) {
+                BlockType blockType = GameModel.localMap.blockType.getEnumValue(targetPosition);
+                // }
+                if (!type.VALIDATOR.validate(targetPosition)) return;
+                updateMap();
+                // leaveStone(oldType); TODO
                 // GameMvc.model().get(UnitContainer.class).experienceSystem.giveExperience(task.performer, skill);
                 // GameMvc.model().get(TaskContainer.class).designationSystem.removeDesignation(designation.position);
             };
@@ -45,14 +51,13 @@ namespace game.model.component.task.action {
         private ActionConditionStatusEnum addEquipAction() {
             // TODO check performer's 'backpack'
             EcsEntity? targetItem = GameModel.get().itemContainer.util
-                .findFreeReachableItemBySelector(new ToolWithActionItemSelector(toolActionName), performer().Get<PositionComponent>().position);
-            if (!targetItem.HasValue) return FAIL; // no tool available
-            return addPreAction(new EquipToolItemAction(targetItem.Value));
+                .findFreeReachableItemBySelector(selector, performer().pos());
+            return targetItem.HasValue
+                ? addPreAction(new EquipToolItemAction(targetItem.Value))
+                : FAIL;
         }
 
-        /**
-     * Applies changes to local map. Some types of digging change not only target tile.
-     */
+        // Applies changes to local map. Some types of digging change not only target tile.
         private void updateMap() {
             //        LocalMap map = GameMvc.model().get(LocalMap.class);
             //        IntVector3 target = this.target.getPosition();

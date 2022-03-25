@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using game.model.component.item;
 using game.model.component.task.action.target;
 using game.model.component.unit;
 using Leopotam.Ecs;
@@ -14,12 +15,13 @@ namespace game.model.component.task.action.equipment.use {
     */
     public class EquipToolItemAction : PutItemToDestinationAction {
         public EquipToolItemAction(EcsEntity item) : base(new SelfActionTarget(), item) {
+            name = "equip tool action";
             onFinish = () => {
                 prepareSlotForEquippingTool();
                 equipment().grabSlots.Values.First(slot => slot.isGrabFree()).grabbedItem = item;
                 equipment().hauledItem = null;
                 container.equippedItems.addItemToUnit(item, performer());
-                Debug.Log(item + " equipped as tool");
+                Debug.Log(item.Get<ItemComponent>().type + " equipped as tool");
                 //TODO select one or more hands to maintain main/off hand logic
             };
         }

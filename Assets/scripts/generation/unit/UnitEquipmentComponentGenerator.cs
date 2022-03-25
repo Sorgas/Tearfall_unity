@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using enums.unit;
+using game.model.component.unit;
 using Leopotam.Ecs;
 
-namespace game.model.component.unit {
+namespace generation.unit {
     public class UnitEquipmentComponentGenerator {
 
         public UnitEquipmentComponent generate(CreatureType type) {

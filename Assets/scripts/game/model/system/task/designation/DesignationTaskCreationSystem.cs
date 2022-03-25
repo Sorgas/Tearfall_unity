@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using enums.unit;
+﻿using enums.unit;
 using game.model.component;
 using game.model.component.task.action;
 using Leopotam.Ecs;
@@ -19,17 +18,17 @@ namespace game.model.system.task.designation {
                 EcsEntity? task = createTaskForDesignation(filter.Get1(i), filter.Get2(i));
                 if (task.HasValue) {
                     designation.Replace(new TaskComponent { task = task.Value });
+                    task.Value.Replace(new TaskDesignationComponent {designation = designation});
                     GameModel.get().taskContainer.addTask(task.Value);
                 }
             }
         }
 
         private bool validateDesignation(EcsEntity entity) {
-            return true;
+            return true; // TODO
         }
 
         private EcsEntity? createTaskForDesignation(DesignationComponent designation, PositionComponent position) {
-            // TODO create job component
             if (designation.type.JOB.Equals(JobsEnum.MINER.name)) {
                 Debug.Log("mining task created.");
                 EcsEntity taskEntity = GameModel.get().taskContainer.createTask(new DigAction(position.position, designation.type));

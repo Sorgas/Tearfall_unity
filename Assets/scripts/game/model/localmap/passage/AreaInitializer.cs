@@ -11,6 +11,7 @@ namespace game.model.localmap.passage {
         private PassageMap passage;
         private HashSet<HashSet<byte>> synonyms; // sets contain numbers of connected areas
         private Dictionary<byte, byte> areaMapping; // synonym values to synonym min
+        private bool debugMode = false;
 
         public AreaInitializer(LocalMap localMap) {
             this.localMap = localMap;
@@ -22,11 +23,11 @@ namespace game.model.localmap.passage {
             synonyms = new HashSet<HashSet<byte>>();
             areaMapping = new Dictionary<byte, byte>();
             initAreaNumbers();
-            Debug.Log(synonyms.Count);
+            log(synonyms.Count);
             processSynonyms();
-            Debug.Log(synonyms.Count);
+            log(synonyms.Count);
             applyMapping();
-            Debug.Log(synonyms.Count);
+            log(synonyms.Count);
         }
 
         // Assigns initial area numbers to cells, generates synonyms.
@@ -52,7 +53,7 @@ namespace game.model.localmap.passage {
         // Maps values from synonyms to lowest value from synonym
         private void processSynonyms() {
             foreach (HashSet<byte> synonym in synonyms) {
-                Debug.Log("processing synonym");
+                log("processing synonym");
                 byte min = synonym.Min(); // select minimal number from synonym
                 synonym.ToList().ForEach(value => areaMapping.Add(value, min));
             }
@@ -76,7 +77,7 @@ namespace game.model.localmap.passage {
             }
 
             foreach (byte i in passage.area.numbers.Keys) {
-                Debug.Log(i + " " + passage.area.numbers[i]);
+                log(i + " " + passage.area.numbers[i]);
             }
 
         }
@@ -115,6 +116,10 @@ namespace game.model.localmap.passage {
             }
             neighbours.Remove(0);
             return neighbours;
+        }
+
+        private void log(object message) {
+            if(debugMode) Debug.Log(message);
         }
     }
 }

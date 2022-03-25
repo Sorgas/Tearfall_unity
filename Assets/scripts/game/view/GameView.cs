@@ -53,6 +53,7 @@ namespace game.view {
             systems = new EcsSystems(ecsWorld);
             systems.Add(new UnitVisualSystem());
             systems.Add(new ItemVisualSystem());
+            systems.Add(new ItemVisualRemoveSystem());
             systems.Add(new DesignationVisualSystem());
             systems.Init();
         }

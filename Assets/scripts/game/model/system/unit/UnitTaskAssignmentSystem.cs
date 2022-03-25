@@ -16,7 +16,7 @@ namespace game.model.system.unit {
                 ref EcsEntity unit = ref filter.GetEntity(i);
                 EcsEntity? task = getTaskFromContainer(unit); 
                 // TODO add needs
-                if (!task.HasValue) task = createIdleTask(unit);
+                // if (!task.HasValue) task = createIdleTask(unit);
                 if (task.HasValue) assignTask(ref unit, task.Value);
             }
         }
@@ -25,7 +25,6 @@ namespace game.model.system.unit {
         private EcsEntity? getTaskFromContainer(EcsEntity unit) {
             if (unit.Has<UnitJobsComponent>()) {
                 UnitJobsComponent jobs = unit.Get<UnitJobsComponent>();
-                Debug.Log("enabled jobs: " + jobs.enabledJobs.Count);
                 foreach (var enabledJob in jobs.enabledJobs) { // TODO add jobs priorities
                     EcsEntity? task = GameModel.get().taskContainer.getTask(enabledJob, unit.pos());
                     if (task.HasValue) return task;
@@ -37,9 +36,8 @@ namespace game.model.system.unit {
         }
 
         private EcsEntity? createIdleTask(EcsEntity unit) {
-            // Debug.Log("creating idle task for unit " + unit);
             Vector3Int current = unit.pos();
-            Debug.Log("creating idle task for unit in position " + current);
+            // Debug.Log("creating idle task for unit in position " + current);
             Vector3Int? position = GameModel.localMap.util.getRandomPosition(current, 10, 4);
             return position.HasValue 
                 ? (EcsEntity?)GameModel.get().taskContainer.createTask(new MoveAction(position.Value)) 

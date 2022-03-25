@@ -20,22 +20,18 @@ namespace enums.unit {
         }
         
         private void loadTemplates() {
-            // Logger.LOADING.logDebug("loading body templates");
+            Debug.Log("loading body templates");
             TextAsset file = Resources.Load<TextAsset>("data/creatures/body_templates");
             BodyTemplateProcessor templateProcessor = new BodyTemplateProcessor();
             RawBodyTemplate[] rawTemplates = JsonConvert.DeserializeObject<RawBodyTemplate[]>(file.text);
-            // RawBodyTemplate[] rawTemplates = JsonArrayReader.readArray<RawBodyTemplate>(file.text);
-            Debug.Log(rawTemplates);
             rawTemplates.Select(template => templateProcessor.process(template)).ToList().ForEach(template => templates.Add(template.name, template));
         }
 
         private void loadCreatures() {
-            // Logger.LOADING.logDebug("loading creature types");
+            Debug.Log("loading creature types");
             TextAsset file = Resources.Load<TextAsset>("data/creatures/creatures");
             CreatureTypeProcessor typeProcessor = new CreatureTypeProcessor(this);
             List<RawCreatureType> types = JsonConvert.DeserializeObject<List<RawCreatureType>>(file.text);
-            Debug.Log("typs size " + types.Count);
-            // RawCreatureType[] rawTypes = JsonArrayReader.readArray<RawCreatureType>(file.text);
             types.Select(type => typeProcessor.process(type)).ToList().ForEach(type => creatureTypes.Add(type.name, type));
         }
     

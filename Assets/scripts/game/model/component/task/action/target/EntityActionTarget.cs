@@ -10,7 +10,7 @@ namespace game.model.component.task.action.target {
             this.entity = entity;
         }
         
-        public override Vector3Int? getPosition() {
+        public override Vector3Int? getPos() {
             if (!entity.Has<PositionComponent>()) {
                 Debug.LogWarning("Getting position of entity " + entity + " without PositionComponent");
                 return null;

@@ -12,6 +12,7 @@ namespace game.view.system.item {
             foreach (var i in filter) {
                 EcsEntity entity = filter.GetEntity(i);
                 ItemVisualComponent component = filter.Get1(i);
+                Debug.Log("sprite destroyed");
                 Object.Destroy(component.go);
                 entity.Del<ItemVisualComponent>();
             }

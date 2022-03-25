@@ -16,6 +16,7 @@ namespace util.pathfinding {
         private readonly HashSet<Vector3Int> acceptable = new HashSet<Vector3Int>();
 
         public PathFinishCondition(Vector3Int target, ActionTargetTypeEnum targetType) {
+            Debug.Log(targetType);
             if (targetType == EXACT || targetType == ANY) acceptable.Add(target);
             if (targetType == NEAR || targetType == ANY) { // add near tiles
                 LocalMap map = GameModel.localMap;
@@ -23,15 +24,19 @@ namespace util.pathfinding {
                         .Select(delta => target + delta)
                         .Where(pos => map.inMap(pos))
                         .Where(pos => map.passageMap.passage.get(pos) == PASSABLE.VALUE)
-                        .Apply(pos => acceptable.Add(pos));
+                        .ToList().ForEach(pos => acceptable.Add(pos));
                 PositionUtil.allNeighbour
                         .Select(delta => target + delta)
                         .Select(pos => pos.add(0, 0, -1))
                         .Where(pos => map.inMap(pos))
                         .Where(pos => map.blockType.get(pos) == RAMP.CODE)
-                        .Apply(pos => acceptable.Add(pos));
+                        .ToList().ForEach(pos => acceptable.Add(pos));
             }
-            if (targetType != NEAR && targetType != ANY) return;
+            string logString = "";
+            foreach (var pos in acceptable) {
+                logString += "[" + pos.x + " " + pos.y + " " + pos.z + "] ";
+            }
+            Debug.Log(logString);
         }
 
         public bool check(Vector3Int current) {

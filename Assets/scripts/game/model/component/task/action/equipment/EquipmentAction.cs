@@ -22,9 +22,7 @@ namespace game.model.component.task.action.equipment {
         }
 
         protected ref UnitEquipmentComponent equipment() {
-            if (!performer().Has<UnitEquipmentComponent>()) {
-                Debug.LogWarning("unit " + performer() + " has no UnitEquipmentComponent1.");
-            }
+            validate();
             return ref (performer().Get<UnitEquipmentComponent>());
         }
 
@@ -33,7 +31,6 @@ namespace game.model.component.task.action.equipment {
                 Debug.LogWarning("unit " + performer() + " has no UnitEquipmentComponent2."); 
                 return false;
             }
-            
             return true;
         }
     }

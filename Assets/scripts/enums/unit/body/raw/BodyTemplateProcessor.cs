@@ -8,7 +8,7 @@ namespace enums.unit.body.raw {
     public class BodyTemplateProcessor {
         private static string LEFT_PREFIX = "left ";
         private static string RIGHT_PREFIX = "right ";
-        private bool debugMode = true;
+        private bool debugMode = false;
 
         public BodyTemplate process(RawBodyTemplate rawTemplate) {
             log("processing " + rawTemplate.name + " body template");

@@ -49,10 +49,12 @@ namespace game.model {
                 .Add(new UnitActionPerformingSystem()) // add progress to unit's action and remove it when finished
                 .Add(new UnitPathfindingSystem()) // find paths to action targets
                 .Add(new UnitMovementSystem()) // move unit along path
-                .Add(new UnitTaskCompletionSystem()) // handle completed tasks
-                .Add(new TaskCompletionSystem())
+                .Add(new UnitTaskCompletionSystem()) // handle unit with completed tasks
+                
+                .Add(new TaskCompletionSystem()) // handle completed tasks
+                
                 .Add(new DesignationTaskCreationSystem())
-                .Add(new DesignationCompletionSystem())
+                .Add(new DesignationCompletionSystem()) // handle designation with completed tasks
                 .Add(new ItemRegisterInitSystem())
                 .Init();
         }

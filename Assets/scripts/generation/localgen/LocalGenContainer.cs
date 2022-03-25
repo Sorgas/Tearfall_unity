@@ -18,7 +18,7 @@ namespace generation.localgen {
             World world = GameModel.get().world;
             heightsMap = new float[config.areaSize, config.areaSize];
             config.localElevation = (int)(world.worldMap.elevation[config.location.x, config.location.y] * config.localElevation);
-            Debug.Log("localGenContainer: area size" + config.areaSize);
+            Debug.Log("localGenContainer: area size " + config.areaSize);
             world.localMap = new LocalMap(config.areaSize, config.areaSize, config.localElevation + config.airLayersAboveGround);
         }
     }

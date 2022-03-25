@@ -8,11 +8,49 @@ using UnityEngine;
 
 namespace generation.unit {
     class UnitGenerator {
-        // private BodyAspectGenerator bodyAspectGenerator = new BodyAspectGenerator();
+        private UnitEquipmentComponentGenerator equipmentGenerator = new UnitEquipmentComponentGenerator();
+        private UnitBodyComponentGenerator bodyGenerator = new UnitBodyComponentGenerator();
+        private UnitNameGenerator nameGenerator = new UnitNameGenerator();
+
+        public void generateUnit(SettlerData data, EcsEntity entity) {
+            CreatureType type = CreatureTypeMap.getType(data.type);
+            addCommonComponents(ref entity, data, type);
+            addOptionalComponents(ref entity, type);
+            addSettlerComponents(ref entity);
+        }
+
+        public void generateUnit(SettlerData data) => generateUnit(data, GameModel.get().createEntity());
+
+        // TODO
+        public void generateUnit(string creatureType) {
+            CreatureType type = CreatureTypeMap.getType(creatureType);
+            type.aspects.Contains("equipment");
+        }
+
+        private void addCommonComponents(ref EcsEntity entity, SettlerData data, CreatureType type) {
+            // TODO add name generator
+            entity.Replace(new UnitNameComponent {name = "qwer"}) 
+                .Replace(new AgeComponent {age = 20})
+                .Replace(new UnitMovementComponent {speed = 0.06f, step = 0})
+                .Replace(new UnitVisualComponent())
+                .Replace(nameGenerator.generate())
+                .Replace(new PositionComponent {position = new Vector3Int()})
+                .Replace(bodyGenerator.generate(type))
+                .Replace(new UnitComponent());
+        }
+
+        private void addSettlerComponents(ref EcsEntity entity) {
+            entity.Replace(new UnitJobsComponent {enabledJobs = new List<string>()});
+        }
+
+        private void addOptionalComponents(ref EcsEntity entity, CreatureType type) {
+            if (type.aspects.Contains("equipment")) {
+                entity.Replace(equipmentGenerator.generate(type));
+            }
+        }
         // private NeedAspectGenerator needAspectGenerator = new NeedAspectGenerator();
         // private HealthAspectGenerator healthAspectGenerator = new HealthAspectGenerator();
         // private HumanoidRenderGenerator humanoidRenderGenerator = new HumanoidRenderGenerator();
-        // private JobSkillAspectGenerator jobSkillAspectGenerator = new JobSkillAspectGenerator();
 
         // public EcsEntity generateUnit(Vector3Int position, string specimen) {
         //     // Logger.GENERATION.log("generating unit " + specimen);
@@ -59,43 +97,5 @@ namespace generation.unit {
         //         ? humanoidRenderGenerator.generateRender(type, true)
         //         : new RenderAspect(AtlasesEnum.units.getBlockTile(type.atlasXY)));
         // }
-
-
-        private UnitEquipmentComponentGenerator equipmentGenerator = new UnitEquipmentComponentGenerator();
-
-        public void generateUnit(SettlerData data, EcsEntity entity) {
-            CreatureType type = CreatureTypeMap.getType(data.type);
-            addCommonComponents(ref entity, data);
-            addOptionalComponents(ref entity, type);
-            addSettlerComponents(ref entity);
-        }
-
-        public void generateUnit(SettlerData data) => generateUnit(data, GameModel.get().createEntity());
-
-        // TODO
-        public void generateUnit(string creatureType) {
-            CreatureType type = CreatureTypeMap.getType(creatureType);
-            type.aspects.Contains("equipment");
-        }
-
-        private void addCommonComponents(ref EcsEntity entity, SettlerData data) {
-            entity.Replace(new UnitNameComponent { name = "qwer" }) // TODO add name generator
-                .Replace(new AgeComponent { age = 20 }) // TODO add name generator
-                .Replace(new UnitMovementComponent { speed = 0.06f, step = 0 })
-                .Replace(new UnitVisualComponent())
-                .Replace(new NameComponent { name = "mockName" })
-                .Replace(new PositionComponent { position = new Vector3Int() })
-                .Replace(new UnitComponent());
-        }
-
-        private void addSettlerComponents(ref EcsEntity entity) {
-            entity.Replace(new UnitJobsComponent { enabledJobs = new List<string>() });
-        }
-
-        private void addOptionalComponents(ref EcsEntity entity, CreatureType type) {
-            if (type.aspects.Contains("equipment")) {
-                entity.Replace(equipmentGenerator.generate(type));
-            }
-        }
     }
 }

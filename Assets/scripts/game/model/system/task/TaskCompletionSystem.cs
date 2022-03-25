@@ -1,6 +1,7 @@
 ﻿using enums.action;
 using game.model.component;
 using Leopotam.Ecs;
+using UnityEngine;
 using static game.model.component.task.TaskComponents;
 
 namespace game.model.system.task {
@@ -11,9 +12,10 @@ namespace game.model.system.task {
             foreach (var i in filter) {
                 ref EcsEntity task = ref filter.GetEntity(i);
                 TaskFinishedComponent component = filter.Get2(i);
+                Debug.Log("TaskCompletionSystem: completing task " + task.Get<TaskActionsComponent>().initialAction.name);
                 detachPerformer(ref task, component);
                 detachDesignation(ref task, component);
-                task.Del<TaskFinishedComponent>();
+                GameModel.get().taskContainer.removeTask(task);
             }
         }
 

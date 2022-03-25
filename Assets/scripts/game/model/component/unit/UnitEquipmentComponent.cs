@@ -23,7 +23,7 @@ namespace game.model.component.unit {
             return grabSlots.Values
                 .Where(slot => slot.isToolGrabbed())
                 .Select(slot => slot.grabbedItem.Value.Get<ItemToolComponent>())
-                .Count(tool => tool.operation == action) > 0;
+                .Count(tool => tool.action == action) > 0;
         }
 
         // public Optional<EquipmentSlot> slotWithItem(Progress.Item item) {

@@ -10,7 +10,7 @@ namespace util.item {
         }
 
         public override bool checkItem(EcsEntity item) {
-            return item.Has<ItemToolComponent>() && item.Get<ItemToolComponent>().operation == actionName;
+            return item.Has<ItemToolComponent>() && item.Get<ItemToolComponent>().action == actionName;
         }
     }
 }

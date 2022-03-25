@@ -2,6 +2,7 @@
 using game.model.component;
 using game.model.component.task;
 using Leopotam.Ecs;
+using UnityEngine;
 using static game.model.component.task.DesignationComponents;
 
 namespace game.model.system.task.designation {
@@ -15,19 +16,26 @@ namespace game.model.system.task.designation {
             foreach (var i in filter) {
                 ref EcsEntity designation = ref filter.GetEntity(i);
                 TaskFinishedComponent taskFinishedComponent = filter.Get2(i);
-                TaskStatusEnum status = taskFinishedComponent.status;
+                Debug.Log("DesignationCompletionSystem: completing designation " + designation.Get<DesignationComponent>().type.NAME);
+
                 // detach task
-                if (designation.Has<TaskComponent>()) {
-                    ref EcsEntity task = ref designation.Get<TaskComponent>().task;
-                    task.Replace(taskFinishedComponent);
-                    task.Del<TaskComponents.TaskDesignationComponent>();
-                    designation.Del<TaskComponent>();
-                }
-                designation.Del<TaskFinishedComponent>();
+                detachTask(designation, taskFinishedComponent);
+                
                 // remove designation entity, failed will recreate task
+                TaskStatusEnum status = taskFinishedComponent.status;
                 if (status == TaskStatusEnum.CANCELED || status == TaskStatusEnum.COMPLETE) {
                     GameModel.get().designationContainer.removeDesignation(designation);
                 }
+                designation.Del<TaskFinishedComponent>();
+            }
+        }
+
+        private void detachTask(EcsEntity designation, TaskFinishedComponent taskFinishedComponent) {
+            if (designation.Has<TaskComponent>()) {
+                ref EcsEntity task = ref designation.Get<TaskComponent>().task;
+                task.Replace(taskFinishedComponent);
+                task.Del<TaskComponents.TaskDesignationComponent>();
+                designation.Del<TaskComponent>();
             }
         }
     }

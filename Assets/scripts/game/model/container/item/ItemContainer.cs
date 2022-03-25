@@ -7,7 +7,6 @@ using util.lang.extension;
 
 namespace game.model.container.item {
     public class ItemContainer : EntityContainer {
-        public Dictionary<Vector3Int, List<EcsEntity>> itemMap = new Dictionary<Vector3Int, List<EcsEntity>>(); // maps tiles position to list of item it that position.
         // public HashSet<EcsEntity> onMapItemsSet = new HashSet<EcsEntity>(); // set for faster checking
         // public Dictionary<EcsEntity, ItemContainerAspect> contained = new HashMap<>(); // maps contained items to containers they are in.
         public Dictionary<EcsEntity, EcsEntity> equipped = new Dictionary<EcsEntity, EcsEntity>(); // maps equipped and hauled items to units.
@@ -15,17 +14,20 @@ namespace game.model.container.item {
         // public ContainedItemsSystem containedItemsSystem;
         public EquippedItemsManager equippedItems = new EquippedItemsManager();
         public OnMapItemsManager onMapItems = new OnMapItemsManager(); 
-
-        private IntVector3 cachePosition;
-        private LocalMap map;
-
+        
         public ItemContainer() {
             // addSystem(containedItemsSystem = new ContainedItemsSystem(this));
             // addSystem(equippedItemsSystem = new EquippedItemsSystem(this));
             // addSystem(onMapItemsSystem = new OnMapItemsSystem(this));
-            cachePosition = new IntVector3();
         }
 
+        public void registerItem(EcsEntity item) {
+            // TODO handle equipped and contained items
+            if (item.hasPos()) {
+                onMapItems.addItemToMap(item);
+            }
+        }
+        
         // public void addItem(EcsEntity item) {
         //     objects.add(item);
         // }
@@ -85,12 +87,5 @@ namespace game.model.container.item {
         // public boolean isItemEquipped(EcsEntity item) {
         //     return equipped.containsKey(item);
         // }
-
-        public void registerItem(EcsEntity item) {
-            // TODO handle equipped and contained items
-            if (item.hasPos()) {
-                onMapItems.registerItem(item);
-            }
-        }
     }
 }

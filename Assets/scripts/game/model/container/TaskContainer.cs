@@ -10,8 +10,8 @@ using static game.model.component.task.TaskComponents;
 
 namespace game.model.container {
     public class TaskContainer {
-        private Dictionary<string, HashSet<EcsEntity>> openTasks = new Dictionary<string, HashSet<EcsEntity>>();
-        private Dictionary<string, HashSet<EcsEntity>> tasks = new Dictionary<string, HashSet<EcsEntity>>();
+        private Dictionary<string, HashSet<EcsEntity>> openTasks = new();
+        private Dictionary<string, HashSet<EcsEntity>> tasks = new();
 
         public TaskContainer() {
             foreach (var job in JobsEnum.jobs) {
@@ -33,8 +33,12 @@ namespace game.model.container {
         public EcsEntity? getTask(string job, Vector3Int position) {
             if (openTasks[job].Count > 0) {
                 PassageMap passageMap = GameModel.localMap.passageMap;
-                return openTasks[job]
-                    .First(entity => passageMap.inSameArea(position, entity.Get<TaskActionsComponent>().initialAction.target.getPosition().Value));
+                EcsEntity task = openTasks[job]
+                    .First(entity => passageMap.inSameArea(position,
+                        entity.Get<TaskActionsComponent>()
+                            .initialAction.target.getPos()
+                            .Value));
+                openTasks[job].Remove(task);
             }
             return null;
         }
@@ -44,6 +48,18 @@ namespace game.model.container {
             task.Replace(new TaskActionsComponent { initialAction = initialAction, preActions = new List<Action>() });
             initialAction.task = task;
             return task;
+        }
+
+        public void removeTask(EcsEntity task) {
+            string job = task.take<TaskJobComponent>().job;
+            if (openTasks[job].Contains(task)) {
+                openTasks[job].Remove(task);
+                task.Destroy();
+            }
+            if (tasks[job].Contains(task)) {
+                tasks[job].Remove(task);
+                task.Destroy();
+            }
         }
     }
 }

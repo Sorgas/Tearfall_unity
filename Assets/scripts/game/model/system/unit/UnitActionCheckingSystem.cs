@@ -60,14 +60,14 @@ namespace game.model.system.unit {
         // checks if unit can reach action's target
         private void checkTargetAvailability(ref EcsEntity unit, TaskActionsComponent task) {
             Action action = task.getNextAction();
-            Debug.Log("checking action target of action " + action + " for unit " + unit);
+            Debug.Log("checking action target of action " + action.name + " for unit " + unit);
             switch (action.target.check(unit)) {
                 case READY: // start performing
                     Debug.Log("ready");
                     unit.Replace(new UnitCurrentActionComponent { action = action });
                     break;
                 case WAIT: // start movement
-                    Vector3Int? target = action.target.getPosition();
+                    Vector3Int? target = action.target.getPos();
                     if (!target.HasValue) {
                         Debug.LogWarning("action " + action + " has not target position.");
                         break;

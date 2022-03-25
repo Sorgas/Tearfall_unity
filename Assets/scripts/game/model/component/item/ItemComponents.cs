@@ -56,7 +56,7 @@ namespace game.model.component.item {
     public struct MergeableComponent {}
 
     public struct ItemToolComponent {
-        public string operation;
+        public string action;
     }
 
     // item gives temporary effect when consumed
@@ -114,5 +114,10 @@ namespace game.model.component.item {
         public const string fromMap = "fromMap";
 
         public string type;
+    }
+
+    // item was picked up from ground recently, and should not be rendered
+    public struct ItemPickedUpComponent {
+        
     }
 }

@@ -18,7 +18,7 @@ namespace game.model.component.task.action.equipment.obtain {
     public class GetItemFromGroundAction : EquipmentAction {
 
         public GetItemFromGroundAction(EcsEntity item) : base(new ItemActionTarget(item), item) {
-
+            name = "get item from ground action";
             startCondition = () => {
                 UnitEquipmentComponent equipment = base.equipment();
                 if (equipment.hauledItem != null) {
@@ -30,8 +30,7 @@ namespace game.model.component.task.action.equipment.obtain {
             onStart = () => maxProgress = 20;
 
             onFinish = () => { // add item to unit
-                // TODO remove item from map
-                // container
+                GameModel.get().itemContainer.onMapItems.takeItemFromMap(item);
                 equipment().hauledItem = item;
             };
         }
@@ -41,8 +40,8 @@ namespace game.model.component.task.action.equipment.obtain {
             if (item.hasPos()) {
                 Vector3Int itemPosition = item.pos();
                 return base.validate()
-                       && container.itemMap.ContainsKey(itemPosition)
-                       && container.itemMap[itemPosition].Contains(item)
+                       && container.onMapItems.itemsOnMap.ContainsKey(itemPosition)
+                       && container.onMapItems.itemsOnMap[itemPosition].Contains(item)
                        && map.passageMap.inSameArea(itemPosition, performer().pos());
             }
             return false;

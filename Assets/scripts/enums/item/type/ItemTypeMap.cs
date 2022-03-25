@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using enums.item.type.raw;
+using enums.unit;
+using Newtonsoft.Json;
 using UnityEngine;
 using util.input;
 using util.lang;
@@ -17,8 +19,9 @@ namespace enums.item.type {
             TextAsset[] files = Resources.LoadAll<TextAsset>("data/items");
             RawItemTypeProcessor processor = new RawItemTypeProcessor();
             foreach (var file in files) {
-                RawItemType[] raws = JsonArrayReader.readArray<RawItemType>(file.text);
-                for (var i = 0; i < raws.Length; i++) {
+                List<RawItemType> raws = JsonConvert.DeserializeObject<List<RawItemType>>(file.text);
+                // RawItemType[] raws = JsonArrayReader.readArray<RawItemType>(file.text);
+                for (var i = 0; i < raws.Count; i++) {
                     ItemType type = processor.process(raws[i]);
                     type.atlasName = file.name;
                     types.Add(type.name, type);

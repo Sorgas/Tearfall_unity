@@ -15,8 +15,8 @@ namespace enums.unit {
 
         public CreatureType process(RawCreatureType raw) {
             CreatureType type = new CreatureType(raw);
-            Debug.Log("processing creature type  " + type.name);
-            
+            // Debug.Log("processing creature type  " + type.name);
+
             if (!typeMap.templates.ContainsKey(raw.bodyTemplate)) {
                 Debug.LogWarning("Creature " + type.name + " has invalid body template " + raw.bodyTemplate);
                 return null;
@@ -34,11 +34,11 @@ namespace enums.unit {
             // }
             BodyTemplate template = typeMap.templates[raw.bodyTemplate];
             foreach (var part in template.body.Values) {
-                type.bodyParts.Add(part.name, part.clone());  
-            } 
+                type.bodyParts.Add(part.name, part.clone());
+            }
             foreach (var slot in template.slots) {
-                type.slots.Add(slot.Key, new List<string>(slot.Value)); 
-            }  
+                type.slots.Add(slot.Key, new List<string>(slot.Value));
+            }
             type.desiredSlots.AddRange(raw.desiredSlots);
             // type.needs.AddRange(defaultNeeds);
             return type;

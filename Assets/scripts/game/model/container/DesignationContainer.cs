@@ -59,6 +59,10 @@ namespace game.model.container {
 
         // mark designation as canceled. will be handled in DesignationCompletionSystem
         public void cancelDesignation(Vector3Int position) {
+            addFinishedComponent(position, TaskStatusEnum.CANCELED);
+        }
+
+        private void addFinishedComponent(Vector3Int position, TaskStatusEnum status) {
             if (designations.ContainsKey(position)) {
                 designations[position].Replace(new TaskFinishedComponent { status = TaskStatusEnum.CANCELED });
             }
@@ -128,11 +132,6 @@ namespace game.model.container {
         //
         //    private boolean taskTargetReachable(CanvasScaler.Unit unit, Task task) {
         //        return map().util.positionReachable(unit.position, task.initialTarget().getPosition(), task.initialTarget().type != EXACT);
-        //    }
-        //
-        //    private PassageMap map() {
-        //        return map == null ? map = GameMvc.model().get(LocalMap.class).passageMap :
-        //        map;
         //    }
     }
 }

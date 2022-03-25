@@ -13,7 +13,7 @@ namespace util.pathfinding {
 
         public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, ActionTargetTypeEnum targetType) {
             localMap = GameModel.localMap;
-            Debug.Log("searching path from " + start + " to " + target);
+            // Debug.Log("searching path from " + start + " to " + target);
             return search(new Node(start, null, getH(target, start), 0), target, targetType);
         }
 

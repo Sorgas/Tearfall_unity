@@ -3,13 +3,8 @@
         "name": "pickaxe",
         "description": "Tool for digging through rock and ore.",
         "tool": {
-            "actions": [
-                {
-                    "action": "dig",
-                    "speedMod": "1",
-                    "part": "head"
-                }
-            ], "attacks": [
+            "action": "dig", 
+            "attacks": [
                 {
                     "attack": "hit",
                     "baseReload": 1,
@@ -25,13 +20,8 @@
     "name": "hoe",
     "description": "Tool for preparing soil for farming.",
     "tool": {
-        "actions": [
-            {
-                "action": "hoe",
-                "speedMod": "1",
-                "part": "head"
-            }
-        ], "attacks": [
+        "action": "hoe",
+        "attacks": [
             {
                 "attack": "hit",
                 "baseReload": 1,
@@ -47,12 +37,8 @@
     "name": "sickle",
     "description": "Tool for harvesting plants.",
     "tool": {
-        "actions": [
-            {
-                "action": "harvest_plants",
-                "speedMod": "1"
-            }
-        ], "attacks": [
+        "action": "harvest_plants",
+        "attacks": [
             {
                 "attack": "hit",
                 "baseReload": 1,
@@ -67,12 +53,8 @@
     "name": "axe",
     "description": "Tool for chopping down trees.",
     "tool": {
-        "actions": [
-            {
-                "action": "chop",
-                "speedMod": "1"
-            }
-        ], "attacks": [
+        "action": "chop",
+        "attacks": [
             {
                 "attack": "hit",
                 "baseReload": 1,
@@ -87,12 +69,8 @@
     "name": "hammer",
     "description": "Smith tool.",
     "tool": {
-        "actions": [
-            {
-                "action": "smith",
-                "speedMod": "1"
-            }
-        ], "attacks": [
+        "action": "smith",
+        "attacks": [
             {
                 "attack": "hit",
                 "baseReload": 1,
@@ -107,12 +85,8 @@
     "name": "Kettle",
     "description": "Holds liquids and is used for cooking and alchemy.",
     "tool": {
-        "actions": [
-            {
-                "action": "cook_boil",
-                "speedMod": "1"
-            }
-        ], "attacks": [
+        "action": "cook_boil",
+        "attacks": [
             {
                 "attack": "hit",
                 "baseReload": 1,
@@ -127,12 +101,8 @@
     "name": "pan",
     "description": "Cooking tool.",
     "tool": {
-        "actions": [
-            {
-                "action": "cook_fry",
-                "speedMod": "1"
-            }
-        ], "attacks": [
+        "action": "cook_fry",
+        "attacks": [
             {
                 "attack": "hit",
                 "baseReload": 1,
@@ -147,12 +117,7 @@
     "name": "bow_saw",
     "description": "Used for sawing wood.",
     "tool": {
-        "actions": [
-            {
-                "action": "saw",
-                "speedMod": "1"
-            }
-        ]
+        "action": "saw"
     },
     "requiredParts" : ["head", "handle"],
     "atlasXY": [1, 0]

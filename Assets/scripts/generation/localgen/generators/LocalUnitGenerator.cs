@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using enums;
+using enums.unit;
 using game.model;
 using game.model.component;
+using game.model.component.unit;
 using game.model.localmap;
 using generation.unit;
 using Leopotam.Ecs;
@@ -27,6 +29,7 @@ namespace generation.localgen.generators {
                     unitGenerator.generateUnit(settler, entity);
                     ref PositionComponent positionComponent = ref entity.Get<PositionComponent>();
                     positionComponent.position = spawnPoint.Value;
+                    entity.Get<UnitJobsComponent>().enabledJobs.Add(JobsEnum.MINER.name);
                     Debug.Log("unit spawned at " + spawnPoint.Value);
                 } else {
                     Debug.LogWarning("position to spawn unit not found");

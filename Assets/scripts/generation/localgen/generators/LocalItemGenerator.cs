@@ -22,7 +22,8 @@ namespace generation.localgen.generators {
             items.ForEach(item => {
                 Vector3Int spawnPoint = getSpawnPosition(center, 5);
                 EcsEntity entity = GameModel.get().createEntity();
-                generator.generateItem(item, spawnPoint, entity);
+                generator.generateItem(item.type, item.material, entity);
+                GameModel.get().itemContainer.onMapItems.putItemToMap(entity, spawnPoint);
             });
         }
 

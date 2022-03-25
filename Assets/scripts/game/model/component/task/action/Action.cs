@@ -64,19 +64,24 @@ namespace game.model.component.task.action {
 
         // Performs action logic. Changes status.
         public void perform(EcsEntity unit) {
-            Debug.Log("performing action");
+            if (name.Equals("get item from ground action")) {
+                Debug.Log("asdf");
+            }
+            Debug.Log("performing action " + name);
             if (status == ActionStatusEnum.OPEN) { // first execution of perform()
                 status = ActionStatusEnum.ACTIVE;
                 onStart.Invoke();
             }
             progressConsumer.Invoke(unit, speed);
             if (finishCondition.Invoke()) { // last execution of perform()
+                Debug.Log("action finished -- ");
                 onFinish.Invoke();
                 status = ActionStatusEnum.COMPLETE;
             }
         }
 
         public void reset() {
+            
             speed = 1;
             progress = 0;
             maxProgress = 1;
