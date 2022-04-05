@@ -22,9 +22,11 @@ namespace game.model.container {
             tasks.Add("none", new HashSet<EcsEntity>());
         }
 
+        // registers task in container
         public void addTask(EcsEntity task) {
             TaskJobComponent? job = task.optional<TaskJobComponent>();
             string jobName = job.HasValue ? job.Value.job : "none";
+            // if(openTasks[jobName].Contains(task)) Debug.LogError("Task "+ task. + "already registered!");
             openTasks[jobName].Add(task);
         }
 
@@ -43,6 +45,7 @@ namespace game.model.container {
             return null;
         }
 
+        // creates task but not registers it in container
         public EcsEntity createTask(Action initialAction) {
             EcsEntity task = GameModel.get().createEntity();
             task.Replace(new TaskActionsComponent { initialAction = initialAction, preActions = new List<Action>() });
