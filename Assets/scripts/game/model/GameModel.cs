@@ -52,7 +52,7 @@ namespace game.model {
                 .Add(new UnitTaskCompletionSystem()) // handle unit with completed tasks
                 .Add(new UnitWearNeedSystem())
                 .Add(new UnitNeedSystem())
-                
+
                 .Add(new TaskCompletionSystem()) // handle completed tasks
                 
                 .Add(new DesignationTaskCreationSystem())

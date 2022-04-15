@@ -80,4 +80,4 @@ namespace game.model.system.unit {
             return !task.IsNull() ? task.take<TaskPriorityComponent>().priority : TaskPriorityEnum.NONE;
         }
     }
-}
+} 

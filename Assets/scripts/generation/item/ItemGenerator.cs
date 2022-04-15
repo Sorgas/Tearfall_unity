@@ -1,6 +1,6 @@
-﻿using enums.item.type;
+﻿using entity;
+using enums.item.type;
 using enums.material;
-using game.model;
 using game.model.component;
 using game.model.component.item;
 using Leopotam.Ecs;
@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace generation.item {
     public class ItemGenerator {
-        
+
         public EcsEntity generateItem(ItemData data, Vector3Int position, EcsEntity entity) =>
             generateItem(data.type, data.material, position, entity);
 
@@ -26,7 +26,11 @@ namespace generation.item {
                 weight = material.density * 1
             });
             if (type.tool != null) {
-                entity.Replace(new ItemToolComponent {action = type.tool.action});
+                entity.Replace(new ItemToolComponent { action = type.tool.action });
+            }
+            if (type.aspects.ContainsKey(typeof(WearAspect))) {
+                WearAspect aspect = (WearAspect)type.aspects[typeof(WearAspect)];
+                entity.Replace(new ItemWearComponent { slot = aspect.slot, layer = aspect.layer });
             }
             entity.Replace(new NameComponent());
             return entity;

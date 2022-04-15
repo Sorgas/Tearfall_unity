@@ -81,6 +81,7 @@
      <Compile Include="Assets\scripts\enums\item\type\raw\RawItemType.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenConfig.cs" />
      <Compile Include="Assets\scripts\game\view\system\item\ItemVisualSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\container\TaskGenerator.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\DictionaryExtention.cs" />
      <Compile Include="Assets\scripts\generation\PreparationState.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToPositionAction.cs" />
@@ -266,7 +267,6 @@
      <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\view\ui\WindowManager.cs" />
-     <Compile Include="Assets\scripts\game\model\container\TaskGenerator.cs" />
      <None Include="Assets\resources\data\items\growths.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />

@@ -4,6 +4,7 @@ using enums.unit;
 using enums.unit.need;
 using game.model.component.unit;
 using Leopotam.Ecs;
+using UnityEngine;
 
 namespace generation.unit {
     public class UnitNeedComponentGenerator {
@@ -15,6 +16,7 @@ namespace generation.unit {
                 UnitWearNeedComponent wear = new UnitWearNeedComponent();
                 wear.desiredSlots = new List<string>(type.desiredSlots);
                 entity.Replace(wear);
+                Debug.Log("[UnitGenerator] UnitWearNeedComponent added to unit");
             }
         }
     }

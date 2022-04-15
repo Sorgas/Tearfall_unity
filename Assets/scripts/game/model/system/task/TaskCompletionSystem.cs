@@ -15,7 +15,7 @@ namespace game.model.system.task {
                 Debug.Log("TaskCompletionSystem: completing task " + task.Get<TaskActionsComponent>().initialAction.name);
                 detachPerformer(ref task, component);
                 detachDesignation(ref task, component);
-                GameModel.get().taskContainer.removeTask(task);
+                if(task.Has<TaskJobComponent>()) GameModel.get().taskContainer.removeTask(task);
             }
         }
 

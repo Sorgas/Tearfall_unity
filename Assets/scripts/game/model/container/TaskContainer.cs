@@ -9,13 +9,14 @@ using static game.model.component.task.TaskComponents;
 
 namespace game.model.container {
     // contains all shared tasks for settlers. Personal tasks like eating or resting are not handled
+    // only contains tasks with TaskJobComponent
     public class TaskContainer {
-        public TaskGenerator generator;
+        public TaskGenerator generator = new();
         
-        // job name to tasks
+        
         // private Dictionary<string, HashSet<EcsEntity>> tasks = new();
-        private Dictionary<string, HashSet<EcsEntity>> openTasks = new();
-        private Dictionary<EcsEntity, EcsEntity> assigned = new();
+        private Dictionary<string, HashSet<EcsEntity>> openTasks = new(); // job name to tasks
+        private Dictionary<EcsEntity, EcsEntity> assigned = new(); // task to performer
 
         public TaskContainer() {
             foreach (var job in JobsEnum.jobs) {
