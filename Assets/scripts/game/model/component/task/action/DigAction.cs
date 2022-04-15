@@ -13,20 +13,18 @@ using static enums.action.ActionTargetTypeEnum;
 
 namespace game.model.component.task.action {
     public class DigAction : Action {
-        private DesignationType type;
         private float workAmountModifier = 10f;
         private String toolActionName = "dig";
         private ToolWithActionItemSelector selector;
 
         public DigAction(Vector3Int position, DesignationType type) : base(new PositionActionTarget(position, NEAR), "mining") {
             name = "dig action";
-            this.type = type;
             selector = new ToolWithActionItemSelector(toolActionName);
+
             startCondition = () => {
                 if (!type.VALIDATOR.validate(target.getPos().Value)) return FAIL; // tile still valid
                 if (!performer().Has<UnitEquipmentComponent>()) return FAIL;
-                if (performer().Get<UnitEquipmentComponent>().toolWithActionEquipped(toolActionName))
-                    return OK; // tool already equipped
+                if (performer().takeRef<UnitEquipmentComponent>().toolWithActionEquipped(toolActionName)) return OK; // tool already equipped
                 return addEquipAction();
             };
 

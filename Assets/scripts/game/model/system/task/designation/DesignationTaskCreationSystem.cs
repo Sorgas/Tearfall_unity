@@ -19,7 +19,7 @@ namespace game.model.system.task.designation {
                 if (task.HasValue) {
                     designation.Replace(new TaskComponent { task = task.Value });
                     task.Value.Replace(new TaskDesignationComponent {designation = designation});
-                    GameModel.get().taskContainer.addTask(task.Value);
+                    GameModel.get().taskContainer.addOpenTask(task.Value);
                 }
             }
         }
@@ -31,7 +31,7 @@ namespace game.model.system.task.designation {
         private EcsEntity? createTaskForDesignation(DesignationComponent designation, PositionComponent position) {
             if (designation.type.JOB.Equals(JobsEnum.MINER.name)) {
                 Debug.Log("mining task created.");
-                EcsEntity taskEntity = GameModel.get().taskContainer.createTask(new DigAction(position.position, designation.type));
+                EcsEntity taskEntity = GameModel.get().taskContainer.generator.createTask(new DigAction(position.position, designation.type));
                 taskEntity.Replace(new TaskJobComponent { job = JobsEnum.MINER.name });
                 return taskEntity;
             }

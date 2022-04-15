@@ -1,8 +1,13 @@
+using System.Collections.Generic;
+using System.Linq;
+using enums.action;
 using game.model.component;
 using game.model.component.task.action;
+using game.model.component.task.action.equipment.use;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
+using util.item;
 using util.lang.extension;
 using static game.model.component.task.TaskComponents;
 
@@ -14,40 +19,65 @@ namespace game.model.system.unit {
         public void Run() {
             foreach (int i in filter) {
                 ref EcsEntity unit = ref filter.GetEntity(i);
-                EcsEntity? task = getTaskFromContainer(unit); 
-                // TODO add needs
-                // if (!task.HasValue) task = createIdleTask(unit);
-                if (task.HasValue) assignTask(ref unit, task.Value);
+                EcsEntity task = tryCreateTask(unit);
+                if (!task.IsNull()) assignTask(ref unit, task);
             }
         }
 
-        // gets any task for unit
-        private EcsEntity? getTaskFromContainer(EcsEntity unit) {
-            if (unit.Has<UnitJobsComponent>()) {
-                UnitJobsComponent jobs = unit.Get<UnitJobsComponent>();
-                foreach (var enabledJob in jobs.enabledJobs) { // TODO add jobs priorities
-                    EcsEntity? task = GameModel.get().taskContainer.getTask(enabledJob, unit.pos());
-                    if (task.HasValue) return task;
+        private EcsEntity tryCreateTask(EcsEntity unit) {
+            EcsEntity jobTask = getTaskFromContainer(unit);
+            EcsEntity needTask = createNeedsTask(unit);
+            EcsEntity task = priority(jobTask) > priority(needTask) ? jobTask : needTask;
+            if (task.IsNull()) task = createIdleTask(unit);
+            return task;
+        }
+
+        // TODO add jobs priorities
+        private EcsEntity getTaskFromContainer(EcsEntity unit) {
+            UnitJobsComponent jobs = unit.take<UnitJobsComponent>();
+            EcsEntity task = GameModel.get().taskContainer.findTask(jobs.enabledJobs, unit.pos());
+            if (!task.IsNull()) return task;
+            return EcsEntity.Null; // TODO get from task container
+        }
+
+        //TODO add other needs
+        private EcsEntity createNeedsTask(EcsEntity unit) {
+            List<EcsEntity> taskList = new List<EcsEntity>();
+            if (unit.Has<UnitCalculatedWearNeedComponent>()) {
+                UnitCalculatedWearNeedComponent wear = unit.take<UnitCalculatedWearNeedComponent>();
+                ItemSelector selector = new WearWithSlotItemSelector(wear.slotsToFill);
+                List<EcsEntity> foundItems = selector.selectItems(GameModel.get().itemContainer.onMapItems.all);
+                if (foundItems.Count > 0) {
+                    EcsEntity task = GameModel.get().taskContainer.generator.createTask(new EquipWearItemAction(foundItems[0]), TaskPriorityEnum.HEALTH_NEEDS);
+                    taskList.Add(task);
                 }
-            } else {
-                Debug.LogError("unit without jobs component attempts to get jobs from container.");
             }
-            return null; // TODO get from task container
+            if (taskList.Count > 0) {
+                return taskList.Aggregate((task1, task2) => priority(task1) > priority(task2) ? task1 : task2);
+            }
+            return EcsEntity.Null;
         }
 
-        private EcsEntity? createIdleTask(EcsEntity unit) {
+        private EcsEntity createIdleTask(EcsEntity unit) {
             Vector3Int current = unit.pos();
             // Debug.Log("creating idle task for unit in position " + current);
             Vector3Int? position = GameModel.localMap.util.getRandomPosition(current, 10, 4);
-            return position.HasValue 
-                ? (EcsEntity?)GameModel.get().taskContainer.createTask(new MoveAction(position.Value)) 
-                : null;
+            return position.HasValue
+                ? GameModel.get().taskContainer.generator.createTask(new MoveAction(position.Value))
+                : EcsEntity.Null;
         }
 
         // bind unit and task entities
         private void assignTask(ref EcsEntity unit, EcsEntity task) {
             unit.Replace(new TaskComponent { task = task });
             task.Replace(new TaskPerformerComponent { performer = unit });
+            if (task.Has<TaskJobComponent>()) {
+                GameModel.get().taskContainer.claimTask(task, unit);
+            }
+        }
+
+        private TaskPriorityEnum priority(EcsEntity task) {
+            return !task.IsNull() ? task.take<TaskPriorityComponent>().priority : TaskPriorityEnum.NONE;
         }
     }
 }

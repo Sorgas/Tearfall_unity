@@ -15,7 +15,6 @@ namespace enums.item.type.raw {
         public string[] tags; // tags will be copied to items
 
         // first element of lists is aspect name
-        public string[] typeAspects; // constant aspects. stored in type (value, resource)
         public string[] aspects; // other aspects, item aspects filled from this on generation.
 
         // render
@@ -26,7 +25,6 @@ namespace enums.item.type.raw {
             requiredParts = Array.Empty<string>();
             optionalParts = Array.Empty<string>();
             tags = Array.Empty<string>();
-            typeAspects = Array.Empty<string>();
             aspects = Array.Empty<string>();
             atlasXY = Array.Empty<int>();
         }

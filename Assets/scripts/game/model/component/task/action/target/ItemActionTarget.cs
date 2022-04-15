@@ -18,7 +18,7 @@ namespace game.model.component.task.action.target {
         }
         
         public new ActionTargetStatusEnum check(EcsEntity performer) {
-            if (performer.take<UnitEquipmentComponent>().hauledItem == entity) {
+            if (performer.takeRef<UnitEquipmentComponent>().hauledItem == entity) {
                 return ActionTargetStatusEnum.READY; // item is in hands already
             }
             return base.check(performer);

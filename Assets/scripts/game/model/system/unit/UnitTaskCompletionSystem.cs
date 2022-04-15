@@ -31,7 +31,7 @@ namespace game.model.system.unit {
         
         private void detachTaskFromUnit(ref EcsEntity unit, TaskStatusEnum status) {
             if (unit.Has<TaskComponent>()) {
-                EcsEntity task = unit.take<TaskComponent>().task;
+                EcsEntity task = unit.takeRef<TaskComponent>().task;
                 task.Del<TaskComponents.TaskPerformerComponent>();
                 task.Replace(new TaskFinishedComponent {status = status}); // move status to task, it will be handled by TaskStatusSystem
                 unit.Del<TaskComponent>();

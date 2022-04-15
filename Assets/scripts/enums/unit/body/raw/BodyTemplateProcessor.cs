@@ -9,9 +9,11 @@ namespace enums.unit.body.raw {
         private static string LEFT_PREFIX = "left ";
         private static string RIGHT_PREFIX = "right ";
         private bool debugMode = false;
+        private string logMessage;
 
         public BodyTemplate process(RawBodyTemplate rawTemplate) {
-            log("processing " + rawTemplate.name + " body template");
+            logMessage = "";
+            log("[BodyTemplateProcessor]: processing " + rawTemplate.name + " body template");
             BodyTemplate template = new BodyTemplate(rawTemplate);
             Dictionary<string, RawBodyPart> rawPartMap = rawTemplate.body.ToDictionary(part => part.name, part => part); // part name to part
             
@@ -27,6 +29,7 @@ namespace enums.unit.body.raw {
             mirrorSlots(template, rawTemplate, rawPartMap);
             log("    processed slots " + template.slots.Count);
             
+            Debug.Log(logMessage);
             return template;
         }
 
@@ -125,7 +128,7 @@ namespace enums.unit.body.raw {
         }
 
         private void log(string message) {
-            Debug.Log(message);
+            logMessage += message + "\n";
         }
     }
 }

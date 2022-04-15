@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using util.lang;
+using util.lang.extension;
 using static enums.PassageEnum;
 
 namespace game.model.localmap.passage {

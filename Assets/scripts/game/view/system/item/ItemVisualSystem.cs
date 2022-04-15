@@ -7,11 +7,11 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace game.view.system.item {
-    // creates sprite go for items on ground. updates go position for moved items
+    // creates sprite GO for items on ground. updates GO position for moved items
     public class ItemVisualSystem : IEcsRunSystem {
         public EcsFilter<ItemComponent, PositionComponent>.Exclude<ItemVisualComponent> newItemsFilter; // items put on ground but not rendered
         public EcsFilter<PositionComponent, ItemVisualComponent> itemsOnGroundFilter; // items on ground should update GO position
-        private int SIZE = 32;
+        private const int SIZE = 32;
         private Vector2 pivot = new Vector2(0, 0);
         private GameObject itemPrefab = Resources.Load<GameObject>("prefabs/Item");
 
@@ -27,7 +27,7 @@ namespace game.view.system.item {
         }
 
         private void createSpriteForItem(EcsEntity entity) {
-            ItemComponent item = entity.Get<ItemComponent>();
+            ItemComponent item = entity.takeRef<ItemComponent>();
             ItemVisualComponent visual = new ItemVisualComponent();
             Vector3 spritePosition = ViewUtil.fromModelToScene(entity.pos());
             visual.go = Object.Instantiate(itemPrefab, spritePosition + new Vector3(0, 0, -0.1f), Quaternion.identity);
@@ -46,7 +46,9 @@ namespace game.view.system.item {
         private Sprite createSprite(ItemType type) {
             Sprite sprite = Resources.Load<Sprite>("tilesets/items/" + type.atlasName); // TODO move to ItemTypeMap
             Texture2D texture = sprite.texture;
-            Rect rect = new Rect(type.atlasXY[0] * SIZE, texture.height - (type.atlasXY[1] + 1) * SIZE, SIZE, SIZE);
+            int x = type.atlasXY[0];
+            int y = type.atlasXY[1];
+            Rect rect = new Rect(x * SIZE, texture.height - (y + 1) * SIZE, SIZE, SIZE);
             return Sprite.Create(texture, rect, pivot, 32);
         }
     }

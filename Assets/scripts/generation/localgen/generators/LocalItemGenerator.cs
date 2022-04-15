@@ -9,7 +9,7 @@ using UnityEngine;
 namespace generation.localgen.generators {
     public class LocalItemGenerator : LocalGenerator {
         private LocalMap map;
-        private ItemGenerator generator = new ItemGenerator();
+        private ItemGenerator generator = new();
         
         public override void generate() {
             Debug.Log("generating local items");

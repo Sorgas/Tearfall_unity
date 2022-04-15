@@ -1,18 +1,17 @@
-﻿using Leopotam.Ecs;
+﻿using enums.action;
+using Leopotam.Ecs;
 using UnityEngine.UI;
 
 namespace enums.unit.need {
+    // defines need thresholds, priorities, penalties, task creation
     public abstract class Need {
-        public readonly string moodEffectKey;
-        public NeedEnum need;
+        // public readonly string moodEffectKey;
         // public DiseaseType disease; TODO
 
-        public Need(string moodEffectKey) {
-            this.moodEffectKey = moodEffectKey;
-        }
+        public Need() {}
 
-        // public abstract TaskPriorityEnum countPriority(EcsEntity unit);
-        //
+        public abstract TaskPriorityEnum countPriority(object component);
+        
         // public abstract boolean isSatisfied(CanvasScaler.Unit unit);
         //
         // public abstract Task tryCreateTask(CanvasScaler.Unit unit);

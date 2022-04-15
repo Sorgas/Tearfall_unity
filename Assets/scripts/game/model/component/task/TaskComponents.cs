@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using enums.action;
 using game.model.component.task.action;
 using Leopotam.Ecs;
 
@@ -46,7 +47,7 @@ namespace game.model.component.task {
         }
 
         public struct TaskPriorityComponent {
-            
+            public TaskPriorityEnum priority;
         }
     }
 }

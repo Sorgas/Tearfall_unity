@@ -11,6 +11,7 @@ namespace generation.unit {
         private UnitEquipmentComponentGenerator equipmentGenerator = new UnitEquipmentComponentGenerator();
         private UnitBodyComponentGenerator bodyGenerator = new UnitBodyComponentGenerator();
         private UnitNameGenerator nameGenerator = new UnitNameGenerator();
+        private UnitNeedComponentGenerator needGenerator = new UnitNeedComponentGenerator();
 
         public void generateUnit(SettlerData data, EcsEntity entity) {
             CreatureType type = CreatureTypeMap.getType(data.type);
@@ -37,6 +38,7 @@ namespace generation.unit {
                 .Replace(new PositionComponent {position = new Vector3Int()})
                 .Replace(bodyGenerator.generate(type))
                 .Replace(new UnitComponent());
+            needGenerator.generate(ref entity, type);
         }
 
         private void addSettlerComponents(ref EcsEntity entity) {
@@ -48,54 +50,5 @@ namespace generation.unit {
                 entity.Replace(equipmentGenerator.generate(type));
             }
         }
-        // private NeedAspectGenerator needAspectGenerator = new NeedAspectGenerator();
-        // private HealthAspectGenerator healthAspectGenerator = new HealthAspectGenerator();
-        // private HumanoidRenderGenerator humanoidRenderGenerator = new HumanoidRenderGenerator();
-
-        // public EcsEntity generateUnit(Vector3Int position, string specimen) {
-        //     // Logger.GENERATION.log("generating unit " + specimen);
-        //     return Optional.ofNullable(CreatureTypeMap.getType(specimen))
-        //         .map(type-> {
-        //         Unit unit = new Unit(position.clone(), type);
-        //         addMandatoryAspects(unit);
-        //         addOptionalAspects(unit);
-        //         addRenderAspect(unit);
-        //         return unit;
-        //     })
-        //     .orElse(null);
-        // }
-
-        // private void addMandatoryAspects(Unit unit) {
-        //     CreatureType type = unit.getType();
-        //     unit.add(needAspectGenerator.generateNeedAspect(type));
-        //     unit.add(bodyAspectGenerator.generateBodyAspect(type));
-        //     unit.add(healthAspectGenerator.generateHealthAspect(unit));
-        //     unit.add(new TaskAspect(null));
-        //     unit.add(new MovementAspect(null));
-        //     unit.add(new MoodAspect());
-        // }
-        //
-        // private void addOptionalAspects(Unit unit) {
-        //     CreatureType type = unit.getType();
-        //     for (String aspect :
-        //     type.aspects) {
-        //         switch (aspect) {
-        //             case "equipment": {
-        //                 unit.add(equipmentAspectGenerator.generateEquipmentAspect(type));
-        //                 continue;
-        //             }
-        //             case "jobs": {
-        //                 unit.add(jobSkillAspectGenerator.generate());
-        //             }
-        //         }
-        //     }
-        // }
-        //
-        // private void addRenderAspect(Unit unit) {
-        //     CreatureType type = unit.getType();
-        //     unit.add(type.combinedAppearance != null
-        //         ? humanoidRenderGenerator.generateRender(type, true)
-        //         : new RenderAspect(AtlasesEnum.units.getBlockTile(type.atlasXY)));
-        // }
     }
 }

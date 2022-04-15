@@ -16,7 +16,7 @@ namespace util.item {
          * Selects sublist of appropriate items.
          * If selector should select multiple items, but not all can be selected, this should return empty list.
          */
-        public List<EcsEntity> selectItems(Collection<EcsEntity> items) {
+        public List<EcsEntity> selectItems(IEnumerable<EcsEntity> items) {
             return items.Where(item => checkItem(item)).ToList();
         }
 

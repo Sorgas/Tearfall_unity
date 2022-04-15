@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using entity;
-using UnityEngine;
+using util.extension;
 
 namespace enums.item.type.raw {
     public class RawItemTypeProcessor {
-
+        public string logMessage;
+        
         public ItemType process(RawItemType rawType) {
-            return addAspectsFromRawType(new ItemType(rawType), rawType);
+            logMessage = "";
+            log("Processing item type " + rawType.name);
+            ItemType type = addAspectsFromRawType(new ItemType(rawType), rawType);
+            return type;
         }
 
         public ItemType processExtendedType(RawItemType rawType, string namePrefix) {
@@ -16,13 +20,13 @@ namespace enums.item.type.raw {
         }
 
         private ItemType addAspectsFromRawType(ItemType type, RawItemType raw) {
-            foreach (var rawTypeTypeAspect in raw.typeAspects) { // create type aspects
-                type.add(createAspect(rawTypeTypeAspect, type));
-            }
-            foreach (var rawAspect in raw.aspects) {
-                KeyValuePair<string, string[]> pair = parseAspectString(rawAspect);
-                type.itemAspects.Add(pair.Key, new List<string>(pair.Value));
-            }
+            raw.aspects
+                .Select(aspect => createAspect(aspect, type))
+                .Where(aspect => aspect != null)
+                .ForEach(aspect => {
+                    log("   Aspect " + aspect.GetType().Name + " added");
+                    type.add(aspect);
+                });
             return type;
         }
 
@@ -36,10 +40,10 @@ namespace enums.item.type.raw {
                     return new FuelAspect();
                 }
                 case "wear": {
-                    return new WearAspect(); // TODO values
+                    return new WearAspect(pair.Value[0], pair.Value[1]);
                 }
                 default: {
-                    Debug.LogWarning("Item type aspect with name " + type.name);
+                    log("   Item type aspect with name " + pair.Key + " not found");
                     return null;
                 }
             }
@@ -48,6 +52,10 @@ namespace enums.item.type.raw {
         private KeyValuePair<string, string[]> parseAspectString(string aspectString) {
             string[] aspectParts = aspectString.Replace(")", "").Split('(');
             return new KeyValuePair<string, string[]>(aspectParts[0], aspectParts.Length > 1 ? aspectParts[1].Split(',') : null);
+        }
+        
+        private void log(string message) {
+            logMessage += "      [RawItemTypeProcessor]: " + message + "\n";
         }
     }
 }

@@ -3,17 +3,17 @@ using static enums.PassageEnum;
 
 namespace enums {
     public static class BlockTypeEnum {
-        public static BlockType SPACE = new BlockType(0, IMPASSABLE, 16, true, 0, "space", null);
-        public static BlockType WALL = new BlockType(1, IMPASSABLE, 0, false, 3, "wall", "WALL"); // not passable
-        public static BlockType FLOOR = new BlockType(2, PASSABLE, 12, true, 1, "floor", "WALLF"); // passable, liquids don't fall
-        public static BlockType STAIRS = new BlockType(3, PASSABLE, 8, false, 2, "stairs", "ST"); // DF-like stairs
-        public static BlockType DOWNSTAIRS = new BlockType(4, PASSABLE, 14, true, 1, "downstairs", "STF");
-        public static BlockType RAMP = new BlockType(5, PASSABLE, 6, false, 2, "ramp", ""); // passable, liquids don't fall
-        public static BlockType FARM = new BlockType(6, PASSABLE, 12, true, 1, "farm plot", "");
+        public static BlockType SPACE = new(0, IMPASSABLE, 16, true, 0, "space", null);
+        public static BlockType WALL = new(1, IMPASSABLE, 0, false, 3, "wall", "WALL"); // not passable
+        public static BlockType FLOOR = new(2, PASSABLE, 12, true, 1, "floor", "WALLF"); // passable, liquids don't fall
+        public static BlockType STAIRS = new(3, PASSABLE, 8, false, 2, "stairs", "ST"); // DF-like stairs
+        public static BlockType DOWNSTAIRS = new(4, PASSABLE, 14, true, 1, "downstairs", "STF");
+        public static BlockType RAMP = new(5, PASSABLE, 6, false, 2, "ramp", ""); // passable, liquids don't fall
+        public static BlockType FARM = new(6, PASSABLE, 12, true, 1, "farm plot", "");
         private static BlockType[] all = { SPACE, WALL, FLOOR, STAIRS, DOWNSTAIRS, RAMP, FARM };
 
-        private static Dictionary<int, BlockType> map = new Dictionary<int, BlockType>();
-        private static Dictionary<string, BlockType> nameMap = new Dictionary<string, BlockType>();
+        private static Dictionary<int, BlockType> map = new();
+        private static Dictionary<string, BlockType> nameMap = new();
 
         static BlockTypeEnum() {
             foreach (BlockType type in all) {

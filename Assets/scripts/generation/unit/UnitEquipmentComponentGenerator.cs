@@ -17,9 +17,7 @@ namespace generation.unit {
                 component.slots.Add(pair.Key, slot);
             }
             component.grabSlots = new Dictionary<string, GrabEquipmentSlot>();
-            
             component.items = new HashSet<EcsEntity>();
-            component.desiredSlots = new List<EquipmentSlot>();
             fillSlots(ref component);
             return component;
         }

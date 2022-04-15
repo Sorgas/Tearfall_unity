@@ -8,8 +8,8 @@ using util.lang.extension;
 namespace game.model.container.item {
     // stores reference of positions to items in it. Puts and takes items from map, updating its entity's position component 
     public class OnMapItemsManager {
-        public Dictionary<Vector3Int, List<EcsEntity>> itemsOnMap = new Dictionary<Vector3Int, List<EcsEntity>>();
-        public HashSet<EcsEntity> all = new HashSet<EcsEntity>();
+        public Dictionary<Vector3Int, List<EcsEntity>> itemsOnMap = new();
+        public HashSet<EcsEntity> all = new();
 
         // adds item to map by its position (used on generation and loading)
         public void addItemToMap(EcsEntity item) {

@@ -9,7 +9,7 @@ namespace game.model.component.unit {
         public Dictionary<string, EquipmentSlot> slots; // all slots of a creature (for wear)
         public Dictionary<string, GrabEquipmentSlot> grabSlots; // slots for tools (subset of all slots)
         public HashSet<EcsEntity> items; // items in worn containers and in hands
-        public List<EquipmentSlot> desiredSlots; // uncovered limbs give comfort penalty
+        public bool desiredSlotsFilled;
         public EcsEntity? hauledItem;
 
         //    /**
@@ -45,7 +45,7 @@ namespace game.model.component.unit {
 
     public class EquipmentSlot {
         public string name;
-        public EcsEntity item; //TODO mvp single item, add layers
+        public EcsEntity item = EcsEntity.Null; //TODO mvp single item, add layers
         public List<String> limbs; // limbs covered by items in this slot. items can cover additional limbs
 
         public EquipmentSlot(String name, List<string> limbs) {

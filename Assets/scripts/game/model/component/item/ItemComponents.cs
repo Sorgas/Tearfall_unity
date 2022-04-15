@@ -13,8 +13,10 @@ namespace game.model.component.item {
         public string materialString; // for faster naming
     }
 
-    public struct WearComponent {
-        public List<string> bodyparts; // covers listed bodyparts
+    public struct ItemWearComponent {
+        public string bodypart; // covers listed bodyparts
+        public string slot; // equpped to slot
+        public string layer; // equpped to slot at layer
         public int insulation;
     }
 

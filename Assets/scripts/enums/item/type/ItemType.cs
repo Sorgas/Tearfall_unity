@@ -6,19 +6,17 @@ using UnityEngine;
 
 namespace enums.item.type {
     public class ItemType {
-        public string name; // id
-        public string title; // displayable name
-        public string description; // displayable description
-        public ToolItemType tool; // is set if this item could be used as tool TODO replace with type aspect
-        public Dictionary<string, List<string>> itemAspects = new Dictionary<string, List<string>>(); // other aspects, item aspects filled from this on generation.
+        public string name;                                          // id
+        public string title;                                         // displayable name
+        public string description;                                   // displayable description
+        public ToolItemType tool;                                    // is set if this item could be used as tool TODO replace with type aspec
         public int[] atlasXY;
         public string color;
-        public HashSet<ItemTagEnum> tags = new HashSet<ItemTagEnum>();
-        public List<string> requiredParts = new List<string>();
-        public List<string> optionalParts = new List<string>();
+        public HashSet<ItemTagEnum> tags = new();
+        public List<string> requiredParts = new();
+        public List<string> optionalParts = new();
         public string atlasName;
-
-        public Dictionary<Type, Aspect> aspects = new Dictionary<Type, Aspect>();
+        public Dictionary<Type, Aspect> aspects = new();
 
         public ItemType(RawItemType raw) {
             name = raw.name;
@@ -47,14 +45,11 @@ namespace enums.item.type {
             title = rawType.title.Length == 0 ? name : rawType.title;
             description = rawType.description ?? type.description;
             tool = rawType.tool ?? type.tool;
-            foreach (var key in type.itemAspects.Keys) {
-                itemAspects.Add(key, type.itemAspects[key]); // TODO clone aspects
-            }
             atlasXY = rawType.atlasXY ?? type.atlasXY;
             color = rawType.color ?? type.color;
         }
 
-        public void add(Aspect aspect) {
+        public void add(Aspect aspect) { 
             aspects.Add(aspect.GetType(), aspect);
         }
     }

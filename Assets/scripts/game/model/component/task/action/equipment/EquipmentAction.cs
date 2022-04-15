@@ -2,6 +2,7 @@
 using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
+using util.lang.extension;
 
 namespace game.model.component.task.action.equipment {
 
@@ -13,17 +14,14 @@ namespace game.model.component.task.action.equipment {
      * @author Alexander on 22.06.2020.
      */
     public abstract class EquipmentAction : ItemAction {
-        // protected CreatureEquipmentSystem system;
         public EcsEntity item;
 
         protected EquipmentAction(ActionTarget target, EcsEntity item) : base(target, null) {
-            // system = GameMvc.model().get(UnitContainer.class).equipmentSystem;
             this.item = item;
         }
 
         protected ref UnitEquipmentComponent equipment() {
-            validate();
-            return ref (performer().Get<UnitEquipmentComponent>());
+            return ref performer().takeRef<UnitEquipmentComponent>();
         }
 
         protected bool validate() {

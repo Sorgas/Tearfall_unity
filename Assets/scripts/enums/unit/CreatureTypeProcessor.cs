@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using enums.unit.body;
 using UnityEngine;
 
@@ -39,7 +38,10 @@ namespace enums.unit {
             foreach (var slot in template.slots) {
                 type.slots.Add(slot.Key, new List<string>(slot.Value));
             }
-            type.desiredSlots.AddRange(raw.desiredSlots);
+            type.desiredSlots.AddRange(template.desiredSlots);
+            if (raw.desiredSlots.Count > 0) {
+                type.desiredSlots.AddRange(raw.desiredSlots);
+            }
             // type.needs.AddRange(defaultNeeds);
             return type;
         }

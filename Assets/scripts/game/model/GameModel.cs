@@ -1,5 +1,4 @@
-﻿using game.model.component.unit;
-using game.model.container;
+﻿using game.model.container;
 using game.model.container.item;
 using game.model.entity_selector;
 using game.model.localmap;
@@ -44,12 +43,15 @@ namespace game.model {
         private void initEcs() {
             systems = new EcsSystems(ecsWorld);
             systems
+                .Add(new UnitNeedSystem())
                 .Add(new UnitTaskAssignmentSystem()) // find or create tasks for units
                 .Add(new UnitActionCheckingSystem()) // check action condition and target reachability, creates sub actions
                 .Add(new UnitActionPerformingSystem()) // add progress to unit's action and remove it when finished
                 .Add(new UnitPathfindingSystem()) // find paths to action targets
                 .Add(new UnitMovementSystem()) // move unit along path
                 .Add(new UnitTaskCompletionSystem()) // handle unit with completed tasks
+                .Add(new UnitWearNeedSystem())
+                .Add(new UnitNeedSystem())
                 
                 .Add(new TaskCompletionSystem()) // handle completed tasks
                 
