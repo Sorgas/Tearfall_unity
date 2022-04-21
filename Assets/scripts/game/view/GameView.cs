@@ -37,7 +37,7 @@ namespace game.view {
             tileUpdater = new LocalMapTileUpdater(initializer.mapHolder);
             cameraAndMouseHandler = new CameraAndMouseHandler(initializer);
             cameraAndMouseHandler.init();
-            zRange.set(0, GameModel.localMap.zSize - 1);
+            zRange.set(0, GameModel.localMap.bounds.maxZ - 1);
             resetCameraPosition();
             tileUpdater.flush();
             Debug.Log("view initialized");
@@ -67,8 +67,8 @@ namespace game.view {
         }
         
         private void resetCameraPosition() {
-            Vector3Int cameraPosition = new Vector3Int(GameModel.localMap.xSize / 2, GameModel.localMap.ySize / 2, 0);
-            for (int z = GameModel.localMap.zSize - 1; z >=0 ; z--) {
+            Vector3Int cameraPosition = new Vector3Int(GameModel.localMap.bounds.maxX / 2, GameModel.localMap.bounds.maxY / 2, 0);
+            for (int z = GameModel.localMap.bounds.maxZ - 1; z >=0 ; z--) {
                 if (GameModel.localMap.blockType.get(cameraPosition.x, cameraPosition.y, z) != BlockTypeEnum.SPACE.CODE) {
                     cameraPosition.z = z;
                     break;

@@ -12,8 +12,8 @@ namespace game.model.component.task.action {
         public MoveAction(Vector3Int targetPosition) : base(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.EXACT)) {
         
             startCondition = () => {
-                if (performer().Has<UnitMovementComponent>()) {
-                    Vector3Int currentPosition = performer().pos();
+                if (performer.Has<UnitMovementComponent>()) {
+                    Vector3Int currentPosition = performer.pos();
                     Debug.Log("checking in same area");
                     if (GameModel.localMap.passageMap.inSameArea(currentPosition, targetPosition)) {
                         return ActionConditionStatusEnum.OK;

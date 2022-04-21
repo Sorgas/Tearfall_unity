@@ -46,9 +46,9 @@ namespace game.model.localmap.passage {
             if (areas.Count() == 0) return;
             byte largestArea = passage.area.numbers.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
             areas.Remove(largestArea);
-            for (int x = 0; x < map.xSize; x++) {
-                for (int y = 0; y < map.ySize; y++) {
-                    for (int z = 0; z < map.zSize; z++) {
+            for (int x = 0; x < map.bounds.maxX; x++) {
+                for (int y = 0; y < map.bounds.maxY; y++) {
+                    for (int z = 0; z < map.bounds.maxZ; z++) {
                         if (areas.Contains(passage.area.get(x, y, z))) {
                             passage.area.set(x, y, z, largestArea);
                         }

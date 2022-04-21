@@ -15,12 +15,19 @@ namespace game.model.component.task.action.equipment.use {
 
                 targetSlot.item = targetItem;
                 equipment().hauledItem = null;
+                updateWearNeed();
             };
         }
 
         protected new bool validate() {
             ItemWearComponent wear = item.takeRef<ItemWearComponent>();
             return base.validate() && equipment().slots[wear.slot] != null;
+        }
+
+        private void updateWearNeed() {
+            if (performer.Has<UnitWearNeedComponent>()) {
+                performer.takeRef<UnitWearNeedComponent>().valid = false;
+            }
         }
     }
 }

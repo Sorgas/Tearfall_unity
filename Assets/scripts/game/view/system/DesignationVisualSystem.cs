@@ -39,12 +39,12 @@ namespace game.view.system {
 
         private bool validateEntity(EcsEntity entity) {
             if (!entity.Has<PositionComponent>()) {
-                Debug.LogWarning("designation " + entity.Get<DesignationComponent>().type.NAME + " has no PositionComponent");
+                Debug.LogWarning("designation " + entity.Get<DesignationComponent>().type.TYPE + " has no PositionComponent");
                 return false;
             }
             DesignationComponent designation = entity.Get<DesignationComponent>();
             if (designation.type.SPRITE_NAME == null) {
-                Debug.LogWarning("designation " + entity.Get<DesignationComponent>().type.NAME + " has null spriteName");
+                Debug.LogWarning("designation " + entity.Get<DesignationComponent>().type.TYPE + " has null spriteName");
                 return false;
             }
             return true;

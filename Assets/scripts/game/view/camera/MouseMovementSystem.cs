@@ -11,7 +11,7 @@ namespace game.view.camera {
     public class MouseMovementSystem {
         private readonly RectTransform sprite;
         private readonly LocalMap map;
-        private readonly Text text;
+        private readonly Text debugLabelText;
         private readonly IntBounds3 bounds;
         private Vector3Int modelPosition;
         private Vector3 target = new Vector3(0, 0, -1);
@@ -19,10 +19,10 @@ namespace game.view.camera {
         private Vector3 speed; // keeps sprite speed between ticks
 
         public MouseMovementSystem(LocalGameRunner initializer) {
-            text = initializer.text;
+            debugLabelText = initializer.text;
             sprite = initializer.selector;
             map = GameModel.localMap;
-            bounds = new IntBounds3(0, 0, 0, map.xSize, map.ySize, map.zSize);
+            bounds = new IntBounds3(0, 0, 0, map.bounds.maxX, map.bounds.maxY, map.bounds.maxZ);
         }
 
         public void update() {
@@ -52,8 +52,9 @@ namespace game.view.camera {
             if (cacheTarget == modelPosition) return;
             var pos = modelPosition;
             if (!map.inMap(pos)) return;
-            text.text = "[" + pos.x + ",  " + pos.y + ",  " + pos.z + "]" + "\n"
-                        + map.blockType.getEnumValue(pos).NAME + " " + MaterialMap.get().material(map.blockType.getMaterial(pos)).name;
+            debugLabelText.text = "coord: [" + pos.x + ",  " + pos.y + ",  " + pos.z + "]" + "\n"
+                        + "block: " + map.blockType.getEnumValue(pos).NAME + " " + MaterialMap.get().material(map.blockType.getMaterial(pos)).name + "\n"
+                        + "passage area: " + map.passageMap.area.get(pos);
             cacheTarget = modelPosition;
         }
     }

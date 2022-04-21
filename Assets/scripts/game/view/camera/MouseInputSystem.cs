@@ -13,6 +13,7 @@ using util.lang.extension;
 using Image = UnityEngine.UI.Image;
 
 namespace game.view.camera {
+    // fetches mousePosition from Input, calls MouseMovementSystem and CameraMovementSystem
     public class MouseInputSystem {
         private readonly Camera camera;
         private readonly RectTransform mapHolder;

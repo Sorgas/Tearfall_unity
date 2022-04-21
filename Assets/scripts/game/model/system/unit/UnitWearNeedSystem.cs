@@ -6,7 +6,7 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.system.unit {
-    // checks slots required for unit to be filled, and updates need in UnitNeedComponent
+    // checks slots required for unit to be filled, and creates UnitCalculatedWearNeedComponent
     public class UnitWearNeedSystem : EcsRunIntervalSystem {
         private EcsFilter<UnitWearNeedComponent>.Exclude<UnitCalculatedWearNeedComponent> filter;
 
@@ -31,7 +31,8 @@ namespace game.model.system.unit {
 
         // check slots in UnitEquipmentComponent
         private List<string> findSlots(ref UnitWearNeedComponent component, ref EcsEntity unit) {
-            // todo add flag for updating(reset flag when equipment changes)
+            // TODO add flag for updating(reset flag when equipment changes)
+            // TODO make delay when equipment not available
             if (unit.Has<UnitEquipmentComponent>()) {
                 UnitEquipmentComponent equipment = unit.takeRef<UnitEquipmentComponent>();
                 return component.desiredSlots
@@ -39,9 +40,8 @@ namespace game.model.system.unit {
                     .Where(slot => slot.item == EcsEntity.Null)
                     .Select(slot => slot.name).ToList();
             }
-            Debug.LogError("Unit with wear need, but without EquipmentComponent");
+            Debug.LogError("Unit has UnitWearNeedComponent, but no EquipmentComponent");
             return new List<string>();
         }
-
     }
 }

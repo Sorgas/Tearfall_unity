@@ -103,6 +103,16 @@ namespace util.geometry {
             }
         }
         
+        public IntBounds3 normalizeBounds(IntBounds3 bounds) {
+            bounds.minX = Mathf.Max(bounds.minX, minX);
+            bounds.maxX = Mathf.Min(bounds.maxX, maxX);
+            bounds.minY = Mathf.Max(bounds.minY, minY);
+            bounds.maxY = Mathf.Min(bounds.maxY, maxY);
+            bounds.minZ = Mathf.Max(bounds.minZ, minZ);
+            bounds.maxZ = Mathf.Min(bounds.maxZ, maxZ);
+            return bounds;
+        }
+        
         // modifies vector to be included into bounds with minimal change
         public Vector3Int putInto(Vector3Int vector) {
             vector.x = Math.Min(maxX, Math.Max(minX, vector.x));

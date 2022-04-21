@@ -161,7 +161,7 @@
      <Compile Include="Assets\scripts\enums\material\MaterialMap.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitEquipmentComponentGenerator.cs" />
      <Compile Include="Assets\scripts\enums\unit\need\NeedTypeEnum.cs" />
-     <Compile Include="Assets\scripts\enums\DesignationTypeEnum.cs" />
+     <Compile Include="Assets\scripts\enums\DesignationTypes.cs" />
      <Compile Include="Assets\scripts\util\geometry\ValueRange.cs" />
      <Compile Include="Assets\scripts\enums\unit\JobsEnum.cs" />
      <Compile Include="Assets\scripts\enums\plant\PlantLifeStage.cs" />

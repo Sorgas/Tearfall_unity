@@ -16,25 +16,26 @@ namespace game.model.system.task.designation {
             foreach (var i in filter) {
                 ref EcsEntity designation = ref filter.GetEntity(i);
                 TaskFinishedComponent taskFinishedComponent = filter.Get2(i);
-                Debug.Log("DesignationCompletionSystem: completing designation " + designation.Get<DesignationComponent>().type.NAME);
+                Debug.Log("[DesignationCompletionSystem]: completing designation " + designation.Get<DesignationComponent>().type.TYPE);
 
-                // detach task
-                detachTask(designation, taskFinishedComponent);
-                
+                detachTask(designation, taskFinishedComponent); // detach task and designation from each other
+
                 // remove designation entity, failed will recreate task
                 TaskStatusEnum status = taskFinishedComponent.status;
                 if (status == TaskStatusEnum.CANCELED || status == TaskStatusEnum.COMPLETE) {
+                    Debug.Log("[DesignationCompletionSystem]: deleting designation " + designation.Get<DesignationComponent>().type.TYPE);
                     GameModel.get().designationContainer.removeDesignation(designation);
                 }
-                designation.Del<TaskFinishedComponent>();
             }
         }
 
         private void detachTask(EcsEntity designation, TaskFinishedComponent taskFinishedComponent) {
             if (designation.Has<TaskComponent>()) {
                 ref EcsEntity task = ref designation.Get<TaskComponent>().task;
-                task.Replace(taskFinishedComponent);
-                task.Del<TaskComponents.TaskDesignationComponent>();
+                if (task.IsAlive()) {
+                    task.Replace(taskFinishedComponent);
+                    task.Del<TaskComponents.TaskDesignationComponent>();
+                }
                 designation.Del<TaskComponent>();
             }
         }

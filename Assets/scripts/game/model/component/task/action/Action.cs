@@ -3,9 +3,10 @@ using enums.action;
 using game.model.component.task.action.target;
 using Leopotam.Ecs;
 using UnityEngine;
+using util.lang.extension;
 
 namespace game.model.component.task.action {
-/**
+    /**
 * Action of a unit. All units behaviour except moving are defined in actions. Actions are parts of {@link Task}.
 * During performing unit adds certain amount of 'work' to an action. Skills, health and other conditions may influence unit's work speed.
 * <p>
@@ -26,47 +27,41 @@ namespace game.model.component.task.action {
     public abstract class Action {
         public string name = "base action";
         public EcsEntity task;
-        // public EcsEntity performer => task.Get<TaskComponents.TaskPerformerComponent>().performer;
+        public ref EcsEntity performer {
+            get {
+                ref TaskComponents.TaskPerformerComponent component = ref task.takeRef<TaskComponents.TaskPerformerComponent>();
+                return ref component.performer;
+            }
+        }
+
         public ActionTarget target;
         public ActionStatusEnum status = ActionStatusEnum.OPEN;
-        protected string skill;
 
         /**
          * Condition to be met before task with this action is assigned to unit.
          * Should check tool, consumed items, target reachability for performer. 
          * Can use {@code task.performer}, as it is assigned to task before calling by {@link CreaturePlanningSystem}.
          */
-        public Func<ActionConditionStatusEnum> startCondition; // called before performing, can create sub actions
-        public System.Action onStart; // performed on phase start
+        public Func<ActionConditionStatusEnum> startCondition = () => ActionConditionStatusEnum.FAIL; // prevent starting empty action
+        public System.Action onStart = () => { }; // performed on phase start
         public Action<EcsEntity, float> progressConsumer; // performs logic
         public Func<Boolean> finishCondition; // when reached, action ends
-        public System.Action onFinish; // performed on phase finish
+        public System.Action onFinish = () => { }; // performed on phase finish
 
         public float progress;
 
         // should be set before performing
         public float speed = 1;
         public float maxProgress = 1;
-
-        protected Action(ActionTarget target) : this(target, null) {}
-
-        public Action(ActionTarget target, string skill) {
+        
+        public Action(ActionTarget target) {
             this.target = target;
-            if (skill != null && SkillMap.getSkill(skill) == null) Debug.LogError("Skill " + skill + " not found.");
-            this.skill = skill;
-            startCondition = () => ActionConditionStatusEnum.FAIL; // prevent starting
-            onStart = () => { };
-            progressConsumer = (unit, delta) => progress += delta;
             finishCondition = () => progress >= maxProgress;
-            onFinish = () => { };
-            reset();
+            progressConsumer = (unit, delta) => progress += delta; // performs logic
         }
 
         // Performs action logic. Changes status.
         public void perform(EcsEntity unit) {
-            if (name.Equals("get item from ground action")) {
-                Debug.Log("asdf");
-            }
             Debug.Log("performing action " + name);
             if (status == ActionStatusEnum.OPEN) { // first execution of perform()
                 status = ActionStatusEnum.ACTIVE;
@@ -80,15 +75,8 @@ namespace game.model.component.task.action {
             }
         }
 
-        public void reset() {
-            
-            speed = 1;
-            progress = 0;
-            maxProgress = 1;
-        }
-
         public ActionConditionStatusEnum addPreAction(Action action) {
-            Debug.Log("adding pre action");
+            Debug.Log("adding pre-action " + action.name);
             task.Get<TaskComponents.TaskActionsComponent>().addFirstPreAction(action);
             action.task = task;
             return ActionConditionStatusEnum.NEW;
@@ -106,9 +94,5 @@ namespace game.model.component.task.action {
         // protected Skill skill() {
         //     return SkillMap.getSkill(skill);
         // }
-        
-        protected ref EcsEntity performer() {
-            return ref task.Get<TaskComponents.TaskPerformerComponent>().performer;
-        }
     }
 }

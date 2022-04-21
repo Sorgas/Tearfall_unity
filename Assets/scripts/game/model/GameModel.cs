@@ -31,12 +31,12 @@ namespace game.model {
             systems?.Run();
         }
         
-        public void init() {
+        public new void init() {
             Debug.Log("initializing model");
             initEcs();
             selectorSystem.selector = selector;
             selectorSystem.placeSelectorAtMapCenter();
-            localMap.initAreas();
+            localMap.init();
             Debug.Log("model initialized");
         }
 

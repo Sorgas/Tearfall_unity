@@ -49,14 +49,13 @@ namespace game.model.container {
         }
 
         public void removeTask(EcsEntity task) {
-            string job = task.take<TaskJobComponent>().job;
-            if(task.Has<TaskPerformerComponent>()) Debug.LogError("Task with performer is removed from container!");
-            if (openTasks[job].Contains(task)) {
-                openTasks[job].Remove(task);
+            if (task.Has<TaskJobComponent>()) {
+                string job = task.take<TaskJobComponent>().job;
+                if(task.Has<TaskPerformerComponent>()) Debug.LogError("Task with performer is removed from container!");
+                if (openTasks[job].Contains(task)) {
+                    openTasks[job].Remove(task);
+                }
             }
-            // if (tasks[job].Contains(task)) {
-            //     tasks[job].Remove(task);
-            // }
             task.Destroy();
         }
 

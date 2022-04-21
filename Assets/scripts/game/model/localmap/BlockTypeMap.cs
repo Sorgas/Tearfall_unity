@@ -2,20 +2,17 @@
 using enums.material;
 using UnityEngine;
 using util;
-using util.geometry;
 using static enums.BlockTypeEnum;
 
 namespace game.model.localmap {
     // stores tile types and materials for local map
     public class BlockTypeMap : UtilByteArray {
         public int[,,] material;
-        private Vector3Int cachePosition;
         private LocalMap localMap;
 
-        public BlockTypeMap(LocalMap localMap) : base(localMap.xSize, localMap.ySize, localMap.zSize) {
+        public BlockTypeMap(LocalMap localMap) : base(localMap.sizeVector) {
             this.localMap = localMap;
-            material = new int[localMap.xSize, localMap.ySize, localMap.zSize];
-            cachePosition = new Vector3Int();
+            material = new int[localMap.sizeVector.x, localMap.sizeVector.y, localMap.sizeVector.z];
         }
 
         // set block type without maintaining tile consistency.
@@ -25,30 +22,31 @@ namespace game.model.localmap {
             base.set(x, y, z, value);
         }
 
-        public void set(int x, int y, int z, int value, int material) {
+        public void set(int x, int y, int z, int blockType, int material) {
             if(!withinBounds(x,y,z)) return;
-            int currentBlock = get(x, y, z);
-            bool updateRamps = currentBlock != value && (currentBlock == RAMP.CODE || value == RAMP.CODE);
-            setRaw(x, y, z, value, material);
-            localMap.updateTile(cachePosition.set(x, y, z), updateRamps);
+            int currentBlockType = get(x, y, z);
+            setRaw(x, y, z, blockType, material);
+            localMap.updateTile(x, y, z, (currentBlockType == WALL.CODE) != (blockType == WALL.CODE));
+            
             // TODO destroy buildings if type != floor
             // TODO kill units if type == wall
-            if (value == WALL.CODE && withinBounds(x, y, z + 1) && get(x, y, z + 1) == SPACE.CODE) {
+            // set floor above
+            if (blockType == WALL.CODE && withinBounds(x, y, z + 1) && get(x, y, z + 1) == SPACE.CODE) {
                 set(x, y, z + 1, FLOOR.CODE, this.material[x, y, z]);
             }
         }
 
-        public new void setRaw(int x, int y, int z, int value) => setRaw(x, y, z, value, getMaterial(x, y, z));
+        public void setRaw(int x, int y, int z, int value) => setRaw(x, y, z, value, getMaterial(x, y, z));
 
         public void setRaw(int x, int y, int z, int value, string material) => setRaw(x, y, z, value, MaterialMap.get().id(material));
 
-        public new void set(int x, int y, int z, int value) => set(x, y, z, value, getMaterial(x, y, z));
+        public new void set(int x, int y, int z, int blockType) => set(x, y, z, blockType, getMaterial(x, y, z));
 
-        public void set(IntVector3 position, BlockType type) => set(position.x, position.y, position.z, type);
+        public void set(Vector3Int position, BlockType type) => set(position.x, position.y, position.z, type);
 
         public void set(int x, int y, int z, BlockType type) => set(x, y, z, type, getMaterial(x, y, z));
 
-        public void set(IntVector3 position, BlockType type, int material) => set(position, type, material);
+        public void set(Vector3Int position, BlockType type, int material) => set(position, type, material);
 
         public void set(int x, int y, int z, BlockType type, int material) => set(x, y, z, type.CODE, material);
 

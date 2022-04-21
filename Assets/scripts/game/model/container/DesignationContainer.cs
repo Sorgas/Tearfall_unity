@@ -4,6 +4,7 @@ using enums.action;
 using game.model.component;
 using Leopotam.Ecs;
 using UnityEngine;
+using util.lang.extension;
 using static game.model.component.task.DesignationComponents;
 using static UnityEngine.Object;
 
@@ -48,12 +49,14 @@ namespace game.model.container {
         }
 
         public void removeDesignation(EcsEntity designation) {
+            designations.Remove(designation.pos());
             if (designation.Has<DesignationVisualComponent>()) {
                 Destroy(designation.Get<DesignationVisualComponent>().spriteRenderer.gameObject);
                 designation.Del<DesignationVisualComponent>();
             } else {
                 Debug.LogWarning("deleting designation without DesignationVisualComponent");
             }
+            
             designation.Destroy();
         }
 

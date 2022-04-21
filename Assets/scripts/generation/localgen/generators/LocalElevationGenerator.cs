@@ -4,8 +4,6 @@ using util.geometry;
 // fills heights map in local gen container. properties selected based on world cell's biome
 namespace generation.localgen.generators {
     public class LocalElevationGenerator : LocalGenerator {
-        private LocalGenContainer container;
-        private IntBounds2 bounds = new IntBounds2();
         private float xOffset;
         private float yOffset;
 

@@ -10,7 +10,7 @@ namespace game.model.component.task.action {
     public abstract class ItemAction : Action {
         protected ItemContainer container;
 
-        protected ItemAction(ActionTarget target, string skill) : base(target, skill) {
+        protected ItemAction(ActionTarget target) : base(target) {
             container = GameModel.get().itemContainer;
         }
     }

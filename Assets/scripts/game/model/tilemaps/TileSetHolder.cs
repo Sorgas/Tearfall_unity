@@ -8,9 +8,9 @@ using UnityEngine.U2D;
 namespace game.model.tilemaps {
     public class TileSetHolder {
         // map of <material -> <tilecode -> tile>>
-        public Dictionary<string, Dictionary<string, Tile>> tilesets = new Dictionary<string, Dictionary<string, Tile>>();
-        private BlockTilesetLoader loader = new BlockTilesetLoader();
-        Dictionary<string, List<string>> notFound = new Dictionary<string, List<string>>();
+        public Dictionary<string, Dictionary<string, Tile>> tilesets = new();
+        private BlockTilesetLoader loader = new();
+        Dictionary<string, List<string>> notFound = new();
 
         public void loadAll() {
             SpriteAtlas atlas = Resources.Load<SpriteAtlas>("tilesets/local_blocks/blockSpriteAtlas");

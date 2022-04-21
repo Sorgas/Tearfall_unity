@@ -26,10 +26,10 @@ namespace game.model.system.unit {
 
         private EcsEntity tryCreateTask(EcsEntity unit) {
             EcsEntity jobTask = getTaskFromContainer(unit);
-            EcsEntity needTask = createNeedsTask(unit);
-            EcsEntity task = priority(jobTask) > priority(needTask) ? jobTask : needTask;
-            if (task.IsNull()) task = createIdleTask(unit);
-            return task;
+            // EcsEntity needTask = createNeedsTask(unit);
+            // EcsEntity task = priority(jobTask) > priority(needTask) ? jobTask : needTask;
+            // if (task.IsNull()) task = createIdleTask(unit);
+            return jobTask;
         }
 
         // TODO add jobs priorities

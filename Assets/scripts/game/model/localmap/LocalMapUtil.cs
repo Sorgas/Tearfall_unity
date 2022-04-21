@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using enums;
 using UnityEngine;
 using util.geometry;
+using Random = UnityEngine.Random;
 
 namespace game.model.localmap {
     public class LocalMapUtil {
@@ -13,7 +15,7 @@ namespace game.model.localmap {
 
         public Vector3Int? getRandomPosition(Vector3Int center, int xRange, int zRange) {
             IntBounds3 bounds = new IntBounds3(center, xRange, xRange, zRange);
-            normalizeBounds(bounds);
+            map.bounds.normalizeBounds(bounds);
             List<Vector3Int> positions = new List<Vector3Int>();
             bounds.iterate((x, y, z) => {
                 int blockType = map.blockType.get(x, y, z);
@@ -26,14 +28,14 @@ namespace game.model.localmap {
             return positions.Count != 0 ? positions[Random.Range(0, positions.Count - 1)] : (Vector3Int?)null;
         }
 
-        public IntBounds3 normalizeBounds(IntBounds3 bounds) {
-            bounds.minX = Mathf.Max(bounds.minX, 0);
-            bounds.maxX = Mathf.Min(bounds.maxX, map.xSize - 1);
-            bounds.minY = Mathf.Max(bounds.minY, 0);
-            bounds.maxY = Mathf.Min(bounds.maxY, map.ySize - 1);
-            bounds.minZ = Mathf.Max(bounds.minZ, 0);
-            bounds.maxZ = Mathf.Min(bounds.maxZ, map.zSize - 1);
-            return bounds;
+        // change postition to move it inside map
+        public void normalizePosition(Vector3Int position) => normalizeRectangle(ref position, 1, 1);
+
+        // change position to move rectangle with position in [0,0] inside map
+        public void normalizeRectangle(ref Vector3Int position, int width, int height) {
+            position.x = Math.Min(Math.Max(0, position.x), map.bounds.maxX - width);
+            position.y = Math.Min(Math.Max(0, position.y), map.bounds.maxY - height);
+            position.z = Math.Min(Math.Max(0, position.z), map.bounds.maxZ - 1);
         }
     }
 }

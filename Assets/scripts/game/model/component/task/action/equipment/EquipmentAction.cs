@@ -16,17 +16,17 @@ namespace game.model.component.task.action.equipment {
     public abstract class EquipmentAction : ItemAction {
         public EcsEntity item;
 
-        protected EquipmentAction(ActionTarget target, EcsEntity item) : base(target, null) {
+        protected EquipmentAction(ActionTarget target, EcsEntity item) : base(target) {
             this.item = item;
         }
 
         protected ref UnitEquipmentComponent equipment() {
-            return ref performer().takeRef<UnitEquipmentComponent>();
+            return ref performer.takeRef<UnitEquipmentComponent>();
         }
 
         protected bool validate() {
-            if (!performer().Has<UnitEquipmentComponent>()) {
-                Debug.LogWarning("unit " + performer() + " has no UnitEquipmentComponent2."); 
+            if (!performer.Has<UnitEquipmentComponent>()) {
+                Debug.LogWarning("unit " + performer + " has no UnitEquipmentComponent2."); 
                 return false;
             }
             return true;

@@ -37,7 +37,7 @@ namespace game.model.entity_selector {
         // updates selector position, applies map size restriction. returns new position of selector
         public Vector3Int setSelectorPosition(int x, int y, int z) {
             selector.position.Set(x, y, z);
-            GameModel.localMap.normalizeRectangle(ref selector.position, selector.size.x, selector.size.y); // selector should not move out of map
+            GameModel.localMap.util.normalizeRectangle(ref selector.position, selector.size.x, selector.size.y); // selector should not move out of map
             ensureMovementRestrictions();
             return selector.position;
         }
@@ -48,10 +48,10 @@ namespace game.model.entity_selector {
 
         public void placeSelectorAtMapCenter() {
             LocalMap localMap = GameModel.localMap;
-            selector.position.x = localMap.xSize / 2;
-            selector.position.y = localMap.ySize / 2;
+            selector.position.x = localMap.bounds.maxX / 2;
+            selector.position.y = localMap.bounds.maxY / 2;
             Debug.Log("placing selector at " + selector.position.x + " " + selector.position.y);
-            for (int z = localMap.zSize - 1; z >= 0; z--) {
+            for (int z = localMap.bounds.maxZ - 1; z >= 0; z--) {
                 if (localMap.blockType.get(selector.position.x, selector.position.y, z) != BlockTypeEnum.SPACE.CODE) {
                     selector.position.z = z;
                     break;

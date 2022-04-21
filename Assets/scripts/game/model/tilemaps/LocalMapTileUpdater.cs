@@ -13,12 +13,12 @@ using static enums.BlockTypeEnum;
 // tiles are organized into layers: floor tiles, wall tiles, plants & buildings, liquids
 namespace game.model.tilemaps {
     public class LocalMapTileUpdater {
-        private readonly List<Tilemap> layers = new List<Tilemap>();
+        private readonly List<Tilemap> layers = new();
         // cache tilemap position of a tile
-        private Vector3Int floorPosition = new Vector3Int();
-        private Vector3Int wallPosition = new Vector3Int();
+        private Vector3Int floorPosition;
+        private Vector3Int wallPosition;
 
-        public readonly TileSetHolder tileSetHolder = new TileSetHolder();
+        public readonly TileSetHolder tileSetHolder = new();
         public GameObject layerPrefab;
         private RectTransform mapHolder;
         private LocalMap map;
@@ -64,7 +64,7 @@ namespace game.model.tilemaps {
 
         private void createLayers(LocalMap map) {
             Transform transform = mapHolder.transform;
-            for (int i = 0; i < map.zSize; i++) {
+            for (int i = 0; i <= map.bounds.maxZ; i++) {
                 GameObject layer = GameObject.Instantiate(layerPrefab, new Vector3(0, i / 2f, -i * 2) + transform.position, Quaternion.identity, transform);
                 layers.Add(layer.transform.GetComponentInChildren<Tilemap>());
             }
@@ -82,7 +82,7 @@ namespace game.model.tilemaps {
         }
 
         private string selectMaterial(int x, int y, int z) {
-            return MaterialMap.get().material(map.blockType.material[x,y,z]).name;
+            return MaterialMap.get().material(map.blockType.material[x, y, z]).name;
         }
 
         //Observes tiles around given one, and updates atlasX for ramps.
@@ -97,32 +97,19 @@ namespace game.model.tilemaps {
         // Chooses ramp tile by surrounding walls. Don't touch!
         private string selectRamp(int x, int y, int z) {
             uint walls = observeWalls(x, y, z);
-            if ((walls & 0b00001010) == 0b00001010) {
-                return "SW";
-            } else if ((walls & 0b01010000) == 0b01010000) {
-                return "NE";
-            } else if ((walls & 0b00010010) == 0b00010010) {
-                return "SE";
-            } else if ((walls & 0b01001000) == 0b01001000) {
-                return "NW";
-            } else if ((walls & 0b00010000) != 0) {
-                return "E";
-            } else if ((walls & 0b01000000) != 0) {
-                return "N";
-            } else if ((walls & 0b00000010) != 0) {
-                return "S";
-            } else if ((walls & 0b00001000) != 0) {
-                return "W";
-            } else if ((walls & 0b10000000) != 0) {
-                return "CNE";
-            } else if ((walls & 0b00000100) != 0) {
-                return "CSE";
-            } else if ((walls & 0b00100000) != 0) {
-                return "CNW";
-            } else if ((walls & 0b00000001) != 0) {
-                return "CSW";
-            } else
-                return "C";
+            if ((walls & 0b00001010) == 0b00001010) return "SW";
+            if ((walls & 0b01010000) == 0b01010000) return "NE";
+            if ((walls & 0b00010010) == 0b00010010) return "SE";
+            if ((walls & 0b01001000) == 0b01001000) return "NW";
+            if ((walls & 0b00010000) != 0) return "E";
+            if ((walls & 0b01000000) != 0) return "N";
+            if ((walls & 0b00000010) != 0) return "S";
+            if ((walls & 0b00001000) != 0) return "W";
+            if ((walls & 0b10000000) != 0) return "CNE";
+            if ((walls & 0b00000100) != 0) return "CSE";
+            if ((walls & 0b00100000) != 0) return "CNW";
+            if ((walls & 0b00000001) != 0) return "CSW";
+            return "C";
         }
 
         // Counts walls to choose ramp type and orientation.
@@ -150,7 +137,7 @@ namespace game.model.tilemaps {
             layers[z].SetTile(vector, tile);
             if (blockType == SPACE) setToppingForSpace(x, y, z);
         }
-        
+
         public void hideSelectionTile(int x, int y, int z) {
             layers[z].SetTile(new Vector3Int(x, y, SELECTION_LAYER), null);
         }

@@ -28,7 +28,7 @@ namespace util.geometry {
             _pos2 = pos2;
         }
 
-        public void set(Vector3Int pos1, Vector3Int pos2) {
+        public new void set(Vector3Int pos1, Vector3Int pos2) {
             base.set(pos1, pos2);
             _pos1 = pos1;
             _pos2 = pos2;

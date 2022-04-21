@@ -13,7 +13,6 @@ namespace generation.localgen.generators {
     public class LocalStoneLayersGenerator : LocalGenerator {
         private List<LayerDescriptor> layers = new List<LayerDescriptor>();
         private ValueRange layerThicknessRange = new ValueRange();
-        private LocalGenContainer container;
         private LocalMap map;
         private int[,] currentHeight;
         private float xOffset;

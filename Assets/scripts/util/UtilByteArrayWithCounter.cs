@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace util {
     // byte array which counts number of each byte value in array
@@ -9,6 +10,8 @@ namespace util {
             numbers = new Dictionary<byte, int>();
             numbers.Add(0, xSize * ySize * zSize); // init counter
         }
+
+        public UtilByteArrayWithCounter(Vector3Int size) : this(size.x, size.y, size.z) { }
 
         public new void set(int x, int y, int z, int value) {
             byte oldValue = get(x, y, z);

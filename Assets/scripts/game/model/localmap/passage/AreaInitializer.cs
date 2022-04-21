@@ -34,9 +34,9 @@ namespace game.model.localmap.passage {
         // Assigns initial area numbers to cells, generates synonyms.
         private void initAreaNumbers() {
             byte areaNum = 1;
-            for (int x = 0; x < localMap.xSize; x++) {
-                for (int y = 0; y < localMap.ySize; y++) {
-                    for (int z = 0; z < localMap.zSize; z++) {
+            for (int x = 0; x < localMap.bounds.maxX; x++) {
+                for (int y = 0; y < localMap.bounds.maxY; y++) {
+                    for (int z = 0; z < localMap.bounds.maxZ; z++) {
                         if (passage.getPassage(x, y, z) == PASSABLE.VALUE) { // not wall or space
                             HashSet<byte> neighbours = getNeighbours(x, y, z);
                             if (neighbours.Count == 0) { // new area found
@@ -64,9 +64,9 @@ namespace game.model.localmap.passage {
         // Also initializes cell counter for areas.
         private void applyMapping() {
             byte area;
-            for (int x = 0; x < localMap.xSize; x++) {
-                for (int y = 0; y < localMap.ySize; y++) {
-                    for (int z = 0; z < localMap.zSize; z++) {
+            for (int x = 0; x < localMap.bounds.maxX; x++) {
+                for (int y = 0; y < localMap.bounds.maxY; y++) {
+                    for (int z = 0; z < localMap.bounds.maxZ; z++) {
                         area = passage.area.get(x, y, z); // unmapped value
                         if (area != 0) { // passable tile
                             if(areaMapping.ContainsKey(area)) {

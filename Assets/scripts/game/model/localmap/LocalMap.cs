@@ -1,90 +1,44 @@
-﻿using System;
-using game.model.localmap.passage;
+﻿using game.model.localmap.passage;
 using game.view;
 using UnityEngine;
 using util.geometry;
-using static enums.PassageEnum;
 
 namespace game.model.localmap {
     public class LocalMap {
         public readonly BlockTypeMap blockType;
-        public readonly IntBounds3 bounds;
+        public readonly PassageMap passageMap; // not saved to savegame,
         public readonly LocalMapUtil util;
+        public readonly IntBounds3 bounds;
+        public readonly Vector3Int sizeVector; // exclusive
 
         // public LightMap light;
-        public PassageMap passageMap;                                 // not saved to savegame,
         //private LocalTileMapUpdater localTileMapUpdater;              // not saved to savegame,
 
-        public readonly int xSize;
-        public readonly int ySize;
-        public readonly int zSize;
-
         public LocalMap(int xSize, int ySize, int zSize) {
-            this.xSize = xSize;
-            this.ySize = ySize;
-            this.zSize = zSize;
-            blockType = new BlockTypeMap(this);
             bounds = new IntBounds3(0, 0, 0, xSize - 1, ySize - 1, zSize - 1);
+            sizeVector = new Vector3Int(xSize, ySize, zSize);
+            blockType = new BlockTypeMap(this);
+            passageMap = new PassageMap(this);
             util = new LocalMapUtil(this);
         }
 
         public void init() {
+
+            passageMap.init();
             //Logger.LOADING.logDebug("Initing local map");
             //light.initLight();
             //localTileMapUpdater = new LocalTileMapUpdater();
             //localTileMapUpdater.flushLocalMap();
         }
 
-        public void initAreas() {
-            passageMap = new PassageMap(this);
-            passageMap.init();
+        // recounts passage and visual after tile is changed
+        public void updateTile(int x, int y, int z, bool updateRamps) {
+            if (passageMap != null) passageMap.updater.update(x, y, z);
+            if (GameView.get().tileUpdater != null) GameView.get().tileUpdater.updateTile(x, y, z, updateRamps);
         }
 
-        public bool inMap(int x, int y, int z) {
-            return !(x < 0 || y < 0 || z < 0 || x >= xSize || y >= ySize || z >= zSize);
-        }
-
-        public bool inMap(IntVector3 position) => inMap(position.x, position.y, position.z);
-
-        public bool inMap(IntVector2 vector) => inMap(vector.x, vector.y, 0);
+        public bool inMap(int x, int y, int z) => bounds.isIn(x, y, z);
 
         public bool inMap(Vector3Int vector) => inMap(vector.x, vector.y, vector.z);
-
-        public bool isBorder(int x, int y) {
-            return x == 0 || y == 0 || x == xSize - 1 || y == ySize - 1;
-        }
-
-        public bool isBorder(IntVector3 position) => isBorder(position.x, position.y);
-
-        // change postition to move it inside map
-        public void normalizePosition(Vector3Int position) => normalizeRectangle(ref position, 1, 1);
-
-        // change position to move rectangle with position in [0,0] inside map
-        public void normalizeRectangle(ref Vector3Int position, int width, int height) {
-            position.x = Math.Min(Math.Max(0, position.x), xSize - width);
-            position.y = Math.Min(Math.Max(0, position.y), ySize - height);
-            position.z = Math.Min(Math.Max(0, position.z), zSize - 1);
-        }
-
-        public bool isWalkPassable(IntVector3 pos) => isWalkPassable(pos.x, pos.y, pos.z);
-
-        public bool isWalkPassable(int x, int y, int z) {
-            //TODO reuse
-            return passageMap.getPassage(x, y, z) == PASSABLE.VALUE;
-        }
-
-        public bool isFlyPassable(int x, int y, int z) {
-            //TODO
-            return inMap(x, y, z) && blockType.getEnumValue(x, y, z).CODE != IMPASSABLE.VALUE;
-        }
-
-        public void updateTile(Vector3Int position, bool updateRamps) {
-            updatePassage(position);
-            if(GameView.get().tileUpdater != null) GameView.get().tileUpdater.updateTile(position, false);
-        }
-
-        public void updatePassage(Vector3Int position) {
-            if (passageMap != null) passageMap.updater.update(position.x, position.y, position.z);
-        }
     }
 }

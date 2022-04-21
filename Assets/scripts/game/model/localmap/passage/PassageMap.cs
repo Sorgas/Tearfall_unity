@@ -1,7 +1,6 @@
 ﻿using enums;
 using UnityEngine;
 using util;
-using util.geometry;
 using util.pathfinding;
 using static enums.BlockTypeEnum;
 using static enums.PassageEnum;
@@ -11,27 +10,24 @@ namespace game.model.localmap.passage {
     public class PassageMap {
         private readonly LocalMap localMap;
         private readonly BlockTypeMap blockTypeMap;
-        public PassageUpdater updater;
-        public PassageUtil util;
+        public readonly PassageUpdater updater;
+        public readonly PassageUtil util;
 
         public UtilByteArrayWithCounter area; // number of area
         public UtilByteArray passage; // see {@link BlockTypesEnum} for passage values.
 
-        private Vector3Int cachePosition;
-
         public PassageMap(LocalMap localMap) {
             this.localMap = localMap;
             blockTypeMap = localMap.blockType;
-            cachePosition = new Vector3Int();
-            area = new UtilByteArrayWithCounter(localMap.xSize, localMap.ySize, localMap.zSize);
-            passage = new UtilByteArray(localMap.xSize, localMap.ySize, localMap.zSize);
+            area = new UtilByteArrayWithCounter(localMap.sizeVector);
+            passage = new UtilByteArray(localMap.sizeVector);
             updater = new PassageUpdater(localMap, this);
             util = new PassageUtil(localMap, this);
         }
 
         // Resets values to the whole map.
         public void init() {
-            localMap.bounds.iterate((x, y, z) => passage.set(x, y, z, calculateTilePassage(cachePosition.set(x, y, z)).VALUE));
+            localMap.bounds.iterate((x, y, z) => passage.set(x, y, z, calculateTilePassage(x, y, z).VALUE));
             new AreaInitializer(localMap).formPassageMap(this);
         }
 
@@ -65,20 +61,20 @@ namespace game.model.localmap.passage {
             return lower == STAIRS && (upper == STAIRS || upper == DOWNSTAIRS);
         }
 
-        public bool tileIsAccessibleFromNeighbour(Vector3Int target, Vector3Int position, BlockType type) {
-            return tileIsAccessibleFromNeighbour(target.x, target.y, target.z, position.x, position.y, position.z, type);
-        }
+        public bool tileIsAccessibleFromNeighbour(Vector3Int target, Vector3Int position, BlockType type) 
+            => tileIsAccessibleFromNeighbour(target.x, target.y, target.z, position.x, position.y, position.z, type);
 
-        public bool hasPathBetweenNeighbours(Vector3Int from, Vector3Int to) {
-            return hasPathBetweenNeighbours(from.x, from.y, from.z, to.x, to.y, to.z);
-        }
+        public bool hasPathBetweenNeighbours(Vector3Int from, Vector3Int to) 
+            => hasPathBetweenNeighbours(@from.x, @from.y, @from.z, to.x, to.y, to.z);
 
         /**
          * Tile is passable, if its block type allows walking(like floor, ramp, etc.), plants are passable(not tree trunks), buildings are impassable.
          * TODO add water depth checking, etc.
          */
-        public Passage calculateTilePassage(Vector3Int position) {
-            Passage tilePassage = BlockTypeEnum.get(blockTypeMap.get(position)).PASSAGE;
+        public Passage calculateTilePassage(Vector3Int position) => calculateTilePassage(position.x, position.y, position.z);
+
+        public Passage calculateTilePassage(int x, int y, int z) {
+            Passage tilePassage = BlockTypeEnum.get(blockTypeMap.get(x, y, z)).PASSAGE;
             // TODO
             if (tilePassage == PASSABLE) { // tile still can be blocked by plants or buildings
                 bool plantPassable = true;
@@ -100,9 +96,7 @@ namespace game.model.localmap.passage {
             return tilePassage;
         }
 
-        public byte getPassage(int x, int y, int z) {
-            return passage.get(x, y, z);
-        }
+        public byte getPassage(int x, int y, int z) => passage.get(x, y, z);
 
         public bool inSameArea(Vector3Int pos1, Vector3Int pos2) {
             return localMap.inMap(pos1) && localMap.inMap(pos2) && area.get(pos1) == area.get(pos2);

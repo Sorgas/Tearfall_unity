@@ -15,7 +15,7 @@ namespace game.model.system.task {
                 Debug.Log("TaskCompletionSystem: completing task " + task.Get<TaskActionsComponent>().initialAction.name);
                 detachPerformer(ref task, component);
                 detachDesignation(ref task, component);
-                if(task.Has<TaskJobComponent>()) GameModel.get().taskContainer.removeTask(task);
+                GameModel.get().taskContainer.removeTask(task);
             }
         }
 
@@ -32,7 +32,7 @@ namespace game.model.system.task {
         // if task was completed, designation is no longer needed
         private void detachDesignation(ref EcsEntity task, TaskFinishedComponent component) {
             if (component.status == TaskStatusEnum.COMPLETE && task.Has<TaskDesignationComponent>()) {
-                ref EcsEntity designation = ref task.Get<TaskDesignationComponent>().designation; 
+                ref EcsEntity designation = ref task.Get<TaskDesignationComponent>().designation;
                 designation.Replace(component);
                 designation.Del<TaskComponent>();
                 task.Del<TaskDesignationComponent>();

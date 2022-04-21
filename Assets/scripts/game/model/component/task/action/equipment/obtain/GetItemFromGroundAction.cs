@@ -22,7 +22,7 @@ namespace game.model.component.task.action.equipment.obtain {
             startCondition = () => {
                 UnitEquipmentComponent equipment = base.equipment();
                 if (equipment.hauledItem != null) {
-                    return addPreAction(new PutItemToPositionAction(equipment.hauledItem.Value, performer().Get<PositionComponent>().position));
+                    return addPreAction(new PutItemToPositionAction(equipment.hauledItem.Value, performer.Get<PositionComponent>().position));
                 }
                 return !validate() ? FAIL : OK;
             };
@@ -42,7 +42,7 @@ namespace game.model.component.task.action.equipment.obtain {
                 return base.validate()
                        && container.onMapItems.itemsOnMap.ContainsKey(itemPosition)
                        && container.onMapItems.itemsOnMap[itemPosition].Contains(item)
-                       && map.passageMap.inSameArea(itemPosition, performer().pos());
+                       && map.passageMap.inSameArea(itemPosition, performer.pos());
             }
             return false;
         }

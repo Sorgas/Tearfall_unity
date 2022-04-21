@@ -18,17 +18,6 @@ namespace util.geometry {
             set(minX, minY, maxX, maxY);
         }
 
-        public IntBounds2(IntVector3 start, Vector2 size) : this(start, size.x, size.y) {
-        }
-
-        public IntBounds2(IntVector3 start, float width, float height) : this(start, (int)Math.Round(width),
-            (int)Math.Round(height)) {
-        }
-
-        public IntBounds2(IntVector3 start, int width, int height) : this(start.x, start.y, start.x + width - 1,
-            start.y + height - 1) {
-        }
-
         public IntBounds2(int width, int height) : this(0, 0, width - 1, height - 1) {
         }
 
@@ -36,17 +25,9 @@ namespace util.geometry {
             set(bounds);
         }
 
-        public bool isIn(IntVector3 vector) {
-            return isIn(vector.x, vector.y);
-        }
+        public bool isIn(Vector2 vector) => isIn(vector.x, vector.y);
 
-        public bool isIn(Vector2 vector) {
-            return isIn(vector.x, vector.y);
-        }
-
-        public bool isIn(float x, float y) {
-            return x >= minX && x <= maxX && y >= minY && y <= maxY;
-        }
+        public bool isIn(float x, float y) => x >= minX && x <= maxX && y >= minY && y <= maxY;
 
         public IntBounds2 set(int minX, int minY, int maxX, int maxY) {
             this.minX = Math.Min(minX, maxX);
@@ -130,12 +111,6 @@ namespace util.geometry {
 
         public bool isCorner(int x, int y) {
             return (x == minX || x == maxX) && (y == minY || y == maxY);
-        }
-
-        public IntVector3 putInto(IntVector3 vector) {
-            vector.x = Math.Min(maxX, Math.Max(minX, vector.x));
-            vector.y = Math.Min(maxY, Math.Max(minY, vector.y));
-            return vector;
         }
 
         public Vector3 putInto(Vector3 vector) {

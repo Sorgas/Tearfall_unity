@@ -20,7 +20,7 @@ namespace game.model.component.task.action.equipment.use {
                 prepareSlotForEquippingTool();
                 equipment().grabSlots.Values.First(slot => slot.isGrabFree()).grabbedItem = item;
                 equipment().hauledItem = null;
-                container.equippedItems.addItemToUnit(item, performer());
+                container.equippedItems.addItemToUnit(item, performer);
                 Debug.Log(item.Get<ItemComponent>().type + " equipped as tool");
                 //TODO select one or more hands to maintain main/off hand logic
             };
@@ -42,8 +42,8 @@ namespace game.model.component.task.action.equipment.use {
         private void dropGrabbedItemFromSlot(GrabEquipmentSlot slot) {
             EcsEntity droppedItem = slot.grabbedItem.Value;
             slot.grabbedItem = null;
-            container.equippedItems.removeItemFromUnit(droppedItem, performer());
-            container.onMapItems.putItemToMap(droppedItem, performer().pos());
+            container.equippedItems.removeItemFromUnit(droppedItem, performer);
+            container.onMapItems.putItemToMap(droppedItem, performer.pos());
         }
 
         protected new bool validate() {
