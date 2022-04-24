@@ -9,12 +9,11 @@ using static game.model.component.task.TaskComponents;
 namespace game.model.system.task.designation {
     // creates tasks for designations without tasks. stores tasks in TaskContainer
     public class DesignationTaskCreationSystem : IEcsRunSystem {
-        public EcsFilter<DesignationComponent, PositionComponent>.Exclude<TaskComponent> filter;
+        public EcsFilter<DesignationComponent, PositionComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter;
 
         public void Run() {
             foreach (var i in filter) {
                 EcsEntity designation = filter.GetEntity(i);
-                if (!validateDesignation(designation)) continue;
                 EcsEntity? task = createTaskForDesignation(filter.Get1(i), filter.Get2(i));
                 if (task.HasValue) {
                     designation.Replace(new TaskComponent { task = task.Value });
@@ -22,10 +21,6 @@ namespace game.model.system.task.designation {
                     GameModel.get().taskContainer.addOpenTask(task.Value);
                 }
             }
-        }
-
-        private bool validateDesignation(EcsEntity entity) {
-            return true; // TODO
         }
 
         private EcsEntity? createTaskForDesignation(DesignationComponent designation, PositionComponent position) {

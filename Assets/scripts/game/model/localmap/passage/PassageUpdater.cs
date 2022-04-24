@@ -11,41 +11,43 @@ namespace game.model.localmap.passage {
     public class PassageUpdater {
         private LocalMap map;
         private PassageMap passage;
-
+        private bool debug = true;
+        private string logMessage;
+        
         public PassageUpdater(LocalMap map, PassageMap passage) {
             this.map = map;
             this.passage = passage;
         }
-
-
+        
         // Called when local map passage is updated. If cell becomes non-passable, it may split area into two.
         public void update(int x, int y, int z) {
+            log("updating passage in " + x + " " + y + " " + z);
             Vector3Int center = new Vector3Int(x, y, z);
             Passage passing = passage.calculateTilePassage(center);
             passage.passage.set(center, passing.VALUE);
             if (passing == PASSABLE) { // tile became passable, areas should be merged
-                List<byte> areas = new NeighbourPositionStream(center)
+                HashSet<byte> areas = new NeighbourPositionStream(center)
                         .filterConnectedToCenter()
                         .filterNotInArea(0)
                         .stream.Select(position => passage.area.get(position))
-                        .ToList();
+                        .ToHashSet();
                 // take new area number, if new tile is not connected to any area
-                byte areaNumber = areas.Count() == 0 ? getUnusedAreaNumber() : areas.First();
+                byte areaNumber = areas.Count == 0 ? getUnusedAreaNumber() : areas.First();
                 passage.area.set(x, y, z, areaNumber); // set area value to current tile
-                if (areas.Count() > 1) mergeAreas(areas);
+                if (areas.Count > 1) mergeAreas(areas);
             } else { // tile became impassable, areas may split
                 splitAreas(center);
             }
+            Debug.Log(logMessage);
+            logMessage = "";
         }
 
-        /**
-     * Merges all given areas into one, keeping number of largest one.
-     */
-        private void mergeAreas(List<byte> areas) {
-            //        Logger.PATH.logDebug("Merging areas " + areas);
-            if (areas.Count() == 0) return;
+        // sets all tiles of all areas to the largest one 
+        private void mergeAreas(HashSet<byte> areas) {
+            if (areas.Count == 0) return;
             byte largestArea = passage.area.numbers.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
             areas.Remove(largestArea);
+            log("merging areas " + areas + " to area " + largestArea);
             for (int x = 0; x < map.bounds.maxX; x++) {
                 for (int y = 0; y < map.bounds.maxY; y++) {
                     for (int z = 0; z < map.bounds.maxZ; z++) {
@@ -65,6 +67,7 @@ namespace game.model.localmap.passage {
          * @param posMap - area number to positions of this area.
          */
         private void splitAreas(Vector3Int center) {
+            log("splitting areas");
             Dictionary<byte, List<Vector3Int>> areas = collectAreasAround(center);
             UnityEngine.Debug.Log("Splitting areas around " + center + " in positions " + areas);
             foreach (byte areaValue in areas.Keys) {
@@ -129,6 +132,10 @@ namespace game.model.localmap.passage {
             for (byte i = 0; i < byte.MaxValue; i++)
                 if (!passage.area.numbers.Keys.Contains(i)) return i;
             return 0;
+        }
+
+        private void log(string message) {
+            logMessage += message + "\n";
         }
     }
 }

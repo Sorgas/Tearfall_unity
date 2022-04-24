@@ -15,12 +15,12 @@ namespace game.model {
         public World world;
         public EcsWorld _ecsWorld;
         public EcsSystems systems; // model systems
-        public EntitySelector selector = new EntitySelector(); // in-model representation of mouse
-        public EntitySelectorSystem selectorSystem = new EntitySelectorSystem();
-        public readonly UnitContainer unitContainer = new UnitContainer();
-        public readonly DesignationContainer designationContainer = new DesignationContainer();
-        public readonly TaskContainer taskContainer = new TaskContainer();
-        public readonly ItemContainer itemContainer = new ItemContainer(); 
+        public EntitySelector selector = new(); // in-model representation of mouse
+        public EntitySelectorSystem selectorSystem = new();
+        public readonly UnitContainer unitContainer = new();
+        public readonly DesignationContainer designationContainer = new();
+        public readonly TaskContainer taskContainer = new();
+        public readonly ItemContainer itemContainer = new(); 
         private int count = 0;
 
         public static EcsWorld ecsWorld => get()._ecsWorld;
@@ -55,8 +55,8 @@ namespace game.model {
 
                 .Add(new TaskCompletionSystem()) // handle completed tasks
                 
-                .Add(new DesignationTaskCreationSystem())
                 .Add(new DesignationCompletionSystem()) // handle designation with completed tasks
+                .Add(new DesignationTaskCreationSystem()) // create tasks for designations
                 .Add(new ItemRegisterInitSystem())
                 .Init();
         }

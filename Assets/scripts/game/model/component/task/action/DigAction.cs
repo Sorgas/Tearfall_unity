@@ -146,7 +146,7 @@ namespace game.model.component.task.action {
         //
         //
         // public DigAction(DesignationComponent designation, PositionComponent position) : base(new PositionActionTarget(position.position, NEAR)) {
-        //     Debug.Log("Dig action created for " + position.position);
+        //     log("Dig action created for " + position.position);
         //
         // }
     }

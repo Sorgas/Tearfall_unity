@@ -27,6 +27,7 @@ namespace game.model.component.task.action {
     public abstract class Action {
         public string name = "base action";
         public EcsEntity task;
+
         public ref EcsEntity performer {
             get {
                 ref TaskComponents.TaskPerformerComponent component = ref task.takeRef<TaskComponents.TaskPerformerComponent>();
@@ -53,7 +54,7 @@ namespace game.model.component.task.action {
         // should be set before performing
         public float speed = 1;
         public float maxProgress = 1;
-        
+
         public Action(ActionTarget target) {
             this.target = target;
             finishCondition = () => progress >= maxProgress;
@@ -82,17 +83,8 @@ namespace game.model.component.task.action {
             return ActionConditionStatusEnum.NEW;
         }
 
-        // protected float performance() {
-        //     return task.performer.get(HealthAspect.class).stats.get(GameplayStatEnum.WORK_SPEED) + 
-        //             0.05f * performerLevel();
-        // }
-
-        // protected int performerLevel() {
-        //     return task.performer.get(JobSkillAspect.class).skills.get(skill).level();
-        // }
-
-        // protected Skill skill() {
-        //     return SkillMap.getSkill(skill);
-        // }
+        protected void log(string message) {
+            Debug.Log("[" + name + "]: " + message);
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace game.model.system.task {
             foreach (var i in filter) {
                 ref EcsEntity task = ref filter.GetEntity(i);
                 TaskFinishedComponent component = filter.Get2(i);
-                Debug.Log("TaskCompletionSystem: completing task " + task.Get<TaskActionsComponent>().initialAction.name);
+                log("completing task " + task.Get<TaskActionsComponent>().initialAction.name);
                 detachPerformer(ref task, component);
                 detachDesignation(ref task, component);
                 GameModel.get().taskContainer.removeTask(task);
@@ -22,6 +22,7 @@ namespace game.model.system.task {
         // unlinks unit from task and notifies unit that task is finished
         private void detachPerformer(ref EcsEntity task, TaskFinishedComponent component) {
             if (task.Has<TaskPerformerComponent>()) {
+                log("detaching performer");
                 ref EcsEntity unit = ref task.Get<TaskPerformerComponent>().performer; 
                 unit.Replace(component);
                 unit.Del<TaskComponent>();
@@ -32,12 +33,17 @@ namespace game.model.system.task {
         // if task was completed, designation is no longer needed
         private void detachDesignation(ref EcsEntity task, TaskFinishedComponent component) {
             if (component.status == TaskStatusEnum.COMPLETE && task.Has<TaskDesignationComponent>()) {
+                log("detaching designation");
                 ref EcsEntity designation = ref task.Get<TaskDesignationComponent>().designation;
                 designation.Replace(component);
                 designation.Del<TaskComponent>();
                 task.Del<TaskDesignationComponent>();
             }
             // TODO handle workbenches
+        }
+
+        private void log(string message) {
+            Debug.Log("[TaskCompletionSystem]: " + message);
         }
     }
 }

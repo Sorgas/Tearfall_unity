@@ -5,6 +5,8 @@ using game.model.localmap.passage;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
+using static enums.action.ActionTargetTypeEnum;
+using static enums.PassageEnum;
 using static game.model.component.task.TaskComponents;
 
 namespace game.model.container {
@@ -12,8 +14,8 @@ namespace game.model.container {
     // only contains tasks with TaskJobComponent
     public class TaskContainer {
         public TaskGenerator generator = new();
-        
-        
+
+
         // private Dictionary<string, HashSet<EcsEntity>> tasks = new();
         private Dictionary<string, HashSet<EcsEntity>> openTasks = new(); // job name to tasks
         private Dictionary<EcsEntity, EcsEntity> assigned = new(); // task to performer
@@ -31,17 +33,25 @@ namespace game.model.container {
         public void addOpenTask(EcsEntity task) {
             TaskJobComponent? job = task.optional<TaskJobComponent>();
             string jobName = job.HasValue ? job.Value.job : "none";
-            if(openTasks[jobName].Contains(task)) Debug.LogError("Task "+ task.name() + "already registered!");
+            if (openTasks[jobName].Contains(task)) Debug.LogError("Task " + task.name() + "already registered!");
             openTasks[jobName].Add(task);
         }
-        
+
         // returns task appropriate for unit, but does not removes task from container
         // TODO add priority sorting
         public EcsEntity findTask(List<string> jobs, Vector3Int position) {
             PassageMap passageMap = GameModel.localMap.passageMap;
+            byte performerArea = passageMap.area.get(position);
             foreach (var job in jobs) {
                 if (openTasks[job].Count > 0) {
-                    EcsEntity task = openTasks[job].firstOrDefault(task => passageMap.inSameArea(position, getTaskTargetPosition(task)), EcsEntity.Null);
+                    EcsEntity task = openTasks[job].firstOrDefault(task => {
+                        ActionTargetTypeEnum targetType = task.take<TaskActionsComponent>().initialAction.target.type;
+                        Vector3Int target = getTaskTargetPosition(task);
+                        // target position in same area with performer
+                        return ((targetType == EXACT || targetType == ANY) && passageMap.area.get(target) == performerArea) ||
+                        // performer can access target tile from his area
+                        (targetType == NEAR || targetType == ANY) && new NeighbourPositionStream(target).filterByPassage(PASSABLE).collectAreas().Contains(performerArea);
+                    }, EcsEntity.Null);
                     if (!task.IsNull()) return task;
                 }
             }
@@ -51,7 +61,7 @@ namespace game.model.container {
         public void removeTask(EcsEntity task) {
             if (task.Has<TaskJobComponent>()) {
                 string job = task.take<TaskJobComponent>().job;
-                if(task.Has<TaskPerformerComponent>()) Debug.LogError("Task with performer is removed from container!");
+                if (task.Has<TaskPerformerComponent>()) Debug.LogError("Task with performer is removed from container!");
                 if (openTasks[job].Contains(task)) {
                     openTasks[job].Remove(task);
                 }
@@ -72,7 +82,7 @@ namespace game.model.container {
 
         // tasks in container always have target
         private Vector3Int getTaskTargetPosition(EcsEntity task) {
-            Vector3Int? target = task.takeRef<TaskActionsComponent>().initialAction.target.getPos();
+            Vector3Int? target = task.take<TaskActionsComponent>().initialAction.target.getPos();
             if (target.HasValue) return target.Value;
             throw new EcsException("Task " + task.name() + " has no target position ");
         }

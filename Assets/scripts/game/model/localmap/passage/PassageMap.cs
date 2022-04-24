@@ -67,10 +67,6 @@ namespace game.model.localmap.passage {
         public bool hasPathBetweenNeighbours(Vector3Int from, Vector3Int to) 
             => hasPathBetweenNeighbours(@from.x, @from.y, @from.z, to.x, to.y, to.z);
 
-        /**
-         * Tile is passable, if its block type allows walking(like floor, ramp, etc.), plants are passable(not tree trunks), buildings are impassable.
-         * TODO add water depth checking, etc.
-         */
         public Passage calculateTilePassage(Vector3Int position) => calculateTilePassage(position.x, position.y, position.z);
 
         public Passage calculateTilePassage(int x, int y, int z) {

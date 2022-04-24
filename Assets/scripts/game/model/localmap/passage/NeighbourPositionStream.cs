@@ -28,13 +28,10 @@ namespace game.model.localmap.passage {
 
         public NeighbourPositionStream(Vector3Int center, bool orthogonal) : this() {
             HashSet<Vector3Int> neighbours = new HashSet<Vector3Int>();
-
-
             neighbours.Add(center.add(1, 0, 0));
             neighbours.Add(center.add(-1, 0, 0));
             neighbours.Add(center.add(0, 1, 0));
             neighbours.Add(center.add(0, -1, 0));
-
             stream = neighbours.Where(position => localMap.inMap(position));
         }
 
@@ -48,7 +45,7 @@ namespace game.model.localmap.passage {
          * Clears all, if center tile is not passable.
          */
         public NeighbourPositionStream filterConnectedToCenter() {
-            stream = stream.Where(position=>passageMap.hasPathBetweenNeighbours(position, center));
+            stream = stream.Where(position => passageMap.hasPathBetweenNeighbours(position, center));
             return this;
         }
 
@@ -56,33 +53,37 @@ namespace game.model.localmap.passage {
          * Considers center tile to have given type. Used for checking during building.
          */
         public NeighbourPositionStream filterByAccessibilityWithFutureTile(BlockType type) {
-            stream = stream.Where(position=>passageMap.tileIsAccessibleFromNeighbour(center, position, type));
+            stream = stream.Where(position => passageMap.tileIsAccessibleFromNeighbour(center, position, type));
             return this;
         }
 
         public NeighbourPositionStream filterNotInArea(int value) {
-            stream = stream.Where(position=>passageMap.area.get(position) != value);
+            stream = stream.Where(position => passageMap.area.get(position) != value);
             return this;
         }
 
         public NeighbourPositionStream filterInArea(int value) {
-            stream = stream.Where(position=>passageMap.area.get(position) == value);
+            stream = stream.Where(position => passageMap.area.get(position) == value);
             return this;
         }
 
         public NeighbourPositionStream filterByPassage(Passage passage) {
-            stream = stream.Where(position=>passageMap.passage.get(position) == passage.VALUE);
+            stream = stream.Where(position => passageMap.passage.get(position) == passage.VALUE);
             return this;
         }
 
         public NeighbourPositionStream filterSameZLevel() {
-            stream = stream.Where(position=>position.z == center.z);
+            stream = stream.Where(position => position.z == center.z);
             return this;
         }
 
         public NeighbourPositionStream filter(Func<Vector3Int, bool> predicate) {
             stream = stream.Where(predicate);
             return this;
+        }
+
+        public List<byte> collectAreas() {
+            return stream.Select(position => passageMap.area.get(position)).ToList();
         }
     }
 }
