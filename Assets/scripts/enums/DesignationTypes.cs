@@ -5,12 +5,12 @@ using static enums.DesignationTypeEnum;
 namespace enums {
     // types of designations, referenced from MouseToolEnum
     public static class DesignationTypes {
-        public static DesignationType D_NONE = new DesignationType(DTE_NONE, null);                                                          // for removing simple designations
-        public static DesignationType D_DIG = new DesignationType(DTE_DIG, new DiggingValidator(FLOOR), "miner", "dig");                        // removes walls and ramps. leaves floor
-        public static DesignationType D_STAIRS = new DesignationType(DTE_STAIRS, new DiggingValidator(STAIRS), "miner", "stairs");             // cuts stairs from wall.
-        public static DesignationType D_DOWNSTAIRS = new DesignationType(DTE_DOWNSTAIRS, new DiggingValidator(DOWNSTAIRS), "miner", "downstairs"); // cuts combined stairs from wall. assigned automatically.
-        public static DesignationType D_RAMP = new DesignationType(DTE_RAMP, new DiggingValidator(RAMP), "miner", "ramp");                   // digs ramp and upper cell.
-        public static DesignationType D_CHANNEL = new DesignationType(DTE_CHANNEL, new DiggingChannelValidator(), "miner", "channel");          // digs cell and ramp on lower level
+        public static DesignationType D_NONE = new DesignationType(DTE_NONE, "none", null);                                                          // for removing simple designations
+        public static DesignationType D_DIG = new DesignationType(DTE_DIG, "dig", new DiggingValidator(FLOOR), "miner", "dig");                        // removes walls and ramps. leaves floor
+        public static DesignationType D_STAIRS = new DesignationType(DTE_STAIRS, "dig stairs", new DiggingValidator(STAIRS), "miner", "stairs");             // cuts stairs from wall.
+        public static DesignationType D_DOWNSTAIRS = new DesignationType(DTE_DOWNSTAIRS, "dig downstairs", new DiggingValidator(DOWNSTAIRS), "miner", "downstairs"); // cuts combined stairs from wall. assigned automatically.
+        public static DesignationType D_RAMP = new DesignationType(DTE_RAMP, "dig ramp", new DiggingValidator(RAMP), "miner", "ramp");                   // digs ramp and upper cell.
+        public static DesignationType D_CHANNEL = new DesignationType(DTE_CHANNEL, "dig channel", new DiggingChannelValidator(), "miner", "channel");          // digs cell and ramp on lower level
         // public static DesignationType D_CHOP = new DesignationType(7, "chopping trees", PlaceValidatorEnum.TREE_EXISTS.VALIDATOR, "lumberjack");     // chop trees in th area
         // public static DesignationType D_CUT = new DesignationType(8, "cutting plants", "herbalist");                                          // cut plants
         // public static DesignationType D_HARVEST = new DesignationType(9, "harvesting plants", "herbalist");                                   // harvest plants
@@ -25,15 +25,17 @@ namespace enums {
         public readonly PositionValidator VALIDATOR;
         public readonly string JOB;
         public readonly string SPRITE_NAME;
+        public readonly string name;
 
-        public DesignationType(DesignationTypeEnum type, PositionValidator validator, string job, string spriteName) {
+        public DesignationType(DesignationTypeEnum type, string name, PositionValidator validator, string job, string spriteName) {
             TYPE = type;
+            this.name = name;
             VALIDATOR = validator;
             JOB = job;
             SPRITE_NAME = spriteName;
         }
 
-        public DesignationType(DesignationTypeEnum type, string job) : this(type, null, job, null) { }
+        public DesignationType(DesignationTypeEnum type, string name, string job) : this(type, name, null, job, null) { }
     }
 
     public enum DesignationTypeEnum {

@@ -23,7 +23,6 @@ namespace game.model.localmap {
         }
 
         public void init() {
-
             passageMap.init();
             //Logger.LOADING.logDebug("Initing local map");
             //light.initLight();
