@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using enums;
 using enums.action;
 using enums.unit;
 using game.model.localmap.passage;
@@ -14,8 +15,7 @@ namespace game.model.container {
     // only contains tasks with TaskJobComponent
     public class TaskContainer {
         public TaskGenerator generator = new();
-
-
+        
         // private Dictionary<string, HashSet<EcsEntity>> tasks = new();
         private Dictionary<string, HashSet<EcsEntity>> openTasks = new(); // job name to tasks
         private Dictionary<EcsEntity, EcsEntity> assigned = new(); // task to performer
@@ -48,9 +48,18 @@ namespace game.model.container {
                         ActionTargetTypeEnum targetType = task.take<TaskActionsComponent>().initialAction.target.type;
                         Vector3Int target = getTaskTargetPosition(task);
                         // target position in same area with performer
-                        return ((targetType == EXACT || targetType == ANY) && passageMap.area.get(target) == performerArea) ||
+                        if (targetType == EXACT || targetType == ANY) {
+                            if (passageMap.area.get(target) == performerArea) return true;
+                        }
                         // performer can access target tile from his area
-                        (targetType == NEAR || targetType == ANY) && new NeighbourPositionStream(target).filterByPassage(PASSABLE).collectAreas().Contains(performerArea);
+                        if (targetType == NEAR || targetType == ANY) {
+                            BlockType targetBlockType = GameModel.localMap.blockType.getEnumValue(target);
+                            return new NeighbourPositionStream(target)
+                                .filterByPassage(PASSABLE)
+                                .filterByAccessibilityWithFutureTile(targetBlockType)
+                                .collectAreas().Contains(performerArea);
+                        }
+                        return false;
                     }, EcsEntity.Null);
                     if (!task.IsNull()) return task;
                 }
