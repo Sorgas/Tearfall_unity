@@ -15,7 +15,7 @@ namespace game.model.tilemaps {
         public static readonly int TILE_Y_HEIGHT = DEPTH + WALL + FLOOR;
         private readonly int DEPTH2 = DEPTH / 2;
         private readonly string[] suffixes = { "WALL", "ST", "N", "S", "W", "E", "NW", "NE", "SW", "SE", "CNW", "CNE", "CSW", "CSE", "C" };
-        private Rect cacheRect = new Rect();
+        private Rect cacheRect;
 
         // returns map of <tilecode -> tile>
         public Dictionary<string, Tile> slice(Sprite sprite) {

@@ -32,7 +32,6 @@ namespace game.view.system.mouse_tool {
                         GameModel.get().designationContainer.createDesignation(new Vector3Int(x, y, z), currentTool.designation);
                     }
                 } else if (currentTool == CLEAR) {
-                    
                     GameModel.get().designationContainer.cancelDesignation(new Vector3Int(x, y, z));
                 }
             });
@@ -40,7 +39,7 @@ namespace game.view.system.mouse_tool {
 
         private void updateToolSprite() {
             Sprite sprite = currentTool.sprite;
-            SpriteRenderer iconRenderer = GameView.get().selector.gameObject.GetComponent<SelectorHandler>().icon;
+            SpriteRenderer iconRenderer = GameView.get().selector.gameObject.GetComponent<SelectorHandler>().toolIcon;
             if (sprite != null) { // scale should be updated for non null sprite
                 float width = iconRenderer.gameObject.GetComponent<RectTransform>().rect.width;
                 float scale = width / sprite.rect.width * sprite.pixelsPerUnit;

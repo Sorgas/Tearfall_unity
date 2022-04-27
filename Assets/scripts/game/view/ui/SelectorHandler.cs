@@ -2,6 +2,7 @@
 
 namespace game.view.ui {
     public class SelectorHandler : MonoBehaviour {
-        public SpriteRenderer icon;
+        public SpriteRenderer toolIcon;
+        public SpriteRenderer frameIcon;
     }
 }
