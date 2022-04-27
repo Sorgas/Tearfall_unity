@@ -13,7 +13,7 @@ namespace game.model.tilemaps {
         private readonly int WALL_HEIGHT = DEPTH + WALL;
         private readonly int FLOOR_HEIGHT = DEPTH + FLOOR;
         public static readonly int TILE_Y_HEIGHT = DEPTH + WALL + FLOOR;
-        private readonly int DEPTH2 = DEPTH / 2;
+        private readonly int DEPTH2 = DEPTH / 2; 
         private readonly string[] suffixes = { "WALL", "ST", "N", "S", "W", "E", "NW", "NE", "SW", "SE", "CNW", "CNE", "CSW", "CSE", "C" };
         private Rect cacheRect;
 

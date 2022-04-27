@@ -5,14 +5,15 @@ using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
 using game.model.component.unit;
 using game.model.localmap;
+using generation.item;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.item;
 using util.lang.extension;
 using static enums.action.ActionConditionStatusEnum;
-using static enums.action.ActionTargetTypeEnum;
 using static enums.BlockTypeEnum;
 using static enums.DesignationTypeEnum;
+using Random = UnityEngine.Random;
 
 namespace game.model.component.task.action {
     // digs a tile of map. performer should have tool with dig action in hands 
@@ -22,7 +23,7 @@ namespace game.model.component.task.action {
         private ToolWithActionItemSelector selector;
         private DesignationTypeEnum type;
 
-        public DigAction(Vector3Int position, DesignationType type) : base(new PositionActionTarget(position, NEAR)) {
+        public DigAction(Vector3Int position, DesignationType type) : base(new PositionActionTarget(position, type.targetType)) {
             name = "dig action";
             selector = new ToolWithActionItemSelector(toolActionName);
             this.type = type.TYPE;
@@ -77,40 +78,36 @@ namespace game.model.component.task.action {
                     updateAndRevealMap(target + Vector3Int.forward, SPACE);
                     break;
                 case DTE_CHANNEL:
-                    updateAndRevealMap(target, SPACE);
+                    updateAndRevealMap(target, SPACE); // current
                     Vector3Int rampPosition = target + Vector3Int.back;
-                    if (map.blockType.get(rampPosition) == WALL.CODE) updateAndRevealMap(rampPosition, RAMP);
+                    if (map.blockType.get(rampPosition) == WALL.CODE) updateAndRevealMap(rampPosition, RAMP); // lower
                     break;
                 case DTE_DOWNSTAIRS:
-                    updateAndRevealMap(target, DOWNSTAIRS);
+                    byte currentType = map.blockType.get(target);
+                    if (currentType != STAIRS.CODE && currentType != DOWNSTAIRS.CODE) updateAndRevealMap(target, DOWNSTAIRS); // current 
                     Vector3Int stairsPosition = target + Vector3Int.back;
-                    if (map.blockType.get(stairsPosition) == WALL.CODE) updateAndRevealMap(stairsPosition, STAIRS);
+                    byte lowerType = map.blockType.get(stairsPosition);
+                    if (lowerType == WALL.CODE || lowerType == RAMP.CODE) updateAndRevealMap(stairsPosition, STAIRS); // lower
                     break;
             }
         }
 
-        //
-        // /**
-        // * Puts rock of dug material if needed.
-        // */
-        //    private void leaveStone(BlockTypeEnum oldType) {
-        //        LocalMap map = GameMvc.model().get(LocalMap.class);
-        //        ItemContainer container = GameMvc.model().get(ItemContainer.class);
-        //        IntVector3 target = this.target.getPosition();
-        //        BlockTypeEnum newType = map.blockType.getEnumValue(target);
-        //        int materialId = map.blockType.getMaterial(target);
-        //        new DiggingProductGenerator()
-        //            .generateDigProduct(materialId, oldType, newType)
-        //            .forEach(item->container.onMapItemsSystem.addNewItemToMap(item, target));
-        //    }
-        //
         private void updateAndRevealMap(Vector3Int position, BlockType type) {
             LocalMap map = GameModel.localMap;
-            if(map.inMap(position)) {
+            if (map.inMap(position)) {
+                BlockType oldType = map.blockType.getEnumValue(position);
                 map.blockType.set(position, type);
+                leaveStone(position, oldType, type);
                 // map.light.handleDigging(position); TODO
             }
         }
+        
+        private void leaveStone(Vector3Int position, BlockType oldType, BlockType newType) {
+            if(Random.Range(0, 1f) > (newType.OPENNESS - oldType.OPENNESS) / 16f) return;
+            EcsEntity item = new DiggingProductGenerator().generate(GameModel.localMap.blockType.getMaterial(position));
+            if(item != EcsEntity.Null) GameModel.get().itemContainer.onMapItems.putItemToMap(item, position);
+        }
+        
         //
         //    /**
         // * Work amount is based on material hardness and volume of dug stone.

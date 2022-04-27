@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace util.extension {
+namespace util.lang.extension {
     public static class ListExtensions {
-        public static T RemoveAndGet<T>(this List<T> source, int index) {
+        public static T removeAndGet<T>(this List<T> source, int index) {
             T element = source[index];
             source.RemoveAt(index);
             return element;

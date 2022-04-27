@@ -2,8 +2,8 @@
 using System.Linq;
 using enums;
 using UnityEngine;
-using util.extension;
 using util.geometry;
+using util.lang.extension;
 using util.pathfinding;
 using static enums.PassageEnum;
 
@@ -26,24 +26,29 @@ namespace game.model.localmap.passage {
             Passage passing = passage.calculateTilePassage(center);
             passage.passage.set(center, passing.VALUE);
             if (passing == PASSABLE) { // tile became passable, areas should be merged
-                HashSet<byte> areas = new NeighbourPositionStream(center)
-                        .filterConnectedToCenter()
-                        .filterNotInArea(0)
-                        .collectAreas()
-                        .ToHashSet();
-                // take new area number, if new tile is not connected to any area
-                byte areaNumber = areas.Count == 0 ? getUnusedAreaNumber() : areas.First();
-                passage.area.set(x, y, z, areaNumber); // set area value to current tile
-                if (areas.Count > 1) mergeAreas(areas);
-            } else { // tile became impassable, areas may split
+                mergeAreasAroundCenter(center);
+            } else { 
+                // tile became impassable, areas may split
+                // if under new SPACE tile is RAMP, areas may join
+                if (z > 0 && map.blockType.get(center) == BlockTypeEnum.SPACE.CODE && map.blockType.get(center + Vector3Int.back) == BlockTypeEnum.RAMP.CODE) { 
+                    mergeAreasAroundCenter(center);
+                }
                 splitAreas(center);
             }
             Debug.Log(logMessage);
             logMessage = "";
         }
 
+        private void mergeAreasAroundCenter(Vector3Int center) {
+            List<byte> areas = new NeighbourPositionStream(center).filterConnectedToCenter().collectAreas();
+            areas.Remove(0);
+            // take new area number, if new tile is not connected to any area
+            passage.area.set(center, areas.Count == 0 ? getUnusedAreaNumber() : areas.First());
+            if (areas.Count > 1) mergeAreas(areas);
+        }
+        
         // sets all tiles of all areas to the largest one 
-        private void mergeAreas(HashSet<byte> areas) {
+        private void mergeAreas(List<byte> areas) {
             if (areas.Count == 0) return;
             byte largestArea = passage.area.numbers.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
             areas.Remove(largestArea);
@@ -67,14 +72,13 @@ namespace game.model.localmap.passage {
          * @param posMap - area number to positions of this area.
          */
         private void splitAreas(Vector3Int center) {
-            log("splitting areas");
-            Dictionary<byte, List<Vector3Int>> areas = collectAreasAround(center);
-            UnityEngine.Debug.Log("Splitting areas around " + center + " in positions " + areas);
+            Dictionary<byte, List<Vector3Int>> areas = new NeighbourPositionStream(center).filterByPassage(PASSABLE).groupByAreas();
+            log("Splitting areas around " + center + " in positions " + areas);
             foreach (byte areaValue in areas.Keys) {
                 List<Vector3Int> posList = areas[areaValue];
-                if (posList.Count() < 2) continue; // single tile area
+                if (posList.Count < 2) continue; // single tile area
                 List<HashSet<Vector3Int>> isolatedPositions = collectIsolatedPositions(posList);
-                if (isolatedPositions.Count() < 2) continue; // all positions from old areas remain connected, do nothing.
+                if (isolatedPositions.Count < 2) continue; // all positions from old areas remain connected, do nothing.
                 isolatedPositions.RemoveAt(0);
                 int oldCount = passage.area.numbers[areaValue];
                 foreach (HashSet<Vector3Int> positions in isolatedPositions) {
@@ -84,27 +88,18 @@ namespace game.model.localmap.passage {
             }
         }
 
-        // collects passable tiles around given one, groups them by area, and collects in dictionary
-        private Dictionary<byte, List<Vector3Int>> collectAreasAround(Vector3Int center) {
-            return new NeighbourPositionStream(center)
-                        .filterByPassage(PASSABLE)
-                        .stream.ToDictionary(position => passage.area.get(position),
-                        position => new List<Vector3Int>() { position },
-                        (l, r) => { l.AddRange(r); return l; });
-        }
-
         // splits given list of positions into groups. positions in one group are interconnected. positions in different groups are isolated.
         private List<HashSet<Vector3Int>> collectIsolatedPositions(List<Vector3Int> list) {
             List<HashSet<Vector3Int>> groups = new List<HashSet<Vector3Int>>();
-            while (list.Count() > 0) {
+            while (list.Count > 0) {
                 HashSet<Vector3Int> connectedPositions = new HashSet<Vector3Int>();
-                Vector3Int first = list.RemoveAndGet(0); // first position is connected to itself
+                Vector3Int first = list.removeAndGet(0); // first position is connected to itself
                 connectedPositions.Add(first);
-                for (int i = list.Count() - 1; i >= 0; i--) {
+                for (int i = list.Count - 1; i >= 0; i--) {
                     Vector3Int pos = list[i];
-                    // positions are accessible neighoburs or path exists
+                    // positions are accessible neighbours or path exists
                     if (pos.isNeighbour(first) && passage.hasPathBetweenNeighbours(pos, first) || AStar.get().makeShortestPath(pos, first) != null) {
-                        connectedPositions.Add(list.RemoveAndGet(i));
+                        connectedPositions.Add(list.removeAndGet(i));
                     }
                 }
                 groups.Add(connectedPositions);

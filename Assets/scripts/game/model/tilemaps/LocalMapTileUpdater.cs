@@ -14,10 +14,6 @@ using static enums.BlockTypeEnum;
 namespace game.model.tilemaps {
     public class LocalMapTileUpdater {
         private readonly List<Tilemap> layers = new();
-        // cache tilemap position of a tile
-        private Vector3Int floorPosition;
-        private Vector3Int wallPosition;
-
         public readonly TileSetHolder tileSetHolder = new();
         public GameObject layerPrefab;
         private RectTransform mapHolder;
@@ -45,21 +41,27 @@ namespace game.model.tilemaps {
 
         public void updateTile(Vector3Int position, bool withRamps) => updateTile(position.x, position.y, position.z, withRamps);
 
+        // updates state of visual tilemap to state of model local map
         public void updateTile(int x, int y, int z, bool withRamps) {
-            wallPosition.Set(x, y, WALL_LAYER);
-            floorPosition.Set(x, y, FLOOR_LAYER);
             string material = selectMaterial(x, y, z);
-            BlockType blockType = BlockTypeEnum.get(map.blockType.get(x, y, z));
-            Tile floorTile = null;
+            BlockType blockType = get(map.blockType.get(x, y, z));
             Tile wallTile = null;
-            if (blockType != SPACE) {
-                string type = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;
-                floorTile = tileSetHolder.tilesets[material]["WALLF"]; // floor is drawn under all tiles
-                wallTile = tileSetHolder.tilesets[material][type]; // draw wall part
+            Tile floorTile = null;
+            // select wall part for non-flat types
+            if (!blockType.FLAT) { 
+                string wallTileName = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;
+                wallTile = tileSetHolder.tilesets[material][wallTileName]; // draw wall part
             }
-            layers[z].SetTile(floorPosition, floorTile);
-            layers[z].SetTile(wallPosition, wallTile);
+            if (blockType != SPACE) {
+                string floorTileName = (blockType == STAIRS || blockType == DOWNSTAIRS) ? DOWNSTAIRS.PREFIX : FLOOR.PREFIX;
+                floorTile = tileSetHolder.tilesets[material][floorTileName]; // draw wall part
+            }
+            layers[z].SetTile(new Vector3Int(x, y, FLOOR_LAYER), floorTile);
+            layers[z].SetTile(new Vector3Int(x, y, WALL_LAYER), wallTile);
+            
             if (blockType == SPACE) setToppingForSpace(x, y, z);
+            // if tile above is space, topping should be updated
+            if (map.inMap(x, y, z + 1) && map.blockType.get(x, y, z + 1) == SPACE.CODE) updateTile(x, y, z + 1, false);
             if (withRamps) updateRampsAround(new Vector3Int(x, y, z));
         }
 
@@ -74,12 +76,11 @@ namespace game.model.tilemaps {
         // when current tile is SPACE, draw special topping tile if lower tile is not SPACE.
         private void setToppingForSpace(int x, int y, int z) {
             if (z <= 0) return;
+            BlockType blockType = get(map.blockType.get(x, y, z - 1));
+            if (blockType != RAMP) return;
             string material = selectMaterial(x, y, z - 1);
-            BlockType blockType = BlockTypeEnum.get(map.blockType.get(x, y, z - 1));
-            if (blockType != SPACE && blockType != FLOOR) {
-                string type = (blockType == RAMP ? selectRamp(x, y, z - 1) : blockType.PREFIX) + "F";
-                layers[z].SetTile(floorPosition, tileSetHolder.tilesets[material][type]); // topping corresponds lower tile
-            }
+            string type = selectRamp(x, y, z - 1) + "F";
+            layers[z].SetTile(new Vector3Int(x, y, FLOOR_LAYER), tileSetHolder.tilesets[material][type]); // topping corresponds lower tile
         }
 
         private string selectMaterial(int x, int y, int z) {
@@ -119,8 +120,8 @@ namespace game.model.tilemaps {
             uint walls = 0;
             for (int y = cy - 1; y <= cy + 1; y++) {
                 for (int x = cx - 1; x <= cx + 1; x++) {
-                    if ((x == cx) && (y == cy)) continue;
-                    if (map.blockType.get(x, y, cz) == BlockTypeEnum.WALL.CODE) walls |= bitpos;
+                    if (x == cx && y == cy) continue;
+                    if (map.blockType.get(x, y, cz) == WALL.CODE) walls |= bitpos;
                     bitpos *= 2; // shift to 1 bit
                 }
             }
@@ -129,7 +130,7 @@ namespace game.model.tilemaps {
 
         public void createSelectionTile(int x, int y, int z) {
             Vector3Int vector = new Vector3Int(x, y, SELECTION_LAYER);
-            BlockType blockType = BlockTypeEnum.get(map.blockType.get(x, y, z));
+            BlockType blockType = get(map.blockType.get(x, y, z));
             Tile tile = null;
             if (blockType != SPACE) {
                 string type = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using enums;
 using UnityEngine;
+using util.extension;
 using util.geometry;
 
 namespace game.model.localmap.passage {
@@ -75,6 +76,10 @@ namespace game.model.localmap.passage {
         public NeighbourPositionStream filter(Func<Vector3Int, bool> predicate) {
             stream = stream.Where(predicate);
             return this;
+        }
+
+        public Dictionary<byte, List<Vector3Int>> groupByAreas() {
+            return stream.ToDictionary(position => passageMap.area.get(position), position => new List<Vector3Int> { position }, (l, r) => { l.AddRange(r); return l; });
         }
 
         // collects areas of positions in stream

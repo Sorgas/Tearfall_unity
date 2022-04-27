@@ -3,38 +3,37 @@
         "name": "log",
         "description": "Large part of a tree.",
         "aspects": ["fuel(1)"],
-        "atlasXY": [2, 0],
+        "atlasXY": [0, 0],
         "color": "0xffffffff",
         "tags": ["material"]
     }, {
     "name": "branch",
     "description": "Small part of a tree.",
     "aspects": ["fuel(1)"],
-    "atlasXY": [3, 0],
-    "color": "0xffffffff"
-}, {
-    "name": "root",
-    "description": "Underground tree part.",
-    "aspects": ["fuel(1)"],
-    "atlasXY": [3, 0],
+    "atlasXY": [1, 0],
     "color": "0xffffffff"
 }, {
     "name": "plank",
     "description": "Fine formed piece of wood.",
     "aspects": ["fuel(0)"],
-    "atlasXY": [3, 0],
+    "atlasXY": [2, 0],
     "color": "0xffffffff",
     "tags": ["material"]
 }, {
     "name": "rock",
     "description": "Rock.",
-    "atlasXY": [4, 0],
+    "atlasXY": [3, 0],
     "color": "0xffffffff",
     "tags": ["material"]
 }, {
+    "name": "ore",
+    "description": "Ore piece.",
+    "atlasXY": [4, 0],
+    "color": "0xffffffff"
+}, {
     "name": "bar",
     "description": "Piece of metal, formed for further use.",
-    "atlasXY": [9, 0],
+    "atlasXY": [5, 0],
     "color": "0xffffffff",
     "tags": ["material"]
 }, {
