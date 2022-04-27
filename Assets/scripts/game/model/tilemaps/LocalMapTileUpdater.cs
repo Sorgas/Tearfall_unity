@@ -60,6 +60,7 @@ namespace game.model.tilemaps {
             layers[z].SetTile(floorPosition, floorTile);
             layers[z].SetTile(wallPosition, wallTile);
             if (blockType == SPACE) setToppingForSpace(x, y, z);
+            if (withRamps) updateRampsAround(new Vector3Int(x, y, z));
         }
 
         private void createLayers(LocalMap map) {
