@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using enums;
 using enums.action;
 using game.model.component.task.action;
 using Leopotam.Ecs;
@@ -48,6 +49,11 @@ namespace game.model.component.task {
 
         public struct TaskPriorityComponent {
             public TaskPriorityEnum priority;
+        }
+
+        // when building blocks, target reachability should be calculated basing on override block type
+        public struct TaskBlockOverrideComponent {
+            public BlockType blockType;
         }
     }
 }

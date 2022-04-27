@@ -29,7 +29,7 @@ namespace game.model.localmap.passage {
                 HashSet<byte> areas = new NeighbourPositionStream(center)
                         .filterConnectedToCenter()
                         .filterNotInArea(0)
-                        .stream.Select(position => passage.area.get(position))
+                        .collectAreas()
                         .ToHashSet();
                 // take new area number, if new tile is not connected to any area
                 byte areaNumber = areas.Count == 0 ? getUnusedAreaNumber() : areas.First();

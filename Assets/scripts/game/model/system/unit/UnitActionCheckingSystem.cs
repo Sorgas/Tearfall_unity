@@ -75,8 +75,7 @@ namespace game.model.system.unit {
                     break;
                 case STEP_OFF:
                     log("step off");
-                    // TODO add stepoff action
-                    // task.addFirstPreAction(new StepOffAction());
+                    task.addFirstPreAction(new StepOffAction(unit.pos()));
                     break;
                 case ActionTargetStatusEnum.FAIL:
                     log("target failed");

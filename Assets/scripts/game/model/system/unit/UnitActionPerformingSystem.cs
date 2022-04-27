@@ -11,10 +11,10 @@ namespace game.model.system.unit {
 
         public void Run() {
             foreach (int i in filter) {
-                Debug.Log("performing");
                 ref EcsEntity unit = ref filter.GetEntity(i);
                 UnitCurrentActionComponent component = filter.Get1(i);
                 Action action = component.action;
+                Debug.Log("performing action " + action.name);
                 action.perform(unit);
                 if(action.status == ActionStatusEnum.COMPLETE) {
                     unit.Del<UnitCurrentActionComponent>();

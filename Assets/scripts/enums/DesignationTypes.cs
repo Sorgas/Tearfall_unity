@@ -36,6 +36,11 @@ namespace enums {
         }
 
         public DesignationType(DesignationTypeEnum type, string name, string job) : this(type, name, null, job, null) { }
+
+        // cast exception if not digging
+        public BlockType getDiggingBlockType() {
+            return ((DiggingValidator)VALIDATOR).targetBlockType;
+        }
     }
 
     public enum DesignationTypeEnum {

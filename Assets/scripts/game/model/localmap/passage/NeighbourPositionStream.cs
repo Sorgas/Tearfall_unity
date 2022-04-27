@@ -39,20 +39,15 @@ namespace game.model.localmap.passage {
             localMap = GameModel.localMap;
             passageMap = localMap.passageMap;
         }
-
-        /**
-         * Filters all tiles where walking creature cannot step into.
-         * Clears all, if center tile is not passable.
-         */
+        
+        // clears all if center in not passable
         public NeighbourPositionStream filterConnectedToCenter() {
             stream = stream.Where(position => passageMap.hasPathBetweenNeighbours(position, center));
             return this;
         }
 
-        /**
-         * Considers center tile to have given type. Used for checking during building.
-         */
-        public NeighbourPositionStream filterByAccessibilityWithFutureTile(BlockType type) {
+        // Considers center tile to have given type. Used for checking during building.
+        public NeighbourPositionStream filterConnectedToCenterWithOverrideTile(BlockType type) {
             stream = stream.Where(position => passageMap.tileIsAccessibleFromNeighbour(center, position, type));
             return this;
         }
@@ -82,8 +77,9 @@ namespace game.model.localmap.passage {
             return this;
         }
 
+        // collects areas of positions in stream
         public List<byte> collectAreas() {
-            return stream.Select(position => passageMap.area.get(position)).ToList();
+            return stream.Select(position => passageMap.area.get(position)).Distinct().ToList();
         }
     }
 }

@@ -27,16 +27,14 @@ namespace game.model.component.task.action {
     public abstract class Action {
         public string name = "base action";
         public EcsEntity task;
-
+        public ActionTarget target;
+        public ActionStatusEnum status = ActionStatusEnum.OPEN;
         public ref EcsEntity performer {
             get {
                 ref TaskComponents.TaskPerformerComponent component = ref task.takeRef<TaskComponents.TaskPerformerComponent>();
                 return ref component.performer;
             }
         }
-
-        public ActionTarget target;
-        public ActionStatusEnum status = ActionStatusEnum.OPEN;
 
         /**
          * Condition to be met before task with this action is assigned to unit.
@@ -50,7 +48,6 @@ namespace game.model.component.task.action {
         public System.Action onFinish = () => { }; // performed on phase finish
 
         public float progress;
-
         // should be set before performing
         public float speed = 1;
         public float maxProgress = 1;

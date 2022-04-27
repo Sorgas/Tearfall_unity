@@ -28,6 +28,7 @@ namespace game.model.system.task.designation {
                 Debug.Log("mining task created.");
                 EcsEntity taskEntity = GameModel.get().taskContainer.generator.createTask(new DigAction(position.position, designation.type));
                 taskEntity.Replace(new TaskJobComponent { job = JobsEnum.MINER.name });
+                taskEntity.Replace(new TaskBlockOverrideComponent { blockType = designation.type.getDiggingBlockType() });
                 return taskEntity;
             }
             // switch (designation.type.NAME) {

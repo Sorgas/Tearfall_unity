@@ -31,40 +31,49 @@ namespace game.model.localmap.passage {
             new AreaInitializer(localMap).formPassageMap(this);
         }
 
-        /**
-         * Checks that walking creature can move from one tile to another.
-         * Tiles should be adjacent.
-         */
+        // checks there is a walking path between two adjacent tiles
         public bool hasPathBetweenNeighbours(int x1, int y1, int z1, int x2, int y2, int z2) {
-            if (!localMap.inMap(x1, y1, z1) || !localMap.inMap(x2, y2, z2)) return false; // out of map
-            if (passage.get(x1, y1, z1) == IMPASSABLE.VALUE || passage.get(x2, y2, z2) == IMPASSABLE.VALUE) return false;
+            if (!localMap.inMap(x1, y1, z1) || !localMap.inMap(x2, y2, z2) ||
+                passage.get(x1, y1, z1) == IMPASSABLE.VALUE || passage.get(x2, y2, z2) == IMPASSABLE.VALUE) return false; // out of map or not passable
             if (z1 == z2) return true; // passable tiles on same level
-            int lower = z1 < z2 ? blockTypeMap.get(x1, y1, z1) : blockTypeMap.get(x2, y2, z2);
-            if (x1 != x2 || y1 != y2) return lower == RAMP.CODE; // handle ramps
-            int upper = z1 > z2 ? blockTypeMap.get(x1, y1, z1) : blockTypeMap.get(x2, y2, z2);
-            return (upper == STAIRS.CODE || upper == DOWNSTAIRS.CODE) && lower == STAIRS.CODE; // handle stairs
+            int lowerType = z1 < z2 ? blockTypeMap.get(x1, y1, z1) : blockTypeMap.get(x2, y2, z2);
+            if (lowerType == RAMP.CODE) { // ramp has space above
+                if (x1 != x2 || y1 != y2) return (z1 < z2 ? blockTypeMap.get(x1, y1, z1 + 1) : blockTypeMap.get(x2, y2, z2 + 1)) == SPACE.CODE;
+            } else if (lowerType == STAIRS.CODE) { // stairs have stairs above
+                if (x1 == x2 && y1 == y2) {
+                    int upper = z1 > z2 ? blockTypeMap.get(x1, y1, z1) : blockTypeMap.get(x2, y2, z2);
+                    return (upper == STAIRS.CODE || upper == DOWNSTAIRS.CODE) && lowerType == STAIRS.CODE; // handle stairs
+                }
+            }
+            return false;
         }
+
+        public bool tileIsAccessibleFromNeighbour(Vector3Int target, Vector3Int position, BlockType type)
+            => tileIsAccessibleFromNeighbour(target.x, target.y, target.z, position.x, position.y, position.z, type);
+
 
         /**
          * Checks that unit, standing in position will have access (to dig, open a chest) to target tile.
          * Same Z-level tiles are always accessible.
          * Tiles are accessible vertically with stairs or ramps.
          */
-        public bool tileIsAccessibleFromNeighbour(int targetX, int targetY, int targetZ, int x, int y, int z, BlockType targetType) {
-            if (!localMap.inMap(targetX, targetY, targetZ) || !localMap.inMap(x, y, z) || passage.get(x, y, z) == IMPASSABLE.VALUE) return false;
-            if (targetZ == z) return true;
+        public bool tileIsAccessibleFromNeighbour(int tx, int ty, int tz, int x, int y, int z, BlockType targetType) {
+            if (!localMap.inMap(tx, ty, tz) || !localMap.inMap(x, y, z) || passage.get(x, y, z) == IMPASSABLE.VALUE) return false;
+            if (tz == z) return true;
             BlockType fromType = BlockTypeEnum.get(blockTypeMap.get(x, y, z));
-            BlockType lower = targetZ < z ? targetType : fromType;
-            if ((targetX == x) != (targetY == y)) return lower == RAMP; // ramp near and lower
-            if (targetX != x) return false;
-            BlockType upper = targetZ > z ? targetType : fromType;
-            return lower == STAIRS && (upper == STAIRS || upper == DOWNSTAIRS);
+            BlockType lowerType = tz < z ? targetType : fromType;
+            if (lowerType == RAMP) { // ramp has space above
+                if (tx != x || ty != y) return (tz < z ? blockTypeMap.get(tx, ty, tz + 1) : blockTypeMap.get(x, y, z + 1)) == SPACE.CODE;
+            } else if (lowerType == STAIRS) {
+                if (tx == x && ty == y) {
+                    BlockType upperType = tz > z ? targetType : fromType;
+                    return (upperType == STAIRS || upperType == DOWNSTAIRS) && lowerType == STAIRS; // handle stairs
+                }
+            }
+            return false;
         }
 
-        public bool tileIsAccessibleFromNeighbour(Vector3Int target, Vector3Int position, BlockType type) 
-            => tileIsAccessibleFromNeighbour(target.x, target.y, target.z, position.x, position.y, position.z, type);
-
-        public bool hasPathBetweenNeighbours(Vector3Int from, Vector3Int to) 
+        public bool hasPathBetweenNeighbours(Vector3Int from, Vector3Int to)
             => hasPathBetweenNeighbours(@from.x, @from.y, @from.z, to.x, to.y, to.z);
 
         public Passage calculateTilePassage(Vector3Int position) => calculateTilePassage(position.x, position.y, position.z);

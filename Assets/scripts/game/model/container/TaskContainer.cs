@@ -15,7 +15,7 @@ namespace game.model.container {
     // only contains tasks with TaskJobComponent
     public class TaskContainer {
         public TaskGenerator generator = new();
-        
+
         // private Dictionary<string, HashSet<EcsEntity>> tasks = new();
         private Dictionary<string, HashSet<EcsEntity>> openTasks = new(); // job name to tasks
         private Dictionary<EcsEntity, EcsEntity> assigned = new(); // task to performer
@@ -51,12 +51,15 @@ namespace game.model.container {
                         if (targetType == EXACT || targetType == ANY) {
                             if (passageMap.area.get(target) == performerArea) return true;
                         }
-                        // performer can access target tile from his area
+                        // target position accissible from performer area
                         if (targetType == NEAR || targetType == ANY) {
-                            BlockType targetBlockType = GameModel.localMap.blockType.getEnumValue(target);
+                            if (task.Has<TaskBlockOverrideComponent>()) {
+                                return new NeighbourPositionStream(target)
+                                    .filterConnectedToCenterWithOverrideTile(task.take<TaskBlockOverrideComponent>().blockType)
+                                    .collectAreas().Contains(performerArea);
+                            }
                             return new NeighbourPositionStream(target)
-                                .filterByPassage(PASSABLE)
-                                .filterByAccessibilityWithFutureTile(targetBlockType)
+                                .filterConnectedToCenter()
                                 .collectAreas().Contains(performerArea);
                         }
                         return false;
