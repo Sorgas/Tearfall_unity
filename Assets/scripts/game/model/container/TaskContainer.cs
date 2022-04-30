@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
-using enums;
 using enums.action;
 using enums.unit;
+using game.model.component;
 using game.model.localmap.passage;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
 using static enums.action.ActionTargetTypeEnum;
-using static enums.PassageEnum;
 using static game.model.component.task.TaskComponents;
 
 namespace game.model.container {
@@ -19,14 +18,14 @@ namespace game.model.container {
         // private Dictionary<string, HashSet<EcsEntity>> tasks = new();
         private Dictionary<string, HashSet<EcsEntity>> openTasks = new(); // job name to tasks
         private Dictionary<EcsEntity, EcsEntity> assigned = new(); // task to performer
+        public int openTaskCount = 0;
+        public int assignedTaskCount = 0;
 
         public TaskContainer() {
             foreach (var job in JobsEnum.jobs) {
                 openTasks.Add(job.name, new HashSet<EcsEntity>());
-                // tasks.Add(job.name, new HashSet<EcsEntity>());
             }
             openTasks.Add("none", new HashSet<EcsEntity>());
-            // tasks.Add("none", new HashSet<EcsEntity>());
         }
 
         // registers open task in container. Then it can be assigned with UnitTaskAssignmentSystem
@@ -35,6 +34,7 @@ namespace game.model.container {
             string jobName = job.HasValue ? job.Value.job : "none";
             if (openTasks[jobName].Contains(task)) Debug.LogError("Task " + task.name() + "already registered!");
             openTasks[jobName].Add(task);
+            openTaskCount++;
         }
 
         // returns task appropriate for unit, but does not removes task from container
@@ -73,11 +73,17 @@ namespace game.model.container {
         public void removeTask(EcsEntity task) {
             if (task.Has<TaskJobComponent>()) {
                 string job = task.take<TaskJobComponent>().job;
-                if (task.Has<TaskPerformerComponent>()) Debug.LogError("Task with performer is removed from container!");
                 if (openTasks[job].Contains(task)) {
                     openTasks[job].Remove(task);
+                    openTaskCount--;
+                } else if (assigned.ContainsKey(task)) {
+                    assigned.Remove(task);
+                    assignedTaskCount--;
+                } else {
+                    Debug.LogError("Deleting task " + task.name() + "with job " + job + " but not from container!");
                 }
             }
+            Debug.Log(task.name() + " destroyed");
             task.Destroy();
         }
 
@@ -85,11 +91,14 @@ namespace game.model.container {
         public void claimTask(EcsEntity task, EcsEntity performer) {
             string job = task.take<TaskJobComponent>().job;
             openTasks[job].Remove(task);
+            openTaskCount--;
             assigned.Add(task, performer);
+            assignedTaskCount++;
         }
 
         public void taskCompleted(EcsEntity task) {
             assigned.Remove(task);
+            assignedTaskCount--;
         }
 
         // tasks in container always have target

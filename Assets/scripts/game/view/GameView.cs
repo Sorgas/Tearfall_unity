@@ -8,6 +8,7 @@ using game.view.system.unit;
 using generation;
 using Leopotam.Ecs;
 using UnityEngine;
+using UnityEngine.UI;
 using util.geometry;
 using util.lang;
 
@@ -24,6 +25,7 @@ namespace game.view {
         public RectTransform mapHolder;
         private readonly ValueRangeInt zRange = new ValueRangeInt(); // range for current z in model units 
         public int currentZ;
+        private Text debugInfoPanel;
 
         public void init(LocalGameRunner initializer) {
             Debug.Log("initializing view");
@@ -40,6 +42,7 @@ namespace game.view {
             zRange.set(0, GameModel.localMap.bounds.maxZ - 1);
             resetCameraPosition();
             tileUpdater.flush();
+            debugInfoPanel = initializer.modelDebugInfoPanel;
             Debug.Log("view initialized");
         }
 
@@ -47,6 +50,7 @@ namespace game.view {
             keyInputSystem?.update();
             cameraAndMouseHandler?.update();
             systems?.Run();
+            debugInfoPanel.text = GameModel.get().getDebugInfo();
         }
 
         private void initEcs(EcsWorld ecsWorld) {

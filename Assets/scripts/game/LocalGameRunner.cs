@@ -15,11 +15,11 @@ namespace game {
         public RectTransform mapHolder;
         public Camera mainCamera;
         public RectTransform selector;
-        public Text text;
         public JobsWindowHandler jobsWindow;
         public MenuWidgetHandler menuWidget;
         public ToolbarWidgetHandler toolbarWidget;
-        // public Text debugTextPanel;
+        public Text debugInfoPanel;
+        public Text modelDebugInfoPanel;
         private bool started = false;
 
         // when scene is loaded, inits game model and view

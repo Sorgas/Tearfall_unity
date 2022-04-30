@@ -20,7 +20,7 @@ namespace game.model {
         public readonly UnitContainer unitContainer = new();
         public readonly DesignationContainer designationContainer = new();
         public readonly TaskContainer taskContainer = new();
-        public readonly ItemContainer itemContainer = new(); 
+        public readonly ItemContainer itemContainer = new();
         private int count = 0;
 
         public static EcsWorld ecsWorld => get()._ecsWorld;
@@ -70,6 +70,10 @@ namespace game.model {
             _ecsWorld = new EcsWorld();
             world = new World();
             // TODO clear model
+        }
+
+        public string getDebugInfo() {
+            return "TaskContainer: open: " + taskContainer.openTaskCount + " assigned: " + taskContainer.assignedTaskCount + " \n";
         }
     }
 }

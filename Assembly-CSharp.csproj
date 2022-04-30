@@ -57,6 +57,7 @@
      <Compile Include="Assets\scripts\mainMenu\worldmap\ScrollableCameraController.cs" />
      <Compile Include="Assets\scripts\entity\ValueAspect.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTarget.cs" />
+     <Compile Include="Assets\scripts\game\view\camera\SelectorSpriteUpdater.cs" />
      <Compile Include="Assets\scripts\enums\PlaceValidatorEnum.cs" />
      <Compile Include="Assets\scripts\entity\WearAspect.cs" />
      <Compile Include="Assets\scripts\enums\unit\CreatureType.cs" />
@@ -174,6 +175,7 @@
      <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\CommonComponents.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenSequence.cs" />
+     <Compile Include="Assets\scripts\generation\item\DiggingProductGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\EquipToolItemAction.cs" />
      <Compile Include="Assets\scripts\game\view\ui\jobs_widget\JobsWindowHandler.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\DiggingChannelValidator.cs" />
@@ -262,14 +264,12 @@
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />
      <Compile Include="Assets\scripts\util\geometry\PositionUtil.cs" />
      <Compile Include="Assets\scripts\enums\unit\CreatureTypeMap.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\StepOffAction.cs" />
      <Compile Include="Assets\scripts\util\item\ItemSelector.cs" />
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\view\ui\WindowManager.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\StepOffAction.cs" />
-     <Compile Include="Assets\scripts\game\view\camera\SelectorSpriteUpdater.cs" />
-     <Compile Include="Assets\scripts\generation\item\DiggingProductGenerator.cs" />
      <None Include="Assets\resources\data\items\growths.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />

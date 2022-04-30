@@ -18,6 +18,7 @@ namespace game.model.component {
     
     public struct TaskFinishedComponent {
         public TaskStatusEnum status;
+        
     }
 
     // shows that entity is ready to be deleted

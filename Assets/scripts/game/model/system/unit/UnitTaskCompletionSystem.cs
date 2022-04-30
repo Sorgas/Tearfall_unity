@@ -23,7 +23,6 @@ namespace game.model.system.unit {
                 if (status == TaskStatusEnum.FAILED || status == TaskStatusEnum.CANCELED) {
                     // TODO handle task cancelling and interruption (do cancel effects of action(drop item, etc))
                 }
-                
                 detachTaskFromUnit(ref unit, status);       
                 unit.Del<TaskFinishedComponent>();
             }

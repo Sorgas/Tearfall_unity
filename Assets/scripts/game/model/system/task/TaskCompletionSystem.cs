@@ -2,6 +2,7 @@
 using game.model.component;
 using Leopotam.Ecs;
 using UnityEngine;
+using util.lang.extension;
 using static game.model.component.task.TaskComponents;
 
 namespace game.model.system.task {
@@ -23,10 +24,9 @@ namespace game.model.system.task {
         private void detachPerformer(ref EcsEntity task, TaskFinishedComponent component) {
             if (task.Has<TaskPerformerComponent>()) {
                 log("detaching performer");
-                ref EcsEntity unit = ref task.Get<TaskPerformerComponent>().performer; 
+                ref EcsEntity unit = ref task.takeRef<TaskPerformerComponent>().performer; 
                 unit.Replace(component);
                 unit.Del<TaskComponent>();
-                task.Del<TaskPerformerComponent>();
             }
         }
 
@@ -34,10 +34,9 @@ namespace game.model.system.task {
         private void detachDesignation(ref EcsEntity task, TaskFinishedComponent component) {
             if (component.status == TaskStatusEnum.COMPLETE && task.Has<TaskDesignationComponent>()) {
                 log("detaching designation");
-                ref EcsEntity designation = ref task.Get<TaskDesignationComponent>().designation;
+                ref EcsEntity designation = ref task.takeRef<TaskDesignationComponent>().designation;
                 designation.Replace(component);
                 designation.Del<TaskComponent>();
-                task.Del<TaskDesignationComponent>();
             }
             // TODO handle workbenches
         }

@@ -24,7 +24,7 @@ namespace game.view.camera {
         private Vector3 speed; // keeps sprite speed between ticks
 
         public MouseMovementSystem(LocalGameRunner initializer) {
-            debugLabelText = initializer.text;
+            debugLabelText = initializer.debugInfoPanel;
             selector = initializer.selector;
             map = GameModel.localMap;
             bounds = new IntBounds3(0, 0, 0, map.bounds.maxX, map.bounds.maxY, map.bounds.maxZ);

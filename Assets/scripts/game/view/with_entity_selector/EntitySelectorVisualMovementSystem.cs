@@ -24,7 +24,7 @@ namespace game.view.with_entity_selector {
         Vector3Int cacheVector = new Vector3Int();
     
         public EntitySelectorVisualMovementSystem(LocalGameRunner runner) {
-            text = runner.text;
+            text = runner.debugInfoPanel;
             selectorSprite = runner.selector;
             map = GameModel.localMap;
         }
