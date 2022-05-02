@@ -8,7 +8,12 @@ using static game.view.system.mouse_tool.MouseToolEnum;
 namespace game.view.system.mouse_tool {
     public class MouseToolManager : Singleton<MouseToolManager> {
         private MouseToolType currentTool = NONE;
-        
+        private RectTransform selector;
+
+        public MouseToolManager() {
+            selector = GameView.get().sceneObjectsContainer.selector;
+        }
+
         public static void set(MouseToolType newTool) => get()._set(newTool);
 
         public static void reset() => get()._reset();
@@ -39,7 +44,7 @@ namespace game.view.system.mouse_tool {
 
         private void updateToolSprite() {
             Sprite sprite = currentTool.sprite;
-            SpriteRenderer iconRenderer = GameView.get().selector.gameObject.GetComponent<SelectorHandler>().toolIcon;
+            SpriteRenderer iconRenderer = selector.gameObject.GetComponent<SelectorHandler>().toolIcon;
             if (sprite != null) { // scale should be updated for non null sprite
                 float width = iconRenderer.gameObject.GetComponent<RectTransform>().rect.width;
                 float scale = width / sprite.rect.width * sprite.pixelsPerUnit;

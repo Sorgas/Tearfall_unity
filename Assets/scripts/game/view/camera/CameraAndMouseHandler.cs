@@ -1,7 +1,7 @@
-﻿using game.view.no_es;
-using game.view.with_entity_selector;
+﻿using game.view.with_entity_selector;
 
 namespace game.view.camera {
+    // 
     public class CameraAndMouseHandler {
         // without ES
         private CameraInputSystem cameraInputSystem;
@@ -18,7 +18,6 @@ namespace game.view.camera {
             cameraInputSystem = new CameraInputSystem(mouseInputSystem, mouseMovementSystem, cameraMovementSystem);
             cameraMovementSystem.mouseInputSystem = mouseInputSystem;
         }
-
         public void init() {
             selectionHandler.init();
             mouseInputSystem.init();

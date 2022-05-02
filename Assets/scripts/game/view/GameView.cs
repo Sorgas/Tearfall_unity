@@ -1,11 +1,10 @@
 using enums;
 using game.model;
-using game.model.tilemaps;
 using game.view.camera;
 using game.view.system;
 using game.view.system.item;
 using game.view.system.unit;
-using generation;
+using game.view.tilemaps;
 using Leopotam.Ecs;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,34 +14,27 @@ using util.lang;
 namespace game.view {
     // component for binding GameModel and GameObjects in scene. 
     public class GameView : Singleton<GameView> {
+        public LocalGameRunner sceneObjectsContainer;
         private KeyInputSystem keyInputSystem = KeyInputSystem.get();
         public CameraAndMouseHandler cameraAndMouseHandler;
         public LocalMapTileUpdater tileUpdater;
-        public RectTransform selector;
-        
         private EcsSystems systems; // systems for updating scene
-        public Vector2Int selectorOverlook = new Vector2Int();
-        public RectTransform mapHolder;
-        private readonly ValueRangeInt zRange = new ValueRangeInt(); // range for current z in model units 
+        private readonly ValueRangeInt zRange = new(); // range for current z in model units
         public int currentZ;
-        private Text debugInfoPanel;
+        
+        public Vector2Int selectorOverlook = new(); // used for navigating with entity selector
 
-        public void init(LocalGameRunner initializer) {
+        public void init(LocalGameRunner sceneObjectsContainer) {
             Debug.Log("initializing view");
-            mapHolder = initializer.mapHolder;
-            selector = initializer.selector;
-            keyInputSystem.windowManager.addWindow(initializer.jobsWindow, KeyCode.J);
-            keyInputSystem.widgetManager.addWidget(initializer.menuWidget);
-            keyInputSystem.widgetManager.addWidget(initializer.toolbarWidget);
-            
+            this.sceneObjectsContainer = sceneObjectsContainer;
+            initWindowManager();
             initEcs(GameModel.ecsWorld);
-            tileUpdater = new LocalMapTileUpdater(initializer.mapHolder);
-            cameraAndMouseHandler = new CameraAndMouseHandler(initializer);
+            tileUpdater = new LocalMapTileUpdater(sceneObjectsContainer.mapHolder);
+            cameraAndMouseHandler = new CameraAndMouseHandler(sceneObjectsContainer);
             cameraAndMouseHandler.init();
             zRange.set(0, GameModel.localMap.bounds.maxZ - 1);
-            resetCameraPosition();
             tileUpdater.flush();
-            debugInfoPanel = initializer.modelDebugInfoPanel;
+            resetCameraPosition();
             Debug.Log("view initialized");
         }
 
@@ -50,7 +42,7 @@ namespace game.view {
             keyInputSystem?.update();
             cameraAndMouseHandler?.update();
             systems?.Run();
-            debugInfoPanel.text = GameModel.get().getDebugInfo();
+            sceneObjectsContainer.modelDebugInfoPanel.text = GameModel.get().getDebugInfo();
         }
 
         private void initEcs(EcsWorld ecsWorld) {
@@ -62,11 +54,20 @@ namespace game.view {
             systems.Init();
         }
 
+        private void initWindowManager() {
+            keyInputSystem.windowManager.addWindow(sceneObjectsContainer.jobsWindow, KeyCode.J);
+            keyInputSystem.widgetManager.addWidget(sceneObjectsContainer.menuWidget);
+            keyInputSystem.widgetManager.addWidget(sceneObjectsContainer.toolbarWidget);
+        }
+        
         public int changeLayer(int dz) => setLayer(currentZ + dz);
 
         public int setLayer(int z) {
             int oldZ = currentZ;
             currentZ = zRange.clamp(z);
+            if (oldZ != currentZ) {
+                tileUpdater.updateLayersVisibility(oldZ,currentZ);
+            }
             return currentZ - oldZ;
         }
         

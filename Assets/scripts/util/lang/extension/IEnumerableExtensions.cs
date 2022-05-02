@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace util.extension {
+namespace util.lang.extension {
     public static class IEnumerableExtensions {
         public static IEnumerable<T> Apply<T>(this IEnumerable<T> source, Action<T> action) {
             foreach (var e in source) {

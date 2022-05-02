@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using entity;
-using util.extension;
+using util.lang.extension;
 
 namespace enums.item.type.raw {
     public class RawItemTypeProcessor {

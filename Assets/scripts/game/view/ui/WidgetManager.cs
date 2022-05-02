@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using game.view.ui;
 using UnityEngine;
 using util.lang;
 
-namespace game.view {
+namespace game.view.ui {
     
     // widget is ui piece that is always visible
     // widgets hot key maps should not intersect with each other and camera controls 

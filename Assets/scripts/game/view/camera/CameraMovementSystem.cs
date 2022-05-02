@@ -1,12 +1,11 @@
 using game.model;
 using game.model.localmap;
-using game.view.camera;
 using game.view.util;
 using UnityEngine;
 using util.geometry;
 
 // moves camera to be on same z-level with entity selector sprite and see it on screen
-namespace game.view.no_es {
+namespace game.view.camera {
     // smoothly moves camera to camera target
     // keeps target within bounds for camera target
     // TODO add camera velocity

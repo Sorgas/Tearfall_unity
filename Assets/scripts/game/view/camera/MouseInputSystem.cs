@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using game.model;
-using game.view.no_es;
 using game.view.util;
 using UnityEngine;
 using UnityEngine.EventSystems;

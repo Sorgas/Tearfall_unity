@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using enums;
 using UnityEngine;
-using util.extension;
 using util.geometry;
+using util.lang.extension;
 
 namespace game.model.localmap.passage {
     class NeighbourPositionStream {

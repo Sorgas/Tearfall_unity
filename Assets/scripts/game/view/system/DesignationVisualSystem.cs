@@ -11,6 +11,11 @@ namespace game.view.system {
     // creates go with sprite for designations without visual component
     public class DesignationVisualSystem : IEcsRunSystem {
         public EcsFilter<DesignationComponent>.Exclude<DesignationVisualComponent> filter;
+        private RectTransform mapHolder;
+
+        public DesignationVisualSystem() {
+            mapHolder = GameView.get().sceneObjectsContainer.mapHolder;
+        }
 
         public void Run() {
             foreach (var i in filter) {
@@ -23,7 +28,7 @@ namespace game.view.system {
             DesignationComponent designation = entity.Get<DesignationComponent>();
             PositionComponent position = entity.Get<PositionComponent>();
             // create sprite on scene
-            GameObject go = PrefabLoader.create("designation", GameView.get().mapHolder);
+            GameObject go = PrefabLoader.create("designation", mapHolder);
             SpriteRenderer spriteRenderer = go.GetComponent<SpriteRenderer>();
             Sprite sprite = IconLoader.get("designation/" + designation.type.SPRITE_NAME);
             spriteRenderer.sprite = sprite;

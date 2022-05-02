@@ -2,26 +2,30 @@
 using System.Linq;
 using enums;
 using enums.material;
+using game.model;
 using game.model.localmap;
+using game.view.util;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using util.geometry;
 using util.lang;
 using static enums.BlockTypeEnum;
 
+// stores tilemaps of layers in array
 // changes unity tilemaps to be consistent with local map in game model
 // tiles are organized into layers: floor tiles, wall tiles, plants & buildings, liquids
-namespace game.model.tilemaps {
+namespace game.view.tilemaps {
     public class LocalMapTileUpdater {
-        private readonly List<Tilemap> layers = new();
+        private readonly List<LocalMapLayerHandler> layers = new();
         public readonly TileSetHolder tileSetHolder = new();
         public GameObject layerPrefab;
         private RectTransform mapHolder;
         private LocalMap map;
-
-        private const int FLOOR_LAYER = 0;
-        private const int WALL_LAYER = 1;
-        private const int SELECTION_LAYER = 2;
+        public int viewDepth = 6;
+        
+        private const int FLOOR_LAYER = 9;
+        private const int WALL_LAYER = 8;
+        private const int SELECTION_LAYER = 0;
 
         public LocalMapTileUpdater(RectTransform mapHolder) {
             this.mapHolder = mapHolder;
@@ -34,7 +38,7 @@ namespace game.model.tilemaps {
             Debug.Log("flushing localMap tiles");
             new Optional<LocalMap>(GameModel.localMap)
                 .ifPresent(map => {
-                    createLayers(map);
+                    createLayers();
                     map.bounds.iterate(position => updateTile(position, false)); // no need to update ramps on whole map update
                 });
         }
@@ -56,20 +60,19 @@ namespace game.model.tilemaps {
                 string floorTileName = (blockType == STAIRS || blockType == DOWNSTAIRS) ? DOWNSTAIRS.PREFIX : FLOOR.PREFIX;
                 floorTile = tileSetHolder.tilesets[material][floorTileName]; // draw wall part
             }
-            layers[z].SetTile(new Vector3Int(x, y, FLOOR_LAYER), floorTile);
-            layers[z].SetTile(new Vector3Int(x, y, WALL_LAYER), wallTile);
-            
+            layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER), floorTile);
+            layers[z].setTile(new Vector3Int(x, y, WALL_LAYER), wallTile);
             if (blockType == SPACE) setToppingForSpace(x, y, z);
             // if tile above is space, topping should be updated
             if (map.inMap(x, y, z + 1) && map.blockType.get(x, y, z + 1) == SPACE.CODE) updateTile(x, y, z + 1, false);
             if (withRamps) updateRampsAround(new Vector3Int(x, y, z));
         }
 
-        private void createLayers(LocalMap map) {
+        private void createLayers() {
             Transform transform = mapHolder.transform;
             for (int i = 0; i <= map.bounds.maxZ; i++) {
-                GameObject layer = GameObject.Instantiate(layerPrefab, new Vector3(0, i / 2f, -i * 2) + transform.position, Quaternion.identity, transform);
-                layers.Add(layer.transform.GetComponentInChildren<Tilemap>());
+                GameObject layer = Object.Instantiate(layerPrefab, new Vector3(0, i / 2f, -i * 2) + transform.position, Quaternion.identity, transform);
+                layers.Add(layer.transform.GetComponentInChildren<LocalMapLayerHandler>());
             }
         }
 
@@ -80,7 +83,7 @@ namespace game.model.tilemaps {
             if (blockType != RAMP) return;
             string material = selectMaterial(x, y, z - 1);
             string type = selectRamp(x, y, z - 1) + "F";
-            layers[z].SetTile(new Vector3Int(x, y, FLOOR_LAYER), tileSetHolder.tilesets[material][type]); // topping corresponds lower tile
+            layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER), tileSetHolder.tilesets[material][type]); // topping corresponds lower tile
         }
 
         private string selectMaterial(int x, int y, int z) {
@@ -136,12 +139,20 @@ namespace game.model.tilemaps {
                 string type = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;
                 tile = tileSetHolder.tilesets["selection"][type];
             }
-            layers[z].SetTile(vector, tile);
+            layers[z].setTile(vector, tile);
             if (blockType == SPACE) setToppingForSpace(x, y, z);
         }
 
         public void hideSelectionTile(int x, int y, int z) {
-            layers[z].SetTile(new Vector3Int(x, y, SELECTION_LAYER), null);
+            layers[z].setTile(new Vector3Int(x, y, SELECTION_LAYER), null);
+        }
+
+        // 
+        public void updateLayersVisibility(int oldZ, int newZ) {
+            for (int z = 0; z < map.bounds.maxZ; z++) {
+                Debug.Log(z);
+                layers[z].setVisible(z > (newZ - viewDepth) && z <= newZ);
+            }
         }
     }
 }

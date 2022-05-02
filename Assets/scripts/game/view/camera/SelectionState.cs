@@ -1,4 +1,4 @@
-﻿using game.model.tilemaps;
+﻿using game.view.tilemaps;
 using UnityEngine;
 using util.geometry;
 

@@ -11,6 +11,7 @@ namespace game {
     // Entry point from Unity scene to game logic. Creates GameModel and GameView when local map scene is loaded. 
     // Calls update() for game model
     // Generates local map if none is generated (for testing)
+    // Contains links to common scene objects
     public class LocalGameRunner : MonoBehaviour {
         public RectTransform mapHolder;
         public Camera mainCamera;

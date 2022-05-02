@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.U2D;
 
-namespace game.model.tilemaps {
+namespace game.view.tilemaps {
     public class TileSetHolder {
         // map of <material -> <tilecode -> tile>>
         public Dictionary<string, Dictionary<string, Tile>> tilesets = new();

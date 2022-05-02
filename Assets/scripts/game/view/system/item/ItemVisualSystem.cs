@@ -14,6 +14,11 @@ namespace game.view.system.item {
         private const int SIZE = 32;
         private Vector2 pivot = new Vector2(0, 0);
         private GameObject itemPrefab = Resources.Load<GameObject>("prefabs/Item");
+        private RectTransform mapHolder;
+
+        public ItemVisualSystem() {
+            mapHolder = GameView.get().sceneObjectsContainer.mapHolder;
+        }
 
         public void Run() {
             foreach (var i in newItemsFilter) {
@@ -30,8 +35,8 @@ namespace game.view.system.item {
             ItemComponent item = entity.takeRef<ItemComponent>();
             ItemVisualComponent visual = new ItemVisualComponent();
             Vector3 spritePosition = ViewUtil.fromModelToScene(entity.pos());
-            visual.go = Object.Instantiate(itemPrefab, spritePosition + new Vector3(0, 0, -0.1f), Quaternion.identity);
-            visual.go.transform.SetParent(GameView.get().mapHolder);
+            visual.go = Object.Instantiate(itemPrefab, spritePosition + new Vector3(0, 0, 0.85f), Quaternion.identity);
+            visual.go.transform.SetParent(mapHolder);
             visual.spriteRenderer = visual.go.GetComponent<SpriteRenderer>();
             visual.spriteRenderer.sprite = createSprite(ItemTypeMap.getItemType(item.type));
             entity.Replace(visual);
@@ -39,7 +44,7 @@ namespace game.view.system.item {
 
         private void updatePosition(ref ItemVisualComponent component, PositionComponent positionComponent) {
             Vector3Int pos = positionComponent.position;
-            Vector3 scenePos = ViewUtil.fromModelToScene(pos) + new Vector3(0, 0, -0.1f);
+            Vector3 scenePos = ViewUtil.fromModelToScene(pos) + new Vector3(0, 0, 0.85f);
             component.spriteRenderer.gameObject.transform.localPosition = scenePos;
         }
 

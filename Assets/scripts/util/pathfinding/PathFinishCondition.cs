@@ -4,7 +4,6 @@ using enums.action;
 using game.model;
 using game.model.localmap;
 using UnityEngine;
-using util.extension;
 using util.geometry;
 using static enums.action.ActionTargetTypeEnum;
 using static enums.PassageEnum;
