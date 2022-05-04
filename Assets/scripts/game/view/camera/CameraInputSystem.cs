@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using util.geometry;
+using util.geometry.bounds;
 using util.input;
 
 // moves selector in model

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using enums.plant.raw;
 
 namespace enums.plant {
-    class PlantLifeStage {
+    public class PlantLifeStage {
         public String[] titlePrefixSuffix;
         public int stageLength;
         public String harvestProduct; // products differ between stages

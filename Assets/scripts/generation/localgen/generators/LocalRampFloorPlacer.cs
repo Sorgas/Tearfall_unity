@@ -18,12 +18,11 @@ namespace generation.localgen.generators {
         }
 
         private void fillRamps() {
-            for (int x = 0; x < localMap.bounds.maxX; x++) {
-                for (int y = 0; y < localMap.bounds.maxY; y++) {
-                    for (int z = 1; z < localMap.bounds.maxZ; z++) {
+            for (int x = 0; x <= localMap.bounds.maxX; x++) {
+                for (int y = 0; y <= localMap.bounds.maxY; y++) {
+                    for (int z = 1; z <= localMap.bounds.maxZ; z++) {
                         if (isGround(x, y, z) && hasAdjacentWall(x, y, z)) {
                             localMap.blockType.setRaw(x, y, z, BlockTypeEnum.RAMP.CODE, adjacentWallMaterial(x, y, z));
-                            
                         }
                     }
                 }
@@ -31,8 +30,8 @@ namespace generation.localgen.generators {
         }
 
         private void fillFloors() {
-            for (int x = 0; x < localMap.bounds.maxX; x++) {
-                for (int y = 0; y < localMap.bounds.maxY; y++) {
+            for (int x = 0; x <= localMap.bounds.maxX; x++) {
+                for (int y = 0; y <= localMap.bounds.maxY; y++) {
                     for (int z = localMap.bounds.maxZ - 1; z > 0; z--) {
                         if (isGround(x, y, z)) { //non space sell
                             localMap.blockType.setRaw(x, y, z, BlockTypeEnum.FLOOR.CODE, localMap.blockType.getMaterial(x, y, z - 1));
@@ -49,7 +48,8 @@ namespace generation.localgen.generators {
         private bool hasAdjacentWall(int xc, int yc, int z) {
             for (int x = xc - 1; x <= xc + 1; x++) {
                 for (int y = yc - 1; y <= yc + 1; y++) {
-                    if (localMap.inMap(x, y, z) && localMap.blockType.get(x, y, z) == wallCode) return true;
+                    if (localMap.inMap(x, y, z) && localMap.blockType.get(x, y, z) == wallCode) 
+                        return true;
                 }
             }
             return false;
@@ -58,7 +58,8 @@ namespace generation.localgen.generators {
         private int adjacentWallMaterial(int xc, int yc, int z) {
             for (int x = xc - 1; x <= xc + 1; x++) {
                 for (int y = yc - 1; y <= yc + 1; y++) {
-                    if (localMap.inMap(x, y, z) && localMap.blockType.get(x, y, z) == wallCode) return localMap.blockType.getMaterial(x, y, z);
+                    if (localMap.inMap(x, y, z) && localMap.blockType.get(x, y, z) == wallCode) 
+                        return localMap.blockType.getMaterial(x, y, z);
                 }
             }
             return 0;

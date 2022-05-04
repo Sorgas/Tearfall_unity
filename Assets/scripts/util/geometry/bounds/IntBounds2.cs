@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace util.geometry {
+namespace util.geometry.bounds {
     public class IntBounds2 {
         public int minX;
         public int minY;

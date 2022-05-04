@@ -8,7 +8,7 @@ namespace game.model.localmap {
         public readonly BlockTypeMap blockType;
         public readonly PassageMap passageMap; // not saved to savegame,
         public readonly LocalMapUtil util;
-        public readonly IntBounds3 bounds;
+        public readonly IntBounds3 bounds; // inclusive
         public readonly Vector3Int sizeVector; // exclusive
 
         // public LightMap light;

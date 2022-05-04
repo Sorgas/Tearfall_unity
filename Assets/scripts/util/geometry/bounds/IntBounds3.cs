@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using util.geometry.bounds;
 
 namespace util.geometry {
     public class IntBounds3 : IntBounds2 {

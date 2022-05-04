@@ -1,15 +1,15 @@
-﻿namespace game.model.component.plant {
-    class PlantBlock {
-        public AbstractPlant plant;
+﻿using Leopotam.Ecs;
+
+namespace game.model.component.plant {
+    public class PlantBlock {
+        public EcsEntity plant;
         public readonly int material;
         public readonly int blockType; // type from enum
-        public readonly int[] atlasXY;
         public bool harvested;
 
         public PlantBlock(int material, int blockType) {
             this.material = material;
             this.blockType = blockType;
-            atlasXY = new int[2];
         }
 
         public bool isPassable() {

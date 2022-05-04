@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace enums.plant.raw {
-    class RawPlantType {
+    public class RawPlantType {
         public string name;
         public string title;
         public string materialName = "generic_plant"; // in null for substrates

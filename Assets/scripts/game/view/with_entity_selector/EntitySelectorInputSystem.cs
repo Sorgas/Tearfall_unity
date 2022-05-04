@@ -4,6 +4,7 @@ using game.model.entity_selector;
 using game.model.localmap;
 using UnityEngine;
 using util.geometry;
+using util.geometry.bounds;
 using util.input;
 
 // moves selector in model

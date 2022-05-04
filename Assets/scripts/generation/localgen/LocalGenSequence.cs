@@ -27,6 +27,7 @@ namespace generation.localgen {
             generators.Add(new LocalStoneLayersGenerator());
             generators.Add(new LocalRampFloorPlacer());
             generators.Add(new LocalUnitGenerator());
+            generators.Add(new LocalForestGenerator());
             generators.Add(new LocalItemGenerator());
             maxProgress = generators.Count - 1;
         }

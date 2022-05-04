@@ -1,4 +1,5 @@
 ﻿using util.geometry;
+using util.geometry.bounds;
 
 namespace generation.localgen {
     public abstract class LocalGenerator {

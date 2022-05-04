@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using enums.plant.raw;
 
 namespace enums.plant {
-    class PlantType {
+    public class PlantType {
         public String name;
         public String title;
         public String materialName; // is null for substrates
