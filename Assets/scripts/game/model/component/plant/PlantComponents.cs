@@ -11,7 +11,5 @@ namespace game.model.component.plant {
     // stores tree blocks
     public struct TreeComponent {
         public List<PlantBlock> blocks;
-    }
-    
-    public struct 
+    } 
 }
