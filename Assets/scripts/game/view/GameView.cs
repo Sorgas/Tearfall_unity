@@ -3,11 +3,11 @@ using game.model;
 using game.view.camera;
 using game.view.system;
 using game.view.system.item;
+using game.view.system.plant;
 using game.view.system.unit;
 using game.view.tilemaps;
 using Leopotam.Ecs;
 using UnityEngine;
-using UnityEngine.UI;
 using util.geometry;
 using util.lang;
 
@@ -51,6 +51,7 @@ namespace game.view {
             systems.Add(new ItemVisualSystem());
             systems.Add(new ItemVisualRemoveSystem());
             systems.Add(new DesignationVisualSystem());
+            systems.Add(new PlantVisualSystem());
             systems.Init();
         }
 
@@ -72,7 +73,7 @@ namespace game.view {
         }
         
         private void resetCameraPosition() {
-            Vector3Int cameraPosition = new Vector3Int(GameModel.localMap.bounds.maxX / 2, GameModel.localMap.bounds.maxY / 2, 0);
+            Vector3Int cameraPosition = new(GameModel.localMap.bounds.maxX / 2, GameModel.localMap.bounds.maxY / 2, 0);
             for (int z = GameModel.localMap.bounds.maxZ - 1; z >=0 ; z--) {
                 if (GameModel.localMap.blockType.get(cameraPosition.x, cameraPosition.y, z) != BlockTypeEnum.SPACE.CODE) {
                     cameraPosition.z = z;

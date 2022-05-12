@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using enums.plant;
+using UnityEngine;
 
 namespace game.model.component.plant {
 
@@ -12,6 +13,9 @@ namespace game.model.component.plant {
     public struct TreeComponent {
         public List<PlantBlock> blocks;
     }
-    
-    public struct 
+
+    public struct PlantVisualComponent {
+        public SpriteRenderer spriteRenderer;
+        public GameObject go;
+    }
 }

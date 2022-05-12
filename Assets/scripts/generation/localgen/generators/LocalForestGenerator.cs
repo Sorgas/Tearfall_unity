@@ -1,23 +1,27 @@
-using System;
-using System.Collections.Generic;
 using enums;
 using game.model;
 using game.model.localmap;
+using generation.plant;
+using Leopotam.Ecs;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace generation.localgen.generators {
+    // TODO add plant type selection based on position on world map
     public class LocalForestGenerator : LocalGenerator {
         private int maxAttempts = 20;
-        private List<Vector3Int> treePositions = new();
         private LocalMap map;
+        private PlantGenerator generator = new();
          
         public override void generate() {
+            Debug.Log("generating trees");
             map = GameModel.localMap;
             int treesNumber = config.areaSize * config.areaSize / 125 * config.forestationLevel;
             treesNumber += Random.Range(-1, 1) * 20;
+            Debug.Log(treesNumber);
             for (int i = 0; i < treesNumber; i++) {
                 Vector3Int treePosition = findPlaceForTree();
+                Debug.Log(treePosition);
                 if(treePosition.x >= 0) createTree(treePosition);
             }
         }
@@ -27,7 +31,8 @@ namespace generation.localgen.generators {
                 int x = Random.Range(0, map.bounds.maxX);
                 int y = Random.Range(0, map.bounds.maxY);
                 int z = findZ(x, y);
-                if (z >= 0 && checkTreeOverlap(x, y)) return new Vector3Int(x, y, z);
+                Vector3Int position = new(x, y, z);
+                if (z >= 0 && checkTreeOverlap(position)) return position;
             }
             return Vector3Int.left;
         }
@@ -41,17 +46,20 @@ namespace generation.localgen.generators {
             return -1;
         }
 
-        private bool checkTreeOverlap(int x, int y) {
-            foreach (Vector3Int treePosition in treePositions) {
-                if (Math.Abs(treePosition.x - x) < 3 || Math.Abs(treePosition.y - y) < 3) {
-                    return false;
-                }
-            }
-            return true;
+        // TODO check blocks of multi-tile trees
+        private bool checkTreeOverlap(Vector3Int position) {
+            return GameModel.get().plantContainer.getBlock(position) == null;
+            // foreach (Vector3Int treePosition in treePositions) {
+            //     if (Math.Abs(treePosition.x - x) < 3 || Math.Abs(treePosition.y - y) < 3) {
+            //         return false;
+            //     }
+            // }
+            // return true;
         }
         
         private void createTree(Vector3Int treePosition) {
-            
+            EcsEntity entity = generator.generate("oak"); // TODO
+            GameModel.get().plantContainer.addPlant(entity, treePosition);
         }
         
         public override string getMessage() {

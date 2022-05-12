@@ -11,14 +11,11 @@ namespace game.view.system.item {
     public class ItemVisualSystem : IEcsRunSystem {
         public EcsFilter<ItemComponent, PositionComponent>.Exclude<ItemVisualComponent> newItemsFilter; // items put on ground but not rendered
         public EcsFilter<PositionComponent, ItemVisualComponent> itemsOnGroundFilter; // items on ground should update GO position
-        private const int SIZE = 32;
-        private Vector2 pivot = new Vector2(0, 0);
-        private GameObject itemPrefab = Resources.Load<GameObject>("prefabs/Item");
-        private RectTransform mapHolder;
 
-        public ItemVisualSystem() {
-            mapHolder = GameView.get().sceneObjectsContainer.mapHolder;
-        }
+        private const int SIZE = 32;
+        private Vector2 pivot = new(0, 0);
+        private GameObject itemPrefab = Resources.Load<GameObject>("prefabs/Item");
+        private RectTransform mapHolder = GameView.get().sceneObjectsContainer.mapHolder;
 
         public void Run() {
             foreach (var i in newItemsFilter) {
@@ -33,7 +30,7 @@ namespace game.view.system.item {
 
         private void createSpriteForItem(EcsEntity entity) {
             ItemComponent item = entity.takeRef<ItemComponent>();
-            ItemVisualComponent visual = new ItemVisualComponent();
+            ItemVisualComponent visual = new();
             Vector3 spritePosition = ViewUtil.fromModelToScene(entity.pos());
             visual.go = Object.Instantiate(itemPrefab, spritePosition + new Vector3(0, 0, 0.85f), Quaternion.identity);
             visual.go.transform.SetParent(mapHolder);
@@ -53,7 +50,7 @@ namespace game.view.system.item {
             Texture2D texture = sprite.texture;
             int x = type.atlasXY[0];
             int y = type.atlasXY[1];
-            Rect rect = new Rect(x * SIZE, texture.height - (y + 1) * SIZE, SIZE, SIZE);
+            Rect rect = new(x * SIZE, texture.height - (y + 1) * SIZE, SIZE, SIZE);
             return Sprite.Create(texture, rect, pivot, 32);
         }
     }

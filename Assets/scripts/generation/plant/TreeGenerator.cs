@@ -8,8 +8,8 @@ namespace generation.plant {
 
         public void generateTree(Vector3Int position) {
             EcsEntity entity = GameModel.get().createEntity();
-            entity.Replace<>(new PlantComponent());
-            entity.Replace<>(new TreeComponent());
+            entity.Replace(new PlantComponent());
+            entity.Replace(new TreeComponent());
         }
     }
 }

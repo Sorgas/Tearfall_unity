@@ -6,9 +6,11 @@ using util.lang;
 
 namespace enums.material {
     public class MaterialMap : Singleton<MaterialMap> {
-        private Dictionary<string, Material_> map = new Dictionary<string, Material_>();
-        private Dictionary<int, Material_> idMap = new Dictionary<int, Material_>();
+        public const int GENERIC_PLANT = 4;
+        private Dictionary<string, Material_> map = new();
+        private Dictionary<int, Material_> idMap = new();
 
+        
         public MaterialMap() {
             loadFiles();
         }

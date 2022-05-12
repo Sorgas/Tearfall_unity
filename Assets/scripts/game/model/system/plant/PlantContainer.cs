@@ -1,14 +1,34 @@
 ﻿using System.Collections.Generic;
+using game.model.component;
 using game.model.component.plant;
+using Leopotam.Ecs;
 using UnityEngine;
+using util.lang.extension;
 
 namespace game.model.system.plant {
-    class PlantContainer : ModelComponent {
-        private Dictionary<Vector3Int, PlantBlock> plantBlocks; // trees and plants blocks
-                                                                //    private PlantProductGenerator plantProductGenerator;
-                                                                //    private LocalMap localMap;
-                                                                //    private final Position cachePosition;
+    public class PlantContainer : ModelComponent {
+        private Dictionary<Vector3Int, PlantBlock> plantBlocks = new();
+        private Dictionary<Vector3Int, EcsEntity> plants = new();
 
+        //    private PlantProductGenerator plantProductGenerator;
+        //    private LocalMap localMap;
+        //    private final Position cachePosition;
+
+        // TODO handle trees
+        public void addPlant(EcsEntity plant, Vector3Int position) {
+            plants.Add(position, plant);
+            plantBlocks.Add(position, plant.take<PlantComponent>().block);
+            plant.Replace(new PositionComponent { position = position });
+        }
+
+        public EcsEntity getPlant(Vector3Int position) {
+            return plants.ContainsKey(position) ? plants[position] : EcsEntity.Null;
+        }
+
+        public PlantBlock getBlock(Vector3Int position) {
+            return plantBlocks.ContainsKey(position) ? plantBlocks[position] : null;
+        }
+        
         //public PlantContainer() {
         //        plantBlocks = new HashMap<>();
         //        plantProductGenerator = new PlantProductGenerator();

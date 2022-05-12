@@ -13,7 +13,7 @@ namespace enums.material {
         public Color color;
 
         public Material_(RawMaterial raw) {
-            this.id = raw.id;
+            id = raw.id;
             name = raw.name;
             tags = new List<string>(raw.tags);
             density = raw.density;

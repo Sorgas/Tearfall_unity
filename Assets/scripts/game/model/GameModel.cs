@@ -3,6 +3,7 @@ using game.model.container.item;
 using game.model.entity_selector;
 using game.model.localmap;
 using game.model.system.item;
+using game.model.system.plant;
 using game.model.system.task;
 using game.model.system.task.designation;
 using game.model.system.unit;
@@ -21,6 +22,7 @@ namespace game.model {
         public readonly DesignationContainer designationContainer = new();
         public readonly TaskContainer taskContainer = new();
         public readonly ItemContainer itemContainer = new();
+        public readonly PlantContainer plantContainer = new();
         private int count = 0;
 
         public static EcsWorld ecsWorld => get()._ecsWorld;
@@ -52,9 +54,7 @@ namespace game.model {
                 .Add(new UnitTaskCompletionSystem()) // handle unit with completed tasks
                 .Add(new UnitWearNeedSystem())
                 .Add(new UnitNeedSystem())
-
                 .Add(new TaskCompletionSystem()) // handle completed tasks
-                
                 .Add(new DesignationCompletionSystem()) // handle designation with completed tasks
                 .Add(new DesignationTaskCreationSystem()) // create tasks for designations
                 .Add(new ItemRegisterInitSystem())

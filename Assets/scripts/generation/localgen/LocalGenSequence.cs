@@ -8,12 +8,11 @@ namespace generation.localgen {
         public int progress = 0;
         public int maxProgress = 0;
         public string currentMessage;
-        private List<LocalGenerator> generators = new List<LocalGenerator>();
+        private List<LocalGenerator> generators = new();
 
         //private LocalRiverGenerator localRiverGenerator;
         //private LocalCaveGenerator localCaveGenerator;
         //private LocalPlantsGenerator localPlantsGenerator;
-        //private LocalForestGenerator localForestGenerator;
         //private LocalSubstrateGenerator localSubstrategenerator;
         //private LocalFaunaGenerator localFaunaGenerator;
         //private LocalBuildingGenerator localBuildingGenerator;
@@ -38,7 +37,6 @@ namespace generation.localgen {
                 generator.generate();
                 progress++;
             });
-            // return GenerationState.get().localGenContainer.localMap;
         }
     }
 }

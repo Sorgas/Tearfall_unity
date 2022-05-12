@@ -15,6 +15,6 @@ namespace generation.localgen {
         public int elevationVariation = 6; // TODO base on world cell's biome (plains/mountains)
         public float soilThickness = 0.05f; // TODO base on world cell's moisture (swamps/mountains)
         public int settlerNumber = 1;
-        public int forestationLevel = 2; // TODO get from world map
+        public int forestationLevel = 4; // TODO get from world map
     }
 }

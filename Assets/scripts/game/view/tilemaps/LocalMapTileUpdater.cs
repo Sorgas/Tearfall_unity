@@ -23,6 +23,7 @@ namespace game.view.tilemaps {
         private LocalMap map;
         public int viewDepth = 6;
         
+        // grid z is +0.1
         private const int FLOOR_LAYER = 9;
         private const int WALL_LAYER = 8;
         private const int SELECTION_LAYER = 0;
@@ -150,7 +151,7 @@ namespace game.view.tilemaps {
         // 
         public void updateLayersVisibility(int oldZ, int newZ) {
             for (int z = 0; z < map.bounds.maxZ; z++) {
-                Debug.Log(z);
+                // Debug.Log(z);
                 layers[z].setVisible(z > (newZ - viewDepth) && z <= newZ);
             }
         }

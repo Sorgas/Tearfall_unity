@@ -1,6 +1,6 @@
 [
     {
-        "id": 12,
+        "id": 201,
         "name": "chalcopyrite ",
         "tags": ["ore"],
         "density": "4.2",
@@ -12,7 +12,7 @@
         "atlasY": "0",
         "color": "ffffffff"
     }, {
-        "id": 13,
+        "id": 202,
     "name": "tetrahedrite",
     "tags": ["ore"],
     "density": "5",
@@ -24,7 +24,7 @@
     "atlasY": "0",
     "color": "ffffffff"
 }, {
-    "id": 14,
+    "id": 203,
     "name": "magnetite",
     "tags": ["ore"],
     "density": "5.2",
@@ -36,7 +36,7 @@
     "atlasY": "0",
     "color": "ffffffff"
 }, {
-    "id": 15,
+    "id": 204,
     "name": "hematite",
     "tags": ["ore"],
     "density": "5.2",
@@ -48,7 +48,7 @@
     "atlasY": "0",
     "color": "ffffffff"
 }, {
-    "id": 16,
+    "id": 205,
     "name": "native gold",
     "tags": ["ore"],
     "density": "19",
@@ -60,7 +60,7 @@
     "atlasY": "0",
     "color": "ffffffff"
 }, {
-    "id": 17,
+    "id": 206,
     "name": "galena",
     "tags": ["ore"],
     "density": "7.4",
@@ -72,7 +72,7 @@
     "atlasY": "0",
     "color": "ffffffff"
 }, {
-    "id": 18,
+    "id": 207,
     "name": "sphalerite(blende)",
     "tags": ["ore"],
     "density": "4.1",
@@ -84,7 +84,7 @@
     "atlasY": "0",
     "color": "ffffffff"
 }, {
-    "id": 19,
+    "id": 208,
     "name": "garnierite",
     "tags": ["ore"],
     "density": "2.4",
@@ -96,7 +96,7 @@
     "atlasY": "0",
     "color": "ffffffff"
 }, {
-    "id": 20,
+    "id": 209,
     "name": "cassiterite",
     "tags": ["ore"],
     "density": "6.9",
@@ -108,7 +108,7 @@
     "atlasY": "0",
     "color": "ffffffff"
 }, {
-    "id": 21,
+    "id": 210,
     "name": "native silver",
     "tags": ["ore"],
     "aspects": ["ore(silver, 1)"],
@@ -121,7 +121,7 @@
     "atlasY": "0",
     "color": "ffffffff"
 }, {
-    "id": 22,
+    "id": 211,
     "name": "coal",
     "tags": ["ore", "fuel"],
     "density": "10.5",
