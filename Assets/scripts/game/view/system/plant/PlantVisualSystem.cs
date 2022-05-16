@@ -13,7 +13,7 @@ namespace game.view.system.plant {
         private RectTransform mapHolder = GameView.get().sceneObjectsContainer.mapHolder;
         private const int SIZE_X = 64;
         private const int SIZE_Y = 90;
-        private Vector2 pivot = new(0, 0);
+        private readonly Vector2 pivot = new(0, 0);
 
         public void Run() {
             foreach (int i in filter) {

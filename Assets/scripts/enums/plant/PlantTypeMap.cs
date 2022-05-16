@@ -28,6 +28,7 @@ namespace enums.plant {
                     PlantType type = new(raw);
                     map.Add(type.name, type);
                     type.atlasName = file.name;
+                    if (file.name.Equals("trees")) type.isTree = true;
                     count++;
                 }
                 logMessage += "loaded " + count + " from " + file.name + "\n";

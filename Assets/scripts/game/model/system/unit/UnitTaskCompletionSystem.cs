@@ -19,8 +19,10 @@ namespace game.model.system.unit {
                 ref EcsEntity unit = ref filter.GetEntity(i);
                 TaskStatusEnum status = filter.Get2(i).status;
                 Debug.Log("[UnitTaskCompletionSystem]: completing task for unit " + unit.Get<UnitNameComponent>().name);
-                
                 if (status == TaskStatusEnum.FAILED || status == TaskStatusEnum.CANCELED) {
+                    unit.Del<UnitMovementPathComponent>();
+                    unit.Del<UnitMovementTargetComponent>();
+                    unit.Del<UnitCurrentActionComponent>();
                     // TODO handle task cancelling and interruption (do cancel effects of action(drop item, etc))
                 }
                 detachTaskFromUnit(ref unit, status);       

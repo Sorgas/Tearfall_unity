@@ -10,7 +10,6 @@ using util.pathfinding;
 namespace game.model.system.unit {
     // When unit has UnitMovementTargetComponent, this system finds path to target and adds UnitMovementPathComponent to unit
     // Can fail unit's task if path not found
-    // TODO check unit and target areas to fail task
     public class UnitPathfindingSystem : IEcsRunSystem {
         EcsFilter<UnitComponent, UnitMovementTargetComponent>.Exclude<UnitMovementPathComponent> filter = null;
 
@@ -18,20 +17,21 @@ namespace game.model.system.unit {
             foreach (int i in filter) {
                 UnitMovementTargetComponent target = filter.Get2(i);
                 ref EcsEntity unit = ref filter.GetEntity(i);
-                ref UnitMovementComponent component = ref unit.Get<UnitMovementComponent>();
-                findPath(ref component, target, ref unit);
+                // Debug.Log("");
+                findPath(target, ref unit);
             }
         }
 
-        private void findPath(ref UnitMovementComponent component, UnitMovementTargetComponent target, ref EcsEntity unit) {
-            List<Vector3Int> path = AStar.get().makeShortestPath(unit.pos(), target.target, target.targetType);
-            if (path != null) {
-                unit.Replace(new UnitMovementPathComponent { path = path });
-            } else {
-                Debug.Log("no path");
-                unit.Replace(new TaskFinishedComponent { status = TaskStatusEnum.FAILED });
-                unit.Del<UnitMovementTargetComponent>();
+        private void findPath(UnitMovementTargetComponent target, ref EcsEntity unit) {
+            if (GameModel.localMap.passageMap.tileIsAccessibleFromArea(target.target, unit.pos())) {
+                List<Vector3Int> path = AStar.get().makeShortestPath(unit.pos(), target.target, target.targetType);
+                if (path != null) {
+                    unit.Replace(new UnitMovementPathComponent { path = path });
+                    return;
+                }
             }
+            unit.Replace(new TaskFinishedComponent { status = TaskStatusEnum.FAILED });
+            unit.Del<UnitMovementTargetComponent>();
         }
     }
 }

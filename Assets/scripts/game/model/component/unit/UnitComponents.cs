@@ -17,6 +17,7 @@ namespace game.model.component.unit {
         public OrientationEnum orientation;
         public float speed;
         public float step; // speed is added to this value; when reaches 1, position changed
+        
     }
 
     public struct UnitMovementTargetComponent {

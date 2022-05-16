@@ -4,6 +4,7 @@ using game.model.component.task.action.target;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
+using static game.model.component.task.TaskComponents;
 
 namespace game.model.component.task.action {
     /**
@@ -29,25 +30,30 @@ namespace game.model.component.task.action {
         public EcsEntity task;
         public ActionTarget target;
         public ActionStatusEnum status = ActionStatusEnum.OPEN;
+
+        public bool hasPerformer => task.IsAlive() && task.Has<TaskPerformerComponent>();
+
         public ref EcsEntity performer {
             get {
-                ref TaskComponents.TaskPerformerComponent component = ref task.takeRef<TaskComponents.TaskPerformerComponent>();
+                ref var component = ref task.takeRef<TaskPerformerComponent>();
                 return ref component.performer;
             }
         }
-
+        
         /**
          * Condition to be met before task with this action is assigned to unit.
          * Should check tool, consumed items, target reachability for performer. 
          * Can use {@code task.performer}, as it is assigned to task before calling by {@link CreaturePlanningSystem}.
          */
         public Func<ActionConditionStatusEnum> startCondition = () => ActionConditionStatusEnum.FAIL; // prevent starting empty action
+
         public System.Action onStart = () => { }; // performed on phase start
         public Action<EcsEntity, float> progressConsumer; // performs logic
         public Func<Boolean> finishCondition; // when reached, action ends
         public System.Action onFinish = () => { }; // performed on phase finish
 
         public float progress;
+
         // should be set before performing
         public float speed = 1;
         public float maxProgress = 1;
@@ -61,12 +67,14 @@ namespace game.model.component.task.action {
         // Performs action logic. Changes status.
         public void perform(EcsEntity unit) {
             Debug.Log("performing action " + name);
-            if (status == ActionStatusEnum.OPEN) { // first execution of perform()
+            if (status == ActionStatusEnum.OPEN) {
+                // first execution of perform()
                 status = ActionStatusEnum.ACTIVE;
                 onStart.Invoke();
             }
             progressConsumer.Invoke(unit, speed);
-            if (finishCondition.Invoke()) { // last execution of perform()
+            if (finishCondition.Invoke()) {
+                // last execution of perform()
                 Debug.Log("action finished -- ");
                 onFinish.Invoke();
                 status = ActionStatusEnum.COMPLETE;
@@ -75,7 +83,7 @@ namespace game.model.component.task.action {
 
         public ActionConditionStatusEnum addPreAction(Action action) {
             Debug.Log("adding pre-action " + action.name);
-            task.Get<TaskComponents.TaskActionsComponent>().addFirstPreAction(action);
+            task.Get<TaskActionsComponent>().addFirstPreAction(action);
             action.task = task;
             return ActionConditionStatusEnum.NEW;
         }

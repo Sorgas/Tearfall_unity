@@ -51,7 +51,7 @@ namespace game.model.container {
                         if (targetType == EXACT || targetType == ANY) {
                             if (passageMap.area.get(target) == performerArea) return true;
                         }
-                        // target position accissible from performer area
+                        // target position is accessible from performer area
                         if (targetType == NEAR || targetType == ANY) {
                             if (task.Has<TaskBlockOverrideComponent>()) {
                                 return new NeighbourPositionStream(target)

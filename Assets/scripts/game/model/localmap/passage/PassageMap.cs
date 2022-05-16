@@ -34,12 +34,17 @@ namespace game.model.localmap.passage {
         // checks there is a walking path between two adjacent tiles
         public bool hasPathBetweenNeighbours(int x1, int y1, int z1, int x2, int y2, int z2) {
             if (!localMap.inMap(x1, y1, z1) || !localMap.inMap(x2, y2, z2) ||
-                passage.get(x1, y1, z1) == IMPASSABLE.VALUE || passage.get(x2, y2, z2) == IMPASSABLE.VALUE) return false; // out of map or not passable
+                passage.get(x1, y1, z1) == IMPASSABLE.VALUE ||
+                passage.get(x2, y2, z2) == IMPASSABLE.VALUE) return false; // out of map or not passable
             if (z1 == z2) return true; // passable tiles on same level
             int lowerType = z1 < z2 ? blockTypeMap.get(x1, y1, z1) : blockTypeMap.get(x2, y2, z2);
-            if (lowerType == RAMP.CODE) { // ramp has space above
-                if (x1 != x2 || y1 != y2) return (z1 < z2 ? blockTypeMap.get(x1, y1, z1 + 1) : blockTypeMap.get(x2, y2, z2 + 1)) == SPACE.CODE;
-            } else if (lowerType == STAIRS.CODE) { // stairs have stairs above
+            if (lowerType == RAMP.CODE) {
+                // ramp has space above
+                if (x1 != x2 || y1 != y2)
+                    return (z1 < z2 ? blockTypeMap.get(x1, y1, z1 + 1) : blockTypeMap.get(x2, y2, z2 + 1)) == SPACE.CODE;
+            }
+            else if (lowerType == STAIRS.CODE) {
+                // stairs have stairs above
                 if (x1 == x2 && y1 == y2) {
                     int upper = z1 > z2 ? blockTypeMap.get(x1, y1, z1) : blockTypeMap.get(x2, y2, z2);
                     return (upper == STAIRS.CODE || upper == DOWNSTAIRS.CODE) && lowerType == STAIRS.CODE; // handle stairs
@@ -60,11 +65,14 @@ namespace game.model.localmap.passage {
         public bool tileIsAccessibleFromNeighbour(int tx, int ty, int tz, int x, int y, int z, BlockType targetType) {
             if (!localMap.inMap(tx, ty, tz) || !localMap.inMap(x, y, z) || passage.get(x, y, z) == IMPASSABLE.VALUE) return false;
             if (tz == z) return true;
-            BlockType fromType = BlockTypeEnum.get(blockTypeMap.get(x, y, z));
+            BlockType fromType = blockTypeMap.getEnumValue(x, y, z);
             BlockType lowerType = tz < z ? targetType : fromType;
-            if (lowerType == RAMP) { // ramp has space above
-                if (tx != x || ty != y) return (tz < z ? blockTypeMap.get(tx, ty, tz + 1) : blockTypeMap.get(x, y, z + 1)) == SPACE.CODE;
-            } else if (lowerType == STAIRS) {
+            if (lowerType == RAMP) {
+                // ramp has space above
+                if (tx != x || ty != y)
+                    return (tz < z ? blockTypeMap.get(tx, ty, tz + 1) : blockTypeMap.get(x, y, z + 1)) == SPACE.CODE;
+            }
+            else if (lowerType == STAIRS) {
                 if (tx == x && ty == y) {
                     BlockType upperType = tz > z ? targetType : fromType;
                     return (upperType == STAIRS || upperType == DOWNSTAIRS) && lowerType == STAIRS; // handle stairs
@@ -73,32 +81,48 @@ namespace game.model.localmap.passage {
             return false;
         }
 
+        public bool tileIsAccessibleFromArea(int tx, int ty, int tz, int area) {
+            Debug.Log("checking [" + tx + ", " + ty + ", " + tz + "] available from area " + area);
+            if (!localMap.inMap(tx, ty, tz)) return false;
+            if (this.area.get(tx, ty, tz) == area) return true;
+            if (getPassage(tx, ty, tz) == PASSABLE.VALUE) return false;
+            Debug.Log("qwer");
+            for (int x = -1; x < 2; x++) {
+                for (int y = -1; y < 2; y++) {
+                    // Debug.Log(this.area.get(x, y, tz));
+                    if ((x != 0 || y != 0) && localMap.inMap(tx + x, ty + y, tz) && this.area.get(tx + x, ty + y, tz) == area)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        public bool tileIsAccessibleFromArea(Vector3Int target, Vector3Int source) =>
+            tileIsAccessibleFromArea(target.x, target.y, target.z, area.get(source));
+
         public bool hasPathBetweenNeighbours(Vector3Int from, Vector3Int to)
             => hasPathBetweenNeighbours(@from.x, @from.y, @from.z, to.x, to.y, to.z);
 
         public Passage calculateTilePassage(Vector3Int position) => calculateTilePassage(position.x, position.y, position.z);
 
+        // TODO
         public Passage calculateTilePassage(int x, int y, int z) {
-            Passage tilePassage = BlockTypeEnum.get(blockTypeMap.get(x, y, z)).PASSAGE;
-            // TODO
-            if (tilePassage == PASSABLE) { // tile still can be blocked by plants or buildings
-                bool plantPassable = true;
-                //  GameModel.map(plantContainer => plantContainer.isPlantBlockPassable(position)).orElse(true);
-                if (!plantPassable) return IMPASSABLE;
+            if (BlockTypeEnum.get(blockTypeMap.get(x, y, z)).PASSAGE == IMPASSABLE) return IMPASSABLE;
+            if (!GameModel.get().plantContainer.isPlantBlockPassable(x, y, z)) return IMPASSABLE;
 
-                bool buildingPassable = true;
-                //        model.optional(BuildingContainer.class)
-                //        .map(container -> container.buildingBlocks.get(position))
-                //        .map(block -> block.passage == PASSABLE).orElse(true);
-                if (!buildingPassable) return IMPASSABLE;
+            bool buildingPassable = true;
+            //        model.optional(BuildingContainer.class)
+            //        .map(container -> container.buildingBlocks.get(position))
+            //        .map(block -> block.passage == PASSABLE).orElse(true);
+            if (!buildingPassable) return IMPASSABLE;
 
-                bool waterPassable = true;
-                //model.optional(LiquidContainer.class)
-                //.map(container -> container.getTile(position))
-                //.map(tile -> tile.amount <= 4).orElse(true);
-                if (!waterPassable) return IMPASSABLE;
-            }
-            return tilePassage;
+            bool waterPassable = true;
+            //model.optional(LiquidContainer.class)
+            //.map(container -> container.getTile(position))
+            //.map(tile -> tile.amount <= 4).orElse(true);
+            if (!waterPassable) return IMPASSABLE;
+
+            return PassageEnum.PASSABLE;
         }
 
         public byte getPassage(int x, int y, int z) => passage.get(x, y, z);

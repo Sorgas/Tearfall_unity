@@ -7,6 +7,7 @@ namespace enums.plant {
         public int[] tileXY;
         public int material; 
         public string atlasName;
+        public bool isTree;
 
         // public int[] temperatureBounds; // min and max temperature
         // public int[] rainfallBounds;  // min and max painfall
@@ -16,7 +17,6 @@ namespace enums.plant {
         // public bool destroyOnHarvest;
 
         public bool isPlant;
-        public bool isTree;
         public bool isSubstrate;
 
         public PlantType(RawPlantType rawType) {

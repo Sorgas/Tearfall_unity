@@ -1,5 +1,6 @@
 ﻿using game.model;
 using game.view.ui;
+using game.view.util;
 using UnityEngine;
 using util.geometry;
 using util.lang;
@@ -36,14 +37,14 @@ namespace game.view.system.mouse_tool {
                     if (currentTool.designation.VALIDATOR.validate(x, y, z)) {
                         GameModel.get().designationContainer.createDesignation(new Vector3Int(x, y, z), currentTool.designation);
                     }
-                } else if (currentTool == CLEAR) {
+                } else if (currentTool == CLEAR) { // tool clears designation
                     GameModel.get().designationContainer.cancelDesignation(new Vector3Int(x, y, z));
                 }
             });
         }
 
         private void updateToolSprite() {
-            Sprite sprite = currentTool.sprite;
+            Sprite sprite = IconLoader.get(currentTool.iconPath);
             SpriteRenderer iconRenderer = selector.gameObject.GetComponent<SelectorHandler>().toolIcon;
             if (sprite != null) { // scale should be updated for non null sprite
                 float width = iconRenderer.gameObject.GetComponent<RectTransform>().rect.width;

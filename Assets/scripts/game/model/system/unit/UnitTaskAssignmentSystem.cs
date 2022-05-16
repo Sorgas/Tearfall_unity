@@ -14,7 +14,7 @@ using static game.model.component.task.TaskComponents;
 namespace game.model.system.unit {
     // finds and assigns appropriate tasks to units
     public class UnitTaskAssignmentSystem : IEcsRunSystem {
-        EcsFilter<UnitComponent>.Exclude<TaskComponent> filter; // units without tasks
+        EcsFilter<UnitComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter; // units without tasks
 
         public void Run() {
             foreach (int i in filter) {
@@ -35,9 +35,7 @@ namespace game.model.system.unit {
         // TODO add jobs priorities
         private EcsEntity getTaskFromContainer(EcsEntity unit) {
             UnitJobsComponent jobs = unit.take<UnitJobsComponent>();
-            EcsEntity task = GameModel.get().taskContainer.findTask(jobs.enabledJobs, unit.pos());
-            if (!task.IsNull()) return task;
-            return EcsEntity.Null; // TODO get from task container
+            return GameModel.get().taskContainer.findTask(jobs.enabledJobs, unit.pos());
         }
 
         //TODO add other needs

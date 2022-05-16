@@ -1,11 +1,9 @@
 using enums;
-using enums.action;
 using game.model.component;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
-using util.pathfinding;
 using static enums.PassageEnum;
 
 namespace game.model.system.unit {
@@ -18,18 +16,10 @@ namespace game.model.system.unit {
                 ref UnitMovementComponent component = ref filter.Get1(i);
                 ref UnitMovementPathComponent pathComponent = ref filter.Get2(i);
                 ref EcsEntity unit = ref filter.GetEntity(i);
-                if (checkPath(pathComponent)) updateMovement(ref component, ref pathComponent, ref unit);
+                updateMovement(ref component, ref pathComponent, ref unit);
             }
         }
-
-        private bool checkPath(UnitMovementPathComponent component) {
-            if (component.path == null) { // target w/o path, create path
-                Debug.LogWarning("UnitMovementPathComponent with null path");
-                return false;
-            }
-            return true;
-        }
-
+        
         private void updateMovement(ref UnitMovementComponent component, ref UnitMovementPathComponent path, ref EcsEntity unit) {
             if (path.path.Count == 0) { // path ended, finish movement
                 unit.Del<UnitMovementPathComponent>();

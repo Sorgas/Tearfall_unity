@@ -25,6 +25,8 @@ namespace game.model.system.plant {
             return plants.ContainsKey(position) ? plants[position] : EcsEntity.Null;
         }
 
+        public EcsEntity getPlant(int x, int y, int z) => getPlant(new Vector3Int(x, y, z));
+
         public PlantBlock getBlock(Vector3Int position) {
             return plantBlocks.ContainsKey(position) ? plantBlocks[position] : null;
         }
@@ -145,6 +147,8 @@ namespace game.model.system.plant {
         public bool isPlantBlockPassable(Vector3Int position) {
             return !plantBlocks.ContainsKey(position) || plantBlocks[position].isPassable();
         }
+
+        public bool isPlantBlockPassable(int x, int y, int z) => isPlantBlockPassable(new Vector3Int(x, y, z));
 
         //public AbstractPlant getPlantInPosition(Position position) {
         //    return plantBlocks.containsKey(position) ? plantBlocks.get(position).plant : null;

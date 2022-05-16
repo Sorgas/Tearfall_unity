@@ -6,6 +6,7 @@ using static enums.DesignationTypeEnum;
 
 namespace enums {
     // types of designations, referenced from MouseToolEnum
+    // icons for cursor are taken from icons/designations/[spriteName]
     public static class DesignationTypes {
         public static DesignationType D_NONE = new(DTE_NONE, "none", null); // for removing simple designations
         public static DesignationType D_DIG = new(DTE_DIG, "dig", new DiggingValidator(FLOOR), NEAR, "miner", "dig");
@@ -13,7 +14,7 @@ namespace enums {
         public static DesignationType D_DOWNSTAIRS = new(DTE_DOWNSTAIRS, "dig downstairs", new DiggingValidator(DOWNSTAIRS), ANY, "miner", "downstairs");
         public static DesignationType D_RAMP = new(DTE_RAMP, "dig ramp", new DiggingValidator(RAMP), ANY, "miner", "ramp");
         public static DesignationType D_CHANNEL = new(DTE_CHANNEL, "dig channel", new DiggingChannelValidator(), NEAR, "miner", "channel");
-        // public static DesignationType D_CHOP = new DesignationType(7, "chopping trees", PlaceValidatorEnum.TREE_EXISTS.VALIDATOR, "lumberjack");     // chop trees in th area
+        public static DesignationType D_CHOP = new DesignationType(DTE_CHOP, "chopping trees", PlaceValidatorEnum.TREE_EXISTS, NEAR, "lumberjack", "choptrees");     // chop trees in th area
         // public static DesignationType D_CUT = new DesignationType(8, "cutting plants", "herbalist");                                          // cut plants
         // public static DesignationType D_HARVEST = new DesignationType(9, "harvesting plants", "herbalist");                                   // harvest plants
         // public static DesignationType D_BUILD = new DesignationType(10, "building", "builder");                                               // build construction or building
@@ -54,5 +55,6 @@ namespace enums {
         DTE_DOWNSTAIRS, // cuts stairs from wall or downstairs from floor
         DTE_RAMP, // digs ramp and upper cell.
         DTE_CHANNEL, // digs cell and ramp on lower level
+        DTE_CHOP
     }
 }

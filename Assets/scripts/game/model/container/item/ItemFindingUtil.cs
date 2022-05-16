@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using game.model.component;
 using game.model.localmap;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -9,17 +8,18 @@ using util.lang.extension;
 namespace game.model.container.item {
     public class ItemFindingUtil {
         
-        public EcsEntity? findFreeReachableItemBySelector(ItemSelector selector, Vector3Int position) {
+        public EcsEntity findFreeReachableItemBySelector(ItemSelector selector, Vector3Int pos) {
             LocalMap map = GameModel.localMap;
             // get items and positions
             // TODO add items in containers
+            if(GameModel.get().itemContainer.onMapItems.all.Count < 0) return EcsEntity.Null;
             return GameModel.get().itemContainer.onMapItems.all
+                .Where(item => map.passageMap.inSameArea(pos, item.pos()))
                 .Where(selector.checkItem)
-                .Where(item => map.passageMap.inSameArea(position, item.pos()))
-                // .DefaultIfEmpty()// filter reachability
-                .Aggregate((current, item) => current == null || (distanceToItem(item, position) < distanceToItem(current, position))
+                .DefaultIfEmpty(EcsEntity.Null)
+                .Aggregate((cur, item) => cur == EcsEntity.Null || (distanceToItem(item, pos) < distanceToItem(cur, pos))
                     ? item
-                    : current); // select nearest
+                    : cur); // select nearest]
         }
 
         private float distanceToItem(EcsEntity item, Vector3Int position) {
