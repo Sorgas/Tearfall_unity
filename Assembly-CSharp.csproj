@@ -84,6 +84,7 @@
      <Compile Include="Assets\scripts\generation\localgen\LocalGenConfig.cs" />
      <Compile Include="Assets\scripts\game\view\system\item\ItemVisualSystem.cs" />
      <Compile Include="Assets\scripts\game\model\container\TaskGenerator.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\plant\ChopTreeAction.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\DictionaryExtention.cs" />
      <Compile Include="Assets\scripts\generation\PreparationState.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToPositionAction.cs" />
@@ -167,6 +168,7 @@
      <Compile Include="Assets\scripts\generation\unit\UnitEquipmentComponentGenerator.cs" />
      <Compile Include="Assets\scripts\enums\unit\need\NeedTypeEnum.cs" />
      <Compile Include="Assets\scripts\enums\DesignationTypes.cs" />
+     <Compile Include="Assets\scripts\game\model\util\validation\TreeExistsValidator.cs" />
      <Compile Include="Assets\scripts\util\geometry\ValueRange.cs" />
      <Compile Include="Assets\scripts\enums\unit\JobsEnum.cs" />
      <Compile Include="Assets\scripts\enums\plant\PlantLifeStage.cs" />
@@ -276,7 +278,7 @@
      <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\view\ui\WindowManager.cs" />
-     <Compile Include="Assets\scripts\game\model\util\validation\TreeExistsValidator.cs" />
+     <Compile Include="Assets\scripts\game\view\util\TilemapLayersConstants.cs" />
      <None Include="Assets\resources\data\items\growths.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
@@ -948,6 +950,9 @@
      <Reference Include="Unity.TextMeshPro">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.2D.Sprite.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
+     </Reference>
      <Reference Include="UnityEditor.UI">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
      </Reference>
@@ -959,9 +964,6 @@
      </Reference>
      <Reference Include="UnityEngine.UI">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.2D.Sprite.Editor">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

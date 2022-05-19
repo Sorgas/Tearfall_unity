@@ -4,6 +4,7 @@ using game.view.util;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
+using static game.view.util.TilemapLayersConstants;
 
 namespace game.view.system.plant {
     public class PlantVisualSystem : IEcsRunSystem {
@@ -14,6 +15,7 @@ namespace game.view.system.plant {
         private const int SIZE_X = 64;
         private const int SIZE_Y = 90;
         private readonly Vector2 pivot = new(0, 0);
+        private readonly Vector3 zOffset = new(0, 0, WALL_LAYER * GRID_STEP - 0.01f);
 
         public void Run() {
             foreach (int i in filter) {
@@ -26,7 +28,7 @@ namespace game.view.system.plant {
 
         private PlantVisualComponent createVisualComponent(EcsEntity entity, PlantComponent plant) {
             PlantVisualComponent visual = new();
-            Vector3 spritePosition = ViewUtil.fromModelToScene(entity.pos()) + new Vector3(0, 0, 0.79f);
+            Vector3 spritePosition = ViewUtil.fromModelToScene(entity.pos()) + zOffset;
             visual.go = Object.Instantiate(plantPrefab, spritePosition, Quaternion.identity);
             visual.go.transform.SetParent(mapHolder);
             visual.go.transform.localPosition = spritePosition;

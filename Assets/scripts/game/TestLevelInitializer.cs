@@ -27,6 +27,7 @@ namespace game {
         // creates test item as it was selected on preparation screen
         private void createTestItem() {
             GenerationState.get().preparationState.items.Add(new ItemData {material = "iron", type = "pickaxe", quantity = 1});
+            GenerationState.get().preparationState.items.Add(new ItemData {material = "iron", type = "axe", quantity = 1});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "pants", quantity = 1});
         }
     }

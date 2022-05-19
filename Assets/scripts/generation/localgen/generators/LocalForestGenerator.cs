@@ -18,10 +18,8 @@ namespace generation.localgen.generators {
             map = GameModel.localMap;
             int treesNumber = config.areaSize * config.areaSize / 125 * config.forestationLevel;
             treesNumber += Random.Range(-1, 1) * 20;
-            Debug.Log(treesNumber);
             for (int i = 0; i < treesNumber; i++) {
                 Vector3Int treePosition = findPlaceForTree();
-                Debug.Log(treePosition);
                 if(treePosition.x >= 0) createTree(treePosition);
             }
         }

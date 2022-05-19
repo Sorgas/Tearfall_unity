@@ -1,6 +1,7 @@
 ﻿using enums.unit;
 using game.model.component;
 using game.model.component.task.action;
+using game.model.component.task.action.plant;
 using Leopotam.Ecs;
 using UnityEngine;
 using static game.model.component.task.DesignationComponents;
@@ -25,10 +26,15 @@ namespace game.model.system.task.designation {
 
         private EcsEntity? createTaskForDesignation(DesignationComponent designation, PositionComponent position) {
             if (designation.type.JOB.Equals(JobsEnum.MINER.name)) {
-                Debug.Log("mining task created.");
                 EcsEntity taskEntity = GameModel.get().taskContainer.generator.createTask(new DigAction(position.position, designation.type));
                 taskEntity.Replace(new TaskJobComponent { job = JobsEnum.MINER.name });
                 taskEntity.Replace(new TaskBlockOverrideComponent { blockType = designation.type.getDiggingBlockType() });
+                Debug.Log("mining task created.");
+                return taskEntity;
+            } else if (designation.type.JOB.Equals(JobsEnum.WOODCUTTER.name)) {
+                EcsEntity taskEntity = GameModel.get().taskContainer.generator.createTask(new ChopTreeAction(position.position));
+                taskEntity.Replace(new TaskJobComponent { job = JobsEnum.WOODCUTTER.name });
+                Debug.Log("woodcutting task created.");
                 return taskEntity;
             }
             // switch (designation.type.NAME) {

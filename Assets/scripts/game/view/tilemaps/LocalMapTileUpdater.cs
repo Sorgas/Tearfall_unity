@@ -10,6 +10,7 @@ using UnityEngine.Tilemaps;
 using util.geometry;
 using util.lang;
 using static enums.BlockTypeEnum;
+using static game.view.util.TilemapLayersConstants;
 
 // stores tilemaps of layers in array
 // changes unity tilemaps to be consistent with local map in game model
@@ -22,11 +23,6 @@ namespace game.view.tilemaps {
         private RectTransform mapHolder;
         private LocalMap map;
         public int viewDepth = 6;
-        
-        // grid z is +0.1
-        private const int FLOOR_LAYER = 9;
-        private const int WALL_LAYER = 8;
-        private const int SELECTION_LAYER = 0;
 
         public LocalMapTileUpdater(RectTransform mapHolder) {
             this.mapHolder = mapHolder;
@@ -72,7 +68,8 @@ namespace game.view.tilemaps {
         private void createLayers() {
             Transform transform = mapHolder.transform;
             for (int i = 0; i <= map.bounds.maxZ; i++) {
-                GameObject layer = Object.Instantiate(layerPrefab, new Vector3(0, i / 2f, -i * 2) + transform.position, Quaternion.identity, transform);
+                GameObject layer = Object.Instantiate(layerPrefab, new Vector3(0, i / 2f, -i * 2) + transform.position,
+                    Quaternion.identity, transform);
                 layers.Add(layer.transform.GetComponentInChildren<LocalMapLayerHandler>());
             }
         }
@@ -84,7 +81,8 @@ namespace game.view.tilemaps {
             if (blockType != RAMP) return;
             string material = selectMaterial(x, y, z - 1);
             string type = selectRamp(x, y, z - 1) + "F";
-            layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER), tileSetHolder.tilesets[material][type]); // topping corresponds lower tile
+            layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER),
+                tileSetHolder.tilesets[material][type]); // topping corresponds lower tile
         }
 
         private string selectMaterial(int x, int y, int z) {
@@ -96,7 +94,7 @@ namespace game.view.tilemaps {
             PositionUtil.allNeighbour
                 .Select(delta => center + delta) // get absolute position
                 .Where(pos => map.inMap(pos))
-                .Where(pos => map.blockType.get(pos) == BlockTypeEnum.RAMP.CODE)
+                .Where(pos => map.blockType.get(pos) == RAMP.CODE)
                 .ToList().ForEach(pos => updateTile(pos, false));
         }
 

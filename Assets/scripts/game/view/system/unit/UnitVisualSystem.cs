@@ -1,13 +1,17 @@
+using enums;
+using game.model;
 using game.model.component;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
+using static game.view.util.TilemapLayersConstants;
 
 namespace game.view.system.unit {
     public class UnitVisualSystem : IEcsRunSystem {
         public EcsFilter<UnitVisualComponent, UnitMovementComponent> filter;
         private RectTransform mapHolder;
-        
+        private float spriteZ = WALL_LAYER * GRID_STEP + GRID_STEP / 2;
+
         public UnitVisualSystem() {
             mapHolder = GameView.get().sceneObjectsContainer.mapHolder;
         }
@@ -27,8 +31,12 @@ namespace game.view.system.unit {
 
         private void updatePosition(ref UnitVisualComponent component, UnitMovementComponent unitMovement, PositionComponent positionComponent) {
             // TODO use view utils
-            Vector3Int position = positionComponent.position;
-            component.spriteRenderer.gameObject.transform.localPosition = new Vector3(position.x, position.y + position.z / 2f + 0.25f, - position.z * 2 + 0.85f);
+            Vector3Int pos = positionComponent.position;
+            Vector3 spritePos = new Vector3(pos.x, pos.y + pos.z / 2f + 0.25f, -pos.z * 2 + spriteZ);
+            if (GameModel.localMap.blockType.get(pos) == BlockTypeEnum.RAMP.CODE) {
+                spritePos.z -= 0.1f;
+            }
+            component.spriteRenderer.gameObject.transform.localPosition = spritePos;
         }
 
         private void createUnit(ref UnitVisualComponent component) {

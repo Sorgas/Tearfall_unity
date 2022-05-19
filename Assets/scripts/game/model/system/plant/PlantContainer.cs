@@ -30,6 +30,10 @@ namespace game.model.system.plant {
         public PlantBlock getBlock(Vector3Int position) {
             return plantBlocks.ContainsKey(position) ? plantBlocks[position] : null;
         }
+
+        public void removePlant(EcsEntity plant, bool leaveProduct) {
+            
+        }
         
         //public PlantContainer() {
         //        plantBlocks = new HashMap<>();
