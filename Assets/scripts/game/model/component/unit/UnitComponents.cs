@@ -59,10 +59,6 @@ namespace game.model.component.unit {
         public float value;
     }
 
-    public struct UnitNameComponent {
-        public string name;
-    }
-
     public struct AgeComponent {
         public int age;
     }

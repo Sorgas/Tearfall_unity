@@ -18,7 +18,7 @@ namespace game.model.system.unit {
             foreach (var i in filter) {
                 ref EcsEntity unit = ref filter.GetEntity(i);
                 TaskStatusEnum status = filter.Get2(i).status;
-                Debug.Log("[UnitTaskCompletionSystem]: completing task for unit " + unit.Get<UnitNameComponent>().name);
+                Debug.Log("[UnitTaskCompletionSystem]: completing task for unit " + unit.Get<NameComponent>().name);
                 if (status == TaskStatusEnum.FAILED || status == TaskStatusEnum.CANCELED) {
                     unit.Del<UnitMovementPathComponent>();
                     unit.Del<UnitMovementTargetComponent>();

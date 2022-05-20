@@ -4,6 +4,7 @@ using enums.plant.raw;
 namespace enums.plant {
     public class PlantType {
         public string name;
+        public string title;
         public int[] tileXY;
         public int material; 
         public string atlasName;

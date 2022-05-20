@@ -1,6 +1,7 @@
 [
   {
     "name": "oak",
+    "title": "Oak",
     "material": "wood",
     "tileXY": [0,0]
   }

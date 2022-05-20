@@ -59,6 +59,7 @@ namespace game.model {
                 
                 .Add(new UnitWearNeedSystem())
                 .Add(new UnitNeedSystem())
+                .Add(new PlantRemovingSystem())
                 .Init();
         }
 

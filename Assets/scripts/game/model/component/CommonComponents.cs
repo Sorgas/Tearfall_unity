@@ -22,7 +22,7 @@ namespace game.model.component {
     }
 
     // shows that entity is ready to be deleted
-    public struct DeletionComponent {
+    public struct RemovedComponent {
         
     }
 }

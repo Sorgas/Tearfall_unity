@@ -11,8 +11,8 @@ namespace game.view.ui.toolbar {
     // only one sub-panel can be enabled at once
     // passes input to sub-panels
     public class ToolbarPanelHandler : MonoBehaviour, IHotKeyAcceptor, ICloseable {
-        protected Dictionary<KeyCode, ToolbarPanelHandler> subPanels = new Dictionary<KeyCode, ToolbarPanelHandler>();
-        private Dictionary<KeyCode, Action> hotKeyMap = new Dictionary<KeyCode, Action>(); // map to invoke actions
+        protected Dictionary<KeyCode, ToolbarPanelHandler> subPanels = new();
+        private Dictionary<KeyCode, Action> hotKeyMap = new(); // map to invoke actions
         private ToolbarPanelHandler activeSubpanel;
         private ToolbarPanelHandler parentPanel;
         public Action closeAction;

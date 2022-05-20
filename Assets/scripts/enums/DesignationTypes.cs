@@ -1,4 +1,5 @@
 ﻿using enums.action;
+using enums.unit;
 using game.model.util.validation;
 using static enums.action.ActionTargetTypeEnum;
 using static enums.BlockTypeEnum;
@@ -14,7 +15,7 @@ namespace enums {
         public static DesignationType D_DOWNSTAIRS = new(DTE_DOWNSTAIRS, "dig downstairs", new DiggingValidator(DOWNSTAIRS), ANY, "miner", "downstairs");
         public static DesignationType D_RAMP = new(DTE_RAMP, "dig ramp", new DiggingValidator(RAMP), ANY, "miner", "ramp");
         public static DesignationType D_CHANNEL = new(DTE_CHANNEL, "dig channel", new DiggingChannelValidator(), NEAR, "miner", "channel");
-        public static DesignationType D_CHOP = new DesignationType(DTE_CHOP, "chopping trees", PlaceValidatorEnum.TREE_EXISTS, NEAR, "lumberjack", "choptrees");     // chop trees in th area
+        public static DesignationType D_CHOP = new DesignationType(DTE_CHOP, "chopping trees", PlaceValidatorEnum.TREE_EXISTS, NEAR, JobsEnum.WOODCUTTER.name, "choptrees");     // chop trees in th area
         // public static DesignationType D_CUT = new DesignationType(8, "cutting plants", "herbalist");                                          // cut plants
         // public static DesignationType D_HARVEST = new DesignationType(9, "harvesting plants", "herbalist");                                   // harvest plants
         // public static DesignationType D_BUILD = new DesignationType(10, "building", "builder");                                               // build construction or building

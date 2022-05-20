@@ -41,8 +41,6 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\scripts\enums\action\ActionStatusEnum.cs" />
-     <Compile Include="Assets\scripts\util\pathfinding\mit\AStar2.cs" />
      <Compile Include="Assets\scripts\util\lang\Singleton.cs" />
      <Compile Include="Assets\scripts\enums\item\type\ItemTypeMap.cs" />
      <Compile Include="Assets\scripts\game\model\component\plant\PlantComponents.cs" />
@@ -50,148 +48,193 @@
      <Compile Include="Assets\scripts\mainMenu\WorldGenButtonHandler.cs" />
      <Compile Include="Assets\scripts\enums\unit\CreatureTypeProcessor.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalRampFloorPlacer.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\TaskComponents.cs" />
-     <Compile Include="Assets\scripts\game\model\localmap\LocalMap.cs" />
-     <Compile Include="Assets\scripts\util\input\DelayedKeyController.cs" />
      <Compile Include="Assets\scripts\game\model\DesignationUtil.cs" />
-     <Compile Include="Assets\scripts\game\view\camera\SelectionState.cs" />
-     <Compile Include="Assets\scripts\mainMenu\worldmap\ScrollableCameraController.cs" />
      <Compile Include="Assets\scripts\entity\ValueAspect.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTarget.cs" />
      <Compile Include="Assets\scripts\game\view\camera\SelectorSpriteUpdater.cs" />
-     <Compile Include="Assets\scripts\game\model\util\validation\PlaceValidatorEnum.cs" />
      <Compile Include="Assets\scripts\entity\WearAspect.cs" />
      <Compile Include="Assets\scripts\enums\unit\CreatureType.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTargetStatusEnum.cs" />
-     <Compile Include="Assets\scripts\enums\item\type\raw\RawItemTypeProcessor.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldmapPointerController.cs" />
-     <Compile Include="Assets\scripts\entity\FuelAspect.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\BlockTilesetLoader.cs" />
-     <Compile Include="Assets\scripts\game\view\camera\MouseMovementSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\EquipmentAction.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\drainage\WorldOceanFiller.cs" />
-     <Compile Include="Assets\scripts\game\model\component\plant\PlantBlock.cs" />
-     <Compile Include="Assets\scripts\enums\unit\RawCreatureType.cs" />
      <Compile Include="Assets\scripts\game\view\KeyInputSystem.cs" />
-     <Compile Include="Assets\scripts\game\view\util\IconLoader.cs" />
      <Compile Include="Assets\scripts\game\model\system\item\ItemRegisterInitSystem.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\EquippedItemsManager.cs" />
-     <Compile Include="Assets\scripts\util\geometry\bounds\TwoPointIntBounds3.cs" />
-     <Compile Include="Assets\scripts\enums\action\TaskPriorityEnum.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationTaskCreationSystem.cs" />
      <Compile Include="Assets\scripts\enums\unit\body\raw\BodyTemplateProcessor.cs" />
      <Compile Include="Assets\scripts\enums\item\type\raw\RawItemType.cs" />
-     <Compile Include="Assets\scripts\generation\localgen\LocalGenConfig.cs" />
-     <Compile Include="Assets\scripts\game\view\system\item\ItemVisualSystem.cs" />
-     <Compile Include="Assets\scripts\game\model\container\TaskGenerator.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\plant\ChopTreeAction.cs" />
-     <Compile Include="Assets\scripts\util\lang\extension\DictionaryExtention.cs" />
-     <Compile Include="Assets\scripts\generation\PreparationState.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToPositionAction.cs" />
      <Compile Include="Assets\OptionsMenuButtonHandler.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\ListExtensions.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EcsEntityExtension.cs" />
      <Compile Include="Assets\scripts\generation\plant\PlantGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\EquipWearItemAction.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\ItemAction.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\MouseToolManager.cs" />
      <Compile Include="Assets\scripts\game\model\container\DesignationContainer.cs" />
-     <Compile Include="Assets\scripts\enums\unit\health\GameplayStatEnum.cs" />
      <Compile Include="Assets\scripts\game\view\camera\CameraInputSystem.cs" />
-     <Compile Include="Assets\scripts\mainMenu\worldmap\WorldTiles.cs" />
      <Compile Include="Assets\scripts\enums\unit\race\CombinedAppearance.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldmapController.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitActionPerformingSystem.cs" />
-     <Compile Include="Assets\scripts\game\model\entity_selector\EntitySelectorSystem.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalForestGenerator.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\target\PositionActionTarget.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitMovementSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\target\PositionActionTarget.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\BlockTypeMap.cs" />
-     <Compile Include="Assets\scripts\game\model\system\item\ItemSystem.cs" />
-     <Compile Include="Assets\scripts\game\view\util\LocalMapLayerHandler.cs" />
-     <Compile Include="Assets\scripts\util\pathfinding\PathFinishCondition.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\DesignationComponents.cs" />
      <Compile Include="Assets\scripts\enums\OrientationEnum.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\IWindow.cs" />
      <Compile Include="Assets\scripts\game\model\system\EcsRunIntervalSystem.cs" />
      <Compile Include="Assets\scripts\util\geometry\bounds\FloatBounds2.cs" />
-     <Compile Include="Assets\scripts\game\model\container\item\ItemContainer.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\LocalMapTileUpdater.cs" />
-     <Compile Include="Assets\scripts\util\input\DelayedConditionController.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenContainer.cs" />
-     <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedSystem.cs" />
      <Compile Include="Assets\scripts\game\view\with_entity_selector\CameraWithEsMovementSystem.cs" />
      <Compile Include="Assets\scripts\generation\item\ItemGenerator.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\target\SelfActionTarget.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskCompletionSystem.cs" />
      <Compile Include="Assets\scripts\entity\Aspect.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\Action.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationCompletionSystem.cs" />
      <Compile Include="Assets\scripts\mainMenu\LocalGenerationHandler.cs" />
-     <Compile Include="Assets\scripts\game\view\util\ViewUtil.cs" />
-     <Compile Include="Assets\scripts\game\model\GameModel.cs" />
-     <Compile Include="Assets\scripts\game\model\system\GameTime.cs" />
      <Compile Include="Assets\scripts\enums\action\TaskStatusEnum.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\target\ItemActionTarget.cs" />
      <Compile Include="Assets\scripts\enums\action\ActionTargetTypeEnum.cs" />
      <Compile Include="Assets\scripts\util\geometry\ValueRangeInt.cs" />
      <Compile Include="Assets\scripts\mainMenu\PreparationButtonHandler.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\ArrayExtension.cs" />
-     <Compile Include="Assets\scripts\util\lang\extension\IEnumerableExtensions.cs" />
      <Compile Include="Assets\scripts\enums\plant\PlantBlockTypeEnum.cs" />
-     <Compile Include="Assets\scripts\generation\localgen\generators\LocalElevationGenerator.cs" />
      <Compile Include="Assets\scripts\enums\plant\PlantType.cs" />
-     <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorVisualMovementSystem.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenContainer.cs" />
-     <Compile Include="Assets\scripts\game\model\system\unit\UnitPathfindingSystem.cs" />
-     <Compile Include="Assets\scripts\enums\item\type\ToolItemType.cs" />
      <Compile Include="Assets\scripts\game\view\ui\WidgetManager.cs" />
      <Compile Include="Assets\scripts\enums\material\RawMaterial.cs" />
-     <Compile Include="Assets\scripts\game\view\util\PrefabLoader.cs" />
-     <Compile Include="Assets\scripts\game\model\localmap\LocalMapUtil.cs" />
-     <Compile Include="Assets\scripts\game\model\localmap\passage\PassageUpdater.cs" />
-     <Compile Include="Assets\scripts\enums\action\ActionConditionStatusEnum.cs" />
      <Compile Include="Assets\scripts\game\view\ui\MbWindow.cs" />
-     <Compile Include="Assets\scripts\game\model\system\task\TaskCompletionSystem.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\generation\DifficultySelectorHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\jobs_widget\UnitJobRow.cs" />
      <Compile Include="Assets\scripts\enums\unit\need\WearNeed.cs" />
-     <Compile Include="Assets\scripts\generation\worldgen\generators\WorldGenerator.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\PassageUtil.cs" />
-     <Compile Include="Assets\scripts\enums\unit\body\BodyTemplate.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitGenerator.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitBodyComponentGenerator.cs" />
-     <Compile Include="Assets\scripts\game\view\camera\CameraAndMouseHandler.cs" />
      <Compile Include="Assets\scripts\enums\action\SkillMap.cs" />
      <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarPanelHandler.cs" />
      <Compile Include="Assets\scripts\enums\material\MaterialMap.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitEquipmentComponentGenerator.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitActionCheckingSystem.cs" />
+     <Compile Include="Assets\scripts\game\view\camera\SelectionHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarWidgetHandler.cs" />
+     <Compile Include="Assets\scripts\generation\worldgen\WorldGenSequence.cs" />
+     <Compile Include="Assets\scripts\generation\item\DiggingProductGenerator.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\EquipToolItemAction.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\ObtainItemAction.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\DigAction.cs" />
+     <Compile Include="Assets\scripts\generation\localgen\generators\LocalUnitGenerator.cs" />
+     <Compile Include="Assets\scripts\game\view\system\DesignationVisualSystem.cs" />
+     <Compile Include="Assets\scripts\util\UtilByteArrayWithCounter.cs" />
+     <Compile Include="Assets\scripts\game\model\UnitContainer.cs" />
+     <Compile Include="Assets\scripts\enums\unit\Skill.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\menu_widget\MenuWidgetHandler.cs" />
+     <Compile Include="Assets\scripts\game\model\container\EntityContainer.cs" />
+     <Compile Include="Assets\scripts\game\model\component\unit\UnitComponents.cs" />
+     <Compile Include="Assets\scripts\game\LocalGameRunner.cs" />
+     <Compile Include="Assets\scripts\game\model\localmap\passage\PassageMap.cs" />
+     <Compile Include="Assets\scripts\generation\unit\UnitNameGenerator.cs" />
+     <Compile Include="Assets\scripts\util\lang\Optional.cs" />
+     <Compile Include="Assets\scripts\enums\unit\need\NeedEnum.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromGroundAction.cs" />
+     <Compile Include="Assets\scripts\util\item\ToolWithActionItemSelector.cs" />
+     <Compile Include="Assets\scripts\enums\unit\body\raw\RawBodyTemplate.cs" />
+     <Compile Include="Assets\scripts\enums\item\FoodCategoryEnum.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\ICloseable.cs" />
+     <Compile Include="Assets\scripts\game\model\entity_selector\EntitySelector.cs" />
+     <Compile Include="Assets\scripts\util\geometry\bounds\IntBounds2.cs" />
+     <Compile Include="Assets\scripts\game\view\system\plant\PlantVisualSystem.cs" />
+     <Compile Include="Assets\scripts\game\TestLevelInitializer.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToDestinationAction.cs" />
+     <Compile Include="Assets\scripts\game\view\system\mouse_tool\MouseToolEnum.cs" />
+     <Compile Include="Assets\scripts\util\geometry\IntVector3.cs" />
+     <Compile Include="Assets\scripts\game\model\component\unit\UnitNeedComponents.cs" />
+     <Compile Include="Assets\scripts\mainMenu\ButtonHandler.cs" />
+     <Compile Include="Assets\scripts\generation\localgen\generators\LocalStoneLayersGenerator.cs" />
+     <Compile Include="Assets\scripts\enums\material\Material.cs" />
+     <Compile Include="Assets\scripts\game\view\camera\MouseInputSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskAssignmentSystem.cs" />
+     <Compile Include="Assets\scripts\game\view\util\TilemapLayersConstants.cs" />
+     <Compile Include="Assets\scripts\game\model\container\item\ItemFindingUtil.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\generation\CharacterMenuLineHandler.cs" />
+     <Compile Include="Assets\scripts\generation\worldgen\WorldGenConfig.cs" />
+     <Compile Include="Assets\scripts\game\model\util\validation\PositionValidator.cs" />
+     <Compile Include="Assets\scripts\game\model\container\item\OnMapItemsManager.cs" />
+     <Compile Include="Assets\scripts\game\model\WorldMap.cs" />
+     <Compile Include="Assets\scripts\mainMenu\worldmap\TilesHolder.cs" />
+     <Compile Include="Assets\scripts\enums\item\type\ItemType.cs" />
+     <Compile Include="Assets\scripts\game\view\system\item\ItemVIsualRemoveSystem.cs" />
+     <Compile Include="Assets\scripts\util\geometry\PositionUtil.cs" />
+     <Compile Include="Assets\scripts\enums\unit\CreatureTypeMap.cs" />
+     <Compile Include="Assets\scripts\util\item\ItemSelector.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\WindowManager.cs" />
+     <Compile Include="Assets\scripts\enums\action\ActionStatusEnum.cs" />
+     <Compile Include="Assets\scripts\util\pathfinding\mit\AStar2.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\TaskComponents.cs" />
+     <Compile Include="Assets\scripts\game\model\localmap\LocalMap.cs" />
+     <Compile Include="Assets\scripts\util\input\DelayedKeyController.cs" />
+     <Compile Include="Assets\scripts\game\view\camera\SelectionState.cs" />
+     <Compile Include="Assets\scripts\mainMenu\worldmap\ScrollableCameraController.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTarget.cs" />
+     <Compile Include="Assets\scripts\game\model\util\validation\PlaceValidatorEnum.cs" />
+     <Compile Include="Assets\scripts\enums\item\type\raw\RawItemTypeProcessor.cs" />
+     <Compile Include="Assets\scripts\entity\FuelAspect.cs" />
+     <Compile Include="Assets\scripts\game\view\camera\MouseMovementSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\component\plant\PlantBlock.cs" />
+     <Compile Include="Assets\scripts\enums\unit\RawCreatureType.cs" />
+     <Compile Include="Assets\scripts\game\view\util\IconLoader.cs" />
+     <Compile Include="Assets\scripts\util\geometry\bounds\TwoPointIntBounds3.cs" />
+     <Compile Include="Assets\scripts\enums\action\TaskPriorityEnum.cs" />
+     <Compile Include="Assets\scripts\generation\localgen\LocalGenConfig.cs" />
+     <Compile Include="Assets\scripts\game\view\system\item\ItemVisualSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\container\TaskGenerator.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\plant\ChopTreeAction.cs" />
+     <Compile Include="Assets\scripts\util\lang\extension\DictionaryExtention.cs" />
+     <Compile Include="Assets\scripts\generation\PreparationState.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\ItemAction.cs" />
+     <Compile Include="Assets\scripts\enums\unit\health\GameplayStatEnum.cs" />
+     <Compile Include="Assets\scripts\mainMenu\worldmap\WorldTiles.cs" />
+     <Compile Include="Assets\scripts\game\model\entity_selector\EntitySelectorSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\system\item\ItemSystem.cs" />
+     <Compile Include="Assets\scripts\game\view\util\LocalMapLayerHandler.cs" />
+     <Compile Include="Assets\scripts\util\pathfinding\PathFinishCondition.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\DesignationComponents.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\IWindow.cs" />
+     <Compile Include="Assets\scripts\game\model\container\item\ItemContainer.cs" />
+     <Compile Include="Assets\scripts\util\input\DelayedConditionController.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\target\SelfActionTarget.cs" />
+     <Compile Include="Assets\scripts\game\view\util\ViewUtil.cs" />
+     <Compile Include="Assets\scripts\game\model\GameModel.cs" />
+     <Compile Include="Assets\scripts\game\model\system\GameTime.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\target\ItemActionTarget.cs" />
+     <Compile Include="Assets\scripts\util\lang\extension\IEnumerableExtensions.cs" />
+     <Compile Include="Assets\scripts\generation\localgen\generators\LocalElevationGenerator.cs" />
+     <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorVisualMovementSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitPathfindingSystem.cs" />
+     <Compile Include="Assets\scripts\enums\item\type\ToolItemType.cs" />
+     <Compile Include="Assets\scripts\game\view\util\PrefabLoader.cs" />
+     <Compile Include="Assets\scripts\game\model\localmap\LocalMapUtil.cs" />
+     <Compile Include="Assets\scripts\game\model\localmap\passage\PassageUpdater.cs" />
+     <Compile Include="Assets\scripts\enums\action\ActionConditionStatusEnum.cs" />
+     <Compile Include="Assets\scripts\game\model\system\task\TaskCompletionSystem.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\generation\DifficultySelectorHandler.cs" />
+     <Compile Include="Assets\scripts\generation\worldgen\generators\WorldGenerator.cs" />
+     <Compile Include="Assets\scripts\enums\unit\body\BodyTemplate.cs" />
+     <Compile Include="Assets\scripts\game\view\camera\CameraAndMouseHandler.cs" />
      <Compile Include="Assets\scripts\enums\unit\need\NeedTypeEnum.cs" />
      <Compile Include="Assets\scripts\enums\DesignationTypes.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\TreeExistsValidator.cs" />
      <Compile Include="Assets\scripts\util\geometry\ValueRange.cs" />
      <Compile Include="Assets\scripts\enums\unit\JobsEnum.cs" />
      <Compile Include="Assets\scripts\enums\plant\PlantLifeStage.cs" />
-     <Compile Include="Assets\scripts\game\model\system\unit\UnitActionCheckingSystem.cs" />
-     <Compile Include="Assets\scripts\game\view\camera\SelectionHandler.cs" />
      <Compile Include="Assets\scripts\game\view\system\unit\UnitVisualSystem.cs" />
      <Compile Include="Assets\scripts\enums\unit\body\BodyPart.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EnumerableExtension.cs" />
      <Compile Include="Assets\scripts\enums\PassageEnum.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\CommonComponents.cs" />
-     <Compile Include="Assets\scripts\generation\worldgen\WorldGenSequence.cs" />
-     <Compile Include="Assets\scripts\generation\item\DiggingProductGenerator.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\EquipToolItemAction.cs" />
      <Compile Include="Assets\scripts\game\view\ui\jobs_widget\JobsWindowHandler.cs" />
      <Compile Include="Assets\scripts\generation\plant\TreeGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\DiggingChannelValidator.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\ObtainItemAction.cs" />
      <Compile Include="Assets\scripts\enums\unit\body\raw\RawBodyPart.cs" />
      <Compile Include="Assets\scripts\game\view\ui\IHotKeyAcceptor.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\DigAction.cs" />
-     <Compile Include="Assets\scripts\generation\localgen\generators\LocalUnitGenerator.cs" />
-     <Compile Include="Assets\scripts\game\view\system\DesignationVisualSystem.cs" />
      <Compile Include="Assets\scripts\generation\GenerationState.cs" />
      <Compile Include="Assets\scripts\enums\plant\raw\RawPlantType.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\Node.cs" />
@@ -200,85 +243,43 @@
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalItemGenerator.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\elevation\WorldElevationGenerator.cs" />
      <Compile Include="Assets\scripts\util\input\JsonArrayReader.cs" />
-     <Compile Include="Assets\scripts\util\UtilByteArrayWithCounter.cs" />
-     <Compile Include="Assets\scripts\game\model\UnitContainer.cs" />
-     <Compile Include="Assets\scripts\enums\unit\Skill.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantContainer.cs" />
      <Compile Include="Assets\scripts\game\view\ui\SelectorHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\EntityActionTarget.cs" />
      <Compile Include="Assets\scripts\game\view\camera\CameraMovementSystem.cs" />
      <Compile Include="Assets\scripts\test\TestEcsSetup.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\menu_widget\MenuWidgetHandler.cs" />
-     <Compile Include="Assets\scripts\game\model\container\EntityContainer.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\MoveAction.cs" />
-     <Compile Include="Assets\scripts\game\model\component\unit\UnitComponents.cs" />
      <Compile Include="Assets\scripts\util\geometry\bounds\IntBounds3.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenSequence.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\ActionPart.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\UnitEquipmentComponent.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\BinaryHeap.cs" />
-     <Compile Include="Assets\scripts\game\LocalGameRunner.cs" />
      <Compile Include="Assets\scripts\game\model\system\ModelComponent.cs" />
-     <Compile Include="Assets\scripts\game\model\localmap\passage\PassageMap.cs" />
-     <Compile Include="Assets\scripts\generation\unit\UnitNameGenerator.cs" />
-     <Compile Include="Assets\scripts\util\lang\Optional.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntVector2.cs" />
      <Compile Include="Assets\scripts\enums\unit\need\Need.cs" />
      <Compile Include="Assets\scripts\game\model\container\TaskContainer.cs" />
-     <Compile Include="Assets\scripts\enums\unit\need\NeedEnum.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\TileSetHolder.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromGroundAction.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitWearNeedSystem.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\NeighbourPositionStream.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenerator.cs" />
-     <Compile Include="Assets\scripts\util\item\ToolWithActionItemSelector.cs" />
-     <Compile Include="Assets\scripts\enums\unit\body\raw\RawBodyTemplate.cs" />
-     <Compile Include="Assets\scripts\enums\item\FoodCategoryEnum.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\ICloseable.cs" />
      <Compile Include="Assets\scripts\enums\item\ItemTagEnum.cs" />
-     <Compile Include="Assets\scripts\game\model\entity_selector\EntitySelector.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\GameObjectExtension.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\AStar.cs" />
-     <Compile Include="Assets\scripts\util\geometry\bounds\IntBounds2.cs" />
-     <Compile Include="Assets\scripts\game\view\system\plant\PlantVisualSystem.cs" />
-     <Compile Include="Assets\scripts\game\TestLevelInitializer.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToDestinationAction.cs" />
-     <Compile Include="Assets\scripts\game\view\system\mouse_tool\MouseToolEnum.cs" />
-     <Compile Include="Assets\scripts\util\geometry\IntVector3.cs" />
      <Compile Include="Assets\scripts\game\view\GameView.cs" />
      <Compile Include="Assets\scripts\game\model\World.cs" />
-     <Compile Include="Assets\scripts\game\model\component\unit\UnitNeedComponents.cs" />
-     <Compile Include="Assets\scripts\mainMenu\ButtonHandler.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\DiggingValidator.cs" />
-     <Compile Include="Assets\scripts\generation\localgen\generators\LocalStoneLayersGenerator.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitNeedComponentGenerator.cs" />
      <Compile Include="Assets\scripts\util\UtilByteArray.cs" />
-     <Compile Include="Assets\scripts\enums\material\Material.cs" />
      <Compile Include="Assets\scripts\util\item\WearWithSlotItemSelector.cs" />
-     <Compile Include="Assets\scripts\game\view\camera\MouseInputSystem.cs" />
-     <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskAssignmentSystem.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\generation\CharacterMenuLineHandler.cs" />
-     <Compile Include="Assets\scripts\game\model\container\item\ItemFindingUtil.cs" />
      <Compile Include="Assets\scripts\enums\plant\raw\RawPlantLifeStage.cs" />
      <Compile Include="Assets\scripts\mainMenu\MainMenuButtonHandler.cs" />
-     <Compile Include="Assets\scripts\generation\worldgen\WorldGenConfig.cs" />
      <Compile Include="Assets\scripts\mainMenu\ButtonData.cs" />
-     <Compile Include="Assets\scripts\game\model\util\validation\PositionValidator.cs" />
-     <Compile Include="Assets\scripts\game\model\container\item\OnMapItemsManager.cs" />
-     <Compile Include="Assets\scripts\game\model\WorldMap.cs" />
-     <Compile Include="Assets\scripts\mainMenu\worldmap\TilesHolder.cs" />
-     <Compile Include="Assets\scripts\enums\item\type\ItemType.cs" />
-     <Compile Include="Assets\scripts\game\view\system\item\ItemVIsualRemoveSystem.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />
-     <Compile Include="Assets\scripts\util\geometry\PositionUtil.cs" />
-     <Compile Include="Assets\scripts\enums\unit\CreatureTypeMap.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\StepOffAction.cs" />
-     <Compile Include="Assets\scripts\util\item\ItemSelector.cs" />
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\WindowManager.cs" />
-     <Compile Include="Assets\scripts\game\view\util\TilemapLayersConstants.cs" />
+     <Compile Include="Assets\scripts\game\model\system\plant\PlantRemovingSystem.cs" />
      <None Include="Assets\resources\data\items\growths.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
@@ -560,8 +561,23 @@
      <Reference Include="UnityEditor.UnityConnectModule">
      <HintPath>D:\programs\unity\2021.3.1f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Burst.Unsafe">
+     <HintPath>D:\projects\tearfall\Library\PackageCache\com.unity.burst@1.6.5\Unity.Burst.Unsafe.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Burst.Cecil.Pdb">
+     <HintPath>D:\projects\tearfall\Library\PackageCache\com.unity.burst@1.6.5\Unity.Burst.CodeGen\Unity.Burst.Cecil.Pdb.dll</HintPath>
+     </Reference>
      <Reference Include="Newtonsoft.Json">
      <HintPath>D:\projects\tearfall\Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.1\Runtime\Newtonsoft.Json.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Burst.Cecil.Mdb">
+     <HintPath>D:\projects\tearfall\Library\PackageCache\com.unity.burst@1.6.5\Unity.Burst.CodeGen\Unity.Burst.Cecil.Mdb.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Burst.Cecil">
+     <HintPath>D:\projects\tearfall\Library\PackageCache\com.unity.burst@1.6.5\Unity.Burst.CodeGen\Unity.Burst.Cecil.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Burst.Cecil.Rocks">
+     <HintPath>D:\projects\tearfall\Library\PackageCache\com.unity.burst@1.6.5\Unity.Burst.CodeGen\Unity.Burst.Cecil.Rocks.dll</HintPath>
      </Reference>
      <Reference Include="netstandard">
      <HintPath>D:\programs\unity\2021.3.1f1\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>
@@ -932,8 +948,14 @@
      <Reference Include="Unity.VSCode.Editor">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Leopotam.Ecs">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Leopotam.Ecs.dll</HintPath>
+     <Reference Include="Unity.RenderPipelines.Universal.Shaders">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+     </Reference>
+     <Reference Include="PPv2URPConverters">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\PPv2URPConverters.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TextMeshPro.Editor">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
@@ -941,17 +963,23 @@
      <Reference Include="Unity.VisualStudio.Editor">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Timeline.Editor">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.Timeline">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TextMeshPro">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Burst.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Searcher.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.2D.Sprite.Editor">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Core.Runtime">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor.UI">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
@@ -962,8 +990,41 @@
      <Reference Include="Unity.Rider.Editor">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+     </Reference>
      <Reference Include="UnityEngine.UI">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Mathematics">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.ShaderGraph.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Burst">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
+     </Reference>
+     <Reference Include="Leopotam.Ecs">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Leopotam.Ecs.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Universal.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Timeline.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Mathematics.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Core.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

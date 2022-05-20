@@ -13,6 +13,7 @@ namespace generation.plant {
             PlantType type = PlantTypeMap.get().get(typeName);
             EcsEntity entity = GameModel.get().createEntity();
             entity.Replace(new PlantComponent { block = createPlantBlock(entity, type), type = type });
+            entity.Replace(new NameComponent { name = type.title });
             return entity;
         }
 

@@ -6,6 +6,7 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.system.plant {
+    // TODO handle multi-tile trees
     public class PlantContainer : ModelComponent {
         private Dictionary<Vector3Int, PlantBlock> plantBlocks = new();
         private Dictionary<Vector3Int, EcsEntity> plants = new();
@@ -14,7 +15,6 @@ namespace game.model.system.plant {
         //    private LocalMap localMap;
         //    private final Position cachePosition;
 
-        // TODO handle trees
         public void addPlant(EcsEntity plant, Vector3Int position) {
             plants.Add(position, plant);
             plantBlocks.Add(position, plant.take<PlantComponent>().block);
@@ -32,7 +32,9 @@ namespace game.model.system.plant {
         }
 
         public void removePlant(EcsEntity plant, bool leaveProduct) {
-            
+            plants.Remove(plant.pos());
+            plantBlocks.Remove(plant.pos());
+            plant.Replace(new RemovedComponent());
         }
         
         //public PlantContainer() {

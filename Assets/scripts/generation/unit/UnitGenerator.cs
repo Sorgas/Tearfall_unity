@@ -8,10 +8,10 @@ using UnityEngine;
 
 namespace generation.unit {
     class UnitGenerator {
-        private UnitEquipmentComponentGenerator equipmentGenerator = new UnitEquipmentComponentGenerator();
-        private UnitBodyComponentGenerator bodyGenerator = new UnitBodyComponentGenerator();
-        private UnitNameGenerator nameGenerator = new UnitNameGenerator();
-        private UnitNeedComponentGenerator needGenerator = new UnitNeedComponentGenerator();
+        private UnitEquipmentComponentGenerator equipmentGenerator = new();
+        private UnitBodyComponentGenerator bodyGenerator = new();
+        private UnitNameGenerator nameGenerator = new();
+        private UnitNeedComponentGenerator needGenerator = new();
 
         public void generateUnit(SettlerData data, EcsEntity entity) {
             CreatureType type = CreatureTypeMap.getType(data.type);
@@ -30,8 +30,7 @@ namespace generation.unit {
 
         private void addCommonComponents(ref EcsEntity entity, SettlerData data, CreatureType type) {
             // TODO add name generator
-            entity.Replace(new UnitNameComponent {name = "qwer"}) 
-                .Replace(new AgeComponent {age = 20})
+            entity.Replace(new AgeComponent {age = 20})
                 .Replace(new UnitMovementComponent {speed = 0.06f, step = 0})
                 .Replace(new UnitVisualComponent())
                 .Replace(nameGenerator.generate())

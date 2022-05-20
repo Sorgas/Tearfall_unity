@@ -1,4 +1,4 @@
-using game.model.component.unit;
+using game.model.component;
 
 namespace generation.unit {
     class UnitNameGenerator {
@@ -7,8 +7,8 @@ namespace generation.unit {
             return "mock name"; 
         }
 
-        public UnitNameComponent generate() {
-            return new UnitNameComponent {name = "mockName"};
+        public NameComponent generate() {
+            return new NameComponent {name = "mockName"};
         }
     }
 }
