@@ -19,9 +19,9 @@ namespace game.view.tilemaps {
 
         // returns map of <tilecode -> tile>
         public Dictionary<string, Tile> slice(Sprite sprite) {
-            Vector2 wallPivot = new Vector2(0.5f, (DEPTH / 2f) / (WALL_HEIGHT));
-            Vector2 floorPivot = new Vector2(0.5f, (FLOOR + (DEPTH / 2f)) / (FLOOR_HEIGHT));
-            Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
+            Vector2 wallPivot = new(0.5f, (DEPTH / 2f) / (WALL_HEIGHT));
+            Vector2 floorPivot = new(0.5f, (FLOOR + (DEPTH / 2f)) / (FLOOR_HEIGHT));
+            Dictionary<string, Tile> tiles = new();
             
             for (int i = 0; i < suffixes.Length; i++) {
                 Tile tile = cutTile(i, FLOOR_HEIGHT, WALL_HEIGHT, wallPivot, sprite);

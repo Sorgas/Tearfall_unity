@@ -4,6 +4,7 @@ using game.model.component;
 using game.view.util;
 using Leopotam.Ecs;
 using UnityEngine;
+using util.lang.extension;
 using static game.model.component.task.DesignationComponents;
 
 namespace game.view.system {
@@ -32,6 +33,7 @@ namespace game.view.system {
             SpriteRenderer spriteRenderer = go.GetComponent<SpriteRenderer>();
             Sprite sprite = IconLoader.get("designation/" + designation.type.SPRITE_NAME);
             spriteRenderer.sprite = sprite;
+            spriteRenderer.sortingOrder = entity.pos().z;
             
             float width = go.GetComponent<RectTransform>().rect.width;
             float scale = width / sprite.rect.width * sprite.pixelsPerUnit;

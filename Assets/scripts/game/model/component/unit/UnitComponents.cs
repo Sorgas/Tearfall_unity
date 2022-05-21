@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using enums;
 using enums.action;
 using game.model.component.task.action;
+using game.view.util;
 using UnityEngine;
 
 namespace game.model.component.unit { 
@@ -30,7 +31,7 @@ namespace game.model.component.unit {
     }
     
     public struct UnitVisualComponent {
-        public SpriteRenderer spriteRenderer;
+        public UnitGoHandler handler;
     }
 
     public struct EquipmentComponent {

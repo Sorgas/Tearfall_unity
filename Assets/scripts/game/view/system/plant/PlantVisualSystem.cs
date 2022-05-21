@@ -15,7 +15,7 @@ namespace game.view.system.plant {
         private const int SIZE_X = 64;
         private const int SIZE_Y = 90;
         private readonly Vector2 pivot = new(0, 0);
-        private readonly Vector3 zOffset = new(0, 0, WALL_LAYER * GRID_STEP - 0.01f);
+        private readonly Vector3 zOffset = new(0, 0, WALL_LAYER * GRID_STEP + GRID_STEP / 2f);
 
         public void Run() {
             foreach (int i in filter) {
@@ -32,14 +32,14 @@ namespace game.view.system.plant {
             visual.go = Object.Instantiate(plantPrefab, spritePosition, Quaternion.identity);
             visual.go.transform.SetParent(mapHolder);
             visual.go.transform.localPosition = spritePosition;
-            visual.go.transform.rotation = Quaternion.Euler(-5, 0, 0);
             visual.spriteRenderer = visual.go.GetComponent<SpriteRenderer>();
             visual.spriteRenderer.sprite = createSprite(plant.type);
+            visual.spriteRenderer.sortingOrder = entity.pos().z;
             return visual;
         }
 
         private Sprite createSprite(PlantType type) {
-            Sprite sprite = Resources.Load<Sprite>("tilesets/plants/" + type.atlasName); // TODO move to ItemTypeMap
+            Sprite sprite = Resources.Load<Sprite>("tilesets/plants/" + type.atlasName); // TODO move to ItemTypeMap & TileSetLoader
             Texture2D texture = sprite.texture;
             int x = type.tileXY[0];
             int y = type.tileXY[1];

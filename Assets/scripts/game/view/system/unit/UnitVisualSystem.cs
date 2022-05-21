@@ -1,49 +1,53 @@
 using enums;
 using game.model;
-using game.model.component;
 using game.model.component.unit;
+using game.view.util;
 using Leopotam.Ecs;
+using UnityEditor;
 using UnityEngine;
+using util.lang.extension;
 using static game.view.util.TilemapLayersConstants;
 
 namespace game.view.system.unit {
+    // creates sprite GO for units without it. update GO position
     public class UnitVisualSystem : IEcsRunSystem {
         public EcsFilter<UnitVisualComponent, UnitMovementComponent> filter;
         private RectTransform mapHolder;
-        private float spriteZ = WALL_LAYER * GRID_STEP + GRID_STEP / 2;
+        private Vector3 spriteOffset;
+        private Vector3 spriteOffsetOnRamp;
 
         public UnitVisualSystem() {
             mapHolder = GameView.get().sceneObjectsContainer.mapHolder;
+            spriteOffset = new(0, 0.25f, WALL_LAYER * GRID_STEP + GRID_STEP / 2);
+            spriteOffsetOnRamp = spriteOffset + new Vector3(0, 0, -0.1f);
         }
 
         public void Run() {
             foreach (int i in filter) {
-                EcsEntity entity = filter.GetEntity(i);
+                ref EcsEntity entity = ref filter.GetEntity(i);
                 ref UnitVisualComponent component = ref filter.Get1(i);
                 UnitMovementComponent unitMovement = filter.Get2(i);
-                PositionComponent positionComponent = entity.Get<PositionComponent>();
-                if (component.spriteRenderer == null) {
-                    createUnit(ref component);
-                }
-                updatePosition(ref component, unitMovement, positionComponent);
+                if (component.handler == null) createSpriteGo(ref component);
+                updatePosition(ref entity, ref component, unitMovement);
             }
         }
 
-        private void updatePosition(ref UnitVisualComponent component, UnitMovementComponent unitMovement, PositionComponent positionComponent) {
+        private void updatePosition(ref EcsEntity unit, ref UnitVisualComponent component, UnitMovementComponent unitMovement) {
             // TODO use view utils
-            Vector3Int pos = positionComponent.position;
-            Vector3 spritePos = new Vector3(pos.x, pos.y + pos.z / 2f + 0.25f, -pos.z * 2 + spriteZ);
-            if (GameModel.localMap.blockType.get(pos) == BlockTypeEnum.RAMP.CODE) {
-                spritePos.z -= 0.1f;
-            }
-            component.spriteRenderer.gameObject.transform.localPosition = spritePos;
+            Vector3Int pos = unit.pos();
+            bool isOnRamp = GameModel.localMap.blockType.get(pos) == BlockTypeEnum.RAMP.CODE;
+            component.handler.gameObject.transform.localPosition = 
+                ViewUtil.fromModelToScene(pos) + (isOnRamp ? spriteOffsetOnRamp : spriteOffset);
+            // set mask to draw unit through z+1 toppings
+            component.handler.setMaskEnabled(isOnRamp);
+            component.handler.updateZ(pos.z);
         }
 
-        private void createUnit(ref UnitVisualComponent component) {
+        private void createSpriteGo(ref UnitVisualComponent component) {
             //TODO use prefabLoader
             GameObject prefab = Resources.Load<GameObject>("prefabs/Unit");
             GameObject instance = Object.Instantiate(prefab, new Vector3(), Quaternion.identity);
-            component.spriteRenderer = instance.GetComponent<SpriteRenderer>();
+            component.handler = instance.GetComponent<UnitGoHandler>();
             instance.transform.SetParent(mapHolder);
         }
     }

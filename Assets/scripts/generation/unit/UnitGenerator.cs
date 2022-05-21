@@ -32,7 +32,7 @@ namespace generation.unit {
             // TODO add name generator
             entity.Replace(new AgeComponent {age = 20})
                 .Replace(new UnitMovementComponent {speed = 0.06f, step = 0})
-                .Replace(new UnitVisualComponent())
+                .Replace(new UnitVisualComponent()) // sprite go is created in UnitVisualSystem
                 .Replace(nameGenerator.generate())
                 .Replace(new PositionComponent {position = new Vector3Int()})
                 .Replace(bodyGenerator.generate(type))

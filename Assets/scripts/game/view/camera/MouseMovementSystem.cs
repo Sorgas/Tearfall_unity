@@ -42,7 +42,7 @@ namespace game.view.camera {
 
         public void setTarget(Vector3 value) {
             int z = GameView.get().currentZ;
-            Vector3Int vector = new Vector3Int((int)value.x, (int)(value.y - z / 2f), z);
+            Vector3Int vector = new((int)value.x, (int)(value.y - z / 2f), z);
             setTargetModel(vector);
         }
 

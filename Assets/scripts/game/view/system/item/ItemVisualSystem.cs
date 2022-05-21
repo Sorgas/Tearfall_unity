@@ -49,6 +49,7 @@ namespace game.view.system.item {
                 scenePos.z -= GRID_STEP;
             }
             component.spriteRenderer.gameObject.transform.localPosition = scenePos;
+            component.spriteRenderer.sortingOrder = pos.z;
         }
 
         private Sprite createSprite(ItemType type) {

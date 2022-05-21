@@ -71,6 +71,9 @@ namespace game.view.tilemaps {
                 GameObject layer = Object.Instantiate(layerPrefab, new Vector3(0, i / 2f, -i * 2) + transform.position,
                     Quaternion.identity, transform);
                 layers.Add(layer.transform.GetComponentInChildren<LocalMapLayerHandler>());
+                layers[i].tilemap.GetComponent<TilemapRenderer>().sortingOrder = i;
+                layers[i].planeRenderer.sortingOrder = i;
+                layers[i].planeRenderer.sortingLayerName = "LocalMap";
             }
         }
 
@@ -149,7 +152,6 @@ namespace game.view.tilemaps {
         // 
         public void updateLayersVisibility(int oldZ, int newZ) {
             for (int z = 0; z < map.bounds.maxZ; z++) {
-                // Debug.Log(z);
                 layers[z].setVisible(z > (newZ - viewDepth) && z <= newZ);
             }
         }

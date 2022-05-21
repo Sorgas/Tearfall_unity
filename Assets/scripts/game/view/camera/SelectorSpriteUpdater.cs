@@ -24,6 +24,7 @@ namespace game.view.camera {
 
         public void updateSprite(Vector3Int position) {
             if (!map.inMap(position)) return;
+            selector.setCurrentZ(position.z);
             BlockType blockType = map.blockType.getEnumValue(position);
             if (blockType.CODE == BlockTypeEnum.SPACE.CODE) {
                 setSprite(true, lightGrey);
