@@ -5,8 +5,8 @@ namespace generation
 {
     // filled from UI when player selects settlers and items
     public class PreparationState : Singleton<PreparationState>{
-        public List<SettlerData> settlers = new List<SettlerData>();
-        public List<ItemData> items = new List<ItemData>();
+        public List<SettlerData> settlers = new();
+        public List<ItemData> items = new();
     }
 
     // Descriptor for settler. Used to generate unit when game starts.

@@ -18,4 +18,8 @@ namespace game.model.component.plant {
         public SpriteRenderer spriteRenderer;
         public GameObject go;
     }
+
+    public struct PlantRemoveComponent {
+        public bool leaveProduct;
+    }
 }

@@ -29,7 +29,11 @@ namespace generation.localgen.generators {
                     unitGenerator.generateUnit(settler, entity);
                     ref PositionComponent positionComponent = ref entity.Get<PositionComponent>();
                     positionComponent.position = spawnPoint.Value;
+                    
+                    // TODO move to settlerdata
                     entity.Get<UnitJobsComponent>().enabledJobs.Add(JobsEnum.MINER.name);
+                    entity.Get<UnitJobsComponent>().enabledJobs.Add(JobsEnum.WOODCUTTER.name);
+                    
                     Debug.Log("unit spawned at " + spawnPoint.Value);
                 } else {
                     Debug.LogWarning("position to spawn unit not found");

@@ -34,7 +34,7 @@ namespace game.model.system.plant {
         public void removePlant(EcsEntity plant, bool leaveProduct) {
             plants.Remove(plant.pos());
             plantBlocks.Remove(plant.pos());
-            plant.Replace(new RemovedComponent());
+            plant.Replace(new PlantRemoveComponent{leaveProduct = leaveProduct});
         }
         
         //public PlantContainer() {

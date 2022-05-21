@@ -19,7 +19,7 @@ namespace game.model.container.item {
             all.Add(item);
         }
 
-        // adds item without position to specified position on map
+        // adds item without position to specified position on map (used in gameplay)
         public void putItemToMap(EcsEntity item, Vector3Int position) {
             validateForPlacing(item);
             item.Replace(new PositionComponent { position = position });

@@ -1,4 +1,3 @@
-using enums;
 using enums.plant;
 using game.model;
 using game.model.component;
@@ -9,6 +8,7 @@ using UnityEngine;
 namespace generation.plant {
     public class PlantGenerator {
 
+        // TODO add multi-block tree generator
         public EcsEntity generate(string typeName) {
             PlantType type = PlantTypeMap.get().get(typeName);
             EcsEntity entity = GameModel.get().createEntity();
@@ -24,7 +24,7 @@ namespace generation.plant {
         }
 
         private PlantBlock createPlantBlock(EcsEntity entity, PlantType type) {
-            PlantBlock block = new(type.material, BlockTypeEnum.WALL.CODE);
+            PlantBlock block = new(type.material, PlantBlockTypeEnum.TRUNK.code);
             block.plant = entity;
             return block;
         }

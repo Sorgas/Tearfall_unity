@@ -1,4 +1,5 @@
-﻿using game.model.localmap;
+﻿using enums;
+using game.model.localmap;
 using game.view.ui;
 using UnityEngine;
 
@@ -9,24 +10,35 @@ namespace game.view.camera {
         private Sprite selectors;
         private Sprite flatTile;
         private Sprite wallTile;
+        private Vector3 flatIconPosition = new(0.5f, 0.5f, 0);
+        private Vector3 wallIconPosition = new(0.5f, 90f / 96, 0);
+        private Color lightGrey = new(0.75f, 0.75f, 0.75f);
 
         public SelectorSpriteUpdater(LocalMap map, SelectorHandler selector) {
             this.map = map;
             this.selector = selector;
             selectors = Resources.Load<Sprite>("icons/selectors");
-            flatTile = Sprite.Create(selectors.texture, new Rect(0, 0, 64, 96), Vector2.zero, 64);;
-            wallTile = Sprite.Create(selectors.texture, new Rect(64, 0, 64, 96), Vector2.zero, 64);;
+            flatTile = Sprite.Create(selectors.texture, new Rect(0, 0, 64, 96), Vector2.zero, 64);
+            wallTile = Sprite.Create(selectors.texture, new Rect(64, 0, 64, 96), Vector2.zero, 64);
         }
 
         public void updateSprite(Vector3Int position) {
             if (!map.inMap(position)) return;
-            if (map.blockType.getEnumValue(position).FLAT) {
-                selector.toolIcon.transform.localPosition = new Vector3(0.5f,0.5f,0);
-                selector.frameIcon.sprite = flatTile;
+            BlockType blockType = map.blockType.getEnumValue(position);
+            if (blockType.CODE == BlockTypeEnum.SPACE.CODE) {
+                setSprite(true, lightGrey);
+            } else if (blockType.FLAT) {
+                setSprite(true, Color.white);
             } else {
-                selector.toolIcon.transform.localPosition = new Vector3(0.5f,90f / 96,0);
-                selector.frameIcon.sprite = wallTile;
+                setSprite(false, Color.white);
             }
+        }
+
+        private void setSprite(bool flat, Color color) {
+            selector.toolIcon.transform.localPosition = flat ? flatIconPosition : wallIconPosition;
+            selector.toolIcon.color = color;
+            selector.frameIcon.sprite = flat ? flatTile : wallTile;
+            selector.frameIcon.color = color;
         }
     }
 }
