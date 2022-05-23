@@ -1,4 +1,5 @@
-﻿using enums;
+﻿using System.Data;
+using enums;
 using UnityEngine;
 using util;
 using util.pathfinding;
@@ -42,8 +43,7 @@ namespace game.model.localmap.passage {
                 // ramp has space above
                 if (x1 != x2 || y1 != y2)
                     return (z1 < z2 ? blockTypeMap.get(x1, y1, z1 + 1) : blockTypeMap.get(x2, y2, z2 + 1)) == SPACE.CODE;
-            }
-            else if (lowerType == STAIRS.CODE) {
+            } else if (lowerType == STAIRS.CODE) {
                 // stairs have stairs above
                 if (x1 == x2 && y1 == y2) {
                     int upper = z1 > z2 ? blockTypeMap.get(x1, y1, z1) : blockTypeMap.get(x2, y2, z2);
@@ -55,7 +55,6 @@ namespace game.model.localmap.passage {
 
         public bool tileIsAccessibleFromNeighbour(Vector3Int target, Vector3Int position, BlockType type)
             => tileIsAccessibleFromNeighbour(target.x, target.y, target.z, position.x, position.y, position.z, type);
-
 
         /**
          * Checks that unit, standing in position will have access (to dig, open a chest) to target tile.
@@ -71,8 +70,7 @@ namespace game.model.localmap.passage {
                 // ramp has space above
                 if (tx != x || ty != y)
                     return (tz < z ? blockTypeMap.get(tx, ty, tz + 1) : blockTypeMap.get(x, y, z + 1)) == SPACE.CODE;
-            }
-            else if (lowerType == STAIRS) {
+            } else if (lowerType == STAIRS) {
                 if (tx == x && ty == y) {
                     BlockType upperType = tz > z ? targetType : fromType;
                     return (upperType == STAIRS || upperType == DOWNSTAIRS) && lowerType == STAIRS; // handle stairs
@@ -81,16 +79,15 @@ namespace game.model.localmap.passage {
             return false;
         }
 
-        public bool tileIsAccessibleFromArea(int tx, int ty, int tz, int area) {
-            Debug.Log("checking [" + tx + ", " + ty + ", " + tz + "] available from area " + area);
+        public bool tileIsAccessibleFromArea(int tx, int ty, int tz, int areaValue) {
+            Debug.Log("checking [" + tx + ", " + ty + ", " + tz + "] available from area " + areaValue);
             if (!localMap.inMap(tx, ty, tz)) return false;
-            if (this.area.get(tx, ty, tz) == area) return true;
-            if (getPassage(tx, ty, tz) == PASSABLE.VALUE) return false;
-            Debug.Log("qwer");
-            for (int x = -1; x < 2; x++) {
-                for (int y = -1; y < 2; y++) {
-                    // Debug.Log(this.area.get(x, y, tz));
-                    if ((x != 0 || y != 0) && localMap.inMap(tx + x, ty + y, tz) && this.area.get(tx + x, ty + y, tz) == area)
+            if (area.get(tx, ty, tz) == areaValue) return true;
+            if (getPassage(tx, ty, tz) == PASSABLE.VALUE) 
+                throw new DataException("Passable tile + " + tx + " " + ty + " " + tz + " has no area value.");
+            for (int x = tx - 1; x < tx + 2; x++) {
+                for (int y = ty - 1; y < ty + 2; y++) {
+                    if ((x != tx || y != ty) && localMap.inMap(x, y, tz) && area.get(x, y, tz) == areaValue)
                         return true;
                 }
             }

@@ -55,6 +55,7 @@ namespace game.model {
                 .Add(new TaskCompletionSystem()) // handle completed tasks
                 .Add(new DesignationCompletionSystem()) // handle designation with completed tasks
                 .Add(new DesignationTaskCreationSystem()) // create tasks for designations
+                .Add(new DesignationTaskCreationTimeoutSystem())
                 .Add(new ItemRegisterInitSystem())
                 
                 .Add(new UnitWearNeedSystem())

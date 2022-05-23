@@ -1,38 +1,42 @@
 ﻿using enums.unit;
 using game.model.component;
+using game.model.component.task;
 using game.model.component.task.action;
 using game.model.component.task.action.plant;
 using Leopotam.Ecs;
 using UnityEngine;
-using static game.model.component.task.DesignationComponents;
+using util.lang.extension;
 using static game.model.component.task.TaskComponents;
 
 namespace game.model.system.task.designation {
     // creates tasks for designations without tasks. stores tasks in TaskContainer
     public class DesignationTaskCreationSystem : IEcsRunSystem {
-        public EcsFilter<DesignationComponent, PositionComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter;
+        public EcsFilter<DesignationComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter;
 
         public void Run() {
             foreach (var i in filter) {
-                EcsEntity designation = filter.GetEntity(i);
-                EcsEntity? task = createTaskForDesignation(filter.Get1(i), filter.Get2(i));
-                if (task.HasValue) {
-                    designation.Replace(new TaskComponent { task = task.Value });
-                    task.Value.Replace(new TaskDesignationComponent {designation = designation});
-                    GameModel.get().taskContainer.addOpenTask(task.Value);
+                EcsEntity entity = filter.GetEntity(i);
+                if (!entity.Has<TaskCreationTimeoutComponent>()) {
+                    EcsEntity? task = createTaskForDesignation(entity , filter.Get1(i));
+                    if (task.HasValue) {
+                        entity.Replace(new TaskComponent { task = task.Value });
+                        task.Value.Replace(new TaskDesignationComponent {designation = entity});
+                        GameModel.get().taskContainer.addOpenTask(task.Value);
+                    }
                 }
             }
         }
 
-        private EcsEntity? createTaskForDesignation(DesignationComponent designation, PositionComponent position) {
+        private EcsEntity? createTaskForDesignation(EcsEntity entity, DesignationComponent designation) {
             if (designation.type.JOB.Equals(JobsEnum.MINER.name)) {
-                EcsEntity taskEntity = GameModel.get().taskContainer.generator.createTask(new DigAction(position.position, designation.type));
+                EcsEntity taskEntity = GameModel.get().taskContainer.generator.createTask(new DigAction(entity.pos(), designation.type));
                 taskEntity.Replace(new TaskJobComponent { job = JobsEnum.MINER.name });
                 taskEntity.Replace(new TaskBlockOverrideComponent { blockType = designation.type.getDiggingBlockType() });
                 Debug.Log("mining task created.");
                 return taskEntity;
-            } else if (designation.type.JOB.Equals(JobsEnum.WOODCUTTER.name)) {
-                EcsEntity taskEntity = GameModel.get().taskContainer.generator.createTask(new ChopTreeAction(position.position));
+            } 
+            if (designation.type.JOB.Equals(JobsEnum.WOODCUTTER.name)) {
+                EcsEntity taskEntity = GameModel.get().taskContainer.generator.createTask(new ChopTreeAction(entity.pos()));
                 taskEntity.Replace(new TaskJobComponent { job = JobsEnum.WOODCUTTER.name });
                 Debug.Log("woodcutting task created.");
                 return taskEntity;

@@ -4,7 +4,7 @@ using game.model.component.task;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
-using static game.model.component.task.DesignationComponents;
+using static enums.action.TaskStatusEnum;
 
 namespace game.model.system.task.designation {
 
@@ -23,9 +23,11 @@ namespace game.model.system.task.designation {
 
                 // remove designation entity, failed will recreate task
                 TaskStatusEnum status = taskFinishedComponent.status;
-                if (status == TaskStatusEnum.CANCELED || status == TaskStatusEnum.COMPLETE) {
+                if (status == CANCELED || status == COMPLETE) {
                     Debug.Log("[DesignationCompletionSystem]: deleting designation " + designation.take<DesignationComponent>().type.name + " " + designation.pos());
                     GameModel.get().designationContainer.removeDesignation(designation);
+                } else if (status == FAILED) {
+                    designation.Replace(new TaskCreationTimeoutComponent { value = 50 });
                 }
             }
         }

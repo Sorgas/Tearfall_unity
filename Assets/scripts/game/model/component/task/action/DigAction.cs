@@ -31,7 +31,8 @@ namespace game.model.component.task.action {
             startCondition = () => {
                 if (!type.VALIDATOR.validate(target.getPos().Value)) return FAIL; // tile still valid
                 if (!performer.Has<UnitEquipmentComponent>()) return FAIL;
-                if (!performer.take<UnitEquipmentComponent>().toolWithActionEquipped(toolActionName)) return addEquipAction(); // find tool
+                if (!performer.take<UnitEquipmentComponent>().toolWithActionEquipped(toolActionName)) 
+                    return addEquipAction(); // find tool
                 return OK; // tool already equipped
             };
 
@@ -55,10 +56,10 @@ namespace game.model.component.task.action {
 
         private ActionConditionStatusEnum addEquipAction() {
             // TODO check performer's 'backpack'
-            EcsEntity? targetItem = GameModel.get().itemContainer.util
+            EcsEntity targetItem = GameModel.get().itemContainer.util
                 .findFreeReachableItemBySelector(selector, performer.pos());
-            return targetItem.HasValue
-                ? addPreAction(new EquipToolItemAction(targetItem.Value))
+            return targetItem != EcsEntity.Null
+                ? addPreAction(new EquipToolItemAction(targetItem))
                 : FAIL;
         }
 

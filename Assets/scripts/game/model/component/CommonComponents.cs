@@ -25,4 +25,8 @@ namespace game.model.component {
     public struct RemovedComponent {
         
     }
+
+    public struct TaskCreationTimeoutComponent {
+        public int value;
+    }
 }

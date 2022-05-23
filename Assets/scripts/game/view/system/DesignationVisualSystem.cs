@@ -1,11 +1,11 @@
 ﻿using enums;
 using game.model;
 using game.model.component;
+using game.model.component.task;
 using game.view.util;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
-using static game.model.component.task.DesignationComponents;
 
 namespace game.view.system {
 

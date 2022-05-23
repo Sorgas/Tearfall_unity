@@ -2,10 +2,10 @@
 using enums;
 using enums.action;
 using game.model.component;
+using game.model.component.task;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
-using static game.model.component.task.DesignationComponents;
 using static UnityEngine.Object;
 
 namespace game.model.container {

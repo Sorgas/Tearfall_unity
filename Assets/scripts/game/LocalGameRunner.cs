@@ -32,7 +32,7 @@ namespace game {
             started = true;
         }
 
-        public void Update() {
+        public void FixedUpdate() {
             if (!started) return;
             GameModel.get().update();
             GameView.get().update();
