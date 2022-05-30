@@ -1,0 +1,11 @@
+[
+  {
+    "name" : "bed",
+    "texture": "furniture",
+    "size": [1,2], // for N orientation
+    "positionN" : [2,1], // bottom left tile
+    "positionS" : [3,1],
+    "positionE" : [0,0],
+    "positionW" : [0,1]
+  }
+]

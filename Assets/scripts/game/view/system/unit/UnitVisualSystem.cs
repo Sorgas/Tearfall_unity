@@ -3,6 +3,7 @@ using game.model;
 using game.model.component.unit;
 using game.view.util;
 using Leopotam.Ecs;
+using types;
 using UnityEditor;
 using UnityEngine;
 using util.lang.extension;

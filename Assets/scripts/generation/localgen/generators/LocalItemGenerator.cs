@@ -4,6 +4,7 @@ using game.model;
 using game.model.localmap;
 using generation.item;
 using Leopotam.Ecs;
+using types;
 using UnityEngine;
 
 namespace generation.localgen.generators {

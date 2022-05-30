@@ -1,8 +1,9 @@
 ﻿using enums;
 using enums.material;
+using types;
 using UnityEngine;
 using util;
-using static enums.BlockTypeEnum;
+using static types.BlockTypeEnum;
 
 namespace game.model.localmap {
     // stores tile types and materials for local map

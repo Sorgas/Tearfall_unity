@@ -3,6 +3,7 @@ using enums;
 using enums.action;
 using game.model.component.task.action;
 using Leopotam.Ecs;
+using types;
 
 namespace game.model.component.task {
     public class TaskComponents {

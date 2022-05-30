@@ -2,6 +2,7 @@ using enums;
 using enums.action;
 using game.model.component.unit;
 using Leopotam.Ecs;
+using types;
 using UnityEngine;
 using util.geometry;
 using util.lang.extension;

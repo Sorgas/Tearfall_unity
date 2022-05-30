@@ -1,4 +1,3 @@
-using enums;
 using game.model;
 using game.view.camera;
 using game.view.system;
@@ -7,6 +6,7 @@ using game.view.system.plant;
 using game.view.system.unit;
 using game.view.tilemaps;
 using Leopotam.Ecs;
+using types;
 using UnityEngine;
 using util.geometry;
 using util.lang;
@@ -37,9 +37,9 @@ namespace game.view {
             resetCameraPosition();
             Debug.Log("view initialized");
         }
-
+        
         public void update() {
-            keyInputSystem?.update();
+            keyInputSystem.update();
             cameraAndMouseHandler?.update();
             systems?.Run();
             sceneObjectsContainer.modelDebugInfoPanel.text = GameModel.get().getDebugInfo();

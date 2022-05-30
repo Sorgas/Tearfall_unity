@@ -1,8 +1,9 @@
 ﻿using enums.action;
 using enums.unit;
 using game.model.util.validation;
+using types;
 using static enums.action.ActionTargetTypeEnum;
-using static enums.BlockTypeEnum;
+using static types.BlockTypeEnum;
 using static enums.DesignationTypeEnum;
 
 namespace enums {

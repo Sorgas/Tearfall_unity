@@ -7,7 +7,7 @@ using UnityEngine;
 using util.geometry;
 using static enums.action.ActionTargetTypeEnum;
 using static enums.PassageEnum;
-using static enums.BlockTypeEnum;
+using static types.BlockTypeEnum;
 
 namespace util.pathfinding {
     class PathFinishCondition {

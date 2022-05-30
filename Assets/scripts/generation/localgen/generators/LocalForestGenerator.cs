@@ -3,6 +3,7 @@ using game.model;
 using game.model.localmap;
 using generation.plant;
 using Leopotam.Ecs;
+using types;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

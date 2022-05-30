@@ -1,4 +1,5 @@
 ﻿using enums;
+using types;
 
 namespace game.model.util.validation {
     public class DiggingChannelValidator : DiggingValidator {

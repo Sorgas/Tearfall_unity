@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using enums;
 using static enums.PassageEnum;
 
-namespace enums {
+namespace types {
     public static class BlockTypeEnum {
         public static BlockType SPACE = new(0, IMPASSABLE, 16, true, 0, "space", null);
         public static BlockType WALL = new(1, IMPASSABLE, 0, false, 3, "wall", "WALL"); // not passable

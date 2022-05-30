@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using enums;
+using types;
 using UnityEngine;
 using util.geometry;
 using util.lang.extension;

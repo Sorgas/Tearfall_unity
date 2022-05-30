@@ -19,6 +19,7 @@ namespace game {
         public JobsWindowHandler jobsWindow;
         public MenuWidgetHandler menuWidget;
         public ToolbarWidgetHandler toolbarWidget;
+        public MaterialSelectionWidgetHandler materialSelectionWidgetHandler;
         public Text debugInfoPanel;
         public Text modelDebugInfoPanel;
         private bool started = false;
@@ -32,7 +33,7 @@ namespace game {
             started = true;
         }
 
-        public void FixedUpdate() {
+        public void Update() {
             if (!started) return;
             GameModel.get().update();
             GameView.get().update();

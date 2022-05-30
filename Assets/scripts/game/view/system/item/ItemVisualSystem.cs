@@ -5,6 +5,7 @@ using game.model.component;
 using game.model.component.item;
 using game.view.util;
 using Leopotam.Ecs;
+using types;
 using UnityEngine;
 using util.lang.extension;
 using static game.view.util.TilemapLayersConstants;

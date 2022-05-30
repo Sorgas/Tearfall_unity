@@ -1,4 +1,5 @@
 ﻿using enums;
+using types;
 using UnityEngine;
 
 namespace game.model.util.validation {

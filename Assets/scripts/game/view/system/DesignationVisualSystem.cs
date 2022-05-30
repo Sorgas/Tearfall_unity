@@ -4,6 +4,7 @@ using game.model.component;
 using game.model.component.task;
 using game.view.util;
 using Leopotam.Ecs;
+using types;
 using UnityEngine;
 using util.lang.extension;
 

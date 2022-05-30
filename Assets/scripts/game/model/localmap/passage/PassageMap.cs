@@ -1,9 +1,10 @@
 ﻿using System.Data;
 using enums;
+using types;
 using UnityEngine;
 using util;
 using util.pathfinding;
-using static enums.BlockTypeEnum;
+using static types.BlockTypeEnum;
 using static enums.PassageEnum;
 
 namespace game.model.localmap.passage {

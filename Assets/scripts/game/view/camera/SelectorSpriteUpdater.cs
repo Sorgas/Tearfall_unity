@@ -1,6 +1,7 @@
 ﻿using enums;
 using game.model.localmap;
 using game.view.ui;
+using types;
 using UnityEngine;
 
 namespace game.view.camera {

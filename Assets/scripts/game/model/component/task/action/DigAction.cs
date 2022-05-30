@@ -7,11 +7,12 @@ using game.model.component.unit;
 using game.model.localmap;
 using generation.item;
 using Leopotam.Ecs;
+using types;
 using UnityEngine;
 using util.item;
 using util.lang.extension;
 using static enums.action.ActionConditionStatusEnum;
-using static enums.BlockTypeEnum;
+using static types.BlockTypeEnum;
 using static enums.DesignationTypeEnum;
 using Random = UnityEngine.Random;
 
@@ -44,9 +45,7 @@ namespace game.model.component.task.action {
             };
 
             onFinish = () => {
-                Vector3Int targetPosition = target.getPos().Value;
-                BlockType blockType = GameModel.localMap.blockType.getEnumValue(targetPosition);
-                if (!type.VALIDATOR.validate(targetPosition)) return;
+                if (!type.VALIDATOR.validate(target.getPos().Value)) return;
                 updateMap();
                 // leaveStone(oldType); TODO
                 // GameMvc.model().get(UnitContainer.class).experienceSystem.giveExperience(task.performer, skill);
@@ -72,6 +71,7 @@ namespace game.model.component.task.action {
                     updateAndRevealMap(target, FLOOR);
                     break;
                 case DTE_STAIRS:
+                    // TODO fix type selection
                     updateAndRevealMap(target, map.blockType.get(target) == WALL.CODE ? STAIRS : DOWNSTAIRS);
                     break;
                 case DTE_RAMP:

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using enums;
+using types;
 using UnityEngine;
 using util.geometry;
 using Random = UnityEngine.Random;

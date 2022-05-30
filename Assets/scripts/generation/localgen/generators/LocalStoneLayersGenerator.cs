@@ -4,6 +4,7 @@ using enums;
 using enums.material;
 using game.model;
 using game.model.localmap;
+using types;
 using UnityEngine;
 using util.geometry;
 

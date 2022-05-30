@@ -1,5 +1,6 @@
 using enums;
 using game.model.localmap;
+using types;
 using UnityEngine;
 
 namespace game.model.entity_selector {

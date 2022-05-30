@@ -1,6 +1,7 @@
 ﻿using enums;
 using game.model;
 using game.model.localmap;
+using types;
 using UnityEngine;
 
 namespace generation.localgen.generators {

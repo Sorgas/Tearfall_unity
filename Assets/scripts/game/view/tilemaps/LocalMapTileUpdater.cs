@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using enums;
 using enums.material;
 using game.model;
 using game.model.localmap;
 using game.view.util;
+using types;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using util.geometry;
 using util.lang;
-using static enums.BlockTypeEnum;
+using static types.BlockTypeEnum;
 using static game.view.util.TilemapLayersConstants;
 
 // stores tilemaps of layers in array
@@ -18,7 +18,7 @@ using static game.view.util.TilemapLayersConstants;
 namespace game.view.tilemaps {
     public class LocalMapTileUpdater {
         private readonly List<LocalMapLayerHandler> layers = new();
-        public readonly TileSetHolder tileSetHolder = new();
+        public readonly TileSetHolder tileSetHolder = TileSetHolder.get();
         public GameObject layerPrefab;
         private RectTransform mapHolder;
         private LocalMap map;

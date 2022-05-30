@@ -4,8 +4,8 @@ using util.lang;
 
 namespace game.view.util {
     public class PrefabLoader : Singleton<PrefabLoader> {
-        private Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
-        private Dictionary<string, string> paths = new Dictionary<string, string>();
+        private Dictionary<string, GameObject> prefabs = new();
+        private Dictionary<string, string> paths = new();
 
         public static GameObject get(string name) {
             return get().getPrefab(name);
@@ -36,6 +36,7 @@ namespace game.view.util {
 
         protected override void init() {
             paths.Add("toolbarButton", "prefabs/toolbar/toolbarButton");
+            paths.Add("materialButton", "prefabs/toolbar/materialButton");
             paths.Add("toolbarPanel", "prefabs/toolbar/toolbarPanel");
             paths.Add("designation", "prefabs/Designation");
         }
