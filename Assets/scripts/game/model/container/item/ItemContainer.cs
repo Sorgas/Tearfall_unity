@@ -1,37 +1,21 @@
-﻿using System.Collections.Generic;
-using game.model.localmap;
-using Leopotam.Ecs;
-using UnityEngine;
-using util.geometry;
-using util.lang.extension;
-
-namespace game.model.container.item {
-    public class ItemContainer : EntityContainer {
-        // public HashSet<EcsEntity> onMapItemsSet = new HashSet<EcsEntity>(); // set for faster checking
-        // public Dictionary<EcsEntity, ItemContainerAspect> contained = new HashMap<>(); // maps contained items to containers they are in.
-        public Dictionary<EcsEntity, EcsEntity> equipped = new Dictionary<EcsEntity, EcsEntity>(); // maps equipped and hauled items to units.
-        public ItemFindingUtil util = new ItemFindingUtil();
-        // public ContainedItemsSystem containedItemsSystem;
-        public EquippedItemsManager equippedItems = new EquippedItemsManager();
-        public OnMapItemsManager onMapItems = new OnMapItemsManager(); 
+﻿namespace game.model.container.item {
+    // stores all items on the level. has separate storage classes for items on ground, stored in containers, equipped on units.
+    // transitions are made in actions.
+    public class  ItemContainer : EntityContainer {
+        public ItemStateValidator validator;
+        public EquippedItemsManager equippedItems = new();
+        public OnMapItemsManager onMapItems;
+        // TODO stored items
+        // TODO player owned items
         
+        public AvailableItemsManager availableItemsManager = new();
+        public ItemFindingUtil util = new();
+
         public ItemContainer() {
-            // addSystem(containedItemsSystem = new ContainedItemsSystem(this));
-            // addSystem(equippedItemsSystem = new EquippedItemsSystem(this));
-            // addSystem(onMapItemsSystem = new OnMapItemsSystem(this));
+            validator = new(this);
+            onMapItems = new(this);
         }
 
-        public void registerItem(EcsEntity item) {
-            // TODO handle equipped and contained items
-            if (item.hasPos()) {
-                onMapItems.addItemToMap(item);
-            }
-        }
-        
-        // public void addItem(EcsEntity item) {
-        //     objects.add(item);
-        // }
-        //
         // public void removeItem(EcsEntity item) {
         //     if (!objects.contains(item)) {
         //         Logger.ITEMS.logWarn("Removing not present item " + item.type.name);
@@ -70,22 +54,6 @@ namespace game.model.container.item {
         //             .anyMatch(area1->area1 == area);
         //     }
         //     return item.position != null && map().passageMap.area.get(position) == map().passageMap.area.get(item.position);
-        // }
-        //
-        // private LocalMap map() {
-        //     return map == null ? map = GameMvc.model().get(LocalMap.class) : map;
-        // }
-        //
-        // public boolean isItemOnMap(EcsEntity item) {
-        //     return onMapItemsSet.contains(item);
-        // }
-        //
-        // public boolean isItemInContainer(EcsEntity item) {
-        //     return contained.containsKey(item);
-        // }
-        //
-        // public boolean isItemEquipped(EcsEntity item) {
-        //     return equipped.containsKey(item);
         // }
     }
 }

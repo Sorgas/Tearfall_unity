@@ -7,6 +7,11 @@ using util.lang;
 namespace enums.item.type {
     public class ItemTypeMap : Singleton<ItemTypeMap> {
         private Dictionary<string, ItemType> types = new();
+        private Dictionary<string, Sprite> sprites = new();
+
+        private const int SIZE = 32;
+        private Vector2 pivot = new(0, 0);
+
         private string logMessage;
 
         public ItemTypeMap() {
@@ -41,6 +46,21 @@ namespace enums.item.type {
                 types.Add(type.name, type);
             }
             log("   " + raws.Count + " loaded from " + file.name);
+        }
+
+        public Sprite getSprite(string type) {
+            if (!sprites.ContainsKey(type)) sprites.Add(type, createSprite(type));
+            return sprites[type];
+        }
+
+        private Sprite createSprite(string typeName) {
+            ItemType type = types[typeName];
+            Sprite sprite = Resources.Load<Sprite>("tilesets/items/" + type.atlasName);
+            Texture2D texture = sprite.texture;
+            int x = type.atlasXY[0];
+            int y = type.atlasXY[1];
+            Rect rect = new(x * SIZE, texture.height - (y + 1) * SIZE, SIZE, SIZE);
+            return Sprite.Create(texture, rect, pivot, 32);
         }
 
         private void log(string message) {

@@ -16,8 +16,10 @@ namespace game.view.system.mouse_tool {
         private MaterialSelectionWidgetHandler materialSelector;
         private MouseToolType tool = NONE;
         private string buildingType; // set if tool is BUILD
+        
         // set if tool is CONSTRUCT
         private ConstructionType constructionType;
+        private string itemType;
         private int material;
 
         public MouseToolManager() {
@@ -36,8 +38,8 @@ namespace game.view.system.mouse_tool {
             this.buildingType = buildingType;
             this.constructionType = constructionType;
             if (tool == CONSTRUCT) {
+                materialSelector.fillForConstructionType(constructionType);
                 materialSelector.open();
-                materialSelector.init();
             } else {
                 materialSelector.close();
             }
@@ -48,6 +50,11 @@ namespace game.view.system.mouse_tool {
 
         public static void handleSelection(IntBounds3 bounds) => get()._handleSelection(bounds);
 
+        public void setItemForConstruction(string itemType, int material) {
+            this.itemType = itemType;
+            this.material = material;
+        }
+        
         private void _handleSelection(IntBounds3 bounds) {
             if (tool == NONE) return; // TODO add unit/building/item/plant/block selection for NONE tool
             bounds.iterate((x, y, z) => {

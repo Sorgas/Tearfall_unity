@@ -47,11 +47,11 @@ namespace game.view.ui.toolbar {
         }
 
         private void fillConstructionsPanel(ToolbarPanelHandler panel) {
-            createConstructionButton(panel, "wall", "wall", ConstructionTypeEnum.WALL, KeyCode.Z);
-            createConstructionButton(panel, "floor", "floor", ConstructionTypeEnum.FLOOR, KeyCode.X);
-            createConstructionButton(panel, "ramp", "ramp", ConstructionTypeEnum.RAMP, KeyCode.C);
-            createConstructionButton(panel, "stairs", "stairs", ConstructionTypeEnum.STAIRS, KeyCode.V);
-            createConstructionButton(panel, "downstairs", "downstairs", ConstructionTypeEnum.DOWNSTAIRS, KeyCode.B);
+            createConstructionButton(panel, "wall", "wall", ConstructionTypeMap.get("wall"), KeyCode.Z);
+            createConstructionButton(panel, "floor", "floor", ConstructionTypeMap.get("floor"), KeyCode.X);
+            createConstructionButton(panel, "ramp", "ramp", ConstructionTypeMap.get("ramp"), KeyCode.C);
+            createConstructionButton(panel, "stairs", "stairs", ConstructionTypeMap.get("stairs"), KeyCode.V);
+            createConstructionButton(panel, "downstairs", "downstairs", ConstructionTypeMap.get("downstairs"), KeyCode.B);
             panel.closeAction = () => MouseToolManager.set(MouseToolEnum.NONE);
         }
 

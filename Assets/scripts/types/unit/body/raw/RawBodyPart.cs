@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace enums.unit.body.raw {
+namespace types.unit.body.raw {
     
     [Serializable]
     public class RawBodyPart {

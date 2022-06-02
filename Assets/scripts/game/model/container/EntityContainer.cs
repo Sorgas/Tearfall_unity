@@ -4,7 +4,7 @@ using util.lang;
 
 namespace game.model.container {
     public class EntityContainer : Singleton<EntityContainer> {
-        public HashSet<EcsEntity> entities = new HashSet<EcsEntity>();
+        public HashSet<EcsEntity> entities = new();
 
         public EntityContainer() { }
 

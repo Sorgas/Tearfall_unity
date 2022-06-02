@@ -3,6 +3,7 @@ using UnityEngine;
 using util.lang;
 
 namespace game.view.util {
+    // registry and utility wrapper for prefabs. prefabs should be registered with their paths.
     public class PrefabLoader : Singleton<PrefabLoader> {
         private Dictionary<string, GameObject> prefabs = new();
         private Dictionary<string, string> paths = new();

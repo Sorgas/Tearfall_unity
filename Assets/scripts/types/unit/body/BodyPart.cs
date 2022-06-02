@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using enums.unit.body.raw;
+using types.unit.body.raw;
 
 namespace enums.unit.body {
     public class BodyPart {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Leopotam.Ecs;
 using UnityEngine;
 
 namespace game.model.component.item {
@@ -11,6 +12,7 @@ namespace game.model.component.item {
         public int volume; // used for containers
 
         public string materialString; // for faster naming
+        public bool isBuildingMaterial;
     }
 
     public struct ItemWearComponent {
@@ -100,8 +102,13 @@ namespace game.model.component.item {
     }
 
     // item is held or worn by creature. it will not take part in non-hostile operations
-    public struct OccupiedComponent {
-        public string holder;
+    public struct ItemHeldComponent {
+        public EcsEntity holder;
+    }
+
+    // item is contained in container
+    public struct ItemContainedComponent {
+        public EcsEntity container;
     }
     
     // item is held or worn by creature. it will not take part in non-hostile operations
@@ -110,6 +117,7 @@ namespace game.model.component.item {
         public GameObject go;
     }
 
+    // TODO use for position update and visual remove
     // item with this was moved recently, and requires to update its visual and position components
     public struct ItemManipulationComponent {
         public const string toMap = "toMap";
@@ -118,8 +126,8 @@ namespace game.model.component.item {
         public string type;
     }
 
-    // item was picked up from ground recently, and should not be rendered
-    public struct ItemPickedUpComponent {
-        
+    // item is used in action and should not be used in another action
+    public struct ItemLockedComponent {
+        // action reference?
     }
 }
