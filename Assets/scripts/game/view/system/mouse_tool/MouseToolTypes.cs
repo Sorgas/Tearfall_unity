@@ -1,8 +1,8 @@
-﻿using enums;
+﻿using types;
 
 namespace game.view.system.mouse_tool {
     // icons taken from icons/orders
-    public class MouseToolEnum {
+    public class MouseToolTypes {
         public static readonly MouseToolType NONE = new();
         public static readonly MouseToolType CLEAR = new("cancel");
         
@@ -15,7 +15,7 @@ namespace game.view.system.mouse_tool {
         public static readonly MouseToolType CHOP = new("choptrees", DesignationTypes.D_CHOP);
         
         public static readonly MouseToolType BUILD = new();
-        public static readonly MouseToolType CONSTRUCT = new();
+        public static readonly MouseToolType CONSTRUCT = new("", DesignationTypes.D_CONSTRUCT);
     }
     
     public class MouseToolType {

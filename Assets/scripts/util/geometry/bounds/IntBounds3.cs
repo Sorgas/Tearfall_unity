@@ -1,8 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using util.geometry.bounds;
 
-namespace util.geometry {
+namespace util.geometry.bounds {
     public class IntBounds3 : IntBounds2 {
         public int minZ;
         public int maxZ;

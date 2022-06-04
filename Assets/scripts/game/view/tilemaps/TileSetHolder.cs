@@ -9,9 +9,12 @@ using util.lang.extension;
 using util.TexturePacker.AssetPacker;
 
 namespace game.view.tilemaps {
+    
+    // stores block sprites and tiles
     public class TileSetHolder : Singleton<TileSetHolder> {
         // map of <material -> <tilecode -> tile>>
-        public Dictionary<string, Dictionary<string, Tile>> tilesets = new();
+        public Dictionary<string, Dictionary<string, Tile>> tiles = new();
+        public Dictionary<string, Dictionary<string, Sprite>> sprites = new();
         private BlockTilesetLoader loader = new();
         Dictionary<string, List<string>> notFound = new();
 
@@ -29,12 +32,13 @@ namespace game.view.tilemaps {
             flushNotFound();
         }
 
-        public Sprite getSprite(string material, string tilecode) => tilesets[material][tilecode].sprite;
+        public Sprite getSprite(string material, string tilecode) => tiles[material][tilecode].sprite;
 
         private void loadTilesetFromAtlas(string tilesetName, SpriteAtlas atlas) {
             Sprite selection = atlas.GetSprite(tilesetName);
-            Dictionary<string, Tile> tileset = loader.slice(selection);
-            tilesets.Add(tilesetName, tileset);
+            Dictionary<string, Sprite> spriteMap = loader.sliceBlockSpritesheet(selection);
+            sprites.Add(tilesetName, spriteMap);
+            tiles.Add(tilesetName, createTilesFromSprites(spriteMap));
         }
 
         // looks for sprite of material in atlas. If not present, uses template sprite.
@@ -44,9 +48,9 @@ namespace game.view.tilemaps {
                 addNotFound(notFound, material.tileset, material.name);
                 sprite = atlas.GetSprite("template");
             }
-            Dictionary<string, Tile> tileset = loader.slice(sprite);
-            tileset.Values.ToList().ForEach(tile => tile.color = material.color); // update tile colors
-            tilesets.Add(material.name, tileset);
+            Dictionary<string, Sprite> spritesMap = loader.sliceBlockSpritesheet(sprite);
+            sprites.Add(material.name, spritesMap);
+            tiles.Add(material.name, createTilesFromSprites(spritesMap, material.color));
         }
         
         private void addNotFound(Dictionary<string, List<string>> map, string tileset, string material) {
@@ -54,6 +58,20 @@ namespace game.view.tilemaps {
             map[tileset].Add(material);
         }
 
+        private Dictionary<string, Tile> createTilesFromSprites(Dictionary<string, Sprite> sprites) =>
+            createTilesFromSprites(sprites, Color.white);
+
+        private Dictionary<string, Tile> createTilesFromSprites(Dictionary<string, Sprite> sprites, Color color) {
+            Dictionary<string, Tile> tiles = new();
+            foreach (string key in sprites.Keys) {
+                Tile tile = ScriptableObject.CreateInstance<Tile>();
+                tile.sprite = sprites[key];
+                tile.color = color;
+                tiles.Add(key, tile);
+            }
+            return tiles;
+        }
+        
         private void flushNotFound() {
             foreach (string tileset in notFound.Keys) {
                 Debug.Log("tileset " + tileset + " not found for materials:" + notFound[tileset].ToString());

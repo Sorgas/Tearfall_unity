@@ -2,6 +2,7 @@
 using game.view;
 using UnityEngine;
 using util.geometry;
+using util.geometry.bounds;
 
 namespace game.model.localmap {
     public class LocalMap {

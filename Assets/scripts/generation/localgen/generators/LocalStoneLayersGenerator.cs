@@ -83,7 +83,7 @@ namespace generation.localgen.generators {
                 if (currentHeight[x, y] > 0) {
                     for (int z = 0; z <= layer.layer[x, y]; z++) {
                         if (currentHeight[x, y] >= 0) {
-                            map.blockType.setRaw(x, y, currentHeight[x, y], BlockTypeEnum.WALL.CODE, layer.material);
+                            map.blockType.setRaw(x, y, currentHeight[x, y], BlockTypes.WALL.CODE, layer.material);
                             currentHeight[x, y]--;
                         }
                     }
@@ -97,7 +97,7 @@ namespace generation.localgen.generators {
             bounds.iterate((x, y) => {
                 if (currentHeight[x, y] >= 0) {
                     for(int z = 0; z <= currentHeight[x, y]; z++) {
-                        map.blockType.setRaw(x, y, z, BlockTypeEnum.WALL.CODE, material);
+                        map.blockType.setRaw(x, y, z, BlockTypes.WALL.CODE, material);
                     }
                 }
             });

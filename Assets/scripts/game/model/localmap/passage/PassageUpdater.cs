@@ -6,7 +6,7 @@ using UnityEngine;
 using util.geometry;
 using util.lang.extension;
 using util.pathfinding;
-using static enums.PassageEnum;
+using static types.PassageTypes;
 
 namespace game.model.localmap.passage {
     public class PassageUpdater {
@@ -31,7 +31,7 @@ namespace game.model.localmap.passage {
             } else { 
                 // tile became impassable, areas may split
                 // if under new SPACE tile is RAMP, areas may join
-                if (z > 0 && map.blockType.get(center) == BlockTypeEnum.SPACE.CODE && map.blockType.get(center + Vector3Int.back) == BlockTypeEnum.RAMP.CODE) { 
+                if (z > 0 && map.blockType.get(center) == BlockTypes.SPACE.CODE && map.blockType.get(center + Vector3Int.back) == BlockTypes.RAMP.CODE) { 
                     mergeAreasAroundCenter(center);
                 }
                 splitAreas(center);

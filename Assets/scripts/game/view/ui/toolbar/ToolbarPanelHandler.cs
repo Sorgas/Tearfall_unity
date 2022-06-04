@@ -3,31 +3,33 @@ using System.Collections.Generic;
 using game.view.util;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace game.view.ui.toolbar {
-
     // holds and manages sub-panels for toolbar panel
     // only one sub-panel can be enabled at once
     // passes input to sub-panels
     public class ToolbarPanelHandler : MonoBehaviour, IHotKeyAcceptor, ICloseable {
-        protected Dictionary<KeyCode, ToolbarPanelHandler> subPanels = new();
+        public Action closeAction;
+        private Dictionary<KeyCode, Button> buttons = new();
+        private Dictionary<KeyCode, Func<bool>> enableFunctions = new();
+        protected Dictionary<KeyCode, ToolbarPanelHandler> subPanels = new(); // map to open/close subpanels
+
         private Dictionary<KeyCode, Action> hotKeyMap = new(); // map to invoke actions
+
         private ToolbarPanelHandler activeSubpanel;
         private ToolbarPanelHandler parentPanel;
-        public Action closeAction;
         private int buttonCount;
-        private int level;
 
         public bool accept(KeyCode key) {
-            if (activeSubpanel != null) { // pass to subpanel
-                return activeSubpanel.accept(key);
-            }
-            if (hotKeyMap.ContainsKey(key)) { // press buttons
-                hotKeyMap[key].Invoke();
+            if (activeSubpanel != null) return activeSubpanel.accept(key); // pass to subpanel
+            if (buttons.ContainsKey(key)) { 
+                ExecuteEvents.Execute(buttons[key].gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
                 return true;
             }
-            if (key == KeyCode.Q) { // close self
+            if (key == KeyCode.Q) {
+                // close self
                 close();
                 return false;
             }
@@ -35,10 +37,11 @@ namespace game.view.ui.toolbar {
         }
 
         private void toggleSubpanel(ToolbarPanelHandler panel) {
-            if (panel.gameObject.activeSelf) { // close if open
+            if (panel.gameObject.activeSelf) {
+                // close if open
                 panel.close();
             } else {
-                if(activeSubpanel != null) activeSubpanel.close();
+                if (activeSubpanel != null) activeSubpanel.close();
                 panel.open();
                 activeSubpanel = panel;
             }
@@ -51,37 +54,43 @@ namespace game.view.ui.toolbar {
             activeSubpanel = null;
             closeAction?.Invoke();
             gameObject.SetActive(false);
-            if(parentPanel != null) parentPanel.activeSubpanel = null;
+            if (parentPanel != null) parentPanel.activeSubpanel = null;
         }
 
         public void open() {
             gameObject.SetActive(true);
+            foreach (KeyCode key in buttons.Keys) {
+                buttons[key].GetComponentInChildren<Button>().interactable = enableFunctions[key].Invoke();
+            }
         }
 
-        public void createButton(string text, string iconName, Action onClick, KeyCode hotKey) {
-            GameObject buttonPrefab = PrefabLoader.get("toolbarButton");
-            float buttonWidth = buttonPrefab.GetComponent<RectTransform>().rect.width;
-            GameObject button = Instantiate(buttonPrefab, gameObject.transform);
-            button.transform.localPosition = new Vector3(buttonWidth * buttonCount++, 0, 0);
-            button.GetComponentInChildren<Button>().onClick.AddListener(onClick.Invoke);
-            button.GetComponentInChildren<TextMeshProUGUI>().text = text;
-            Sprite icon = IconLoader.get(iconName);
-            button.GetComponentsInChildren<Image>()[1].sprite = icon;
-            hotKeyMap.Add(hotKey, () => button.GetComponentInChildren<Button>().onClick.Invoke());
+        public void createButton(string text, string iconName, Action onClick, KeyCode hotKey) =>
+            createButton(text, iconName, onClick, () => true, hotKey);
+
+        public void createButton(string text, string iconName, Action onClick, Func<bool> enableFunction, KeyCode hotKey) {
+            GameObject go = PrefabLoader.create("toolbarButton", gameObject.transform);
+            float buttonWidth = go.GetComponent<RectTransform>().rect.width;
+            go.transform.localPosition = new Vector3(buttonWidth * buttonCount++, 0, 0);
+            Button button = go.GetComponentInChildren<Button>();
+            button.onClick.AddListener(onClick.Invoke);
+            go.GetComponentInChildren<TextMeshProUGUI>().text = text;
+            go.GetComponentsInChildren<Image>()[1].sprite = IconLoader.get(iconName);
+            hotKeyMap.Add(hotKey, () => button.onClick.Invoke());
+            enableFunctions.Add(hotKey, enableFunction);
+            buttons.Add(hotKey, button);
         }
 
         // creates subpanel, button, registers panel to hotkey
         public ToolbarPanelHandler createSubPanel(string text, string icon, KeyCode hotKey) {
-            GameObject panelPrefab = PrefabLoader.get("toolbarPanel");
-            GameObject panel = Instantiate(panelPrefab, gameObject.transform);
-            var handler = panel.GetComponent<ToolbarPanelHandler>();
-            // handler.level = level + 1;
-            handler.parentPanel = this;
-            // Debug.Log("creating panel " + handler.level + " " + (handler.level * panelPrefab.GetComponent<RectTransform>().rect.height));
-            panel.transform.localPosition = new Vector3(0, panelPrefab.GetComponent<RectTransform>().rect.height, 0);
-            subPanels.Add(hotKey, handler);
-            createButton(text, icon, () => toggleSubpanel(handler), hotKey);
+            GameObject panel = PrefabLoader.create("toolbarPanel", gameObject.transform);
+            panel.transform.localPosition = new Vector3(0, panel.GetComponent<RectTransform>().rect.height, 0);
             panel.SetActive(false);
+            
+            ToolbarPanelHandler handler = panel.GetComponent<ToolbarPanelHandler>();
+            handler.parentPanel = this;
+            subPanels.Add(hotKey, handler);
+            
+            createButton(text, icon, () => toggleSubpanel(handler), hotKey);
             return handler;
         }
     }

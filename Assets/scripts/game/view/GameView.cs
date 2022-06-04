@@ -1,6 +1,7 @@
 using game.model;
 using game.view.camera;
 using game.view.system;
+using game.view.system.designation;
 using game.view.system.item;
 using game.view.system.plant;
 using game.view.system.unit;
@@ -75,7 +76,7 @@ namespace game.view {
         private void resetCameraPosition() {
             Vector3Int cameraPosition = new(GameModel.localMap.bounds.maxX / 2, GameModel.localMap.bounds.maxY / 2, 0);
             for (int z = GameModel.localMap.bounds.maxZ - 1; z >=0 ; z--) {
-                if (GameModel.localMap.blockType.get(cameraPosition.x, cameraPosition.y, z) != BlockTypeEnum.SPACE.CODE) {
+                if (GameModel.localMap.blockType.get(cameraPosition.x, cameraPosition.y, z) != BlockTypes.SPACE.CODE) {
                     cameraPosition.z = z;
                     break;
                 }

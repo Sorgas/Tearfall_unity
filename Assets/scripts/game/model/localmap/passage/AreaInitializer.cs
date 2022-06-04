@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using util.lang;
 using util.lang.extension;
-using static enums.PassageEnum;
+using static types.PassageTypes;
 
 namespace game.model.localmap.passage {
     // synonym - a set of areas that are connected with each other. exists only on area inialization step

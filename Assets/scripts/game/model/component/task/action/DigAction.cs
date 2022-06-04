@@ -1,5 +1,4 @@
 ﻿using System;
-using enums;
 using enums.action;
 using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
@@ -12,8 +11,7 @@ using UnityEngine;
 using util.item;
 using util.lang.extension;
 using static enums.action.ActionConditionStatusEnum;
-using static types.BlockTypeEnum;
-using static enums.DesignationTypeEnum;
+using static types.BlockTypes;
 using Random = UnityEngine.Random;
 
 namespace game.model.component.task.action {
@@ -22,12 +20,12 @@ namespace game.model.component.task.action {
         private float workAmountModifier = 10f;
         private String toolActionName = "dig";
         private ToolWithActionItemSelector selector;
-        private DesignationTypeEnum type;
+        private DesignationType type;
 
         public DigAction(Vector3Int position, DesignationType type) : base(new PositionActionTarget(position, type.targetType)) {
             name = "dig action";
             selector = new ToolWithActionItemSelector(toolActionName);
-            this.type = type.TYPE;
+            this.type = type;
 
             startCondition = () => {
                 if (!type.VALIDATOR.validate(target.getPos().Value)) return FAIL; // tile still valid
@@ -38,7 +36,7 @@ namespace game.model.component.task.action {
             };
 
             onStart = () => { // TODO
-                maxProgress = 100;
+                maxProgress = 10;
                 speed = 1;
                 // speed = 1 + skill().speed * performerLevel() + performance();
                 // maxProgress = getWorkAmount(designation) * workAmountModifier; // 480 for wall to floor in marble
@@ -66,24 +64,24 @@ namespace game.model.component.task.action {
         private void updateMap() {
             LocalMap map = GameModel.localMap;
             Vector3Int target = this.target.getPos().Value;
-            switch (type) {
-                case DTE_DIG:
+            switch (type.name) {
+                case "dig":
                     updateAndRevealMap(target, FLOOR);
                     break;
-                case DTE_STAIRS:
+                case "stairs":
                     // TODO fix type selection
                     updateAndRevealMap(target, map.blockType.get(target) == WALL.CODE ? STAIRS : DOWNSTAIRS);
                     break;
-                case DTE_RAMP:
+                case "ramp":
                     updateAndRevealMap(target, RAMP);
                     updateAndRevealMap(target + Vector3Int.forward, SPACE);
                     break;
-                case DTE_CHANNEL:
+                case "channel":
                     updateAndRevealMap(target, SPACE); // current
                     Vector3Int rampPosition = target + Vector3Int.back;
                     if (map.blockType.get(rampPosition) == WALL.CODE) updateAndRevealMap(rampPosition, RAMP); // lower
                     break;
-                case DTE_DOWNSTAIRS:
+                case "downstairs":
                     byte currentType = map.blockType.get(target);
                     if (currentType != STAIRS.CODE && currentType != DOWNSTAIRS.CODE) updateAndRevealMap(target, DOWNSTAIRS); // current 
                     Vector3Int stairsPosition = target + Vector3Int.back;

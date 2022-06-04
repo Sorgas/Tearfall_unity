@@ -24,7 +24,7 @@ namespace enums.material {
                 RawMaterial[] materials = JsonArrayReader.readArray<RawMaterial>(file.text);
                 if (materials == null) continue;
                 foreach (RawMaterial raw in materials) {
-                    Material_ material = new Material_(raw);
+                    Material_ material = new (raw);
                     map.Add(material.name, material);
                     idMap.Add(material.id, material);
                     count++;

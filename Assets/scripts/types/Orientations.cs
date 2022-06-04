@@ -1,5 +1,5 @@
-namespace enums {
-    public enum OrientationEnum {
+namespace types {
+    public enum Orientations {
         N = 0,
         E = 1,
         S = 2,

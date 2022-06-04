@@ -8,6 +8,7 @@ using game.view.util;
 using UnityEngine;
 using UnityEngine.UI;
 using util.geometry;
+using util.geometry.bounds;
 
 namespace game.view.camera {
     // moves selector sprite on screen, updates stat text

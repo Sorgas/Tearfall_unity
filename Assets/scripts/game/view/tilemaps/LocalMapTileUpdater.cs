@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using util.geometry;
 using util.lang;
-using static types.BlockTypeEnum;
+using static types.BlockTypes;
 using static game.view.util.TilemapLayersConstants;
 
 // stores tilemaps of layers in array
@@ -51,11 +51,11 @@ namespace game.view.tilemaps {
             // select wall part for non-flat types
             if (!blockType.FLAT) { 
                 string wallTileName = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;
-                wallTile = tileSetHolder.tilesets[material][wallTileName]; // draw wall part
+                wallTile = tileSetHolder.tiles[material][wallTileName]; // draw wall part
             }
             if (blockType != SPACE) {
                 string floorTileName = (blockType == STAIRS || blockType == DOWNSTAIRS) ? DOWNSTAIRS.PREFIX : FLOOR.PREFIX;
-                floorTile = tileSetHolder.tilesets[material][floorTileName]; // draw wall part
+                floorTile = tileSetHolder.tiles[material][floorTileName]; // draw wall part
             }
             layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER), floorTile);
             layers[z].setTile(new Vector3Int(x, y, WALL_LAYER), wallTile);
@@ -85,7 +85,7 @@ namespace game.view.tilemaps {
             string material = selectMaterial(x, y, z - 1);
             string type = selectRamp(x, y, z - 1) + "F";
             layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER),
-                tileSetHolder.tilesets[material][type]); // topping corresponds lower tile
+                tileSetHolder.tiles[material][type]); // topping corresponds lower tile
         }
 
         private string selectMaterial(int x, int y, int z) {
@@ -139,7 +139,7 @@ namespace game.view.tilemaps {
             Tile tile = null;
             if (blockType != SPACE) {
                 string type = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;
-                tile = tileSetHolder.tilesets["selection"][type];
+                tile = tileSetHolder.tiles["selection"][type];
             }
             layers[z].setTile(vector, tile);
             if (blockType == SPACE) setToppingForSpace(x, y, z);

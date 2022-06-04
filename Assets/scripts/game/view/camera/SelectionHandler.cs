@@ -1,8 +1,5 @@
-﻿using System;
-using game.view.system;
-using game.view.system.mouse_tool;
+﻿using game.view.system.mouse_tool;
 using UnityEngine;
-using util.geometry;
 
 namespace game.view.camera {
     // stores state of selection
@@ -10,7 +7,7 @@ namespace game.view.camera {
         private Vector3Int start; // inclusive start of selection
         private Vector3Int finish; // inclusive finish of selection
         private MouseMovementSystem mouseMovementSystem;
-        private SelectionState state = new SelectionState();
+        public SelectionState state = new();
         private bool started;
         public bool enabled = true;
 
@@ -41,19 +38,16 @@ namespace game.view.camera {
         private void startSelection() {
             started = true;
             state.startSelection(mouseMovementSystem.getTarget());
-            // Debug.Log("selection started " + mouseMovementSystem.getTarget());
         }
 
         private void finishSelection() {
             started = false;
             MouseToolManager.handleSelection(state.bounds);
             state.reset();
-            // Debug.Log("selection finished " + mouseMovementSystem.getTarget());
         }
 
         private void cancelSelection() {
             started = false;
-            // Debug.Log("selection canceled " + mouseMovementSystem.getTarget());
         }
     }
 }

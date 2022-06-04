@@ -53,7 +53,7 @@ namespace game.model.entity_selector {
             selector.position.y = localMap.bounds.maxY / 2;
             Debug.Log("placing selector at " + selector.position.x + " " + selector.position.y);
             for (int z = localMap.bounds.maxZ - 1; z >= 0; z--) {
-                if (localMap.blockType.get(selector.position.x, selector.position.y, z) != BlockTypeEnum.SPACE.CODE) {
+                if (localMap.blockType.get(selector.position.x, selector.position.y, z) != BlockTypes.SPACE.CODE) {
                     selector.position.z = z;
                     break;
                 }

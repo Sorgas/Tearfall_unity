@@ -43,7 +43,7 @@ namespace game.model.component.task.action.target {
             if (current == target) return 0;
             if (!current.isNeighbour(target)) return 2;
             if (current.z == target.z) return 1;
-            if (current.z < target.z && GameModel.localMap.blockType.get(current) == BlockTypeEnum.RAMP.CODE) return 1;
+            if (current.z < target.z && GameModel.localMap.blockType.get(current) == BlockTypes.RAMP.CODE) return 1;
             return 2;
         }
     }

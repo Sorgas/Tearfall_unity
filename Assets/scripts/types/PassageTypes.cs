@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace enums {
-    public static class PassageEnum {
+namespace types {
+    public static class PassageTypes {
         public static Passage IMPASSABLE = new Passage(0);
         public static Passage PASSABLE = new Passage(1);
 
         private static Dictionary<int, Passage> map = new Dictionary<int, Passage>();
 
-        static PassageEnum() {
+        static PassageTypes() {
             map.Add(IMPASSABLE.VALUE, IMPASSABLE);
             map.Add(PASSABLE.VALUE, PASSABLE);
         }

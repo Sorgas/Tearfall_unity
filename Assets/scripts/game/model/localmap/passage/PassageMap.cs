@@ -4,8 +4,8 @@ using types;
 using UnityEngine;
 using util;
 using util.pathfinding;
-using static types.BlockTypeEnum;
-using static enums.PassageEnum;
+using static types.BlockTypes;
+using static types.PassageTypes;
 
 namespace game.model.localmap.passage {
     // stores isolated areas on local map to enhance pathfinding
@@ -105,7 +105,7 @@ namespace game.model.localmap.passage {
 
         // TODO
         public Passage calculateTilePassage(int x, int y, int z) {
-            if (BlockTypeEnum.get(blockTypeMap.get(x, y, z)).PASSAGE == IMPASSABLE) return IMPASSABLE;
+            if (BlockTypes.get(blockTypeMap.get(x, y, z)).PASSAGE == IMPASSABLE) return IMPASSABLE;
             if (!GameModel.get().plantContainer.isPlantBlockPassable(x, y, z)) return IMPASSABLE;
 
             bool buildingPassable = true;
@@ -120,7 +120,7 @@ namespace game.model.localmap.passage {
             //.map(tile -> tile.amount <= 4).orElse(true);
             if (!waterPassable) return IMPASSABLE;
 
-            return PassageEnum.PASSABLE;
+            return PassageTypes.PASSABLE;
         }
 
         public byte getPassage(int x, int y, int z) => passage.get(x, y, z);

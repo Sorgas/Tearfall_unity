@@ -1,4 +1,5 @@
-﻿using game.view.tilemaps;
+﻿using System;
+using game.view.tilemaps;
 using UnityEngine;
 using util.geometry;
 
@@ -7,10 +8,11 @@ namespace game.view.camera {
     // adds new tiles when selection is updated.
     public class SelectionState {
         public LocalMapTileUpdater updater;
-        public TwoPointIntBounds3 bounds = new TwoPointIntBounds3(); // actual bounds of selection
+        public TwoPointIntBounds3 bounds = new(); // actual bounds of selection
         private Vector3Int previousPos; // mouse position
-        private TwoPointIntBounds3 previousBounds = new TwoPointIntBounds3();
-
+        private TwoPointIntBounds3 previousBounds = new();
+        public int type;
+        
         public void startSelection(Vector3Int pos) {
             previousPos = pos;
             bounds.set(pos, pos);
@@ -19,7 +21,15 @@ namespace game.view.camera {
         }
 
         public void update(Vector3Int pos) {
-            if (pos == previousPos) return;
+            if (pos == previousPos || type == SelectionTypes.SINGLE) return;
+            bounds.pos2 = pos;
+            if (type == SelectionTypes.ROW) {
+                if (Math.Abs(bounds.width) > Math.Abs(bounds.height)) {
+                    pos.y = bounds.pos1.y;
+                } else {
+                    pos.x = bounds.pos1.x;
+                }
+            }
             bounds.pos2 = pos;
             updateView(pos);
             previousBounds.set(bounds);
@@ -69,5 +79,11 @@ namespace game.view.camera {
                 updater.hideSelectionTile(x, y, z);
             }
         }
+    }
+
+    public class SelectionTypes {
+        public const int AREA = 0;
+        public const int ROW = 1;
+        public const int SINGLE = 2;
     }
 }

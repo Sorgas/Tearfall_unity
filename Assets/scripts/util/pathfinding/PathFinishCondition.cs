@@ -6,8 +6,8 @@ using game.model.localmap;
 using UnityEngine;
 using util.geometry;
 using static enums.action.ActionTargetTypeEnum;
-using static enums.PassageEnum;
-using static types.BlockTypeEnum;
+using static types.PassageTypes;
+using static types.BlockTypes;
 
 namespace util.pathfinding {
     class PathFinishCondition {

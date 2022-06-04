@@ -6,7 +6,7 @@ using UnityEngine;
 namespace util.lang.extension {
     public static class EcsEntityExtension {
         public static T? optional<T>(this EcsEntity entity) where T : struct {
-            return entity.Has<T>() ? (T?)entity.Get<T>() : null;
+            return entity.Has<T>() ? entity.Get<T>() : null;
         }
         
         public static ref T takeRef<T>(this ref EcsEntity entity) where T : struct {

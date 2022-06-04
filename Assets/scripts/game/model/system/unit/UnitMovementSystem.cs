@@ -2,9 +2,10 @@ using enums;
 using game.model.component;
 using game.model.component.unit;
 using Leopotam.Ecs;
+using types;
 using UnityEngine;
 using util.lang.extension;
-using static enums.PassageEnum;
+using static types.PassageTypes;
 
 namespace game.model.system.unit {
     // Moves unit along path created in UnitPathfindingSystem. If path is blocked, it will be recalculated. 
@@ -51,10 +52,10 @@ namespace game.model.system.unit {
             }
         }
 
-        private OrientationEnum getOrientation(Vector3Int directionVector) {
-            if (directionVector.x < 0) return OrientationEnum.W;
-            if (directionVector.x > 0) return OrientationEnum.E;
-            return directionVector.y < 0 ? OrientationEnum.S : OrientationEnum.N;
+        private Orientations getOrientation(Vector3Int directionVector) {
+            if (directionVector.x < 0) return Orientations.W;
+            if (directionVector.x > 0) return Orientations.E;
+            return directionVector.y < 0 ? Orientations.S : Orientations.N;
         }
     }
 }

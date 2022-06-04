@@ -3,7 +3,7 @@ using enums.material;
 using types;
 using UnityEngine;
 using util;
-using static types.BlockTypeEnum;
+using static types.BlockTypes;
 
 namespace game.model.localmap {
     // stores tile types and materials for local map
@@ -60,7 +60,7 @@ namespace game.model.localmap {
         public BlockType getEnumValue(Vector3Int position) => getEnumValue(position.x, position.y, position.z);
 
         public BlockType getEnumValue(int x, int y, int z) {
-            return BlockTypeEnum.get(get(x, y, z));
+            return BlockTypes.get(get(x, y, z));
         }
 
         // returns code of block

@@ -1,6 +1,4 @@
-﻿using game.view.with_entity_selector;
-
-namespace game.view.camera {
+﻿namespace game.view.camera {
     // 
     public class CameraAndMouseHandler {
         // without ES
@@ -8,7 +6,7 @@ namespace game.view.camera {
         public CameraMovementSystem cameraMovementSystem;
         private MouseInputSystem mouseInputSystem;
         public MouseMovementSystem mouseMovementSystem;
-        public SelectionHandler selectionHandler = new SelectionHandler();
+        public SelectionHandler selectionHandler = new();
         public bool enabled = true;
 
         public CameraAndMouseHandler(LocalGameRunner initializer) { // TODO link systems after creation with init() methods

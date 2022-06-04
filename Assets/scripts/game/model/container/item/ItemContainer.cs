@@ -9,11 +9,12 @@
         // TODO player owned items
         
         public AvailableItemsManager availableItemsManager = new();
-        public ItemFindingUtil util = new();
+        public ItemFindingUtil util;
 
         public ItemContainer() {
             validator = new(this);
             onMapItems = new(this);
+            util = new(this);
         }
 
         // public void removeItem(EcsEntity item) {

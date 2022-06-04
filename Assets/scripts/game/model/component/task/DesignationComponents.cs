@@ -1,4 +1,7 @@
-﻿using enums;
+﻿using System.Collections.Generic;
+using Leopotam.Ecs;
+using types;
+using types.building;
 using UnityEngine;
 
 namespace game.model.component.task {
@@ -8,5 +11,15 @@ namespace game.model.component.task {
 
     public struct DesignationVisualComponent {
         public SpriteRenderer spriteRenderer;
+    }
+
+    public struct DesignationConstructionComponent {
+        public ConstructionType type;
+        public string itemType;
+        public int material;
+    }
+
+    public struct DesignationItemContainerComponent {
+        public List<EcsEntity> items;
     }
 }

@@ -3,6 +3,7 @@ using enums;
 using enums.action;
 using game.model.component.task.action;
 using game.view.util;
+using types;
 using UnityEngine;
 
 namespace game.model.component.unit { 
@@ -15,7 +16,7 @@ namespace game.model.component.unit {
     // stores unit's movement properties
     public struct UnitMovementComponent {
         // public Vector3Int position; // model position
-        public OrientationEnum orientation;
+        public Orientations orientation;
         public float speed;
         public float step; // speed is added to this value; when reaches 1, position changed
         

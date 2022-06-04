@@ -38,7 +38,7 @@ namespace generation.localgen.generators {
 
         private int findZ(int x, int y) {
             for (int z = map.bounds.maxZ; z > 0; z--) {
-                if (map.blockType.get(x, y, z) == BlockTypeEnum.FLOOR.CODE) {
+                if (map.blockType.get(x, y, z) == BlockTypes.FLOOR.CODE) {
                     return z;
                 }
             }

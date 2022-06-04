@@ -1,4 +1,5 @@
-﻿using game.view.system.mouse_tool;
+﻿using game.model;
+using game.view.system.mouse_tool;
 using types.building;
 using UnityEngine;
 
@@ -20,16 +21,16 @@ namespace game.view.ui.toolbar {
         public override void close() { } // main toolbar cannot be closed
 
         private void fillOrdersPanel(ToolbarPanelHandler panel) {
-            createToolButton(panel, "Z: Chop trees", MouseToolEnum.CHOP, KeyCode.Z);
+            createToolButton(panel, "Z: Chop trees", MouseToolTypes.CHOP, KeyCode.Z);
             ToolbarPanelHandler diggingPanel = panel.createSubPanel("C: Digging", "toolbar/digging", KeyCode.C);
-            diggingPanel.closeAction = () => MouseToolManager.set(MouseToolEnum.NONE);
-            createToolButton(diggingPanel, "Z: Dig wall", MouseToolEnum.DIG, KeyCode.Z);
-            createToolButton(diggingPanel, "X: Channel", MouseToolEnum.CHANNEL, KeyCode.X);
-            createToolButton(diggingPanel, "C: Ramp", MouseToolEnum.RAMP, KeyCode.C);
-            createToolButton(diggingPanel, "V: Stairs", MouseToolEnum.STAIRS, KeyCode.V);
-            createToolButton(diggingPanel, "B: Downstairs", MouseToolEnum.DOWNSTAIRS, KeyCode.B);
-            createToolButton(diggingPanel, "N: Clear", MouseToolEnum.CLEAR, KeyCode.N);
-            panel.closeAction = () => MouseToolManager.set(MouseToolEnum.NONE);
+            diggingPanel.closeAction = () => MouseToolManager.set(MouseToolTypes.NONE);
+            createToolButton(diggingPanel, "Z: Dig wall", MouseToolTypes.DIG, KeyCode.Z);
+            createToolButton(diggingPanel, "X: Channel", MouseToolTypes.CHANNEL, KeyCode.X);
+            createToolButton(diggingPanel, "C: Ramp", MouseToolTypes.RAMP, KeyCode.C);
+            createToolButton(diggingPanel, "V: Stairs", MouseToolTypes.STAIRS, KeyCode.V);
+            createToolButton(diggingPanel, "B: Downstairs", MouseToolTypes.DOWNSTAIRS, KeyCode.B);
+            createToolButton(diggingPanel, "N: Clear", MouseToolTypes.CLEAR, KeyCode.N);
+            panel.closeAction = () => MouseToolManager.set(MouseToolTypes.NONE);
         }
 
         private void fillBuildingsPanel(ToolbarPanelHandler panel) {
@@ -52,7 +53,7 @@ namespace game.view.ui.toolbar {
             createConstructionButton(panel, "ramp", "ramp", ConstructionTypeMap.get("ramp"), KeyCode.C);
             createConstructionButton(panel, "stairs", "stairs", ConstructionTypeMap.get("stairs"), KeyCode.V);
             createConstructionButton(panel, "downstairs", "downstairs", ConstructionTypeMap.get("downstairs"), KeyCode.B);
-            panel.closeAction = () => MouseToolManager.set(MouseToolEnum.NONE);
+            panel.closeAction = () => MouseToolManager.set(MouseToolTypes.NONE);
         }
 
         private void createToolButton(ToolbarPanelHandler panel, string text, string iconName, MouseToolType tool, KeyCode key) {
@@ -62,9 +63,9 @@ namespace game.view.ui.toolbar {
         private void createToolButton(ToolbarPanelHandler panel, string text, MouseToolType tool, KeyCode key) =>
             createToolButton(panel, text, tool.iconPath, tool, key);
 
-        private void createConstructionButton(ToolbarPanelHandler panel, string text, string iconName, ConstructionType type,
-            KeyCode key) {
-            panel.createButton(text, "toolbar/constructions/" + iconName, () => MouseToolManager.set(type), key);
+        private void createConstructionButton(ToolbarPanelHandler panel, string text, string iconName, ConstructionType type, KeyCode key) {
+            panel.createButton(text, "toolbar/constructions/" + iconName, () => MouseToolManager.set(type), 
+                () => GameModel.get().itemContainer.util.enoughForConstructionType(type), key);
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using enums;
-using static enums.PassageEnum;
+using static types.PassageTypes;
 
 namespace types {
-    public static class BlockTypeEnum {
+    public static class BlockTypes {
         public static BlockType SPACE = new(0, IMPASSABLE, 16, true, 0, "space", null);
         public static BlockType WALL = new(1, IMPASSABLE, 0, false, 3, "wall", "WALL"); // not passable
         public static BlockType FLOOR = new(2, PASSABLE, 12, true, 1, "floor", "WALLF"); // passable, liquids don't fall
@@ -16,7 +16,7 @@ namespace types {
         private static Dictionary<int, BlockType> map = new();
         private static Dictionary<string, BlockType> nameMap = new();
 
-        static BlockTypeEnum() {
+        static BlockTypes() {
             foreach (BlockType type in all) {
                 map.Add(type.CODE, type);
                 nameMap.Add(type.NAME, type);

@@ -7,9 +7,9 @@ using UnityEngine;
 namespace generation.localgen.generators {
     public class LocalRampFloorPlacer : LocalGenerator {
         private LocalMap localMap;
-        private int wallCode = BlockTypeEnum.WALL.CODE;
-        private int spaceCode = BlockTypeEnum.SPACE.CODE;
-        private int rampCode = BlockTypeEnum.RAMP.CODE;
+        private int wallCode = BlockTypes.WALL.CODE;
+        private int spaceCode = BlockTypes.SPACE.CODE;
+        private int rampCode = BlockTypes.RAMP.CODE;
 
         public override void generate() {
             Debug.Log("placing ramps");
@@ -23,7 +23,7 @@ namespace generation.localgen.generators {
                 for (int y = 0; y <= localMap.bounds.maxY; y++) {
                     for (int z = 1; z <= localMap.bounds.maxZ; z++) {
                         if (isGround(x, y, z) && hasAdjacentWall(x, y, z)) {
-                            localMap.blockType.setRaw(x, y, z, BlockTypeEnum.RAMP.CODE, adjacentWallMaterial(x, y, z));
+                            localMap.blockType.setRaw(x, y, z, BlockTypes.RAMP.CODE, adjacentWallMaterial(x, y, z));
                         }
                     }
                 }
@@ -35,7 +35,7 @@ namespace generation.localgen.generators {
                 for (int y = 0; y <= localMap.bounds.maxY; y++) {
                     for (int z = localMap.bounds.maxZ - 1; z > 0; z--) {
                         if (isGround(x, y, z)) { //non space sell
-                            localMap.blockType.setRaw(x, y, z, BlockTypeEnum.FLOOR.CODE, localMap.blockType.getMaterial(x, y, z - 1));
+                            localMap.blockType.setRaw(x, y, z, BlockTypes.FLOOR.CODE, localMap.blockType.getMaterial(x, y, z - 1));
                         }
                     }
                 }

@@ -32,7 +32,7 @@ namespace generation.localgen.generators {
             Vector3Int spawnPoint = new Vector3Int(center.x + Random.Range(-range, +range), center.y + Random.Range(-range, range), 0);
             for (int z = map.bounds.maxZ - 1; z >= 0; z--) {
                 int blockType = map.blockType.get(spawnPoint.x, spawnPoint.y, z);
-                if (blockType == BlockTypeEnum.FLOOR.CODE || blockType == BlockTypeEnum.RAMP.CODE) {
+                if (blockType == BlockTypes.FLOOR.CODE || blockType == BlockTypes.RAMP.CODE) {
                     spawnPoint.z = z;
                     break;
                 }

@@ -29,20 +29,19 @@ namespace game.view.ui.toolbar {
             buttons.Clear();
         }
 
-        public void fillForConstructionType(ConstructionType type) {
+        public bool fillForConstructionType(ConstructionType type) {
             clear();
-            foreach (string materialOption in type.materials) {
+            Dictionary<string, MultiValueDictionary<int, EcsEntity>> items =
+                GameModel.get().itemContainer.util.findForConstruction(type);
+            foreach (string materialOption in items.Keys) {
                 string[] args = materialOption.Split("/");
-                string typeName = args[0];
+                string itemType = args[0];
                 int requiredAmount = int.Parse(args[1]);
-                MultiValueDictionary<int, EcsEntity>
-                    map = GameModel.get().itemContainer.availableItemsManager.findByType(typeName);
-                foreach (int materialId in map.Keys) {
-                    if (map[materialId].Count >= requiredAmount) {
-                        createButton(typeName, materialId, requiredAmount, map[materialId].Count);
-                    }
+                foreach (int material in items[materialOption].Keys) {
+                    createButton(itemType, material, requiredAmount, items[materialOption][material].Count);
                 }
             }
+            return buttons.Count > 0;
         }
 
         public void createButton(string typeName, int materialId, int requiredAmount, int amount) {

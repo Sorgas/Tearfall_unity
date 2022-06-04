@@ -4,6 +4,7 @@ using enums;
 using types;
 using UnityEngine;
 using util.geometry;
+using util.geometry.bounds;
 using Random = UnityEngine.Random;
 
 namespace game.model.localmap {
@@ -20,9 +21,9 @@ namespace game.model.localmap {
             List<Vector3Int> positions = new List<Vector3Int>();
             bounds.iterate((x, y, z) => {
                 int blockType = map.blockType.get(x, y, z);
-                if (blockType != BlockTypeEnum.SPACE.CODE
-                    && blockType != BlockTypeEnum.WALL.CODE
-                    && blockType != BlockTypeEnum.FARM.CODE) { // passable position
+                if (blockType != BlockTypes.SPACE.CODE
+                    && blockType != BlockTypes.WALL.CODE
+                    && blockType != BlockTypes.FARM.CODE) { // passable position
                     positions.Add(new Vector3Int(x, y, z));
                 }
             });

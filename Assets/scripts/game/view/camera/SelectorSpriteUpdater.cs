@@ -27,7 +27,7 @@ namespace game.view.camera {
             if (!map.inMap(position)) return;
             selector.setCurrentZ(position.z);
             BlockType blockType = map.blockType.getEnumValue(position);
-            if (blockType.CODE == BlockTypeEnum.SPACE.CODE) {
+            if (blockType.CODE == BlockTypes.SPACE.CODE) {
                 setSprite(true, lightGrey);
             } else if (blockType.FLAT) {
                 setSprite(true, Color.white);

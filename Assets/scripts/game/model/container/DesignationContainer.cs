@@ -1,44 +1,44 @@
 ﻿using System.Collections.Generic;
-using enums;
 using enums.action;
 using game.model.component;
 using game.model.component.task;
 using Leopotam.Ecs;
+using types;
+using types.building;
 using UnityEngine;
 using util.lang.extension;
 using static UnityEngine.Object;
 
 namespace game.model.container {
     // registry of designation entities, creates and destroys designations, called by ECS systems
+    // TODO allow multiple designation on one tile
     public class DesignationContainer {
-        public readonly Dictionary<Vector3Int, EcsEntity> designations = new Dictionary<Vector3Int, EcsEntity>();
-
-        // public readonly Dictionary<string, TaskList> tasks; // task job to all tasks with this job
-        // public readonly Set<Task> assignedTasks; // tasks, taken by some unit.
-        // // public readonly HashMap<IntVector3, Designation> designations; //this map is for rendering and modifying designations
-        // public readonly DesignationSystem designationSystem;
-        // public readonly TaskStatusSystem taskStatusSystem;
-
-        // private PassageMap map;
-
-        public DesignationContainer() {
-            // tasks = new HashMap<>();
-            // JobMap.all().forEach(job->tasks.put(job.name, new TaskList()));
-            // assignedTasks = new HashSet<>();
-            // designationSystem = new DesignationSystem(this);
-            // taskStatusSystem = new TaskStatusSystem(this);
-        }
-
+        public readonly Dictionary<Vector3Int, EcsEntity> designations = new();
+        
         public void createDesignation(Vector3Int position, DesignationType type) {
             EcsEntity entity = GameModel.get().createEntity();
             entity.Replace(new DesignationComponent { type = type });
+            addDesignation(entity, position);
+        }
+
+        public void createConstructionDesignation(Vector3Int position, ConstructionType type, string itemType, int material) {
+            EcsEntity entity = GameModel.get().createEntity();
+            entity.Replace(new DesignationComponent { type = DesignationTypes.D_CONSTRUCT });
+            entity.Replace(new DesignationConstructionComponent { type = type, itemType = itemType, material = material });
+            entity.Replace(new DesignationItemContainerComponent { items = new List<EcsEntity>() });
+            addDesignation(entity, position);
+            Debug.Log("Construction designation created " + position);
+        }
+
+        private void addDesignation(EcsEntity entity, Vector3Int position) {
             entity.Replace(new PositionComponent { position = position });
-            if (designations.ContainsKey(position)) { // replace previous designation
+            if (designations.ContainsKey(position)) {
+                // replace previous designation
                 cancelDesignation(position); // cancel previous designation
             }
             designations[position] = entity;
         }
-        
+
         // removes designation in given position
         public void removeDesignation(Vector3Int position) {
             if (designations.ContainsKey(position)) {
@@ -48,6 +48,7 @@ namespace game.model.container {
             }
         }
 
+        // use only when task is completed! 
         public void removeDesignation(EcsEntity designation) {
             designations.Remove(designation.pos());
             if (designation.Has<DesignationVisualComponent>()) {
@@ -56,7 +57,7 @@ namespace game.model.container {
             } else {
                 Debug.LogWarning("deleting designation without DesignationVisualComponent");
             }
-            
+
             designation.Destroy();
         }
 
@@ -70,7 +71,7 @@ namespace game.model.container {
                 designations[position].Replace(new TaskFinishedComponent { status = TaskStatusEnum.CANCELED });
             }
         }
-        
+
         //    public void update(TimeUnitEnum unit) {
         //        designationSystem.update();
         //        taskStatusSystem.update();

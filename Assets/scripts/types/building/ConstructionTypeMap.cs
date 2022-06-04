@@ -20,7 +20,7 @@ namespace types.building {
             if (types == null) return;
             foreach (ConstructionType type in types) {
                 Debug.Log(type.blockTypeName + " " + type.materials + " " + type.name);
-                type.blockType = BlockTypeEnum.get(type.blockTypeName);
+                type.blockType = BlockTypes.get(type.blockTypeName);
                 map.Add(type.name, type);
                 count++;
             }
