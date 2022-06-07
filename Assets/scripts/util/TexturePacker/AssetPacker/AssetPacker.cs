@@ -20,7 +20,8 @@ namespace util.TexturePacker.AssetPacker {
         protected List<TextureToPack> itemsToRaster = new();
 
         protected bool allow4096Textures = false;
-
+        public bool completed;
+        
         public void AddTextureToPack(string file, string customID = null) {
             itemsToRaster.Add(new TextureToPack(file, customID != null ? customID : Path.GetFileNameWithoutExtension(file)));
         }
@@ -30,6 +31,7 @@ namespace util.TexturePacker.AssetPacker {
         }
 
         public void Process(bool allow4096Textures = false) {
+            completed = false;
             this.allow4096Textures = allow4096Textures;
             if (useCache) {
                 if (cacheName == "") throw new Exception("No cache name specified");
@@ -141,7 +143,7 @@ namespace util.TexturePacker.AssetPacker {
                                 Vector2.zero, pixelsPerUnit, 0, SpriteMeshType.FullRect));
                 }
             }
-
+            completed = true;
             OnProcessCompleted.Invoke();
         }
 
@@ -163,9 +165,9 @@ namespace util.TexturePacker.AssetPacker {
                         Sprite.Create(t, new Rect(textureAsset.x, textureAsset.y, textureAsset.width, textureAsset.height),
                             Vector2.zero, pixelsPerUnit, 0, SpriteMeshType.FullRect));
             }
-
+            
             yield return null;
-
+            completed = true;
             OnProcessCompleted.Invoke();
         }
 

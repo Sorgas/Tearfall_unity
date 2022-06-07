@@ -11,7 +11,7 @@ namespace generation.localgen.generators {
     public class LocalItemGenerator : LocalGenerator {
         private LocalMap map;
         private ItemGenerator generator = new();
-        
+
         public override void generate() {
             Debug.Log("generating local items");
             map = GameModel.get().world.localMap;
@@ -22,10 +22,16 @@ namespace generation.localgen.generators {
             Vector2Int center = new Vector2Int(map.bounds.maxX / 2, map.bounds.maxY / 2);
             items.ForEach(item => {
                 Vector3Int spawnPoint = getSpawnPosition(center, 5);
-                EcsEntity entity = GameModel.get().createEntity();
-                generator.generateItem(item.type, item.material, entity);
-                GameModel.get().itemContainer.onMapItems.putItemToMap(entity, spawnPoint);
+                for (int i = 0; i < item.quantity; i++) {
+                    spawnItem(spawnPoint, item);
+                }
             });
+        }
+
+        private void spawnItem(Vector3Int spawnPoint, ItemData item) {
+            EcsEntity entity = GameModel.get().createEntity();
+            generator.generateItem(item.type, item.material, entity);
+            GameModel.get().itemContainer.onMapItems.putItemToMap(entity, spawnPoint);
         }
 
         private Vector3Int getSpawnPosition(Vector2Int center, int range) {
@@ -39,7 +45,7 @@ namespace generation.localgen.generators {
             }
             return spawnPoint;
         }
-        
+
         public override string getMessage() {
             return "";
         }

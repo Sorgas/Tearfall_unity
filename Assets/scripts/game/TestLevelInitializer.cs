@@ -29,6 +29,7 @@ namespace game {
             GenerationState.get().preparationState.items.Add(new ItemData {material = "iron", type = "pickaxe", quantity = 1});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "iron", type = "axe", quantity = 1});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "pants", quantity = 1});
+            GenerationState.get().preparationState.items.Add(new ItemData {material = "marble", type = "rock", quantity = 10});
         }
     }
 }

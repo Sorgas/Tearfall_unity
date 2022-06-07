@@ -1,5 +1,4 @@
-﻿using enums.material;
-using game.model;
+﻿using game.model;
 using game.model.component;
 using game.model.component.task;
 using game.view.tilemaps;
@@ -24,40 +23,7 @@ namespace game.view.system.designation {
             foreach (var i in filter) {
                 EcsEntity entity = filter.GetEntity(i);
                 DesignationComponent designation = filter.Get1(i);
-                if (validateEntity(entity)) createSprite(entity, designation);
-            }
-        }
-
-        private void createSprite(EcsEntity entity, DesignationComponent designation) {
-            if (designation.type.SPRITE_NAME != null) {
-                GameObject go = PrefabLoader.create("designation", mapHolder);
-                SpriteRenderer spriteRenderer = go.GetComponent<SpriteRenderer>();
-                Sprite sprite = IconLoader.get("designation/" + designation.type.SPRITE_NAME);
-                spriteRenderer.sprite = sprite;
-                spriteRenderer.sortingOrder = entity.pos().z;
-                float width = go.GetComponent<RectTransform>().rect.width;
-                float scale = width / sprite.rect.width * sprite.pixelsPerUnit;
-                spriteRenderer.transform.localScale = new Vector3(scale, scale, 1);
-                go.transform.localPosition = getSpritePosition(entity.pos(), designation);
-                entity.Replace(new DesignationVisualComponent { spriteRenderer = spriteRenderer });
-            } else if (designation.type == DesignationTypes.D_CONSTRUCT) {
-                DesignationConstructionComponent construction = entity.take<DesignationConstructionComponent>();
-                Material_ material = MaterialMap.get().material(construction.material);
-                string itemType = construction.itemType;
-                GameObject go = PrefabLoader.create("designation", mapHolder);
-                SpriteRenderer spriteRenderer = go.GetComponent<SpriteRenderer>();
-                BlockType blockType = BlockTypes.get(construction.type.blockTypeName);
-                string spriteType = blockType == BlockTypes.RAMP ? "NE" : blockType.PREFIX;
-                
-                Sprite sprite = TileSetHolder.get().sprites[material + "_construction"][spriteType];
-                
-                spriteRenderer.sprite = sprite;
-                spriteRenderer.sortingOrder = entity.pos().z;
-                float width = go.GetComponent<RectTransform>().rect.width;
-                float scale = width / sprite.rect.width * sprite.pixelsPerUnit;
-                spriteRenderer.transform.localScale = new Vector3(scale, scale, 1);
-                go.transform.localPosition = getSpritePosition(entity.pos(), designation);
-                entity.Replace(new DesignationVisualComponent { spriteRenderer = spriteRenderer });
+                if (validateEntity(entity)) createGoForDesignation(entity, designation);
             }
         }
 
@@ -74,6 +40,34 @@ namespace game.view.system.designation {
             return true;
         }
 
+        private void createGoForDesignation(EcsEntity entity, DesignationComponent designation) {
+            GameObject go = PrefabLoader.create("designation", mapHolder);
+            SpriteRenderer spriteRenderer = go.GetComponent<SpriteRenderer>();
+            Sprite sprite = selectSpriteForDesignation(entity, designation);
+            sprite = Sprite.Create(sprite.texture, sprite.rect, new Vector2(0, 0));
+            spriteRenderer.sprite = sprite;
+            spriteRenderer.sortingOrder = entity.pos().z;
+            RectTransform transform = go.GetComponent<RectTransform>();
+            float width = transform.rect.width;
+            float scale = width / sprite.rect.width * sprite.pixelsPerUnit;
+            spriteRenderer.transform.localScale = new Vector3(scale, scale, 1);
+            go.transform.localPosition = getSpritePosition(entity.pos(), designation);
+            entity.Replace(new DesignationVisualComponent { spriteRenderer = spriteRenderer });
+        }
+
+        private Sprite selectSpriteForDesignation(EcsEntity entity, DesignationComponent designation) {
+            if (designation.type.SPRITE_NAME != null) {
+                return IconLoader.get("designation/" + designation.type.SPRITE_NAME);
+            }
+            if (designation.type == DesignationTypes.D_CONSTRUCT) {
+                DesignationConstructionComponent construction = entity.take<DesignationConstructionComponent>();
+                BlockType blockType = BlockTypes.get(construction.type.blockTypeName);
+                string spriteType = blockType == BlockTypes.RAMP ? "NE" : blockType.PREFIX;
+                return TileSetHolder.get().getSprite(construction.materialVariant, spriteType);
+            }
+            return null;
+        }
+
         private Vector3 getSpritePosition(Vector3Int position, DesignationComponent designation) {
             Vector3 spritePosition = ViewUtil.fromModelToScene(position);
             spritePosition.z -= 0.1f;
@@ -82,9 +76,5 @@ namespace game.view.system.designation {
             }
             return spritePosition;
         }
-
-        // private Sprite createSpriteForConstruction(DesignationComponent designation) {
-        //     designation.
-        // }
     }
 }

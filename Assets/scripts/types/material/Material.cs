@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using enums.material;
 using UnityEngine;
 
-namespace enums.material {
+namespace types.material {
     public class Material_ {
         public int id;
         public string name;
@@ -22,8 +23,14 @@ namespace enums.material {
             color = parseColor(raw.color);
         }
 
-        public string toString() {
-            return "material[" + name + "]";
+        public Material_(Material_ source) {
+            id = source.id;
+            name = source.name;
+            tags = new List<string>(source.tags);
+            density = source.density;
+            value = source.value;
+            tileset = source.tileset;
+            color = source.color;
         }
 
         public Color parseColor(string color) {

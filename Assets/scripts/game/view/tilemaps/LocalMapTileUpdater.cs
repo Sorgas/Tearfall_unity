@@ -5,6 +5,7 @@ using game.model;
 using game.model.localmap;
 using game.view.util;
 using types;
+using types.material;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using util.geometry;

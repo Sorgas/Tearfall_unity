@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace game.view.tilemaps {
     // creates block tiles from textures. name example: "NW", "NWF"
@@ -13,8 +12,11 @@ namespace game.view.tilemaps {
         private readonly int FLOOR_HEIGHT = 70;
         private readonly string[] suffixes = { "WALL", "ST", "N", "S", "W", "E", "NW", "NE", "SW", "SE", "CNW", "CNE", "CSW", "CSE", "C" };
         private Rect cacheRect;
-        private readonly Vector2 wallPivot = new(0.5f, DEPTH / 2f / (DEPTH + WALL));
-        private readonly Vector2 floorPivot = new(0.5f, (FLOOR + DEPTH / 2f) / (DEPTH + FLOOR));
+        // private readonly Vector2 wallPivot = new(0.5f, DEPTH / 2f / (DEPTH + WALL));
+        // private readonly Vector2 floorPivot = new(0.5f, (FLOOR + DEPTH / 2f) / (DEPTH + FLOOR));
+        private readonly Vector2 wallPivot = new(0, 0);
+        private readonly Vector2 floorPivot = new(0, FLOOR / 1f / (DEPTH + FLOOR));
+        
         
         public Dictionary<string, Sprite> sliceBlockSpritesheet(Sprite sprite) {
             Dictionary<string, Sprite> sprites = new();
@@ -29,7 +31,8 @@ namespace game.view.tilemaps {
 
         private Sprite cutSprite(int i, int y, int height, Vector2 pivot, Sprite sprite) {
             Texture2D texture = sprite.texture;
-            cacheRect.Set(sprite.uv[2].x * texture.width + i * WIDTH, sprite.uv[2].y * texture.height + y, WIDTH, height);
+            Rect rect = sprite.rect;
+            cacheRect.Set(rect.x * texture.width + i * WIDTH, rect.y * texture.height + y, WIDTH, height);
             Sprite tileSprite = Sprite.Create(texture, cacheRect, pivot, 64);
             return tileSprite;
         }

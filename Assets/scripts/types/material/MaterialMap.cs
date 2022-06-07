@@ -1,18 +1,19 @@
 using System.Collections.Generic;
 using System.Linq;
+using enums.material;
 using UnityEngine;
 using util.input;
 using util.lang;
 
-namespace enums.material {
+namespace types.material {
     public class MaterialMap : Singleton<MaterialMap> {
         public const int GENERIC_PLANT = 4;
         private Dictionary<string, Material_> map = new();
         private Dictionary<int, Material_> idMap = new();
 
-        
         public MaterialMap() {
             loadFiles();
+            createVariants();
         }
 
         private void loadFiles() {
@@ -24,9 +25,8 @@ namespace enums.material {
                 RawMaterial[] materials = JsonArrayReader.readArray<RawMaterial>(file.text);
                 if (materials == null) continue;
                 foreach (RawMaterial raw in materials) {
-                    Material_ material = new (raw);
-                    map.Add(material.name, material);
-                    idMap.Add(material.id, material);
+                    Material_ material = new(raw);
+                    saveMaterial(material);
                     count++;
                 }
                 Debug.Log("loaded " + count + " from " + file.name);
@@ -34,7 +34,6 @@ namespace enums.material {
         }
 
         public Material_ material(int id) {
-            // Debug.Log(id + " " + idMap.Count + " " + map.Count);
             return idMap[id];
         }
 
@@ -51,6 +50,37 @@ namespace enums.material {
                 .Select(material => material)
                 .Where(material => material.tags.Contains(tag))
                 .ToList();
+        }
+
+        private void createVariants() {
+            Debug.Log("creating material variants");
+            int count = 0;
+            count += createVariantByTag("stone", "rock", 1000);
+            Debug.Log("created " + count);
+        }
+
+        private int createVariantByTag(string tag, string itemTypeName, int idMod) {
+            int count = 0;
+            List<Material_> materials = map.Values.Where(material => material.tags.Contains(tag)).ToList();
+            foreach (Material_ material in materials) {
+                Material_ variant = new(material);
+                variant.id += idMod;
+                variant.name = variateValue(variant.name, itemTypeName);
+                variant.tileset = variateValue(variant.tileset, itemTypeName);
+                saveMaterial(variant);
+                count++;
+            }
+            return count;
+        }
+
+        // applies wording rule to value for variation
+        public static string variateValue(string value, string itemTypeName) {
+            return value + "_" + itemTypeName;
+        }
+
+        private void saveMaterial(Material_ material) {
+            map.Add(material.name, material);
+            idMap.Add(material.id, material);
         }
 
         public List<Material_> all => map.Values.ToList();

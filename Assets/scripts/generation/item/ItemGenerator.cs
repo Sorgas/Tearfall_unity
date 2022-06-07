@@ -8,6 +8,7 @@ using game.model.component;
 using game.model.component.item;
 using game.model.component.plant;
 using Leopotam.Ecs;
+using types.material;
 using UnityEngine;
 
 namespace generation.item {

@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using enums.material;
+using types.material;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.U2D;
 using util.lang;
 using util.lang.extension;
-using util.TexturePacker.AssetPacker;
 
 namespace game.view.tilemaps {
-    
     // stores block sprites and tiles
     public class TileSetHolder : Singleton<TileSetHolder> {
+        private Texture2D atlasTexture;
+        private Rect[] rects;
+        private Dictionary<string, Rect> rectMap = new();
+        
         // map of <material -> <tilecode -> tile>>
         public Dictionary<string, Dictionary<string, Tile>> tiles = new();
         public Dictionary<string, Dictionary<string, Sprite>> sprites = new();
@@ -20,39 +21,41 @@ namespace game.view.tilemaps {
 
         public void loadAll() {
             // TODO try use this for all sprites and tilesets
-            // AssetPacker packer = new();
-            // packer.AddTexturesToPack();
-            // packer.Process();
-            SpriteAtlas atlas = Resources.Load<SpriteAtlas>("tilesets/local_blocks/blockSpriteAtlas");
+            packTextures();
             MaterialMap.get().all
                 .Where(material => material.tileset != null)
-                .ForEach(material => loadMaterialTilesetFromAtlas(material, atlas));
-            loadTilesetFromAtlas("selection", atlas);
-            loadTilesetFromAtlas("template", atlas);
+                .ForEach(material => loadMaterialTilesetFromAtlas(material));
+            loadTilesetFromAtlas("selection");
+            loadTilesetFromAtlas("template");
             flushNotFound();
+        }
+
+        private void packTextures() {
+            atlasTexture = new Texture2D(5000, 5000);
+            Texture2D[] textures = Resources.LoadAll<Texture2D>("tilesets").ToArray();
+            rects = atlasTexture.PackTextures(textures, 0, 5000);
+            for (var i = 0; i < textures.Length; i++) {
+                rectMap.Add(textures[i].name, rects[i]);
+            }
         }
 
         public Sprite getSprite(string material, string tilecode) => tiles[material][tilecode].sprite;
 
-        private void loadTilesetFromAtlas(string tilesetName, SpriteAtlas atlas) {
-            Sprite selection = atlas.GetSprite(tilesetName);
-            Dictionary<string, Sprite> spriteMap = loader.sliceBlockSpritesheet(selection);
+        private void loadTilesetFromAtlas(string tilesetName) {
+            Sprite sprite = createSpriteFromAtlas(tilesetName);
+            Dictionary<string, Sprite> spriteMap = loader.sliceBlockSpritesheet(sprite);
             sprites.Add(tilesetName, spriteMap);
             tiles.Add(tilesetName, createTilesFromSprites(spriteMap));
         }
 
         // looks for sprite of material in atlas. If not present, uses template sprite.
-        private void loadMaterialTilesetFromAtlas(Material_ material, SpriteAtlas atlas) {
-            Sprite sprite = atlas.GetSprite(material.tileset);
-            if (sprite == null) {
-                addNotFound(notFound, material.tileset, material.name);
-                sprite = atlas.GetSprite("template");
-            }
+        private void loadMaterialTilesetFromAtlas(Material_ material) {
+            Sprite sprite = createSpriteFromAtlas(material.tileset);
             Dictionary<string, Sprite> spritesMap = loader.sliceBlockSpritesheet(sprite);
             sprites.Add(material.name, spritesMap);
             tiles.Add(material.name, createTilesFromSprites(spritesMap, material.color));
         }
-        
+
         private void addNotFound(Dictionary<string, List<string>> map, string tileset, string material) {
             if (!map.ContainsKey(tileset)) map.Add(tileset, new List<string>());
             map[tileset].Add(material);
@@ -70,6 +73,11 @@ namespace game.view.tilemaps {
                 tiles.Add(key, tile);
             }
             return tiles;
+        }
+
+        private Sprite createSpriteFromAtlas(string name) {
+            if (!rectMap.ContainsKey(name)) name = "template";
+            return Sprite.Create(atlasTexture, rectMap[name], new Vector2());
         }
         
         private void flushNotFound() {

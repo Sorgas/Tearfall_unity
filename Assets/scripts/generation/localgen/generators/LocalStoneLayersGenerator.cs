@@ -5,6 +5,7 @@ using enums.material;
 using game.model;
 using game.model.localmap;
 using types;
+using types.material;
 using UnityEngine;
 using util.geometry;
 

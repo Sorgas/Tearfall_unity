@@ -2,6 +2,7 @@ using enums.material;
 using game.model;
 using game.model.entity_selector;
 using game.model.localmap;
+using types.material;
 using UnityEngine;
 using UnityEngine.UI;
 

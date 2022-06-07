@@ -1,6 +1,7 @@
 ﻿using enums.material;
 using game.model;
 using Leopotam.Ecs;
+using types.material;
 
 namespace generation.item {
     public class DiggingProductGenerator {

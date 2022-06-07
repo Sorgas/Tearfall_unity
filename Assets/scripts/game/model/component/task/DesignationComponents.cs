@@ -15,8 +15,12 @@ namespace game.model.component.task {
 
     public struct DesignationConstructionComponent {
         public ConstructionType type;
+        // consumed items:
         public string itemType;
         public int material;
+        public int amount;
+        
+        public string materialVariant; // for visual only
     }
 
     public struct DesignationItemContainerComponent {

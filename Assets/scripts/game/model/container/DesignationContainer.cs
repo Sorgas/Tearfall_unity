@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using enums.action;
+using enums.material;
 using game.model.component;
 using game.model.component.task;
 using Leopotam.Ecs;
 using types;
 using types.building;
+using types.material;
 using UnityEngine;
 using util.lang.extension;
 using static UnityEngine.Object;
@@ -14,7 +16,7 @@ namespace game.model.container {
     // TODO allow multiple designation on one tile
     public class DesignationContainer {
         public readonly Dictionary<Vector3Int, EcsEntity> designations = new();
-        
+
         public void createDesignation(Vector3Int position, DesignationType type) {
             EcsEntity entity = GameModel.get().createEntity();
             entity.Replace(new DesignationComponent { type = type });
@@ -24,7 +26,11 @@ namespace game.model.container {
         public void createConstructionDesignation(Vector3Int position, ConstructionType type, string itemType, int material) {
             EcsEntity entity = GameModel.get().createEntity();
             entity.Replace(new DesignationComponent { type = DesignationTypes.D_CONSTRUCT });
-            entity.Replace(new DesignationConstructionComponent { type = type, itemType = itemType, material = material });
+            string materialName = MaterialMap.get().material(material).name;
+            entity.Replace(new DesignationConstructionComponent {
+                type = type, itemType = itemType, material = material, amount = 1, // TODO get amount from construction type
+                materialVariant = MaterialMap.variateValue(materialName, itemType)
+            });
             entity.Replace(new DesignationItemContainerComponent { items = new List<EcsEntity>() });
             addDesignation(entity, position);
             Debug.Log("Construction designation created " + position);

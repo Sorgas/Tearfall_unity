@@ -1,13 +1,10 @@
-﻿using System.Threading;
-using enums;
-using enums.material;
-using game.model;
+﻿using game.model;
 using game.model.localmap;
 using game.view.ui;
 using game.view.util;
+using types.material;
 using UnityEngine;
 using UnityEngine.UI;
-using util.geometry;
 using util.geometry.bounds;
 
 namespace game.view.camera {

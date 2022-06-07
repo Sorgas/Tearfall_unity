@@ -1,5 +1,6 @@
 ﻿using enums.material;
 using enums.plant.raw;
+using types.material;
 
 namespace enums.plant {
     public class PlantType {
