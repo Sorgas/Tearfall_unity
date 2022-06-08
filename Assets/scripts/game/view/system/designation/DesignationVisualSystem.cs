@@ -44,13 +44,14 @@ namespace game.view.system.designation {
             GameObject go = PrefabLoader.create("designation", mapHolder);
             SpriteRenderer spriteRenderer = go.GetComponent<SpriteRenderer>();
             Sprite sprite = selectSpriteForDesignation(entity, designation);
-            sprite = Sprite.Create(sprite.texture, sprite.rect, new Vector2(0, 0));
+            // sprite = Sprite.Create(sprite.texture, sprite.rect, new Vector2(0, 0));
             spriteRenderer.sprite = sprite;
             spriteRenderer.sortingOrder = entity.pos().z;
             RectTransform transform = go.GetComponent<RectTransform>();
             float width = transform.rect.width;
             float scale = width / sprite.rect.width * sprite.pixelsPerUnit;
             spriteRenderer.transform.localScale = new Vector3(scale, scale, 1);
+            spriteRenderer.color = new Color(1, 1, 1, 0.5f);
             go.transform.localPosition = getSpritePosition(entity.pos(), designation);
             entity.Replace(new DesignationVisualComponent { spriteRenderer = spriteRenderer });
         }

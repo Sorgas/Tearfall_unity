@@ -4,6 +4,7 @@ using enums.unit;
 using game.model.component;
 using game.model.localmap.passage;
 using Leopotam.Ecs;
+using types.unit;
 using UnityEngine;
 using util.lang.extension;
 using static enums.action.ActionTargetTypeEnum;
@@ -22,7 +23,7 @@ namespace game.model.container {
         public int assignedTaskCount = 0;
 
         public TaskContainer() {
-            foreach (var job in JobsEnum.jobs) {
+            foreach (var job in Jobs.jobs) {
                 openTasks.Add(job.name, new HashSet<EcsEntity>());
             }
             openTasks.Add("none", new HashSet<EcsEntity>());

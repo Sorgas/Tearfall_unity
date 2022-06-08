@@ -35,7 +35,7 @@ namespace game.model.system.plant {
         private void leaveBlockProduct(PlantBlock block, Vector3Int position) {
             if (block.blockType == PlantBlockTypeEnum.TRUNK.code) {
                 EcsEntity product = generator.generateItem("log", "wood");
-                GameModel.get().itemContainer.onMapItems.putItemToMap(product, position);
+                GameModel.get().itemContainer.onMap.putItemToMap(product, position);
             }
         }
     }

@@ -1,4 +1,4 @@
-namespace enums.action {
+namespace types.action {
     public enum ActionStatusEnum {
         OPEN,
         ACTIVE, 

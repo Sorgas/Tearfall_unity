@@ -14,7 +14,7 @@ namespace game.model.component.task.action.equipment.use {
                 // TODO wrap with layer condition
 
                 targetSlot.item = targetItem;
-                equipment().hauledItem = null;
+                equipment().hauledItem = EcsEntity.Null;
                 updateWearNeed();
             };
         }

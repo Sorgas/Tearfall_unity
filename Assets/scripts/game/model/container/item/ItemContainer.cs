@@ -3,18 +3,21 @@
     // transitions are made in actions.
     public class  ItemContainer : EntityContainer {
         public ItemStateValidator validator;
-        public EquippedItemsManager equippedItems = new();
-        public OnMapItemsManager onMapItems;
+        public EquippedItemsManager equipped = new();
+        public OnMapItemsManager onMap;
+        public StoredItemsManager stored;
+        
         // TODO stored items
-        // TODO player owned items
         
         public AvailableItemsManager availableItemsManager = new();
         public ItemFindingUtil util;
-
+        public ItemTransitionUtil transition;
+        
         public ItemContainer() {
             validator = new(this);
-            onMapItems = new(this);
+            onMap = new(this);
             util = new(this);
+            transition = new(this);
         }
 
         // public void removeItem(EcsEntity item) {

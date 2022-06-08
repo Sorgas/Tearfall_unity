@@ -12,10 +12,10 @@ namespace game.model.container.item {
                 Debug.LogError("Item " + item + " has no position.");
             }
             Vector3Int position = item.pos();
-            if (!container.onMapItems.itemsOnMap.ContainsKey(position)) {
+            if (!container.onMap.itemsOnMap.ContainsKey(position)) {
                 Debug.LogError("Tile on " + item + " position is empty.");
             }
-            if (!container.onMapItems.itemsOnMap[position].Contains(item)) {
+            if (!container.onMap.itemsOnMap[position].Contains(item)) {
                 Debug.LogError("Item " + item + " is not registered by its position.");
             }
         }
@@ -26,6 +26,5 @@ namespace game.model.container.item {
                 Debug.LogError("Item " + item + " already has position.");
             }
         }
-
     }
 }

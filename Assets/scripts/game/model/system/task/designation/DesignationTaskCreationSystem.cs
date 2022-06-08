@@ -3,7 +3,10 @@ using game.model.component;
 using game.model.component.task;
 using game.model.component.task.action;
 using game.model.component.task.action.plant;
+using game.model.component.task.order;
+using game.model.container.item;
 using Leopotam.Ecs;
+using types.unit;
 using UnityEngine;
 using util.lang.extension;
 using static game.model.component.task.TaskComponents;
@@ -16,66 +19,52 @@ namespace game.model.system.task.designation {
         public void Run() {
             foreach (var i in filter) {
                 EcsEntity entity = filter.GetEntity(i);
-                if (!entity.Has<TaskCreationTimeoutComponent>()) {
-                    EcsEntity? task = createTaskForDesignation(entity , filter.Get1(i));
-                    if (task.HasValue) {
-                        entity.Replace(new TaskComponent { task = task.Value });
-                        task.Value.Replace(new TaskDesignationComponent {designation = entity});
-                        GameModel.get().taskContainer.addOpenTask(task.Value);
-                    }
-                }
+                if (entity.Has<TaskCreationTimeoutComponent>()) continue;
+                EcsEntity task = createTaskForDesignation(entity, filter.Get1(i));
+                if (task == EcsEntity.Null) continue;
+                entity.Replace(new TaskComponent { task = task });
+                task.Replace(new TaskDesignationComponent { designation = entity });
+                GameModel.get().taskContainer.addOpenTask(task);
             }
         }
 
-        private EcsEntity? createTaskForDesignation(EcsEntity entity, DesignationComponent designation) {
-            if (designation.type.JOB.Equals(JobsEnum.MINER.name)) {
-                EcsEntity taskEntity = GameModel.get().taskContainer.generator.createTask(new DigAction(entity.pos(), designation.type));
-                taskEntity.Replace(new TaskJobComponent { job = JobsEnum.MINER.name });
+        private EcsEntity createTaskForDesignation(EcsEntity entity, DesignationComponent designation) {
+            if (designation.type.JOB.Equals(Jobs.MINER.name)) {
+                EcsEntity taskEntity = GameModel.get().taskContainer.generator
+                    .createTask(new DigAction(entity.pos(), designation.type));
+                taskEntity.Replace(new TaskJobComponent { job = Jobs.MINER.name });
                 taskEntity.Replace(new TaskBlockOverrideComponent { blockType = designation.type.getDiggingBlockType() });
                 Debug.Log("mining task created.");
                 return taskEntity;
-            } 
-            if (designation.type.JOB.Equals(JobsEnum.WOODCUTTER.name)) {
+            }
+            if (designation.type.JOB.Equals(Jobs.WOODCUTTER.name)) {
                 EcsEntity taskEntity = GameModel.get().taskContainer.generator.createTask(new ChopTreeAction(entity.pos()));
-                taskEntity.Replace(new TaskJobComponent { job = JobsEnum.WOODCUTTER.name });
+                taskEntity.Replace(new TaskJobComponent { job = Jobs.WOODCUTTER.name });
                 Debug.Log("woodcutting task created.");
                 return taskEntity;
             }
-            // switch (designation.type.NAME) {
-            //     case "cutting stairs": {
-            //         return null;
-            //     }
-            //     case "cutting downstairs": {
-            //         return null;
-            //     }
-            //     case "cutting ramp": {
-            //         return null;
-            //     }
-            //     case "digging channel": {
-            //         return null;
-            //     }
-            //     case "chopping trees": {
-            //         return null;
-            //     }
-            //     case "cutting plants": {
-            //         return null;
-            //     }
-            //     case "harvesting plants": {
-            //         return null;
-            //     }
-            //     case "building": {
-            //         return null;
-            //     }
-            //     case "hoeing": {
-            //         return null;
-            //     }
-            //     case "planting": {
-            //         return null;
-            //     }
-            // }
-            return null;
+            if (designation.type.JOB.Equals(Jobs.BUILDER.name)) {
+                if (entity.Has<DesignationConstructionComponent>()) {
+                    return createConstructionTask(entity);
+                } else {
+                    // TODO create building task
+                }
+            }
+            return EcsEntity.Null;
         }
 
+        private EcsEntity createConstructionTask(EcsEntity entity) {
+            DesignationConstructionComponent comp = entity.take<DesignationConstructionComponent>();
+            ConstructionOrder order = 
+                new(comp.type.blockType, comp.itemType, comp.material, comp.amount, entity.pos());
+            EcsEntity taskEntity = GameModel.get().taskContainer.generator.createTask(new ConstructionAction(entity, order));
+            taskEntity.Replace(new TaskJobComponent { job = Jobs.BUILDER.name });
+            taskEntity.Replace(new TaskBlockOverrideComponent { blockType = order.blockType });
+            
+            Debug.Log("construction task created.");
+            return taskEntity;
+        }
+        
         //    private DesignationTaskCreator designationTaskCreator;
         //
         //    public DesignationSystem(TaskContainer container) {

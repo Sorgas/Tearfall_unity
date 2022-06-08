@@ -1,7 +1,6 @@
 ﻿using game.model.component.task.action.equipment.obtain;
 using game.model.component.task.action.target;
 using Leopotam.Ecs;
-using UnityEditor;
 using static enums.action.ActionConditionStatusEnum;
 
 namespace game.model.component.task.action.equipment.use {

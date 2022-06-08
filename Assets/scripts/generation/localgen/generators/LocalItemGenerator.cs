@@ -31,7 +31,7 @@ namespace generation.localgen.generators {
         private void spawnItem(Vector3Int spawnPoint, ItemData item) {
             EcsEntity entity = GameModel.get().createEntity();
             generator.generateItem(item.type, item.material, entity);
-            GameModel.get().itemContainer.onMapItems.putItemToMap(entity, spawnPoint);
+            GameModel.get().itemContainer.onMap.putItemToMap(entity, spawnPoint);
         }
 
         private Vector3Int getSpawnPosition(Vector2Int center, int range) {

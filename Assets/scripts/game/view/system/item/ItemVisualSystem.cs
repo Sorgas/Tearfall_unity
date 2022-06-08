@@ -12,6 +12,7 @@ using static game.view.util.TilemapLayersConstants;
 namespace game.view.system.item {
     // creates sprite GO for items on ground. updates GO position for moved items
     public class ItemVisualSystem : IEcsRunSystem {
+        // TODO add marker component instead of position
         public EcsFilter<ItemComponent, PositionComponent>.Exclude<ItemVisualComponent>
             newItemsFilter; // items put on ground but not rendered
 

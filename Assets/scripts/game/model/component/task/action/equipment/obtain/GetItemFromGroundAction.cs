@@ -21,8 +21,8 @@ namespace game.model.component.task.action.equipment.obtain {
             name = "get item from ground action";
             startCondition = () => {
                 UnitEquipmentComponent equipment = base.equipment();
-                if (equipment.hauledItem != null) {
-                    return addPreAction(new PutItemToPositionAction(equipment.hauledItem.Value, performer.Get<PositionComponent>().position));
+                if (equipment.hauledItem != EcsEntity.Null) {
+                    return addPreAction(new PutItemToPositionAction(equipment.hauledItem, performer.Get<PositionComponent>().position));
                 }
                 return !validate() ? FAIL : OK;
             };
@@ -30,7 +30,7 @@ namespace game.model.component.task.action.equipment.obtain {
             onStart = () => maxProgress = 20;
 
             onFinish = () => { // add item to unit
-                GameModel.get().itemContainer.onMapItems.takeItemFromMap(item);
+                GameModel.get().itemContainer.transition.fromGroundToUnit(item, performer);
                 equipment().hauledItem = item;
             };
         }
@@ -40,8 +40,8 @@ namespace game.model.component.task.action.equipment.obtain {
             if (item.hasPos()) {
                 Vector3Int itemPosition = item.pos();
                 return base.validate()
-                       && container.onMapItems.itemsOnMap.ContainsKey(itemPosition)
-                       && container.onMapItems.itemsOnMap[itemPosition].Contains(item)
+                       && container.onMap.itemsOnMap.ContainsKey(itemPosition)
+                       && container.onMap.itemsOnMap[itemPosition].Contains(item)
                        && map.passageMap.inSameArea(itemPosition, performer.pos());
             }
             return false;

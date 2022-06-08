@@ -29,14 +29,11 @@ namespace game.view.ui.toolbar {
 
         public bool fill(ConstructionType type) {
             clear();
-            Dictionary<string, MultiValueDictionary<int, EcsEntity>> items =
+            Dictionary<ConstructionVariant, MultiValueDictionary<int, EcsEntity>> items =
                 GameModel.get().itemContainer.util.findForConstruction(type);
-            foreach (string materialOption in items.Keys) {
-                string[] args = materialOption.Split("/");
-                string itemType = args[0];
-                int requiredAmount = int.Parse(args[1]);
-                foreach (int material in items[materialOption].Keys) {
-                    createButton(itemType, material, requiredAmount, items[materialOption][material].Count);
+            foreach (ConstructionVariant variant in items.Keys) {
+                foreach (int material in items[variant].Keys) {
+                    createButton(variant.itemType, material, variant.amount, items[variant][material].Count);
                 }
             }
             return buttons.Count > 0;

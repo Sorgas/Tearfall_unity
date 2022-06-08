@@ -3,6 +3,7 @@ using game.model;
 using game.model.component;
 using game.model.component.unit;
 using Leopotam.Ecs;
+using types.unit;
 using UnityEngine;
 using UnityEngine.UI;
 using util.lang.extension;
@@ -38,8 +39,8 @@ namespace game.view.ui.jobs_widget {
             RectTransform textTransform = header.transform.GetComponentInChildren<Text>().gameObject.GetComponent<RectTransform>();
             float startX = textTransform.rect.width + textTransform.localPosition.x;
             float iconWidth = prefab.GetComponent<RectTransform>().rect.width;
-            for (var i = 0; i < JobsEnum.jobs.Length; i++) {
-                Job job = JobsEnum.jobs[i];
+            for (var i = 0; i < Jobs.jobs.Length; i++) {
+                Job job = Jobs.jobs[i];
                 GameObject icon = Instantiate(prefab, header.transform, false);
                 icon.transform.localPosition = new Vector3(startX + iconWidth * i, 0, 0);
                 Sprite sprite = Resources.Load<Sprite>("icons/jobs/" + job.iconName);
@@ -66,8 +67,8 @@ namespace game.view.ui.jobs_widget {
             RectTransform unitName = row.transform.GetChild(0).GetComponent<RectTransform>();
             float startX = unitName.rect.width + unitName.localPosition.x;
             float iconWidth = togglePrefab.GetComponent<RectTransform>().rect.width;
-            for (var i = 0; i < JobsEnum.jobs.Length; i++) {
-                Job job = JobsEnum.jobs[i];
+            for (var i = 0; i < Jobs.jobs.Length; i++) {
+                Job job = Jobs.jobs[i];
                 GameObject toggle = Instantiate(togglePrefab, row.transform, false);
                 toggle.transform.localPosition = new Vector3(startX + iconWidth * i, 0, 0);
                 Toggle toggleComponent = toggle.GetComponentInChildren<Toggle>();

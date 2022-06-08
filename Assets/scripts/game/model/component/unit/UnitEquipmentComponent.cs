@@ -10,7 +10,7 @@ namespace game.model.component.unit {
         public Dictionary<string, GrabEquipmentSlot> grabSlots; // slots for tools (subset of all slots)
         public HashSet<EcsEntity> items; // items in worn containers and in hands
         public bool desiredSlotsFilled;
-        public EcsEntity? hauledItem;
+        public EcsEntity hauledItem;
 
         //    /**
         // * Filters and returns slots needed to be filled to avoid nudity penalty.
@@ -22,7 +22,7 @@ namespace game.model.component.unit {
         public bool toolWithActionEquipped(String action) {
             return grabSlots.Values
                 .Where(slot => slot.isToolGrabbed())
-                .Select(slot => slot.grabbedItem.Value.Get<ItemToolComponent>())
+                .Select(slot => slot.grabbedItem.Get<ItemToolComponent>())
                 .Count(tool => tool.action == action) > 0;
         }
 
@@ -55,16 +55,16 @@ namespace game.model.component.unit {
     }
 
     public class GrabEquipmentSlot : EquipmentSlot {
-        public EcsEntity? grabbedItem; // null, if free
+        public EcsEntity grabbedItem; // null, if free
 
         public GrabEquipmentSlot(String name, List<string> limbs) : base(name, limbs) { }
 
         public bool isGrabFree() {
-            return !grabbedItem.HasValue;
+            return grabbedItem == EcsEntity.Null;
         }
 
         public bool isToolGrabbed() {
-            return grabbedItem.HasValue && grabbedItem.Value.Has<ItemToolComponent>();
+            return grabbedItem != EcsEntity.Null && grabbedItem.Has<ItemToolComponent>();
         }
     }
 }

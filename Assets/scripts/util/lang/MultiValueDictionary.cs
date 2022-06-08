@@ -12,5 +12,10 @@ namespace util.lang {
             this[key].Remove(value);
             if (this[key].Count == 0) Remove(key);
         }
+
+        public List<V> get(K key) {
+            if(!ContainsKey(key)) return new List<V>();
+            return this[key];
+        }
     }
 }

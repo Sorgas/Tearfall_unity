@@ -4,7 +4,6 @@ using game.model.component.task.action.target;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
-using util.lang.extension;
 
 namespace game.model.component.task.action.equipment.use {
     /**
@@ -19,8 +18,7 @@ namespace game.model.component.task.action.equipment.use {
             onFinish = () => {
                 prepareSlotForEquippingTool();
                 equipment().grabSlots.Values.First(slot => slot.isGrabFree()).grabbedItem = item;
-                equipment().hauledItem = null;
-                container.equippedItems.addItemToUnit(item, performer);
+                equipment().hauledItem = EcsEntity.Null;
                 Debug.Log(item.Get<ItemComponent>().type + " equipped as tool");
                 //TODO select one or more hands to maintain main/off hand logic
             };
@@ -40,10 +38,9 @@ namespace game.model.component.task.action.equipment.use {
 
         // drops item from grab slot to ground and clears slot
         private void dropGrabbedItemFromSlot(GrabEquipmentSlot slot) {
-            EcsEntity droppedItem = slot.grabbedItem.Value;
-            slot.grabbedItem = null;
-            container.equippedItems.removeItemFromUnit(droppedItem, performer);
-            container.onMapItems.putItemToMap(droppedItem, performer.pos());
+            EcsEntity droppedItem = slot.grabbedItem;
+            slot.grabbedItem = EcsEntity.Null;
+            container.transition.fromUnitToGround(droppedItem, performer);
         }
 
         protected new bool validate() {

@@ -19,17 +19,17 @@ namespace game.model.localmap {
 
         // set block type without maintaining tile consistency.
         public void setRaw(int x, int y, int z, int value, int material) {
-            if(!withinBounds(x,y,z)) return;
+            if (!withinBounds(x, y, z)) return;
             this.material[x, y, z] = material;
             base.set(x, y, z, value);
         }
 
         public void set(int x, int y, int z, int blockType, int material) {
-            if(!withinBounds(x,y,z)) return;
+            if (!withinBounds(x, y, z)) return;
             int currentBlockType = get(x, y, z);
             setRaw(x, y, z, blockType, material);
             localMap.updateTile(x, y, z, (currentBlockType == WALL.CODE) != (blockType == WALL.CODE));
-            
+
             // TODO destroy buildings if type != floor
             // TODO kill units if type == wall
             // set floor above
@@ -42,13 +42,13 @@ namespace game.model.localmap {
 
         public void setRaw(int x, int y, int z, int value, string material) => setRaw(x, y, z, value, MaterialMap.get().id(material));
 
-        public new void set(int x, int y, int z, int blockType) => set(x, y, z, blockType, getMaterial(x, y, z));
-
+        public void set(Vector3Int position, BlockType type, int material) => set(position.x, position.y, position.z, type, material);
+        
         public void set(Vector3Int position, BlockType type) => set(position.x, position.y, position.z, type);
-
+        
+        public new void set(int x, int y, int z, int blockType) => set(x, y, z, blockType, getMaterial(x, y, z));
+        
         public void set(int x, int y, int z, BlockType type) => set(x, y, z, type, getMaterial(x, y, z));
-
-        public void set(Vector3Int position, BlockType type, int material) => set(position, type, material);
 
         public void set(int x, int y, int z, BlockType type, int material) => set(x, y, z, type.CODE, material);
 

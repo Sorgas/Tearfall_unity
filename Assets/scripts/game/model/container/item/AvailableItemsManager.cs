@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using game.model.component.item;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -31,6 +32,21 @@ namespace game.model.container.item {
         public MultiValueDictionary<int, EcsEntity> findByType(string typeName) {
             if (!materials.ContainsKey(typeName)) return emptyMap;
             return materials[typeName];
+        }
+
+        public List<EcsEntity> findNearest(string type, int material, int number, Vector3Int position) {
+            if (!materials.ContainsKey(type) || !materials[type].ContainsKey(material)) return new List<EcsEntity>();
+            List<EcsEntity> allItems = new(materials[type].get(material));
+            MultiValueDictionary<float, EcsEntity> distances = new();
+            foreach (EcsEntity ecsEntity in allItems) {
+                Vector3Int itemPosition = ecsEntity.pos();
+                // TODO handle contained items
+                distances.add(Vector3Int.Distance(position, itemPosition), ecsEntity);
+            }
+            return distances.Keys
+                .OrderBy(value => value).ToList()
+                .SelectMany(value => distances[value]).ToList()
+                .GetRange(0, number);
         }
     }
 }

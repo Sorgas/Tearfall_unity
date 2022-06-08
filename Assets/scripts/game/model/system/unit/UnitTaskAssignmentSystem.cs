@@ -44,7 +44,7 @@ namespace game.model.system.unit {
             if (unit.Has<UnitCalculatedWearNeedComponent>()) {
                 UnitCalculatedWearNeedComponent wear = unit.take<UnitCalculatedWearNeedComponent>();
                 ItemSelector selector = new WearWithSlotItemSelector(wear.slotsToFill);
-                List<EcsEntity> foundItems = selector.selectItems(GameModel.get().itemContainer.onMapItems.all);
+                List<EcsEntity> foundItems = selector.selectItems(GameModel.get().itemContainer.onMap.all);
                 if (foundItems.Count > 0) {
                     EcsEntity task = GameModel.get().taskContainer.generator.createTask(new EquipWearItemAction(foundItems[0]), TaskPriorityEnum.HEALTH_NEEDS);
                     taskList.Add(task);

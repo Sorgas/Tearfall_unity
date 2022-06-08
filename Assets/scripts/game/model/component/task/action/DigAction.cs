@@ -104,7 +104,7 @@ namespace game.model.component.task.action {
         private void leaveStone(Vector3Int position, BlockType oldType, BlockType newType) {
             if(Random.Range(0, 1f) > (newType.OPENNESS - oldType.OPENNESS) / 16f) return;
             EcsEntity item = new DiggingProductGenerator().generate(GameModel.localMap.blockType.getMaterial(position));
-            if(item != EcsEntity.Null) GameModel.get().itemContainer.onMapItems.putItemToMap(item, position);
+            if(item != EcsEntity.Null) GameModel.get().itemContainer.onMap.putItemToMap(item, position);
         }
         
         //

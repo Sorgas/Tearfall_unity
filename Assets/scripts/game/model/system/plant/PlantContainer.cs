@@ -32,6 +32,7 @@ namespace game.model.system.plant {
         }
 
         public void removePlant(EcsEntity plant, bool leaveProduct) {
+            if (plant == EcsEntity.Null) return;
             plants.Remove(plant.pos());
             plantBlocks.Remove(plant.pos());
             plant.Replace(new PlantRemoveComponent{leaveProduct = leaveProduct});

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using enums;
+using game.model.localmap.passage;
 using types;
 using UnityEngine;
 using util.geometry;
@@ -38,6 +40,11 @@ namespace game.model.localmap {
             position.x = Math.Min(Math.Max(0, position.x), map.bounds.maxX - width);
             position.y = Math.Min(Math.Max(0, position.y), map.bounds.maxY - height);
             position.z = Math.Min(Math.Max(0, position.z), map.bounds.maxZ - 1);
+        }
+
+        public Vector3Int findFreePositionNearCenter(Vector3Int center) {
+            Vector3Int position = new NeighbourPositionStream(center).filterByPassage(PassageTypes.PASSABLE).stream.First();
+            return position;
         }
     }
 }

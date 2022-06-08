@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using game.model.component;
-using game.model.component.item;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang;
@@ -15,7 +14,7 @@ namespace game.model.container.item {
         public OnMapItemsManager(ItemContainer container) : base(container) { }
 
         // adds item to map by its position (used on generation and loading)
-        public void addItemToMap(EcsEntity item) {
+        private void addItemToMap(EcsEntity item) {
             itemsOnMap.add(item.pos(), item);
             all.Add(item);
             container.availableItemsManager.add(item);

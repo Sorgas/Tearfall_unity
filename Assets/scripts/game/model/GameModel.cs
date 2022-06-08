@@ -2,7 +2,6 @@
 using game.model.container.item;
 using game.model.entity_selector;
 using game.model.localmap;
-using game.model.system.item;
 using game.model.system.plant;
 using game.model.system.task;
 using game.model.system.task.designation;
@@ -56,7 +55,6 @@ namespace game.model {
                 .Add(new DesignationCompletionSystem()) // handle designation with completed tasks
                 .Add(new DesignationTaskCreationSystem()) // create tasks for designations
                 .Add(new DesignationTaskCreationTimeoutSystem())
-                .Add(new ItemRegisterInitSystem())
                 
                 .Add(new UnitWearNeedSystem())
                 .Add(new UnitNeedSystem())

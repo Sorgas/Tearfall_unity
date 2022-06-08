@@ -8,7 +8,7 @@ namespace game.model.component.task.action.equipment.use {
         public PutItemToPositionAction(EcsEntity item, Vector3Int targetPosition) : base(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.ANY), item) {
 
             onFinish = () => {
-                equipment().hauledItem = null;
+                equipment().hauledItem = EcsEntity.Null;
                 // TODO put item to map
                 // GameModel.get().itemContainer.
             };

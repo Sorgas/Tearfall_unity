@@ -16,11 +16,11 @@ namespace game.model.localmap.passage {
 
         public NeighbourPositionStream(Vector3Int center) : this() {
             this.center = center;
-            HashSet<Vector3Int> neighbours = new HashSet<Vector3Int>();
+            HashSet<Vector3Int> neighbours = new();
             for (int x = center.x - 1; x < center.x + 2; x++) {
                 for (int y = center.y - 1; y < center.y + 2; y++) {
                     for (int z = center.z - 1; z < center.z + 2; z++) {
-                        Vector3Int position = new Vector3Int(x, y, z);
+                        Vector3Int position = new(x, y, z);
                         if (position != center) neighbours.Add(position);
                     }
                 }
@@ -29,7 +29,7 @@ namespace game.model.localmap.passage {
         }
 
         public NeighbourPositionStream(Vector3Int center, bool orthogonal) : this() {
-            HashSet<Vector3Int> neighbours = new HashSet<Vector3Int>();
+            HashSet<Vector3Int> neighbours = new();
             neighbours.Add(center.add(1, 0, 0));
             neighbours.Add(center.add(-1, 0, 0));
             neighbours.Add(center.add(0, 1, 0));

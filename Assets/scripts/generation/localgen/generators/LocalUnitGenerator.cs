@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using enums;
-using enums.unit;
 using game.model;
 using game.model.component;
 using game.model.component.unit;
@@ -8,13 +6,14 @@ using game.model.localmap;
 using generation.unit;
 using Leopotam.Ecs;
 using types;
+using types.unit;
 using UnityEngine;
 
 namespace generation.localgen.generators {
     public class LocalUnitGenerator : LocalGenerator {
         private LocalMap map;
         private int spawnSearchMaxAttempts = 100;
-        private UnitGenerator unitGenerator = new UnitGenerator();
+        private UnitGenerator unitGenerator = new();
 
         public override void generate() {
             map = GameModel.localMap;
@@ -22,7 +21,7 @@ namespace generation.localgen.generators {
         }
 
         private void spawnSettlers(List<SettlerData> settlers) {
-            Vector2Int center = new Vector2Int(map.bounds.maxX / 2, map.bounds.maxY / 2);
+            Vector2Int center = new(map.bounds.maxX / 2, map.bounds.maxY / 2);
             settlers.ForEach(settler => {
                 Vector3Int? spawnPoint = getSpawnPosition(center, 5);
                 if (spawnPoint.HasValue) {
@@ -32,8 +31,9 @@ namespace generation.localgen.generators {
                     positionComponent.position = spawnPoint.Value;
                     
                     // TODO move to settlerdata
-                    entity.Get<UnitJobsComponent>().enabledJobs.Add(JobsEnum.MINER.name);
-                    entity.Get<UnitJobsComponent>().enabledJobs.Add(JobsEnum.WOODCUTTER.name);
+                    entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.MINER.name);
+                    entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.WOODCUTTER.name);
+                    entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.BUILDER.name);
                     
                     Debug.Log("unit spawned at " + spawnPoint.Value);
                 } else {
