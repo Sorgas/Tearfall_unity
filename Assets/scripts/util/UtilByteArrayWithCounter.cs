@@ -4,11 +4,10 @@ using UnityEngine;
 namespace util {
     // byte array which counts number of each byte value in array
     public class UtilByteArrayWithCounter : UtilByteArray {
-        public Dictionary<byte, int> numbers;
+        public Dictionary<byte, int> sizes = new();
 
         public UtilByteArrayWithCounter(int xSize, int ySize, int zSize) : base(xSize, ySize, zSize) {
-            numbers = new Dictionary<byte, int>();
-            numbers.Add(0, xSize * ySize * zSize); // init counter
+            sizes.Add(0, xSize * ySize * zSize); // init counter
         }
 
         public UtilByteArrayWithCounter(Vector3Int size) : this(size.x, size.y, size.z) { }
@@ -28,18 +27,16 @@ namespace util {
         private void updateMap(int x, int y, int z, byte oldValue) {
             // increase counter for new value
             byte newValue = get(x, y, z);
-            if (numbers.ContainsKey(newValue)) {
-                numbers[newValue]++;
+            if (sizes.ContainsKey(newValue)) {
+                sizes[newValue]++;
             } else {
-                numbers[newValue] = 1;
+                sizes.Add(newValue, 1);
             }
-
             // decrease or remove counter for old value
-            int old = numbers[oldValue];
-            if (old < 2) {
-                numbers.Remove(oldValue);
+            if (sizes[oldValue] < 2) {
+                sizes.Remove(oldValue);
             } else {
-                old--;
+                sizes[oldValue]--;
             }
         }
     }

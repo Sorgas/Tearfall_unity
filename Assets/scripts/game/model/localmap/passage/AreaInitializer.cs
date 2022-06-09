@@ -77,10 +77,9 @@ namespace game.model.localmap.passage {
                 }
             }
 
-            foreach (byte i in passage.area.numbers.Keys) {
-                log(i + " " + passage.area.numbers[i]);
+            foreach (byte i in passage.area.sizes.Keys) {
+                log(i + " " + passage.area.sizes[i]);
             }
-
         }
 
         /**

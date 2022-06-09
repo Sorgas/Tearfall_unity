@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using enums;
 using types;
 using UnityEngine;
 using util.geometry;
@@ -23,7 +22,7 @@ namespace game.model.localmap.passage {
         // Called when local map passage is updated. If cell becomes non-passable, it may split area into two.
         public void update(int x, int y, int z) {
             log("updating passage in " + x + " " + y + " " + z);
-            Vector3Int center = new Vector3Int(x, y, z);
+            Vector3Int center = new(x, y, z);
             Passage passing = passage.calculateTilePassage(center);
             passage.passage.set(center, passing.VALUE);
             if (passing == PASSABLE) { // tile became passable, areas should be merged
@@ -51,7 +50,9 @@ namespace game.model.localmap.passage {
         // sets all tiles of all areas to the largest one 
         private void mergeAreas(List<byte> areas) {
             if (areas.Count == 0) return;
-            byte largestArea = passage.area.numbers.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+            byte largestArea = passage.area.sizes
+                .Where(pair => areas.Contains(pair.Key))
+                .Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
             areas.Remove(largestArea);
             log("merging areas " + areas + " to area " + largestArea);
             for (int x = 0; x < map.bounds.maxX; x++) {
@@ -81,7 +82,7 @@ namespace game.model.localmap.passage {
                 List<HashSet<Vector3Int>> isolatedPositions = collectIsolatedPositions(posList);
                 if (isolatedPositions.Count < 2) continue; // all positions from old areas remain connected, do nothing.
                 isolatedPositions.RemoveAt(0);
-                int oldCount = passage.area.numbers[areaValue];
+                int oldCount = passage.area.sizes[areaValue];
                 foreach (HashSet<Vector3Int> positions in isolatedPositions) {
                     oldCount -= fill(positions.First(), getUnusedAreaNumber()); // refill isolated area with new number
                 }
@@ -126,7 +127,7 @@ namespace game.model.localmap.passage {
 
         private byte getUnusedAreaNumber() {
             for (byte i = 0; i < byte.MaxValue; i++)
-                if (!passage.area.numbers.Keys.Contains(i)) return i;
+                if (!passage.area.sizes.Keys.Contains(i)) return i;
             return 0;
         }
 
