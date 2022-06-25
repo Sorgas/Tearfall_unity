@@ -96,7 +96,7 @@ namespace game.view.system.mouse_tool {
         }
 
         private Sprite selectSpriteByBlockType() {
-            return TileSetHolder.get().getSprite(visualMaterial,
+            return BlockTileSetHolder.get().getSprite(visualMaterial,
                 constructionType.blockType.CODE == BlockTypes.RAMP.CODE ? "C" : constructionType.blockType.PREFIX);
         }
 

@@ -1,5 +1,6 @@
 ﻿using game.model;
 using game.view.system.mouse_tool;
+using game.view.tilemaps;
 using types.building;
 using UnityEngine;
 
@@ -66,6 +67,12 @@ namespace game.view.ui.toolbar {
         private void createConstructionButton(ToolbarPanelHandler panel, string text, string iconName, ConstructionType type, KeyCode key) {
             panel.createButton(text, "toolbar/constructions/" + iconName, () => MouseToolManager.set(type), 
                 () => GameModel.get().itemContainer.util.enoughForConstructionType(type), key);
+        }
+
+        private void createBuildingButton(ToolbarPanelHandler panel, string text, string iconName, string buildingType, KeyCode key) {
+            // BlockTileSetHolder
+            // panel.createButton(text, "toolbar/constructions/" + iconName, () => MouseToolManager.set(type), 
+            //     () => GameModel.get().itemContainer.util.enoughForConstructionType(type), key);
         }
     }
 }

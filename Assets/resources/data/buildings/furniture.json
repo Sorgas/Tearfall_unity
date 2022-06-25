@@ -1,11 +1,19 @@
 [
   {
     "name" : "bed",
-    "texture": "furniture",
+    "tileset": "furniture",
     "size": [1,2], // for N orientation
     "positionN" : [2,1], // bottom left tile
     "positionS" : [3,1],
     "positionE" : [0,0],
     "positionW" : [0,1]
+  },  {
+  "name" : "stool",
+  "tileset": "furniture",
+  "size": [1,1],
+  "positionN" : [4,1],
+  "positionS" : [4,1],
+  "positionE" : [4,1],
+  "positionW" : [4,1]
   }
 ]

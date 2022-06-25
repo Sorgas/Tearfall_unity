@@ -64,7 +64,7 @@ namespace game.view.system.designation {
                 DesignationConstructionComponent construction = entity.take<DesignationConstructionComponent>();
                 BlockType blockType = BlockTypes.get(construction.type.blockTypeName);
                 string spriteType = blockType == BlockTypes.RAMP ? "NE" : blockType.PREFIX;
-                return TileSetHolder.get().getSprite(construction.materialVariant, spriteType);
+                return BlockTileSetHolder.get().getSprite(construction.materialVariant, spriteType);
             }
             return null;
         }

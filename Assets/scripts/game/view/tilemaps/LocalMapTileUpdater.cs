@@ -19,7 +19,7 @@ using static game.view.util.TilemapLayersConstants;
 namespace game.view.tilemaps {
     public class LocalMapTileUpdater {
         private readonly List<LocalMapLayerHandler> layers = new();
-        public readonly TileSetHolder tileSetHolder = TileSetHolder.get();
+        public readonly BlockTileSetHolder blockTileSetHolder = BlockTileSetHolder.get();
         public GameObject layerPrefab;
         private RectTransform mapHolder;
         private LocalMap map;
@@ -29,7 +29,7 @@ namespace game.view.tilemaps {
             this.mapHolder = mapHolder;
             layerPrefab = Resources.Load<GameObject>("prefabs/LocalMapLayer");
             map = GameModel.localMap;
-            tileSetHolder.loadAll();
+            blockTileSetHolder.loadAll();
         }
 
         public void flush() {
@@ -52,11 +52,11 @@ namespace game.view.tilemaps {
             // select wall part for non-flat types
             if (!blockType.FLAT) { 
                 string wallTileName = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;
-                wallTile = tileSetHolder.tiles[material][wallTileName]; // draw wall part
+                wallTile = blockTileSetHolder.tiles[material][wallTileName]; // draw wall part
             }
             if (blockType != SPACE) {
                 string floorTileName = (blockType == STAIRS || blockType == DOWNSTAIRS) ? DOWNSTAIRS.PREFIX : FLOOR.PREFIX;
-                floorTile = tileSetHolder.tiles[material][floorTileName]; // draw wall part
+                floorTile = blockTileSetHolder.tiles[material][floorTileName]; // draw wall part
             }
             layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER), floorTile);
             layers[z].setTile(new Vector3Int(x, y, WALL_LAYER), wallTile);
@@ -86,7 +86,7 @@ namespace game.view.tilemaps {
             string material = selectMaterial(x, y, z - 1);
             string type = selectRamp(x, y, z - 1) + "F";
             layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER),
-                tileSetHolder.tiles[material][type]); // topping corresponds lower tile
+                blockTileSetHolder.tiles[material][type]); // topping corresponds lower tile
         }
 
         private string selectMaterial(int x, int y, int z) {
@@ -140,7 +140,7 @@ namespace game.view.tilemaps {
             Tile tile = null;
             if (blockType != SPACE) {
                 string type = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;
-                tile = tileSetHolder.tiles["selection"][type];
+                tile = blockTileSetHolder.tiles["selection"][type];
             }
             layers[z].setTile(vector, tile);
             if (blockType == SPACE) setToppingForSpace(x, y, z);
