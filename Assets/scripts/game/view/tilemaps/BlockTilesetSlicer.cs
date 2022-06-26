@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace game.view.tilemaps {
     // creates block tiles from textures. name example: "NW", "NWF"
-    class BlockTilesetLoader {
+    // tileset layout is fixed and hardcoded: row of walls, row of floors
+    class BlockTilesetSlicer {
         private const int WIDTH = 64;
         private const int DEPTH = 64;
         private const int WALL = 26;

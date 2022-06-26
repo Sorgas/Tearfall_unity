@@ -15,7 +15,7 @@ namespace types.building {
         private void loadFiles() {
             Debug.Log("loading construction types");
             map.Clear();
-            TextAsset file = Resources.Load<TextAsset>("data/buildings/constructions");
+            TextAsset file = Resources.Load<TextAsset>("data/constructions");
             int count = 0;
             ConstructionType[] types = JsonArrayReader.readArray<ConstructionType>(file.text);
             if (types == null) return;

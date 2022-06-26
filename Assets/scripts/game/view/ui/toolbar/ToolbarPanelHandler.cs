@@ -24,7 +24,7 @@ namespace game.view.ui.toolbar {
 
         public bool accept(KeyCode key) {
             if (activeSubpanel != null) return activeSubpanel.accept(key); // pass to subpanel
-            if (buttons.ContainsKey(key)) { 
+            if (buttons.ContainsKey(key)) {
                 ExecuteEvents.Execute(buttons[key].gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
                 return true;
             }
@@ -67,14 +67,17 @@ namespace game.view.ui.toolbar {
         public void createButton(string text, string iconName, Action onClick, KeyCode hotKey) =>
             createButton(text, iconName, onClick, () => true, hotKey);
 
-        public void createButton(string text, string iconName, Action onClick, Func<bool> enableFunction, KeyCode hotKey) {
+        public void createButton(string text, string iconName, Action onClick, Func<bool> enableFunction, KeyCode hotKey) =>
+            createButton(text, IconLoader.get(iconName), onClick, () => true, hotKey);
+
+        public void createButton(string text, Sprite sprite, Action onClick, Func<bool> enableFunction, KeyCode hotKey) {
             GameObject go = PrefabLoader.create("toolbarButton", gameObject.transform);
             float buttonWidth = go.GetComponent<RectTransform>().rect.width;
             go.transform.localPosition = new Vector3(buttonWidth * buttonCount++, 0, 0);
             Button button = go.GetComponentInChildren<Button>();
             button.onClick.AddListener(onClick.Invoke);
             go.GetComponentInChildren<TextMeshProUGUI>().text = text;
-            go.GetComponentsInChildren<Image>()[1].sprite = IconLoader.get(iconName);
+            go.GetComponentsInChildren<Image>()[1].sprite = sprite;
             hotKeyMap.Add(hotKey, () => button.onClick.Invoke());
             enableFunctions.Add(hotKey, enableFunction);
             buttons.Add(hotKey, button);
@@ -85,11 +88,11 @@ namespace game.view.ui.toolbar {
             GameObject panel = PrefabLoader.create("toolbarPanel", gameObject.transform);
             panel.transform.localPosition = new Vector3(0, panel.GetComponent<RectTransform>().rect.height, 0);
             panel.SetActive(false);
-            
+
             ToolbarPanelHandler handler = panel.GetComponent<ToolbarPanelHandler>();
             handler.parentPanel = this;
             subPanels.Add(hotKey, handler);
-            
+
             createButton(text, icon, () => toggleSubpanel(handler), hotKey);
             return handler;
         }

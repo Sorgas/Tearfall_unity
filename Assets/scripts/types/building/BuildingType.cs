@@ -1,11 +1,14 @@
+using System;
+
 namespace types.building {
+    [Serializable]
     public class BuildingType {
         public string name;
         public string tileset;
-        public string[] size;
-        public string[] positionN;
-        public string[] positionS;
-        public string[] positionE;
-        public string[] positionW;
+        public int[] size;
+        public int[] positionN;
+        public int[] positionS;
+        public int[] positionE;
+        public int[] positionW;
     }
 }

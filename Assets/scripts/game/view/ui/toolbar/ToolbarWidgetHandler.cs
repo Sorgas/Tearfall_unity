@@ -1,12 +1,14 @@
 ﻿using game.model;
 using game.view.system.mouse_tool;
 using game.view.tilemaps;
+using game.view.util;
 using types.building;
 using UnityEngine;
 
 namespace game.view.ui.toolbar {
     public class ToolbarWidgetHandler : ToolbarPanelHandler {
         private ToolbarPanelHandler openPanel;
+        private HotKeySequence hotKeySequence = new();
 
         private void Start() {
             createSubPanel("C: Orders", "toolbar/designation", KeyCode.C);
@@ -35,10 +37,10 @@ namespace game.view.ui.toolbar {
         }
 
         private void fillBuildingsPanel(ToolbarPanelHandler panel) {
-            panel.createButton("building 1", "toolbar/cancel", () => Debug.Log("press B 1"), KeyCode.Z);
-            panel.createButton("building 2", "toolbar/cancel", () => Debug.Log("press B 2"), KeyCode.X);
-            panel.createButton("building 3", "toolbar/cancel", () => Debug.Log("press B 3"), KeyCode.C);
-            panel.createButton("building 4", "toolbar/cancel", () => Debug.Log("press B 4"), KeyCode.V);
+            hotKeySequence.reset();
+            foreach (BuildingType type in BuildingTypeMap.get().all()) {
+                createBuildingButton(panel, type.name, type, hotKeySequence.getNext()); // TODO use building title instead of name
+            }
         }
 
         private void fillZonesPanel(ToolbarPanelHandler panel) {
@@ -64,15 +66,15 @@ namespace game.view.ui.toolbar {
         private void createToolButton(ToolbarPanelHandler panel, string text, MouseToolType tool, KeyCode key) =>
             createToolButton(panel, text, tool.iconPath, tool, key);
 
-        private void createConstructionButton(ToolbarPanelHandler panel, string text, string iconName, ConstructionType type, KeyCode key) {
-            panel.createButton(text, "toolbar/constructions/" + iconName, () => MouseToolManager.set(type), 
+        private void createConstructionButton(ToolbarPanelHandler panel, string text, string iconName, ConstructionType type,
+            KeyCode key) {
+            panel.createButton(text, "toolbar/constructions/" + iconName, () => MouseToolManager.set(type),
                 () => GameModel.get().itemContainer.util.enoughForConstructionType(type), key);
         }
 
-        private void createBuildingButton(ToolbarPanelHandler panel, string text, string iconName, string buildingType, KeyCode key) {
-            // BlockTileSetHolder
-            // panel.createButton(text, "toolbar/constructions/" + iconName, () => MouseToolManager.set(type), 
-            //     () => GameModel.get().itemContainer.util.enoughForConstructionType(type), key);
+        private void createBuildingButton(ToolbarPanelHandler panel, string text, BuildingType type, KeyCode key) {
+            panel.createButton(text, BuildingTilesetHolder.get().sprites[type].n, () => { }, 
+                () => GameModel.get().itemContainer.util.enoughForBuilding(type), key);
         }
     }
 }

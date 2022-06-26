@@ -19,9 +19,6 @@ namespace types.building {
             BuildingType[] types = JsonArrayReader.readArray<BuildingType>(file.text);
             if (types == null) return;
             foreach (BuildingType type in types) {
-                // type.variants = type.materials.Select(materialString => new ConstructionVariant(materialString)).ToArray();
-                // Debug.Log(type.blockTypeName + " " + type.materials + " " + type.name);
-                // type.blockType = BlockTypes.get(type.blockTypeName);
                 map.Add(type.name, type);
                 count++;
             }
@@ -30,6 +27,10 @@ namespace types.building {
 
         public static BuildingType get(string name) {
             return get().map[name];
+        }
+
+        public Dictionary<string, BuildingType>.ValueCollection all() {
+            return map.Values;
         }
     }
 }

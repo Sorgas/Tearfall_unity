@@ -52,6 +52,10 @@ namespace game.model.container.item {
             return false;
         }
 
+        public bool enoughForBuilding(BuildingType type) {
+            return true; // TODO
+        }
+
         private float distanceToItem(EcsEntity item, Vector3Int position) {
             return Vector3Int.Distance(item.pos(), position);
         }

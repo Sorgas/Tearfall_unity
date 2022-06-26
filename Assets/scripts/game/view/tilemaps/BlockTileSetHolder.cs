@@ -12,7 +12,7 @@ namespace game.view.tilemaps {
         // map of <material -> <tilecode -> tile>>
         public readonly Dictionary<string, Dictionary<string, Tile>> tiles = new();
         public readonly Dictionary<string, Dictionary<string, Sprite>> sprites = new();
-        private BlockTilesetLoader loader = new();
+        private BlockTilesetSlicer slicer = new();
         Dictionary<string, List<string>> notFound = new();
 
         public void loadAll() {
@@ -29,7 +29,7 @@ namespace game.view.tilemaps {
 
         private void loadTilesetFromAtlas(string tilesetName) {
             Sprite sprite = TexturePacker.createSpriteFromAtlas(tilesetName);
-            Dictionary<string, Sprite> spriteMap = loader.sliceBlockSpritesheet(sprite);
+            Dictionary<string, Sprite> spriteMap = slicer.sliceBlockSpritesheet(sprite);
             sprites.Add(tilesetName, spriteMap);
             tiles.Add(tilesetName, createTilesFromSprites(spriteMap));
         }
@@ -37,7 +37,7 @@ namespace game.view.tilemaps {
         // looks for sprite of material in atlas. If not present, uses template sprite.
         private void loadMaterialTilesetFromAtlas(Material_ material) {
             Sprite sprite = TexturePacker.createSpriteFromAtlas(material.tileset);
-            Dictionary<string, Sprite> spritesMap = loader.sliceBlockSpritesheet(sprite);
+            Dictionary<string, Sprite> spritesMap = slicer.sliceBlockSpritesheet(sprite);
             sprites.Add(material.name, spritesMap);
             tiles.Add(material.name, createTilesFromSprites(spritesMap, material.color));
         }
