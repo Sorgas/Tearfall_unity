@@ -41,6 +41,7 @@ namespace game.view.ui.toolbar {
             foreach (BuildingType type in BuildingTypeMap.get().all()) {
                 createBuildingButton(panel, type.name, type, hotKeySequence.getNext()); // TODO use building title instead of name
             }
+            panel.createButton("rotate", "toolbar/rotate", () => MouseToolManager.get().rotateBuilding(), KeyCode.T);
             panel.closeAction = () => MouseToolManager.set(MouseToolTypes.NONE);
         }
 

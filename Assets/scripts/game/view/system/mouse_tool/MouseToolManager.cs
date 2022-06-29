@@ -87,7 +87,9 @@ namespace game.view.system.mouse_tool {
         }
 
         public void rotateBuilding() {
-            if (tool == BUILD) orientation = OrientationUtil.getNext(orientation);
+            if (tool != BUILD) return;
+            orientation = OrientationUtil.getNext(orientation);
+            updateToolSprite(true);
         }
         
         private void applyTool(IntBounds3 bounds) {
