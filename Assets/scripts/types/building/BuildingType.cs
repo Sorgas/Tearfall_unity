@@ -5,10 +5,12 @@ namespace types.building {
     public class BuildingType {
         public string name;
         public string tileset;
-        public int[] size;
+        public int[] size; // for N orientation
         public int[] positionN;
         public int[] positionS;
         public int[] positionE;
         public int[] positionW;
+        public string[] materials;
+        public BuildingVariant[] variants;
     }
 }

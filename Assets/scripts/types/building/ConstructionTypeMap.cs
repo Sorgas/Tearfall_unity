@@ -20,7 +20,7 @@ namespace types.building {
             ConstructionType[] types = JsonArrayReader.readArray<ConstructionType>(file.text);
             if (types == null) return;
             foreach (ConstructionType type in types) {
-                type.variants = type.materials.Select(materialString => new ConstructionVariant(materialString)).ToArray();
+                type.variants = type.materials.Select(materialString => new BuildingVariant(materialString)).ToArray();
                 Debug.Log(type.blockTypeName + " " + type.materials + " " + type.name);
                 type.blockType = BlockTypes.get(type.blockTypeName);
                 map.Add(type.name, type);

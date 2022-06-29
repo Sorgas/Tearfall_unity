@@ -30,8 +30,8 @@ namespace game.model.container.item {
         }
 
         public MultiValueDictionary<int, EcsEntity> findByType(string typeName) {
-            if (!materials.ContainsKey(typeName)) return emptyMap;
-            return materials[typeName];
+            if (!materials.ContainsKey(typeName)) return emptyMap.clone();
+            return materials[typeName].clone();
         }
 
         public List<EcsEntity> findNearest(string type, int material, int number, Vector3Int position) {

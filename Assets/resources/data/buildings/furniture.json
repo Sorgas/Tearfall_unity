@@ -3,17 +3,19 @@
     "name" : "bed",
     "tileset": "furniture",
     "size": [1,2],
-    "positionN" : [2,1],
-    "positionS" : [3,1],
-    "positionE" : [0,0],
-    "positionW" : [0,1]
+    "positionN" : [2,0],
+    "positionS" : [3,0],
+    "positionE" : [0,1],
+    "positionW" : [0,0],
+    "materials" : ["log/4", "rock/4"]
   }, {
-  "name" : "stool",
-  "tileset": "furniture",
-  "size": [1,1],
-  "positionN" : [4,1],
-  "positionS" : [4,1],
-  "positionE" : [4,1],
-  "positionW" : [4,1]
+    "name" : "stool",
+    "tileset": "furniture",
+    "size": [1,1],
+    "positionN" : [4,0],
+    "positionS" : [4,0],
+    "positionE" : [4,0],
+    "positionW" : [4,0],
+    "materials" : ["log/2"]
   }
 ]

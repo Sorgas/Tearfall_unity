@@ -1,4 +1,5 @@
-﻿using game.model;
+﻿using System;
+using game.model;
 using game.view.camera;
 using game.view.tilemaps;
 using game.view.ui;
@@ -17,8 +18,11 @@ namespace game.view.system.mouse_tool {
         private SelectorHandler selector;
         private MaterialSelectionWidgetHandler materialSelector;
         private MouseToolType tool = NONE;
-        private string buildingType; // set if tool is BUILD TODO move to MouseToolType
-        
+
+        // set if tool is BUILD TODO move to MouseToolType
+        private BuildingType buildingType;
+        private Orientations orientation;
+
         // set if tool is CONSTRUCT TODO move to MouseToolType
         private ConstructionType constructionType;
         private string itemType;
@@ -29,34 +33,47 @@ namespace game.view.system.mouse_tool {
             selector = GameView.get().sceneObjectsContainer.selector.GetComponent<SelectorHandler>();
             materialSelector = GameView.get().sceneObjectsContainer.materialSelectionWidgetHandler;
         }
-        
+
         public static void set(MouseToolType tool) => get()._set(tool, null, null);
 
-        public static void set(string buildingType) => get()._set(BUILD, buildingType, null);
+        public static void set(BuildingType buildingType) => get()._set(BUILD, buildingType, null);
 
         public static void set(ConstructionType type) => get()._set(CONSTRUCT, null, type);
-        
-        private void _set(MouseToolType tool, string buildingType, ConstructionType constructionType) {
-            GameView.get().cameraAndMouseHandler.selectionHandler.state.type = SelectionTypes.AREA; // reset selection type
+
+        private void _set(MouseToolType tool, BuildingType buildingType, ConstructionType constructionType) {
             this.tool = tool;
             this.buildingType = buildingType;
             this.constructionType = constructionType;
-            updateMaterialSelector();
-            updateToolSprite();
+            bool materialsOk = updateMaterialSelector(); // enough items for building or items not required
+            updateSelectionType(materialsOk);
+            updateToolSprite(materialsOk);
         }
 
+        // returns true, if enough materials for construction
         private bool updateMaterialSelector() {
+            if (tool == CONSTRUCT) return fillSelectorForVariants(constructionType.variants);
+            if (tool == BUILD) return fillSelectorForVariants(buildingType.variants);
+            materialSelector.close();
+            return true;
+        }
+
+        // TODO make buildings able to be designated in draw mode (like in ONI)
+        private void updateSelectionType(bool hasMaterials) {
+            GameView.get().cameraAndMouseHandler.selectionHandler.state.type = SelectionTypes.AREA; // set default type
             if (tool == CONSTRUCT) {
-                if (!materialSelector.fill(constructionType)) return false; // fail setting tool if not enough materials
-                materialSelector.selectFirst();
-                materialSelector.open();
                 if (constructionType.name == "wall") {
                     GameView.get().cameraAndMouseHandler.selectionHandler.state.type = SelectionTypes.ROW;
                 }
-            } else {
-                materialSelector.close();
+            } else if (tool == BUILD) {
+                GameView.get().cameraAndMouseHandler.selectionHandler.state.type = SelectionTypes.SINGLE;
             }
-            return true;
+        }
+
+        private bool fillSelectorForVariants(BuildingVariant[] variants) {
+            bool hasMaterials = materialSelector.fill(variants); // do not set tool if not enough materials
+            materialSelector.selectFirst();
+            materialSelector.open();
+            return hasMaterials;
         }
 
         public static void handleSelection(IntBounds3 bounds) => get().applyTool(bounds);
@@ -65,18 +82,20 @@ namespace game.view.system.mouse_tool {
             this.itemType = itemType;
             this.material = material;
             visualMaterial = MaterialMap.variateValue(MaterialMap.get().material(material).name, itemType);
-            updateToolSprite();
+            updateToolSprite(true);
         }
-        
+
         private void applyTool(IntBounds3 bounds) {
             if (tool == NONE) return; // TODO add unit/building/item/plant/block selection for NONE tool
             bounds.iterate((x, y, z) => {
                 Vector3Int position = new(x, y, z);
                 if (tool == CONSTRUCT) {
                     GameModel.get().designationContainer.createConstructionDesignation(position, constructionType, itemType, material);
-                } else if (tool == CLEAR) { // tool clears designation
+                } else if (tool == CLEAR) {
+                    // tool clears designation
                     GameModel.get().designationContainer.cancelDesignation(position);
-                } else if (tool.designation != null) { // tool applies designation
+                } else if (tool.designation != null) {
+                    // tool applies designation
                     if (tool.designation.VALIDATOR.validate(position)) {
                         GameModel.get().designationContainer.createDesignation(position, tool.designation);
                     }
@@ -84,10 +103,10 @@ namespace game.view.system.mouse_tool {
             });
         }
 
-        private void updateToolSprite() {
+        private void updateToolSprite(bool ok) {
             if (tool == BUILD) {
-                // sprite = selectSpriteByBuildingType();
-                // .color = new Color(1, 1, 1, 0.5f);
+                bool flip = orientation == Orientations.E || orientation == Orientations.W;
+                selector.setBuildingSprite(selectSpriteByBuildingType(), buildingType.size[flip ? 1 : 0]);
             } else if (tool == CONSTRUCT) {
                 selector.setConstructionSprite(selectSpriteByBlockType());
             } else {
@@ -101,8 +120,18 @@ namespace game.view.system.mouse_tool {
         }
 
         private Sprite selectSpriteByBuildingType() {
-            // TODO
-            return null;
+            switch (orientation) {
+                case Orientations.N:
+                    return BuildingTilesetHolder.get().sprites[buildingType].n;
+                case Orientations.E:
+                    return BuildingTilesetHolder.get().sprites[buildingType].e;
+                case Orientations.S:
+                    return BuildingTilesetHolder.get().sprites[buildingType].s;
+                case Orientations.W:
+                    return BuildingTilesetHolder.get().sprites[buildingType].w;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

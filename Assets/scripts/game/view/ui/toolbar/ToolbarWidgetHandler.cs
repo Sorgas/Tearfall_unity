@@ -41,6 +41,7 @@ namespace game.view.ui.toolbar {
             foreach (BuildingType type in BuildingTypeMap.get().all()) {
                 createBuildingButton(panel, type.name, type, hotKeySequence.getNext()); // TODO use building title instead of name
             }
+            panel.closeAction = () => MouseToolManager.set(MouseToolTypes.NONE);
         }
 
         private void fillZonesPanel(ToolbarPanelHandler panel) {
@@ -48,6 +49,7 @@ namespace game.view.ui.toolbar {
             panel.createButton("zone 2", "toolbar/cancel", () => Debug.Log("press Z 2"), KeyCode.X);
             panel.createButton("zone 3", "toolbar/cancel", () => Debug.Log("press Z 3"), KeyCode.C);
             panel.createButton("zone 4", "toolbar/cancel", () => Debug.Log("press Z 4"), KeyCode.V);
+            panel.closeAction = () => MouseToolManager.set(MouseToolTypes.NONE);
         }
 
         private void fillConstructionsPanel(ToolbarPanelHandler panel) {
@@ -69,12 +71,12 @@ namespace game.view.ui.toolbar {
         private void createConstructionButton(ToolbarPanelHandler panel, string text, string iconName, ConstructionType type,
             KeyCode key) {
             panel.createButton(text, "toolbar/constructions/" + iconName, () => MouseToolManager.set(type),
-                () => GameModel.get().itemContainer.util.enoughForConstructionType(type), key);
+                () => GameModel.get().itemContainer.util.enoughForBuilding(type.variants), key);
         }
 
         private void createBuildingButton(ToolbarPanelHandler panel, string text, BuildingType type, KeyCode key) {
-            panel.createButton(text, BuildingTilesetHolder.get().sprites[type].n, () => { }, 
-                () => GameModel.get().itemContainer.util.enoughForBuilding(type), key);
+            panel.createButton(text, BuildingTilesetHolder.get().sprites[type].n, () => MouseToolManager.set(type), 
+                () => GameModel.get().itemContainer.util.enoughForBuilding(type.variants), key);
         }
     }
 }

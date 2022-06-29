@@ -1,30 +1,35 @@
 ﻿using UnityEngine;
 
 namespace game.view.ui {
+    // handles entity selector - representation of mouse on the map
+    // selector has position in model units, used for drawing building sprites, 
     public class SelectorHandler : MonoBehaviour {
         public SpriteRenderer frameIcon;
-        public SpriteRenderer toolIcon;
-        public SpriteRenderer constructionIcon;
+        public SpriteRenderer toolIcon; // raised for walls to look 'overwall'
+        public SpriteRenderer constructionIcon; // not raised for walls
         private Color transparent = new(1, 1, 1, 0.5f);
-        
+
         public void setCurrentZ(int value) {
             toolIcon.sortingOrder = value;
             frameIcon.sortingOrder = value;
             constructionIcon.sortingOrder = value;
         }
 
-        public void setToolSprite(Sprite sprite) => setSpriteToRenderer(sprite, toolIcon, Color.white);
+        public void setToolSprite(Sprite sprite) => setSpriteToRenderer(sprite, 1, toolIcon, Color.white);
 
-        public void setConstructionSprite(Sprite sprite) => setSpriteToRenderer(sprite, constructionIcon, transparent);
+        public void setConstructionSprite(Sprite sprite) => setSpriteToRenderer(sprite, 1, constructionIcon, transparent);
 
-        private void setSpriteToRenderer(Sprite sprite, SpriteRenderer renderer, Color color) {
+        public void setBuildingSprite(Sprite sprite, int width) => setSpriteToRenderer(sprite, width, constructionIcon, transparent);
+
+        // spriteWidth - desired width of sprite in number of selector's width
+        private void setSpriteToRenderer(Sprite sprite, int spriteWidth, SpriteRenderer renderer, Color color) {
             toolIcon.sprite = null;
             constructionIcon.sprite = null;
             if (sprite == null) return;
             renderer.sprite = sprite;
             renderer.color = color;
-            float width = gameObject.GetComponent<RectTransform>().rect.width;
-            float scale = width / sprite.rect.width * sprite.pixelsPerUnit;
+            float width = gameObject.GetComponent<RectTransform>().rect.width; // 1
+            float scale = width * spriteWidth / sprite.rect.width * sprite.pixelsPerUnit;
             renderer.transform.localScale = new Vector3(scale, scale, 1);
         }
     }

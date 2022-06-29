@@ -13,8 +13,9 @@ using UnityEngine.UI;
 using util.lang;
 
 namespace game.view.ui.toolbar {
-    // shows buttons for selecting material for building.
+    // shows buttons for selecting material for construction or building.
     // TODO keep selected material between usages
+    // TODO add multi-ingredient buildings
     public class MaterialSelectionWidgetHandler : MonoBehaviour {
         private List<GameObject> buttons = new();
 
@@ -27,13 +28,17 @@ namespace game.view.ui.toolbar {
             buttons.Clear();
         }
 
-        public bool fill(ConstructionType type) {
+        public bool fill(BuildingVariant[] variants) {
             clear();
-            Dictionary<ConstructionVariant, MultiValueDictionary<int, EcsEntity>> items =
-                GameModel.get().itemContainer.util.findForConstruction(type);
-            foreach (ConstructionVariant variant in items.Keys) {
-                foreach (int material in items[variant].Keys) {
-                    createButton(variant.itemType, material, variant.amount, items[variant][material].Count);
+            Dictionary<BuildingVariant, MultiValueDictionary<int, EcsEntity>> items =
+                GameModel.get().itemContainer.util.findForBuildingVariants(variants);
+            foreach (BuildingVariant variant in variants) {
+                if (items.ContainsKey(variant)) {
+                    foreach (int material in items[variant].Keys) {
+                        createButton(variant.itemType, material, variant.amount, items[variant][material].Count);
+                    }
+                } else {
+                    // TODO add "not enough materials label"
                 }
             }
             return buttons.Count > 0;

@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace game.view.camera {
     // stores state of selection
+    // TODO cancel selection when type changed
     public class SelectionHandler {
         private Vector3Int start; // inclusive start of selection
         private Vector3Int finish; // inclusive finish of selection

@@ -30,9 +30,10 @@ namespace game.model.container.item {
                     : cur); // select nearest
         }
 
-        public Dictionary<ConstructionVariant, MultiValueDictionary<int, EcsEntity>> findForConstruction(ConstructionType type) {
-            Dictionary<ConstructionVariant, MultiValueDictionary<int, EcsEntity>> resultMap = new();
-            foreach (ConstructionVariant variant in type.variants) {
+        // returns variant -> material -> list of items 
+        public Dictionary<BuildingVariant, MultiValueDictionary<int, EcsEntity>> findForBuildingVariants(BuildingVariant[] variants) {
+            Dictionary<BuildingVariant, MultiValueDictionary<int, EcsEntity>> resultMap = new();
+            foreach (BuildingVariant variant in variants) {
                 MultiValueDictionary<int, EcsEntity> map = container.availableItemsManager.findByType(variant.itemType);
                 map.removeByPredicate(entities => entities.Count < variant.amount);
                 resultMap.Add(variant, map);
@@ -41,19 +42,12 @@ namespace game.model.container.item {
         }
 
         // checks if there are at least one option to build construction
-        public bool enoughForConstructionType(ConstructionType type) {
-            foreach (string materialOption in type.materials) {
-                string[] args = materialOption.Split("/");
-                string typeName = args[0];
-                int requiredAmount = int.Parse(args[1]);
-                if (container.availableItemsManager.findByType(typeName).Values
-                    .Any(items => items.Count > requiredAmount)) return true;
+        public bool enoughForBuilding(BuildingVariant[] variants) {
+            foreach (BuildingVariant variant in variants) {
+                if (container.availableItemsManager.findByType(variant.itemType).Values
+                    .Any(items => items.Count > variant.amount)) return true;
             }
             return false;
-        }
-
-        public bool enoughForBuilding(BuildingType type) {
-            return true; // TODO
         }
 
         private float distanceToItem(EcsEntity item, Vector3Int position) {

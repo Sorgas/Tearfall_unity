@@ -5,14 +5,15 @@ namespace types.building {
     public class ConstructionType {
         public string name;
         public string blockTypeName;
-        public string[] materials;
-        public ConstructionVariant[] variants;
+        
+        public string[] materials; // loaded from json
+        public BuildingVariant[] variants; // parsed from materials
         
         public BlockType blockType;
     }
 
-    public class ConstructionVariant : IEquatable<ConstructionVariant> {
-        public ConstructionVariant(string raw) {
+    public class BuildingVariant : IEquatable<BuildingVariant> {
+        public BuildingVariant(string raw) {
             string[] args = raw.Split("/");
             itemType = args[0];
             amount = int.Parse(args[1]);
@@ -21,7 +22,7 @@ namespace types.building {
         public string itemType;
         public int amount;
 
-        public bool Equals(ConstructionVariant other) {
+        public bool Equals(BuildingVariant other) {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
             return itemType == other.itemType && amount == other.amount;
@@ -31,7 +32,7 @@ namespace types.building {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((ConstructionVariant)obj);
+            return Equals((BuildingVariant)obj);
         }
 
         public override int GetHashCode() {

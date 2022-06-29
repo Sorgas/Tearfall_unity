@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using util.input;
 using util.lang;
@@ -19,6 +20,7 @@ namespace types.building {
             BuildingType[] types = JsonArrayReader.readArray<BuildingType>(file.text);
             if (types == null) return;
             foreach (BuildingType type in types) {
+                type.variants = type.materials.Select(materialString => new BuildingVariant(materialString)).ToArray();
                 map.Add(type.name, type);
                 count++;
             }
