@@ -1,11 +1,10 @@
 ﻿namespace game.view.camera {
-    // 
+    // facade for all logic of mouse and camera
     public class CameraAndMouseHandler {
-        // without ES
         private CameraInputSystem cameraInputSystem;
         public CameraMovementSystem cameraMovementSystem;
-        private MouseInputSystem mouseInputSystem;
-        public MouseMovementSystem mouseMovementSystem;
+        private MouseInputSystem mouseInputSystem; // handles mouse movement and clicks
+        public MouseMovementSystem mouseMovementSystem; // moves selector go to 'follow' mouse on screen
         public SelectionHandler selectionHandler = new();
         public bool enabled = true;
 
@@ -13,8 +12,7 @@
             mouseMovementSystem = new MouseMovementSystem(initializer);
             cameraMovementSystem = new CameraMovementSystem(initializer.mainCamera);
             mouseInputSystem = new MouseInputSystem(initializer);
-            cameraInputSystem = new CameraInputSystem(mouseInputSystem, mouseMovementSystem, cameraMovementSystem);
-            cameraMovementSystem.mouseInputSystem = mouseInputSystem;
+            cameraInputSystem = new CameraInputSystem(cameraMovementSystem);
         }
         public void init() {
             selectionHandler.init();

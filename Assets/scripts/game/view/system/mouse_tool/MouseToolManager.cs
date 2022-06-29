@@ -14,6 +14,7 @@ using util.lang;
 using static game.view.system.mouse_tool.MouseToolTypes;
 
 namespace game.view.system.mouse_tool {
+    // TODO split into different tools
     public class MouseToolManager : Singleton<MouseToolManager> {
         private SelectorHandler selector;
         private MaterialSelectionWidgetHandler materialSelector;
@@ -85,6 +86,10 @@ namespace game.view.system.mouse_tool {
             updateToolSprite(true);
         }
 
+        public void rotateBuilding() {
+            if (tool == BUILD) orientation = OrientationUtil.getNext(orientation);
+        }
+        
         private void applyTool(IntBounds3 bounds) {
             if (tool == NONE) return; // TODO add unit/building/item/plant/block selection for NONE tool
             bounds.iterate((x, y, z) => {

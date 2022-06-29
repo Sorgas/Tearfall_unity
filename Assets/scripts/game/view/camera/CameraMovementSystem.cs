@@ -11,12 +11,11 @@ namespace game.view.camera {
     // TODO add camera velocity
     public class CameraMovementSystem {
         private readonly Camera camera;
-        private Vector3 target = new Vector3(0, 0, -1); // target in scene coordinates
-        private readonly FloatBounds2 cameraBounds = new FloatBounds2(); // scene
-        private readonly ValueRange cameraFovRange = new ValueRange(2, 20);
-        private Vector3 cameraSpeed = new Vector3();
+        private Vector3 target = new(0, 0, -1); // target in scene coordinates
+        private readonly FloatBounds2 cameraBounds = new(); // scene
+        private readonly ValueRange cameraFovRange = new(2, 20);
+        private Vector3 cameraSpeed = new();
         private const int overlookTiles = 3;
-        public MouseInputSystem mouseInputSystem;
 
         public CameraMovementSystem(Camera camera) {
             this.camera = camera;
@@ -29,7 +28,6 @@ namespace game.view.camera {
         public void update() {
             if (camera.transform.localPosition == target) return;
             camera.transform.localPosition = Vector3.SmoothDamp(camera.transform.localPosition, target, ref cameraSpeed, 0.08f);
-            mouseInputSystem.setSelectorToMousePosition();
         }
 
         public void zoomCamera(float delta) {

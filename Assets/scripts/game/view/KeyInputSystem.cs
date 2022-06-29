@@ -4,15 +4,15 @@ using UnityEngine;
 using util.lang;
 
 namespace game.view {
-
     // dispatches all key presses in the game
     public class KeyInputSystem : Singleton<KeyInputSystem> {
         private List<KeyCode> keyCodes;
         public WindowManager windowManager = WindowManager.get();
         public WidgetManager widgetManager = WidgetManager.get();
-        private List<KeyCode> pressedKeys = new List<KeyCode>();
+        private List<KeyCode> pressedKeys = new();
 
         public KeyInputSystem() {
+            // WASDRF is handled by camera input system, because these keys should only move camera
             KeyCode[] keys = {
                 KeyCode.Q, KeyCode.E, KeyCode.T, KeyCode.Y, KeyCode.U, KeyCode.I, KeyCode.O, KeyCode.P,
                 KeyCode.G, KeyCode.H, KeyCode.J, KeyCode.K, KeyCode.L,
@@ -34,15 +34,16 @@ namespace game.view {
         }
 
         private void handlePressedKeys() {
-            bool handledInWindow = false;
+            bool handled = false;
             foreach (var key in pressedKeys) {
-                if (windowManager.accept(key)) handledInWindow = true;
+                if (windowManager.accept(key)) handled = true;
             }
-            if (!handledInWindow) {
-                foreach (var key in pressedKeys) {
-                    widgetManager.accept(key);
-                }
+            if (handled) return;
+            foreach (var key in pressedKeys) {
+                if (widgetManager.accept(key)) handled = true;
             }
+            if (handled) return;
+            // TODO call camera handler
         }
     }
 }
