@@ -24,7 +24,6 @@ namespace game.view {
         public readonly IntBounds2 screenBounds = new(Screen.width, Screen.height); // todo move to view
 
         public Vector3Int selectorPosition;
-        public IntBounds3 bounds;
 
         public void init(LocalGameRunner sceneObjectsContainer) {
             Debug.Log("initializing view");
@@ -36,8 +35,6 @@ namespace game.view {
             cameraAndMouseHandler.init();
             zRange.set(0, GameModel.localMap.bounds.maxZ - 1);
             tileUpdater.flush();
-            LocalMap map = GameModel.localMap;
-            bounds = new (0, 0, 0, map.bounds.maxX, map.bounds.maxY, map.bounds.maxZ);
             resetCameraPosition();
             Debug.Log("view initialized");
         }
@@ -94,10 +91,6 @@ namespace game.view {
         public Vector3 screenToScenePosition(Vector3 screenPosition) {
             Vector3 worldPosition = sceneObjectsContainer.mainCamera.ScreenToWorldPoint(screenPosition);
             return sceneObjectsContainer.mapHolder.InverseTransformPoint(worldPosition); // position relative to mapHolder
-        }
-
-        public void setSelectorPosition(Vector3Int position) {
-            selectorPosition = bounds.putInto(position);
         }
     }
 }

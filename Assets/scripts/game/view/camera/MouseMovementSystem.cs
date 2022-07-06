@@ -5,6 +5,7 @@ using game.view.util;
 using types.material;
 using UnityEngine;
 using UnityEngine.UI;
+using util.geometry.bounds;
 
 namespace game.view.camera {
     // stores selector position
@@ -18,12 +19,15 @@ namespace game.view.camera {
         private Vector3 target = new(0, 0, -1); // target for sprite GO in scene coords
         private Vector3 cacheTarget; // to avoid excess GO moving
         private Vector3 speed; // keeps sprite speed between ticks
+        public readonly int[] selectorSize = { 1, 1 };
+        public IntBounds3 bounds = new();
 
         public MouseMovementSystem(LocalGameRunner initializer) {
             debugLabelText = initializer.debugInfoPanel;
             selector = initializer.selector;
             map = GameModel.localMap;
             spriteUpdater = new SelectorSpriteUpdater(map, selector.GetComponent<SelectorHandler>());
+            updateBounds();
         }
 
         public void update() {
@@ -38,8 +42,8 @@ namespace game.view.camera {
 
         // update selector position and sprite target (called from MIS)
         public void setTarget(Vector3 value) {
-            Vector3Int modelPosition = ViewUtil.fromSceneToModelInt(value);
-            GameView.get().setSelectorPosition(modelPosition);
+            Vector3Int modelPosition = bounds.putInto(ViewUtil.fromSceneToModelInt(value));
+            GameView.get().selectorPosition = modelPosition;
             setTargetModel(modelPosition);
         }
 
@@ -49,6 +53,16 @@ namespace game.view.camera {
             target.Set(scenePosition.x, scenePosition.y, scenePosition.z - 0.1f);
         }
 
+        public void changeSelectorSize(int x, int y) {
+            selectorSize[0] = x;
+            selectorSize[1] = y;
+            updateBounds();
+        }
+
+        private void updateBounds() {
+            bounds.set(0, 0, 0, map.bounds.maxX - selectorSize[0] + 1, map.bounds.maxY - selectorSize[1] + 1, map.bounds.maxZ);
+        }
+        
         private void updateText() {
             Vector3Int modelPosition = GameView.get().selectorPosition;
             if (!map.inMap(modelPosition)) return;

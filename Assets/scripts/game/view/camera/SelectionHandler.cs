@@ -6,11 +6,9 @@ namespace game.view.camera {
     // TODO cancel selection when type changed
     public class SelectionHandler {
         public SelectionState state = new();
-        private MouseMovementSystem mouseMovementSystem; // for getting current position
         public bool enabled = true;
 
         public void init() {
-            mouseMovementSystem = GameView.get().cameraAndMouseHandler.mouseMovementSystem;
             state.updater = GameView.get().tileUpdater;
         }
 
