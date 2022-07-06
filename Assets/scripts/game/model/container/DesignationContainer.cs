@@ -36,6 +36,14 @@ namespace game.model.container {
             Debug.Log("Construction designation created " + position);
         }
 
+        public void createBuildingDesignation(Vector3Int position, BuildingType type, Orientations orientation) {
+            EcsEntity entity = GameModel.get().createEntity();
+            entity.Replace(new DesignationComponent { type = DesignationTypes.D_BUILD });
+            // string materialName = MaterialMap.get();
+            
+            // addDesignation(position, entity);
+        }
+        
         private void addDesignation(EcsEntity entity, Vector3Int position) {
             entity.Replace(new PositionComponent { position = position });
             if (designations.ContainsKey(position)) {

@@ -52,7 +52,7 @@ namespace game.view.with_entity_selector {
         }
 
         public void update() {
-            GameView.get().selectorOverlook.Set(0, 0);
+            // GameView.get().selectorOverlook.Set(0, 0);
             float deltaTime = Time.deltaTime;
             Vector3Int currentPosition = selector.position;
             controllers.ForEach(controller => controller.update(deltaTime));
@@ -74,17 +74,17 @@ namespace game.view.with_entity_selector {
         }
 
         private void moveSelector(int dx, int dy) {
-            Vector3Int delta = system.moveSelector(dx, dy, 0);
-            if (dx - delta.x < 0) {
-                GameView.get().selectorOverlook.x = -1;
-            } else if (dx - delta.x > 0) {
-                GameView.get().selectorOverlook.x = 1;
-            }
-            if (dy - delta.y < 0) {
-                GameView.get().selectorOverlook.y = -1;
-            } else if (dy - delta.y > 0) {
-                GameView.get().selectorOverlook.y = 1;
-            }
+            // Vector3Int delta = system.moveSelector(dx, dy, 0);
+            // if (dx - delta.x < 0) {
+            //     GameView.get().selectorOverlook.x = -1;
+            // } else if (dx - delta.x > 0) {
+            //     GameView.get().selectorOverlook.x = 1;
+            // }
+            // if (dy - delta.y < 0) {
+            //     GameView.get().selectorOverlook.y = -1;
+            // } else if (dy - delta.y > 0) {
+            //     GameView.get().selectorOverlook.y = 1;
+            // }
         }
 
         public void resetSelectorToMousePosition(Vector3 mousePosition) {

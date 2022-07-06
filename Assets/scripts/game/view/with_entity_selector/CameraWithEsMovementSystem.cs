@@ -25,10 +25,10 @@ namespace game.view.with_entity_selector {
             // move target to selector layer
             if (Math.Abs(cameraTarget.z - (selectorSprite.localPosition.z - 0.4f)) > 0.01f) moveCameraTargetZ(selectorSprite.localPosition.z - 0.4f - cameraTarget.z);
             // move camera target to see selector
-            Vector2Int overlook = GameView.get().selectorOverlook;
-            if (!visibleArea.isIn(selectorSprite.localPosition) || overlook.magnitude != 0) 
-                moveCameraTarget(visibleArea.getDirectionVector(selectorSprite.localPosition) + overlook * overlookTiles);
-            moveCamera();
+            // Vector2Int overlook = GameView.get().selectorOverlook;
+            // if (!visibleArea.isIn(selectorSprite.localPosition) || overlook.magnitude != 0) 
+            //     moveCameraTarget(visibleArea.getDirectionVector(selectorSprite.localPosition) + overlook * overlookTiles);
+            // moveCamera();
         }
 
         public void zoomCamera(float delta) {

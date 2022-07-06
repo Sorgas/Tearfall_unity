@@ -4,24 +4,20 @@ using game.view.util;
 using UnityEngine;
 using util.geometry;
 
-// moves camera to be on same z-level with entity selector sprite and see it on screen
 namespace game.view.camera {
     // smoothly moves camera to camera target
     // keeps target within bounds for camera target
     // TODO add camera velocity
     public class CameraMovementSystem {
-        private readonly Camera camera;
+        private Camera camera;
         private Vector3 target = new(0, 0, -1); // target in scene coordinates
-        private readonly FloatBounds2 cameraBounds = new(); // scene
-        private readonly ValueRange cameraFovRange = new(2, 20);
+        private readonly FloatBounds2 cameraBounds = new(); // scene bounds in 1 z-level
+        private readonly ValueRange cameraZoomRange = new(2, 20);
         private Vector3 cameraSpeed = new();
         private const int overlookTiles = 3;
 
-        public CameraMovementSystem(Camera camera) {
-            this.camera = camera;
-        }
-
         public void init() {
+            camera = GameView.get().sceneObjectsContainer.mainCamera;
             updateCameraBounds();
         }
 
@@ -32,16 +28,9 @@ namespace game.view.camera {
 
         public void zoomCamera(float delta) {
             if (delta == 0) return;
-            camera.orthographicSize = cameraFovRange.clamp(camera.orthographicSize + delta * 2);
+            camera.orthographicSize = cameraZoomRange.clamp(camera.orthographicSize + delta * 2);
             updateCameraBounds(); // visible area size changed, but still need to maintain 3 visible offmap tiles
             ensureCameraBounds();
-        }
-
-        // set camera target by model
-        public void setCameraTarget(Vector3Int position) {
-            GameView.get().setLayer(position.z);
-            Vector3 scenePosition = ViewUtil.fromModelToScene(position); 
-            setCameraTarget(scenePosition.x, scenePosition.y, scenePosition.z -1);
         }
         
         public void moveCameraTarget(int dx, int dy) {
@@ -56,6 +45,12 @@ namespace game.view.camera {
             updateCameraBounds();
         }
 
+        // update camera target without updating position in model (called from GV)
+        public void setTargetModel(Vector3Int modelPosition) {
+            Vector3 scenePosition = ViewUtil.fromModelToScene(modelPosition);
+            setCameraTarget(scenePosition.x, scenePosition.y, scenePosition.z -1);
+        }
+        
         // sets camera target by value (scene)
         private void setCameraTarget(float x, float y, float z) {
             target.Set(x, y, z);

@@ -1,21 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
-using util.geometry.bounds;
 using util.input;
 
 // moves selector in model
 namespace game.view.camera {
     public class CameraInputSystem {
-        private readonly CameraMovementSystem cameraMovementSystem; // for zoom
+        private readonly CameraMovementSystem cameraMovementSystem;
         private readonly List<DelayedConditionController> controllers = new();
-        private readonly IntBounds2 screenBounds = new(Screen.width, Screen.height); // todo move to view
 
         public CameraInputSystem(CameraMovementSystem cameraMovementSystem) {
             this.cameraMovementSystem = cameraMovementSystem;
-            initControllers();
-        }
-
-        private void initControllers() {
             controllers.Add(new DelayedKeyController(KeyCode.W, () => handleWasd(0, 1)));
             controllers.Add(new DelayedKeyController(KeyCode.A, () => handleWasd(-1, 0)));
             controllers.Add(new DelayedKeyController(KeyCode.S, () => handleWasd(0, -1)));
@@ -36,11 +30,11 @@ namespace game.view.camera {
 
         public void update() {
             float deltaTime = Time.deltaTime;
-            if (screenBounds.isIn(Input.mousePosition)) {
+            if (GameView.get().screenBounds.isIn(Input.mousePosition)) {
                 controllers.ForEach(controller => controller.update(deltaTime));
-                cameraMovementSystem.zoomCamera(Input.GetAxis("Mouse ScrollWheel"));
+                float zoomDelta = Input.GetAxis("Mouse ScrollWheel");
+                if(zoomDelta != 0) cameraMovementSystem.zoomCamera(zoomDelta);
             }
-            cameraMovementSystem.update();
         }
 
         private void handleWasd(int dx, int dy) {

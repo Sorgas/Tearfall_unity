@@ -12,8 +12,10 @@ namespace game.view.camera {
         private Vector3Int previousPos; // mouse position
         private TwoPointIntBounds3 previousBounds = new();
         public int type;
+        public bool started;
         
         public void startSelection(Vector3Int pos) {
+            started = true;
             previousPos = pos;
             bounds.set(pos, pos);
             previousBounds.set(pos, pos);
@@ -37,6 +39,7 @@ namespace game.view.camera {
         }
 
         public void reset() {
+            started = false;
             bounds.iterate((x, y, z) => updater.hideSelectionTile(x,y,z));
             bounds.set(-1, -1, -1, -1, -1, -1);
         }

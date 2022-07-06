@@ -1,5 +1,6 @@
 ﻿using System;
 using game.model;
+using game.model.util.validation;
 using game.view.camera;
 using game.view.tilemaps;
 using game.view.ui;
@@ -30,6 +31,8 @@ namespace game.view.system.mouse_tool {
         private int material;
         private string visualMaterial;
 
+        private PositionValidator validator;
+        
         public MouseToolManager() {
             selector = GameView.get().sceneObjectsContainer.selector.GetComponent<SelectorHandler>();
             materialSelector = GameView.get().sceneObjectsContainer.materialSelectionWidgetHandler;
@@ -41,6 +44,18 @@ namespace game.view.system.mouse_tool {
 
         public static void set(ConstructionType type) => get()._set(CONSTRUCT, null, type);
 
+        public void validate() {
+            if (validator == null) return;
+            if (tool == BUILD) {
+                bool flip = orientation == Orientations.E || orientation == Orientations.W;
+                int x = buildingType.size[flip ? 1 : 0];
+                int y = buildingType.size[flip ? 0 : 1];
+                for (int i = 0; i < x; i++) {
+                    
+                }
+            }
+        }
+        
         private void _set(MouseToolType tool, BuildingType buildingType, ConstructionType constructionType) {
             this.tool = tool;
             this.buildingType = buildingType;
@@ -96,7 +111,11 @@ namespace game.view.system.mouse_tool {
             if (tool == NONE) return; // TODO add unit/building/item/plant/block selection for NONE tool
             bounds.iterate((x, y, z) => {
                 Vector3Int position = new(x, y, z);
-                if (tool == CONSTRUCT) {
+                if (tool == BUILD) {
+                    // GameModel.get().designationContainer.createBuildingDesignation(position, 
+                        // buildingType, itemType, material);
+                    
+                } else if (tool == CONSTRUCT) {
                     GameModel.get().designationContainer.createConstructionDesignation(position, constructionType, itemType, material);
                 } else if (tool == CLEAR) {
                     // tool clears designation

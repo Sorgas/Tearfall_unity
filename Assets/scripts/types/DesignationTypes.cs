@@ -25,6 +25,7 @@ namespace types {
         // public static DesignationType D_CUT_FARM = new DesignationType(12, "cutting plants", "farmer");                                          // cut unwanted plants from farm
         // public static DesignationType D_PLANT = new DesignationType(13, "planting", PlaceValidatorEnum.FARM.VALIDATOR, "farmer");
         public static DesignationType D_CONSTRUCT = new("construction", "builder");
+        public static DesignationType D_BUILD = new("building", "builder");
     }
 
     public class DesignationType {

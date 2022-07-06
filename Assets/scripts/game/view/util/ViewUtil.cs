@@ -9,5 +9,9 @@ namespace game.view.util {
         public static Vector3 fromSceneToModel(Vector3 pos) {
             return new Vector3((int)pos.x, (int)(pos.y + pos.z / 4f), -pos.z / 2f);
         }
+
+        public static Vector3Int fromSceneToModelInt(Vector3 pos) {
+            return new Vector3Int((int)pos.x, (int)(pos.y + pos.z / 4f), (int)(-pos.z / 2f));
+        }
     }
 }

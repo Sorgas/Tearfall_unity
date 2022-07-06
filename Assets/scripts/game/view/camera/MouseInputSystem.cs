@@ -4,28 +4,13 @@ using game.model;
 using game.view.util;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using util.geometry.bounds;
 using util.lang.extension;
 using Image = UnityEngine.UI.Image;
 
 namespace game.view.camera {
-    // fetches mousePosition from Input, calls MouseMovementSystem and CameraMovementSystem
-    // handles:
-    //      mouse move -> update selector position,
-    //      mouse click -> call selection handler,
     public class MouseInputSystem {
-        private readonly Camera camera;
-        private readonly RectTransform mapHolder;
         private MouseMovementSystem mouseMovementSystem;
-        private readonly IntBounds2 screenBounds = new(Screen.width, Screen.height);
         private SelectionHandler selectionHandler;
-
-        public MouseInputSystem(LocalGameRunner initializer) {
-            mapHolder = initializer.mapHolder;
-            camera = initializer.mainCamera;
-            screenBounds.extendX((int)(-Screen.width * 0.01f));
-            screenBounds.extendY((int)(-Screen.height * 0.01f));
-        }
 
         public void init() {
             selectionHandler = GameView.get().cameraAndMouseHandler.selectionHandler;
@@ -33,23 +18,20 @@ namespace game.view.camera {
         }
 
         public void update() {
-            // mouse is inside screen
-            if (screenBounds.isIn(Input.mousePosition)) {
-                if (Input.GetMouseButtonDown(0) 
-                    && GameModel.localMap.bounds.isIn(ViewUtil.fromSceneToModel(screenToScenePosition(Input.mousePosition)))
-                    && !clickIsOverUi()) {
-                    selectionHandler.handleMouseDown();
-                }
+            Vector3Int modelPosition = ViewUtil.fromSceneToModelInt(GameView.get().screenToScenePosition(Input.mousePosition));
+            bool inScreen = GameView.get().screenBounds.isIn(Input.mousePosition);
+            if (Input.GetMouseButtonDown(0)
+                && inScreen // in screen 
+                && GameModel.localMap.bounds.isIn(modelPosition)
+                && !clickIsOverUi()) {
+                selectionHandler.handleMouseDown(modelPosition);
             }
-            mouseMovementSystem.setTarget(screenToScenePosition(Input.mousePosition));
-            selectionHandler.handleMouseMove();
+            if (inScreen) {
+                selectionHandler.handleMouseMove();
+                mouseMovementSystem.setTarget(GameView.get().screenToScenePosition(Input.mousePosition));
+            }
             if (Input.GetMouseButtonUp(0)) selectionHandler.handleMouseUp();
             if (Input.GetMouseButtonDown(1)) selectionHandler.handleSecondaryMouseClick();
-        }
-
-        private Vector3 screenToScenePosition(Vector3 screenPosition) {
-            Vector3 worldPosition = camera.ScreenToWorldPoint(screenPosition);
-            return mapHolder.InverseTransformPoint(worldPosition); // position relative to mapHolder
         }
 
         private bool clickIsOverUi() {
