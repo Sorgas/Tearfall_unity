@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using enums.action;
-using enums.material;
 using game.model.component;
 using game.model.component.task;
 using Leopotam.Ecs;
@@ -36,19 +35,33 @@ namespace game.model.container {
             Debug.Log("Construction designation created " + position);
         }
 
-        public void createBuildingDesignation(Vector3Int position, BuildingType type, Orientations orientation) {
+        public void createBuildingDesignation(Vector3Int position, BuildingType type, Orientations orientation, string itemType,
+            int material) {
             EcsEntity entity = GameModel.get().createEntity();
             entity.Replace(new DesignationComponent { type = DesignationTypes.D_BUILD });
-            // string materialName = MaterialMap.get();
-            
-            // addDesignation(position, entity);
+            string materialName = MaterialMap.get().material(material).name;
+            entity.Replace(new DesignationBuildingComponent {
+                type = type, itemType = itemType, material = material, amount = 1, // TODO get amount from building type
+                materialVariant = MaterialMap.variateValue(materialName, itemType)
+            });
+            if (!type.isSingleTile()) {
+                entity.Replace(createMultiPositionComponent(type, orientation, position));
+            }
+            entity.Replace(new DesignationItemContainerComponent { items = new List<EcsEntity>() });
+            addDesignation(entity, position);
+            Debug.Log("Construction designation created " + position);
         }
-        
+
         private void addDesignation(EcsEntity entity, Vector3Int position) {
             entity.Replace(new PositionComponent { position = position });
             if (designations.ContainsKey(position)) {
                 // replace previous designation
                 cancelDesignation(position); // cancel previous designation
+            }
+            if (entity.Has<MultiPositionComponent>()) {
+                foreach (Vector3Int position in entity.Get<MultiPositionComponent>().positions) {
+                    
+                }
             }
             designations[position] = entity;
         }
@@ -84,6 +97,16 @@ namespace game.model.container {
             if (designations.ContainsKey(position)) {
                 designations[position].Replace(new TaskFinishedComponent { status = TaskStatusEnum.CANCELED });
             }
+        }
+
+        private MultiPositionComponent createMultiPositionComponent(BuildingType type, Orientations orientation, Vector3Int position) {
+            MultiPositionComponent component = new MultiPositionComponent { positions = new List<Vector3Int>() };
+            for (int x = 0; x < type.size[0]; x++) {
+                for (int y = 0; y < type.size[1]; y++) {
+                    component.positions.Add(new Vector3Int(position.x + x, position.y + y, position.z));
+                }
+            }
+            return component;
         }
 
         //    public void update(TimeUnitEnum unit) {

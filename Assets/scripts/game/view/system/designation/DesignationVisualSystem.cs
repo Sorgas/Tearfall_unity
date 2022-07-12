@@ -33,7 +33,7 @@ namespace game.view.system.designation {
                 return false;
             }
             DesignationComponent designation = entity.Get<DesignationComponent>();
-            if (designation.type != DesignationTypes.D_CONSTRUCT && designation.type.SPRITE_NAME == null) {
+            if (designation.type != DesignationTypes.D_CONSTRUCT && designation.type.spriteName == null) {
                 Debug.LogWarning("designation " + entity.Get<DesignationComponent>().type.name + " has null spriteName");
                 return false;
             }
@@ -57,8 +57,8 @@ namespace game.view.system.designation {
         }
 
         private Sprite selectSpriteForDesignation(EcsEntity entity, DesignationComponent designation) {
-            if (designation.type.SPRITE_NAME != null) {
-                return IconLoader.get("designation/" + designation.type.SPRITE_NAME);
+            if (designation.type.spriteName != null) {
+                return IconLoader.get("designation/" + designation.type.spriteName);
             }
             if (designation.type == DesignationTypes.D_CONSTRUCT) {
                 DesignationConstructionComponent construction = entity.take<DesignationConstructionComponent>();

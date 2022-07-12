@@ -23,6 +23,16 @@ namespace game.model.component.task {
         public string materialVariant; // for visual only
     }
 
+    public struct DesignationBuildingComponent {
+        public BuildingType type;
+        // consumed items:
+        public string itemType;
+        public int material;
+        public int amount;
+        
+        public string materialVariant; // for visual only
+    }
+    
     public struct DesignationItemContainerComponent {
         public List<EcsEntity> items;
     }

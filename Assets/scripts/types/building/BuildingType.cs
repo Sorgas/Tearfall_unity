@@ -12,5 +12,9 @@ namespace types.building {
         public int[] positionW;
         public string[] materials;
         public BuildingVariant[] variants;
+
+        public bool isSingleTile() {
+            return size[0] == 1 && size[1] == 1;
+        }
     }
 }

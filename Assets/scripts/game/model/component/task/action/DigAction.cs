@@ -28,7 +28,7 @@ namespace game.model.component.task.action {
             this.type = type;
 
             startCondition = () => {
-                if (!type.VALIDATOR.validate(target.getPos().Value)) return FAIL; // tile still valid
+                if (!type.validator.validate(target.getPos().Value)) return FAIL; // tile still valid
                 if (!performer.Has<UnitEquipmentComponent>()) return FAIL;
                 if (!performer.take<UnitEquipmentComponent>().toolWithActionEquipped(toolActionName)) 
                     return addEquipAction(); // find tool
@@ -43,7 +43,7 @@ namespace game.model.component.task.action {
             };
 
             onFinish = () => {
-                if (!type.VALIDATOR.validate(target.getPos().Value)) return;
+                if (!type.validator.validate(target.getPos().Value)) return;
                 updateMap();
                 // leaveStone(oldType); TODO
                 // GameMvc.model().get(UnitContainer.class).experienceSystem.giveExperience(task.performer, skill);

@@ -29,7 +29,7 @@ namespace game.model.system.task.designation {
         }
 
         private EcsEntity createTaskForDesignation(EcsEntity entity, DesignationComponent designation) {
-            if (designation.type.JOB.Equals(Jobs.MINER.name)) {
+            if (designation.type.job.Equals(Jobs.MINER.name)) {
                 EcsEntity taskEntity = GameModel.get().taskContainer.generator
                     .createTask(new DigAction(entity.pos(), designation.type));
                 taskEntity.Replace(new TaskJobComponent { job = Jobs.MINER.name });
@@ -37,13 +37,13 @@ namespace game.model.system.task.designation {
                 Debug.Log("mining task created.");
                 return taskEntity;
             }
-            if (designation.type.JOB.Equals(Jobs.WOODCUTTER.name)) {
+            if (designation.type.job.Equals(Jobs.WOODCUTTER.name)) {
                 EcsEntity taskEntity = GameModel.get().taskContainer.generator.createTask(new ChopTreeAction(entity.pos()));
                 taskEntity.Replace(new TaskJobComponent { job = Jobs.WOODCUTTER.name });
                 Debug.Log("woodcutting task created.");
                 return taskEntity;
             }
-            if (designation.type.JOB.Equals(Jobs.BUILDER.name)) {
+            if (designation.type.job.Equals(Jobs.BUILDER.name)) {
                 if (entity.Has<DesignationConstructionComponent>()) {
                     return createConstructionTask(entity);
                 } else {

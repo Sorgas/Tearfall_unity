@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using enums.action;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -7,6 +8,11 @@ namespace game.model.component {
         public Vector3Int position;
     }
 
+    // for large objects
+    public struct MultiPositionComponent {
+        public List<Vector3Int> positions;
+    }
+    
     public struct NameComponent {
         public string name;
     }

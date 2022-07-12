@@ -4,6 +4,7 @@ using UnityEngine;
 namespace game.view.camera {
     // stores state of selection
     // TODO cancel selection when type changed
+    // TODO add visual validation for designations
     public class SelectionHandler {
         public SelectionState state = new();
         public bool enabled = true;

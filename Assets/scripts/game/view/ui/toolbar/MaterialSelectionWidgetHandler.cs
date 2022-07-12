@@ -53,7 +53,7 @@ namespace game.view.ui.toolbar {
             float buttonWidth = button.GetComponent<RectTransform>().rect.width;
             button.transform.localPosition = new Vector3(buttonWidth * buttons.Count, 0, 0);
             button.GetComponentInChildren<Button>().onClick
-                .AddListener(() => MouseToolManager.get().setItemForConstruction(typeName, materialId));
+                .AddListener(() => MouseToolManager.get().setItem(typeName, materialId));
             Material_ material = MaterialMap.get().material(materialId);
             button.GetComponentInChildren<TextMeshProUGUI>().text = 
                 material.name + " " + typeName + " " + amount + "/" + requiredAmount;
