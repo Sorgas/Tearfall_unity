@@ -59,9 +59,9 @@ namespace game.model.container {
                 cancelDesignation(position); // cancel previous designation
             }
             if (entity.Has<MultiPositionComponent>()) {
-                foreach (Vector3Int position in entity.Get<MultiPositionComponent>().positions) {
-                    
-                }
+//                foreach (Vector3Int position in entity.Get<MultiPositionComponent>().positions) {
+//
+//                }
             }
             designations[position] = entity;
         }
