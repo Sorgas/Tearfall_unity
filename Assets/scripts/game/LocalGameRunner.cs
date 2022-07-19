@@ -12,6 +12,7 @@ namespace game {
     // Calls update() for game model
     // Generates local map if none is generated (for testing)
     // Contains links to common scene objects
+    // TODO rename
     public class LocalGameRunner : MonoBehaviour {
         public RectTransform mapHolder;
         public Camera mainCamera;

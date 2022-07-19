@@ -12,28 +12,27 @@ namespace game.view.camera {
         private MouseMovementSystem mouseMovementSystem;
         private SelectionHandler selectionHandler;
 
+        public void update() {
+            // if in screen, handle moves and lmb clicks
+            if (GameView.get().screenBounds.isIn(Input.mousePosition)) {
+                Vector3Int modelPosition = ViewUtil.fromSceneToModelInt(GameView.get().screenToScenePosition(Input.mousePosition));
+                modelPosition = GameView.get().selector.updatePosition(modelPosition);
+                selectionHandler.handleMouseMove(modelPosition);
+                mouseMovementSystem.updateTarget(modelPosition);
+                if (Input.GetMouseButtonDown(0) && GameModel.localMap.bounds.isIn(modelPosition)) {
+                    if (!clickIsOverUi()) selectionHandler.handleMouseDown(modelPosition); // start selection
+                }
+            }
+            if (Input.GetMouseButtonUp(0)) selectionHandler.handleMouseUp();
+            if (Input.GetMouseButtonDown(1)) selectionHandler.handleSecondaryMouseClick();
+        }
         public void init() {
             selectionHandler = GameView.get().cameraAndMouseHandler.selectionHandler;
             mouseMovementSystem = GameView.get().cameraAndMouseHandler.mouseMovementSystem;
         }
 
-        public void update() {
-            Vector3Int modelPosition = ViewUtil.fromSceneToModelInt(GameView.get().screenToScenePosition(Input.mousePosition));
-            bool inScreen = GameView.get().screenBounds.isIn(Input.mousePosition);
-            if (Input.GetMouseButtonDown(0)
-                && inScreen // in screen 
-                && GameModel.localMap.bounds.isIn(modelPosition)
-                && !clickIsOverUi()) {
-                selectionHandler.handleMouseDown(modelPosition);
-            }
-            if (inScreen) {
-                selectionHandler.handleMouseMove();
-                mouseMovementSystem.setTarget(GameView.get().screenToScenePosition(Input.mousePosition));
-            }
-            if (Input.GetMouseButtonUp(0)) selectionHandler.handleMouseUp();
-            if (Input.GetMouseButtonDown(1)) selectionHandler.handleSecondaryMouseClick();
-        }
 
+        // raycasts mouse position to ui element
         private bool clickIsOverUi() {
             PointerEventData data = new(EventSystem.current);
             data.position = Input.mousePosition;

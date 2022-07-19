@@ -1,5 +1,4 @@
 using game.model;
-using game.model.localmap;
 using game.view.camera;
 using game.view.system.designation;
 using game.view.system.item;
@@ -9,7 +8,6 @@ using game.view.tilemaps;
 using Leopotam.Ecs;
 using types;
 using UnityEngine;
-using util.geometry;
 using util.geometry.bounds;
 using util.lang;
 
@@ -20,10 +18,9 @@ namespace game.view {
         public CameraAndMouseHandler cameraAndMouseHandler;
         public LocalMapTileUpdater tileUpdater;
         private EcsSystems systems; // systems for updating scene
-        private readonly ValueRangeInt zRange = new(); // range for current z in model units
-        public readonly IntBounds2 screenBounds = new(Screen.width, Screen.height); // todo move to view
+        public readonly IntBounds2 screenBounds = new(Screen.width, Screen.height);
 
-        public Vector3Int selectorPosition;
+        public EntitySelector selector;
 
         public void init(LocalGameRunner sceneObjectsContainer) {
             Debug.Log("initializing view");
@@ -33,7 +30,9 @@ namespace game.view {
             tileUpdater = new LocalMapTileUpdater(sceneObjectsContainer.mapHolder);
             cameraAndMouseHandler = new CameraAndMouseHandler(sceneObjectsContainer);
             cameraAndMouseHandler.init();
-            zRange.set(0, GameModel.localMap.bounds.maxZ - 1);
+            selector = new();
+            selector.updateBounds();
+            selector.zRange.set(0, GameModel.localMap.bounds.maxZ - 1);
             tileUpdater.flush();
             resetCameraPosition();
             Debug.Log("view initialized");
@@ -63,17 +62,6 @@ namespace game.view {
             system.widgetManager.addWidget(sceneObjectsContainer.toolbarWidget);
         }
         
-        public int changeLayer(int dz) => setLayer(selectorPosition.z + dz);
-
-        public int setLayer(int z) {
-            int oldZ = selectorPosition.z;
-            selectorPosition.z = zRange.clamp(z);
-            if (oldZ != selectorPosition.z) {
-                tileUpdater.updateLayersVisibility(oldZ,selectorPosition.z);
-            }
-            return selectorPosition.z - oldZ;
-        }
-        
         private void resetCameraPosition() {
             Vector3Int cameraPosition = new(GameModel.localMap.bounds.maxX / 2, GameModel.localMap.bounds.maxY / 2, 0);
             for (int z = GameModel.localMap.bounds.maxZ - 1; z >=0 ; z--) {
@@ -82,10 +70,11 @@ namespace game.view {
                     break;
                 }
             }
-            selectorPosition = cameraPosition;
-            setLayer(cameraPosition.z);
+            selector.updatePosition(cameraPosition);
+            selector.setLayer(cameraPosition.z + 1); // hack to disable unseen levels renderers
+            selector.setLayer(cameraPosition.z);
             cameraAndMouseHandler.cameraMovementSystem.setTargetModel(cameraPosition);
-            cameraAndMouseHandler.mouseMovementSystem.setTargetModel(cameraPosition);
+            cameraAndMouseHandler.mouseMovementSystem.updateTargetAndSprite(cameraPosition);
         }
         
         public Vector3 screenToScenePosition(Vector3 screenPosition) {

@@ -151,7 +151,7 @@ namespace game.view.tilemaps {
         }
 
         // 
-        public void updateLayersVisibility(int oldZ, int newZ) {
+        public void updateLayersVisibility(int newZ) {
             for (int z = 0; z < map.bounds.maxZ; z++) {
                 layers[z].setVisible(z > (newZ - viewDepth) && z <= newZ);
             }

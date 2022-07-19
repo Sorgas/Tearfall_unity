@@ -18,7 +18,7 @@ namespace util.geometry {
             return vector;
         }
 
-        public static Vector3Int set(this Vector3Int vector, Vector3Int value) {
+        public static Vector3Int set(this ref Vector3Int vector, Vector3Int value) {
             vector.Set(value.x, value.y, value.z);
             return vector;
         }

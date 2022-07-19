@@ -15,7 +15,6 @@ namespace game.model {
         public World world;
         public EcsWorld _ecsWorld;
         public EcsSystems systems; // model systems
-        public EntitySelector selector = new(); // in-model representation of mouse
         public EntitySelectorSystem selectorSystem = new();
         public readonly UnitContainer unitContainer = new();
         public readonly DesignationContainer designationContainer = new();
@@ -35,8 +34,8 @@ namespace game.model {
         public new void init() {
             Debug.Log("initializing model");
             initEcs();
-            selectorSystem.selector = selector;
-            selectorSystem.placeSelectorAtMapCenter();
+            // selectorSystem.selector = selector;
+            // selectorSystem.placeSelectorAtMapCenter();
             localMap.init();
             Debug.Log("model initialized");
         }

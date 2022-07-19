@@ -13,7 +13,7 @@ namespace game.view.camera {
         private Vector3 target = new(0, 0, -1); // target in scene coordinates
         private readonly FloatBounds2 cameraBounds = new(); // scene bounds in 1 z-level
         private readonly ValueRange cameraZoomRange = new(2, 20);
-        private Vector3 cameraSpeed = new();
+        private Vector3 cameraSpeed;
         private const int overlookTiles = 3;
 
         public void init() {
@@ -33,13 +33,12 @@ namespace game.view.camera {
             ensureCameraBounds();
         }
         
-        public void moveCameraTarget(int dx, int dy) {
-            setCameraTarget(target.x + dx, target.y + dy, target.z);
-        }
+        // called from CIS
+        public void moveCameraTarget(int dx, int dy) => setCameraTarget(target.x + dx, target.y + dy, target.z);
 
-        // dz in model units
+        // called from CIS
         public void moveCameraTargetZ(int dz) {
-            dz = GameView.get().changeLayer(dz);
+            dz = GameView.get().selector.changeLayer(dz);
             if (dz == 0) return;
             setCameraTarget(target.x, target.y + dz / 2f, target.z - dz * 2f);
             updateCameraBounds();
@@ -49,12 +48,13 @@ namespace game.view.camera {
         public void setTargetModel(Vector3Int modelPosition) {
             Vector3 scenePosition = ViewUtil.fromModelToScene(modelPosition);
             setCameraTarget(scenePosition.x, scenePosition.y, scenePosition.z -1);
+            camera.transform.localPosition = target;
         }
         
         // sets camera target by value (scene)
         private void setCameraTarget(float x, float y, float z) {
             target.Set(x, y, z);
-            updateCameraBounds();
+            // updateCameraBounds();
             ensureCameraBounds();
         }
 

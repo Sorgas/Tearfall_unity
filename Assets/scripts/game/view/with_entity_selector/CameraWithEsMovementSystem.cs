@@ -70,7 +70,7 @@ namespace game.view.with_entity_selector {
             cameraBounds.set(0, 0, map.bounds.maxX, map.bounds.maxY);
             cameraBounds.extendX((int)(overlookTiles - cameraWidth()));
             cameraBounds.extendY((int)(overlookTiles - camera.orthographicSize));
-            cameraBounds.move(0, GameModel.get().selector.position.z / 2f);
+            // cameraBounds.move(0, GameModel.get().selector.position.z / 2f);
         }
 
         private void moveCamera() {

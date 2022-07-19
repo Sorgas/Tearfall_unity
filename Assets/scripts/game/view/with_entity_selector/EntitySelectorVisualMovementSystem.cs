@@ -14,7 +14,6 @@ namespace game.view.with_entity_selector {
         // common
         private RectTransform selectorSprite;
         // selector
-        private EntitySelector selector = GameModel.get().selector;
         private Vector3 selectorTarget = new Vector3(0, 0, -1); // target in scene coordinates
         private Vector3 selectorSpeed = new Vector3(); // keeps sprite speed between ticks
 
@@ -31,20 +30,20 @@ namespace game.view.with_entity_selector {
         }
 
         public void update() {
-            var pos = selector.position;
-            selectorTarget.Set(pos.x, pos.y + pos.z / 2f, -2 * pos.z - 0.1f); // update target by in-model position
-            if (selectorSprite.localPosition != selectorTarget)
-                selectorSprite.localPosition = Vector3.SmoothDamp(selectorSprite.localPosition, selectorTarget, ref selectorSpeed, 0.05f); // move selector
-            if(pos != selectorPositionCache) {
-                updateText();
-                selectorPositionCache = pos;
-            }
+            // var pos = selector.position;
+            // selectorTarget.Set(pos.x, pos.y + pos.z / 2f, -2 * pos.z - 0.1f); // update target by in-model position
+            // if (selectorSprite.localPosition != selectorTarget)
+            //     selectorSprite.localPosition = Vector3.SmoothDamp(selectorSprite.localPosition, selectorTarget, ref selectorSpeed, 0.05f); // move selector
+            // if(pos != selectorPositionCache) {
+            //     updateText();
+            //     selectorPositionCache = pos;
+            // }
         }
 
         private void updateText() {
-            var pos = selector.position;
-            text.text = "[" + pos.x + ",  " + pos.y + ",  " + pos.z + "]" + "\n"
-                        + map.blockType.getEnumValue(pos).NAME + " " + MaterialMap.get().material(map.blockType.getMaterial(pos)).name;
+            // var pos = selector.position;
+            // text.text = "[" + pos.x + ",  " + pos.y + ",  " + pos.z + "]" + "\n"
+            //             + map.blockType.getEnumValue(pos).NAME + " " + MaterialMap.get().material(map.blockType.getMaterial(pos)).name;
         }
     }
 }
