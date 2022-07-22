@@ -6,7 +6,7 @@
         // public static readonly PositionValidator DISTANCE_TO_WATER = new DistanceToWaterValidator();
         // public static readonly PositionValidator PLANT_CUTTING = new PlantCuttingValidator()),
         // public static readonly PositionValidator FREE_FLOOR = new FreeFloorValidator()),
-        // public static readonly PositionValidator CONSTRUCTION = new ConstructionValidator());
+        public static readonly PositionValidator CONSTRUCTION = new ConstructionValidator();
         
     }
 }

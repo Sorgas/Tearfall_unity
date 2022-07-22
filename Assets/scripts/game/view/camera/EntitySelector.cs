@@ -1,5 +1,6 @@
 using game.model;
 using game.model.localmap;
+using game.view.system.mouse_tool;
 using UnityEngine;
 using util.geometry;
 using util.geometry.bounds;
@@ -11,7 +12,11 @@ namespace game.view {
         public Vector2Int size = new(1, 1);
         public readonly ValueRangeInt zRange = new(); // range for current z in model units
         
-        public Vector3Int updatePosition(Vector3Int position) => this.position.set(bounds.putInto(position));
+        public Vector3Int updatePosition(Vector3Int position) {
+            this.position.set(bounds.putInto(position));
+            MouseToolManager.get().mouseMoved(this.position);
+            return this.position;
+        }
 
         public int changeLayer(int dz) => setLayer(position.z + dz);
 
@@ -27,6 +32,7 @@ namespace game.view {
         public void changeSelectorSize(int x, int y) {
             size.Set(x, y);
             updateBounds();
+            updatePosition(position);
         }
 
         public void updateBounds() {

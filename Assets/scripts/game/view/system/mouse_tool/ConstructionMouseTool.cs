@@ -1,5 +1,6 @@
 using game.model;
 using game.model.container;
+using game.model.util.validation;
 using game.view.camera;
 using game.view.tilemaps;
 using types;
@@ -10,15 +11,15 @@ using util.geometry.bounds;
 namespace game.view.system.mouse_tool {
     public class ConstructionMouseTool : ItemConsumingMouseTool {
         public ConstructionType type;
+        private ConstructionValidator validator = new();
         
         public override bool updateMaterialSelector() {
             return fillSelectorForVariants(type.variants);
         }
 
-        public override void updateSelectionType(bool materialsOk) {
-            GameView.get().cameraAndMouseHandler.selectionHandler.state.type = type.name == "wall" 
-                ? SelectionTypes.ROW
-                : SelectionTypes.AREA;
+        public void set(ConstructionType type) {
+            this.type = type;
+            selectionType = type.name == "wall" ? SelectionTypes.ROW : SelectionTypes.AREA;
         }
 
         public override void applyTool(IntBounds3 bounds) {
@@ -29,8 +30,19 @@ namespace game.view.system.mouse_tool {
             });
         }
 
-        public override void updateSprite(bool materialsOk) {
-            selector.setConstructionSprite(selectSpriteByBlockType());
+        public override void updateSprite() {
+            selectorGO.setConstructionSprite(selectSpriteByBlockType());
+        }
+
+        public override void rotate() {}
+
+        public override void updateSpriteColor() {
+            selectorGO.buildingValid(validate());
+        }
+
+        public bool validate() {
+            Vector3Int selectorPosition = GameView.get().selector.position;
+            return validator.validateForConstruction(selectorPosition.x, selectorPosition.y, selectorPosition.z, type);
         }
 
         private Sprite selectSpriteByBlockType() {

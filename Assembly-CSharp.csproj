@@ -89,7 +89,6 @@
      <Compile Include="Assets\Samples\Universal RP\13.1.8\URP Package Samples\SharedAssets\Scripts\AutoLoadPipelineAsset.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\LocalMapTileUpdater.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenContainer.cs" />
-     <Compile Include="Assets\scripts\game\view\with_entity_selector\CameraWithEsMovementSystem.cs" />
      <Compile Include="Assets\scripts\generation\item\ItemGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskCompletionSystem.cs" />
      <Compile Include="Assets\scripts\entity\Aspect.cs" />
@@ -230,7 +229,6 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ItemActionTarget.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\IEnumerableExtensions.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalElevationGenerator.cs" />
-     <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorVisualMovementSystem.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitPathfindingSystem.cs" />
      <Compile Include="Assets\scripts\types\item\type\ToolItemType.cs" />
      <Compile Include="Assets\scripts\game\view\util\PrefabLoader.cs" />
@@ -275,6 +273,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\target\EntityActionTarget.cs" />
      <Compile Include="Assets\scripts\game\view\camera\CameraMovementSystem.cs" />
      <Compile Include="Assets\scripts\test\TestEcsSetup.cs" />
+     <Compile Include="Assets\scripts\game\view\camera\EntitySelector.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\MoveAction.cs" />
      <Compile Include="Assets\scripts\util\geometry\bounds\IntBounds3.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\BuildingTilesetHolder.cs" />
@@ -314,9 +313,9 @@
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\StepOffAction.cs" />
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
-     <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
-     <Compile Include="Assets\scripts\game\view\EntitySelector.cs" />
+     <Compile Include="Assets\scripts\game\model\util\validation\ConstructionValidator.cs" />
+     <Compile Include="Assets\scripts\game\model\util\validation\BuildingValidator.cs" />
      <None Include="Assets\resources\data\items\growths.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />

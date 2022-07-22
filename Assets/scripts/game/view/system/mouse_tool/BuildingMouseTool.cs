@@ -1,5 +1,6 @@
 using System;
 using game.model;
+using game.model.util.validation;
 using game.view.camera;
 using game.view.tilemaps;
 using types;
@@ -11,15 +12,19 @@ namespace game.view.system.mouse_tool {
     public class BuildingMouseTool : ItemConsumingMouseTool {
         public BuildingType type;
         private Orientations orientation;
+        private BuildingValidator validator = new();
+        private bool materialsValid;
+        private bool wasValid;
+
+        public BuildingMouseTool() {
+            selectionType = SelectionTypes.SINGLE;
+        }
 
         public override bool updateMaterialSelector() {
             return fillSelectorForVariants(type.variants);
         }
 
         // TODO make buildings able to be designated in draw mode (like in ONI)
-        public override void updateSelectionType(bool materialsOk) {
-            GameView.get().cameraAndMouseHandler.selectionHandler.state.type = SelectionTypes.SINGLE;
-        }
 
         // TODO add unit/building/item/plant/block selection for NONE tool
         public override void applyTool(IntBounds3 bounds) {
@@ -27,14 +32,32 @@ namespace game.view.system.mouse_tool {
                 Debug.LogError("building bounds not single tile !!!");
             }
             Vector3Int position = new(bounds.minX, bounds.minY, bounds.minZ);
-            GameModel.get().designationContainer.createBuildingDesignation(position, type, orientation, itemType, material);
+            if (GameView.get().selector.position != position) {
+                Debug.LogError("building bounds not on selector position !!!");
+            }
+            if (validate()) {
+                GameModel.get().designationContainer.createBuildingDesignation(position, type, orientation, itemType, material);
+            }
         }
 
-        public override void updateSprite(bool materialsOk) {
+        // select sprite by type and rotation
+        public override void updateSprite() {
             bool flip = orientation == Orientations.E || orientation == Orientations.W;
-            selector.setBuildingSprite(selectSpriteByBuildingType(), type.size[flip ? 1 : 0]);
+            selectorGO.setBuildingSprite(selectSpriteByBuildingType(), type.size[flip ? 1 : 0]);
         }
 
+        // validate by selector position
+        public override void updateSpriteColor() {
+            selectorGO.buildingValid(validate());
+        }
+        
+        public override void rotate() {
+            orientation = OrientationUtil.getNext(orientation);
+            updateSelectorSize();
+            updateSprite();
+            updateSpriteColor();
+        }
+        
         private Sprite selectSpriteByBuildingType() {
             switch (orientation) {
                 case Orientations.N:
@@ -49,10 +72,18 @@ namespace game.view.system.mouse_tool {
                     throw new ArgumentOutOfRangeException();
             }
         }
+        
+        private bool validate() {
+            EntitySelector selector = GameView.get().selector;
+            return validator.validateArea(selector.position, selector.size);
+        }
 
-        public void rotate() {
-            orientation = OrientationUtil.getNext(orientation);
-            updateSprite(true);
+        private void updateSelectorSize() {
+            if (orientation == Orientations.N || orientation == Orientations.S) {
+                GameView.get().selector.changeSelectorSize(type.size[0], type.size[1]);
+            } else {
+                GameView.get().selector.changeSelectorSize(type.size[1], type.size[0]);
+            }
         }
     }
 }

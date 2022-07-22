@@ -1,6 +1,5 @@
 ﻿using game.model;
 using game.model.localmap;
-using game.view.ui;
 using game.view.util;
 using types.material;
 using UnityEngine;
@@ -13,7 +12,6 @@ namespace game.view.camera {
         private readonly RectTransform selector;
         private readonly LocalMap map;
         private readonly Text debugLabelText;
-        private readonly SelectorSpriteUpdater spriteUpdater;
         private Vector3 target = new(0, 0, -1); // target for sprite GO in scene coords
         private Vector3Int modelTarget;
         private Vector3Int cacheTarget; // to avoid excess GO moving
@@ -23,7 +21,6 @@ namespace game.view.camera {
             debugLabelText = initializer.debugInfoPanel;
             selector = initializer.selector;
             map = GameModel.localMap;
-            spriteUpdater = new SelectorSpriteUpdater(map, selector.GetComponent<SelectorHandler>());
         }
 
         public void update() {
@@ -33,7 +30,6 @@ namespace game.view.camera {
             
             if (cacheTarget == modelTarget) return;
             updateText(modelTarget);
-            spriteUpdater.updateSprite(modelTarget);
             cacheTarget = modelTarget;
         }
 

@@ -1,9 +1,11 @@
-﻿using game.model.localmap;
+﻿using game.model;
+using game.model.localmap;
 using game.view.ui;
 using types;
 using UnityEngine;
 
 namespace game.view.camera {
+    // changes selector frame between flat/wall variants, and white/gray colors depending on tile
     public class SelectorSpriteUpdater {
         private LocalMap map;
         private SelectorHandler selector;
@@ -14,9 +16,9 @@ namespace game.view.camera {
         private Vector3 wallIconPosition = new(0.5f, 90f / 96, 0);
         private Color lightGrey = new(0.75f, 0.75f, 0.75f);
 
-        public SelectorSpriteUpdater(LocalMap map, SelectorHandler selector) {
-            this.map = map;
-            this.selector = selector;
+        public SelectorSpriteUpdater() {
+            map = GameModel.localMap;
+            selector = GameView.get().sceneObjectsContainer.selector.GetComponent<SelectorHandler>();
             selectors = Resources.Load<Sprite>("icons/selectors");
             flatTile = Sprite.Create(selectors.texture, new Rect(0, 0, 64, 96), Vector2.zero, 64);
             wallTile = Sprite.Create(selectors.texture, new Rect(64, 0, 64, 96), Vector2.zero, 64);
@@ -37,7 +39,6 @@ namespace game.view.camera {
 
         private void setSprite(bool flat, Color color) {
             selector.toolIcon.transform.localPosition = flat ? flatIconPosition : wallIconPosition;
-            selector.toolIcon.color = color;
             selector.frameIcon.sprite = flat ? flatTile : wallTile;
             selector.frameIcon.color = color;
         }

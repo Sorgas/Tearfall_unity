@@ -28,7 +28,6 @@ namespace game.view.camera {
         public void handleMouseMove(Vector3Int newPosition) {
             if (state.started) {
                 state.update(newPosition);
-                // MouseToolManager.validate();
             }
         }
 

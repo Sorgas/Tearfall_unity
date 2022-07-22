@@ -1,5 +1,7 @@
-﻿using types;
+﻿using game.view.camera;
+using types;
 using types.building;
+using UnityEngine;
 using util.geometry.bounds;
 using util.lang;
 
@@ -10,7 +12,8 @@ namespace game.view.system.mouse_tool {
         private static DesignationMouseTool designationTool = new();
         private static ConstructionMouseTool constructionTool = new();
         private static BuildingMouseTool buildingTool = new();
-        
+        private SelectorSpriteUpdater updater = new();
+
         public static void set(DesignationType type) {
             designationTool.designation = type;
             get()._set(designationTool);
@@ -26,23 +29,16 @@ namespace game.view.system.mouse_tool {
             get()._set(constructionTool);
         }
 
-        // public void validate() {
-        //     if (validator == null) return;
-        //     if (tool == BUILD) {
-        //         bool flip = orientation == Orientations.E || orientation == Orientations.W;
-        //         int x = buildingType.size[flip ? 1 : 0];
-        //         int y = buildingType.size[flip ? 0 : 1];
-        //         for (int i = 0; i < x; i++) {
-        //             
-        //         }
-        //     }
-        // }
-
+        public void mouseMoved(Vector3Int position) {
+            tool?.updateSpriteColor(); // TODO use position in tools (for performance)
+            updater.updateSprite(position);
+        }
+        
         private void _set(MouseTool tool) {
             this.tool = tool;
-            bool materialsOk = tool.updateMaterialSelector(); // enough items for building or items not required
-            tool.updateSelectionType(materialsOk);
-            tool.updateSprite(materialsOk);
+            tool.updateMaterialSelector(); // enough items for building or items not required
+            tool.updateSprite();
+            GameView.get().cameraAndMouseHandler.selectionHandler.state.type = tool.selectionType;
         }
 
         public void setItem(string typeName, int materialId) {
@@ -51,12 +47,12 @@ namespace game.view.system.mouse_tool {
 
         public static void handleSelection(IntBounds3 bounds) => get().handleSelection_(bounds);
 
-        public void rotateBuilding() {
+        public virtual void rotateBuilding() {
             tool.rotate();
         }
 
         private void handleSelection_(IntBounds3 bounds) {
-            if(tool != null) tool.applyTool(bounds);
+            tool?.applyTool(bounds);
         }
     }
 }

@@ -9,14 +9,14 @@ namespace game.view.system.mouse_tool {
     public class DesignationMouseTool : MouseTool {
         public DesignationType designation;
         private string iconPath;
-        
+
+        public DesignationMouseTool() {
+            selectionType = SelectionTypes.AREA;
+        }
+
         public override bool updateMaterialSelector() {
             materialSelector.close();
             return true;
-        }
-
-        public override void updateSelectionType(bool materialsOk) {
-            GameView.get().cameraAndMouseHandler.selectionHandler.state.type = SelectionTypes.AREA; // set default type
         }
 
         public override void applyTool(IntBounds3 bounds) {
@@ -28,8 +28,18 @@ namespace game.view.system.mouse_tool {
             });
         }
 
-        public override void updateSprite(bool materialsOk) {
-            selector.setToolSprite(IconLoader.get(iconPath));
+        public override void updateSprite() {
+            selectorGO.setToolSprite(IconLoader.get(designation.iconName));
         }
+        
+        public override void updateSpriteColor() {
+            selectorGO.designationValid(validate());
+        }
+
+        private bool validate() {
+            return designation.validator == null || designation.validator.validate(GameView.get().selector.position);
+        }
+
+        public override void rotate() { }
     }
 }

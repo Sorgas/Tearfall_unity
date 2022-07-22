@@ -48,20 +48,20 @@ namespace game.view.camera {
         public void setTargetModel(Vector3Int modelPosition) {
             Vector3 scenePosition = ViewUtil.fromModelToScene(modelPosition);
             setCameraTarget(scenePosition.x, scenePosition.y, scenePosition.z -1);
+            updateCameraBounds();
             camera.transform.localPosition = target;
         }
         
         // sets camera target by value (scene)
         private void setCameraTarget(float x, float y, float z) {
             target.Set(x, y, z);
-            // updateCameraBounds();
             ensureCameraBounds();
         }
 
         // updates camera bounds to make 3 tiles around map visible
-        private void updateCameraBounds() {
+        public void updateCameraBounds() {
             LocalMap map = GameModel.localMap;
-            cameraBounds.set(0, 0, map.bounds.maxX, map.bounds.maxY);
+            cameraBounds.set(1, 1, map.bounds.maxX, map.bounds.maxY);
             cameraBounds.extendX((int)(overlookTiles - cameraWidth()));
             cameraBounds.extendY((int)(overlookTiles - camera.orthographicSize));
             cameraBounds.move(0, -target.z / 4f);
