@@ -1,6 +1,7 @@
 using game.view.camera;
 using game.view.ui;
 using game.view.ui.toolbar;
+using UnityEngine;
 using util.geometry.bounds;
 
 namespace game.view.system.mouse_tool {
@@ -22,6 +23,6 @@ namespace game.view.system.mouse_tool {
 
         public abstract void rotate();
 
-        public abstract void updateSpriteColor();
+        public abstract void updateSpriteColor(Vector3Int position);
     }
 }

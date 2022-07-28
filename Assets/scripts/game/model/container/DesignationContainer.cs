@@ -40,8 +40,10 @@ namespace game.model.container {
             EcsEntity entity = GameModel.get().createEntity();
             entity.Replace(new DesignationComponent { type = DesignationTypes.D_BUILD });
             string materialName = MaterialMap.get().material(material).name;
+            BuildingVariant variant = type.selectVariant(itemType);
+            if(variant == null) Debug.LogError("no variant for " + itemType + " in " + type.name);
             entity.Replace(new DesignationBuildingComponent {
-                type = type, itemType = itemType, material = material, amount = 1, // TODO get amount from building type
+                type = type, orientation = orientation, itemType = itemType, material = material, amount = variant.amount, // TODO get amount from building type
                 materialVariant = MaterialMap.variateValue(materialName, itemType)
             });
             if (!type.isSingleTile()) {
@@ -108,13 +110,6 @@ namespace game.model.container {
             }
             return component;
         }
-
-        //    public void update(TimeUnitEnum unit) {
-        //        designationSystem.update();
-        //        taskStatusSystem.update();
-        //        tasks.values().forEach(list->list.update(unit));
-        //    }
-        //
         //    /**
         // * Gets tasks for unit. Filters task by units's allowed jobs.
         // * Does not assign task to unit, because after this method is compared to unit's other tasks, see {@link stonering.game.model.system.unit.CreaturePlanningSystem}.

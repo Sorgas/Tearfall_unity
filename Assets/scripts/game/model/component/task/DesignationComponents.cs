@@ -25,6 +25,7 @@ namespace game.model.component.task {
 
     public struct DesignationBuildingComponent {
         public BuildingType type;
+        public Orientations orientation;
         // consumed items:
         public string itemType;
         public int material;

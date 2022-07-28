@@ -25,12 +25,12 @@ namespace game.view.system.mouse_tool {
         }
 
         public static void set(ConstructionType type) {
-            constructionTool.type = type;
+            constructionTool.set(type);
             get()._set(constructionTool);
         }
 
         public void mouseMoved(Vector3Int position) {
-            tool?.updateSpriteColor(); // TODO use position in tools (for performance)
+            tool?.updateSpriteColor(position); // TODO use position in tools (for performance)
             updater.updateSprite(position);
         }
         

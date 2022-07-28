@@ -5,8 +5,11 @@ using game.view.tilemaps;
 using game.view.util;
 using Leopotam.Ecs;
 using types;
+using types.building;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using util.lang.extension;
+using static types.DesignationTypes;
 
 namespace game.view.system.designation {
     // creates go with sprite for designations without visual component
@@ -33,7 +36,7 @@ namespace game.view.system.designation {
                 return false;
             }
             DesignationComponent designation = entity.Get<DesignationComponent>();
-            if (designation.type != DesignationTypes.D_CONSTRUCT && designation.type.spriteName == null) {
+            if (designation.type != D_CONSTRUCT && designation.type != D_BUILD && designation.type.spriteName == null) {
                 Debug.LogWarning("designation " + entity.Get<DesignationComponent>().type.name + " has null spriteName");
                 return false;
             }
@@ -50,6 +53,9 @@ namespace game.view.system.designation {
             RectTransform transform = go.GetComponent<RectTransform>();
             float width = transform.rect.width;
             float scale = width / sprite.rect.width * sprite.pixelsPerUnit;
+            if (designation.type == D_BUILD) {
+                scale *= getSpriteScale(entity, designation);
+            }
             spriteRenderer.transform.localScale = new Vector3(scale, scale, 1);
             spriteRenderer.color = new Color(1, 1, 1, 0.5f);
             go.transform.localPosition = getSpritePosition(entity.pos(), designation);
@@ -60,11 +66,16 @@ namespace game.view.system.designation {
             if (designation.type.spriteName != null) {
                 return IconLoader.get("designation/" + designation.type.spriteName);
             }
-            if (designation.type == DesignationTypes.D_CONSTRUCT) {
+            if (designation.type == D_CONSTRUCT) {
                 DesignationConstructionComponent construction = entity.take<DesignationConstructionComponent>();
                 BlockType blockType = BlockTypes.get(construction.type.blockTypeName);
                 string spriteType = blockType == BlockTypes.RAMP ? "NE" : blockType.PREFIX;
                 return BlockTileSetHolder.get().getSprite(construction.materialVariant, spriteType);
+            }
+            if (designation.type == D_BUILD) {
+                DesignationBuildingComponent component = entity.take<DesignationBuildingComponent>();
+                BuildingType type = component.type;
+                return BuildingTilesetHolder.get().sprites[type].getByOrientation(component.orientation);
             }
             return null;
         }
@@ -72,10 +83,17 @@ namespace game.view.system.designation {
         private Vector3 getSpritePosition(Vector3Int position, DesignationComponent designation) {
             Vector3 spritePosition = ViewUtil.fromModelToScene(position);
             spritePosition.z -= 0.1f;
-            if (GameModel.localMap.blockType.getEnumValue(position) == BlockTypes.WALL) {
+            if (designation.type != D_CONSTRUCT && GameModel.localMap.blockType.getEnumValue(position) == BlockTypes.WALL) {
                 spritePosition.y += 0.5f;
             }
             return spritePosition;
+        }
+
+        private int getSpriteScale(EcsEntity entity, DesignationComponent designation) {
+            if (designation.type != D_BUILD) return 1;
+            DesignationBuildingComponent component = entity.take<DesignationBuildingComponent>();
+            bool flip = component.orientation == Orientations.E || component.orientation == Orientations.W;
+            return component.type.size[flip ? 1 : 0];
         }
     }
 }

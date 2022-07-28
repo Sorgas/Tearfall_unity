@@ -47,7 +47,7 @@ namespace game.view.system.mouse_tool {
         }
 
         // validate by selector position
-        public override void updateSpriteColor() {
+        public override void updateSpriteColor(Vector3Int position) {
             selectorGO.buildingValid(validate());
         }
         
@@ -55,7 +55,7 @@ namespace game.view.system.mouse_tool {
             orientation = OrientationUtil.getNext(orientation);
             updateSelectorSize();
             updateSprite();
-            updateSpriteColor();
+            updateSpriteColor(new Vector3Int());
         }
         
         private Sprite selectSpriteByBuildingType() {

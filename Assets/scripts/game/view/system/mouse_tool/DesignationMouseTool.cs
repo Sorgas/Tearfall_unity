@@ -32,12 +32,12 @@ namespace game.view.system.mouse_tool {
             selectorGO.setToolSprite(IconLoader.get(designation.iconName));
         }
         
-        public override void updateSpriteColor() {
-            selectorGO.designationValid(validate());
+        public override void updateSpriteColor(Vector3Int position) {
+            selectorGO.designationValid(validate(position));
         }
 
-        private bool validate() {
-            return designation.validator == null || designation.validator.validate(GameView.get().selector.position);
+        private bool validate(Vector3Int position) {
+            return designation.validator == null || designation.validator.validate(position);
         }
 
         public override void rotate() { }

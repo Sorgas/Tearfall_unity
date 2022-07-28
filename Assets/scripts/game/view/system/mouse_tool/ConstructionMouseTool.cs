@@ -36,13 +36,12 @@ namespace game.view.system.mouse_tool {
 
         public override void rotate() {}
 
-        public override void updateSpriteColor() {
-            selectorGO.buildingValid(validate());
+        public override void updateSpriteColor(Vector3Int position) {
+            selectorGO.buildingValid(validate(position));
         }
 
-        public bool validate() {
-            Vector3Int selectorPosition = GameView.get().selector.position;
-            return validator.validateForConstruction(selectorPosition.x, selectorPosition.y, selectorPosition.z, type);
+        public bool validate(Vector3Int position) {
+            return validator.validateForConstruction(position.x, position.y, position.z, type);
         }
 
         private Sprite selectSpriteByBlockType() {

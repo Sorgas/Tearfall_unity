@@ -16,5 +16,14 @@ namespace types.building {
         public bool isSingleTile() {
             return size[0] == 1 && size[1] == 1;
         }
+
+        public BuildingVariant selectVariant(string itemType) {
+            for (var i = 0; i < variants.Length; i++) {
+                if (variants[i].itemType.Equals(itemType)) {
+                    return variants[i];
+                }
+            }
+            return null;
+        }
     }
 }
