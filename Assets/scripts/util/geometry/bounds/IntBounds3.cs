@@ -102,6 +102,17 @@ namespace util.geometry.bounds {
                 action.Invoke(i);
             }
         }
+
+        public bool validate(Func<int, int, int, bool> validationFunction) {
+            for (int x = minX; x <= maxX; x++) {
+                for (int y = minY; y <= maxY; y++) {
+                    for (int z = minZ; z <= maxZ; z++) {
+                        if(!validationFunction.Invoke(x, y, z)) return false;
+                    }
+                }
+            }
+            return true;
+        }
         
         public IntBounds3 normalizeBounds(IntBounds3 bounds) {
             bounds.minX = Mathf.Max(bounds.minX, minX);

@@ -8,7 +8,6 @@ namespace types {
     // types of designations, referenced from MouseToolEnum
     // icons for cursor are taken from icons/designations/[spriteName]
     public static class DesignationTypes {
-        public static DesignationType D_NONE = new("none", null);
         public static DesignationType D_CLEAR = new("none", null, "cancel", "cancel"); // for removing simple designations
 
         public static DesignationType D_DIG = new("dig", new DiggingValidator(FLOOR), NEAR, "miner", "dig", "dig");

@@ -4,9 +4,11 @@ using util.lang;
 
 namespace game.view.util {
     // registry and utility wrapper for prefabs. prefabs should be registered with their paths.
+    // all prefabs in game should have unique names
+    // TODO add recursive search for prefabs.
     public class PrefabLoader : Singleton<PrefabLoader> {
         private Dictionary<string, GameObject> prefabs = new();
-        private Dictionary<string, string> paths = new();
+        private Dictionary<string, string> paths = new(); // prefab filename to path
 
         public static GameObject get(string name) {
             return get().getPrefab(name);
@@ -40,6 +42,10 @@ namespace game.view.util {
             paths.Add("materialButton", "prefabs/toolbar/materialButton");
             paths.Add("toolbarPanel", "prefabs/toolbar/toolbarPanel");
             paths.Add("designation", "prefabs/Designation");
+            paths.Add("Unit", "prefabs/Unit");
+            paths.Add("Building", "prefabs/Building");
+            paths.Add("Item", "prefabs/Item");
+            paths.Add("Plant", "prefabs/Plant");
         }
     }
 }

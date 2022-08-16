@@ -33,7 +33,7 @@ namespace game.model.system.unit {
             }
         }
 
-        // check if next action of task is complete. remove complete action. Mark task as completed if initial action is complete
+        // check if next action of task is complete. remove completed action. Mark task as completed if initial action is complete
         private bool checkCompletion(ref EcsEntity unit, ref TaskActionsComponent task) {
             if (task.initialAction.status == ActionStatusEnum.COMPLETE) { // main action and task are complete
                 log("completing task " + task.initialAction.name);

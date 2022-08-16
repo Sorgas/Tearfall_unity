@@ -1,14 +1,15 @@
 using System;
 using game.model;
 using game.model.util.validation;
-using game.view.camera;
 using game.view.tilemaps;
 using types;
 using types.building;
 using UnityEngine;
 using util.geometry.bounds;
+using static game.view.camera.SelectionTypes;
 
 namespace game.view.system.mouse_tool {
+    // creates designations for buildings
     public class BuildingMouseTool : ItemConsumingMouseTool {
         public BuildingType type;
         private Orientations orientation;
@@ -17,7 +18,7 @@ namespace game.view.system.mouse_tool {
         private bool wasValid;
 
         public BuildingMouseTool() {
-            selectionType = SelectionTypes.SINGLE;
+            selectionType = SINGLE;
         }
 
         public override bool updateMaterialSelector() {
@@ -42,37 +43,27 @@ namespace game.view.system.mouse_tool {
 
         // select sprite by type and rotation
         public override void updateSprite() {
-            bool flip = orientation == Orientations.E || orientation == Orientations.W;
-            selectorGO.setBuildingSprite(selectSpriteByBuildingType(), type.size[flip ? 1 : 0]);
+            selectorGO.setBuildingSprite(BuildingTilesetHolder.get().get(type, orientation),
+                type.size[OrientationUtil.isHorisontal(orientation) ? 1 : 0]);
         }
 
         // validate by selector position
         public override void updateSpriteColor(Vector3Int position) {
             selectorGO.buildingValid(validate());
         }
-        
+
+        public override void reset() {
+            materialSelector.close();
+            selectorGO.setBuildingSprite(null, 1);
+        }
+
         public override void rotate() {
             orientation = OrientationUtil.getNext(orientation);
             updateSelectorSize();
             updateSprite();
             updateSpriteColor(new Vector3Int());
         }
-        
-        private Sprite selectSpriteByBuildingType() {
-            switch (orientation) {
-                case Orientations.N:
-                    return BuildingTilesetHolder.get().sprites[type].n;
-                case Orientations.E:
-                    return BuildingTilesetHolder.get().sprites[type].e;
-                case Orientations.S:
-                    return BuildingTilesetHolder.get().sprites[type].s;
-                case Orientations.W:
-                    return BuildingTilesetHolder.get().sprites[type].w;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-        
+
         private bool validate() {
             EntitySelector selector = GameView.get().selector;
             return validator.validateArea(selector.position, selector.size);

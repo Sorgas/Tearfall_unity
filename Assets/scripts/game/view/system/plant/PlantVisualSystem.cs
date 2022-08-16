@@ -10,8 +10,6 @@ namespace game.view.system.plant {
     public class PlantVisualSystem : IEcsRunSystem {
         public EcsFilter<PlantComponent>.Exclude<PlantVisualComponent> filter;
 
-        private GameObject plantPrefab = Resources.Load<GameObject>("prefabs/Plant");
-        private RectTransform mapHolder = GameView.get().sceneObjectsContainer.mapHolder;
         private const int SIZE_X = 64;
         private const int SIZE_Y = 90;
         private readonly Vector2 pivot = new(0, 0);
@@ -29,8 +27,7 @@ namespace game.view.system.plant {
         private PlantVisualComponent createVisualComponent(EcsEntity entity, PlantComponent plant) {
             PlantVisualComponent visual = new();
             Vector3 spritePosition = ViewUtil.fromModelToScene(entity.pos()) + zOffset;
-            visual.go = Object.Instantiate(plantPrefab, spritePosition, Quaternion.identity);
-            visual.go.transform.SetParent(mapHolder);
+            visual.go = PrefabLoader.create("Plant", GameView.get().sceneObjectsContainer.mapHolder);
             visual.go.transform.localPosition = spritePosition;
             visual.spriteRenderer = visual.go.GetComponent<SpriteRenderer>();
             visual.spriteRenderer.sprite = createSprite(plant.type);

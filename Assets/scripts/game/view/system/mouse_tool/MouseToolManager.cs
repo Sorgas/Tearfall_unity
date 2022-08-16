@@ -4,6 +4,7 @@ using types.building;
 using UnityEngine;
 using util.geometry.bounds;
 using util.lang;
+using static game.view.camera.SelectionTypes;
 
 namespace game.view.system.mouse_tool {
     // TODO split into different tools
@@ -14,6 +15,11 @@ namespace game.view.system.mouse_tool {
         private static BuildingMouseTool buildingTool = new();
         private SelectorSpriteUpdater updater = new();
 
+        public static void reset() {
+            get().tool?.reset();
+            GameView.get().cameraAndMouseHandler.selectionHandler.state.type = AREA;
+            get()._set(null);
+        }
         public static void set(DesignationType type) {
             designationTool.designation = type;
             get()._set(designationTool);
@@ -36,6 +42,7 @@ namespace game.view.system.mouse_tool {
         
         private void _set(MouseTool tool) {
             this.tool = tool;
+            if (tool == null) return;
             tool.updateMaterialSelector(); // enough items for building or items not required
             tool.updateSprite();
             GameView.get().cameraAndMouseHandler.selectionHandler.state.type = tool.selectionType;

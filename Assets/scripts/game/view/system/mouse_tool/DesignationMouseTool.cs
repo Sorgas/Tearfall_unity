@@ -22,6 +22,10 @@ namespace game.view.system.mouse_tool {
         public override void applyTool(IntBounds3 bounds) {
             bounds.iterate((x, y, z) => {
                 Vector3Int position = new(x, y, z);
+                
+                if (designation == null) Debug.Log("design is null");
+                Debug.Log(designation.name);
+                if (designation.validator == null) Debug.Log("validator is null");
                 if (designation.validator.validate(position)) {
                     GameModel.get().designationContainer.createDesignation(position, designation);
                 }
@@ -34,6 +38,11 @@ namespace game.view.system.mouse_tool {
         
         public override void updateSpriteColor(Vector3Int position) {
             selectorGO.designationValid(validate(position));
+        }
+
+        public override void reset() {
+            materialSelector.close();
+            selectorGO.setToolSprite(null);
         }
 
         private bool validate(Vector3Int position) {

@@ -7,7 +7,7 @@
     "positionS" : [3,0],
     "positionE" : [0,1],
     "positionW" : [0,0],
-    "materials" : ["log/4", "rock/4"]
+    "materials" : ["log/4"]
   }, {
     "name" : "stool",
     "tileset": "furniture",

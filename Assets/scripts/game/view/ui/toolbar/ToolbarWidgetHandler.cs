@@ -34,7 +34,7 @@ namespace game.view.ui.toolbar {
             createToolButton(diggingPanel, "V: Stairs", DesignationTypes.D_STAIRS, KeyCode.V);
             createToolButton(diggingPanel, "B: Downstairs", DesignationTypes.D_DOWNSTAIRS, KeyCode.B);
             createToolButton(diggingPanel, "N: Clear", DesignationTypes.D_CLEAR, KeyCode.N);
-            panel.closeAction = () => MouseToolManager.set(DesignationTypes.D_NONE);
+            panel.closeAction = () => MouseToolManager.reset();
         }
 
         private void fillBuildingsPanel(ToolbarPanelHandler panel) {
@@ -43,7 +43,7 @@ namespace game.view.ui.toolbar {
                 createBuildingButton(panel, type.name, type, hotKeySequence.getNext()); // TODO use building title instead of name
             }
             panel.createButton("rotate", "toolbar/rotate", () => MouseToolManager.get().rotateBuilding(), KeyCode.T);
-            panel.closeAction = () => MouseToolManager.set(DesignationTypes.D_NONE);
+            panel.closeAction = () => MouseToolManager.reset();
         }
 
         private void fillZonesPanel(ToolbarPanelHandler panel) {
@@ -51,7 +51,7 @@ namespace game.view.ui.toolbar {
             panel.createButton("zone 2", "toolbar/cancel", () => Debug.Log("press Z 2"), KeyCode.X);
             panel.createButton("zone 3", "toolbar/cancel", () => Debug.Log("press Z 3"), KeyCode.C);
             panel.createButton("zone 4", "toolbar/cancel", () => Debug.Log("press Z 4"), KeyCode.V);
-            panel.closeAction = () => MouseToolManager.set(DesignationTypes.D_NONE);
+            panel.closeAction = () => MouseToolManager.reset();
         }
 
         private void fillConstructionsPanel(ToolbarPanelHandler panel) {
@@ -60,7 +60,7 @@ namespace game.view.ui.toolbar {
             createConstructionButton(panel, "ramp", "ramp", ConstructionTypeMap.get("ramp"), KeyCode.C);
             createConstructionButton(panel, "stairs", "stairs", ConstructionTypeMap.get("stairs"), KeyCode.V);
             createConstructionButton(panel, "downstairs", "downstairs", ConstructionTypeMap.get("downstairs"), KeyCode.B);
-            panel.closeAction = () => MouseToolManager.set(DesignationTypes.D_NONE);
+            panel.closeAction = () => MouseToolManager.reset();
         }
         
         private void createToolButton(ToolbarPanelHandler panel, string text, DesignationType designation, KeyCode key) =>

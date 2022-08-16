@@ -1,10 +1,8 @@
-﻿using enums.unit;
-using game.model.component;
+﻿using game.model.component;
 using game.model.component.task;
 using game.model.component.task.action;
 using game.model.component.task.action.plant;
 using game.model.component.task.order;
-using game.model.container.item;
 using Leopotam.Ecs;
 using types.unit;
 using UnityEngine;
@@ -47,7 +45,7 @@ namespace game.model.system.task.designation {
                 if (entity.Has<DesignationConstructionComponent>()) {
                     return createConstructionTask(entity);
                 } else {
-                    // TODO create building task
+                    return createBuildingTask(entity);
                 }
             }
             return EcsEntity.Null;
@@ -60,73 +58,19 @@ namespace game.model.system.task.designation {
             EcsEntity taskEntity = GameModel.get().taskContainer.generator.createTask(new ConstructionAction(entity, order));
             taskEntity.Replace(new TaskJobComponent { job = Jobs.BUILDER.name });
             taskEntity.Replace(new TaskBlockOverrideComponent { blockType = order.blockType });
-            
             Debug.Log("construction task created.");
             return taskEntity;
         }
-        
-        //    private DesignationTaskCreator designationTaskCreator;
-        //
-        //    public DesignationSystem(TaskContainer container) {
-        //        this.container = container;
-        //        designationTaskCreator = new DesignationTaskCreator();
-        //    }
-        //
-        //    public void update() {
-        //        // remove finished designations
-        //        container.designations.entrySet().removeIf(entry->entry.getValue().isFinished());
-        //        for (Designation designation :
-        //        container.designations.values()) {
-        //            if (designation instanceof BuildingDesignation) {
-        //                if (!((BuildingDesignation)designation).checkSite()) {
-        //                    designation.task.status = CANCELED;
-        //                    Logger.DESIGNATION.logWarn("Place for building became invalid.");
-        //                }
-        //            }
-        //            if (designation.task == null) {
-        //                container.addTask(designationTaskCreator.createTaskForDesignation(designation, 1));
-        //                Logger.DESIGNATION.logDebug("Create task for designation " + designation.type);
-        //            }
-        //        }
-        //        container.designations.entrySet().removeIf(entry->entry.getValue().task == null); // remove designations with not created tasks.
-        //    }
-        //
-        //    /**
-        // * Validates designation and creates comprehensive task.
-        // * All simple orders like digging and foraging submitted through this method.
-        // */
-        //    public void submitDesignation(IntVector3 position, DesignationTypeEnum type) {
-        //        if (!type.VALIDATOR.apply(position)) return;
-        //        removeDesignation(position); // remove previous designation
-        //        if (type != DesignationTypeEnum.D_NONE) {
-        //            container.designations.put(position, new Designation(position, type)); // put new designation
-        //            Logger.DESIGNATION.logDebug("Designation " + type + " added to " + position);
-        //        }
-        //    }
-        //
-        //    /**
-        // * Adds designation and creates comprehensive task.
-        // * All single-tile buildings are constructed through this method.
-        // */
-        //    public void submitBuildingDesignation(BuildingOrder order, int priority) {
-        //        Optional.ofNullable(order)
-        //            .filter(order1->PlaceValidatorEnum.getValidator(order1.blueprint.placing).apply(order1.position))
-        //            .map(BuildingDesignation::new)
-        //            .ifPresent(designation->container.designations.put(designation.position, designation));
-        //    }
-        //
-        //    public void submitPlantingDesignation(IntVector3 position, String specimen) {
-        //        if (PlaceValidatorEnum.FARM.VALIDATOR.apply(position))
-        //            container.designations.put(position, new PlantingDesignation(position, specimen));
-        //    }
-        //
-        //    public void removeDesignation(IntVector3 position) {
-        //        Optional.ofNullable(container.designations.get(position)) // cancel previous designation
-        //            .map(foundDesignation->foundDesignation.task)
-        //            .ifPresent(task-> {
-        //            task.status = CANCELED; // task will be removed in TaskStatusSystem
-        //            container.designations.remove(position);
-        //        });
-        //    }
+
+        private EcsEntity createBuildingTask(EcsEntity designation) {
+            DesignationBuildingComponent comp = designation.take<DesignationBuildingComponent>();
+            BuildingOrder order = new(comp.itemType, comp.material, comp.amount, designation.pos());
+            order.type = comp.type;
+            order.orientation = comp.orientation;
+            EcsEntity taskEntity = GameModel.get().taskContainer.generator.createTask(new BuildingAction(designation, order));
+            taskEntity.Replace(new TaskJobComponent { job = Jobs.BUILDER.name });
+            Debug.Log("construction task created.");
+            return taskEntity;
+        }
     }
 }

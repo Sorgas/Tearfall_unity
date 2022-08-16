@@ -1,5 +1,6 @@
 using game.model;
 using game.view.camera;
+using game.view.system.building;
 using game.view.system.designation;
 using game.view.system.item;
 using game.view.system.mouse_tool;
@@ -53,6 +54,7 @@ namespace game.view {
             systems.Add(new ItemVisualRemoveSystem());
             systems.Add(new DesignationVisualSystem());
             systems.Add(new PlantVisualSystem());
+            systems.Add(new BuildingVisualSystem());
             systems.Init();
         }
 

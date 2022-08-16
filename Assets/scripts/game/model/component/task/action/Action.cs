@@ -40,7 +40,7 @@ namespace game.model.component.task.action {
                 return ref component.performer;
             }
         }
-        
+
         /**
          * Condition to be met before task with this action is assigned to unit.
          * Should check tool, consumed items, target reachability for performer. 

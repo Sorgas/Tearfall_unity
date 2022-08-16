@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace util.geometry.bounds {
+    
+    // inclusive bounds
     public class IntBounds2 {
         public int minX;
         public int minY;
@@ -75,6 +77,15 @@ namespace util.geometry.bounds {
             }
         }
 
+        public bool validate(Func<int, int, bool> validationFunction) {
+            for (int x = minX; x <= maxX; x++) {
+                for (int y = maxY; y >= minY; y--) {
+                    if (!validationFunction.Invoke(x, y)) return false;
+                }
+            }
+            return true;
+        }
+        
         public void extendTo(Vector2 vector) {
             extendTo((int)Math.Round(vector.x), (int)Math.Round(vector.y));
         }

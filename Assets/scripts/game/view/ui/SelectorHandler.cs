@@ -42,7 +42,7 @@ namespace game.view.ui {
             renderer.sprite = sprite;
             renderer.color = color;
             float width = gameObject.GetComponent<RectTransform>().rect.width; // 1
-            float scale = width * spriteWidth / sprite.rect.width * sprite.pixelsPerUnit;
+            float scale = width * sprite.pixelsPerUnit / sprite.rect.width * spriteWidth;
             renderer.transform.localScale = new Vector3(scale, scale, 1);
         }
     }

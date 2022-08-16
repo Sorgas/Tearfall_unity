@@ -24,5 +24,7 @@ namespace game.view.system.mouse_tool {
         public abstract void rotate();
 
         public abstract void updateSpriteColor(Vector3Int position);
+
+        public abstract void reset();
     }
 }

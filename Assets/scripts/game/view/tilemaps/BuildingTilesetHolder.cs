@@ -13,6 +13,10 @@ namespace game.view.tilemaps {
             loadAll();
         }
 
+        public Sprite get(BuildingType type, Orientations orientation) {
+            return sprites[type].getByOrientation(orientation);
+        }
+        
         private void loadAll() {
             Dictionary<string, Sprite> spritesCache = new();
             BuildingTilesetSlicer slicer = new();

@@ -19,6 +19,10 @@ namespace types {
                     throw new ArgumentOutOfRangeException(nameof(orientation), orientation, null);
             }
         }
+
+        public static bool isHorisontal(Orientations orientation) {
+            return orientation == Orientations.E || orientation == Orientations.W;
+        }
     }
     
 }

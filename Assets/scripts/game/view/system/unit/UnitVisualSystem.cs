@@ -11,12 +11,10 @@ namespace game.view.system.unit {
     // creates sprite GO for units without it. update GO position
     public class UnitVisualSystem : IEcsRunSystem {
         public EcsFilter<UnitVisualComponent, UnitMovementComponent> filter;
-        private RectTransform mapHolder;
         private Vector3 spriteOffset;
         private Vector3 spriteOffsetOnRamp;
 
         public UnitVisualSystem() {
-            mapHolder = GameView.get().sceneObjectsContainer.mapHolder;
             spriteOffset = new(0, 0.25f, WALL_LAYER * GRID_STEP + GRID_STEP / 2);
             spriteOffsetOnRamp = spriteOffset + new Vector3(0, 0, -0.1f);
         }
@@ -43,11 +41,9 @@ namespace game.view.system.unit {
         }
 
         private void createSpriteGo(ref UnitVisualComponent component) {
-            //TODO use prefabLoader
-            GameObject prefab = Resources.Load<GameObject>("prefabs/Unit");
-            GameObject instance = Object.Instantiate(prefab, new Vector3(), Quaternion.identity);
+            GameObject instance = PrefabLoader.create("Unit", GameView.get().sceneObjectsContainer.mapHolder);
             component.handler = instance.GetComponent<UnitGoHandler>();
-            instance.transform.SetParent(mapHolder);
+            // TODO set sprite to unit
         }
     }
 }

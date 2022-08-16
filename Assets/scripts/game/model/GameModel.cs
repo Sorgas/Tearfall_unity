@@ -21,6 +21,7 @@ namespace game.model {
         public readonly TaskContainer taskContainer = new();
         public readonly ItemContainer itemContainer = new();
         public readonly PlantContainer plantContainer = new();
+        public readonly BuildingContainer buildingContainer = new();
         private int count = 0;
 
         public static EcsWorld ecsWorld => get()._ecsWorld;

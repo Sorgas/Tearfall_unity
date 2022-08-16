@@ -19,8 +19,6 @@ namespace game.view.system.item {
         public EcsFilter<PositionComponent, ItemVisualComponent> itemsOnGroundFilter; // items on ground should update GO position
         private Vector3 spriteZOffset = new(0, 0, WALL_LAYER * GRID_STEP + GRID_STEP / 2);
         private Vector3 spriteZOffsetForRamp = new(0, 0, WALL_LAYER * GRID_STEP - GRID_STEP / 2);
-        private GameObject itemPrefab = Resources.Load<GameObject>("prefabs/Item");
-        private RectTransform mapHolder = GameView.get().sceneObjectsContainer.mapHolder;
 
         public void Run() {
             foreach (var i in newItemsFilter) {
@@ -36,7 +34,7 @@ namespace game.view.system.item {
         private void createSpriteForItem(EcsEntity entity) {
             ItemComponent item = entity.takeRef<ItemComponent>();
             ItemVisualComponent visual = new();
-            visual.go = Object.Instantiate(itemPrefab, mapHolder, true);
+            visual.go = PrefabLoader.create("Item", GameView.get().sceneObjectsContainer.mapHolder);
             visual.spriteRenderer = visual.go.GetComponent<SpriteRenderer>();
             visual.spriteRenderer.sprite = ItemTypeMap.get().getSprite(item.type);
             entity.Replace(visual);
