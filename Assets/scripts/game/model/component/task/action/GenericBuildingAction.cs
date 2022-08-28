@@ -4,7 +4,9 @@ using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
 using game.model.component.task.order;
 using Leopotam.Ecs;
+using types;
 using UnityEngine;
+using util.geometry.bounds;
 using util.lang.extension;
 using static enums.action.ActionConditionStatusEnum;
 
@@ -25,8 +27,10 @@ namespace game.model.component.task.action {
                 if (status == NEW) return NEW;
                 if (status == FAIL) return failAction();
                 if (!checkClearingSite()) return NEW;
-                if (performer.pos().Equals(order.position)) { // todo handle multi tile buildings
-                    addPreAction(new StepOffAction(order.position));
+                Vector3Int pos = performer.pos();
+                IntBounds3 bounds = getBuildingBounds(order);
+                if (bounds.validate((x, y, z) => pos.x != x || pos.y != y || pos.z != z)) {
+                    addPreAction(bounds.isSingleTile() ? new StepOffAction(order.position) : new StepOffAction(bounds, pos));
                     return NEW;
                 }
                 return OK;
@@ -76,6 +80,19 @@ namespace game.model.component.task.action {
             }
             container.items.Clear();
             return FAIL;
+        }
+
+        private IntBounds3 getBuildingBounds(GenericBuildingOrder order) {
+            Vector3Int offset = new();
+            if (order is BuildingOrder) {
+                BuildingOrder buildingOrder = (BuildingOrder) order;
+                if (OrientationUtil.isHorisontal(buildingOrder.orientation)) {
+                    offset = new(buildingOrder.type.size[1], buildingOrder.type.size[0], 0);
+                } else {
+                    offset = new(buildingOrder.type.size[0], buildingOrder.type.size[1], 0);
+                }
+            }
+            return new IntBounds3(order.position, order.position + offset);
         }
 
         protected void consumeItems() {

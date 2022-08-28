@@ -1,0 +1,12 @@
+[
+  {
+    "name" : "carpenter's table",
+    "tileset": "workbenches",
+    "size": [1,2],
+    "positionN" : [2,0],
+    "positionS" : [3,0],
+    "positionE" : [0,1],
+    "positionW" : [0,0],
+    "materials" : ["log/4"]
+  }
+]

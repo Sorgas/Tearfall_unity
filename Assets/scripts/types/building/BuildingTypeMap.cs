@@ -12,10 +12,24 @@ namespace types.building {
             loadFiles();
         }
 
+        public static BuildingType get(string name) {
+            return get().map[name];
+        }
+
+        public Dictionary<string, BuildingType>.ValueCollection all() {
+            return map.Values;
+        }
+
         private void loadFiles() {
             Debug.Log("loading construction types");
             map.Clear();
-            TextAsset file = Resources.Load<TextAsset>("data/buildings/furniture"); // TODO use other files
+            var files = Resources.LoadAll<TextAsset>("data/buildings");
+            foreach (TextAsset textAsset in files) {
+                loadFromFile(textAsset);
+            }
+        }
+
+        private void loadFromFile(TextAsset file) {
             int count = 0;
             BuildingType[] types = JsonArrayReader.readArray<BuildingType>(file.text);
             if (types == null) return;
@@ -25,14 +39,6 @@ namespace types.building {
                 count++;
             }
             Debug.Log("loaded " + count + " from " + file.name);
-        }
-
-        public static BuildingType get(string name) {
-            return get().map[name];
-        }
-
-        public Dictionary<string, BuildingType>.ValueCollection all() {
-            return map.Values;
         }
     }
 }

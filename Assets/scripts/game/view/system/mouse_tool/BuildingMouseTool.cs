@@ -70,7 +70,7 @@ namespace game.view.system.mouse_tool {
         }
 
         private void updateSelectorSize() {
-            if (orientation == Orientations.N || orientation == Orientations.S) {
+            if(!OrientationUtil.isHorisontal(orientation)) {
                 GameView.get().selector.changeSelectorSize(type.size[0], type.size[1]);
             } else {
                 GameView.get().selector.changeSelectorSize(type.size[1], type.size[0]);

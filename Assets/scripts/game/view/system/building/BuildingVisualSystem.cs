@@ -33,8 +33,7 @@ namespace game.view.system.building {
         }
 
         private float getScale(Sprite sprite, int buildingWidth) {
-            float spriteWidthInUnits = sprite.rect.width / sprite.pixelsPerUnit;
-            return buildingWidth / spriteWidthInUnits;
+            return buildingWidth * sprite.pixelsPerUnit / sprite.rect.width;
         }
     }
 }

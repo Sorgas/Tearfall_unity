@@ -336,6 +336,7 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
      <None Include="Assets\resources\data\materials\ore.json" />
      <None Include="Assets\resources\data\creatures\creatures.json" />
+     <None Include="Assets\resources\data\buildings\workbenches.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\resources\data\materials\organic.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
