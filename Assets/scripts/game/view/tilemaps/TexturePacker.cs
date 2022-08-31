@@ -27,10 +27,12 @@ namespace game.view.tilemaps {
         }
 
         private void packTextures() {
+            Debug.Log("Packing textures to atlas");
             atlasTexture = new Texture2D(5000, 5000);
             Texture2D[] textures = Resources.LoadAll<Texture2D>("tilesets").ToArray();
             rects = atlasTexture.PackTextures(textures, 0, 5000);
             for (var i = 0; i < textures.Length; i++) {
+                Debug.Log(textures[i].name);
                 rectMap.Add(textures[i].name, rects[i]);
             }
         }

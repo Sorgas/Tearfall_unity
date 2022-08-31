@@ -82,5 +82,4 @@ namespace game.model.component.task.action {
             return new Vector3Int(0, 0, -1); // unreachable position, 
         }
     }
-
 }
