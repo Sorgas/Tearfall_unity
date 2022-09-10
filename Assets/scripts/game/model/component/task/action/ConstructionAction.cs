@@ -10,7 +10,8 @@ namespace game.model.component.task.action {
     public class ConstructionAction : GenericBuildingAction {
         private readonly BlockType blockType;
         
-        public ConstructionAction(EcsEntity designation, ConstructionOrder order) : base(designation, order){
+        public ConstructionAction(EcsEntity designation, ConstructionOrder order) : base(designation, order) {
+            name = "construction action";
             blockType = order.blockType;
             onFinish = () => {
                 int material = MaterialMap.get().id(designation.take<DesignationConstructionComponent>().materialVariant);

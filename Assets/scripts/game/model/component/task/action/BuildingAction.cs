@@ -7,6 +7,7 @@ namespace game.model.component.task.action {
     public class BuildingAction : GenericBuildingAction {
 
         public BuildingAction(EcsEntity designation, BuildingOrder order) : base(designation, order) {
+            name = "building action";
             onFinish = () => {
                 GameModel.get().buildingContainer.createBuilding(order);
                 PlantContainer container = GameModel.get().plantContainer;

@@ -105,6 +105,8 @@ namespace util.geometry.bounds {
             }
         }
 
+        // returns true, if validationFunction is true for all positions
+        // returns false, if validationFunction is false for any in-bounds position
         public bool validate(Func<int, int, int, bool> validationFunction) {
             for (int x = minX; x <= maxX; x++) {
                 for (int y = minY; y <= maxY; y++) {

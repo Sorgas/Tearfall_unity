@@ -10,7 +10,7 @@ namespace game.model.component.task.action {
     public class MoveAction : Action {
 
         public MoveAction(Vector3Int targetPosition) : base(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.EXACT)) {
-        
+            name = "Move to " + targetPosition;
             startCondition = () => {
                 if (performer.Has<UnitMovementComponent>()) {
                     Vector3Int currentPosition = performer.pos();

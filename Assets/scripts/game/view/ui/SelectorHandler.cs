@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using game.view.util;
+using UnityEngine;
 
 namespace game.view.ui {
     // handles entity selector - representation of mouse on the map
@@ -7,6 +8,7 @@ namespace game.view.ui {
         public SpriteRenderer frameIcon;
         public SpriteRenderer toolIcon; // raised for walls to look 'overwall'
         public SpriteRenderer constructionIcon; // not raised for walls
+        public SpriteRenderer additionalSprite;
         private Color transparent = new(1, 1, 1, 0.5f);
         private Color validTint = new(1, 1, 1, 0.5f);
         private Color invalidTint = new(1, 0, 0, 0.5f);
@@ -16,6 +18,7 @@ namespace game.view.ui {
             toolIcon.sortingOrder = value;
             frameIcon.sortingOrder = value;
             constructionIcon.sortingOrder = value;
+            additionalSprite.sortingOrder = value;
         }
 
         public void setToolSprite(Sprite sprite) => setSpriteToRenderer(sprite, 1, toolIcon, Color.white);
@@ -23,6 +26,21 @@ namespace game.view.ui {
         public void setConstructionSprite(Sprite sprite) => setSpriteToRenderer(sprite, 1, constructionIcon, transparent);
 
         public void setBuildingSprite(Sprite sprite, int width) => setSpriteToRenderer(sprite, width, constructionIcon, transparent);
+
+        public void setAccessPoint(int x, int y, string spriteName) {
+            if (spriteName == null) {
+                additionalSprite.sprite = null;
+                return;
+            }
+            Sprite sprite = IconLoader.get(spriteName);
+            additionalSprite.sprite = sprite;
+            float width = additionalSprite.GetComponent<RectTransform>().rect.width; // 1
+            float scale = width * sprite.pixelsPerUnit / sprite.rect.width;
+            additionalSprite.transform.localScale = new Vector3(scale, scale, 1);
+            // additionalSprite.transform.Translate();
+            additionalSprite.transform.localPosition = new Vector3(x + 0.5f, y + 0.5f, 0);
+            additionalSprite.color = transparent;
+        }
 
         public void buildingValid(bool value) {
             constructionIcon.color = value ? validTint : invalidTint;

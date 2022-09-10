@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using enums;
 using types;
 using UnityEngine;
 using util;
@@ -84,7 +83,7 @@ namespace game.model.localmap.passage {
             Debug.Log("checking [" + tx + ", " + ty + ", " + tz + "] available from area " + areaValue);
             if (!localMap.inMap(tx, ty, tz)) return false;
             if (area.get(tx, ty, tz) == areaValue) return true;
-            if (getPassage(tx, ty, tz) == PASSABLE.VALUE) 
+            if (getPassage(tx, ty, tz) == PASSABLE.VALUE)
                 throw new DataException("Passable tile + " + tx + " " + ty + " " + tz + " has no area value.");
             for (int x = tx - 1; x < tx + 2; x++) {
                 for (int y = ty - 1; y < ty + 2; y++) {
@@ -107,12 +106,7 @@ namespace game.model.localmap.passage {
         public Passage calculateTilePassage(int x, int y, int z) {
             if (BlockTypes.get(blockTypeMap.get(x, y, z)).PASSAGE == IMPASSABLE) return IMPASSABLE;
             if (!GameModel.get().plantContainer.isPlantBlockPassable(x, y, z)) return IMPASSABLE;
-
-            bool buildingPassable = true;
-            //        model.optional(BuildingContainer.class)
-            //        .map(container -> container.buildingBlocks.get(position))
-            //        .map(block -> block.passage == PASSABLE).orElse(true);
-            if (!buildingPassable) return IMPASSABLE;
+            if (!GameModel.get().buildingContainer.isBuildingBlockPassable(x, y, z)) return IMPASSABLE;
 
             bool waterPassable = true;
             //model.optional(LiquidContainer.class)
@@ -120,13 +114,17 @@ namespace game.model.localmap.passage {
             //.map(tile -> tile.amount <= 4).orElse(true);
             if (!waterPassable) return IMPASSABLE;
 
-            return PassageTypes.PASSABLE;
+            return PASSABLE;
         }
 
         public byte getPassage(int x, int y, int z) => passage.get(x, y, z);
 
         public bool inSameArea(Vector3Int pos1, Vector3Int pos2) {
             return localMap.inMap(pos1) && localMap.inMap(pos2) && area.get(pos1) == area.get(pos2);
+        }
+
+        public void setImpassable(int x, int y, int z) {
+            passage.set(x, y, z, IMPASSABLE.VALUE);
         }
     }
 }

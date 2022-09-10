@@ -8,6 +8,7 @@ using util.geometry;
 using util.lang.extension;
 
 namespace game.model.localmap.passage {
+    //TODO refactor constructors to chains
     class NeighbourPositionStream {
         public IEnumerable<Vector3Int> stream;
         private Vector3Int center;
@@ -37,9 +38,22 @@ namespace game.model.localmap.passage {
             stream = neighbours.Where(position => localMap.inMap(position));
         }
 
-        private NeighbourPositionStream() {
+        public NeighbourPositionStream() {
             localMap = GameModel.localMap;
             passageMap = localMap.passageMap;
+        }
+
+        public NeighbourPositionStream onSameZLevel(Vector3Int center) {
+            this.center = center;
+            HashSet<Vector3Int> neighbours = new();
+            for (int x = center.x - 1; x < center.x + 2; x++) {
+                for (int y = center.y - 1; y < center.y + 2; y++) {
+                        Vector3Int position = new(x, y, center.z);
+                        if (position != center && localMap.inMap(position)) neighbours.Add(position);
+                }
+            }
+            stream = neighbours.AsEnumerable();
+            return this;
         }
         
         // clears all if center in not passable

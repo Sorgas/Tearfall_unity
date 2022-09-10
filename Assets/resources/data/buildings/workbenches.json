@@ -7,6 +7,8 @@
     "positionS" : [3,0],
     "positionE" : [0,1],
     "positionW" : [0,0],
-    "materials" : ["log/4"]
+    "materials" : ["log/4"],
+    "passage" : "impassable",
+    "access" : [-1, 0]
   }
 ]

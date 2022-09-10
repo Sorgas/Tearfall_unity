@@ -51,6 +51,7 @@ namespace game.view.system.mouse_tool {
         }
 
         private Sprite selectSpriteByBlockType() {
+            Debug.Log("getting material varian " + visualMaterial);
             return BlockTileSetHolder.get().getSprite(visualMaterial,
                 type.blockType.CODE == BlockTypes.RAMP.CODE ? "C" : type.blockType.PREFIX);
         }

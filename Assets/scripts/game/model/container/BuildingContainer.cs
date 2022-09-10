@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using game.model.component.building;
 using game.model.component.task.order;
 using game.model.localmap;
 using game.model.util.validation;
@@ -7,11 +8,12 @@ using Leopotam.Ecs;
 using types;
 using UnityEngine;
 using util.geometry.bounds;
+using util.lang.extension;
 
 namespace game.model.container {
     // registry for player buildings in game.
     public class BuildingContainer {
-        public Dictionary<Vector3Int, EcsEntity> buildings = new();
+        public Dictionary<Vector3Int, EcsEntity> buildings = new(); // links position to buildings
         private BuildingGenerator generator = new();
 
         public bool createBuilding(BuildingOrder order) {
@@ -21,9 +23,15 @@ namespace game.model.container {
                 return false;
             }
             EcsEntity building = generator.generateByOrder(order, GameModel.get().createEntity());
+            
             buildingBounds.iterate((x, y, z) => {
                 buildings.Add(new Vector3Int(x, y, z), building);
             });
+            if (order.type.passage == "impassable") {
+                buildingBounds.iterate((x, y, z) => {
+                    GameModel.localMap.passageMap.updater.update(x, y, z);        
+                });
+            }
             return true;
         }
 
@@ -33,6 +41,11 @@ namespace game.model.container {
             return bounds.validate((x, y, z) => validator.validate(x, y, z, map));
         }
 
+        public bool isBuildingBlockPassable(int x, int y, int z) {
+            Vector3Int position = new(x, y, z);
+            return !buildings.ContainsKey(position) || buildings[position].take<BuildingComponent>().type.passage != "impassable";
+        }
+        
         private IntBounds3 createBuildingBounds(BuildingOrder order) {
             bool flip = order.orientation == Orientations.E || order.orientation == Orientations.W;
             int xSize = order.type.size[flip ? 1 : 0];

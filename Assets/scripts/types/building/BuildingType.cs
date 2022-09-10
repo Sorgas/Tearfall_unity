@@ -10,6 +10,8 @@ namespace types.building {
         public int[] positionS;
         public int[] positionE;
         public int[] positionW;
+        public int[] access;
+        public string passage;
         public string[] materials;
         public BuildingVariant[] variants;
 

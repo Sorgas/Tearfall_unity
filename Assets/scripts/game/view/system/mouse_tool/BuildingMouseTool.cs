@@ -45,6 +45,8 @@ namespace game.view.system.mouse_tool {
         public override void updateSprite() {
             selectorGO.setBuildingSprite(BuildingTilesetHolder.get().get(type, orientation),
                 type.size[OrientationUtil.isHorisontal(orientation) ? 1 : 0]);
+            int[] rotatedAccessPoint = getRotatedAccessPoint();
+            selectorGO.setAccessPoint(rotatedAccessPoint[0], rotatedAccessPoint[1], "building_access_point");
         }
 
         // validate by selector position
@@ -55,6 +57,7 @@ namespace game.view.system.mouse_tool {
         public override void reset() {
             materialSelector.close();
             selectorGO.setBuildingSprite(null, 1);
+            selectorGO.setAccessPoint(0,0, null);
         }
 
         public override void rotate() {
@@ -70,11 +73,36 @@ namespace game.view.system.mouse_tool {
         }
 
         private void updateSelectorSize() {
-            if(!OrientationUtil.isHorisontal(orientation)) {
+            if (!OrientationUtil.isHorisontal(orientation)) {
                 GameView.get().selector.changeSelectorSize(type.size[0], type.size[1]);
             } else {
                 GameView.get().selector.changeSelectorSize(type.size[1], type.size[0]);
             }
+        }
+
+        private int[] getRotatedAccessPoint() {
+            int[] result = new int[2];
+            switch (orientation) {
+                case Orientations.N:
+                    result[0] = type.access[0];
+                    result[1] = type.access[1];
+                    break;
+                case Orientations.E:
+                    result[0] = type.access[1];
+                    result[1] = type.size[0] - 1 - type.access[0];
+                    break;
+                case Orientations.S:
+                    result[0] = type.size[0] - 1 - type.access[0];
+                    result[1] = type.size[1] - 1 - type.access[1];
+                    break;
+                case Orientations.W:
+                    result[0] = type.size[1] - 1 - type.access[1];
+                    result[1] = type.access[0];
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            return result;
         }
     }
 }

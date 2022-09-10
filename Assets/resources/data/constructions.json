@@ -5,7 +5,7 @@
     "blockTypeName" : "wall"
   }, {
     "name" : "floor",
-    "materials" : ["log/3", "rock/3", "plank/3"],
+    "materials" : ["rock/3", "plank/3"],
     "blockTypeName" : "floor"
   }, {
     "name" : "ramp",

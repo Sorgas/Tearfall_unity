@@ -56,6 +56,8 @@ namespace types.material {
             Debug.Log("creating material variants");
             int count = 0;
             count += createVariantByTag("stone", "rock", 1000);
+            count += createVariantByTag("wood", "log", 1000);
+            // TODO metal bar
             Debug.Log("created " + count);
         }
 
@@ -64,6 +66,7 @@ namespace types.material {
             List<Material_> materials = map.Values.Where(material => material.tags.Contains(tag)).ToList();
             foreach (Material_ material in materials) {
                 Material_ variant = new(material);
+                if (variant.tileset == null) variant.tileset = variant.name;
                 variant.id += idMod;
                 variant.name = variateValue(variant.name, itemTypeName);
                 variant.tileset = variateValue(variant.tileset, itemTypeName);

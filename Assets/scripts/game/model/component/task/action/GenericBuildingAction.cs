@@ -35,9 +35,10 @@ namespace game.model.component.task.action {
                 ActionConditionStatusEnum status = checkItemsInContainer();
                 if (status == NEW) return NEW;
                 if (status == FAIL) return failAction();
-                if (!checkClearingSite(bounds)) return NEW;
+                if (checkClearingSite(bounds)) return NEW;
                 Vector3Int pos = performer.pos();
-                if (bounds.validate((x, y, z) => pos.x != x || pos.y != y || pos.z != z)) {
+                if (!bounds.validate((x, y, z) => pos.x != x || pos.y != y || pos.z != z)) {
+                    Debug.Log("Building area check: bounds: " + bounds.toString() + " performer: " + pos + " offSitePosition: " + offSitePosition);
                     addPreAction(new MoveAction(offSitePosition));
                     return NEW;
                 }
@@ -47,6 +48,7 @@ namespace game.model.component.task.action {
 
         // items for building should be brought into designation container. creates action to bring if possible
         private ActionConditionStatusEnum checkItemsInContainer() {
+            Debug.Log("checking items in container");
             DesignationItemContainerComponent container = designation.take<DesignationItemContainerComponent>();
             if (container.items.Count == order.amount) return OK;
             List<EcsEntity> foundItems = GameModel.get().itemContainer.availableItemsManager
@@ -60,12 +62,14 @@ namespace game.model.component.task.action {
         }
 
         private bool checkClearingSite(IntBounds3 bounds) {
+            Debug.Log("checking clearing site");
             ItemContainer container = GameModel.get().itemContainer;
             bool actionsAdded = false;
             bounds.iterate((x, y, z) => {
-                foreach (EcsEntity item in container.onMap.itemsOnMap.get(order.position)) {
-                    Vector3Int positionToPut = GameModel.localMap.util.findFreePositionNearCenter(order.position);
-                    addPreAction(new PutItemToPositionAction(item, positionToPut));
+                Vector3Int pos = new(x, y, z);
+                foreach (EcsEntity item in container.onMap.itemsOnMap.get(pos)) {
+                    Debug.Log(item.name());
+                    addPreAction(new PutItemToPositionAction(item, offSitePosition));
                     actionsAdded = true;
                 }
             });
@@ -92,6 +96,8 @@ namespace game.model.component.task.action {
                     offset = new(buildingOrder.type.size[0], buildingOrder.type.size[1], 0);
                 }
             }
+            offset.x -= 1;
+            offset.y -= 1;
             return new IntBounds3(order.position, order.position + offset);
         }
         private bool findOffSitePosition() {

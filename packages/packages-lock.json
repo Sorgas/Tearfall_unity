@@ -5,7 +5,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "f237756b2a256e112f6ae2eb314fae9682c05310"
+      "hash": "126dd262efea6ab44210ca605e4551b5ab2f3d02"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
@@ -14,7 +14,7 @@
       "dependencies": {}
     },
     "com.unity.burst": {
-      "version": "1.7.2",
+      "version": "1.7.3",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -39,7 +39,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "3.0.13",
+      "version": "3.0.15",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -78,7 +78,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {
-      "version": "13.1.8",
+      "version": "12.1.7",
       "depth": 1,
       "source": "builtin",
       "dependencies": {
@@ -88,25 +88,25 @@
       }
     },
     "com.unity.render-pipelines.universal": {
-      "version": "13.1.8",
+      "version": "12.1.7",
       "depth": 0,
       "source": "builtin",
       "dependencies": {
         "com.unity.mathematics": "1.2.1",
-        "com.unity.burst": "1.5.0",
-        "com.unity.render-pipelines.core": "13.1.8",
-        "com.unity.shadergraph": "13.1.8"
+        "com.unity.burst": "1.7.3",
+        "com.unity.render-pipelines.core": "12.1.7",
+        "com.unity.shadergraph": "12.1.7"
       }
     },
     "com.unity.searcher": {
-      "version": "4.9.2",
+      "version": "4.9.1",
       "depth": 2,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.services.core": {
-      "version": "1.4.0",
+      "version": "1.4.2",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -117,12 +117,12 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.shadergraph": {
-      "version": "13.1.8",
+      "version": "12.1.7",
       "depth": 1,
       "source": "builtin",
       "dependencies": {
-        "com.unity.render-pipelines.core": "13.1.8",
-        "com.unity.searcher": "4.9.2"
+        "com.unity.render-pipelines.core": "12.1.7",
+        "com.unity.searcher": "4.9.1"
       }
     },
     "com.unity.test-framework": {

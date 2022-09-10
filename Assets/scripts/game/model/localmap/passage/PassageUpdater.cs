@@ -13,12 +13,12 @@ namespace game.model.localmap.passage {
         private PassageMap passage;
         private bool debug = true;
         private string logMessage;
-        
+
         public PassageUpdater(LocalMap map, PassageMap passage) {
             this.map = map;
             this.passage = passage;
         }
-        
+
         // Called when local map passage is updated. If cell becomes non-passable, it may split area into two.
         public void update(int x, int y, int z) {
             log("updating passage in " + x + " " + y + " " + z);
@@ -27,11 +27,13 @@ namespace game.model.localmap.passage {
             passage.passage.set(center, passing.VALUE);
             if (passing == PASSABLE) { // tile became passable, areas should be merged
                 mergeAreasAroundCenter(center);
-            } else { 
+            } else {
+                passage.area.set(center, 0);
                 // tile became impassable, areas may split
                 // if under new SPACE tile is RAMP, areas may join
-                if (z > 0 && map.blockType.get(center) == BlockTypes.SPACE.CODE && map.blockType.get(center + Vector3Int.back) == BlockTypes.RAMP.CODE) { 
-                    mergeAreasAroundCenter(center);
+                if (z > 0 && map.blockType.get(center) == BlockTypes.SPACE.CODE
+                          && map.blockType.get(center + Vector3Int.back) == BlockTypes.RAMP.CODE) {
+                    mergeAreasAboveRamp(center);
                 }
                 splitAreas(center);
             }
@@ -41,9 +43,15 @@ namespace game.model.localmap.passage {
 
         private void mergeAreasAroundCenter(Vector3Int center) {
             List<byte> areas = new NeighbourPositionStream(center).filterConnectedToCenter().collectAreas();
-            areas.Remove(0);
+            // areas.Remove(0);
             // take new area number, if new tile is not connected to any area
             passage.area.set(center, areas.Count == 0 ? getUnusedAreaNumber() : areas.First());
+            if (areas.Count > 1) mergeAreas(areas);
+        }
+        
+        private void mergeAreasAboveRamp(Vector3Int center) {
+            List<byte> areas = new NeighbourPositionStream().onSameZLevel(center).filterByPassage(PASSABLE).collectAreas();
+            areas.Add(passage.area.get(center + Vector3Int.back));
             if (areas.Count > 1) mergeAreas(areas);
         }
         
@@ -118,16 +126,17 @@ namespace game.model.localmap.passage {
                 openSet.Remove(center);
                 passage.area.set(center.x, center.y, center.z, value);
                 new NeighbourPositionStream(center)
-                        .filterConnectedToCenter()
-                        .filterNotInArea(value)
-                        .stream.ToList().ForEach(pos => openSet.Add(pos));
+                    .filterConnectedToCenter()
+                    .filterNotInArea(value)
+                    .stream.ToList().ForEach(pos => openSet.Add(pos));
             }
             return counter;
         }
 
         private byte getUnusedAreaNumber() {
             for (byte i = 0; i < byte.MaxValue; i++)
-                if (!passage.area.sizes.Keys.Contains(i)) return i;
+                if (!passage.area.sizes.Keys.Contains(i))
+                    return i;
             return 0;
         }
 

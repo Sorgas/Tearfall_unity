@@ -16,6 +16,7 @@ namespace game.view.tilemaps {
         Dictionary<string, List<string>> notFound = new();
 
         public void loadAll() {
+            Debug.Log("loading block tilesets");
             // TODO try use this for all sprites and tilesets
             MaterialMap.get().all
                 .Where(material => material.tileset != null)
@@ -25,11 +26,15 @@ namespace game.view.tilemaps {
             flushNotFound();
         }
         
-        public Sprite getSprite(string material, string tilecode) => tiles[material][tilecode].sprite;
+        public Sprite getSprite(string material, string tilecode) {
+            if (!tiles.ContainsKey(material)) material = "template";
+            return tiles[material][tilecode].sprite;
+        }
 
         private void loadTilesetFromAtlas(string tilesetName) {
             Sprite sprite = TexturePacker.createSpriteFromAtlas(tilesetName);
             Dictionary<string, Sprite> spriteMap = slicer.sliceBlockSpritesheet(sprite);
+            Debug.Log("adding " + tilesetName);
             sprites.Add(tilesetName, spriteMap);
             tiles.Add(tilesetName, createTilesFromSprites(spriteMap));
         }
@@ -38,6 +43,7 @@ namespace game.view.tilemaps {
         private void loadMaterialTilesetFromAtlas(Material_ material) {
             Sprite sprite = TexturePacker.createSpriteFromAtlas(material.tileset);
             Dictionary<string, Sprite> spritesMap = slicer.sliceBlockSpritesheet(sprite);
+            Debug.Log("adding " + material.name);
             sprites.Add(material.name, spritesMap);
             tiles.Add(material.name, createTilesFromSprites(spritesMap, material.color));
         }
