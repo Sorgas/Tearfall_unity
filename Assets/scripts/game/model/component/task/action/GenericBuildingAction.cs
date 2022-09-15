@@ -16,22 +16,28 @@ using static enums.action.ActionConditionStatusEnum;
 namespace game.model.component.task.action {
     // base action for building constructions and buildings.
     // defines bringing items to designation, removing other items from designation position, consuming actions.
+    // TODO add place and offsiteposition after start validation
     public class GenericBuildingAction : Action {
         protected EcsEntity designation;
         protected readonly GenericBuildingOrder order;
         private Vector3Int offSitePosition; // used to remove items and performer out of site
         private IntBounds3 bounds;
         public bool offSitePositionOk = true;
-        
-        protected GenericBuildingAction(EcsEntity designation, GenericBuildingOrder order) :
-            base(new BuildingActionTarget(designation.pos())) {
+
+        protected GenericBuildingAction(EcsEntity designation, GenericBuildingOrder order) {
             this.designation = designation;
             this.order = order;
             bounds = getBuildingBounds(order);
             findOffSitePosition();
-            
+            if (offSitePositionOk) {
+                target = new BuildingActionTarget(offSitePosition);
+            }
+
             startCondition = () => {
-                if (!offSitePositionOk) return failAction();
+                if (!offSitePositionOk) {
+                    Debug.Log("no offsitePosition found");
+                    return failAction();
+                }
                 ActionConditionStatusEnum status = checkItemsInContainer();
                 if (status == NEW) return NEW;
                 if (status == FAIL) return failAction();
@@ -89,7 +95,7 @@ namespace game.model.component.task.action {
         private IntBounds3 getBuildingBounds(GenericBuildingOrder order) {
             Vector3Int offset = new();
             if (order is BuildingOrder) {
-                BuildingOrder buildingOrder = (BuildingOrder) order;
+                BuildingOrder buildingOrder = (BuildingOrder)order;
                 if (OrientationUtil.isHorisontal(buildingOrder.orientation)) {
                     offset = new(buildingOrder.type.size[1], buildingOrder.type.size[0], 0);
                 } else {
@@ -100,6 +106,8 @@ namespace game.model.component.task.action {
             offset.y -= 1;
             return new IntBounds3(order.position, order.position + offset);
         }
+        
+        // TODO use performer area
         private bool findOffSitePosition() {
             LocalMap map = GameModel.localMap;
             PassageMap passageMap = map.passageMap;

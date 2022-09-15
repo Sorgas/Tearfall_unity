@@ -14,7 +14,8 @@ namespace types.building {
         public string passage;
         public string[] materials;
         public BuildingVariant[] variants;
-
+        public string category;
+        
         public bool isSingleTile() {
             return size[0] == 1 && size[1] == 1;
         }

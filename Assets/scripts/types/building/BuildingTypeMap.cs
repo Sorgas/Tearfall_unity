@@ -35,6 +35,7 @@ namespace types.building {
             if (types == null) return;
             foreach (BuildingType type in types) {
                 type.variants = type.materials.Select(materialString => new BuildingVariant(materialString)).ToArray();
+                if(type.category == null) type.category = file.name;
                 map.Add(type.name, type);
                 count++;
             }

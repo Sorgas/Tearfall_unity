@@ -45,8 +45,10 @@ namespace game.view.system.mouse_tool {
         public override void updateSprite() {
             selectorGO.setBuildingSprite(BuildingTilesetHolder.get().get(type, orientation),
                 type.size[OrientationUtil.isHorisontal(orientation) ? 1 : 0]);
-            int[] rotatedAccessPoint = getRotatedAccessPoint();
-            selectorGO.setAccessPoint(rotatedAccessPoint[0], rotatedAccessPoint[1], "building_access_point");
+            if (type.access != null) {
+                int[] rotatedAccessPoint = getRotatedAccessPoint();
+                selectorGO.setAccessPoint(rotatedAccessPoint[0], rotatedAccessPoint[1], "building_access_point");
+            }
         }
 
         // validate by selector position

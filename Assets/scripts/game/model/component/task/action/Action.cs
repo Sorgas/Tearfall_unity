@@ -59,8 +59,11 @@ namespace game.model.component.task.action {
         public float speed = 1;
         public float maxProgress = 1;
 
-        public Action(ActionTarget target) {
+        public Action(ActionTarget target) : this(){
             this.target = target;
+        }
+
+        public Action() {
             finishCondition = () => progress >= maxProgress;
             progressConsumer = (unit, delta) => progress += delta; // performs logic
         }

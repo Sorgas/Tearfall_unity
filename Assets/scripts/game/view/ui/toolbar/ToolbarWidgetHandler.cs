@@ -1,10 +1,13 @@
-﻿using game.model;
+﻿using System.Collections.Generic;
+using System.Linq;
+using game.model;
 using game.view.system.mouse_tool;
 using game.view.tilemaps;
 using game.view.util;
 using types;
 using types.building;
 using UnityEngine;
+using util.lang.extension;
 
 namespace game.view.ui.toolbar {
     public class ToolbarWidgetHandler : ToolbarPanelHandler {
@@ -38,12 +41,17 @@ namespace game.view.ui.toolbar {
         }
 
         private void fillBuildingsPanel(ToolbarPanelHandler panel) {
-            hotKeySequence.reset();
-            foreach (BuildingType type in BuildingTypeMap.get().all()) {
-                createBuildingButton(panel, type.name, type, hotKeySequence.getNext()); // TODO use building title instead of name
+            HotKeySequence categorySequence = new();
+            Dictionary<string, List<BuildingType>> categoryMap = BuildingTypeMap.get().all().toDictionaryOfLists(type => type.category);
+            foreach (KeyValuePair<string, List<BuildingType>> entry in categoryMap) {
+                hotKeySequence.reset();
+                ToolbarPanelHandler subpanel = panel.createSubPanel(entry.Key, "toolbar/" + entry.Key, categorySequence.getNext());
+                foreach (BuildingType type in entry.Value) {
+                    createBuildingButton(subpanel, type.name, type, hotKeySequence.getNext()); // TODO use building title instead of name
+                }
+                subpanel.createButton("rotate", "toolbar/rotate", () => MouseToolManager.get().rotateBuilding(), KeyCode.T);
+                subpanel.closeAction = () => MouseToolManager.reset();
             }
-            panel.createButton("rotate", "toolbar/rotate", () => MouseToolManager.get().rotateBuilding(), KeyCode.T);
-            panel.closeAction = () => MouseToolManager.reset();
         }
 
         private void fillZonesPanel(ToolbarPanelHandler panel) {
@@ -62,7 +70,7 @@ namespace game.view.ui.toolbar {
             createConstructionButton(panel, "downstairs", "downstairs", ConstructionTypeMap.get("downstairs"), KeyCode.B);
             panel.closeAction = () => MouseToolManager.reset();
         }
-        
+
         private void createToolButton(ToolbarPanelHandler panel, string text, DesignationType designation, KeyCode key) =>
             createToolButton(panel, text, designation.iconName, designation, key);
 

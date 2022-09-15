@@ -94,7 +94,7 @@ namespace game.model.localmap.passage {
         }
 
         public Dictionary<byte, List<Vector3Int>> groupByAreas() {
-            return stream.ToDictionary(position => passageMap.area.get(position), position => new List<Vector3Int> { position }, (l, r) => { l.AddRange(r); return l; });
+            return stream.toDictionaryOfLists(position => passageMap.area.get(position));
         }
 
         // collects areas of positions in stream

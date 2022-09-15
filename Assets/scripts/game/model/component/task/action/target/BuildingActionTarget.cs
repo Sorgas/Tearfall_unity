@@ -10,7 +10,7 @@ namespace game.model.component.task.action.target {
         public readonly Vector3Int center;
         public Vector3Int builderPosition;
 
-        public BuildingActionTarget(Vector3Int position) : base(ActionTargetTypeEnum.NEAR) {
+        public BuildingActionTarget(Vector3Int position) : base(ActionTargetTypeEnum.EXACT) {
             center = position;
         }
 
