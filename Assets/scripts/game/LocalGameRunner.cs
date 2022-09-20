@@ -21,8 +21,10 @@ namespace game {
         public MenuWidgetHandler menuWidget;
         public ToolbarWidgetHandler toolbarWidget;
         public MaterialSelectionWidgetHandler materialSelectionWidgetHandler;
+        public GamespeedWidgetHandler gamespeedWidgetHandler;
         public Text debugInfoPanel;
         public Text modelDebugInfoPanel;
+
         private bool started = false;
 
         // when scene is loaded, inits game model and view
@@ -35,6 +37,7 @@ namespace game {
         }
 
         public void Update() {
+            
             if (!started) return;
             GameModel.get().update();
             GameView.get().update();

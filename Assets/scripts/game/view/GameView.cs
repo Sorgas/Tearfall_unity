@@ -29,10 +29,12 @@ namespace game.view {
             this.sceneObjectsContainer = sceneObjectsContainer;
             initWindowManager();
             initEcs(GameModel.ecsWorld);
+            this.
             tileUpdater = new LocalMapTileUpdater(sceneObjectsContainer.mapHolder);
             cameraAndMouseHandler = new CameraAndMouseHandler(sceneObjectsContainer);
             cameraAndMouseHandler.init();
             selector = new();
+            
             selector.updateBounds();
             selector.zRange.set(0, GameModel.localMap.bounds.maxZ - 1);
             tileUpdater.flush();
@@ -61,6 +63,7 @@ namespace game.view {
         private void initWindowManager() {
             KeyInputSystem system = KeyInputSystem.get();
             system.windowManager.addWindow(sceneObjectsContainer.jobsWindow, KeyCode.J);
+            system.widgetManager.addWidget(sceneObjectsContainer.gamespeedWidgetHandler);
             system.widgetManager.addWidget(sceneObjectsContainer.menuWidget);
             system.widgetManager.addWidget(sceneObjectsContainer.toolbarWidget);
         }

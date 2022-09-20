@@ -22,13 +22,16 @@ namespace game.model {
         public readonly ItemContainer itemContainer = new();
         public readonly PlantContainer plantContainer = new();
         public readonly BuildingContainer buildingContainer = new();
-        private int count = 0;
-
+        
+        public bool paused = false;
+        public int speed = 1;
+        
         public static EcsWorld ecsWorld => get()._ecsWorld;
         public static LocalMap localMap => get().world.localMap;
 
         // init with entities generated on new game or loaded from savegame
         public void update() {
+            if(paused) return;
             systems?.Run();
         }
         

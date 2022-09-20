@@ -1,4 +1,5 @@
-﻿using game.model;
+﻿using System;
+using game.model;
 using game.model.localmap;
 using game.view.util;
 using types.material;
@@ -17,6 +18,10 @@ namespace game.view.camera {
         private Vector3Int cacheTarget; // to avoid excess GO moving
         private Vector3 speed; // keeps sprite speed between ticks
 
+        private int updateCounter;
+        private int second;
+        private int lastUPS;
+
         public MouseMovementSystem(LocalGameRunner initializer) {
             debugLabelText = initializer.debugInfoPanel;
             selector = initializer.selector;
@@ -25,11 +30,11 @@ namespace game.view.camera {
 
         public void update() {
             // move selector towards target
+            updateText(modelTarget);
             if (selector.localPosition == target) return;
             selector.localPosition = Vector3.SmoothDamp(selector.localPosition, target, ref speed, 0.05f); // move selector
             
             if (cacheTarget == modelTarget) return;
-            updateText(modelTarget);
             cacheTarget = modelTarget;
         }
 
@@ -47,11 +52,18 @@ namespace game.view.camera {
         }
 
         private void updateText(Vector3Int modelPosition) {
+            updateCounter ++;
+            if(DateTime.Now.TimeOfDay.Seconds != second) {
+                second = DateTime.Now.TimeOfDay.Seconds;
+                lastUPS = updateCounter;
+                updateCounter = 0;
+            }
             if (!map.inMap(modelPosition)) return;
             debugLabelText.text = "coord: [" + modelPosition.x + ",  " + modelPosition.y + ",  " + modelPosition.z + "]" + "\n"
                                   + "block: " + map.blockType.getEnumValue(modelPosition).NAME + " " +
                                   MaterialMap.get().material(map.blockType.getMaterial(modelPosition)).name + "\n"
-                                  + "passage area: " + map.passageMap.area.get(modelPosition);
+                                  + "passage area: " + map.passageMap.area.get(modelPosition) + "\n"
+                                  + "UPS: " + lastUPS; 
         }
     }
 }

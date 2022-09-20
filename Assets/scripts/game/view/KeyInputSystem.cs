@@ -14,9 +14,11 @@ namespace game.view {
         public KeyInputSystem() {
             // WASDRF is handled by camera input system, because these keys should only move camera
             KeyCode[] keys = {
+                KeyCode.Alpha1,KeyCode.Alpha2,KeyCode.Alpha3,KeyCode.Alpha4,KeyCode.Alpha5,KeyCode.Alpha6,KeyCode.Alpha7,KeyCode.Alpha8,KeyCode.Alpha9,KeyCode.Alpha0,
                 KeyCode.Q, KeyCode.E, KeyCode.T, KeyCode.Y, KeyCode.U, KeyCode.I, KeyCode.O, KeyCode.P,
                 KeyCode.G, KeyCode.H, KeyCode.J, KeyCode.K, KeyCode.L,
-                KeyCode.Z, KeyCode.X, KeyCode.C, KeyCode.V, KeyCode.B, KeyCode.N, KeyCode.M
+                KeyCode.Z, KeyCode.X, KeyCode.C, KeyCode.V, KeyCode.B, KeyCode.N, KeyCode.M,
+                KeyCode.Space
             };
             keyCodes = new List<KeyCode>(keys);
         }
