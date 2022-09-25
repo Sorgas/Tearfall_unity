@@ -27,13 +27,13 @@ public class GamespeedWidgetHandler : MonoBehaviour, IHotKeyAcceptor {
     }
 
     public void togglePause() {
-        GameModel.get().paused = !GameModel.get().paused;
+        GameModel.get().updateController.paused = !GameModel.get().updateController.paused;
         updateVisual();
     }
 
     public void setSpeed(int speed) {
-        GameModel.get().paused = false;
-        GameModel.get().speed = speed;
+        GameModel.get().updateController.paused = false;
+        GameModel.get().updateController.setSpeed(speed);
         updateVisual();
     }
 
@@ -67,10 +67,10 @@ public class GamespeedWidgetHandler : MonoBehaviour, IHotKeyAcceptor {
 
     private void updateVisual() {
         deactivateAll();
-        if (GameModel.get().paused) {
+        if (GameModel.get().updateController.paused) {
             pauseButton.GetComponent<Image>().color = activeColor;
         } else {
-            switch (GameModel.get().speed) {
+            switch (GameModel.get().updateController.speed) {
                 case 1:
                     speed1Button.GetComponent<Image>().color = activeColor;
                     break;

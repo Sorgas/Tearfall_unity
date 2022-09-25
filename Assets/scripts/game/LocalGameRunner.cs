@@ -26,6 +26,7 @@ namespace game {
         public Text modelDebugInfoPanel;
 
         private bool started = false;
+        private const float updatetickDelta = 1/90f;
 
         // when scene is loaded, inits game model and view
         public void Start() {
@@ -34,13 +35,16 @@ namespace game {
             GameModel.get().init();
             GameView.get().init(this);
             started = true;
+            InvokeRepeating("updateModel", 0, updatetickDelta);
         }
 
         public void Update() {
-            
             if (!started) return;
-            GameModel.get().update();
             GameView.get().update();
+        }
+
+        private void updateModel() {
+            GameModel.get().updateController.update(updatetickDelta);
         }
 
         // gets world either from worldgen/localgen, savefile, or creates test one
