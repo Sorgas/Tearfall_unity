@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using enums.item;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace game.model.component.item {
         public float weight;
         public int material;
         public int volume; // used for containers
+        public List<ItemTagEnum> tags;
 
         public string materialString; // for faster naming
         public bool isBuildingMaterial;

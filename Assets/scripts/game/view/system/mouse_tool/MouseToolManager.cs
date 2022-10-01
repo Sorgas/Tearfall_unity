@@ -10,6 +10,7 @@ namespace game.view.system.mouse_tool {
     // TODO split into different tools
     public class MouseToolManager : Singleton<MouseToolManager> {
         private MouseTool tool;
+        private static SelectionMouseTool selectionTool = new();
         private static DesignationMouseTool designationTool = new();
         private static ConstructionMouseTool constructionTool = new();
         private static BuildingMouseTool buildingTool = new();

@@ -11,4 +11,8 @@ namespace game.model.component.building {
     public struct BuildingVisualComponent {
         public GameObject gameObject;
     }
+
+    public struct WorkbenchComponent {
+        public string name;
+    }
 }

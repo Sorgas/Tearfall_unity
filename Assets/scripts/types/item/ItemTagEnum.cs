@@ -27,6 +27,6 @@
         SEED_PRODUCE,
         WATER,
         CLOTH,
-        MATERIAL         // item is raw material for building and crafting
+        MATERIALd         // item is raw material for building and crafting
     }
 }

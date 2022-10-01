@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using game.model.component.building;
+using Leopotam.Ecs;
 using UnityEngine;
 using util.lang;
 
@@ -40,6 +42,13 @@ namespace game.view.ui {
             activeWindow = null;
             window.close();
             GameView.get().cameraAndMouseHandler.enabled = true;
+        }
+
+        public void showWindowForBuilding(EcsEntity entity) {
+            if(entity.Has<WorkbenchComponent>()) {
+                showWindow(windows["workbench"]);
+                // ()activeWindow
+            }
         }
 
         private bool toggleWindow(IWindow window) {
