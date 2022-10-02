@@ -1,6 +1,7 @@
 using game.model;
 using game.model.component.building;
 using game.view.camera;
+using game.view.ui;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.geometry.bounds;
@@ -13,7 +14,7 @@ namespace game.view.system.mouse_tool {
             if(GameModel.get().buildingContainer.buildings.ContainsKey(position)) {
                 EcsEntity entity = GameModel.get().buildingContainer.buildings[position];
                 if(entity.Has<WorkbenchComponent>()) {
-                    
+                    WindowManager.get().showWindowForBuilding(entity);
                 }
             }
         }
@@ -27,7 +28,8 @@ namespace game.view.system.mouse_tool {
         public override void rotate() { }
 
         public override bool updateMaterialSelector() {
-            return false;
+            materialSelector.close();
+            return true;
         }
 
         public override void updateSprite() {

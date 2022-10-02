@@ -3,6 +3,7 @@ using game.view.camera;
 using game.view.system.building;
 using game.view.system.designation;
 using game.view.system.item;
+using game.view.system.mouse_tool;
 using game.view.system.plant;
 using game.view.system.unit;
 using game.view.tilemaps;
@@ -38,6 +39,8 @@ namespace game.view {
             selector.zRange.set(0, GameModel.localMap.bounds.maxZ - 1);
             tileUpdater.flush();
             resetCameraPosition();
+            MouseToolManager.reset();
+            sceneObjectsContainer.gamespeedWidgetHandler.updateVisual();
             Debug.Log("view initialized");
         }
         
@@ -61,10 +64,12 @@ namespace game.view {
 
         private void initWindowManager() {
             KeyInputSystem system = KeyInputSystem.get();
-            system.windowManager.addWindow(sceneObjectsContainer.jobsWindow, KeyCode.J);
+            system.windowManager.addWindow(sceneObjectsContainer.jobsWindow);
+            system.windowManager.addWindow(sceneObjectsContainer.workbenchWindowHandler);
             system.widgetManager.addWidget(sceneObjectsContainer.gamespeedWidgetHandler);
             system.widgetManager.addWidget(sceneObjectsContainer.menuWidget);
             system.widgetManager.addWidget(sceneObjectsContainer.toolbarWidget);
+
         }
         
         private void resetCameraPosition() {

@@ -16,11 +16,19 @@ namespace game.view.system.mouse_tool {
         private static BuildingMouseTool buildingTool = new();
         private SelectorSpriteUpdater updater = new();
 
+        public static void handleSelection(IntBounds3 bounds) => get().handleSelection_(bounds);
+        
+        public void mouseMoved(Vector3Int position) {
+            tool?.updateSpriteColor(position); // TODO use position in tools (for performance)
+            updater.updateSprite(position);
+        }
+        
         public static void reset() {
             get().tool?.reset();
-            GameView.get().cameraAndMouseHandler.selectionHandler.state.type = AREA;
-            get()._set(null);
+            get()._set(selectionTool);
+            GameView.get().cameraAndMouseHandler.selectionHandler.state.type = SINGLE;
         }
+
         public static void set(DesignationType type) {
             designationTool.designation = type;
             get()._set(designationTool);
@@ -36,9 +44,16 @@ namespace game.view.system.mouse_tool {
             get()._set(constructionTool);
         }
 
-        public void mouseMoved(Vector3Int position) {
-            tool?.updateSpriteColor(position); // TODO use position in tools (for performance)
-            updater.updateSprite(position);
+        public void setItem(string typeName, int materialId) {
+            if (tool is ItemConsumingMouseTool) ((ItemConsumingMouseTool)tool).setItem(typeName, materialId);
+        }
+
+        public virtual void rotateBuilding() {
+            tool.rotate();
+        }
+
+        private void handleSelection_(IntBounds3 bounds) {
+            tool?.applyTool(bounds);
         }
         
         private void _set(MouseTool tool) {
@@ -47,20 +62,6 @@ namespace game.view.system.mouse_tool {
             tool.updateMaterialSelector(); // enough items for building or items not required
             tool.updateSprite();
             GameView.get().cameraAndMouseHandler.selectionHandler.state.type = tool.selectionType;
-        }
-
-        public void setItem(string typeName, int materialId) {
-            if (tool is ItemConsumingMouseTool) ((ItemConsumingMouseTool)tool).setItem(typeName, materialId);
-        }
-
-        public static void handleSelection(IntBounds3 bounds) => get().handleSelection_(bounds);
-
-        public virtual void rotateBuilding() {
-            tool.rotate();
-        }
-
-        private void handleSelection_(IntBounds3 bounds) {
-            tool?.applyTool(bounds);
         }
     }
 }

@@ -23,10 +23,16 @@ namespace types.building {
         }
 
         private void loadLists() {
-            TextAsset file = Resources.Load<TextAsset>("data/recipes/lists.json");
-            List<string>[] lists = JsonArrayReader.readArray<List<string>>(file.text);
-            foreach(List<string> list in lists) {
-                recipeListMap.Add(list[0], list.GetRange(1, list.Count - 1));
+            Debug.Log("loading recipe lists");
+            TextAsset file = Resources.Load<TextAsset>("data/lists");
+            StringList2[] lists = JsonArrayReader.readArray<StringList2>(file.text);
+            Debug.Log(lists.Count());
+            foreach(StringList2 list in lists) {
+                foreach(string listString in list.lists) {
+                    Debug.Log(listString);
+                    List<string> list2 = new(listString.Split("/"));
+                    recipeListMap.Add(list2[0], list2.GetRange(1, list2.Count - 1));
+                }
             }
         }
 
@@ -51,5 +57,10 @@ namespace types.building {
             }
             Debug.Log("loaded " + count + " from " + file.name);
         }
+    }
+
+    public class StringList2 {
+        // public string test;
+        public string[] lists;
     }
 }

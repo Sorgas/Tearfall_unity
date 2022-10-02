@@ -1,5 +1,4 @@
-﻿using enums.unit;
-using game.model;
+﻿using game.model;
 using game.model.component;
 using game.model.component.unit;
 using Leopotam.Ecs;

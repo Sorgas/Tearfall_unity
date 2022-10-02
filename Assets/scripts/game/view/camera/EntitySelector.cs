@@ -6,6 +6,7 @@ using util.geometry;
 using util.geometry.bounds;
 
 namespace game.view {
+    // model object for 'mouse', stores its position current layer, bounds, size
     public class EntitySelector {
         public Vector3Int position = new();
         public readonly IntBounds3 bounds = new();

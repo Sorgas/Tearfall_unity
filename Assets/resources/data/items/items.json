@@ -1,12 +1,12 @@
 [
-    {
-        "name": "log",
-        "description": "Large part of a tree.",
-        "aspects": ["fuel(1)"],
-        "atlasXY": [0, 0],
-        "color": "0xffffffff",
-        "tags": ["material"]
-    }, {
+{
+    "name": "log",
+    "description": "Large part of a tree.",
+    "aspects": ["fuel(1)"],
+    "atlasXY": [0, 0],
+    "color": "0xffffffff",
+    "tags": ["material"]
+}, {
     "name": "branch",
     "description": "Small part of a tree.",
     "aspects": ["fuel(1)"],
@@ -53,11 +53,6 @@
     "color": "0xffffffff",
     "tags": ["material"]
 }, {
-    "name": "pot",
-    "description": "For storing things or growing small plants.",
-    "atlasXY": [13, 0],
-    "color": "0xffffffff"
-}, {
     "name": "rope",
     "description": "For binding items to each other.",
     "atlasXY": [14, 0],
@@ -66,11 +61,6 @@
     "name": "lantern",
     "description": "Shows path in the dark.",
     "atlasXY": [14, 0],
-    "color": "0xffffffff"
-}, {
-    "name": "flask",
-    "description": "Keeps drinks close.",
-    "atlasXY": [15, 0],
     "color": "0xffffffff"
 }, {
     "name": "torch",
@@ -97,17 +87,6 @@
     "atlasXY": [4, 0],
     "color": "0xffffffff"
 }, {
-    "name": "bucket",
-    "description": "Can hold liquids.",
-    "aspects": ["item_container(liquid/solid/grain,1)"],
-    "atlasXY": [15, 0],
-    "color": "0xffffffff"
-}, {
-    "name": "bottle",
-    "description": "Bottle for drinks.",
-    "atlasXY": [15, 0],
-    "color": "0xffffffff"
-}, {
     "name": "chain",
     "description": "Strong metal chain.",
     "atlasXY": [15, 0],
@@ -115,16 +94,6 @@
 }, {
     "name": "book",
     "description": "Source of knowledge.",
-    "atlasXY": [15, 0],
-    "color": "0xffffffff"
-}, {
-    "name": "cup",
-    "description": "Holds liquids.",
-    "atlasXY": [15, 0],
-    "color": "0xffffffff"
-}, {
-    "name": "pouch",
-    "description": "Bag for small things.",
     "atlasXY": [15, 0],
     "color": "0xffffffff"
 }, {

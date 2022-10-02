@@ -58,12 +58,11 @@
     "title": "Saw log into planks",
     "itemName": "plank",
     "ingredients": ["plank:log:wood:1"]
-    // TODO quantity
 }, {
     "name": "melt_ore",
     "title": "Melt ore to metal bar",
     "itemName": "bar",
-    "newMaterial": "_smelt:bar", // process reaction of bar material will be set
+    "newMaterial": "_smelt:bar",
     "ingredients": ["bar:rock:ore:1", "consumed:any:fuel:1"]
 }, {
     "name": "extract_seeds",

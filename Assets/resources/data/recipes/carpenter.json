@@ -1,0 +1,13 @@
+[
+    {
+        "name": "make_barrel",
+        "title": "Wooden barrel",
+        "itemName": "barrel",
+        "ingredients": ["main:log:wood:2"]
+    },{
+        "name": "make_bin",
+        "title": "Wooden bin",
+        "itemName": "bin",
+        "ingredients": ["main:log:wood:2"]
+    }
+]

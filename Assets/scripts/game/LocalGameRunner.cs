@@ -1,5 +1,6 @@
 using game.model;
 using game.view;
+using game.view.ui;
 using game.view.ui.jobs_widget;
 using game.view.ui.menu_widget;
 using game.view.ui.toolbar;
@@ -22,6 +23,7 @@ namespace game {
         public ToolbarWidgetHandler toolbarWidget;
         public MaterialSelectionWidgetHandler materialSelectionWidgetHandler;
         public GamespeedWidgetHandler gamespeedWidgetHandler;
+        public WorkbenchWindowHandler workbenchWindowHandler;
         public Text debugInfoPanel;
         public Text modelDebugInfoPanel;
 

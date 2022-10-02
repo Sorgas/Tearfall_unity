@@ -26,6 +26,7 @@ namespace game.view.camera {
             if (Input.GetMouseButtonUp(0)) selectionHandler.handleMouseUp();
             if (Input.GetMouseButtonDown(1)) selectionHandler.handleSecondaryMouseClick();
         }
+        
         public void init() {
             selectionHandler = GameView.get().cameraAndMouseHandler.selectionHandler;
             mouseMovementSystem = GameView.get().cameraAndMouseHandler.mouseMovementSystem;

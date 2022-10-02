@@ -23,7 +23,6 @@ public class GamespeedWidgetHandler : MonoBehaviour, IHotKeyAcceptor {
         speed1Button.GetComponent<Button>().onClick.AddListener(() => setSpeed(1));
         speed2Button.GetComponent<Button>().onClick.AddListener(() => setSpeed(2));
         speed3Button.GetComponent<Button>().onClick.AddListener(() => setSpeed(3));
-        updateVisual();
     }
 
     public void togglePause() {
@@ -58,14 +57,7 @@ public class GamespeedWidgetHandler : MonoBehaviour, IHotKeyAcceptor {
         return false;
     }
 
-    private void deactivateAll() {
-        pauseButton.GetComponent<Image>().color = inactiveColor;
-        speed1Button.GetComponent<Image>().color = inactiveColor;
-        speed2Button.GetComponent<Image>().color = inactiveColor;
-        speed3Button.GetComponent<Image>().color = inactiveColor;
-    }
-
-    private void updateVisual() {
+    public void updateVisual() {
         deactivateAll();
         if (GameModel.get().updateController.paused) {
             pauseButton.GetComponent<Image>().color = activeColor;
@@ -82,5 +74,12 @@ public class GamespeedWidgetHandler : MonoBehaviour, IHotKeyAcceptor {
                     break;
             }
         }
+    }
+
+    private void deactivateAll() {
+        pauseButton.GetComponent<Image>().color = inactiveColor;
+        speed1Button.GetComponent<Image>().color = inactiveColor;
+        speed2Button.GetComponent<Image>().color = inactiveColor;
+        speed3Button.GetComponent<Image>().color = inactiveColor;
     }
 }

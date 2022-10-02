@@ -21,11 +21,12 @@
         }
 
         public void update() {
-            if (!enabled) return;
-            mouseInputSystem.update();
-            mouseMovementSystem.update();
-            cameraInputSystem.update();
-            cameraMovementSystem.update();
+            if (enabled) {
+                mouseInputSystem.update();
+                mouseMovementSystem.update();
+                cameraInputSystem.update();
+                cameraMovementSystem.update();
+            }
         }
     }
 }

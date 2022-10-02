@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using types;
 using types.building;
 using UnityEngine;
@@ -14,5 +15,7 @@ namespace game.model.component.building {
 
     public struct WorkbenchComponent {
         public string name;
+        public List<CraftingOrder> orders;
+        public CraftingOrder currentOrder;
     }
 }
