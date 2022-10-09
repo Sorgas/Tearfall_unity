@@ -32,7 +32,7 @@ namespace game.view.system.unit {
         private void updatePosition(ref EcsEntity unit, ref UnitVisualComponent component, UnitMovementComponent unitMovement) {
             // TODO use view utils
             Vector3Int pos = unit.pos();
-            bool isOnRamp = GameModel.localMap.blockType.get(pos) == BlockTypes.RAMP.CODE;
+            bool isOnRamp = GameModel.get().currentLocalModel.localMap.blockType.get(pos) == BlockTypes.RAMP.CODE;
             component.handler.gameObject.transform.localPosition = 
                 ViewUtil.fromModelToScene(pos) + (isOnRamp ? spriteOffsetOnRamp : spriteOffset);
             // set mask to draw unit through z+1 toppings

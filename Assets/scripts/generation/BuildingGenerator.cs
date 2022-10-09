@@ -4,24 +4,33 @@ using game.model.component.building;
 using game.model.component.task.order;
 using Leopotam.Ecs;
 using types;
+using types.building;
 using UnityEngine;
 
 namespace generation {
     public class BuildingGenerator {
+
         public EcsEntity generateByOrder(BuildingOrder order, EcsEntity entity) {
             entity.Replace(new BuildingComponent { type = order.type, orientation = order.orientation });
             entity.Replace(new PositionComponent { position = order.position });
-            MultiPositionComponent multiPositionComponent = new() { positions = new List<Vector3Int>() };
-            bool flip = order.orientation == Orientations.E || order.orientation == Orientations.W;
-            int xSize = order.type.size[flip ? 1 : 0];
-            int ySize = order.type.size[flip ? 0 : 1];
+            if (order.type.category == "workbenches") {
+                entity.Replace(new WorkbenchComponent { orders = new() });
+            }
+            entity.Replace(createMultiPositionComponent(order.type, order.position, order.orientation));
+            return entity;
+        }
+
+        private MultiPositionComponent createMultiPositionComponent(BuildingType type, Vector3Int position, Orientations orientation) {
+            MultiPositionComponent component = new() { positions = new List<Vector3Int>() };
+            bool flip = OrientationUtil.isHorisontal(orientation);
+            int xSize = type.size[flip ? 1 : 0];
+            int ySize = type.size[flip ? 0 : 1];
             for (int x = 0; x < xSize; x++) {
                 for (int y = 0; y < ySize; y++) {
-                    multiPositionComponent.positions.Add(new Vector3Int(x + order.position.x, y + order.position.y, order.position.z));
+                    component.positions.Add(new Vector3Int(x + position.x, y + position.y, position.z));
                 }
             }
-            entity.Replace(multiPositionComponent);
-            return entity;
+            return component;
         }
     }
 }

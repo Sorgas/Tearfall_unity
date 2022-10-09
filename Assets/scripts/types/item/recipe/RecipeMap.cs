@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using enums.material;
 using Newtonsoft.Json;
-using types.material;
 using UnityEngine;
+using util.lang;
 
 namespace Assets.scripts.types.item.recipe {
-    public class RecipeMap {
+    public class RecipeMap : Singleton<RecipeMap> {
         private Dictionary<string, Recipe> map = new();
         private string logMessage;
         private RecipeProcessor processor = new();
@@ -13,6 +12,8 @@ namespace Assets.scripts.types.item.recipe {
         public RecipeMap() {
             loadFiles();
         }
+
+        public Recipe get(string recipeName) => map.ContainsKey(recipeName) ? map[recipeName] : null;
 
         private void loadFiles() {
             Debug.Log("loading recipes");

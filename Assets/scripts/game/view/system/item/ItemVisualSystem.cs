@@ -43,7 +43,7 @@ namespace game.view.system.item {
         private void updatePosition(ref ItemVisualComponent component, PositionComponent positionComponent) {
             Vector3Int pos = positionComponent.position;
             Vector3 scenePos = ViewUtil.fromModelToScene(pos) +
-                               (GameModel.localMap.blockType.get(pos) == BlockTypes.RAMP.CODE
+                               (GameModel.get().currentLocalModel.localMap.blockType.get(pos) == BlockTypes.RAMP.CODE
                                    ? spriteZOffsetForRamp
                                    : spriteZOffset);
             component.spriteRenderer.gameObject.transform.localPosition = scenePos;

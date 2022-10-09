@@ -1,4 +1,3 @@
-using enums;
 using game.model.component;
 using game.model.component.unit;
 using Leopotam.Ecs;
@@ -9,10 +8,12 @@ using static types.PassageTypes;
 
 namespace game.model.system.unit {
     // Moves unit along path created in UnitPathfindingSystem. If path is blocked, it will be recalculated. 
-    public class UnitMovementSystem : IEcsRunSystem {
+    public class UnitMovementSystem : LocalModelEcsSystem {
         EcsFilter<UnitMovementComponent, UnitMovementPathComponent> filter = null;
 
-        public void Run() {
+        public UnitMovementSystem(LocalModel model) : base(model) { }
+
+        public override void Run() {
             foreach (int i in filter) {
                 ref UnitMovementComponent component = ref filter.Get1(i);
                 ref UnitMovementPathComponent pathComponent = ref filter.Get2(i);
@@ -27,7 +28,7 @@ namespace game.model.system.unit {
                 unit.Del<UnitMovementTargetComponent>();
                 return;
             }
-            if (GameModel.localMap.passageMap.passage.get(path.path[0]) == IMPASSABLE.VALUE) { // path became blocked after finding
+            if (model.localMap.passageMap.passage.get(path.path[0]) == IMPASSABLE.VALUE) { // path became blocked after finding
                 unit.Del<UnitMovementPathComponent>(); // remove invalid path, will be found again on next tick
                 return;
             }

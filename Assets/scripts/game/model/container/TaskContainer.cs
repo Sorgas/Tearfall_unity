@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using enums.action;
-using enums.unit;
-using game.model.component;
 using game.model.localmap.passage;
 using Leopotam.Ecs;
 using types.unit;
@@ -13,7 +11,7 @@ using static game.model.component.task.TaskComponents;
 namespace game.model.container {
     // contains all shared tasks for settlers. Personal tasks like eating or resting are not handled
     // only contains tasks with TaskJobComponent
-    public class TaskContainer {
+    public class TaskContainer : LocalMapModelComponent {
         public TaskGenerator generator = new();
 
         // private Dictionary<string, HashSet<EcsEntity>> tasks = new();
@@ -22,7 +20,7 @@ namespace game.model.container {
         public int openTaskCount = 0;
         public int assignedTaskCount = 0;
 
-        public TaskContainer() {
+        public TaskContainer(LocalModel model) : base(model) {
             foreach (var job in Jobs.jobs) {
                 openTasks.Add(job.name, new HashSet<EcsEntity>());
             }
@@ -41,7 +39,7 @@ namespace game.model.container {
         // returns task appropriate for unit, but does not removes task from container
         // TODO add priority sorting
         public EcsEntity findTask(List<string> jobs, Vector3Int position) {
-            PassageMap passageMap = GameModel.localMap.passageMap;
+            PassageMap passageMap = model.localMap.passageMap;
             byte performerArea = passageMap.area.get(position);
             foreach (var job in jobs) {
                 if (openTasks[job].Count > 0) {
@@ -55,11 +53,11 @@ namespace game.model.container {
                         // target position is accessible from performer area
                         if (targetType == NEAR || targetType == ANY) {
                             if (task.Has<TaskBlockOverrideComponent>()) {
-                                return new NeighbourPositionStream(target)
+                                return new NeighbourPositionStream(target, model)
                                     .filterConnectedToCenterWithOverrideTile(task.take<TaskBlockOverrideComponent>().blockType)
                                     .collectAreas().Contains(performerArea);
                             }
-                            return new NeighbourPositionStream(target)
+                            return new NeighbourPositionStream(target, model)
                                 .filterConnectedToCenter()
                                 .collectAreas().Contains(performerArea);
                         }

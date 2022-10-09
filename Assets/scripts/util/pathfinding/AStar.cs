@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using enums.action;
-using game.model;
 using game.model.localmap;
 using UnityEngine;
 using util.geometry;
@@ -11,14 +10,14 @@ namespace util.pathfinding {
     public class AStar : Singleton<AStar> {
         private LocalMap localMap;
 
-        public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, ActionTargetTypeEnum targetType) {
-            localMap = GameModel.localMap;
+        public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, ActionTargetTypeEnum targetType, LocalMap map) {
+            localMap = map;
             Debug.Log("searching path from " + start + " to " + target);
             return search(new Node(start, null, getH(target, start), 0), target, targetType);
         }
 
-        public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target) =>
-            makeShortestPath(start, target, ActionTargetTypeEnum.EXACT);
+        public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, LocalMap map) =>
+            makeShortestPath(start, target, ActionTargetTypeEnum.EXACT, map);
 
         /**
          * @param targetType  see {@link ActionTarget}
@@ -28,7 +27,7 @@ namespace util.pathfinding {
             var openSet = new BinaryHeap();
             var closedSet = new HashSet<Vector3Int>();
             var fetchedNodes = new Dictionary<Vector3Int, Vector3Int?>();
-            var finishCondition = new PathFinishCondition(target, targetType);
+            var finishCondition = new PathFinishCondition(target, targetType, localMap);
 
             openSet.push(initialNode);
             while (openSet.Count > 0) {

@@ -69,6 +69,7 @@
      <Compile Include="Assets\scripts\generation\plant\PlantGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\EquipWearItemAction.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\MouseToolManager.cs" />
+     <Compile Include="Assets\scripts\game\model\system\LocalModelEcsSystem.cs" />
      <Compile Include="Assets\scripts\game\model\container\DesignationContainer.cs" />
      <Compile Include="Assets\scripts\game\view\camera\CameraInputSystem.cs" />
      <Compile Include="Assets\scripts\types\unit\race\CombinedAppearance.cs" />
@@ -138,7 +139,7 @@
      <Compile Include="Assets\scripts\game\model\UnitContainer.cs" />
      <Compile Include="Assets\scripts\types\unit\Skill.cs" />
      <Compile Include="Assets\scripts\game\view\ui\menu_widget\MenuWidgetHandler.cs" />
-     <Compile Include="Assets\scripts\game\model\container\EntityContainer.cs" />
+     <Compile Include="Assets\scripts\game\model\container\LocalMapModelComponent.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\UnitComponents.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\TexturePacker.cs" />
      <Compile Include="Assets\scripts\game\view\ui\workbench\WorkbenchWindowHandler.cs" />
@@ -159,6 +160,7 @@
      <Compile Include="Assets\scripts\game\model\container\item\ItemTransitionUtil.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntVector3.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\UnitNeedComponents.cs" />
+     <Compile Include="Assets\scripts\game\model\WorldModel.cs" />
      <Compile Include="Assets\scripts\mainMenu\ButtonHandler.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalStoneLayersGenerator.cs" />
      <Compile Include="Assets\scripts\types\material\Material.cs" />
@@ -172,6 +174,7 @@
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenConfig.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\PositionValidator.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\OnMapItemsManager.cs" />
+     <Compile Include="Assets\scripts\generation\localgen\generators\LocalBuildingGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\WorldMap.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\TilesHolder.cs" />
      <Compile Include="Assets\scripts\types\item\type\ItemType.cs" />
@@ -220,10 +223,12 @@
      <Compile Include="Assets\scripts\game\view\util\LocalMapLayerHandler.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\PathFinishCondition.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\DesignationComponents.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\order\CraftingOrder.cs" />
      <Compile Include="Assets\scripts\game\view\ui\IWindow.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\SelectionMouseTool.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\RectanglePacking\IntegerRectangle.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\ConstructionMouseTool.cs" />
+     <Compile Include="Assets\scripts\generation\localgen\LocalMapGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\ItemContainer.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedConditionController.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedSystem.cs" />
@@ -295,12 +300,12 @@
      <Compile Include="Assets\scripts\game\model\component\unit\UnitEquipmentComponent.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\BinaryHeap.cs" />
      <Compile Include="Assets\scripts\game\view\ui\toolbar\MaterialSelectionWidgetHandler.cs" />
-     <Compile Include="Assets\scripts\game\model\system\ModelComponent.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\BuildingActionTarget.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntVector2.cs" />
      <Compile Include="Assets\scripts\types\unit\need\Need.cs" />
      <Compile Include="Assets\scripts\game\model\container\TaskContainer.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantRemovingSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\localmap\LocalModel.cs" />
      <Compile Include="Assets\scripts\generation\BuildingGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\BlockTileSetHolder.cs" />
      <Compile Include="Assets\scripts\game\view\util\UnitGoHandler.cs" />
@@ -329,7 +334,6 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\StepOffAction.cs" />
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\order\CraftingOrder.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

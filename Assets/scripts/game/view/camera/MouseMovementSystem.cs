@@ -21,7 +21,7 @@ namespace game.view.camera {
         public MouseMovementSystem(LocalGameRunner initializer) {
             debugLabelText = initializer.debugInfoPanel;
             selectorSprite = initializer.selector;
-            map = GameModel.localMap;
+            map = GameModel.get().currentLocalModel.localMap;
         }
 
         public void update() {

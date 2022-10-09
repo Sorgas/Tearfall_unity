@@ -9,15 +9,15 @@ using util.lang;
 using util.lang.extension;
 
 namespace game.model.container.item {
-    public class ItemFindingUtil {
+    public class ItemFindingUtil : LocalMapModelComponent {
         private ItemContainer container;
 
-        public ItemFindingUtil(ItemContainer container) {
+        public ItemFindingUtil(ItemContainer container, LocalModel model) : base(model) {
             this.container = container;
         }
 
         public EcsEntity findFreeReachableItemBySelector(ItemSelector selector, Vector3Int pos) {
-            LocalMap map = GameModel.localMap;
+            LocalMap map = model.localMap;
             // get items and positions
             // TODO add items in containers
             if (container.onMap.all.Count < 0) return EcsEntity.Null;

@@ -1,6 +1,4 @@
-﻿using enums;
-using types;
-using UnityEngine;
+﻿using types;
 
 namespace game.model.util.validation {
     public class DiggingValidator : PositionValidator {
@@ -10,8 +8,8 @@ namespace game.model.util.validation {
             this.targetBlockType = targetBlockType;
         }
 
-        public override bool validate(int x, int y, int z) {
-            BlockType block = GameModel.localMap.blockType.getEnumValue(x, y, z);
+        public override bool validate(int x, int y, int z, LocalModel model) {
+            BlockType block = model.localMap.blockType.getEnumValue(x, y, z);
             return targetBlockType.OPENNESS > block.OPENNESS;
         }
     }

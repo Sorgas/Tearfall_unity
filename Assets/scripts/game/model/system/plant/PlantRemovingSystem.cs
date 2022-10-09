@@ -6,11 +6,13 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.system.plant {
-    public class PlantRemovingSystem : IEcsRunSystem {
+    public class PlantRemovingSystem : LocalModelEcsSystem {
         public EcsFilter<PlantRemoveComponent> filter;
         private ItemGenerator generator = new();
-        
-        public void Run() {
+
+        public PlantRemovingSystem(LocalModel model) : base(model) {}
+
+        public override void Run() {
             foreach (int i in filter) {
                 EcsEntity plant = filter.GetEntity(i);
                 if (plant.Has<PlantVisualComponent>()) {
@@ -34,8 +36,8 @@ namespace game.model.system.plant {
 
         private void leaveBlockProduct(PlantBlock block, Vector3Int position) {
             if (block.blockType == PlantBlockTypeEnum.TRUNK.code) {
-                EcsEntity product = generator.generateItem("log", "wood");
-                GameModel.get().itemContainer.onMap.putItemToMap(product, position);
+                EcsEntity product = generator.generateItem("log", "wood", model.createEntity());
+                model.itemContainer.onMap.putItemToMap(product, position);
             }
         }
     }

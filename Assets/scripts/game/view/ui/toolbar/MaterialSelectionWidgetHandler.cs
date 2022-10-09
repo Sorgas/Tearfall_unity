@@ -31,7 +31,7 @@ namespace game.view.ui.toolbar {
         public bool fill(BuildingVariant[] variants) {
             clear();
             Dictionary<BuildingVariant, MultiValueDictionary<int, EcsEntity>> items =
-                GameModel.get().itemContainer.util.findForBuildingVariants(variants);
+                GameModel.get().currentLocalModel.itemContainer.util.findForBuildingVariants(variants);
             foreach (BuildingVariant variant in variants) {
                 if (items.ContainsKey(variant)) {
                     foreach (int material in items[variant].Keys) {

@@ -37,7 +37,7 @@ namespace game.view.system.mouse_tool {
                 Debug.LogError("building bounds not on selector position !!!");
             }
             if (validate()) {
-                GameModel.get().designationContainer.createBuildingDesignation(position, type, orientation, itemType, material);
+                GameModel.get().currentLocalModel.designationContainer.createBuildingDesignation(position, type, orientation, itemType, material);
             }
         }
 
@@ -71,7 +71,7 @@ namespace game.view.system.mouse_tool {
 
         private bool validate() {
             EntitySelector selector = GameView.get().selector;
-            return validator.validateArea(selector.position, selector.size);
+            return validator.validateArea(selector.position, selector.size, GameModel.get().currentLocalModel);
         }
 
         private void updateSelectorSize() {

@@ -12,9 +12,11 @@ using util.lang.extension;
 
 namespace game.model.container {
     // registry for player buildings in game.
-    public class BuildingContainer {
+    public class BuildingContainer : LocalMapModelComponent {
         public Dictionary<Vector3Int, EcsEntity> buildings = new(); // links position to buildings
         private BuildingGenerator generator = new();
+
+        public BuildingContainer(LocalModel model) : base(model) { }
 
         public bool createBuilding(BuildingOrder order) {
             IntBounds3 buildingBounds = createBuildingBounds(order);
@@ -22,21 +24,26 @@ namespace game.model.container {
                 Debug.LogError("building site is occupied");
                 return false;
             }
-            EcsEntity building = generator.generateByOrder(order, GameModel.get().createEntity());
+            EcsEntity building = generator.generateByOrder(order, model.createEntity());
             
             buildingBounds.iterate((x, y, z) => {
                 buildings.Add(new Vector3Int(x, y, z), building);
             });
             if (order.type.passage == "impassable") {
                 buildingBounds.iterate((x, y, z) => {
-                    GameModel.localMap.passageMap.updater.update(x, y, z);        
+                    model.localMap.passageMap.updater.update(x, y, z);        
                 });
             }
             return true;
         }
 
-        public bool validatePosition(IntBounds3 bounds) {
-            LocalMap map = GameModel.localMap;
+        // public bool createBuilding(BuidingType type, Vector3Int position, Orientations orientation, int material) {
+        //     EcsEntity building = generator.
+        //     return true;            
+        // }
+
+        private bool validatePosition(IntBounds3 bounds) {
+            LocalMap map = model.localMap;
             BuildingValidator validator = new();
             return bounds.validate((x, y, z) => validator.validate(x, y, z, map));
         }

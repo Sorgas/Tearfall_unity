@@ -14,13 +14,11 @@ namespace types.building {
             loadFiles();
         }
 
-        public static BuildingType get(string name) {
-            return get().map[name];
-        }
+        public static BuildingType get(string name) => get().map[name];
 
-        public Dictionary<string, BuildingType>.ValueCollection all() {
-            return map.Values;
-        }
+        public List<string> getRecipes(string name) => recipeListMap.ContainsKey(name) ? recipeListMap[name] : new List<string>();
+
+        public Dictionary<string, BuildingType>.ValueCollection all() => map.Values;
 
         private void loadLists() {
             Debug.Log("loading recipe lists");

@@ -11,10 +11,12 @@ namespace game.model.system.unit {
     // This system removes task component from unit and adds TaskFinishedComponent to task.
     // All task cases then handled in TaskCompletionSystem
     // TODO give exp
-    public class UnitTaskCompletionSystem : IEcsRunSystem {
+    public class UnitTaskCompletionSystem : LocalModelEcsSystem {
         public EcsFilter<UnitComponent, TaskFinishedComponent> filter;
 
-        public void Run() {
+        public UnitTaskCompletionSystem(LocalModel model) : base(model) {}
+
+        public override void Run() {
             foreach (var i in filter) {
                 ref EcsEntity unit = ref filter.GetEntity(i);
                 TaskStatusEnum status = filter.Get2(i).status;

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using util.geometry;
 
 // fills heights map in local gen container. properties selected based on world cell's biome
 namespace generation.localgen.generators {
@@ -7,16 +6,17 @@ namespace generation.localgen.generators {
         private float xOffset;
         private float yOffset;
 
+        public LocalElevationGenerator(LocalMapGenerator generator) : base(generator) {}
+
         // TODO take in account elevation of surrounding tiles
         public override void generate() {
             Debug.Log("generating elevation");
-            LocalGenConfig config = GenerationState.get().localGenConfig;
-            container = GenerationState.get().localGenContainer;
-            IntVector2 location = config.location;
+            Vector2Int location = config.location;
             bounds.set(0, 0, config.areaSize - 1, config.areaSize - 1);
             // GenerationState.get().world.worldMap.biome;
             createElevation();
-            modifyElevation(8, 20);
+            // TODO base modifier on biome (plains, hills mountain regions)
+            modifyElevation(8, container.localElevation);
             logElevation();
         }
 

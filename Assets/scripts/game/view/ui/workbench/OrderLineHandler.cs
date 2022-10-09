@@ -35,6 +35,10 @@ public class OrderLineHandler : MonoBehaviour {
         minusButton.onClick.AddListener(() => changeQuantity(-1));
     }
 
+    public void initForOrder(CraftingOrder order) {
+        
+    }
+
     public void toggleRepeated() {
         // order
     }

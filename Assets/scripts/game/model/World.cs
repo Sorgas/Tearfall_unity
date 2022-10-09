@@ -1,11 +1,9 @@
-﻿using game.model.localmap;
+﻿
+using System.Collections.Generic;
 
 namespace game.model {
     public class World {
-        public WorldMap worldMap;
-        public LocalMap localMap;
-        // TODO gods, celestial bodies, factions
-
-        public World() {}
+        public WorldModel worldModel = new();
+        public Dictionary<string, LocalModel> localMapModels = new();
     }
 }

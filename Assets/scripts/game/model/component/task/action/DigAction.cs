@@ -28,7 +28,7 @@ namespace game.model.component.task.action {
             this.type = type;
 
             startCondition = () => {
-                if (!type.validator.validate(target.getPos().Value)) return FAIL; // tile still valid
+                if (!type.validator.validate(target.getPos().Value, model)) return FAIL; // tile still valid
                 if (!performer.Has<UnitEquipmentComponent>()) return FAIL;
                 if (!performer.take<UnitEquipmentComponent>().toolWithActionEquipped(toolActionName)) 
                     return addEquipAction(); // find tool
@@ -43,7 +43,7 @@ namespace game.model.component.task.action {
             };
 
             onFinish = () => {
-                if (!type.validator.validate(target.getPos().Value)) return;
+                if (!type.validator.validate(target.getPos().Value, model)) return;
                 updateMap();
                 // leaveStone(oldType); TODO
                 // GameMvc.model().get(UnitContainer.class).experienceSystem.giveExperience(task.performer, skill);
@@ -53,7 +53,7 @@ namespace game.model.component.task.action {
 
         private ActionConditionStatusEnum addEquipAction() {
             // TODO check performer's 'backpack'
-            EcsEntity targetItem = GameModel.get().itemContainer.util
+            EcsEntity targetItem = model.itemContainer.util
                 .findFreeReachableItemBySelector(selector, performer.pos());
             return targetItem != EcsEntity.Null
                 ? addPreAction(new EquipToolItemAction(targetItem))
@@ -62,7 +62,7 @@ namespace game.model.component.task.action {
 
         // Applies changes to local map. Some types of digging change not only target tile.
         private void updateMap() {
-            LocalMap map = GameModel.localMap;
+            LocalMap map = model.localMap;
             Vector3Int target = this.target.getPos().Value;
             switch (type.name) {
                 case "dig":
@@ -92,7 +92,7 @@ namespace game.model.component.task.action {
         }
 
         private void updateAndRevealMap(Vector3Int position, BlockType type) {
-            LocalMap map = GameModel.localMap;
+            LocalMap map = model.localMap;
             if (map.inMap(position)) {
                 BlockType oldType = map.blockType.getEnumValue(position);
                 map.blockType.set(position, type);
@@ -103,8 +103,8 @@ namespace game.model.component.task.action {
         
         private void leaveStone(Vector3Int position, BlockType oldType, BlockType newType) {
             if(Random.Range(0, 1f) > (newType.OPENNESS - oldType.OPENNESS) / 16f) return;
-            EcsEntity item = new DiggingProductGenerator().generate(GameModel.localMap.blockType.getMaterial(position));
-            if(item != EcsEntity.Null) GameModel.get().itemContainer.onMap.putItemToMap(item, position);
+            EcsEntity item = new DiggingProductGenerator().generate(model.localMap.blockType.getMaterial(position), model);
+            if(item != EcsEntity.Null) model.itemContainer.onMap.putItemToMap(item, position);
         }
         
         //

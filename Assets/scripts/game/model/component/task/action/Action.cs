@@ -31,6 +31,7 @@ namespace game.model.component.task.action {
         public EcsEntity task;
         public ActionTarget target;
         public ActionStatusEnum status = ActionStatusEnum.OPEN;
+        public LocalModel model => task.take<TaskActionsComponent>().model;
 
         public bool hasPerformer => task.IsAlive() && task.Has<TaskPerformerComponent>();
 
@@ -70,7 +71,7 @@ namespace game.model.component.task.action {
 
         // Performs action logic. Changes status.
         public void perform(EcsEntity unit) {
-            Debug.Log("performing action " + name);
+            // Debug.Log("performing action [" + name + "]");
             if (status == ActionStatusEnum.OPEN) {
                 // first execution of perform()
                 status = ActionStatusEnum.ACTIVE;
@@ -79,14 +80,14 @@ namespace game.model.component.task.action {
             progressConsumer.Invoke(unit, speed);
             if (finishCondition.Invoke()) {
                 // last execution of perform()
-                Debug.Log("action finished -- ");
+                Debug.Log("action [" + name + "] finished");
                 onFinish.Invoke();
                 status = ActionStatusEnum.COMPLETE;
             }
         }
 
         public ActionConditionStatusEnum addPreAction(Action action) {
-            Debug.Log("adding pre-action " + action.name);
+            Debug.Log("adding pre-action [" + action.name + "]");
             task.Get<TaskActionsComponent>().addFirstPreAction(action);
             action.task = task;
             return ActionConditionStatusEnum.NEW;

@@ -18,10 +18,12 @@ namespace game.model.system.unit {
     // if not initial action of task is finished, remove this action from task
     // check action condition and target availability
     // create sub actions if needed
-    public class UnitActionCheckingSystem : IEcsRunSystem {
+    public class UnitActionCheckingSystem : LocalModelEcsSystem {
         public EcsFilter<UnitComponent, TaskComponent>.Exclude<UnitMovementTargetComponent, UnitCurrentActionComponent> filter;
 
-        public void Run() {
+        public UnitActionCheckingSystem(LocalModel model) : base(model) { }
+
+        public override void Run() {
             foreach (int i in filter) {
                 ref TaskComponent taskComponent = ref filter.Get2(i);
                 ref TaskActionsComponent task = ref taskComponent.task.Get<TaskActionsComponent>();
@@ -29,7 +31,7 @@ namespace game.model.system.unit {
                 log("handling task " + taskComponent.task.name());
                 if (checkCompletion(ref unit, ref task)) return;
                 if (checkActionCondition(ref unit, ref task)) return;
-                checkTargetAvailability(ref unit, task);
+                checkTargetAvailability(ref unit, task, taskComponent.task);
             }
         }
 
@@ -57,10 +59,10 @@ namespace game.model.system.unit {
         }
 
         // checks if unit can reach action's target
-        private void checkTargetAvailability(ref EcsEntity unit, TaskActionsComponent task) {
+        private void checkTargetAvailability(ref EcsEntity unit, TaskActionsComponent task, EcsEntity taskEntity) {
             Action action = task.getNextAction();
             log("checking action target of action " + action.name + " for unit " + unit);
-            switch (action.target.check(unit)) {
+            switch (action.target.check(unit, model)) {
                 case READY: // start performing
                     log("ready");
                     unit.Replace(new UnitCurrentActionComponent { action = action });
@@ -76,7 +78,9 @@ namespace game.model.system.unit {
                     break;
                 case STEP_OFF:
                     log("step off");
-                    task.addFirstPreAction(new StepOffAction(unit.pos()));
+                    Action stepOffAction = new StepOffAction(unit.pos(), model);
+                    stepOffAction.task = taskEntity;
+                    task.addFirstPreAction(stepOffAction);
                     break;
                 case ActionTargetStatusEnum.FAIL:
                     log("target failed");

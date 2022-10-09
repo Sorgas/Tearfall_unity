@@ -77,12 +77,12 @@ namespace game.view.ui.toolbar {
         private void createConstructionButton(ToolbarPanelHandler panel, string text, string iconName, ConstructionType type,
             KeyCode key) {
             panel.createButton(text, "toolbar/constructions/" + iconName, () => MouseToolManager.set(type),
-                () => GameModel.get().itemContainer.util.enoughForBuilding(type.variants), key);
+                () => GameModel.get().currentLocalModel.itemContainer.util.enoughForBuilding(type.variants), key);
         }
 
         private void createBuildingButton(ToolbarPanelHandler panel, string text, BuildingType type, KeyCode key) {
             panel.createButton(text, BuildingTilesetHolder.get().sprites[type].n, () => MouseToolManager.set(type),
-                () => GameModel.get().itemContainer.util.enoughForBuilding(type.variants), key);
+                () => GameModel.get().currentLocalModel.itemContainer.util.enoughForBuilding(type.variants), key);
         }
 
         private void createToolButton(ToolbarPanelHandler panel, string text, string iconName, DesignationType designation,

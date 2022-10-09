@@ -9,8 +9,8 @@ namespace game.model.component.task.action {
         public BuildingAction(EcsEntity designation, BuildingOrder order) : base(designation, order) {
             name = "building action";
             onFinish = () => {
-                GameModel.get().buildingContainer.createBuilding(order);
-                PlantContainer container = GameModel.get().plantContainer;
+                model.buildingContainer.createBuilding(order);
+                PlantContainer container = model.plantContainer;
                 container.removePlant(container.getPlant(order.position), true); // remove plant
                 // GameMvc.model().get(SubstrateContainer.class).remove(order.position); // remove substrates
                 consumeItems();

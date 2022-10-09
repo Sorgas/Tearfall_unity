@@ -8,15 +8,15 @@ using util.pathfinding;
 using static types.PassageTypes;
 
 namespace game.model.localmap.passage {
-    public class PassageUpdater {
+    public class PassageUpdater : LocalMapModelComponent {
         private LocalMap map;
         private PassageMap passage;
         private bool debug = true;
         private string logMessage;
 
-        public PassageUpdater(LocalMap map, PassageMap passage) {
-            this.map = map;
-            this.passage = passage;
+        public PassageUpdater(LocalModel model, LocalMap localMap, PassageMap passageMap) : base(model) {
+            this.map = localMap;
+            this.passage = passageMap;
         }
 
         // Called when local map passage is updated. If cell becomes non-passable, it may split area into two.
@@ -42,7 +42,7 @@ namespace game.model.localmap.passage {
         }
 
         private void mergeAreasAroundCenter(Vector3Int center) {
-            List<byte> areas = new NeighbourPositionStream(center).filterConnectedToCenter().collectAreas();
+            List<byte> areas = new NeighbourPositionStream(center, model).filterConnectedToCenter().collectAreas();
             // areas.Remove(0);
             // take new area number, if new tile is not connected to any area
             passage.area.set(center, areas.Count == 0 ? getUnusedAreaNumber() : areas.First());
@@ -50,7 +50,7 @@ namespace game.model.localmap.passage {
         }
         
         private void mergeAreasAboveRamp(Vector3Int center) {
-            List<byte> areas = new NeighbourPositionStream().onSameZLevel(center).filterByPassage(PASSABLE).collectAreas();
+            List<byte> areas = new NeighbourPositionStream(model).onSameZLevel(center).filterByPassage(PASSABLE).collectAreas();
             areas.Add(passage.area.get(center + Vector3Int.back));
             if (areas.Count > 1) mergeAreas(areas);
         }
@@ -58,7 +58,7 @@ namespace game.model.localmap.passage {
         // sets all tiles of all areas to the largest one 
         private void mergeAreas(List<byte> areas) {
             if (areas.Count == 0) return;
-            byte largestArea = passage.area.sizes
+            byte    largestArea = passage.area.sizes
                 .Where(pair => areas.Contains(pair.Key))
                 .Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
             areas.Remove(largestArea);
@@ -82,7 +82,7 @@ namespace game.model.localmap.passage {
          * @param posMap - area number to positions of this area.
          */
         private void splitAreas(Vector3Int center) {
-            Dictionary<byte, List<Vector3Int>> areas = new NeighbourPositionStream(center).filterByPassage(PASSABLE).groupByAreas();
+            Dictionary<byte, List<Vector3Int>> areas = new NeighbourPositionStream(center, model).filterByPassage(PASSABLE).groupByAreas();
             log("Splitting areas around " + center + " in positions " + areas);
             foreach (byte areaValue in areas.Keys) {
                 List<Vector3Int> posList = areas[areaValue];
@@ -108,7 +108,7 @@ namespace game.model.localmap.passage {
                 for (int i = list.Count - 1; i >= 0; i--) {
                     Vector3Int pos = list[i];
                     // positions are accessible neighbours or path exists
-                    if (pos.isNeighbour(first) && passage.hasPathBetweenNeighbours(pos, first) || AStar.get().makeShortestPath(pos, first) != null) {
+                    if (pos.isNeighbour(first) && passage.hasPathBetweenNeighbours(pos, first) || AStar.get().makeShortestPath(pos, first, model.localMap) != null) {
                         connectedPositions.Add(list.removeAndGet(i));
                     }
                 }
@@ -125,7 +125,7 @@ namespace game.model.localmap.passage {
                 Vector3Int center = openSet.First();
                 openSet.Remove(center);
                 passage.area.set(center.x, center.y, center.z, value);
-                new NeighbourPositionStream(center)
+                new NeighbourPositionStream(center, model)
                     .filterConnectedToCenter()
                     .filterNotInArea(value)
                     .stream.ToList().ForEach(pos => openSet.Add(pos));

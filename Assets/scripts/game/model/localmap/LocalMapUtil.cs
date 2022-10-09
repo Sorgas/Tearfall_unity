@@ -1,19 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using enums;
 using game.model.localmap.passage;
 using types;
 using UnityEngine;
-using util.geometry;
 using util.geometry.bounds;
 using Random = UnityEngine.Random;
 
 namespace game.model.localmap {
     public class LocalMapUtil {
+        private LocalModel model;
         private LocalMap map;
 
         public LocalMapUtil(LocalMap map) {
+            
             this.map = map;
         }
 
@@ -43,7 +43,7 @@ namespace game.model.localmap {
         }
 
         public Vector3Int findFreePositionNearCenter(Vector3Int center) {
-            Vector3Int position = new NeighbourPositionStream(center).filterByPassage(PassageTypes.PASSABLE).stream.First();
+            Vector3Int position = new NeighbourPositionStream(center, model).filterByPassage(PassageTypes.PASSABLE).stream.First();
             return position;
         }
     }

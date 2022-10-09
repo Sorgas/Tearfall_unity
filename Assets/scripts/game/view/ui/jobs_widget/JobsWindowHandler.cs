@@ -49,7 +49,7 @@ namespace game.view.ui.jobs_widget {
 
         // creates rows for all units
         private void fillRows() {
-            EcsFilter filter = GameModel.ecsWorld.GetFilter(typeof(EcsFilter<UnitJobsComponent>));
+            EcsFilter filter = GameModel.get().currentLocalModel.ecsWorld.GetFilter(typeof(EcsFilter<UnitJobsComponent>));
             GameObject rowPrefab = Resources.Load<GameObject>(rowPath);
             float rowHeight = rowPrefab.GetComponent<RectTransform>().rect.height;
             foreach (var i in filter) {

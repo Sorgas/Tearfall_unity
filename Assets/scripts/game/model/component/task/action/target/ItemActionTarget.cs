@@ -17,11 +17,11 @@ namespace game.model.component.task.action.target {
             this.item = item;
         }
         
-        public new ActionTargetStatusEnum check(EcsEntity performer) {
+        public new ActionTargetStatusEnum check(EcsEntity performer, LocalModel model) {
             if (performer.takeRef<UnitEquipmentComponent>().hauledItem == entity) {
                 return ActionTargetStatusEnum.READY; // item is in hands already
             }
-            return base.check(performer);
+            return base.check(performer, model);
         }
     }
 }

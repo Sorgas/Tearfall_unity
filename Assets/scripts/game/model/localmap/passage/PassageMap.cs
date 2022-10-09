@@ -8,7 +8,7 @@ using static types.PassageTypes;
 
 namespace game.model.localmap.passage {
     // stores isolated areas on local map to enhance pathfinding
-    public class PassageMap {
+    public class PassageMap : LocalMapModelComponent {
         private readonly LocalMap localMap;
         private readonly BlockTypeMap blockTypeMap;
         public readonly PassageUpdater updater;
@@ -17,12 +17,12 @@ namespace game.model.localmap.passage {
         public UtilByteArrayWithCounter area; // number of area
         public UtilByteArray passage; // see {@link BlockTypesEnum} for passage values.
 
-        public PassageMap(LocalMap localMap) {
+        public PassageMap(LocalModel model, LocalMap localMap) : base(model) {
             this.localMap = localMap;
             blockTypeMap = localMap.blockType;
             area = new UtilByteArrayWithCounter(localMap.sizeVector);
             passage = new UtilByteArray(localMap.sizeVector);
-            updater = new PassageUpdater(localMap, this);
+            updater = new PassageUpdater(model, localMap, this);
             util = new PassageUtil(localMap, this);
         }
 
@@ -105,8 +105,8 @@ namespace game.model.localmap.passage {
         // TODO
         public Passage calculateTilePassage(int x, int y, int z) {
             if (BlockTypes.get(blockTypeMap.get(x, y, z)).PASSAGE == IMPASSABLE) return IMPASSABLE;
-            if (!GameModel.get().plantContainer.isPlantBlockPassable(x, y, z)) return IMPASSABLE;
-            if (!GameModel.get().buildingContainer.isBuildingBlockPassable(x, y, z)) return IMPASSABLE;
+            if (!model.plantContainer.isPlantBlockPassable(x, y, z)) return IMPASSABLE;
+            if (!model.buildingContainer.isBuildingBlockPassable(x, y, z)) return IMPASSABLE;
 
             bool waterPassable = true;
             //model.optional(LiquidContainer.class)

@@ -1,9 +1,5 @@
 using enums.action;
-using game.model.localmap.passage;
-using types;
 using UnityEngine;
-using util;
-using util.geometry;
 
 namespace game.model.component.task.action.target {
     public class BuildingActionTarget : ActionTarget {

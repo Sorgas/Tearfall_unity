@@ -1,7 +1,7 @@
 ﻿namespace game.model.container.item {
     // stores all items on the level. has separate storage classes for items on ground, stored in containers, equipped on units.
-    // transitions are made in actions.
-    public class  ItemContainer : EntityContainer {
+    // transitions are made in actions.d
+    public class  ItemContainer : LocalMapModelComponent {
         public ItemStateValidator validator;
         public EquippedItemsManager equipped = new();
         public OnMapItemsManager onMap;
@@ -13,10 +13,10 @@
         public ItemFindingUtil util;
         public ItemTransitionUtil transition;
         
-        public ItemContainer() {
+        public ItemContainer(LocalModel model) : base(model) {
             validator = new(this);
             onMap = new(this);
-            util = new(this);
+            util = new(this, model);
             transition = new(this);
         }
 

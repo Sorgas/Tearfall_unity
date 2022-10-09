@@ -13,10 +13,12 @@ namespace generation.localgen.generators {
         private int maxAttempts = 20;
         private LocalMap map;
         private PlantGenerator generator = new();
-         
+
+        public LocalForestGenerator(LocalMapGenerator generator) : base(generator) {}
+
         public override void generate() {
             Debug.Log("generating trees");
-            map = GameModel.localMap;
+            map = container.map;
             int treesNumber = config.areaSize * config.areaSize / 125 * config.forestationLevel;
             treesNumber += Random.Range(-1, 1) * 20;
             for (int i = 0; i < treesNumber; i++) {
@@ -47,7 +49,7 @@ namespace generation.localgen.generators {
 
         // TODO check blocks of multi-tile trees
         private bool checkTreeOverlap(Vector3Int position) {
-            return GameModel.get().plantContainer.getBlock(position) == null;
+            return container.model.plantContainer.getBlock(position) == null;
             // foreach (Vector3Int treePosition in treePositions) {
             //     if (Math.Abs(treePosition.x - x) < 3 || Math.Abs(treePosition.y - y) < 3) {
             //         return false;
@@ -57,8 +59,8 @@ namespace generation.localgen.generators {
         }
         
         private void createTree(Vector3Int treePosition) {
-            EcsEntity entity = generator.generate("oak"); // TODO
-            GameModel.get().plantContainer.addPlant(entity, treePosition);
+            EcsEntity entity = generator.generate("oak", container.model.createEntity()); // TODO
+            container.model.plantContainer.addPlant(entity, treePosition);
         }
         
         public override string getMessage() {

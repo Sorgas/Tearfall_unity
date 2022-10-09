@@ -10,10 +10,12 @@ namespace game.model.system.task.designation {
 
     // deletes cancelled and completed designations
     // removes task from failed designations to be reopened later 
-    public class DesignationCompletionSystem : IEcsRunSystem {
+    public class DesignationCompletionSystem : LocalModelEcsSystem {
         public EcsFilter<DesignationComponent, TaskFinishedComponent> filter;
 
-        public void Run() {
+        public DesignationCompletionSystem(LocalModel model) : base(model) { }
+
+        public override void Run() {
             foreach (var i in filter) {
                 ref EcsEntity designation = ref filter.GetEntity(i);
                 TaskFinishedComponent taskFinishedComponent = filter.Get2(i);
@@ -25,7 +27,7 @@ namespace game.model.system.task.designation {
                 TaskStatusEnum status = taskFinishedComponent.status;
                 if (status == CANCELED || status == COMPLETE) {
                     Debug.Log("[DesignationCompletionSystem]: deleting designation " + designation.take<DesignationComponent>().type.name + " " + designation.pos());
-                    GameModel.get().designationContainer.removeDesignation(designation);
+                    model.designationContainer.removeDesignation(designation);
                 } else if (status == FAILED) {
                     designation.Replace(new TaskCreationTimeoutComponent { value = 50 });
                 }
@@ -37,8 +39,10 @@ namespace game.model.system.task.designation {
                 ref EcsEntity task = ref designation.takeRef<TaskComponent>().task;
                 if (task.IsAlive()) {
                     task.Replace(taskFinishedComponent);
+                    Debug.Log("[DesignationCompletionSystem]: deleting taskDesignation component from task");
                     task.Del<TaskComponents.TaskDesignationComponent>();
                 }
+                Debug.Log("[DesignationCompletionSystem]: deleting task component from designation " + designation.take<DesignationComponent>().type.name + " " + designation.pos());
                 designation.Del<TaskComponent>();
             }
         }

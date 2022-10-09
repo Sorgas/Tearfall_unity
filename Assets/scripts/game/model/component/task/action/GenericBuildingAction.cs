@@ -57,7 +57,7 @@ namespace game.model.component.task.action {
             Debug.Log("checking items in container");
             DesignationItemContainerComponent container = designation.take<DesignationItemContainerComponent>();
             if (container.items.Count == order.amount) return OK;
-            List<EcsEntity> foundItems = GameModel.get().itemContainer.availableItemsManager
+            List<EcsEntity> foundItems = model.itemContainer.availableItemsManager
                 .findNearest(order.itemType, order.material, order.amount, designation.pos());
             if (foundItems.Count != order.amount) return FAIL;
             // TODO lock items
@@ -69,7 +69,7 @@ namespace game.model.component.task.action {
 
         private bool checkClearingSite(IntBounds3 bounds) {
             Debug.Log("checking clearing site");
-            ItemContainer container = GameModel.get().itemContainer;
+            ItemContainer container = model.itemContainer;
             bool actionsAdded = false;
             bounds.iterate((x, y, z) => {
                 Vector3Int pos = new(x, y, z);
@@ -86,7 +86,7 @@ namespace game.model.component.task.action {
             DesignationItemContainerComponent container = designation.take<DesignationItemContainerComponent>();
             foreach (EcsEntity item in container.items) {
                 // TODO unlock items
-                GameModel.get().itemContainer.onMap.putItemToMap(item, order.position);
+                model.itemContainer.onMap.putItemToMap(item, order.position);
             }
             container.items.Clear();
             return FAIL;
@@ -109,7 +109,7 @@ namespace game.model.component.task.action {
         
         // TODO use performer area
         private bool findOffSitePosition() {
-            LocalMap map = GameModel.localMap;
+            LocalMap map = model.localMap;
             PassageMap passageMap = map.passageMap;
             // position to step into should be in map, reachable for performer, and connected to adjacent tile inside building
             bool checkPositionReachability(int x1, int y1, int z1, int x2, int y2, int z2) {

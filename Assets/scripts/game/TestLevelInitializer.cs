@@ -1,22 +1,25 @@
 ﻿using game.model;
 using generation;
 using UnityEngine;
-using util.geometry;
 
 namespace game {
     public class TestLevelInitializer {
         public void createTestLocalMap() {
-            if(GameModel.get().world != null && GameModel.get().world.localMap != null) {
+            if(GameModel.get().world != null) {
                 Debug.LogWarning("world already exists in GameModel");
                 return;
             }
             GenerationState state = GenerationState.get();
             state.worldGenConfig.size = 10;
-            state.generateWorld();
+            state.generateWorld(); // sets world map to game model
             createTestSettler();
             createTestItem();
-            state.localGenConfig.location = new IntVector2(5, 5);
-            state.generateLocalMap();
+            createBuildings();
+            Vector2Int position = new Vector2Int(5, 5);
+            state.localMapGenerator.localGenConfig.location = position;
+            LocalModel localModel = state.localMapGenerator.generateLocalMap("main", position);
+            GameModel.get().addLocalModel("main", localModel);
+            GameModel.get().init("main");
         }
 
         // creates test settler as it was selected on preparation screen
@@ -31,6 +34,10 @@ namespace game {
             GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "pants", quantity = 1});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "marble", type = "rock", quantity = 10});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "wood", type = "log", quantity = 10});
+        }
+
+        private void createBuildings() {
+            GenerationState.get().localMapGenerator.buildingsToGenerate.Add("carpenter's table", "wood");
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using enums;
 using types;
 using UnityEngine;
 using util.geometry;
@@ -12,10 +11,11 @@ namespace game.model.localmap.passage {
     class NeighbourPositionStream {
         public IEnumerable<Vector3Int> stream;
         private Vector3Int center;
-        private PassageMap passageMap;
+        private LocalModel model;
         private LocalMap localMap;
+        private PassageMap passageMap;
 
-        public NeighbourPositionStream(Vector3Int center) : this() {
+        public NeighbourPositionStream(Vector3Int center, LocalModel model) : this(model) {
             this.center = center;
             HashSet<Vector3Int> neighbours = new();
             for (int x = center.x - 1; x < center.x + 2; x++) {
@@ -29,7 +29,7 @@ namespace game.model.localmap.passage {
             stream = neighbours.Where(position => localMap.inMap(position));
         }
 
-        public NeighbourPositionStream(Vector3Int center, bool orthogonal) : this() {
+        public NeighbourPositionStream(Vector3Int center, bool orthogonal, LocalModel model) : this(model) {
             HashSet<Vector3Int> neighbours = new();
             neighbours.Add(center.add(1, 0, 0));
             neighbours.Add(center.add(-1, 0, 0));
@@ -38,8 +38,9 @@ namespace game.model.localmap.passage {
             stream = neighbours.Where(position => localMap.inMap(position));
         }
 
-        public NeighbourPositionStream() {
-            localMap = GameModel.localMap;
+        public NeighbourPositionStream(LocalModel model) {
+            this.model = model;
+            localMap = model.localMap;
             passageMap = localMap.passageMap;
         }
 

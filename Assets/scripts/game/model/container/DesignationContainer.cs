@@ -13,17 +13,19 @@ using static UnityEngine.Object;
 namespace game.model.container {
     // registry of designation entities, creates and destroys designations, called by ECS systems
     // TODO allow multiple designation on one tile
-    public class DesignationContainer {
+    public class DesignationContainer : LocalMapModelComponent {
         public readonly Dictionary<Vector3Int, EcsEntity> designations = new();
 
+        public DesignationContainer(LocalModel model) : base(model) {}
+
         public void createDesignation(Vector3Int position, DesignationType type) {
-            EcsEntity entity = GameModel.get().createEntity();
+            EcsEntity entity = model.createEntity();
             entity.Replace(new DesignationComponent { type = type });
             addDesignation(entity, position);
         }
 
         public void createConstructionDesignation(Vector3Int position, ConstructionType type, string itemType, int material) {
-            EcsEntity entity = GameModel.get().createEntity();
+            EcsEntity entity = model.createEntity();
             entity.Replace(new DesignationComponent { type = DesignationTypes.D_CONSTRUCT });
             string materialName = MaterialMap.get().material(material).name;
             entity.Replace(new DesignationConstructionComponent {
@@ -37,7 +39,7 @@ namespace game.model.container {
 
         public void createBuildingDesignation(Vector3Int position, BuildingType type, Orientations orientation, string itemType,
             int material) {
-            EcsEntity entity = GameModel.get().createEntity();
+            EcsEntity entity = model.createEntity();
             entity.Replace(new DesignationComponent { type = DesignationTypes.D_BUILD });
             string materialName = MaterialMap.get().material(material).name;
             BuildingVariant variant = type.selectVariant(itemType);

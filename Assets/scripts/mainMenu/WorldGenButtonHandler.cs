@@ -6,7 +6,6 @@ using mainMenu.worldmap;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using util.geometry;
 using Random = System.Random;
 
 namespace mainMenu {
@@ -41,7 +40,7 @@ namespace mainMenu {
             GenerationState.get().worldGenConfig.seed = seed;
             GenerationState.get().worldGenConfig.size = size;
             GenerationState.get().generateWorld();
-            worldmapController.drawWorld(GameModel.get().world.worldMap);
+            worldmapController.drawWorld(GameModel.get().world.worldModel.worldMap);
             continueButton.gameObject.SetActive(true);
         }
 
@@ -57,7 +56,7 @@ namespace mainMenu {
 
         private void toPreparation() {
             Vector3 pointerPosition = worldmapController.pointer.localPosition;
-            GenerationState.get().localGenConfig.location = new IntVector2((int)pointerPosition.x, (int)pointerPosition.y);
+            GenerationState.get().localMapGenerator.localGenConfig.location = new Vector2Int((int)pointerPosition.x, (int)pointerPosition.y);
             switchTo(preparationStage);
         }
     }

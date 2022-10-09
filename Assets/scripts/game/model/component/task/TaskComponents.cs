@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using enums;
 using enums.action;
 using game.model.component.task.action;
 using Leopotam.Ecs;
@@ -9,6 +8,7 @@ namespace game.model.component.task {
     public class TaskComponents {
 
         public struct TaskActionsComponent {
+            public LocalModel model;
             public Action initialAction;
             public List<Action> preActions;
 
@@ -36,11 +36,6 @@ namespace game.model.component.task {
 
         public struct TaskJobComponent {
             public string job;
-        }
-
-        // task can be taken by TaskAssignmentSystem
-        public struct OpenTaskComponent {
-
         }
 
         // exists, if task is generated from designation

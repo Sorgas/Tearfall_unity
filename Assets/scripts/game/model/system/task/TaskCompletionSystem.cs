@@ -6,10 +6,12 @@ using util.lang.extension;
 using static game.model.component.task.TaskComponents;
 
 namespace game.model.system.task {
-    public class TaskCompletionSystem : IEcsRunSystem {
+    public class TaskCompletionSystem : LocalModelEcsSystem {
         public EcsFilter<TaskActionsComponent, TaskFinishedComponent> filter;
 
-        public void Run() {
+        public TaskCompletionSystem(LocalModel model) : base(model) { }
+
+        public override void Run() {
             foreach (var i in filter) {
                 ref EcsEntity task = ref filter.GetEntity(i);
                 TaskFinishedComponent component = filter.Get2(i);
@@ -17,7 +19,7 @@ namespace game.model.system.task {
                 detachPerformer(ref task, component);
                 detachDesignation(ref task, component);
                 // detach building
-                GameModel.get().taskContainer.removeTask(task);
+                model.taskContainer.removeTask(task);
             }
         }
 

@@ -37,19 +37,19 @@ namespace game.model.component.task.action.plant {
             onFinish = () => {
                 log("tree chopping finished at " + targetPosition + " by " + performer.name());
                 if (!checkTree()) return;
-                PlantContainer container = GameModel.get().plantContainer;
+                PlantContainer container = model.plantContainer;
                 EcsEntity plant = container.getPlant(targetPosition);
                 if (plant.take<PlantComponent>().type.isTree) container.removePlant(plant, true);
             };
         }
 
         private bool checkTree() {
-            return PlaceValidatorEnum.TREE_EXISTS.validate(targetPosition);
+            return PlaceValidatorEnum.TREE_EXISTS.validate(targetPosition, model);
         }
 
         private ActionConditionStatusEnum createActionForGettingTool() {
             log("No tool equipped by performer for chopTreeAction");
-            EcsEntity item = GameModel.get().itemContainer.util.findFreeReachableItemBySelector(toolItemSelector, performer.pos());
+            EcsEntity item = model.itemContainer.util.findFreeReachableItemBySelector(toolItemSelector, performer.pos());
             if (item == EcsEntity.Null) return FAIL;
             return addPreAction(new EquipToolItemAction(item));
         }

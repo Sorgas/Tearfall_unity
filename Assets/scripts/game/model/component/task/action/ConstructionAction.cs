@@ -15,8 +15,8 @@ namespace game.model.component.task.action {
             blockType = order.blockType;
             onFinish = () => {
                 int material = MaterialMap.get().id(designation.take<DesignationConstructionComponent>().materialVariant);
-                GameModel.localMap.blockType.set(order.position, blockType, material); // create block
-                PlantContainer container = GameModel.get().plantContainer;
+                model.localMap.blockType.set(order.position, blockType, material); // create block
+                PlantContainer container = model.plantContainer;
                 container.removePlant(container.getPlant(order.position), true); // remove plant
                 // GameMvc.model().get(SubstrateContainer.class).remove(order.position); // remove substrates
                 consumeItems();

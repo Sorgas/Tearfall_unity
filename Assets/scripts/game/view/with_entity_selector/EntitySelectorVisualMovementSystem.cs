@@ -26,7 +26,7 @@ namespace game.view.with_entity_selector {
         public EntitySelectorVisualMovementSystem(LocalGameRunner runner) {
             text = runner.debugInfoPanel;
             selectorSprite = runner.selector;
-            map = GameModel.localMap;
+            map = GameModel.get().currentLocalModel.localMap;
         }
 
         public void update() {

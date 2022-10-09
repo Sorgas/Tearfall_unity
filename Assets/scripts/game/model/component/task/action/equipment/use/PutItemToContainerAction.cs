@@ -9,7 +9,7 @@ namespace game.model.component.task.action.equipment.use {
             base(new EntityActionTarget(containerEntity, ActionTargetTypeEnum.NEAR), item) {
             onFinish = () => {
                 equipment().hauledItem = EcsEntity.Null;
-                GameModel.get().itemContainer.transition.fromUnitToContainer(item, performer, containerEntity);
+                model.itemContainer.transition.fromUnitToContainer(item, performer, containerEntity);
             };
         }
     }

@@ -33,7 +33,6 @@ namespace generation.worldgen {
         }
 
         public void run() {
-            GameModel.get().clear();
             elevationGenerator.generate(); // generates elevation [0, 1]
             // celestialBodiesGenerator.execute(container); 
             // container.fillMap();

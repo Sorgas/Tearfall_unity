@@ -1,6 +1,5 @@
 using game.model;
 using game.view;
-using game.view.ui;
 using game.view.ui.jobs_widget;
 using game.view.ui.menu_widget;
 using game.view.ui.toolbar;
@@ -34,8 +33,8 @@ namespace game {
         public void Start() {
             Debug.Log("starting game");
             resolveWorld();
-            GameModel.get().init();
-            GameView.get().init(this);
+            GameModel.get().init("main");
+            GameView.get().init(this, GameModel.get().currentLocalModel);
             started = true;
             InvokeRepeating("updateModel", 0, updatetickDelta);
         }
@@ -51,7 +50,7 @@ namespace game {
 
         // gets world either from worldgen/localgen, savefile, or creates test one
         private void resolveWorld() {
-            if (!GenerationState.get().ready) {
+            if(GameModel.get().world == null) {
                 if (true) {
                     new TestLevelInitializer().createTestLocalMap();
                 } else {

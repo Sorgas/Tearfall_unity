@@ -1,4 +1,5 @@
 using game.model;
+using game.model.localmap;
 using game.view.camera;
 using game.view.system.building;
 using game.view.system.designation;
@@ -24,19 +25,18 @@ namespace game.view {
 
         public EntitySelector selector;
 
-        public void init(LocalGameRunner sceneObjectsContainer) {
+        public void init(LocalGameRunner sceneObjectsContainer, LocalModel model) {
             Debug.Log("initializing view");
             this.sceneObjectsContainer = sceneObjectsContainer;
             initWindowManager();
-            initEcs(GameModel.ecsWorld);
-            this.
-            tileUpdater = new LocalMapTileUpdater(sceneObjectsContainer.mapHolder);
+            initEcs(GameModel.get().currentLocalModel.ecsWorld);
+            tileUpdater = new LocalMapTileUpdater(sceneObjectsContainer.mapHolder, model);
             cameraAndMouseHandler = new CameraAndMouseHandler(sceneObjectsContainer);
             cameraAndMouseHandler.init();
             selector = new();
             
             selector.updateBounds();
-            selector.zRange.set(0, GameModel.localMap.bounds.maxZ - 1);
+            selector.zRange.set(0, GameModel.get().currentLocalModel.localMap.bounds.maxZ - 1);
             tileUpdater.flush();
             resetCameraPosition();
             MouseToolManager.reset();
@@ -73,9 +73,10 @@ namespace game.view {
         }
         
         private void resetCameraPosition() {
-            Vector3Int cameraPosition = new(GameModel.localMap.bounds.maxX / 2, GameModel.localMap.bounds.maxY / 2, 0);
-            for (int z = GameModel.localMap.bounds.maxZ - 1; z >=0 ; z--) {
-                if (GameModel.localMap.blockType.get(cameraPosition.x, cameraPosition.y, z) != BlockTypes.SPACE.CODE) {
+            LocalMap map = GameModel.get().currentLocalModel.localMap;
+            Vector3Int cameraPosition = new(map.bounds.maxX / 2, map.bounds.maxY / 2, 0);
+            for (int z = map.bounds.maxZ - 1; z >=0 ; z--) {
+                if (map.blockType.get(cameraPosition.x, cameraPosition.y, z) != BlockTypes.SPACE.CODE) {
                     cameraPosition.z = z;
                     break;
                 }

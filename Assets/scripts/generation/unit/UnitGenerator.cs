@@ -19,9 +19,6 @@ namespace generation.unit {
             addOptionalComponents(ref entity, type);
             addSettlerComponents(ref entity);
         }
-
-        public void generateUnit(SettlerData data) => generateUnit(data, GameModel.get().createEntity());
-
         // TODO
         public void generateUnit(string creatureType) {
             CreatureType type = CreatureTypeMap.getType(creatureType);

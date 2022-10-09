@@ -7,7 +7,6 @@ using UnityEngine;
 namespace game.view.camera {
     // changes selector frame between flat/wall variants, and white/gray colors depending on tile
     public class SelectorSpriteUpdater {
-        private LocalMap map;
         private SelectorHandler selector;
         private Sprite selectors;
         private Sprite flatTile;
@@ -17,7 +16,6 @@ namespace game.view.camera {
         private Color lightGrey = new(0.75f, 0.75f, 0.75f);
 
         public SelectorSpriteUpdater() {
-            map = GameModel.localMap;
             selector = GameView.get().sceneObjectsContainer.selector.GetComponent<SelectorHandler>();
             selectors = Resources.Load<Sprite>("icons/selectors");
             flatTile = Sprite.Create(selectors.texture, new Rect(0, 0, 64, 96), Vector2.zero, 64);
@@ -25,6 +23,7 @@ namespace game.view.camera {
         }
 
         public void updateSprite(Vector3Int position) {
+            LocalMap map = GameModel.get().currentLocalModel.localMap;
             if (!map.inMap(position)) return;
             selector.setCurrentZ(position.z);
             BlockType blockType = map.blockType.getEnumValue(position);

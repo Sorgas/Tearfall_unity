@@ -1,6 +1,4 @@
-﻿using enums;
-using game.model;
-using game.model.localmap;
+﻿using game.model.localmap;
 using types;
 using UnityEngine;
 
@@ -11,9 +9,11 @@ namespace generation.localgen.generators {
         private int spaceCode = BlockTypes.SPACE.CODE;
         private int rampCode = BlockTypes.RAMP.CODE;
 
+        public LocalRampFloorPlacer(LocalMapGenerator generator) : base(generator) { }
+
         public override void generate() {
             Debug.Log("placing ramps");
-            localMap = GameModel.localMap;
+            localMap = container.map;
             fillRamps();
             fillFloors();
         }

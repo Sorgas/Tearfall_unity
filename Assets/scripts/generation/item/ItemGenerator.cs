@@ -1,9 +1,6 @@
 ﻿using entity;
-using enums;
 using enums.item.type;
-using enums.material;
 using enums.plant;
-using game.model;
 using game.model.component;
 using game.model.component.item;
 using game.model.component.plant;
@@ -17,9 +14,6 @@ namespace generation.item {
         public EcsEntity generateItem(ItemData data, Vector3Int position, EcsEntity entity) =>
             generateItem(data.type, data.material, position, entity);
 
-        public EcsEntity generateItem(string typeName, string materialName) =>
-            generateItem(typeName, materialName, GameModel.get().createEntity());
-        
         public EcsEntity generateItem(string typeName, string materialName, Vector3Int position, EcsEntity itemEntity) =>
             generateItem(typeName, materialName, itemEntity)
                 .Replace(new PositionComponent { position = position });
@@ -44,9 +38,9 @@ namespace generation.item {
             return entity;
         }
 
-        public EcsEntity generatePlantProduct(PlantBlock block) {
+        public EcsEntity generatePlantProduct(PlantBlock block, EcsEntity entity) {
             if (block.blockType == PlantBlockTypeEnum.TRUNK.code) {
-                return generateItem("log", "wood");
+                return generateItem("log", "wood", entity);
             }
             return EcsEntity.Null;
         }

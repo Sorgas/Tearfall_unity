@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using enums;
-using game.model;
 using game.model.localmap;
 using generation.item;
 using Leopotam.Ecs;
@@ -12,9 +10,11 @@ namespace generation.localgen.generators {
         private LocalMap map;
         private ItemGenerator generator = new();
 
+        public LocalItemGenerator(LocalMapGenerator generator) : base(generator) { }
+
         public override void generate() {
             Debug.Log("generating local items");
-            map = GameModel.get().world.localMap;
+            map = container.map;
             spawnItems(GenerationState.get().preparationState.items);
         }
 
@@ -29,9 +29,9 @@ namespace generation.localgen.generators {
         }
 
         private void spawnItem(Vector3Int spawnPoint, ItemData item) {
-            EcsEntity entity = GameModel.get().createEntity();
+            EcsEntity entity = container.model.createEntity();
             generator.generateItem(item.type, item.material, entity);
-            GameModel.get().itemContainer.onMap.putItemToMap(entity, spawnPoint);
+            container.model.itemContainer.onMap.putItemToMap(entity, spawnPoint);
         }
 
         private Vector3Int getSpawnPosition(Vector2Int center, int range) {

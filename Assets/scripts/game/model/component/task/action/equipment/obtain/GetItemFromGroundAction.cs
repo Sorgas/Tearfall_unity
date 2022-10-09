@@ -30,13 +30,13 @@ namespace game.model.component.task.action.equipment.obtain {
             onStart = () => maxProgress = 20;
 
             onFinish = () => { // add item to unit
-                GameModel.get().itemContainer.transition.fromGroundToUnit(item, performer);
+                model.itemContainer.transition.fromGroundToUnit(item, performer);
                 equipment().hauledItem = item;
             };
         }
 
         protected new bool validate() {
-            LocalMap map = GameModel.localMap;
+            LocalMap map = model.localMap;
             if (item.hasPos()) {
                 Vector3Int itemPosition = item.pos();
                 return base.validate()

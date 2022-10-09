@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using enums.material;
-using game.model;
 using game.model.localmap;
 using game.view.util;
 using types;
@@ -22,19 +20,21 @@ namespace game.view.tilemaps {
         public readonly BlockTileSetHolder blockTileSetHolder = BlockTileSetHolder.get();
         public GameObject layerPrefab;
         private RectTransform mapHolder;
+        private LocalModel model;
         private LocalMap map;
         public int viewDepth = 6;
 
-        public LocalMapTileUpdater(RectTransform mapHolder) {
+        public LocalMapTileUpdater(RectTransform mapHolder, LocalModel model) {
             this.mapHolder = mapHolder;
+            this.model = model;
             layerPrefab = Resources.Load<GameObject>("prefabs/LocalMapLayer");
-            map = GameModel.localMap;
+            map = model.localMap;
             blockTileSetHolder.loadAll();
         }
 
         public void flush() {
             Debug.Log("flushing localMap tiles");
-            new Optional<LocalMap>(GameModel.localMap)
+            new Optional<LocalMap>(model.localMap)
                 .ifPresent(map => {
                     createLayers();
                     map.bounds.iterate(position => updateTile(position, false)); // no need to update ramps on whole map update

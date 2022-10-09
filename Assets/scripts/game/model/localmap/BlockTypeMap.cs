@@ -1,6 +1,4 @@
-﻿using enums;
-using enums.material;
-using types;
+﻿using types;
 using types.material;
 using UnityEngine;
 using util;

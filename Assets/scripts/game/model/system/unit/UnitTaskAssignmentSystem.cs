@@ -13,10 +13,12 @@ using static game.model.component.task.TaskComponents;
 
 namespace game.model.system.unit {
     // finds and assigns appropriate tasks to units
-    public class UnitTaskAssignmentSystem : IEcsRunSystem {
+    public class UnitTaskAssignmentSystem : LocalModelEcsSystem {
         EcsFilter<UnitComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter; // units without tasks
 
-        public void Run() {
+        public UnitTaskAssignmentSystem(LocalModel model) : base(model) {}
+
+        public override void Run() {
             foreach (int i in filter) {
                 ref EcsEntity unit = ref filter.GetEntity(i);
                 EcsEntity task = tryCreateTask(unit);
@@ -35,7 +37,7 @@ namespace game.model.system.unit {
         // TODO add jobs priorities
         private EcsEntity getTaskFromContainer(EcsEntity unit) {
             UnitJobsComponent jobs = unit.take<UnitJobsComponent>();
-            return GameModel.get().taskContainer.findTask(jobs.enabledJobs, unit.pos());
+            return model.taskContainer.findTask(jobs.enabledJobs, unit.pos());
         }
 
         //TODO add other needs
@@ -44,9 +46,9 @@ namespace game.model.system.unit {
             if (unit.Has<UnitCalculatedWearNeedComponent>()) {
                 UnitCalculatedWearNeedComponent wear = unit.take<UnitCalculatedWearNeedComponent>();
                 ItemSelector selector = new WearWithSlotItemSelector(wear.slotsToFill);
-                List<EcsEntity> foundItems = selector.selectItems(GameModel.get().itemContainer.onMap.all);
+                List<EcsEntity> foundItems = selector.selectItems(model.itemContainer.onMap.all);
                 if (foundItems.Count > 0) {
-                    EcsEntity task = GameModel.get().taskContainer.generator.createTask(new EquipWearItemAction(foundItems[0]), TaskPriorityEnum.HEALTH_NEEDS);
+                    EcsEntity task = model.taskContainer.generator.createTask(new EquipWearItemAction(foundItems[0]), TaskPriorityEnum.HEALTH_NEEDS, model.createEntity(), model);
                     taskList.Add(task);
                 }
             }
@@ -59,9 +61,9 @@ namespace game.model.system.unit {
         private EcsEntity createIdleTask(EcsEntity unit) {
             Vector3Int current = unit.pos();
             // Debug.Log("creating idle task for unit in position " + current);
-            Vector3Int? position = GameModel.localMap.util.getRandomPosition(current, 10, 4);
+            Vector3Int? position = model.localMap.util.getRandomPosition(current, 10, 4);
             return position.HasValue
-                ? GameModel.get().taskContainer.generator.createTask(new MoveAction(position.Value))
+                ? model.taskContainer.generator.createTask(new MoveAction(position.Value), model.createEntity(), model)
                 : EcsEntity.Null;
         }
 
@@ -70,7 +72,7 @@ namespace game.model.system.unit {
             unit.Replace(new TaskComponent { task = task });
             task.Replace(new TaskPerformerComponent { performer = unit });
             if (task.Has<TaskJobComponent>()) {
-                GameModel.get().taskContainer.claimTask(task, unit);
+                model.taskContainer.claimTask(task, unit);
             }
         }
 

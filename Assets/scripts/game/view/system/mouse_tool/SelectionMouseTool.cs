@@ -11,8 +11,8 @@ namespace game.view.system.mouse_tool {
 
         public override void applyTool(IntBounds3 bounds) {
             Vector3Int position = new(bounds.minX, bounds.minY, bounds.minZ);
-            if(GameModel.get().buildingContainer.buildings.ContainsKey(position)) {
-                EcsEntity entity = GameModel.get().buildingContainer.buildings[position];
+            if(GameModel.get().currentLocalModel.buildingContainer.buildings.ContainsKey(position)) {
+                EcsEntity entity = GameModel.get().currentLocalModel.buildingContainer.buildings[position];
                 if(entity.Has<WorkbenchComponent>()) {
                     WindowManager.get().showWindowForBuilding(entity);
                 }

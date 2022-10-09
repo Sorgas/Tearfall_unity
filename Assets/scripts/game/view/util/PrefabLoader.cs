@@ -46,6 +46,10 @@ namespace game.view.util {
             paths.Add("Building", "prefabs/Building");
             paths.Add("Item", "prefabs/Item");
             paths.Add("Plant", "prefabs/Plant");
+            
+            // workbench
+            paths.Add("craftingOrderLine", "prefabs/workbenchMenu/CraftingOrderLine");
+            paths.Add("recipeLine", "prefabs/workbenchMenu/RecipeLine");
         }
     }
 }

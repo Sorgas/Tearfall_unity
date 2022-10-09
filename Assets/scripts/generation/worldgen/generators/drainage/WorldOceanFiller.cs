@@ -10,7 +10,7 @@ namespace generation.worldgen.generators.drainage {
         }
 
         public override void generate() {
-            WorldMap map = GameModel.get().world.worldMap;
+            WorldMap map = GameModel.get().worldModel.worldMap;
             float oceanCount = 0;
             int size = GenerationState.get().worldGenConfig.size;
             for (int x = 0; x < size; x++) {

@@ -19,7 +19,7 @@ namespace game.view.camera {
                 modelPosition = GameView.get().selector.updatePosition(modelPosition);
                 selectionHandler.handleMouseMove(modelPosition);
                 mouseMovementSystem.updateTarget(modelPosition);
-                if (Input.GetMouseButtonDown(0) && GameModel.localMap.bounds.isIn(modelPosition)) {
+                if (Input.GetMouseButtonDown(0) && GameModel.get().currentLocalModel.localMap.bounds.isIn(modelPosition)) {
                     if (!clickIsOverUi()) selectionHandler.handleMouseDown(modelPosition); // start selection
                 }
             }

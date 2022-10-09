@@ -28,7 +28,7 @@ public class GameModelUpdateController {
     public void setSpeed(int speed) {
         if (speed == 1) {
             currentSpeed = speed1;
-        } else if    (speed == 2) {
+        } else if (speed == 2) {
             currentSpeed = speed2;
         } else if (speed == 3) {
             currentSpeed = speed3;

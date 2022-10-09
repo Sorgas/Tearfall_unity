@@ -7,9 +7,11 @@ using util.lang.extension;
 
 namespace game.model.system.plant {
     // TODO handle multi-tile trees
-    public class PlantContainer : ModelComponent {
+    public class PlantContainer : LocalMapModelComponent {
         private Dictionary<Vector3Int, PlantBlock> plantBlocks = new();
         private Dictionary<Vector3Int, EcsEntity> plants = new();
+
+        public PlantContainer(LocalModel model) : base(model) {}
 
         //    private PlantProductGenerator plantProductGenerator;
         //    private LocalMap localMap;
