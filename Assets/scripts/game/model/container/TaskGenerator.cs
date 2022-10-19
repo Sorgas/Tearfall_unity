@@ -4,6 +4,7 @@ using game.model.component;
 using game.model.component.task;
 using game.model.component.task.action;
 using Leopotam.Ecs;
+using static game.model.component.task.TaskComponents;
 
 namespace game.model.container {
     // creates task entities
@@ -13,6 +14,7 @@ namespace game.model.container {
         public EcsEntity createTask(Action initialAction, TaskPriorityEnum priority, EcsEntity entity, LocalModel model) {
             entity.Replace(new TaskComponents.TaskActionsComponent { initialAction = initialAction, preActions = new List<Action>(), model = model });
             entity.Replace(new TaskComponents.TaskPriorityComponent { priority = priority });
+            entity.Replace(new TaskLockedItemsComponent { lockedItems = new() });
             entity.Replace(new NameComponent { name = initialAction.name });
             initialAction.task = entity;
             return entity;

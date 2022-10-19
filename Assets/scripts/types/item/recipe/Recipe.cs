@@ -26,8 +26,12 @@ namespace Assets.scripts.types.item.recipe {
             newMaterial = raw.newMaterial;
             iconName = raw.iconName;
             description = raw.description;
-            newTag = ItemTagEnum.BREWABLE.get(raw.newTag);
-            removeTag = ItemTagEnum.BREWABLE.get(raw.removeTag);
+            if(raw.newTag != null) {
+                newTag = ItemTagEnum.BREWABLE.get(raw.newTag);
+            }
+            if(raw.removeTag != null) {
+                removeTag = ItemTagEnum.BREWABLE.get(raw.removeTag);
+            }
             workAmount = raw.workAmount != 0 ? raw.workAmount : 1f;
             job = raw.job;
             skill = raw.skill;

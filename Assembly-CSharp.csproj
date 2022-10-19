@@ -63,6 +63,8 @@
      <Compile Include="Assets\scripts\types\item\type\raw\RawItemType.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\RawRecipe.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToPositionAction.cs" />
+     <Compile Include="Assets\scripts\game\model\system\building\WorkbenchOrderSelectionSystem.cs" />
+     <Compile Include="Assets\scripts\game\view\system\building\WorkbenchWindowUpdateSystem.cs" />
      <Compile Include="Assets\OptionsMenuButtonHandler.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\ListExtensions.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EcsEntityExtension.cs" />
@@ -147,6 +149,7 @@
      <Compile Include="Assets\scripts\game\model\localmap\passage\PassageMap.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitNameGenerator.cs" />
      <Compile Include="Assets\scripts\util\lang\Optional.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\item\CraftItemAtWorkbenchAction.cs" />
      <Compile Include="Assets\scripts\types\unit\need\NeedEnum.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromGroundAction.cs" />
      <Compile Include="Assets\scripts\util\item\ToolWithActionItemSelector.cs" />
@@ -208,6 +211,7 @@
      <Compile Include="Assets\scripts\util\geometry\bounds\TwoPointIntBounds3.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\IngredientProcessor.cs" />
      <Compile Include="Assets\scripts\types\action\TaskPriorityEnum.cs" />
+     <Compile Include="Assets\scripts\game\model\system\building\WorkbenchTaskCreationSystem.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenConfig.cs" />
      <Compile Include="Assets\scripts\game\view\system\item\ItemVisualSystem.cs" />
      <Compile Include="Assets\scripts\game\model\container\TaskGenerator.cs" />
@@ -230,6 +234,7 @@
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\ConstructionMouseTool.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalMapGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\ItemContainer.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\item\ItemConsumingAction.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedConditionController.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\order\ConstructionOrder.cs" />
@@ -313,6 +318,7 @@
      <Compile Include="Assets\scripts\game\model\localmap\passage\NeighbourPositionStream.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationTaskCreationTimeoutSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\system\building\WorkbenchTaskCompletionSystem.cs" />
      <Compile Include="Assets\scripts\types\item\ItemTagEnum.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\GameObjectExtension.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\AStar.cs" />

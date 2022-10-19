@@ -15,7 +15,7 @@ using static enums.action.ActionConditionStatusEnum;
 
 namespace game.model.component.task.action {
     // base action for building constructions and buildings.
-    // defines bringing items to designation, removing other items from designation position, consuming actions.
+    // defines bringing items to designation, removing other items from designation position, consuming items.
     // TODO add place and offsiteposition after start validation
     public class GenericBuildingAction : Action {
         protected EcsEntity designation;

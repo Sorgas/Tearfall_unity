@@ -13,6 +13,7 @@ namespace game.view.ui {
     public class WindowManager : Singleton<WindowManager>, IHotKeyAcceptor {
         public readonly Dictionary<string, IWindow> windows = new Dictionary<string, IWindow>(); // windows by name
         public IWindow activeWindow;
+        public string activeWindowName;
 
         public bool accept(KeyCode key) {
             return (activeWindow as IHotKeyAcceptor)?.accept(key) ?? false;
@@ -23,22 +24,23 @@ namespace game.view.ui {
         }
 
         public bool showWindowByName(string name) {
-            return windows.ContainsKey(name) && showWindow(windows[name]);
+            return windows.ContainsKey(name) && showWindow(name);
         }
 
         public bool toggleWindowByName(string name) {
-            return windows.ContainsKey(name) && toggleWindow(windows[name]);
+            return windows.ContainsKey(name) && toggleWindow(name);
         }
         
         public void closeAll() {
-            foreach (var window in windows.Values) {
-                closeWindow(window);
+            foreach (var name in windows.Keys) {
+                closeWindow(name);
             }
         }
 
-        public void closeWindow(IWindow window) {
+        public void closeWindow(string name) {
             activeWindow = null;
-            window.close();
+            activeWindowName = null;
+            windows[name].close();
             GameView.get().cameraAndMouseHandler.enabled = true;
         }
 
@@ -46,25 +48,27 @@ namespace game.view.ui {
             if(entity.Has<WorkbenchComponent>()) {
                 IWindow window = windows["workbench"];
                 ((WorkbenchWindowHandler) window).init(entity);
-                showWindow(window, false);
+                showWindow("workbench", false);
             }
         }
 
-        private bool toggleWindow(IWindow window) {
-            if (activeWindow == window) {
-                closeWindow(window);
+        private bool toggleWindow(string name) {
+            if (activeWindowName == name) {
+                closeWindow(name);
             } else {
-                showWindow(window);
+                showWindow(name);
             }
             return true;
         }
         
-        private bool showWindow(IWindow window) => showWindow(window, true);
+        private bool showWindow(string name) => showWindow(name, true);
 
-        private bool showWindow(IWindow window, bool disableCamera) {
+        private bool showWindow(string name, bool disableCamera) {
             closeAll();
+            IWindow window = windows[name];
             Debug.Log("window " + window.getName() + " shown.");
             activeWindow = window;
+            activeWindowName = name;
             activeWindow.open();
             if(disableCamera) GameView.get().cameraAndMouseHandler.enabled = false;
             return true;

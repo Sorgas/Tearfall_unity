@@ -1,5 +1,6 @@
 ﻿namespace types.unit {
     public class Jobs {
+        public static Job NONE = new("none", "none");
         public static Job MINER = new("miner", "miner");
         public static Job WOODCUTTER = new("woodcutter", "woodcutter");
         public static Job BUILDER = new("builder", "builder");

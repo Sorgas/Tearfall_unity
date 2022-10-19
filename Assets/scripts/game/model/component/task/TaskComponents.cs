@@ -6,27 +6,18 @@ using types;
 
 namespace game.model.component.task {
     public class TaskComponents {
-
         public struct TaskActionsComponent {
             public LocalModel model;
             public Action initialAction;
             public List<Action> preActions;
 
-            public Action getNextAction() {
-                return preActions.Count > 0 ? preActions[0] : initialAction;
-            }
+            public Action NextAction => preActions.Count > 0 ? preActions[0] : initialAction;
 
-            public void addFirstPreAction(Action action) {
-                preActions.Insert(0, action);
-            }
+            public void addFirstPreAction(Action action) => preActions.Insert(0, action);
 
-            public void removeFirstPreAction() {
-                preActions.RemoveAt(0);
-            }
+            public void removeFirstPreAction() => preActions.RemoveAt(0);
 
-            public string toString() {
-                return initialAction.ToString();
-            }
+            public string toString => initialAction.ToString();
         }
 
         // points to unit. can be with on task or action
@@ -43,6 +34,11 @@ namespace game.model.component.task {
             public EcsEntity designation;
         }
 
+        // exists, if task is generated from building(workbench)
+        public struct TaskBuildingComponent {
+            public EcsEntity building;
+        }
+
         public struct TaskPriorityComponent {
             public TaskPriorityEnum priority;
         }
@@ -51,5 +47,10 @@ namespace game.model.component.task {
         public struct TaskBlockOverrideComponent {
             public BlockType blockType;
         }
+
+        // stores items locked for task. See ItemLockedComponent
+        public struct TaskLockedItemsComponent {
+            public List<EcsEntity> lockedItems;
+        }       
     }
 }

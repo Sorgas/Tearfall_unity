@@ -8,10 +8,11 @@ namespace game.model.component.item {
     // main component for all items
     public struct ItemComponent {
         public string type; // type name from ItemTypeMap
-        public float weight;
         public int material;
-        public int volume; // used for containers
         public List<ItemTagEnum> tags;
+        
+        public float weight;
+        public int volume; // used for containers
 
         public string materialString; // for faster naming
         public bool isBuildingMaterial;

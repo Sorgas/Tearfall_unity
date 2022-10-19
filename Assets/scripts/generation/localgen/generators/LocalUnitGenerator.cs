@@ -33,6 +33,7 @@ namespace generation.localgen.generators {
                     positionComponent.position = spawnPoint.Value;
                     
                     // TODO move to settlerdata
+                    entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.NONE.name);
                     entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.MINER.name);
                     entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.WOODCUTTER.name);
                     entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.BUILDER.name);

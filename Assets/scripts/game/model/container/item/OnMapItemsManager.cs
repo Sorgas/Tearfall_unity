@@ -13,13 +13,6 @@ namespace game.model.container.item {
 
         public OnMapItemsManager(ItemContainer container) : base(container) { }
 
-        // adds item to map by its position (used on generation and loading)
-        private void addItemToMap(EcsEntity item) {
-            itemsOnMap.add(item.pos(), item);
-            all.Add(item);
-            container.availableItemsManager.add(item);
-        }
-
         // adds item without position to specified position on map (used in gameplay)
         public void putItemToMap(EcsEntity item, Vector3Int position) {
             container.validator.validateForPlacing(item);
@@ -34,7 +27,14 @@ namespace game.model.container.item {
             item.Del<PositionComponent>();
             itemsOnMap.remove(position, item);
             all.Remove(item);
-            container.availableItemsManager.remove(item);
+            container.availableItemsManager.remove(item); // make item unavailable
+        }
+
+        // adds item to map by its position (used on generation and loading)
+        private void addItemToMap(EcsEntity item) {
+            itemsOnMap.add(item.pos(), item);
+            all.Add(item);
+            container.availableItemsManager.add(item); // make item available
         }
     }
 }

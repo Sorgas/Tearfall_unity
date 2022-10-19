@@ -61,12 +61,16 @@ public class LocalModel {
             .Add(new UnitWearNeedSystem())
             .Add(new UnitNeedSystem())
             .Add(new PlantRemovingSystem(this))
+
+            .Add(new WorkbenchOrderSelectionSystem())
+            .Add(new WorkbenchTaskCreationSystem(this))
+            .Add(new WorkbenchTaskCompletionSystem())
             .Init();
     }
 
     public EcsEntity createEntity() {
         EcsEntity entity = ecsWorld.NewEntity();
-        Debug.Log("created entity: " + entity.GetInternalId());
+        // Debug.Log("created entity: " + entity.GetInternalId());
         return entity;
     } 
 

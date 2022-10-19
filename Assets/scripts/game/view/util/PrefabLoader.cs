@@ -23,7 +23,9 @@ namespace game.view.util {
         }
         
         public static GameObject create(string name, Transform parent, Vector3 localPosition) {
-            return Object.Instantiate(get(name), localPosition, Quaternion.identity, parent);
+            GameObject prefab = Object.Instantiate<GameObject>(get(name), localPosition, Quaternion.identity, parent);
+            prefab.transform.localPosition = localPosition;
+            return prefab;
         }
         
         private GameObject getPrefab(string name) {

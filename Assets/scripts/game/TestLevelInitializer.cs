@@ -34,6 +34,7 @@ namespace game {
             GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "pants", quantity = 1});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "marble", type = "rock", quantity = 10});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "wood", type = "log", quantity = 10});
+            GenerationState.get().preparationState.items.Add(new ItemData {material = "wood", type = "plank", quantity = 10});
         }
 
         private void createBuildings() {

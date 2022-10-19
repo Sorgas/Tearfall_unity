@@ -13,6 +13,7 @@
         MEAT,            // fox(origin) meat(material) piece(type)
         ORE,             // magnetite(material) rock(type)
         ORGANIC,         // 
+        FUEL,
 
         // food/corpses
         COOKABLE,        // can be boiled or roasted

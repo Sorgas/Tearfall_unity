@@ -18,6 +18,7 @@ namespace game.model.system.unit {
     // if not initial action of task is finished, remove this action from task
     // check action condition and target availability
     // create sub actions if needed
+    // TODO use IgnoreInFilter for flag components. See leoecs github page
     public class UnitActionCheckingSystem : LocalModelEcsSystem {
         public EcsFilter<UnitComponent, TaskComponent>.Exclude<UnitMovementTargetComponent, UnitCurrentActionComponent> filter;
 
@@ -35,14 +36,15 @@ namespace game.model.system.unit {
             }
         }
 
-        // check if next action of task is complete. remove completed action. Mark task as completed if initial action is complete
+        // check if next action of task is complete. remove completed action. 
+        // Mark unit with completed action when initial action of task is complete. See UnitTaskCompletionSystem 
         private bool checkCompletion(ref EcsEntity unit, ref TaskActionsComponent task) {
-            if (task.initialAction.status == ActionStatusEnum.COMPLETE) { // main action and task are complete
+            if (task.initialAction.status == ActionStatusEnum.COMPLETE) { // main action and task are complete, mark unit
                 log("completing task " + task.initialAction.name);
                 unit.Replace(new TaskFinishedComponent { status = COMPLETE });
                 return true;
             }
-            if (task.preActions.Count > 0 && task.getNextAction().status == ActionStatusEnum.COMPLETE) { // roll to next action when current is complete
+            if (task.preActions.Count > 0 && task.NextAction.status == ActionStatusEnum.COMPLETE) { // roll to next action when current is complete
                 task.removeFirstPreAction();
             }
             return false;
@@ -50,8 +52,8 @@ namespace game.model.system.unit {
 
         // checks action start condition and create sub action if needed. Created sub action handled on next tick
         private bool checkActionCondition(ref EcsEntity unit, ref TaskActionsComponent actions) {
-            log("checking action start condition " + actions.getNextAction().name);
-            ActionConditionStatusEnum checkResult = actions.getNextAction().startCondition.Invoke(); // creates sub actions
+            log("checking action start condition " + actions.NextAction.name);
+            ActionConditionStatusEnum checkResult = actions.NextAction.startCondition.Invoke(); // creates sub actions
             log("result: " + checkResult);
             if (checkResult == OK) return false;
             if (checkResult == ActionConditionStatusEnum.FAIL) failTask(ref unit); // fail task by start condition
@@ -60,7 +62,7 @@ namespace game.model.system.unit {
 
         // checks if unit can reach action's target
         private void checkTargetAvailability(ref EcsEntity unit, TaskActionsComponent task, EcsEntity taskEntity) {
-            Action action = task.getNextAction();
+            Action action = task.NextAction;
             log("checking action target of action " + action.name + " for unit " + unit);
             switch (action.target.check(unit, model)) {
                 case READY: // start performing

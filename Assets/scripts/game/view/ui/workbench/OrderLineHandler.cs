@@ -1,7 +1,10 @@
+using game.model.component.building;
 using Leopotam.Ecs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using util.lang.extension;
+using static CraftingOrder;
 
 public class OrderLineHandler : MonoBehaviour {
     public Button pauseButton;
@@ -12,15 +15,19 @@ public class OrderLineHandler : MonoBehaviour {
     public Button cancelButton;
     public Button duplicateButton;
 
+    public TextMeshProUGUI text;
     public Image statusIcon;
+    public TextMeshProUGUI statusText;
     public Image itemImage;
 
+    // quantity
     public Button plusButton;
     public Button minusButton;
     public TMP_InputField quantityInputField;
 
     private EcsEntity workbench;
-    private WorkbenchWindowHandler workbenchWindow;
+    public WorkbenchWindowHandler workbenchWindow;
+    public CraftingOrder order;
     // private CraftingOrder order;
 
     public void Start() {
@@ -35,16 +42,24 @@ public class OrderLineHandler : MonoBehaviour {
         minusButton.onClick.AddListener(() => changeQuantity(-1));
     }
 
-    public void initForOrder(CraftingOrder order) {
-        
+    public void init(CraftingOrder order, WorkbenchWindowHandler window) {
+        this.order = order;
+        workbenchWindow = window;
+        text.text = order.name;
+        quantityInputField.text = order.targetQuantity.ToString();
+        statusText.text = selectTextForStatus();
+        // TODO
     }
 
     public void toggleRepeated() {
-        // order
+        order.repeated = !order.repeated;
+        // TODO update view
     }
 
     public void togglePaused() {
-
+        order.paused = !order.paused;
+        if(!order.paused) workbench.takeRef<WorkbenchComponent>().hasActiveOrders = true;;
+        // TODO update view
     }
 
     public void showConfigureMenu() {
@@ -52,7 +67,7 @@ public class OrderLineHandler : MonoBehaviour {
     }
 
     public void move(bool up) {
-
+        workbenchWindow.moveOrder(order, up);
     }
 
     public void copy() {
@@ -60,10 +75,28 @@ public class OrderLineHandler : MonoBehaviour {
     }
 
     public void cancel() {
-
+        workbenchWindow.removeOrder(order);
     }
 
     private void changeQuantity(int delta) {
 
+    }
+
+    private string selectTextForStatus() {
+        switch(order.status) {
+            case CraftingOrderStatus.PERFORMING : {
+                return "A";
+            }
+            case CraftingOrderStatus.WAITING : {
+                return "W";
+            }
+            case CraftingOrderStatus.PAUSED : {
+                return "P";
+            }
+            case CraftingOrderStatus.PAUSED_PROBLEM : {
+                return "PP";
+            }
+        }
+        return "E";
     }
 }

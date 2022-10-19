@@ -69,6 +69,7 @@ namespace game.model.system.unit {
 
         // bind unit and task entities
         private void assignTask(ref EcsEntity unit, EcsEntity task) {
+            Debug.Log("[UnitTaskAssignmentSystem] assigning task " + task.name() + " to " + unit.name());
             unit.Replace(new TaskComponent { task = task });
             task.Replace(new TaskPerformerComponent { performer = unit });
             if (task.Has<TaskJobComponent>()) {

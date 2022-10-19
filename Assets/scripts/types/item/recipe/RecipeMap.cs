@@ -18,7 +18,7 @@ namespace Assets.scripts.types.item.recipe {
         private void loadFiles() {
             Debug.Log("loading recipes");
             map.Clear();
-            TextAsset file = Resources.Load<TextAsset>("data/recipes/recipe.json");
+            TextAsset file = Resources.Load<TextAsset>("data/recipes/recipes");
             List<RawRecipe> raws = JsonConvert.DeserializeObject<List<RawRecipe>>(file.text);
             foreach (var raw in raws) {
                 Recipe recipe = processor.processRawRecipe(raw);

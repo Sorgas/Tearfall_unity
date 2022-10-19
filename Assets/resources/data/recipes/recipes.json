@@ -30,6 +30,16 @@
     "itemName": "backpack",
     "ingredients": ["backpack:roll:cloth:1"]
 }, {
+    "name": "make_barrel",
+    "title": "Wooden barrel",
+    "itemName": "barrel",
+    "ingredients": ["barrel:plank:wood:4"]
+}, {
+    "name": "make_bin",
+    "title": "Wooden bin",
+    "itemName": "bin",
+    "ingredients": ["bin:plank:wood:2"]
+}, {
     "name": "cook_meal",
     "title": "Cook meal",
     "ingredients": ["main:any:cookable:1"],

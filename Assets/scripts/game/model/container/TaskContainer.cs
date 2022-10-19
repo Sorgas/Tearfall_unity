@@ -14,7 +14,7 @@ namespace game.model.container {
     public class TaskContainer : LocalMapModelComponent {
         public TaskGenerator generator = new();
 
-        // private Dictionary<string, HashSet<EcsEntity>> tasks = new();
+        // TODO have separate open tasks dictionaries for different priorities
         private Dictionary<string, HashSet<EcsEntity>> openTasks = new(); // job name to tasks
         private Dictionary<EcsEntity, EcsEntity> assigned = new(); // task to performer
         public int openTaskCount = 0;
@@ -31,6 +31,7 @@ namespace game.model.container {
         public void addOpenTask(EcsEntity task) {
             TaskJobComponent? job = task.optional<TaskJobComponent>();
             string jobName = job.HasValue ? job.Value.job : "none";
+            Debug.Log("[TaskContainer] adding task " + task.name() + " to " + jobName);
             if (openTasks[jobName].Contains(task)) Debug.LogError("Task " + task.name() + "already registered!");
             openTasks[jobName].Add(task);
             openTaskCount++;
@@ -40,29 +41,11 @@ namespace game.model.container {
         // TODO add priority sorting
         public EcsEntity findTask(List<string> jobs, Vector3Int position) {
             PassageMap passageMap = model.localMap.passageMap;
-            byte performerArea = passageMap.area.get(position);
+            byte area = passageMap.area.get(position);
             foreach (var job in jobs) {
                 if (openTasks[job].Count > 0) {
-                    EcsEntity task = openTasks[job].firstOrDefault(task => {
-                        ActionTargetTypeEnum targetType = task.take<TaskActionsComponent>().initialAction.target.type;
-                        Vector3Int target = getTaskTargetPosition(task);
-                        // target position in same area with performer
-                        if (targetType == EXACT || targetType == ANY) {
-                            if (passageMap.area.get(target) == performerArea) return true;
-                        }
-                        // target position is accessible from performer area
-                        if (targetType == NEAR || targetType == ANY) {
-                            if (task.Has<TaskBlockOverrideComponent>()) {
-                                return new NeighbourPositionStream(target, model)
-                                    .filterConnectedToCenterWithOverrideTile(task.take<TaskBlockOverrideComponent>().blockType)
-                                    .collectAreas().Contains(performerArea);
-                            }
-                            return new NeighbourPositionStream(target, model)
-                                .filterConnectedToCenter()
-                                .collectAreas().Contains(performerArea);
-                        }
-                        return false;
-                    }, EcsEntity.Null);
+                    EcsEntity task = openTasks[job]
+                        .firstOrDefault(task => checkTaskTarget(task, area, passageMap), EcsEntity.Null);
                     if (!task.IsNull()) return task;
                 }
             }
@@ -70,17 +53,17 @@ namespace game.model.container {
         }
 
         public void removeTask(EcsEntity task) {
-            if (task.Has<TaskJobComponent>()) {
-                string job = task.take<TaskJobComponent>().job;
-                if (openTasks[job].Contains(task)) {
-                    openTasks[job].Remove(task);
-                    openTaskCount--;
-                } else if (assigned.ContainsKey(task)) {
-                    assigned.Remove(task);
-                    assignedTaskCount--;
-                } else {
-                    Debug.LogError("Deleting task " + task.name() + "with job " + job + " but not from container!");
-                }
+            string job = task.Has<TaskJobComponent>()
+                ? task.take<TaskJobComponent>().job
+                : "none"; 
+            if (openTasks[job].Contains(task)) {
+                openTasks[job].Remove(task);
+                openTaskCount--;
+            } else if (assigned.ContainsKey(task)) {
+                assigned.Remove(task);
+                assignedTaskCount--;
+            } else {
+                Debug.LogError("Deleting task " + task.name() + "with job " + job + " but found in task container!");
             }
             Debug.Log(task.name() + " destroyed");
             task.Destroy();
@@ -109,6 +92,24 @@ namespace game.model.container {
 
         private TaskPriorityEnum priority(EcsEntity task) {
             return task.take<TaskPriorityComponent>().priority;
+        }
+
+        private bool checkTaskTarget(EcsEntity task, byte performerArea, PassageMap passageMap) {
+            ActionTargetTypeEnum targetType = task.take<TaskActionsComponent>().initialAction.target.type;
+            Vector3Int target = getTaskTargetPosition(task);
+            // target position in same area with performer
+            if (targetType == EXACT || targetType == ANY) {
+                if (passageMap.area.get(target) == performerArea) return true;
+            }
+            // target position is accessible from performer area
+            if (targetType == NEAR || targetType == ANY) {
+                NeighbourPositionStream stream = new NeighbourPositionStream(target, model);    
+                stream = task.Has<TaskBlockOverrideComponent>() 
+                        ? stream.filterConnectedToCenterWithOverrideTile(task.take<TaskBlockOverrideComponent>().blockType)
+                        : stream.filterConnectedToCenter();
+                return stream.collectAreas().Contains(performerArea);
+            }
+            return false;
         }
     }
 }

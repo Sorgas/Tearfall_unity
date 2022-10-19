@@ -24,6 +24,7 @@ namespace game.model.component {
 
     public struct TaskFinishedComponent {
         public TaskStatusEnum status;
+        public string reason; // TODO no-materials, combat, 
     }
 
     // shows that entity is ready to be deleted
@@ -32,4 +33,7 @@ namespace game.model.component {
     public struct TaskCreationTimeoutComponent {
         public int value;
     }
+
+    // indicates when entity is changed 
+    public struct UiUpdateComponent { }
 }
