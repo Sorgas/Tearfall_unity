@@ -42,6 +42,7 @@ namespace game.model.container {
         public EcsEntity findTask(List<string> jobs, Vector3Int position) {
             PassageMap passageMap = model.localMap.passageMap;
             byte area = passageMap.area.get(position);
+            // Debug.Log("[TaskContainer] looking for task for " + position + " jobs: " + jobs.Aggregate((s1, s2) => s1 + s2));
             foreach (var job in jobs) {
                 if (openTasks[job].Count > 0) {
                     EcsEntity task = openTasks[job]
@@ -83,13 +84,6 @@ namespace game.model.container {
             assignedTaskCount--;
         }
 
-        // tasks in container always have target
-        private Vector3Int getTaskTargetPosition(EcsEntity task) {
-            Vector3Int? target = task.take<TaskActionsComponent>().initialAction.target.getPos();
-            if (target.HasValue) return target.Value;
-            throw new EcsException("Task " + task.name() + " has no target position ");
-        }
-
         private TaskPriorityEnum priority(EcsEntity task) {
             return task.take<TaskPriorityComponent>().priority;
         }
@@ -110,6 +104,13 @@ namespace game.model.container {
                 return stream.collectAreas().Contains(performerArea);
             }
             return false;
+        }
+
+        // tasks in container always have target
+        private Vector3Int getTaskTargetPosition(EcsEntity task) {
+            Vector3Int? target = task.take<TaskActionsComponent>().initialAction.target.Pos;
+            if (target.HasValue) return target.Value;
+            throw new EcsException("Task " + task.name() + " has no target position ");
         }
     }
 }

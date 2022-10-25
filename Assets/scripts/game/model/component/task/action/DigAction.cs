@@ -28,7 +28,7 @@ namespace game.model.component.task.action {
             this.type = type;
 
             startCondition = () => {
-                if (!type.validator.validate(target.getPos().Value, model)) return FAIL; // tile still valid
+                if (!type.validator.validate(target.Pos.Value, model)) return FAIL; // tile still valid
                 if (!performer.Has<UnitEquipmentComponent>()) return FAIL;
                 if (!performer.take<UnitEquipmentComponent>().toolWithActionEquipped(toolActionName)) 
                     return addEquipAction(); // find tool
@@ -43,7 +43,7 @@ namespace game.model.component.task.action {
             };
 
             onFinish = () => {
-                if (!type.validator.validate(target.getPos().Value, model)) return;
+                if (!type.validator.validate(target.Pos.Value, model)) return;
                 updateMap();
                 // leaveStone(oldType); TODO
                 // GameMvc.model().get(UnitContainer.class).experienceSystem.giveExperience(task.performer, skill);
@@ -63,7 +63,7 @@ namespace game.model.component.task.action {
         // Applies changes to local map. Some types of digging change not only target tile.
         private void updateMap() {
             LocalMap map = model.localMap;
-            Vector3Int target = this.target.getPos().Value;
+            Vector3Int target = this.target.Pos.Value;
             switch (type.name) {
                 case "dig":
                     updateAndRevealMap(target, FLOOR);

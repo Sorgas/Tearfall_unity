@@ -53,6 +53,9 @@ public class LocalBuildingGenerator : LocalGenerator {
 
     private bool validatePosition(Vector3Int position, BuildingType type) {
         LocalMap map = container.map;
+        if(type.access != null) {
+            if (map.blockType.getEnumValue(position.x + type.access[0], position.y + type.access[1], position.z) != BlockTypes.FLOOR) return false;
+        }
         for (var x = 0; x < type.size[0]; x++) {
             for (var y = 0; y < type.size[1]; y++) {
                 if (map.blockType.getEnumValue(position.x + x, position.y + y, position.z) != BlockTypes.FLOOR) return false;

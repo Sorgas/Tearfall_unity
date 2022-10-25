@@ -26,11 +26,18 @@ public class CraftingOrder {
         return ingredients.SelectMany(ingredient => ingredient.items).ToList();
     }
 
+    // stores selected item types and materials for crafting
     public class IngredientOrder {
         public string key; // ingredient key from recipe
         public List<string> itemTypes = new(); // configured from ui
         public List<int> materials = new(); // configured from ui. if empty, tag is used
-        public List<EcsEntity> items = new();
+        
+        public List<EcsEntity> items = new(); // selected before performing
+
+        public IngredientOrder(Ingredient ingredient) {
+            this.key = ingredient.key;
+            itemTypes.AddRange(ingredient.itemTypes);
+        }
     }
 
     public enum CraftingOrderStatus {

@@ -65,7 +65,7 @@ namespace game.model.localmap.passage {
 
         // Considers center tile to have given type. Used for checking during building.
         public NeighbourPositionStream filterConnectedToCenterWithOverrideTile(BlockType type) {
-            stream = stream.Where(position => passageMap.tileIsAccessibleFromNeighbour(center, position, type));
+            stream = stream.Where(position => passageMap.hasPathBetweenNeighboursWithOverride(center, position, type));
             return this;
         }
 

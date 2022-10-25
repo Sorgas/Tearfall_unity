@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data;
 using enums.action;
 using game.model.component.task.action;
 using Leopotam.Ecs;
@@ -15,7 +16,12 @@ namespace game.model.component.task {
 
             public void addFirstPreAction(Action action) => preActions.Insert(0, action);
 
-            public void removeFirstPreAction() => preActions.RemoveAt(0);
+            public void removeFirstPreAction() {
+                if(preActions.Count == 0) {
+                    throw new DataException("Trying to remove pre-action when no pre-actions exist"); // this should never happen, See UnitActionCheckingSystem
+                }
+                preActions.RemoveAt(0);
+            }
 
             public string toString => initialAction.ToString();
         }

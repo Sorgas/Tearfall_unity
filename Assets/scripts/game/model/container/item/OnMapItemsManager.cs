@@ -8,7 +8,7 @@ using util.lang.extension;
 namespace game.model.container.item {
     // stores reference of positions to items in it. Puts and takes items from map, updating its entity's position component 
     public class OnMapItemsManager : ItemContainerPart {
-        public MultiValueDictionary<Vector3Int, EcsEntity> itemsOnMap = new();
+        public MultiValueDictionary<Vector3Int, EcsEntity> itemsOnMap = new(); // to find what items are on position
         public HashSet<EcsEntity> all = new(); // for checking if item is on map
 
         public OnMapItemsManager(ItemContainer container) : base(container) { }

@@ -17,12 +17,12 @@ namespace game.model.system.unit {
                 ref EcsEntity unit = ref filter.GetEntity(i);
                 UnitCurrentActionComponent component = filter.Get1(i);
                 Action action = component.action;
-                Debug.Log("[UnitActionPerformingSystem]: performing action " + action.name);
+                // Debug.Log("[UnitActionPerformingSystem]: performing action " + action.name);
                 action.perform(unit);
-                Debug.Log("[UnitActionPerformingSystem]: task components count: " + action.task.GetComponentsCount());
+                // Debug.Log("[UnitActionPerformingSystem]: task components count: " + action.task.GetComponentsCount());
                 if (action.status == ActionStatusEnum.COMPLETE) {
                     Debug.Log("[UnitActionPerformingSystem]: removing UnitCurrentActionComponent from unit");
-                    Debug.Log("[UnitActionPerformingSystem]: components count: " + unit.GetComponentsCount());
+                    // Debug.Log("[UnitActionPerformingSystem]: components count: " + unit.GetComponentsCount());
                     unit.Del<UnitCurrentActionComponent>();
                 }
             }

@@ -8,7 +8,7 @@ namespace Assets.scripts.types.item.recipe {
             Debug.Log("Processing recipe " + rawRecipe.name);
             Recipe recipe = new Recipe(rawRecipe);
             foreach(string ingredientString in rawRecipe.ingredients) {
-                if(!ingredientProcessor.validateIngredient(ingredientString)) {
+                if(ingredientProcessor.validateIngredient(ingredientString)) {
                     Ingredient ingredient = ingredientProcessor.parseIngredient(ingredientString);
                     recipe.ingredients.Add(ingredient.key, ingredient);
                 }

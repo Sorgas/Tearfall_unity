@@ -13,6 +13,7 @@ public class IngredientProcessor {
         return new Ingredient(args[0], itemTypes, tag, int.Parse(args[3]));
     }
 
+    // true if ok
     public bool validateIngredient(string ingredientString) {
         List<string> args = new(ingredientString.Split(":"));
         if (args.Count < 4) {

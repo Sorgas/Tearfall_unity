@@ -182,6 +182,7 @@
      <Compile Include="Assets\scripts\mainMenu\worldmap\TilesHolder.cs" />
      <Compile Include="Assets\scripts\types\item\type\ItemType.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToDesignationContainer.cs" />
+     <Compile Include="Assets\scripts\generation\item\CraftingOrderGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\system\item\ItemVIsualRemoveSystem.cs" />
      <Compile Include="Assets\scripts\util\geometry\PositionUtil.cs" />
      <Compile Include="Assets\scripts\types\unit\CreatureTypeMap.cs" />
@@ -222,6 +223,7 @@
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\ItemConsumingMouseTool.cs" />
      <Compile Include="Assets\scripts\types\unit\health\GameplayStatEnum.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldTiles.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\target\WorkbenchActionTarget.cs" />
      <Compile Include="Assets\scripts\game\model\entity_selector\EntitySelectorSystem.cs" />
      <Compile Include="Assets\scripts\game\model\container\BuildingContainer.cs" />
      <Compile Include="Assets\scripts\game\view\util\LocalMapLayerHandler.cs" />
@@ -234,7 +236,7 @@
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\ConstructionMouseTool.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalMapGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\ItemContainer.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\item\ItemConsumingAction.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\item\ItemCraftingAction.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedConditionController.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\order\ConstructionOrder.cs" />

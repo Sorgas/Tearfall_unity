@@ -10,7 +10,7 @@ namespace types.building {
         public int[] positionS;
         public int[] positionE;
         public int[] positionW;
-        public int[] access;
+        public int[] access; // TODO add rawbuilding type class, use Vector2Int here
         public string passage;
         public string[] materials;
         public BuildingVariant[] variants;

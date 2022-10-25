@@ -1,4 +1,8 @@
-﻿using entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using entity;
+using enums.item;
 using enums.item.type;
 using enums.plant;
 using game.model.component;
@@ -18,14 +22,18 @@ namespace generation.item {
             generateItem(typeName, materialName, itemEntity)
                 .Replace(new PositionComponent { position = position });
 
+        public EcsEntity generateItem(string typeName, int material, EcsEntity entity) => 
+            generateItem(typeName, MaterialMap.get().material(material).name, entity);
+
         // generates item without position
         public EcsEntity generateItem(string typeName, string materialName, EcsEntity entity) {
             ItemType type = ItemTypeMap.getItemType(typeName);
             if (type == null) Debug.LogError("Type " + typeName + " not found.");
             Material_ material = MaterialMap.get().material(materialName);
+            List<ItemTagEnum> tags = material.tags.Select(tag => (ItemTagEnum) Enum.Parse(typeof(ItemTagEnum), tag, true)).ToList();
             entity.Replace(new ItemComponent {
                 material = material.id, type = typeName, materialString = material.name, volume = 1,
-                weight = material.density * 1
+                weight = material.density * 1, tags = new(tags)
             });
             if (type.tool != null) {
                 entity.Replace(new ItemToolComponent { action = type.tool.action });
@@ -34,7 +42,7 @@ namespace generation.item {
                 WearAspect aspect = (WearAspect)type.aspects[typeof(WearAspect)];
                 entity.Replace(new ItemWearComponent { slot = aspect.slot, layer = aspect.layer });
             }
-            entity.Replace(new NameComponent());
+            entity.Replace(new NameComponent{name = material.name + " " + type.title});
             return entity;
         }
 

@@ -42,12 +42,9 @@ namespace game.model.component.task.action {
             }
         }
 
-        /**
-         * Condition to be met before task with this action is assigned to unit.
-         * Should check tool, consumed items, target reachability for performer. 
-         * Can use {@code task.performer}, as it is assigned to task before calling by {@link CreaturePlanningSystem}.
-         */
-        public Func<ActionConditionStatusEnum> startCondition = () => ActionConditionStatusEnum.FAIL; // prevent starting empty action
+        public Func<ActionConditionStatusEnum> startCondition = () => { // checked before starting performing, can create sub actions
+            return ActionConditionStatusEnum.FAIL;
+        }; // prevent starting empty action
 
         public System.Action onStart = () => { }; // performed on phase start
         public Action<EcsEntity, float> progressConsumer; // performs logic
@@ -80,21 +77,19 @@ namespace game.model.component.task.action {
             progressConsumer.Invoke(unit, speed);
             if (finishCondition.Invoke()) {
                 // last execution of perform()
-                Debug.Log("action [" + name + "] finished");
+                log("finished");
                 onFinish.Invoke();
                 status = ActionStatusEnum.COMPLETE;
             }
         }
 
         public ActionConditionStatusEnum addPreAction(Action action) {
-            Debug.Log("adding pre-action [" + action.name + "]");
+            log("adding pre-action: " + action.name);
             task.Get<TaskActionsComponent>().addFirstPreAction(action);
             action.task = task;
             return ActionConditionStatusEnum.NEW;
         }
 
-        protected void log(string message) {
-            Debug.Log("[" + name + "]: " + message);
-        }
+        protected void log(string message) => Debug.Log("[" + name + "]: " + message);
     }
 }

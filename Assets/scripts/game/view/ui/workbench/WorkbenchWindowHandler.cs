@@ -10,6 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using util.lang.extension;
+using static CraftingOrder;
 using static game.model.component.task.TaskComponents;
 
 public class WorkbenchWindowHandler : MbWindow, IHotKeyAcceptor {
@@ -21,7 +22,9 @@ public class WorkbenchWindowHandler : MbWindow, IHotKeyAcceptor {
     public WorkbenchRecipeListHandler recipeListHandler;
     
     public EcsEntity entity;
+
     private List<OrderLineHandler> orderLines = new(); 
+    private CraftingOrderGenerator generator = new();
 
     public void Start() {
         addOrderButton.onClick.AddListener(() => toggleRecipeList());
@@ -55,7 +58,7 @@ public class WorkbenchWindowHandler : MbWindow, IHotKeyAcceptor {
         ref WorkbenchComponent workbench = ref entity.takeRef<WorkbenchComponent>();
         Debug.Log("[WorkbenchWindowHandler] creating order " + recipeName + " " + index);
         Recipe recipe = RecipeMap.get().get(recipeName);
-        CraftingOrder order = new(recipe);
+        CraftingOrder order = generator.generate(recipe);
         workbench.orders.Insert(index, order);
         workbench.hasActiveOrders = true;
         createOrderLine(index, order);

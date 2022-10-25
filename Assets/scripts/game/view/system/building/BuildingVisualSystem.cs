@@ -7,6 +7,7 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace game.view.system.building {
+    // creates sprite GO for building
     public class BuildingVisualSystem : IEcsRunSystem {
         public EcsFilter<BuildingComponent>.Exclude<BuildingVisualComponent> filter;
 

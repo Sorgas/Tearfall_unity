@@ -9,7 +9,7 @@ namespace game.model.container.item {
         public ItemStateValidator validator;
         public EquippedItemsManager equipped = new();
         public OnMapItemsManager onMap;
-        public StoredItemsManager stored; // TODO stored items
+        public StoredItemsManager stored = new();
         
         public AvailableItemsManager availableItemsManager = new();
         public ItemFindingUtil util;
@@ -48,19 +48,10 @@ namespace game.model.container.item {
         // }
         //
 
-        public bool itemAccessible(EcsEntity item, Vector3Int position) {
-            //TODO handle items in containers
-            // if (isItemInContainer(item)) {
-            //     IntVector3 containerPosition = contained.get(item).entity.position;
-            //     LocalMap map = map();
-            //     byte area = map.passageMap.area.get(position);
-            //     return PositionUtil.allNeighbour.stream()
-            //         .map(pos->IntVector3.add(pos, containerPosition))
-            //         .filter(map::inMap)
-            //         .map(map.passageMap.area::get)
-            //         .anyMatch(area1->area1 == area);
-            // }
-            return model.localMap.passageMap.area.get(position) == model.localMap.passageMap.area.get(item.pos());
+        // checks that items's position is accessible from 'position'
+        public bool itemAccessibleFromPosition(EcsEntity item, Vector3Int position) {
+            Vector3Int targetPosition = (stored.isStored(item) ? stored.getContainerOfItem(item) : item).pos();
+            return model.localMap.passageMap.tileIsAccessibleFromArea(targetPosition, position);               
         }
     }
 }

@@ -7,7 +7,6 @@ using util.lang.extension;
 using static enums.action.TaskStatusEnum;
 
 namespace game.model.system.task.designation {
-
     // deletes cancelled and completed designations
     // removes task from failed designations to be reopened later 
     public class DesignationCompletionSystem : LocalModelEcsSystem {

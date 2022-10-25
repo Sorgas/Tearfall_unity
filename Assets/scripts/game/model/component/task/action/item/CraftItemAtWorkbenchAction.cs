@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using enums.action;
 using game.model.component.building;
+using game.model.component.item;
 using game.model.component.task.action.equipment.use;
-using game.model.component.task.action.target;
+using generation.item;
 using Leopotam.Ecs;
 using util.lang.extension;
-using static game.model.component.task.TaskComponents;
+using static CraftingOrder;
 
 /**
 * Action for crafting item by item order on workbench. Ingredient items will be brought to WB.
@@ -16,72 +17,70 @@ using static game.model.component.task.TaskComponents;
 *
 * @author Alexander on 06.01.2019.
 */
-class CraftItemAtWorkbenchAction : ItemConsumingAction {
-    private CraftingOrder itemOrder;
+class CraftItemAtWorkbenchAction : ItemCraftingAction {
     private EcsEntity workbench;
     private string skill;
 
     // unit will stand near wb while performing task
-    public CraftItemAtWorkbenchAction(CraftingOrder order, EcsEntity workbench) : base(order, new EntityActionTarget(workbench, ActionTargetTypeEnum.NEAR)) {
-        this.itemOrder = order;
+    public CraftItemAtWorkbenchAction(CraftingOrder order, EcsEntity workbench) : base(order, new WorkbenchActionTarget(workbench)) {
         this.workbench = workbench;
-        // ItemContainerAspect containerAspect = workbench.get(ItemContainerAspect.class);
-        // WorkbenchAspect workbenchAspect = workbench.get(WorkbenchAspect.class);
-        // FuelConsumerAspect fuelAspect = workbench.get(FuelConsumerAspect.class);
+        this.name = "crafting " + order.name + " action";
         
         //TODO check ingredients and fuel availability before bringing something to workbench.
         //TODO add usage of items in nearby containers.
         startCondition = () => {
-
             if (!ingredientOrdersValid()) return ActionConditionStatusEnum.FAIL; // check/find items for order
             if (checkBringingItems()) return ActionConditionStatusEnum.NEW; // bring ingredient items
             return ActionConditionStatusEnum.OK;
         };
 
-        // onStart = () -> {
-        //     System.out.println("start action craft");
-        //     maxProgress = itemOrder.recipe.workAmount * (1 + getMaterialWorkAmountMultiplier());
-        //     float performanceBonus = Optional.ofNullable(task.performer.get(HealthAspect.class))
-        //             .map(aspect -> aspect.stats.get("performance"))
-        //             .orElse(0f);
-        //     float skillBonus = Optional.ofNullable(SkillMap.getSkill(this.skill))
-        //             .map(skill -> Optional.ofNullable(task.performer.get(JobSkillAspect.class))
-        //                     .map(aspect -> aspect.skills.get(this.skill).level())
-        //                     .map(level -> level * skill.speed)
-        //                     .orElse(0f)).orElse(0f);
-        //     //TODO add WB tier bonus
-        //     speed = 1 + performanceBonus + skillBonus;
-        // };
+        onStart = () => {
+            log("start");
+            // maxProgress = itemOrder.recipe.workAmount * (1 + getMaterialWorkAmountMultiplier());
+            // float performanceBonus = Optional.ofNullable(task.performer.get(HealthAspect.class))
+            //         .map(aspect -> aspect.stats.get("performance"))
+            //         .orElse(0f);
+            // float skillBonus = Optional.ofNullable(SkillMap.getSkill(this.skill))
+            //         .map(skill -> Optional.ofNullable(task.performer.get(JobSkillAspect.class))
+            //                 .map(aspect -> aspect.skills.get(this.skill).level())
+            //                 .map(level -> level * skill.speed)
+            //                 .orElse(0f)).orElse(0f);
+            // //TODO add WB tier bonus
+            // speed = 1 + performanceBonus + skillBonus;
+        };
 
-        // // Creates item, consumes ingredients. Product item is put to Workbench.
-        // onFinish = () -> {
-        //     System.out.println("finish action craft");
-        //     Item product = new ItemGenerator().generateItemByOrder(itemOrder);
-        //     // spend components
-        //     List<Item> items = itemOrder.allIngredients().stream()
-        //             .map(ingredientOrder -> ingredientOrder.items)
-        //             .flatMap(Collection::stream)
-        //             .collect(Collectors.toList());
-        //     itemContainer.removeItems(items);
-        //     storeProduct(product);
-        // };
+        // Creates item, consumes ingredients. Product item is put to Workbench.
+        onFinish = () => {
+            EcsEntity result = new ItemGenerator().generateItem(order.recipe.newType, selectMaterialForItem(), model.createEntity());
+            ref BuildingItemContainerComponent containerComponent = ref workbench.takeRef<BuildingItemContainerComponent>();
+            foreach(EcsEntity item in order.allIngredientItems()) {
+                container.stored.removeItemFromContainer(item);
+                containerComponent.items.Remove(item);
+            }
+            storeProduct(result);
+        };
     }
 
     // checks that item is in WB
     private bool checkBringingItems() {
         BuildingItemContainerComponent component = workbench.take<BuildingItemContainerComponent>();
         List<EcsEntity> notInWbItems = order.allIngredientItems().Where(item => !component.items.Contains(item)).ToList();
-        notInWbItems.ForEach(item => task.take<TaskActionsComponent>().addFirstPreAction(new PutItemToContainerAction(workbench, item))); // create action
+        notInWbItems.ForEach(item => addPreAction(new PutItemToContainerAction(workbench, item))); // create action
         return notInWbItems.Count != 0;
     }
 
     private void storeProduct(EcsEntity item) {
         //TODO put product into WB's bound container
+        log("putting item " + item.name() + " to " + workbench.name());
         workbench.takeRef<BuildingItemContainerComponent>().items.Add(item);
         container.stored.addItemToContainer(item, workbench);
     }
 
-    public string toString() {
-        return "Crafting action: " + itemOrder.name;
-    }
+    private int selectMaterialForItem() {
+        IngredientOrder ingredientOrder = order.ingredients.Count == 1 
+                ? order.ingredients[0] 
+                : order.ingredients.Where(ingredientOrder => ingredientOrder.key == "main").First();
+        EcsEntity firstItemOfMainIngredient = ingredientOrder.items[0];
+        return firstItemOfMainIngredient.take<ItemComponent>().material;
+    }   
 }

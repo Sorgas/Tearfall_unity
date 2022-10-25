@@ -15,6 +15,7 @@ namespace generation {
             entity.Replace(new PositionComponent { position = order.position });
             if (order.type.category == "workbenches") {
                 entity.Replace(new WorkbenchComponent { orders = new(), hasActiveOrders = false });
+                entity.Replace(new BuildingItemContainerComponent {items = new()});
             }
             entity.Replace(createMultiPositionComponent(order.type, order.position, order.orientation));
             entity.Replace(new NameComponent{name = order.type.name});

@@ -34,6 +34,7 @@ namespace game.model.container {
                     model.localMap.passageMap.updater.update(x, y, z);        
                 });
             }
+            Debug.Log("[BuildingContainer] building " + building.name() + " created in " + building.pos());
             return true;
         }
 

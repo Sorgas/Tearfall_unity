@@ -15,9 +15,7 @@ namespace game.model.component.task.action.target {
 
         }
 
-        public override Vector3Int? getPos() {
-            return null;
-        }
+        public override Vector3Int? Pos => null;
 
         public new ActionTargetStatusEnum check(EcsEntity performer) {
             return ActionTargetStatusEnum.READY;

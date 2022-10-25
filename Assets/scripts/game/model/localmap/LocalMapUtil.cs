@@ -13,7 +13,6 @@ namespace game.model.localmap {
         private LocalMap map;
 
         public LocalMapUtil(LocalMap map) {
-            
             this.map = map;
         }
 
@@ -33,9 +32,11 @@ namespace game.model.localmap {
         }
 
         // change postition to move it inside map
+        // TODO move to IntBounds3
         public void normalizePosition(Vector3Int position) => normalizeRectangle(ref position, 1, 1);
 
         // change position to move rectangle with position in [0,0] inside map
+        // TODO move to IntBounds3
         public void normalizeRectangle(ref Vector3Int position, int width, int height) {
             position.x = Math.Min(Math.Max(0, position.x), map.bounds.maxX - width);
             position.y = Math.Min(Math.Max(0, position.y), map.bounds.maxY - height);
