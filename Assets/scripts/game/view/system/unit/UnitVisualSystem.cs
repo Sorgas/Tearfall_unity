@@ -15,8 +15,8 @@ namespace game.view.system.unit {
         private Vector3 spriteOffsetOnRamp;
 
         public UnitVisualSystem() {
-            spriteOffset = new(0, 0.25f, WALL_LAYER * GRID_STEP + GRID_STEP / 2);
-            spriteOffsetOnRamp = spriteOffset + new Vector3(0, 0, -0.1f);
+            spriteOffset = new(0, 0.25f, WALL_LAYER * GRID_STEP + GRID_STEP * 0.25f);
+            spriteOffsetOnRamp = spriteOffset + new Vector3(0, 0, -0.1f); // draw above walls
         }
 
         public void Run() {

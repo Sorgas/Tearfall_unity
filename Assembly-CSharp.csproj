@@ -249,6 +249,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\order\BuildingOrder.cs" />
      <Compile Include="Assets\scripts\game\model\system\GameTime.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ItemActionTarget.cs" />
+     <Compile Include="Assets\scripts\game\view\system\unit\UnitActionProgressVisualSystem.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\IEnumerableExtensions.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalElevationGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitPathfindingSystem.cs" />
@@ -342,6 +343,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\StepOffAction.cs" />
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
+     <Compile Include="Assets\scripts\game\model\util\DiggingWorkAmountCalculator.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

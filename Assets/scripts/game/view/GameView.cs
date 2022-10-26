@@ -54,6 +54,7 @@ namespace game.view {
         private void initEcs(EcsWorld ecsWorld) {
             systems = new EcsSystems(ecsWorld);
             systems.Add(new UnitVisualSystem());
+            systems.Add(new UnitActionProgressBarUpdateSystem());
             systems.Add(new ItemVisualSystem());
             systems.Add(new ItemVisualRemoveSystem());
             systems.Add(new DesignationVisualSystem());

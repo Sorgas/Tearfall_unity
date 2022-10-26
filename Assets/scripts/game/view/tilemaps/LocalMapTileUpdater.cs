@@ -71,6 +71,7 @@ namespace game.view.tilemaps {
             for (int i = 0; i <= map.bounds.maxZ; i++) {
                 GameObject layer = Object.Instantiate(layerPrefab, new Vector3(0, i / 2f, -i * 2) + transform.position,
                     Quaternion.identity, transform);
+                layer.name = "local map layer " + i;
                 layers.Add(layer.transform.GetComponentInChildren<LocalMapLayerHandler>());
                 layers[i].tilemap.GetComponent<TilemapRenderer>().sortingOrder = i;
                 layers[i].planeRenderer.sortingOrder = i;

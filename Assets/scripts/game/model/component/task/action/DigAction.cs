@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using enums.action;
 using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
@@ -36,10 +37,8 @@ namespace game.model.component.task.action {
             };
 
             onStart = () => { // TODO
-                maxProgress = 10;
-                speed = 1;
-                // speed = 1 + skill().speed * performerLevel() + performance();
-                // maxProgress = getWorkAmount(designation) * workAmountModifier; // 480 for wall to floor in marble
+                maxProgress = new DiggingWorkAmountCalculator().getWorkAmount(position, type, model);
+
             };
 
             onFinish = () => {
@@ -105,45 +104,6 @@ namespace game.model.component.task.action {
             if(Random.Range(0, 1f) > (newType.OPENNESS - oldType.OPENNESS) / 16f) return;
             EcsEntity item = new DiggingProductGenerator().generate(model.localMap.blockType.getMaterial(position), model);
             if(item != EcsEntity.Null) model.itemContainer.onMap.putItemToMap(item, position);
-        }
-        
-        //
-        //    /**
-        // * Work amount is based on material hardness and volume of dug stone.
-        // * TODO cover with test
-        // */
-        //    private float getWorkAmount(Designation designation) {
-        //        LocalMap map = GameMvc.model().get(LocalMap.class);
-        //        switch (designation.type) {
-        //            case D_DIG:
-        //                return getWorkAmountForTile(designation.position, map, FLOOR);
-        //            case D_STAIRS:
-        //                return getWorkAmountForTile(designation.position, map, STAIRS);
-        //            case D_DOWNSTAIRS:
-        //                return getWorkAmountForTile(designation.position, map, DOWNSTAIRS);
-        //            case D_RAMP:
-        //                IntVector3 upperPosition = IntVector3.add(designation.position, 0, 0, 1);
-        //                return getWorkAmountForTile(designation.position, map, RAMP) + Math.max(getWorkAmountForTile(upperPosition, map, SPACE), 0);
-        //            case D_CHANNEL:
-        //                IntVector3 lowerPosition = IntVector3.add(designation.position, 0, 0, -1);
-        //                return getWorkAmountForTile(designation.position, map, SPACE) + Math.max(getWorkAmountForTile(lowerPosition, map, RAMP), 0);
-        //        }
-        //        return Logger.TASKS.logError("Non-digging designation type in DigAction", 0);
-        //    }
-
-        // private float getWorkAmountForTile(IntVector3 position, LocalMap map, BlockTypeEnum targetType) {
-        //     return MaterialMap.getMaterial(map.blockType.getMaterial(position)).density *
-        //            (targetType.OPENNESS - map.blockType.getEnumValue(position).OPENNESS);
-        // }
-        //
-        // public String toString() {
-        //     return "Digging " + type;
-        // }
-        //
-        //
-        // public DigAction(DesignationComponent designation, PositionComponent position) : base(new PositionActionTarget(position.position, NEAR)) {
-        //     log("Dig action created for " + position.position);
-        //
-        // }
+        }      
     }
 }

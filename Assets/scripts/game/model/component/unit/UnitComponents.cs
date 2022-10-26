@@ -3,6 +3,7 @@ using enums;
 using enums.action;
 using game.model.component.task.action;
 using game.view.util;
+using Leopotam.Ecs;
 using types;
 using UnityEngine;
 
@@ -69,4 +70,6 @@ namespace game.model.component.unit {
     public struct UnitCurrentActionComponent {
         public Action action;
     }
+
+    public struct UnitVisualProgressBarComponent : IEcsIgnoreInFilter {}
 }
