@@ -3,7 +3,6 @@ using game.view;
 using game.view.ui.jobs_widget;
 using game.view.ui.menu_widget;
 using game.view.ui.toolbar;
-using generation;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +22,7 @@ namespace game {
         public MaterialSelectionWidgetHandler materialSelectionWidgetHandler;
         public GamespeedWidgetHandler gamespeedWidgetHandler;
         public WorkbenchWindowHandler workbenchWindowHandler;
+        public ItemMenuHandler itemMenuHandler;
         public Text debugInfoPanel;
         public Text modelDebugInfoPanel;
 

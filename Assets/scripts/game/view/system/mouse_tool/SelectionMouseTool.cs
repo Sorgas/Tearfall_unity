@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using game.model;
 using game.model.component.building;
 using game.view.camera;
@@ -11,11 +12,15 @@ namespace game.view.system.mouse_tool {
 
         public override void applyTool(IntBounds3 bounds) {
             Vector3Int position = new(bounds.minX, bounds.minY, bounds.minZ);
-            if(GameModel.get().currentLocalModel.buildingContainer.buildings.ContainsKey(position)) {
+            LocalModel model = GameModel.get().currentLocalModel;
+            if (model.buildingContainer.buildings.ContainsKey(position)) {
                 EcsEntity entity = GameModel.get().currentLocalModel.buildingContainer.buildings[position];
-                if(entity.Has<WorkbenchComponent>()) {
+                if (entity.Has<WorkbenchComponent>()) {
                     WindowManager.get().showWindowForBuilding(entity);
                 }
+            }
+            if (model.itemContainer.onMap.itemsOnMap.ContainsKey(position)) {
+                handleItemSelection(model.itemContainer.onMap.itemsOnMap[position]);
             }
         }
 
@@ -37,5 +42,16 @@ namespace game.view.system.mouse_tool {
         }
 
         public override void updateSpriteColor(Vector3Int position) { }
+
+        private void handleItemSelection(List<EcsEntity> items) {
+            int itemIndex = 0;
+            ItemMenuHandler window = (ItemMenuHandler)WindowManager.get().windows[ItemMenuHandler.name];
+            if (WindowManager.get().activeWindowName == ItemMenuHandler.name) {
+                EcsEntity currentItem = window.item;
+                itemIndex = (items.IndexOf(currentItem) + 1) % items.Count;
+            } 
+            window.FillForItem(items[itemIndex]);
+            WindowManager.get().showWindowByName(ItemMenuHandler.name);    
+        }
     }
 }

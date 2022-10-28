@@ -68,6 +68,7 @@ namespace game.view {
             KeyInputSystem system = KeyInputSystem.get();
             system.windowManager.addWindow(sceneObjectsContainer.jobsWindow);
             system.windowManager.addWindow(sceneObjectsContainer.workbenchWindowHandler);
+            system.windowManager.addWindow(sceneObjectsContainer.itemMenuHandler);
             system.widgetManager.addWidget(sceneObjectsContainer.gamespeedWidgetHandler);
             system.widgetManager.addWidget(sceneObjectsContainer.menuWidget);
             system.widgetManager.addWidget(sceneObjectsContainer.toolbarWidget);

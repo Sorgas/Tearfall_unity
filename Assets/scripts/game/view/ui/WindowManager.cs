@@ -46,9 +46,9 @@ namespace game.view.ui {
 
         public void showWindowForBuilding(EcsEntity entity) {
             if(entity.Has<WorkbenchComponent>()) {
-                IWindow window = windows["workbench"];
+                IWindow window = windows[WorkbenchWindowHandler.name];
                 ((WorkbenchWindowHandler) window).init(entity);
-                showWindow("workbench", false);
+                showWindow(WorkbenchWindowHandler.name, false);
             }
         }
 

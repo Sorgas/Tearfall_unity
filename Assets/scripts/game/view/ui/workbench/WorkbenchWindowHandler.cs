@@ -10,8 +10,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using util.lang.extension;
-using static CraftingOrder;
-using static game.model.component.task.TaskComponents;
 
 public class WorkbenchWindowHandler : MbWindow, IHotKeyAcceptor {
     public const string name = "workbench";    
