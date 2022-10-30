@@ -37,7 +37,7 @@ public class GamespeedWidgetHandler : MonoBehaviour, IHotKeyAcceptor {
     }
 
     public bool accept(KeyCode key) {
-        Debug.Log("speed widget: " + key);
+        // Debug.Log("speed widget: " + key);
         if (key == KeyCode.Space) {
             ExecuteEvents.Execute(pauseButton, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
             return true;

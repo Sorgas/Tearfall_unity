@@ -6,11 +6,13 @@ using game.view.util;
 using Leopotam.Ecs;
 using types;
 using UnityEngine;
+using UnityEngine.Rendering;
 using util.lang.extension;
 using static game.view.util.TilemapLayersConstants;
 
 namespace game.view.system.item {
     // creates sprite GO for items on ground. updates GO position for moved items
+    // TODO add item sprite GO monobeh handler
     public class ItemVisualSystem : IEcsRunSystem {
         // TODO add marker component instead of position
         public EcsFilter<ItemComponent, PositionComponent>.Exclude<ItemVisualComponent>
@@ -27,7 +29,10 @@ namespace game.view.system.item {
             }
             foreach (var i in itemsOnGroundFilter) {
                 // todo add lastPosition to visual component
-                updatePosition(ref itemsOnGroundFilter.Get2(i), itemsOnGroundFilter.Get1(i));
+                EcsEntity entity = itemsOnGroundFilter.GetEntity(i);
+                ref ItemVisualComponent visual = ref itemsOnGroundFilter.Get2(i);
+                updatePosition(ref visual, itemsOnGroundFilter.Get1(i));
+                updateLockedIcon(entity, visual);
             }
         }
 
@@ -37,6 +42,9 @@ namespace game.view.system.item {
             visual.go = PrefabLoader.create("Item", GameView.get().sceneObjectsContainer.mapHolder);
             visual.spriteRenderer = visual.go.GetComponent<SpriteRenderer>();
             visual.spriteRenderer.sprite = ItemTypeMap.get().getSprite(item.type);
+            visual.iconGo = visual.go.transform.GetChild(0).gameObject;
+            visual.iconRenderer = visual.iconGo.GetComponent<SpriteRenderer>();
+            visual.sortingGroup = visual.go.GetComponent<SortingGroup>();
             entity.Replace(visual);
         }
 
@@ -47,7 +55,13 @@ namespace game.view.system.item {
                                    ? spriteZOffsetForRamp
                                    : spriteZOffset);
             component.spriteRenderer.gameObject.transform.localPosition = scenePos;
-            component.spriteRenderer.sortingOrder = pos.z;
+            component.sortingGroup.sortingOrder = pos.z;
+        }
+
+        private void updateLockedIcon(EcsEntity entity, ItemVisualComponent component) {
+            if(entity.Has<ItemLockedComponent>() != component.iconGo.activeSelf) {
+                component.iconGo.SetActive(entity.Has<ItemLockedComponent>());
+            }
         }
     }
 }

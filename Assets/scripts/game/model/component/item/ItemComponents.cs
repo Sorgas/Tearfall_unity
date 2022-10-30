@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using enums.item;
 using Leopotam.Ecs;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace game.model.component.item {
 
@@ -116,8 +117,11 @@ namespace game.model.component.item {
     
     // item is held or worn by creature. it will not take part in non-hostile operations
     public struct ItemVisualComponent {
-        public SpriteRenderer spriteRenderer;
         public GameObject go;
+        public SpriteRenderer spriteRenderer;
+        public GameObject iconGo;
+        public SpriteRenderer iconRenderer;
+        public SortingGroup sortingGroup;
     }
 
     // TODO use for position update and visual remove

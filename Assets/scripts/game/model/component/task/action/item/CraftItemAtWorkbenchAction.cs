@@ -30,6 +30,7 @@ class CraftItemAtWorkbenchAction : ItemCraftingAction {
         //TODO add usage of items in nearby containers.
         startCondition = () => {
             if (!ingredientOrdersValid()) return ActionConditionStatusEnum.FAIL; // check/find items for order
+            order.ingredients.ForEach(ingredientOrder => setItemsLocked(ingredientOrder.items, true));
             if (checkBringingItems()) return ActionConditionStatusEnum.NEW; // bring ingredient items
             return ActionConditionStatusEnum.OK;
         };

@@ -57,17 +57,8 @@ public abstract class ItemCraftingAction : ItemAction {
     public void clearOrderItems() => order.ingredients.ForEach(ingOrder => clearIngredientItems(ingOrder));
 
     public void clearIngredientItems(IngredientOrder ingredientOrder) {
-        setItemsLocked(ingredientOrder, false);
+        setItemsLocked(ingredientOrder.items, false);
         ingredientOrder.items.Clear();
-    }
-
-    // TODO reference to task?
-    public void setItemsLocked(IngredientOrder ingredientOrder, bool value) {
-        if (value) {
-            ingredientOrder.items.ForEach(item => item.Replace(new ItemLockedComponent()));
-        } else {
-            ingredientOrder.items.ForEach(item => item.Del<ItemLockedComponent>());
-        }
     }
 
     private void log(string message) {
