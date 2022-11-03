@@ -44,7 +44,7 @@ namespace game.view.system.mouse_tool {
         // select sprite by type and rotation
         public override void updateSprite() {
             selectorGO.setBuildingSprite(BuildingTilesetHolder.get().get(type, orientation),
-                type.size[OrientationUtil.isHorisontal(orientation) ? 1 : 0]);
+                type.size[OrientationUtil.isHorizontal(orientation) ? 1 : 0]);
             if (type.access != null) {
                 int[] rotatedAccessPoint = getRotatedAccessPoint();
                 selectorGO.setAccessPoint(rotatedAccessPoint[0], rotatedAccessPoint[1], "building_access_point");
@@ -75,7 +75,7 @@ namespace game.view.system.mouse_tool {
         }
 
         private void updateSelectorSize() {
-            if (!OrientationUtil.isHorisontal(orientation)) {
+            if (!OrientationUtil.isHorizontal(orientation)) {
                 GameView.get().selector.changeSelectorSize(type.size[0], type.size[1]);
             } else {
                 GameView.get().selector.changeSelectorSize(type.size[1], type.size[0]);

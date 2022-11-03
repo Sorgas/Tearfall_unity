@@ -135,6 +135,6 @@ namespace game.model.component.item {
 
     // item is used in action and should not be used in another action
     public struct ItemLockedComponent {
-        // action reference?
+        public EcsEntity task;
     }
 }

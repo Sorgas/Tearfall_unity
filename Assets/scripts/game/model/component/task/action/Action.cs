@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using enums.action;
+using game.model.component.item;
 using game.model.component.task.action.target;
 using Leopotam.Ecs;
 using types.action;
@@ -41,10 +43,8 @@ namespace game.model.component.task.action {
                 return ref component.performer;
             }
         }
-
-        public Func<ActionConditionStatusEnum> startCondition = () => { // checked before starting performing, can create sub actions
-            return ActionConditionStatusEnum.FAIL;
-        }; // prevent starting empty action
+        // checked before starting performing, can create sub actions, can lock items
+        public Func<ActionConditionStatusEnum> startCondition = () => ActionConditionStatusEnum.FAIL; // prevent starting empty action
 
         public System.Action onStart = () => { }; // performed on phase start
         public Action<EcsEntity, float> progressConsumer; // performs logic
@@ -57,7 +57,7 @@ namespace game.model.component.task.action {
         public float speed = 1;
         public float maxProgress = 1;
 
-        public Action(ActionTarget target) : this(){
+        public Action(ActionTarget target) : this() {
             this.target = target;
         }
 
@@ -68,16 +68,12 @@ namespace game.model.component.task.action {
 
         // Performs action logic. Changes status.
         public void perform(EcsEntity unit) {
-            // Debug.Log("performing action [" + name + "]");
-            if (status == ActionStatusEnum.OPEN) {
-                // first execution of perform()
+            if (status == ActionStatusEnum.OPEN) { // first execution of perform()
                 status = ActionStatusEnum.ACTIVE;
                 onStart.Invoke();
             }
             progressConsumer.Invoke(unit, speed);
-            if (finishCondition.Invoke()) {
-                // last execution of perform()
-                log("finished");
+            if (finishCondition.Invoke()) { // last execution of perform()
                 onFinish.Invoke();
                 status = ActionStatusEnum.COMPLETE;
             }
@@ -85,9 +81,31 @@ namespace game.model.component.task.action {
 
         public ActionConditionStatusEnum addPreAction(Action action) {
             log("adding pre-action: " + action.name);
-            task.Get<TaskActionsComponent>().addFirstPreAction(action);
+            task.take<TaskActionsComponent>().addFirstPreAction(action);
             action.task = task;
             return ActionConditionStatusEnum.NEW;
+        }
+
+        // TODO reference to task?
+        protected void lockItems(List<EcsEntity> items) => items.ForEach(item => lockItem(item));
+
+        // locks or unlocks item to task of this action. Item can be locked only to one task. 
+        // Items are unlocked when task ends, see TaskCompletionSystem.
+        protected void lockItem(EcsEntity item) {
+            validateItemCanBeLocked(item, true);
+            ref TaskLockedItemsComponent lockedItems = ref task.Get<TaskLockedItemsComponent>(); // can create component
+            if (item.Has<ItemLockedComponent>()) return; // item locked to this task
+            item.Replace(new ItemLockedComponent { task = task });
+            lockedItems.lockedItems.Add(item);
+            log("locking 1 item");
+        }
+
+        private void validateItemCanBeLocked(EcsEntity item, bool value) {
+            if (!itemCanBeLocked(item)) throw new ArgumentException("Cannot lock item. Item locked to another task");
+        }
+
+        public bool itemCanBeLocked(EcsEntity item) {
+            return !item.Has<ItemLockedComponent>() || item.take<ItemLockedComponent>().task == task;
         }
 
         protected void log(string message) => Debug.Log("[" + name + "]: " + message);

@@ -24,7 +24,7 @@ namespace generation {
 
         private MultiPositionComponent createMultiPositionComponent(BuildingType type, Vector3Int position, Orientations orientation) {
             MultiPositionComponent component = new() { positions = new List<Vector3Int>() };
-            bool flip = OrientationUtil.isHorisontal(orientation);
+            bool flip = OrientationUtil.isHorizontal(orientation);
             int xSize = type.size[flip ? 1 : 0];
             int ySize = type.size[flip ? 0 : 1];
             for (int x = 0; x < xSize; x++) {

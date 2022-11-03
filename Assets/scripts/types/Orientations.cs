@@ -20,7 +20,7 @@ namespace types {
             }
         }
 
-        public static bool isHorisontal(Orientations orientation) {
+        public static bool isHorizontal(Orientations orientation) {
             return orientation == Orientations.E || orientation == Orientations.W;
         }
     }

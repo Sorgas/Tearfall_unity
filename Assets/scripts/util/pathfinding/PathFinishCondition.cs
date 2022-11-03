@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using enums.action;
-using game.model;
 using game.model.localmap;
 using UnityEngine;
 using util.geometry;
@@ -13,9 +12,10 @@ namespace util.pathfinding {
     class PathFinishCondition {
         // positions, where path can finish
         private readonly HashSet<Vector3Int> acceptable = new HashSet<Vector3Int>();
+        private readonly ActionTargetTypeEnum targetType;
 
         public PathFinishCondition(Vector3Int target, ActionTargetTypeEnum targetType, LocalMap map) {
-            Debug.Log(targetType);
+            this.targetType = targetType;
             if (targetType == EXACT || targetType == ANY) acceptable.Add(target);
             if (targetType == NEAR || targetType == ANY) { // add near tiles
                 PositionUtil.allNeighbour
@@ -30,15 +30,16 @@ namespace util.pathfinding {
                         .Where(pos => map.blockType.get(pos) == RAMP.CODE)
                         .ToList().ForEach(pos => acceptable.Add(pos));
             }
-            string logString = "";
-            foreach (var pos in acceptable) {
-                logString += "[" + pos.x + " " + pos.y + " " + pos.z + "] ";
-            }
-            Debug.Log(logString);
         }
 
-        public bool check(Vector3Int current) {
-            return acceptable.Contains(current);
+        public bool check(Vector3Int current) => acceptable.Contains(current);
+
+        public string getMessage() {
+            string logString = targetType +  ": ";
+            foreach (var pos in acceptable) {
+                logString += pos + " ";
+            }
+            return logString;
         }
     } 
 }

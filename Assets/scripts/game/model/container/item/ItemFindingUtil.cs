@@ -25,8 +25,9 @@ namespace game.model.container.item {
             // get items and positions
             // TODO add items in containers
             if (container.onMap.all.Count < 0) return EcsEntity.Null;
-            return container.onMap.all
+            return container.availableItemsManager.getAll()
                 .Where(item => map.passageMap.inSameArea(pos, item.pos()))
+                .Where(item => !item.Has<ItemLockedComponent>())
                 .Where(selector.checkItem)
                 .DefaultIfEmpty(EcsEntity.Null)
                 .Aggregate((cur, item) => cur == EcsEntity.Null || (distanceToItem(item, pos) < distanceToItem(cur, pos))

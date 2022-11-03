@@ -27,7 +27,7 @@ namespace types.building {
             Debug.Log(lists.Count());
             foreach(StringList2 list in lists) {
                 foreach(string listString in list.lists) {
-                    Debug.Log(listString);
+                    // Debug.Log(listString);
                     List<string> list2 = new(listString.Split("/"));
                     recipeListMap.Add(list2[0], list2.GetRange(1, list2.Count - 1));
                 }

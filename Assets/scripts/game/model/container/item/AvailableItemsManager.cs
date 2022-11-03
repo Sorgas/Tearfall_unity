@@ -22,7 +22,7 @@ namespace game.model.container.item {
             byType.add(item.type, entity);
             if (!byTypeAndMaterial.ContainsKey(item.type)) byTypeAndMaterial.Add(item.type, new MultiValueDictionary<int, EcsEntity>());
             byTypeAndMaterial[item.type].add(item.material, entity);
-            Debug.Log(item.type + " added as available");
+            log(item.type + " added as available");
         }
 
         public void remove(EcsEntity entity) {
@@ -54,6 +54,17 @@ namespace game.model.container.item {
                 .OrderBy(value => value).ToList()
                 .SelectMany(value => distances[value]).ToList()
                 .GetRange(0, number);
+        }
+
+        public List<EcsEntity> getAll() {
+            return byType.Values.Select(list => new List<EcsEntity>(list)).Aggregate((list1, list2) => {
+                list1.AddRange(list2);
+                return list1;
+            });
+        }
+
+        private void log(string message) {
+            Debug.Log("[AvailableItemsManager]: " + message);
         }
     }
 }

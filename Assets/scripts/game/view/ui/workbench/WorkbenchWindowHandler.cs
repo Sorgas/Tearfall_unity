@@ -12,20 +12,23 @@ using UnityEngine.UI;
 using util.lang.extension;
 
 public class WorkbenchWindowHandler : MbWindow, IHotKeyAcceptor {
-    public const string name = "workbench";    
+    public const string name = "workbench";
     public TextMeshProUGUI workbenchNameText;
     public Button addOrderButton;
     public GameObject orderList;
     public TextMeshProUGUI noOrdersText;
     public WorkbenchRecipeListHandler recipeListHandler;
-    
+
+    public WorkbenchInventoryHandler inventory;
+    public Button showInventoryButton;
+
+    private List<OrderLineHandler> orderLines = new();
+    private CraftingOrderGenerator generator = new();
     public EcsEntity entity;
 
-    private List<OrderLineHandler> orderLines = new(); 
-    private CraftingOrderGenerator generator = new();
-
     public void Start() {
-        addOrderButton.onClick.AddListener(() => toggleRecipeList());
+        addOrderButton.onClick.AddListener(() => recipeListHandler.gameObject.SetActive(!recipeListHandler.gameObject.activeSelf));
+        showInventoryButton.onClick.AddListener(() => inventory.toggle());
     }
 
     // fill wb with recipes and orders
@@ -34,7 +37,10 @@ public class WorkbenchWindowHandler : MbWindow, IHotKeyAcceptor {
         WorkbenchComponent workbench = entity.take<WorkbenchComponent>();
         workbenchNameText.text = entity.take<BuildingComponent>().type.name;
         fillOrdersList(workbench);
+        recipeListHandler.gameObject.SetActive(false);
         recipeListHandler.fillFor(entity);
+        inventory.hide();
+        inventory.initFor(entity);
     }
 
     // refills order list 
@@ -87,20 +93,20 @@ public class WorkbenchWindowHandler : MbWindow, IHotKeyAcceptor {
             moveOrderLine(orderLines[i].gameObject, true);
         }
         // if current order is deleted, WB marked with finished task
-        if(entity.Has<TaskComponent>() && entity.Has<WorkbenchCurrentOrderComponent>() 
+        if (entity.Has<TaskComponent>() && entity.Has<WorkbenchCurrentOrderComponent>()
             && entity.take<WorkbenchCurrentOrderComponent>().currentOrder == order) {
-            entity.Replace(new TaskFinishedComponent{status = TaskStatusEnum.CANCELED});
+            entity.Replace(new TaskFinishedComponent { status = TaskStatusEnum.CANCELED });
         }
     }
 
     public void moveOrder(CraftingOrder order, bool up) {
         int orderIndex = getOrderIndex(order);
-        if(orderIndex < 0) {
+        if (orderIndex < 0) {
             Debug.LogError("[WorkbenchWindowHandler] order " + order.name + " not found in WB " + entity.name());
             return;
         }
         int index2 = orderIndex + (up ? -1 : 1);
-        if(index2 >= 0 && index2 < orderLines.Count) {
+        if (index2 >= 0 && index2 < orderLines.Count) {
             swapOrderLines(orderIndex, index2);
         }
     }
@@ -117,13 +123,9 @@ public class WorkbenchWindowHandler : MbWindow, IHotKeyAcceptor {
         }
     }
 
-    private void toggleRecipeList() {
-        recipeListHandler.gameObject.SetActive(!recipeListHandler.gameObject.activeSelf);
-    }
-
     private int getOrderIndex(CraftingOrder order) {
-        for(int i = 0; i < orderLines.Count; i++) {
-            if(orderLines[i].order == order) return i;
+        for (int i = 0; i < orderLines.Count; i++) {
+            if (orderLines[i].order == order) return i;
         }
         return -1;
     }
@@ -149,6 +151,6 @@ public class WorkbenchWindowHandler : MbWindow, IHotKeyAcceptor {
         localPosition.y += up ? 120 : -120;
         obj.transform.localPosition = localPosition;
     }
-
+    
     public override string getName() => "workbench";
 }

@@ -15,8 +15,9 @@ namespace game.model.component.task.action.equipment.use {
         protected PutItemToDestinationAction(ActionTarget target, EcsEntity item) : base(target, item) {
             startCondition = () => {
                 if (!validate()) return FAIL;
-                if (equipment().hauledItem == item) return OK; // performer has item
-                return addPreAction(new ObtainItemAction(item));
+                if (equipment().hauledItem != item) return addPreAction(new ObtainItemAction(item));
+                lockItem(item);
+                return OK; // performer has item
             };
 
             onStart = () => maxProgress = 20;

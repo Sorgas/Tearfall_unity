@@ -7,7 +7,7 @@ class UnitActionProgressBarUpdateSystem : IEcsRunSystem {
     public EcsFilter<UnitVisualComponent, UnitCurrentActionComponent>.Exclude<UnitVisualProgressBarComponent> createFilter;
     public EcsFilter<UnitVisualComponent, UnitCurrentActionComponent, UnitVisualProgressBarComponent> filter;
     public EcsFilter<UnitVisualComponent, UnitVisualProgressBarComponent>.Exclude<UnitCurrentActionComponent> removeFilter;
-    public bool debug = true;
+    public bool debug = false;
 
     public void Run() {
         foreach(int i in createFilter) {

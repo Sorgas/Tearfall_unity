@@ -15,17 +15,8 @@ namespace game.model.component.task.action {
     public abstract class ItemAction : Action {
         protected ItemContainer container => task.take<TaskActionsComponent>().model.itemContainer;
 
-        protected ItemAction(ActionTarget target) : base(target) { }
-
-        // TODO reference to task?
-        protected void setItemsLocked(List<EcsEntity> items, bool value) {
-            if (value) {
-                items.ForEach(item => item.Replace(new ItemLockedComponent()));
-                log("locking " + items.Count + " items");
-            } else {
-                items.ForEach(item => item.Del<ItemLockedComponent>());
-                log("unlocking " + items.Count + " items");
-            }
+        protected ItemAction(ActionTarget target) : base(target) {
+            name = "item action";
         }
     }
 }

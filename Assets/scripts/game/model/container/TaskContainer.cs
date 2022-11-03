@@ -66,7 +66,7 @@ namespace game.model.container {
             } else {
                 Debug.LogError("Deleting task " + task.name() + "with job " + job + " but found in task container!");
             }
-            Debug.Log(task.name() + " destroyed");
+            log(task.name() + " destroyed");
             task.Destroy();
         }
 
@@ -112,5 +112,7 @@ namespace game.model.container {
             if (target.HasValue) return target.Value;
             throw new EcsException("Task " + task.name() + " has no target position ");
         }
+
+        private void log(string message) => Debug.Log("[TaskContainer]: " + message);
     }
 }

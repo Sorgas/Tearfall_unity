@@ -20,7 +20,7 @@ namespace game.view.system.plant {
                 EcsEntity entity = filter.GetEntity(i);
                 PlantComponent plant = filter.Get1(i);
                 entity.Replace(createVisualComponent(entity, plant));
-                Debug.Log("plantSprite created");
+                // Debug.Log("plantSprite created");
             }
         }
 

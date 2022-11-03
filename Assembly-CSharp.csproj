@@ -209,10 +209,12 @@
      <Compile Include="Assets\scripts\types\unit\RawCreatureType.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EnumExtension.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\ItemContainerPart.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\ItemPanelWithTooltip.cs" />
      <Compile Include="Assets\scripts\game\view\util\IconLoader.cs" />
      <Compile Include="Assets\scripts\util\geometry\bounds\TwoPointIntBounds3.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\IngredientProcessor.cs" />
      <Compile Include="Assets\scripts\types\action\TaskPriorityEnum.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\workbench\WorkbenchInventoryHandler.cs" />
      <Compile Include="Assets\scripts\game\model\system\building\WorkbenchTaskCreationSystem.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenConfig.cs" />
      <Compile Include="Assets\scripts\game\view\system\item\ItemVisualSystem.cs" />
@@ -340,6 +342,7 @@
      <Compile Include="Assets\scripts\types\plant\raw\RawPlantLifeStage.cs" />
      <Compile Include="Assets\scripts\mainMenu\MainMenuButtonHandler.cs" />
      <Compile Include="Assets\scripts\mainMenu\ButtonData.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromContainerAction.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />
      <Compile Include="Assets\scripts\game\view\ui\gamespeed_widget\GamespeedWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\StepOffAction.cs" />

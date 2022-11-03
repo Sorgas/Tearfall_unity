@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using enums.action;
+﻿using enums.action;
 using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
 using game.model.component.unit;
@@ -16,47 +14,45 @@ using static types.BlockTypes;
 using Random = UnityEngine.Random;
 
 namespace game.model.component.task.action {
-    // digs a tile of map. performer should have tool with dig action in hands 
+    // digs a tile of map. performer should have tool with dig action in hands
+    // TODO move looking for tool to dedicated action 
     public class DigAction : Action {
-        private float workAmountModifier = 10f;
-        private String toolActionName = "dig";
-        private ToolWithActionItemSelector selector;
         private DesignationType type;
+        private string toolActionName = "dig";
+        private ToolWithActionItemSelector selector;
 
         public DigAction(Vector3Int position, DesignationType type) : base(new PositionActionTarget(position, type.targetType)) {
             name = "dig action";
-            selector = new ToolWithActionItemSelector(toolActionName);
             this.type = type;
+            selector = new ToolWithActionItemSelector(toolActionName);
 
             startCondition = () => {
-                if (!type.validator.validate(target.Pos.Value, model)) return FAIL; // tile still valid
+                if (!type.validator.validate(target.Pos.Value, model)) return FAIL; // tile became invalid
                 if (!performer.Has<UnitEquipmentComponent>()) return FAIL;
                 if (!performer.take<UnitEquipmentComponent>().toolWithActionEquipped(toolActionName)) 
                     return addEquipAction(); // find tool
                 return OK; // tool already equipped
             };
 
-            onStart = () => { // TODO
+            onStart = () => { // TODO consider performer skill
                 maxProgress = new DiggingWorkAmountCalculator().getWorkAmount(position, type, model);
-
             };
 
             onFinish = () => {
                 if (!type.validator.validate(target.Pos.Value, model)) return;
                 updateMap();
-                // leaveStone(oldType); TODO
-                // GameMvc.model().get(UnitContainer.class).experienceSystem.giveExperience(task.performer, skill);
-                // GameMvc.model().get(TaskContainer.class).designationSystem.removeDesignation(designation.position);
+                // TODO give exp
             };
         }
 
         private ActionConditionStatusEnum addEquipAction() {
             // TODO check performer's 'backpack'
-            EcsEntity targetItem = model.itemContainer.util
-                .findFreeReachableItemBySelector(selector, performer.pos());
-            return targetItem != EcsEntity.Null
-                ? addPreAction(new EquipToolItemAction(targetItem))
-                : FAIL;
+            EcsEntity tool = model.itemContainer.util.findFreeReachableItemBySelector(selector, performer.pos());
+            if(tool != EcsEntity.Null) {
+                lockItem(tool);
+                return addPreAction(new EquipToolItemAction(tool));
+            }
+            return FAIL;
         }
 
         // Applies changes to local map. Some types of digging change not only target tile.
