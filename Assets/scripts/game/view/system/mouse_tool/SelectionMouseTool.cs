@@ -3,6 +3,7 @@ using game.model;
 using game.model.component.building;
 using game.view.camera;
 using game.view.ui;
+using game.view.util;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.geometry.bounds;
@@ -22,6 +23,7 @@ namespace game.view.system.mouse_tool {
             if (model.itemContainer.onMap.itemsOnMap.ContainsKey(position)) {
                 handleItemSelection(model.itemContainer.onMap.itemsOnMap[position]);
             }
+            raycastUnit();
         }
 
         public override void reset() {
@@ -51,7 +53,19 @@ namespace game.view.system.mouse_tool {
                 itemIndex = (items.IndexOf(currentItem) + 1) % items.Count;
             } 
             window.FillForItem(items[itemIndex]);
-            WindowManager.get().showWindowByName(ItemMenuHandler.name);    
+            WindowManager.get().showWindowByName(ItemMenuHandler.name, false);
+        }
+
+        public void raycastUnit() {
+            Vector3 selectorPosition = ViewUtil.fromModelToScene(GameView.get().selector.position);
+
+            Vector3 scenePosition = ViewUtil.fromScreenToSceneGlobal(Input.mousePosition, GameView.get());
+            Debug.Log(scenePosition);
+            Vector2 castPos = new Vector2(scenePosition.x, scenePosition.y);
+            RaycastHit2D hit = Physics2D.Raycast(castPos, new Vector2(1,1), 0.01f, 1, selectorPosition.z, selectorPosition.z + 1);
+            if(hit.collider != null) {
+                hit.collider.gameObject.GetComponent<UnitGoHandler>();
+            }
         }
     }
 }

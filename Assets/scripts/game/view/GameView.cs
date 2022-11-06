@@ -90,10 +90,5 @@ namespace game.view {
             cameraAndMouseHandler.cameraMovementSystem.setTargetModel(cameraPosition);
             cameraAndMouseHandler.mouseMovementSystem.updateTargetAndSprite(cameraPosition);
         }
-        
-        public Vector3 screenToScenePosition(Vector3 screenPosition) {
-            Vector3 worldPosition = sceneObjectsContainer.mainCamera.ScreenToWorldPoint(screenPosition);
-            return sceneObjectsContainer.mapHolder.InverseTransformPoint(worldPosition); // position relative to mapHolder
-        }
     }
 }

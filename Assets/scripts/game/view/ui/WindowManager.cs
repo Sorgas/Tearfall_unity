@@ -23,8 +23,8 @@ namespace game.view.ui {
             windows.Add(window.getName(), window);
         }
 
-        public bool showWindowByName(string name) {
-            return windows.ContainsKey(name) && showWindow(name);
+        public bool showWindowByName(string name, bool disableCamera) {
+            return windows.ContainsKey(name) && showWindow(name, disableCamera);
         }
 
         public bool toggleWindowByName(string name) {
@@ -63,7 +63,7 @@ namespace game.view.ui {
         
         private bool showWindow(string name) => showWindow(name, true);
 
-        private bool showWindow(string name, bool disableCamera) {
+        public bool showWindow(string name, bool disableCamera) {
             closeAll();
             IWindow window = windows[name];
             Debug.Log("window " + window.getName() + " shown.");

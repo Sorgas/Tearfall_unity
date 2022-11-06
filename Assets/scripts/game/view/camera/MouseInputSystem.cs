@@ -15,7 +15,8 @@ namespace game.view.camera {
         public void update() {
             // if in screen, handle moves and lmb clicks
             if (GameView.get().screenBounds.isIn(Input.mousePosition)) {
-                Vector3Int modelPosition = ViewUtil.fromSceneToModelInt(GameView.get().screenToScenePosition(Input.mousePosition));
+                
+                Vector3Int modelPosition = ViewUtil.fromScreenToModel(Input.mousePosition, GameView.get());
                 modelPosition = GameView.get().selector.updatePosition(modelPosition);
                 selectionHandler.handleMouseMove(modelPosition);
                 mouseMovementSystem.updateTarget(modelPosition);
