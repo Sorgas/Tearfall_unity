@@ -52,6 +52,7 @@
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldmapPointerController.cs" />
      <Compile Include="Assets\scripts\game\model\component\building\BuildingComponents.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\BlockTilesetSlicer.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuTab.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\ItemStateValidator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\EquipmentAction.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\drainage\WorldOceanFiller.cs" />
@@ -198,6 +199,7 @@
      <Compile Include="Assets\scripts\util\input\DelayedKeyController.cs" />
      <Compile Include="Assets\scripts\game\view\camera\SelectionState.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\ScrollableCameraController.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTarget.cs" />
      <Compile Include="Assets\scripts\game\view\util\HotKeySequence.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToContainerAction.cs" />
@@ -222,6 +224,8 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\plant\ChopTreeAction.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\DictionaryExtention.cs" />
      <Compile Include="Assets\scripts\generation\PreparationState.cs" />
+     <Compile Include="Assets\scripts\game\view\util\ItemVisualUtil.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuGeneralInfoHandler.cs" />
      <Compile Include="Assets\scripts\game\model\util\DiggingWorkAmountCalculator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\ItemAction.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\ItemConsumingMouseTool.cs" />

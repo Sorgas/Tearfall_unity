@@ -23,6 +23,7 @@ namespace game {
         public GamespeedWidgetHandler gamespeedWidgetHandler;
         public WorkbenchWindowHandler workbenchWindowHandler;
         public ItemMenuHandler itemMenuHandler;
+        public UnitMenuHandler unitMenuHandler;
         public Text debugInfoPanel;
         public Text modelDebugInfoPanel;
 

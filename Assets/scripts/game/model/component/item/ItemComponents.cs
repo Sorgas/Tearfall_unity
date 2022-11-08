@@ -122,6 +122,8 @@ namespace game.model.component.item {
         public GameObject iconGo;
         public SpriteRenderer iconRenderer;
         public SortingGroup sortingGroup;
+
+        public Sprite sprite;
     }
 
     // TODO use for position update and visual remove

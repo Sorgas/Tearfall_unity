@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using game.model.component.building;
+using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang;
@@ -49,6 +50,14 @@ namespace game.view.ui {
                 IWindow window = windows[WorkbenchWindowHandler.name];
                 ((WorkbenchWindowHandler) window).init(entity);
                 showWindow(WorkbenchWindowHandler.name, false);
+            }
+        }
+
+        public void showWindowForUnit(EcsEntity entity) {
+            if(entity.Has<UnitComponent>()) {
+                IWindow window = windows[UnitMenuHandler.NAME];
+                ((UnitMenuHandler) window).initFor(entity);
+                showWindow(UnitMenuHandler.NAME, false);
             }
         }
 

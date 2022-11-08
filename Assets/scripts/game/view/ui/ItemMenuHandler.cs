@@ -32,7 +32,7 @@ public class ItemMenuHandler : MbWindow, IHotKeyAcceptor {
         itemTags.text = component.tags
             .Select(tag => Enum.GetName(typeof(ItemTagEnum), tag))
             .Aggregate((tag1, tag2) => tag1 + ", " + tag2);
-        image.sprite = ItemTypeMap.get().getSprite(type.name);
+        image.sprite = ItemVisualUtil.resolveItemSprite(item);
     }
 
     public override string getName() {

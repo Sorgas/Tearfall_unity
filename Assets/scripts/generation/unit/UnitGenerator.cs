@@ -32,6 +32,9 @@ namespace generation.unit {
                 .Replace(nameGenerator.generate())
                 .Replace(new PositionComponent {position = new Vector3Int()})
                 .Replace(bodyGenerator.generate(type))
+                .Replace(new HealthComponent{overallStatus = "healthy"})
+                .Replace(new MoodComponent {status = "content"})
+                .Replace(new OwnershipComponent {wealthStatus = "poor"})
                 .Replace(new UnitComponent());
             needGenerator.generate(ref entity, type);
         }

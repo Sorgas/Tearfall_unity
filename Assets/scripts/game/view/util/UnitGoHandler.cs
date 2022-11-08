@@ -1,3 +1,4 @@
+using Leopotam.Ecs;
 using UnityEngine;
 
 namespace game.view.util {
@@ -19,6 +20,8 @@ namespace game.view.util {
                 mask.sprite = value;
             }
         }
+
+        public EcsEntity unit;
 
         public void updateZ(int value) {
             renderer.sortingOrder = value;

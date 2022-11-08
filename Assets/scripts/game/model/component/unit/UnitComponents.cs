@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using enums;
 using enums.action;
 using game.model.component.task.action;
 using game.view.util;
@@ -35,17 +34,18 @@ namespace game.model.component.unit {
     public struct UnitVisualComponent {
         public UnitGoHandler handler;
     }
-
-    public struct EquipmentComponent {
-        public List<string> slots;
-    }
-
+    
     public struct BodyComponent {
         public List<string> bodyParts;
     }
 
     public struct HealthComponent {
+        public string overallStatus;
         public List<string> injures;
+    }
+
+    public struct MoodComponent {
+        public string status;
     }
 
     public struct UnitJobsComponent {
@@ -54,7 +54,7 @@ namespace game.model.component.unit {
     }
 
     public struct OwnershipComponent {
-
+        public string wealthStatus;
     }
 
 // stores body temperature

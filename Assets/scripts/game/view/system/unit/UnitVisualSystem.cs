@@ -24,7 +24,7 @@ namespace game.view.system.unit {
                 ref EcsEntity entity = ref filter.GetEntity(i);
                 ref UnitVisualComponent component = ref filter.Get1(i);
                 UnitMovementComponent unitMovement = filter.Get2(i);
-                if (component.handler == null) createSpriteGo(ref component);
+                if (component.handler == null) createSpriteGo(entity, ref component);
                 updatePosition(ref entity, ref component, unitMovement);
             }
         }
@@ -40,9 +40,10 @@ namespace game.view.system.unit {
             component.handler.updateZ(pos.z);
         }
 
-        private void createSpriteGo(ref UnitVisualComponent component) {
+        private void createSpriteGo(EcsEntity unit, ref UnitVisualComponent component) {
             GameObject instance = PrefabLoader.create("Unit", GameView.get().sceneObjectsContainer.mapHolder);
             component.handler = instance.GetComponent<UnitGoHandler>();
+            component.handler.unit = unit;
             // TODO set sprite to unit
         }
     }

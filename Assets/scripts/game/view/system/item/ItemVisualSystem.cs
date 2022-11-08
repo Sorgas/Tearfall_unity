@@ -39,12 +39,14 @@ namespace game.view.system.item {
         private void createSpriteForItem(EcsEntity entity) {
             ItemComponent item = entity.takeRef<ItemComponent>();
             ItemVisualComponent visual = new();
+            Sprite sprite =  ItemTypeMap.get().getSprite(item.type);
             visual.go = PrefabLoader.create("Item", GameView.get().sceneObjectsContainer.mapHolder);
             visual.spriteRenderer = visual.go.GetComponent<SpriteRenderer>();
-            visual.spriteRenderer.sprite = ItemTypeMap.get().getSprite(item.type);
+            visual.spriteRenderer.sprite = sprite;
             visual.iconGo = visual.go.transform.GetChild(0).gameObject;
             visual.iconRenderer = visual.iconGo.GetComponent<SpriteRenderer>();
             visual.sortingGroup = visual.go.GetComponent<SortingGroup>();
+            visual.sprite = sprite;
             entity.Replace(visual);
         }
 
