@@ -4,9 +4,9 @@ using enums.unit.need;
 
 namespace game.model.component.unit {
     public struct UnitNeedComponent {
-        public int hunger;
-        public int thirst;
-        public int sleep;
+        public float hunger;
+        public float thirst;
+        public float sleep;
 
         // filled in UnitNeedSystem
         // tasks for this needs created in UnitTaskAssignmentSystem
@@ -18,8 +18,6 @@ namespace game.model.component.unit {
         public bool valid; // when equipment changes, this component invalidates
         public List<string> desiredSlots; // slots required to be filled by creature type
     }
-
-    
     
     // is present, if required slots are empty
     public struct UnitCalculatedWearNeedComponent {

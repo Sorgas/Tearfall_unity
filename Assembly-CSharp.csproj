@@ -111,7 +111,7 @@
      <Compile Include="Assets\scripts\game\view\ui\WidgetManager.cs" />
      <Compile Include="Assets\scripts\types\material\RawMaterial.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\BuildingMouseTool.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\MbWindow.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\util\MbWindow.cs" />
      <Compile Include="Assets\scripts\game\view\ui\jobs_widget\UnitJobRow.cs" />
      <Compile Include="Assets\scripts\types\unit\need\WearNeed.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\PassageUtil.cs" />
@@ -156,7 +156,7 @@
      <Compile Include="Assets\scripts\util\item\ToolWithActionItemSelector.cs" />
      <Compile Include="Assets\scripts\types\unit\body\raw\RawBodyTemplate.cs" />
      <Compile Include="Assets\scripts\types\item\FoodCategoryEnum.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\ICloseable.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\util\ICloseable.cs" />
      <Compile Include="Assets\scripts\util\geometry\bounds\IntBounds2.cs" />
      <Compile Include="Assets\scripts\game\view\system\plant\PlantVisualSystem.cs" />
      <Compile Include="Assets\scripts\game\TestLevelInitializer.cs" />
@@ -211,7 +211,7 @@
      <Compile Include="Assets\scripts\types\unit\RawCreatureType.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EnumExtension.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\ItemContainerPart.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\ItemPanelWithTooltip.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\workbench\ItemPanelWithTooltip.cs" />
      <Compile Include="Assets\scripts\game\view\util\IconLoader.cs" />
      <Compile Include="Assets\scripts\util\geometry\bounds\TwoPointIntBounds3.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\IngredientProcessor.cs" />
@@ -238,7 +238,7 @@
      <Compile Include="Assets\scripts\util\pathfinding\PathFinishCondition.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\DesignationComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\order\CraftingOrder.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\IWindow.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\util\IWindow.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\SelectionMouseTool.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\RectanglePacking\IntegerRectangle.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\ConstructionMouseTool.cs" />
@@ -258,6 +258,7 @@
      <Compile Include="Assets\scripts\game\model\system\GameTime.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ItemActionTarget.cs" />
      <Compile Include="Assets\scripts\game\view\system\unit\UnitActionProgressVisualSystem.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuHealthInfoHandler.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\IEnumerableExtensions.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalElevationGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitPathfindingSystem.cs" />
@@ -290,7 +291,7 @@
      <Compile Include="Assets\scripts\game\model\util\validation\DiggingChannelValidator.cs" />
      <Compile Include="Assets\scripts\types\unit\body\raw\RawBodyPart.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\ConstructionValidator.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\IHotKeyAcceptor.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\util\IHotKeyAcceptor.cs" />
      <Compile Include="Assets\scripts\generation\GenerationState.cs" />
      <Compile Include="Assets\scripts\types\plant\raw\RawPlantType.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\Node.cs" />
@@ -352,6 +353,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\StepOffAction.cs" />
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\util\ProgressBarHandler.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

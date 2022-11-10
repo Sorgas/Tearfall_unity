@@ -9,17 +9,21 @@ public class UnitMenuHandler : MbWindow, IHotKeyAcceptor {
     public const string NAME = "unit";
     public Image portrait;
     public UnitMenuGeneralInfoHandler generalInfoHandler;
+    public UnitMenuHealthInfoHandler healthInfoHandler;
 
     public Button generalInfoButton;
+    public Button healthInfoButton;
     public List<UnitMenuTab> tabs;
 
     private EcsEntity unit;
 
     public void Start() {
+        Debug.Log("starting unit menu");
         tabs.Add(generalInfoHandler);
-        generalInfoButton.onClick.AddListener(() => {
-            showPanel(generalInfoHandler);
-        });
+        tabs.Add(healthInfoHandler);
+        generalInfoButton.onClick.AddListener(() => showPanel(generalInfoHandler));
+        healthInfoButton.onClick.AddListener(() => showPanel(healthInfoHandler));
+        showPanel(generalInfoHandler);
     }
 
     public void initFor(EcsEntity unit) {
@@ -29,8 +33,9 @@ public class UnitMenuHandler : MbWindow, IHotKeyAcceptor {
     }
 
     private void showPanel(UnitMenuTab panel) {
+        Debug.Log("showing panel");
         foreach(UnitMenuTab tab in tabs) {
-            if(tab.gameObject == panel) {
+            if(tab.gameObject == panel.gameObject) {
                 tab.open();
                 tab.initFor(unit);
             } else {
