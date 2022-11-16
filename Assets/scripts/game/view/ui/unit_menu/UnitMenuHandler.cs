@@ -10,12 +10,13 @@ public class UnitMenuHandler : MbWindow, IHotKeyAcceptor {
     public Image portrait;
     public UnitMenuGeneralInfoHandler generalInfoHandler;
     public UnitMenuHealthInfoHandler healthInfoHandler;
+    private UnitMenuTab activeTab;
 
     public Button generalInfoButton;
     public Button healthInfoButton;
     public List<UnitMenuTab> tabs;
 
-    private EcsEntity unit;
+    public EcsEntity unit;
 
     public void Start() {
         Debug.Log("starting unit menu");
@@ -23,21 +24,24 @@ public class UnitMenuHandler : MbWindow, IHotKeyAcceptor {
         tabs.Add(healthInfoHandler);
         generalInfoButton.onClick.AddListener(() => showPanel(generalInfoHandler));
         healthInfoButton.onClick.AddListener(() => showPanel(healthInfoHandler));
-        showPanel(generalInfoHandler);
     }
 
     public void initFor(EcsEntity unit) {
         this.unit = unit;
         showPanel(generalInfoHandler);
-        generalInfoHandler.initFor(unit);
+    }
+
+    public void updateFor(EcsEntity unit) {
+        activeTab.initFor(unit);
     }
 
     private void showPanel(UnitMenuTab panel) {
-        Debug.Log("showing panel");
+        // Debug.Log("showing panel");
         foreach(UnitMenuTab tab in tabs) {
             if(tab.gameObject == panel.gameObject) {
                 tab.open();
                 tab.initFor(unit);
+                activeTab = tab;
             } else {
                 tab.close();
             }

@@ -3,14 +3,13 @@ using enums.action;
 using enums.unit.need;
 
 namespace game.model.component.unit {
+    // stores values of unit's needs. values are [0..1]f, more means
     public struct UnitNeedComponent {
         public float hunger;
         public float thirst;
-        public float sleep;
+        public float rest;
 
-        // filled in UnitNeedSystem
-        // tasks for this needs created in UnitTaskAssignmentSystem
-        public Dictionary<Need, TaskPriorityEnum> needsToFullfill;
+        public TaskPriorityEnum restPriority;
     }
 
     // is present, if unit needs wear on some slots 

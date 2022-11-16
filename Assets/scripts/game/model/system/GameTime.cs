@@ -10,11 +10,9 @@ namespace game.model.system
  * @author Alexander on 07.10.2018.
  */
 public class GameTime {
-    //public final TimeUnitState tick;
-    //public final TimeUnitState minute; // ticks of minute
-    //public final TimeUnitState hour; // minutes of hour
-    //public final TimeUnitState day; // hours of day
-    //private TimeUnitState[] units; // for storing 'next' relation between units
+    public const int minute = 20; // ticks of minute
+    public const int hour = 1200; // minutes of hour
+    public const int day = 28800; // hours of day
 
     //private Timer timer;                 //makes turns for entity containers and calendar
     //public boolean paused;

@@ -61,6 +61,7 @@ namespace game.view {
             systems.Add(new PlantVisualSystem());
             systems.Add(new BuildingVisualSystem());
             systems.Add(new WorkbenchWindowUpdateSystem());
+            systems.Add(new UnitMenuUpdateSystem());
             systems.Init();
         }
 

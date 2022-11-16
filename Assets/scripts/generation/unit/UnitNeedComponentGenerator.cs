@@ -9,8 +9,7 @@ using UnityEngine;
 namespace generation.unit {
     public class UnitNeedComponentGenerator {
         public void generate(ref EcsEntity entity, CreatureType type) {
-            UnitNeedComponent component = new UnitNeedComponent{sleep = 0.5f, hunger = 0.3f, thirst = 0.8f};
-            component.needsToFullfill = new Dictionary<Need, TaskPriorityEnum>();
+            UnitNeedComponent component = new UnitNeedComponent{rest = 0.5f, hunger = 0.3f, thirst = 0.8f};
             entity.Replace(component);
             if (type.desiredSlots.Count > 0) {
                 UnitWearNeedComponent wear = new UnitWearNeedComponent();

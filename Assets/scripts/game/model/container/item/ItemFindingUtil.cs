@@ -20,11 +20,11 @@ namespace game.model.container.item {
             this.container = container;
         }
 
+        // returns item matching itemSelector and available from position
         public EcsEntity findFreeReachableItemBySelector(ItemSelector selector, Vector3Int pos) {
             LocalMap map = model.localMap;
             // get items and positions
             // TODO add items in containers
-            if (container.onMap.all.Count < 0) return EcsEntity.Null;
             return container.availableItemsManager.getAll()
                 .Where(item => map.passageMap.inSameArea(pos, item.pos()))
                 .Where(item => !item.Has<ItemLockedComponent>())

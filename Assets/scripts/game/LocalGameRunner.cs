@@ -28,7 +28,7 @@ namespace game {
         public Text modelDebugInfoPanel;
 
         private bool started = false;
-        private const float updatetickDelta = 1/90f;
+        private const float updatetickDelta = 1/90f; // ticks per second on max gamespeed
 
         // when scene is loaded, inits game model and view
         public void Start() {

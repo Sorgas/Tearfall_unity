@@ -15,7 +15,7 @@ public class UnitMenuHealthInfoHandler : UnitMenuTab {
         HealthComponent component = unit.take<HealthComponent>();
         UnitNeedComponent needs = unit.take<UnitNeedComponent>();
         statusText.text = component.overallStatus;
-        sleepNeed.setValue(needs.sleep);
+        sleepNeed.setValue(needs.rest);
         hunger.setValue(needs.hunger);
         thirst.setValue(needs.thirst);
     }

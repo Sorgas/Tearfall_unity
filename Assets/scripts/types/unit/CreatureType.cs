@@ -10,7 +10,7 @@ namespace enums.unit {
         public readonly Dictionary<string, BodyPart> bodyParts = new Dictionary<string, BodyPart>();
         public readonly Dictionary<string, List<string>> slots = new Dictionary<string, List<string>>(); // slot name to default limbs
         public readonly List<string> desiredSlots = new List<string>();
-        public readonly List<NeedEnum> needs = new List<NeedEnum>();
+        public readonly List<Needs> needs = new List<Needs>();
         public readonly List<string> aspects = new List<string>();
         public int[] atlasXY;
         public string color;

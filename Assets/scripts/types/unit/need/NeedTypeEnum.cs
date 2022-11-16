@@ -1,6 +1,7 @@
 ﻿namespace enums.unit.need {
     public enum NeedTypeEnum {
-        WEAR
+        WEAR,
+        REST
         // TODO add other needs
     }
 }

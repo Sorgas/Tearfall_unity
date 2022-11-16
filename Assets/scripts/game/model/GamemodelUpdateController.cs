@@ -1,5 +1,6 @@
 using game.model;
 
+// updates model with one of 3 speed settings. 
 public class GameModelUpdateController {
     public bool paused;
     public int speed;

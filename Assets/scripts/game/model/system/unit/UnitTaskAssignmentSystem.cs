@@ -16,7 +16,7 @@ namespace game.model.system.unit {
     public class UnitTaskAssignmentSystem : LocalModelEcsSystem {
         EcsFilter<UnitComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter; // units without tasks
 
-        public UnitTaskAssignmentSystem(LocalModel model) : base(model) {}
+        public UnitTaskAssignmentSystem(LocalModel model) : base(model) { }
 
         public override void Run() {
             foreach (int i in filter) {
@@ -28,7 +28,7 @@ namespace game.model.system.unit {
 
         private EcsEntity tryCreateTask(EcsEntity unit) {
             EcsEntity jobTask = getTaskFromContainer(unit);
-            // EcsEntity needTask = createNeedsTask(unit);
+            EcsEntity needTask = createNeedsTask(unit);
             // EcsEntity task = priority(jobTask) > priority(needTask) ? jobTask : needTask;
             // if (task.IsNull()) task = createIdleTask(unit);
             return jobTask;
@@ -46,10 +46,17 @@ namespace game.model.system.unit {
             if (unit.Has<UnitCalculatedWearNeedComponent>()) {
                 UnitCalculatedWearNeedComponent wear = unit.take<UnitCalculatedWearNeedComponent>();
                 ItemSelector selector = new WearWithSlotItemSelector(wear.slotsToFill);
-                List<EcsEntity> foundItems = selector.selectItems(model.itemContainer.onMap.all);
-                if (foundItems.Count > 0) {
-                    EcsEntity task = model.taskContainer.generator.createTask(new EquipWearItemAction(foundItems[0]), TaskPriorityEnum.HEALTH_NEEDS, model.createEntity(), model);
+                EcsEntity item = model.itemContainer.util.findFreeReachableItemBySelector(selector, unit.pos()); // TODO select best item?
+                if (!item.IsNull()) {
+                    EcsEntity task = model.taskContainer.generator.createTask(new EquipWearItemAction(item),
+                            TaskPriorityEnum.HEALTH_NEEDS, model.createEntity(), model);
                     taskList.Add(task);
+                }
+            }
+            if (unit.Has<UnitNeedComponent>()) {
+                UnitNeedComponent needs = unit.take<UnitNeedComponent>();
+                if (needs.restPriority > TaskPriorityEnum.NONE) {
+                    taskList.Add(createRestTask(unit));
                 }
             }
             if (taskList.Count > 0) {
@@ -78,7 +85,12 @@ namespace game.model.system.unit {
         }
 
         private TaskPriorityEnum priority(EcsEntity task) {
-            return !task.IsNull() ? task.take<TaskPriorityComponent>().priority : TaskPriorityEnum.NONE;
+            return task.IsNull() ? TaskPriorityEnum.NONE : task.take<TaskPriorityComponent>().priority;
+        }
+
+        // finds place to sleep and creates task. can return Null
+        private EcsEntity createRestTask(EcsEntity unit) {
+            return EcsEntity.Null; // TODO
         }
     }
-} 
+}

@@ -91,6 +91,7 @@
      <Compile Include="Assets\scripts\types\item\recipe\Recipe.cs" />
      <Compile Include="Assets\scripts\generation\item\ItemGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskCompletionSystem.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\util\ProgressBarHandler.cs" />
      <Compile Include="Assets\scripts\entity\Aspect.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\Action.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationCompletionSystem.cs" />
@@ -151,7 +152,7 @@
      <Compile Include="Assets\scripts\generation\unit\UnitNameGenerator.cs" />
      <Compile Include="Assets\scripts\util\lang\Optional.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\item\CraftItemAtWorkbenchAction.cs" />
-     <Compile Include="Assets\scripts\types\unit\need\NeedEnum.cs" />
+     <Compile Include="Assets\scripts\types\unit\need\Needs.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromGroundAction.cs" />
      <Compile Include="Assets\scripts\util\item\ToolWithActionItemSelector.cs" />
      <Compile Include="Assets\scripts\types\unit\body\raw\RawBodyTemplate.cs" />
@@ -200,6 +201,7 @@
      <Compile Include="Assets\scripts\game\view\camera\SelectionState.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\ScrollableCameraController.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuHandler.cs" />
+     <Compile Include="Assets\scripts\types\unit\need\HungerNeed.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTarget.cs" />
      <Compile Include="Assets\scripts\game\view\util\HotKeySequence.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToContainerAction.cs" />
@@ -224,6 +226,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\plant\ChopTreeAction.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\DictionaryExtention.cs" />
      <Compile Include="Assets\scripts\generation\PreparationState.cs" />
+     <Compile Include="Assets\scripts\game\view\system\unit\UnitMenuUpdateSystem.cs" />
      <Compile Include="Assets\scripts\game\view\util\ItemVisualUtil.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuGeneralInfoHandler.cs" />
      <Compile Include="Assets\scripts\game\model\util\DiggingWorkAmountCalculator.cs" />
@@ -256,6 +259,7 @@
      <Compile Include="Assets\scripts\game\model\GameModel.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\order\BuildingOrder.cs" />
      <Compile Include="Assets\scripts\game\model\system\GameTime.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedCalculationSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ItemActionTarget.cs" />
      <Compile Include="Assets\scripts\game\view\system\unit\UnitActionProgressVisualSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuHealthInfoHandler.cs" />
@@ -300,6 +304,7 @@
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalItemGenerator.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\elevation\WorldElevationGenerator.cs" />
      <Compile Include="Assets\scripts\util\input\JsonArrayReader.cs" />
+     <Compile Include="Assets\scripts\types\unit\need\SleepNeed.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\AvailableItemsManager.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantContainer.cs" />
      <Compile Include="Assets\scripts\game\view\ui\SelectorHandler.cs" />
@@ -353,7 +358,6 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\StepOffAction.cs" />
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\util\ProgressBarHandler.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

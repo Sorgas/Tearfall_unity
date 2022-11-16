@@ -57,7 +57,7 @@ namespace game.model.component.unit {
         public string wealthStatus;
     }
 
-// stores body temperature
+    // stores body temperature
     public struct TemperatureComponent {
         public float value;
     }

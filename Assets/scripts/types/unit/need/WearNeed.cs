@@ -1,14 +1,15 @@
 ﻿using enums.action;
-using Leopotam.Ecs;
-using UnityEngine.UI;
 
 namespace enums.unit.need {
     public class WearNeed : Need {
 
-        public WearNeed() : base() {
+        public WearNeed() : base() {}
+
+        public override int getHoursTo0() {
+            throw new System.NotImplementedException();
         }
 
-        public override TaskPriorityEnum countPriority(object component) {
+        public override TaskPriorityEnum getPriority(float value) {
             return TaskPriorityEnum.HEALTH_NEEDS;
         }
         //
