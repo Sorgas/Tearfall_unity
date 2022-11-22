@@ -27,4 +27,8 @@ namespace game.model.component.unit {
         public Need need;
         public TaskPriorityEnum priority;
     }
+
+    public struct NeedState {
+        
+    }
 }

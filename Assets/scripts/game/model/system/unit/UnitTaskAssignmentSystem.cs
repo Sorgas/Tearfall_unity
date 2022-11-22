@@ -1,20 +1,18 @@
-using System.Collections.Generic;
-using System.Linq;
 using enums.action;
 using game.model.component;
 using game.model.component.task.action;
-using game.model.component.task.action.equipment.use;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
-using util.item;
 using util.lang.extension;
 using static game.model.component.task.TaskComponents;
 
-namespace game.model.system.unit {
+namespace game.model.system.unit
+{
     // finds and assigns appropriate tasks to units
     public class UnitTaskAssignmentSystem : LocalModelEcsSystem {
         EcsFilter<UnitComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter; // units without tasks
+        private UnitNeedActionCreator needActionCreator = new();
 
         public UnitTaskAssignmentSystem(LocalModel model) : base(model) { }
 
@@ -28,41 +26,16 @@ namespace game.model.system.unit {
 
         private EcsEntity tryCreateTask(EcsEntity unit) {
             EcsEntity jobTask = getTaskFromContainer(unit);
-            EcsEntity needTask = createNeedsTask(unit);
-            // EcsEntity task = priority(jobTask) > priority(needTask) ? jobTask : needTask;
+            EcsEntity needTask = needActionCreator.selectAndCreateAction(model, unit);
+            EcsEntity task = priority(jobTask) > priority(needTask) ? jobTask : needTask;
             // if (task.IsNull()) task = createIdleTask(unit);
-            return jobTask;
+            return task;
         }
 
         // TODO add jobs priorities
         private EcsEntity getTaskFromContainer(EcsEntity unit) {
             UnitJobsComponent jobs = unit.take<UnitJobsComponent>();
             return model.taskContainer.findTask(jobs.enabledJobs, unit.pos());
-        }
-
-        //TODO add other needs
-        private EcsEntity createNeedsTask(EcsEntity unit) {
-            List<EcsEntity> taskList = new List<EcsEntity>();
-            if (unit.Has<UnitCalculatedWearNeedComponent>()) {
-                UnitCalculatedWearNeedComponent wear = unit.take<UnitCalculatedWearNeedComponent>();
-                ItemSelector selector = new WearWithSlotItemSelector(wear.slotsToFill);
-                EcsEntity item = model.itemContainer.util.findFreeReachableItemBySelector(selector, unit.pos()); // TODO select best item?
-                if (!item.IsNull()) {
-                    EcsEntity task = model.taskContainer.generator.createTask(new EquipWearItemAction(item),
-                            TaskPriorityEnum.HEALTH_NEEDS, model.createEntity(), model);
-                    taskList.Add(task);
-                }
-            }
-            if (unit.Has<UnitNeedComponent>()) {
-                UnitNeedComponent needs = unit.take<UnitNeedComponent>();
-                if (needs.restPriority > TaskPriorityEnum.NONE) {
-                    taskList.Add(createRestTask(unit));
-                }
-            }
-            if (taskList.Count > 0) {
-                return taskList.Aggregate((task1, task2) => priority(task1) > priority(task2) ? task1 : task2);
-            }
-            return EcsEntity.Null;
         }
 
         private EcsEntity createIdleTask(EcsEntity unit) {
@@ -86,11 +59,6 @@ namespace game.model.system.unit {
 
         private TaskPriorityEnum priority(EcsEntity task) {
             return task.IsNull() ? TaskPriorityEnum.NONE : task.take<TaskPriorityComponent>().priority;
-        }
-
-        // finds place to sleep and creates task. can return Null
-        private EcsEntity createRestTask(EcsEntity unit) {
-            return EcsEntity.Null; // TODO
         }
     }
 }

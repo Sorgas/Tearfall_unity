@@ -135,8 +135,8 @@ namespace game.model.component.item {
         public string type;
     }
 
-    // item is used in action and should not be used in another action
-    public struct ItemLockedComponent {
-        public EcsEntity task;
+    public struct ItemFoodComponent {
+        public float nutrition;
+        public float foodQuality;
     }
 }

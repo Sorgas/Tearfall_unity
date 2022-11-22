@@ -1,12 +1,14 @@
 using Leopotam.Ecs;
+using types;
 using UnityEngine;
 
 namespace game.view.util {
 
     // TODO add status icons, thought cloud, 
+    // unit sprites should look left by default
     public class UnitGoHandler : MonoBehaviour {
         private static readonly Vector3 DEFAULT_SCALE = new(0, 0.1f, 1);
-        public SpriteRenderer renderer;
+        public SpriteRenderer unitRenderer;
         public SpriteMask mask;
 
         public SpriteRenderer background;
@@ -16,7 +18,7 @@ namespace game.view.util {
 
         public Sprite sprite {
             set {
-                renderer.sprite = value;
+                unitRenderer.sprite = value;
                 mask.sprite = value;
             }
         }
@@ -24,7 +26,7 @@ namespace game.view.util {
         public EcsEntity unit;
 
         public void updateZ(int value) {
-            renderer.sortingOrder = value;
+            unitRenderer.sortingOrder = value;
             background.sortingOrder = value;
             progressBar.sortingOrder = value;
             mask.frontSortingOrder = value + 2;
@@ -48,6 +50,33 @@ namespace game.view.util {
 
         public void setMaskEnabled(bool value) {
             mask.enabled = value;
+        }
+
+        public void mirrorX(bool value) {
+            unitRenderer.flipX = value;
+        }
+
+        // Standing straight orientation is N
+        public void rotate(Orientations orientation) {
+            RectTransform transform = unitRenderer.gameObject.GetComponent<RectTransform>();
+            switch(orientation) {
+                case Orientations.N : {
+                    transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(Vector3.zero));
+                }
+                break;
+                case Orientations.S : {
+                    transform.SetPositionAndRotation(new Vector3(1,1,0), Quaternion.Euler(new Vector3(0,0, 180)));
+                }
+                break;
+                case Orientations.E : {
+                    transform.SetPositionAndRotation(new Vector3(0,1,0), Quaternion.Euler(new Vector3(0,0, -90)));
+                }
+                break;
+                case Orientations.W : {
+                    transform.SetPositionAndRotation(new Vector3(1,0,0), Quaternion.Euler(new Vector3(0,0, 90)));
+                }
+                break;
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Linq;
 using enums.item;
+using game.model.component;
 using game.model.component.item;
 using game.model.localmap;
 using Leopotam.Ecs;
@@ -27,7 +28,7 @@ namespace game.model.container.item {
             // TODO add items in containers
             return container.availableItemsManager.getAll()
                 .Where(item => map.passageMap.inSameArea(pos, item.pos()))
-                .Where(item => !item.Has<ItemLockedComponent>())
+                .Where(item => !item.Has<LockedComponent>())
                 .Where(selector.checkItem)
                 .DefaultIfEmpty(EcsEntity.Null)
                 .Aggregate((cur, item) => cur == EcsEntity.Null || (distanceToItem(item, pos) < distanceToItem(cur, pos))
@@ -97,7 +98,7 @@ namespace game.model.container.item {
         // items for crafting should be not locked, in same area with performer, and not already selected for order
         private List<EcsEntity> filterForCrafting(List<EcsEntity> source, List<EcsEntity> otherItems, Vector3Int position, int requiredQuantity, ItemTagEnum tag) {
             IEnumerable<EcsEntity> stream = source
-                .Where(itemEntity => !itemEntity.Has<ItemLockedComponent>())
+                .Where(itemEntity => !itemEntity.Has<LockedComponent>())
                 .Where(itemEntity => !otherItems.Contains(itemEntity));
             if (tag != ItemTagEnum.NULL) {
                 stream = stream.Where(itemEntity => itemEntity.take<ItemComponent>().tags.Contains(tag));

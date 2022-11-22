@@ -1,19 +1,20 @@
-﻿using enums.unit.need;
+﻿using enums.action;
+using enums.unit.need;
 using game.model.component.unit;
 using Leopotam.Ecs;
 
-namespace game.model.system.unit
-{
+namespace game.model.system.unit {
     // rolls needs counters in NeedsComponent (hunger, thirst, rest)
-    // needs values define priorities for task to fullfill need
+    // updates needs priorities
+    // if priority changes, task delay is reset
     public class UnitNeedSystem : EcsRunIntervalSystem {
         public const int interval = GameTime.minute * 5;
         private readonly float restTick;
         private EcsFilter<UnitNeedComponent> filter;
         private int counter;
 
-        public UnitNeedSystem() : base(interval) { 
-            restTick = 1f / Needs.rest.getHoursTo0() / GameTime.hour * interval;
+        public UnitNeedSystem() : base(interval) {
+            restTick = 1f / RestNeed.hoursToSafety / GameTime.hour * interval;
         }
 
         public override void runLogic() {

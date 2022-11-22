@@ -50,8 +50,9 @@
      <Compile Include="Assets\scripts\types\unit\CreatureType.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTargetStatusEnum.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldmapPointerController.cs" />
-     <Compile Include="Assets\scripts\game\model\component\building\BuildingComponents.cs" />
+     <Compile Include="Assets\scripts\util\item\FoodItemSelector.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\BlockTilesetSlicer.cs" />
+     <Compile Include="Assets\scripts\game\model\component\building\BuildingComponents.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuTab.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\ItemStateValidator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\EquipmentAction.cs" />
@@ -304,7 +305,7 @@
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalItemGenerator.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\elevation\WorldElevationGenerator.cs" />
      <Compile Include="Assets\scripts\util\input\JsonArrayReader.cs" />
-     <Compile Include="Assets\scripts\types\unit\need\SleepNeed.cs" />
+     <Compile Include="Assets\scripts\types\unit\need\RestNeed.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\AvailableItemsManager.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantContainer.cs" />
      <Compile Include="Assets\scripts\game\view\ui\SelectorHandler.cs" />
@@ -358,6 +359,9 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\StepOffAction.cs" />
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepOnGroundAction.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedActionCreator.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

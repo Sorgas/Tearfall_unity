@@ -9,7 +9,7 @@ namespace enums.unit.need {
         // returns priority by need value
         public abstract TaskPriorityEnum getPriority(float value);
 
-        public abstract int getHoursTo0();
+        // public abstract int getHoursTo0();
 
         // public abstract TaskPriorityEnum countPriority(object component);
         

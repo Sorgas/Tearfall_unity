@@ -6,6 +6,7 @@ using types.building;
 using UnityEngine;
 
 namespace game.model.component.building {
+
     public struct BuildingComponent {
         public BuildingType type;
         public Orientations orientation;
@@ -35,5 +36,9 @@ namespace game.model.component.building {
 
     public struct BuildingItemContainerComponent {
         public List<EcsEntity> items;
+    }
+
+    public struct BuildingSleepFurnitureComponent {
+        public float quality;
     }
 }

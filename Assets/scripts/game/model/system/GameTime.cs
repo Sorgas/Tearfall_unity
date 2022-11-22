@@ -11,8 +11,10 @@ namespace game.model.system
  */
 public class GameTime {
     public const int minute = 20; // ticks of minute
-    public const int hour = 1200; // minutes of hour
-    public const int day = 28800; // hours of day
+    public const int hour = 1200; // ticks of hour (hour is 60 minutes)
+    public const int day = 28800; // ticks of day (day is 24 hours)
+
+    public const float baseRestSpeed = 1;
 
     //private Timer timer;                 //makes turns for entity containers and calendar
     //public boolean paused;

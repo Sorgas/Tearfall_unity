@@ -6,20 +6,20 @@ using Leopotam.Ecs;
 using types;
 using UnityEngine;
 
-namespace game.model.component.unit { 
-    
+namespace game.model.component.unit {
+
     // entity with this is a unit
     public struct UnitComponent {
         public int id;
     }
-    
+
     // stores unit's movement properties
     public struct UnitMovementComponent {
         // public Vector3Int position; // model position
         public Orientations orientation;
         public float speed;
         public float step; // speed is added to this value; when reaches 1, position changed
-        
+
     }
 
     public struct UnitMovementTargetComponent {
@@ -30,11 +30,11 @@ namespace game.model.component.unit {
     public struct UnitMovementPathComponent {
         public List<Vector3Int> path;
     }
-    
+
     public struct UnitVisualComponent {
         public UnitGoHandler handler;
     }
-    
+
     public struct BodyComponent {
         public List<string> bodyParts;
     }
@@ -71,5 +71,7 @@ namespace game.model.component.unit {
         public Action action;
     }
 
-    public struct UnitVisualProgressBarComponent : IEcsIgnoreInFilter {}
+    public struct UnitSleepingComponent { }
+
+    public struct UnitVisualProgressBarComponent : IEcsIgnoreInFilter { }
 }

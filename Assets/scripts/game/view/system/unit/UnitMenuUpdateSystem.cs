@@ -11,7 +11,7 @@ public class UnitMenuUpdateSystem : IEcsRunSystem {
         foreach (int i in filter) {
             EcsEntity unit = filter.GetEntity(i);
             if (menu.unit == unit) {
-                menu.initFor(unit);
+                menu.updateFor(unit);
                 return;
             }
         }

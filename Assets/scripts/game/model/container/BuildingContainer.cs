@@ -13,7 +13,7 @@ using util.lang.extension;
 namespace game.model.container {
     // registry for player buildings in game.
     public class BuildingContainer : LocalMapModelComponent {
-        public Dictionary<Vector3Int, EcsEntity> buildings = new(); // links position to buildings
+        public Dictionary<Vector3Int, EcsEntity> buildings = new(); // links position to buildings. one tile can have only one building
         private BuildingGenerator generator = new();
 
         public BuildingContainer(LocalModel model) : base(model) { }
@@ -53,7 +53,11 @@ namespace game.model.container {
             Vector3Int position = new(x, y, z);
             return !buildings.ContainsKey(position) || buildings[position].take<BuildingComponent>().type.passage != "impassable";
         }
-        
+
+        public EcsEntity get(Vector3Int position) {
+            return buildings.ContainsKey(position) ? buildings[position] : EcsEntity.Null;
+        }
+
         private IntBounds3 createBuildingBounds(BuildingOrder order) {
             bool flip = order.orientation == Orientations.E || order.orientation == Orientations.W;
             int xSize = order.type.size[flip ? 1 : 0];

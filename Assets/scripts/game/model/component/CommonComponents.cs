@@ -36,4 +36,14 @@ namespace game.model.component {
 
     // indicates when entity is changed 
     public struct UiUpdateComponent { }
+
+    // units can own items and buildings.
+    public struct OwnedComponent {
+        public EcsEntity owner;
+    }
+
+    // tasks can lock other entities so other tasks should not select them
+    public struct LockedComponent {
+        public EcsEntity task;
+    }
 }

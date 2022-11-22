@@ -14,19 +14,13 @@ public class UnitMenuHandler : MbWindow, IHotKeyAcceptor {
 
     public Button generalInfoButton;
     public Button healthInfoButton;
-    public List<UnitMenuTab> tabs;
+    public List<UnitMenuTab> tabs = new();
 
     public EcsEntity unit;
-
-    public void Start() {
-        Debug.Log("starting unit menu");
-        tabs.Add(generalInfoHandler);
-        tabs.Add(healthInfoHandler);
-        generalInfoButton.onClick.AddListener(() => showPanel(generalInfoHandler));
-        healthInfoButton.onClick.AddListener(() => showPanel(healthInfoHandler));
-    }
+    private bool inited = false;
 
     public void initFor(EcsEntity unit) {
+        if(!inited) init();
         this.unit = unit;
         showPanel(generalInfoHandler);
     }
@@ -36,7 +30,7 @@ public class UnitMenuHandler : MbWindow, IHotKeyAcceptor {
     }
 
     private void showPanel(UnitMenuTab panel) {
-        // Debug.Log("showing panel");
+        Debug.Log("showing panel " + panel);
         foreach(UnitMenuTab tab in tabs) {
             if(tab.gameObject == panel.gameObject) {
                 tab.open();
@@ -55,6 +49,13 @@ public class UnitMenuHandler : MbWindow, IHotKeyAcceptor {
     public bool accept(KeyCode key) {
         if(key == KeyCode.Q) WindowManager.get().closeWindow(NAME);
         return true;
+    }
+
+    private void init() {
+        tabs.Add(generalInfoHandler);
+        tabs.Add(healthInfoHandler);
+        generalInfoButton.onClick.AddListener(() => showPanel(generalInfoHandler));
+        healthInfoButton.onClick.AddListener(() => showPanel(healthInfoHandler));
     }
 }
 
