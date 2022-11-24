@@ -46,4 +46,9 @@ namespace game.model.component {
     public struct LockedComponent {
         public EcsEntity task;
     }
+
+    // shows how well item or building is crafted. 
+    public struct QualityComponent {
+        public QualityEnum quality;
+    }
 }

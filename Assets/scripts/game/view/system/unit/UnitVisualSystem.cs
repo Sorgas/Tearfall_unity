@@ -15,8 +15,8 @@ namespace game.view.system.unit {
         private Vector3 spriteOffsetOnRamp;
 
         public UnitVisualSystem() {
-            spriteOffset = new(0, 0.25f, WALL_LAYER * GRID_STEP + GRID_STEP * 0.25f);
-            spriteOffsetOnRamp = spriteOffset + new Vector3(0, 0, -0.1f); // draw above walls
+            spriteOffset = new(0, 0.15f, WALL_LAYER * GRID_STEP);
+            spriteOffsetOnRamp = new(0, 0.15f, WALL_LAYER * GRID_STEP - GRID_STEP / 2f); // draw above walls
         }
 
         public void Run() {
@@ -32,7 +32,8 @@ namespace game.view.system.unit {
         private void updatePosition(ref EcsEntity unit, ref UnitVisualComponent component, UnitMovementComponent unitMovement) {
             // TODO use view utils
             Vector3Int pos = unit.pos();
-            bool isOnRamp = GameModel.get().currentLocalModel.localMap.blockType.get(pos) == BlockTypes.RAMP.CODE;
+            bool isOnRamp = GameModel.get().currentLocalModel.localMap.blockType.get(pos) == BlockTypes.RAMP.CODE 
+                    || unit.Has<UnitVisualOnBuildingComponent>();
             component.handler.gameObject.transform.localPosition = 
                 ViewUtil.fromModelToScene(pos) + (isOnRamp ? spriteOffsetOnRamp : spriteOffset);
             // set mask to draw unit through z+1 toppings

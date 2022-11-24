@@ -5,7 +5,10 @@ using util.input;
 using util.lang;
 
 namespace types.building {
+    // loads and stores types of buildings
     public class BuildingTypeMap : Singleton<BuildingTypeMap> {
+        private const string BUILDINGS_PATH = "data/buildings";
+        private const string RECIPE_LISTS_PATH = "data/lists";
         private Dictionary<string, BuildingType> map = new();
         private Dictionary<string, List<string>> recipeListMap = new();
 
@@ -21,10 +24,9 @@ namespace types.building {
         public Dictionary<string, BuildingType>.ValueCollection all() => map.Values;
 
         private void loadLists() {
-            Debug.Log("loading recipe lists");
-            TextAsset file = Resources.Load<TextAsset>("data/lists");
+            log("loading recipe lists");
+            TextAsset file = Resources.Load<TextAsset>(RECIPE_LISTS_PATH);
             StringList2[] lists = JsonArrayReader.readArray<StringList2>(file.text);
-            Debug.Log(lists.Count());
             foreach(StringList2 list in lists) {
                 foreach(string listString in list.lists) {
                     // Debug.Log(listString);
@@ -35,10 +37,9 @@ namespace types.building {
         }
 
         private void loadFiles() {
-            Debug.Log("loading construction types");
+            log("loading construction types");
             map.Clear();
-            var files = Resources.LoadAll<TextAsset>("data/buildings");
-            foreach (TextAsset textAsset in files) {
+            foreach (TextAsset textAsset in Resources.LoadAll<TextAsset>(BUILDINGS_PATH)) {
                 loadFromFile(textAsset);
             }
         }
@@ -49,11 +50,18 @@ namespace types.building {
             if (types == null) return;
             foreach (BuildingType type in types) {
                 type.variants = type.materials.Select(materialString => new BuildingVariant(materialString)).ToArray();
+                if(type.rawComponents != null) {
+                    type.components = type.rawComponents.ToList();
+                }
                 if(type.category == null) type.category = file.name;
                 map.Add(type.name, type);
                 count++;
             }
-            Debug.Log("loaded " + count + " from " + file.name);
+            log("loaded " + count + " from " + file.name);
+        }
+
+        private void log(string message) {
+            Debug.Log("[BuildingTypeMap]: " + message);
         }
     }
 

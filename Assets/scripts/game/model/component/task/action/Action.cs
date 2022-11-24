@@ -94,8 +94,8 @@ namespace game.model.component.task.action {
         protected void lockItem(EcsEntity item) {
             validateItemCanBeLocked(item, true);
             ref TaskLockedItemsComponent lockedItems = ref task.Get<TaskLockedItemsComponent>(); // can create component
-            if (item.Has<ItemLockedComponent>()) return; // item locked to this task
-            item.Replace(new ItemLockedComponent { task = task });
+            if (item.Has<LockedComponent>()) return; // item locked to this task
+            item.Replace(new LockedComponent { task = task });
             lockedItems.lockedItems.Add(item);
             log("locking 1 item");
         }
@@ -105,7 +105,7 @@ namespace game.model.component.task.action {
         }
 
         public bool itemCanBeLocked(EcsEntity item) {
-            return !item.Has<ItemLockedComponent>() || item.take<ItemLockedComponent>().task == task;
+            return !item.Has<LockedComponent>() || item.take<LockedComponent>().task == task;
         }
 
         protected void log(string message) => Debug.Log("[" + name + "]: " + message);

@@ -64,7 +64,7 @@ namespace game.model.container {
                 assigned.Remove(task);
                 assignedTaskCount--;
             } else {
-                Debug.LogError("Deleting task " + task.name() + "with job " + job + " but found in task container!");
+                Debug.LogError("Deleting task " + task.name() + " with job " + job + ", but not found in task container!");
             }
             log(task.name() + " destroyed");
             task.Destroy();

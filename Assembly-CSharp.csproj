@@ -148,6 +148,7 @@
      <Compile Include="Assets\scripts\game\model\component\unit\UnitComponents.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\TexturePacker.cs" />
      <Compile Include="Assets\scripts\game\view\ui\workbench\WorkbenchWindowHandler.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepOnGroundAction.cs" />
      <Compile Include="Assets\scripts\game\LocalGameRunner.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\PassageMap.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitNameGenerator.cs" />
@@ -277,6 +278,7 @@
      <Compile Include="Assets\scripts\generation\worldgen\generators\WorldGenerator.cs" />
      <Compile Include="Assets\scripts\types\unit\body\BodyTemplate.cs" />
      <Compile Include="Assets\scripts\game\view\camera\CameraAndMouseHandler.cs" />
+     <Compile Include="Assets\scripts\types\QualityEnum.cs" />
      <Compile Include="Assets\scripts\types\unit\need\NeedTypeEnum.cs" />
      <Compile Include="Assets\scripts\types\DesignationTypes.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\TreeExistsValidator.cs" />
@@ -330,6 +332,7 @@
      <Compile Include="Assets\scripts\game\model\system\plant\PlantRemovingSystem.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\LocalModel.cs" />
      <Compile Include="Assets\scripts\generation\BuildingGenerator.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedActionCreator.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\BlockTileSetHolder.cs" />
      <Compile Include="Assets\scripts\game\view\util\UnitGoHandler.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitWearNeedSystem.cs" />
@@ -360,8 +363,6 @@
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepOnGroundAction.cs" />
-     <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedActionCreator.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

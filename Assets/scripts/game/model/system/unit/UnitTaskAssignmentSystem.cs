@@ -52,9 +52,7 @@ namespace game.model.system.unit
             Debug.Log("[UnitTaskAssignmentSystem] assigning task " + task.name() + " to " + unit.name());
             unit.Replace(new TaskComponent { task = task });
             task.Replace(new TaskPerformerComponent { performer = unit });
-            if (task.Has<TaskJobComponent>()) {
-                model.taskContainer.claimTask(task, unit);
-            }
+            model.taskContainer.claimTask(task, unit);
         }
 
         private TaskPriorityEnum priority(EcsEntity task) {

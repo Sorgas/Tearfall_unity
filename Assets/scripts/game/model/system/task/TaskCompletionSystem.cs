@@ -67,7 +67,7 @@ namespace game.model.system.task {
                 Action initialAction = task.take<TaskActionsComponent>().initialAction;
                 TaskLockedItemsComponent lockedComponent = task.take<TaskLockedItemsComponent>();
                 foreach(EcsEntity item in lockedComponent.lockedItems) {
-                    if(item.IsAlive()) item.Del<ItemLockedComponent>();
+                    if(item.IsAlive()) item.Del<LockedComponent>();
                 }
                 log(", unlocked " + lockedComponent.lockedItems.Count + " items");
             }

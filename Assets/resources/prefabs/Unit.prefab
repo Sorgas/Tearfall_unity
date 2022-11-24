@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec6a7c559ca24b9681453aade286569a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 6795936301719749305}
+  unitRenderer: {fileID: 6795936301719749305}
   mask: {fileID: 266173525323662774}
   background: {fileID: 4344517361889444370}
   progressBar: {fileID: 504292226506543717}

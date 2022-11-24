@@ -1,4 +1,5 @@
 using enums.action;
+using game.model.component;
 using game.model.component.building;
 using game.model.component.item;
 using game.model.component.task.action.equipment;
@@ -37,7 +38,7 @@ public class GetItemFromContainerAction : EquipmentAction {
     protected bool validate() {
         EcsEntity containerEntity = item.take<ItemContainedComponent>().container;
         BuildingItemContainerComponent containerComponent = containerEntity.take<BuildingItemContainerComponent>();
-        if (item.Has<ItemLockedComponent>()) return false;
+        if (item.Has<LockedComponent>()) return false;
         return base.validate()
                 && containerComponent.items.Contains(item)
                 // && model.localMap.passageMap.inSameArea(this.containerEntity.position, item.position);

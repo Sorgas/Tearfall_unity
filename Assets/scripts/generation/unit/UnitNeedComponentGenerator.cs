@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using enums.action;
 using enums.unit;
-using enums.unit.need;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;

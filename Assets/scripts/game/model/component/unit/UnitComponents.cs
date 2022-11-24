@@ -74,4 +74,6 @@ namespace game.model.component.unit {
     public struct UnitSleepingComponent { }
 
     public struct UnitVisualProgressBarComponent : IEcsIgnoreInFilter { }
+
+    public struct UnitVisualOnBuildingComponent { }
 }

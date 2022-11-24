@@ -61,19 +61,23 @@ namespace game.view.util {
             RectTransform transform = unitRenderer.gameObject.GetComponent<RectTransform>();
             switch(orientation) {
                 case Orientations.N : {
-                    transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(Vector3.zero));
+                    transform.localPosition = Vector3.zero;
+                    transform.rotation = Quaternion.Euler(Vector3.zero);
                 }
                 break;
                 case Orientations.S : {
-                    transform.SetPositionAndRotation(new Vector3(1,1,0), Quaternion.Euler(new Vector3(0,0, 180)));
+                    transform.localPosition = new Vector3(1,1,0);
+                    transform.rotation = Quaternion.Euler(new Vector3(0,0, 180));
                 }
                 break;
                 case Orientations.E : {
-                    transform.SetPositionAndRotation(new Vector3(0,1,0), Quaternion.Euler(new Vector3(0,0, -90)));
+                    transform.localPosition = new Vector3(0,1,0);
+                    transform.rotation = Quaternion.Euler(new Vector3(0,0, -90));
                 }
                 break;
                 case Orientations.W : {
-                    transform.SetPositionAndRotation(new Vector3(1,0,0), Quaternion.Euler(new Vector3(0,0, 90)));
+                    transform.localPosition = new Vector3(1,0,0);
+                    transform.rotation = Quaternion.Euler(new Vector3(0,0, 90));
                 }
                 break;
             }

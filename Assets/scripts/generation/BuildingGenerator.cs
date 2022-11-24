@@ -19,6 +19,9 @@ namespace generation {
             }
             entity.Replace(createMultiPositionComponent(order.type, order.position, order.orientation));
             entity.Replace(new NameComponent{name = order.type.name});
+            if(order.type.components.Contains(BuildingType.SLEEP_FURNITURE)) {
+                entity.Replace(new BuildingSleepFurnitureC());
+            }
             return entity;
         }
 

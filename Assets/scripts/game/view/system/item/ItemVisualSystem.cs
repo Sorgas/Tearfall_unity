@@ -61,8 +61,8 @@ namespace game.view.system.item {
         }
 
         private void updateLockedIcon(EcsEntity entity, ItemVisualComponent component) {
-            if(entity.Has<ItemLockedComponent>() != component.iconGo.activeSelf) {
-                component.iconGo.SetActive(entity.Has<ItemLockedComponent>());
+            if(entity.Has<LockedComponent>() != component.iconGo.activeSelf) {
+                component.iconGo.SetActive(entity.Has<LockedComponent>());
             }
         }
     }
