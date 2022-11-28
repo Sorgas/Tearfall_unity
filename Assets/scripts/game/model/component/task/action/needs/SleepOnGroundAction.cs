@@ -9,7 +9,7 @@ using UnityEngine;
 using util.lang.extension;
 
 public class SleepOnGroundAction : Action {
-    private const float baseSleepSpeed = RestNeed.hoursToHealth / RestNeed.hoursToSafety / 8 / GameTime.hour;
+    private const float baseSleepSpeed = RestNeed.hoursToHealth / RestNeed.hoursToSafety / (8 * GameTime.ticksPerHour);
     private float restSpeed;
     private float fatigue;
     

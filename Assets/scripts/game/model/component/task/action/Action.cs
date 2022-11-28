@@ -51,9 +51,8 @@ namespace game.model.component.task.action {
         public Func<Boolean> finishCondition; // when reached, action ends
         public System.Action onFinish = () => { }; // performed on phase finish
 
-        public float progress;
-
         // should be set before performing
+        public float progress = 0;
         public float speed = 1;
         public float maxProgress = 1;
 
@@ -92,7 +91,7 @@ namespace game.model.component.task.action {
         // locks or unlocks item to task of this action. Item can be locked only to one task. 
         // Items are unlocked when task ends, see TaskCompletionSystem.
         protected void lockItem(EcsEntity item) {
-            validateItemCanBeLocked(item, true);
+            if (!itemCanBeLocked(item)) throw new ArgumentException("Cannot lock item. Item locked to another task");
             ref TaskLockedItemsComponent lockedItems = ref task.Get<TaskLockedItemsComponent>(); // can create component
             if (item.Has<LockedComponent>()) return; // item locked to this task
             item.Replace(new LockedComponent { task = task });
@@ -100,12 +99,14 @@ namespace game.model.component.task.action {
             log("locking 1 item");
         }
 
-        private void validateItemCanBeLocked(EcsEntity item, bool value) {
-            if (!itemCanBeLocked(item)) throw new ArgumentException("Cannot lock item. Item locked to another task");
-        }
-
         public bool itemCanBeLocked(EcsEntity item) {
             return !item.Has<LockedComponent>() || item.take<LockedComponent>().task == task;
+        }
+
+        // for visual progress bar. can be overriden in subclasses
+        public virtual float getActionProgress() {
+            if(maxProgress == 0) return 0;
+            return progress / maxProgress;
         }
 
         protected void log(string message) => Debug.Log("[" + name + "]: " + message);

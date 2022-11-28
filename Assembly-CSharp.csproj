@@ -188,6 +188,7 @@
      <Compile Include="Assets\scripts\types\item\type\ItemType.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToDesignationContainer.cs" />
      <Compile Include="Assets\scripts\generation\item\CraftingOrderGenerator.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\gamespeed_widget\GameTimeWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\view\system\item\ItemVIsualRemoveSystem.cs" />
      <Compile Include="Assets\scripts\util\geometry\PositionUtil.cs" />
      <Compile Include="Assets\scripts\types\unit\CreatureTypeMap.cs" />

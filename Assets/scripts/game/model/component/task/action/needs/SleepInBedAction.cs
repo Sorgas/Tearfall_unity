@@ -10,8 +10,10 @@ using Leopotam.Ecs;
 using types;
 using util.lang.extension;
 
+// when units have medium values of rest need, they will do this action
 public class SleepInBedAction : Action {
-    private const float baseSleepSpeed = RestNeed.hoursToHealth / RestNeed.hoursToSafety / 8 / GameTime.hour;
+    private const float baseSleepSpeed = RestNeed.hoursToHealth / RestNeed.hoursToSafety / 8 / GameTime.ticksPerHour;
+    private float initialRest;
 
     public SleepInBedAction(EcsEntity bed) : base(new EntityActionTarget(bed, ActionTargetTypeEnum.EXACT)) {
         startCondition = () => {
@@ -23,6 +25,7 @@ public class SleepInBedAction : Action {
         
         // TODO disable vision, decrease hearing
         onStart = () => {
+            initialRest = performer.take<UnitNeedComponent>().rest;
             // Orientations bedOrientation = bed.take<BuildingComponent>().orientation;
             // performer.take<UnitVisualComponent>().handler.rotate(bedOrientation);
             speed = countRestSpeed(bed);
@@ -48,5 +51,9 @@ public class SleepInBedAction : Action {
     private float countRestSpeed(EcsEntity bed) {
         QualityEnum bedQuality = bed.Has<QualityComponent>() ? bed.take<QualityComponent>().quality : QualityEnum.AWFUL;
         return baseSleepSpeed * Needs.rest.getSleepSpeedByBedQuality(bedQuality);
+    }
+
+    public override float getActionProgress() {
+        return 1f - performer.take<UnitNeedComponent>().rest / initialRest;
     }
 }

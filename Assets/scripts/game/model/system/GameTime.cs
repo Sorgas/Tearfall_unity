@@ -1,88 +1,50 @@
-namespace game.model.system
-{
-/**
- * Rolls time for game.
- * {@link Timer} provides update calls with specific interval ({@link GameTime#gameSpeed}).
- * Then, states {@link TimeUnitState}s updated(clock thing).
- * Largest updated time unit is passed to {@link GameModel} to update systems.
- * After day is over, {@link WorldCalendar} is notified to change game date.
- *
- * @author Alexander on 07.10.2018.
- */
-public class GameTime {
-    public const int minute = 20; // ticks of minute
-    public const int hour = 1200; // ticks of hour (hour is 60 minutes)
-    public const int day = 28800; // ticks of day (day is 24 hours)
+namespace game.model.system {
+    /**
+     * Rolls time for game.
+     * {@link Timer} provides update calls with specific interval ({@link GameTime#gameSpeed}).
+     * Then, states {@link TimeUnitState}s updated(clock thing).
+     * Largest updated time unit is passed to {@link GameModel} to update systems.
+     * After day is over, {@link WorldCalendar} is notified to change game date.
+     *
+     * @author Alexander on 07.10.2018.
+     */
+    // stores game time state and constants
+    public class GameTime {
+        public const int ticksPerMinute = 20; // ticks of minute
+        public const int ticksPerHour = 1200; // ticks of hour (hour is 60 minutes)
+        public const int ticksPerDay = 28800; // ticks of day (day is 24 hours)
 
-    public const float baseRestSpeed = 1;
+        public const float baseRestSpeed = 1;
 
-    //private Timer timer;                 //makes turns for entity containers and calendar
-    //public boolean paused;
-    //private int gameSpeed = 1;
-    //private final Timer.Task timerTask; // rolls time
+        public int year;
+        public int month;
+        public int day;
+        public int hour;
+        public int minute;
+        public int tick;
 
-    //public GameTime() {
-    //    tick = new TimeUnitState(TimeUnitEnum.TICK);
-    //    minute = new TimeUnitState(TimeUnitEnum.MINUTE);
-    //    hour = new TimeUnitState(TimeUnitEnum.HOUR);
-    //    day = new TimeUnitState(TimeUnitEnum.DAY);
-    //    units = new TimeUnitState[]{tick, minute, hour, day};
-    //    timer = new Timer();
-    //    timerTask = new Timer.Task() {
-    //        @Override
-    //        public void run() {
-    //            if (!paused) turnUnit(1); // calendar turns other components
-    //        }
-    //    };
-    //}
-
-    //private void turnUnit(int index) {
-    //    if (index >= units.length) return; // day ended in previous call, call world calendar
-    //    if (units[index].increment()) { // unit ended
-    //        turnUnit(index + 1); // increase next unit (on minute end, hour gets +1)
-    //    } else {
-    //        GameMvc.model().update(units[index - 1].unit); //update with previous unit
-    //    }
-    //}
-
-    //public void setPaused(boolean paused) {
-    //    this.paused = paused;
-    //    if (paused) {
-    //        timer.stop();
-    //        Logger.GENERAL.logDebug("Game paused");
-    //    } else {
-    //        timer.start();
-    //        Logger.GENERAL.logDebug("Game unpaused");
-    //    }
-    //}
-
-    //public void setGameSpeed(int speed) {
-    //    gameSpeed = speed;
-    //    timer.clear();
-    //    initTimer();
-    //}
-
-    //public void initTimer() {
-    //    timer.scheduleTask(timerTask, 0, 1f / 60 / gameSpeed);
-    //}
-
-    //public void singleUpdate() {
-    //    if (paused) turnUnit(1);
-    //}
-
-    //public static class TimeUnitState {
-    //    private final TimeUnitEnum unit;
-    //    public int progress;
-    //    public int max;
-
-    //    TimeUnitState(TimeUnitEnum unit) {
-    //        this.unit = unit;
-    //        max = unit.SIZE;
-    //    }
-        
-    //    boolean increment() {
-    //        return ++progress >= unit.SIZE && (progress = 0) == 0;
-    //    }
-    //}
-}
+        public void update() {
+            tick++;
+            if (tick == ticksPerMinute) {
+                tick = 0;
+                minute++;
+                if (minute == 60) {
+                    minute = 0;
+                    hour++;
+                    if(hour == 24) {
+                        hour = 0;
+                        day++;
+                        if(day == 31) {
+                            day = 1;
+                            month ++;
+                            if(month == 13) {
+                                month = 1;
+                                year++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

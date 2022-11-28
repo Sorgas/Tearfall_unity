@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using game.model.system;
 using UnityEngine;
 using util.lang;
 
@@ -9,6 +10,7 @@ namespace game.model {
         public WorldModel worldModel;
         public Dictionary<string, LocalModel> localMapModels = new();
         public LocalModel currentLocalModel;
+        public GameTime time = new();
 
         public GameModelUpdateCounter counter = new();
         public GameModelUpdateController updateController;
@@ -30,6 +32,7 @@ namespace game.model {
         // init with entities generated on new game or loaded from savegame
         public void update() {
             counter.update();
+            time.update();
             foreach (LocalModel model in localMapModels.Values) {
                 model.update();
             }

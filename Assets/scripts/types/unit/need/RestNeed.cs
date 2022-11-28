@@ -9,10 +9,11 @@ using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
 
+// TODO make sleeping restore diminishing fatigue values
 public class RestNeed : Need {
     public const int hoursToComfort = 8;
     public const int hoursToHealth = 16;
-    public const float hoursToSafety = 36f;
+    public const float hoursToSafety = 36f; // full need capacity 1 to 0
 
     public const float comfortThreshold = 1 - hoursToComfort / hoursToSafety;
     public const float healthThreshold = 1 - hoursToHealth / hoursToSafety;

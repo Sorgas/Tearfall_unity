@@ -1,5 +1,4 @@
-﻿using enums.action;
-using enums.unit.need;
+﻿using enums.unit.need;
 using game.model.component.unit;
 using Leopotam.Ecs;
 
@@ -8,13 +7,13 @@ namespace game.model.system.unit {
     // updates needs priorities
     // if priority changes, task delay is reset
     public class UnitNeedSystem : EcsRunIntervalSystem {
-        public const int interval = GameTime.minute * 5;
+        public const int interval = GameTime.ticksPerMinute * 5;
         private readonly float restTick;
         private EcsFilter<UnitNeedComponent> filter;
         private int counter;
 
         public UnitNeedSystem() : base(interval) {
-            restTick = 1f / RestNeed.hoursToSafety / GameTime.hour * interval;
+            restTick = 1f / RestNeed.hoursToSafety / GameTime.ticksPerHour * interval;
         }
 
         public override void runLogic() {
