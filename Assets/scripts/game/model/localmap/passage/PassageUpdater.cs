@@ -108,7 +108,7 @@ namespace game.model.localmap.passage {
                 for (int i = list.Count - 1; i >= 0; i--) {
                     Vector3Int pos = list[i];
                     // positions are accessible neighbours or path exists
-                    if (pos.isNeighbour(first) && passage.hasPathBetweenNeighbours(pos, first) || AStar.get().makeShortestPath(pos, first, model.localMap) != null) {
+                    if (pos.isNeighbour(first) && passage.hasPathBetweenNeighbours(pos, first) || AStar.get().makeShortestPath(pos, first, model.localMap) != null) { // TODO change to shortestPathExists()
                         connectedPositions.Add(list.removeAndGet(i));
                     }
                 }

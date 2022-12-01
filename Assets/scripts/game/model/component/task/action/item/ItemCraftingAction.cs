@@ -61,7 +61,7 @@ public abstract class ItemCraftingAction : ItemAction {
         ingredientOrder.items.Clear();
     }
 
-    private void log(string message) {
+    private new void log(string message) {
         Debug.Log("[ItemConsumingAction, " + name + "]: " + message);
     }
 }

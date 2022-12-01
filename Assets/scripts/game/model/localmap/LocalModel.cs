@@ -36,7 +36,7 @@ public class LocalModel {
         systems?.Run();
     }
 
-    public new void init() {
+    public void init() {
         Debug.Log("initializing model");
         initEcs();
         localMap.init();
@@ -50,6 +50,7 @@ public class LocalModel {
             .Add(new UnitActionCheckingSystem(this)) // check action condition and target reachability, creates sub actions
             .Add(new UnitPathfindingSystem(this)) // find paths to action targets
             .Add(new UnitMovementSystem(this)) // move unit along path
+            .Add(new UnitVisualMovementSystem(this))
             .Add(new UnitActionPerformingSystem(this)) // add progress to unit's action and remove it when finished
             .Add(new UnitTaskCompletionSystem(this)) // handle unit with completed tasks
 

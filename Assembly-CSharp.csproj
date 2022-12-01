@@ -280,6 +280,7 @@
      <Compile Include="Assets\scripts\types\unit\body\BodyTemplate.cs" />
      <Compile Include="Assets\scripts\game\view\camera\CameraAndMouseHandler.cs" />
      <Compile Include="Assets\scripts\types\QualityEnum.cs" />
+     <Compile Include="Assets\scripts\game\view\system\unit\UnitVisualMovementSystem.cs" />
      <Compile Include="Assets\scripts\types\unit\need\NeedTypeEnum.cs" />
      <Compile Include="Assets\scripts\types\DesignationTypes.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\TreeExistsValidator.cs" />

@@ -28,7 +28,6 @@ namespace game {
         public Text modelDebugInfoPanel;
 
         private bool started = false;
-        private const float updatetickDelta = 1/90f; // ticks per second on max gamespeed
 
         // when scene is loaded, inits game model and view
         public void Start() {
@@ -37,7 +36,7 @@ namespace game {
             GameModel.get().init("main");
             GameView.get().init(this, GameModel.get().currentLocalModel);
             started = true;
-            InvokeRepeating("updateModel", 0, updatetickDelta);
+            InvokeRepeating("updateModel", 0, GameModelUpdateController.updateTickDelta);
         }
 
         public void Update() {
@@ -46,7 +45,7 @@ namespace game {
         }
 
         private void updateModel() {
-            GameModel.get().updateController.update(updatetickDelta);
+            GameModel.get().updateController.update(GameModelUpdateController.updateTickDelta);
         }
 
         // gets world either from worldgen/localgen, savefile, or creates test one

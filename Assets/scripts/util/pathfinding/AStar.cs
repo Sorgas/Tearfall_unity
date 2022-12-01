@@ -72,6 +72,7 @@ namespace util.pathfinding {
                 path.Insert(0, current.Value);
                 current = nodes[current.Value];
             }
+            // path.RemoveAt(0);
             return path;
         }
 

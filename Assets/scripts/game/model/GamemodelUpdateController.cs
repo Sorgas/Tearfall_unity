@@ -2,6 +2,7 @@ using game.model;
 
 // updates model with one of 3 speed settings. 
 public class GameModelUpdateController {
+    public const float updateTickDelta = 1/90f; // ticks per second on max gamespeed
     public bool paused;
     public int speed;
 
@@ -37,7 +38,7 @@ public class GameModelUpdateController {
     }
 
     private class GameSpeedController {
-        private readonly int speed;
+        public readonly int speed;
         private int counter = 0;
 
         public GameSpeedController(int speed) {
@@ -52,5 +53,10 @@ public class GameModelUpdateController {
             }
             return false;
         }
+    }
+
+    // time per tick
+    public float getCurrentSpeed() {
+        return currentSpeed.speed * updateTickDelta;
     }
 }

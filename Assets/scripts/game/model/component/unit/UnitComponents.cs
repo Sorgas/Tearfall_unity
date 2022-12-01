@@ -17,9 +17,8 @@ namespace game.model.component.unit {
     public struct UnitMovementComponent {
         // public Vector3Int position; // model position
         public Orientations orientation;
-        public float speed;
+        public float speed; // tiles per model tick
         public float step; // speed is added to this value; when reaches 1, position changed
-
     }
 
     public struct UnitMovementTargetComponent {
@@ -33,6 +32,9 @@ namespace game.model.component.unit {
 
     public struct UnitVisualComponent {
         public UnitGoHandler handler;
+        public Vector3 speed; // sprite moving speed
+        public Vector3 current;
+        public Vector3 target;
     }
 
     public struct BodyComponent {
