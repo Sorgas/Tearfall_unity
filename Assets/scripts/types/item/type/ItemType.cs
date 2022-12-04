@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using entity;
 using enums.item.type.raw;
 using UnityEngine;
+using util.lang.extension;
 
 namespace enums.item.type {
     public class ItemType {
@@ -16,7 +16,7 @@ namespace enums.item.type {
         public List<string> requiredParts = new();
         public List<string> optionalParts = new();
         public string atlasName;
-        public Dictionary<Type, Aspect> aspects = new();
+        public Dictionary<string, string[]> components = new(); // component name to array of component arguments
 
         public ItemType(RawItemType raw) {
             name = raw.name;
@@ -38,6 +38,9 @@ namespace enums.item.type {
                     Debug.LogError("tag " + tag2 + " not found");
                 }
             }
+            foreach (string rawComponent in raw.components) {
+                parseAndAddComponentDefinition(rawComponent);
+            }
         }
 
         public ItemType(ItemType type, RawItemType rawType, string namePrefix) {
@@ -49,8 +52,13 @@ namespace enums.item.type {
             color = rawType.color ?? type.color;
         }
 
-        public void add(Aspect aspect) { 
-            aspects.Add(aspect.GetType(), aspect);
+        private void parseAndAddComponentDefinition(string componentString) {
+            string[] array = componentString.Replace(")", "").Split('(');
+            if (array.Length < 1) {
+                Debug.LogError(componentString + " is invalid in item type " + name);
+                return;
+            }
+            components.Add(array[0], array.Length > 1 ? array[1].Split(',') : null);
         }
     }
 }

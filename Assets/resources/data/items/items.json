@@ -32,7 +32,7 @@
   }, {
     "name": "bucket",
     "description": "Can hold liquids.",
-    "aspects": ["item_container(liquid/solid/grain,1)"],
+    "components": ["item_container(liquid/solid/grain,1)"],
     "atlasXY": [15, 0],
     "color": "0xffffffff"
   }, {

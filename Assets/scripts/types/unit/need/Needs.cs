@@ -6,6 +6,7 @@ namespace enums.unit.need {
     public class Needs {
         public static readonly WearNeed wear = new();
         public static readonly RestNeed rest = new();
+        public static readonly HungerNeed hunger = new();
 
         public static readonly NeedEnumValue WEAR = new NeedEnumValue(new WearNeed());
         public static readonly NeedEnumValue REST = new NeedEnumValue(new RestNeed());

@@ -19,7 +19,7 @@ namespace game.view.tilemaps {
         public static Sprite createSpriteFromAtlas(string name) => get().createSpriteFromAtlas_(name);
 
         public Sprite createSpriteFromAtlas_(string name) {
-            Debug.Log("getting sprite " + name);
+            log("getting sprite " + name);
             if (!rectMap.ContainsKey(name)) name = "template";
             if (!spriteCache.ContainsKey(name)) {
                 spriteCache[name] = Sprite.Create(atlasTexture, rectMap[name], new Vector2());

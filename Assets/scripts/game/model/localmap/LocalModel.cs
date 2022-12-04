@@ -37,10 +37,10 @@ public class LocalModel {
     }
 
     public void init() {
-        Debug.Log("initializing model");
+        Debug.Log("initializing local model");
         initEcs();
         localMap.init();
-        Debug.Log("model initialized");
+        Debug.Log("local model initialized");
     }
 
     private void initEcs() {

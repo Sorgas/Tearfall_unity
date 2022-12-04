@@ -44,9 +44,7 @@
      <Compile Include="Assets\scripts\types\unit\CreatureTypeProcessor.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalRampFloorPlacer.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\RectanglePacking\RectanglePacker.cs" />
-     <Compile Include="Assets\scripts\entity\ValueAspect.cs" />
      <Compile Include="Assets\scripts\game\view\camera\SelectorSpriteUpdater.cs" />
-     <Compile Include="Assets\scripts\entity\WearAspect.cs" />
      <Compile Include="Assets\scripts\types\unit\CreatureType.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTargetStatusEnum.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldmapPointerController.cs" />
@@ -93,7 +91,6 @@
      <Compile Include="Assets\scripts\generation\item\ItemGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskCompletionSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\ProgressBarHandler.cs" />
-     <Compile Include="Assets\scripts\entity\Aspect.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\Action.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationCompletionSystem.cs" />
      <Compile Include="Assets\scripts\mainMenu\LocalGenerationHandler.cs" />
@@ -210,7 +207,6 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToContainerAction.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\PlaceValidatorEnum.cs" />
      <Compile Include="Assets\scripts\types\item\type\raw\RawItemTypeProcessor.cs" />
-     <Compile Include="Assets\scripts\entity\FuelAspect.cs" />
      <Compile Include="Assets\scripts\game\view\camera\MouseMovementSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\plant\PlantBlock.cs" />
      <Compile Include="Assets\scripts\types\unit\RawCreatureType.cs" />

@@ -34,6 +34,9 @@ public class UnitNeedActionCreator {
             if (needs.restPriority == priority) {
                 return Needs.rest.tryCreateAction(model, unit);
             }
+            if(needs.hungerPriority == priority) {
+                return Needs.hunger.tryCreateAction(model, unit);
+            }
         }
         return null;
     }

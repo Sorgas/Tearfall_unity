@@ -2,20 +2,20 @@
 {
     "name": "log",
     "description": "Large part of a tree.",
-    "aspects": ["fuel(1)"],
+    "components": ["fuel(1)"],
     "atlasXY": [0, 0],
     "color": "0xffffffff",
     "tags": ["material"]
 }, {
     "name": "branch",
     "description": "Small part of a tree.",
-    "aspects": ["fuel(1)"],
+    "components": ["fuel(1)"],
     "atlasXY": [1, 0],
     "color": "0xffffffff"
 }, {
     "name": "plank",
     "description": "Fine formed piece of wood.",
-    "aspects": ["fuel(0)"],
+    "components": ["fuel(0)"],
     "atlasXY": [2, 0],
     "color": "0xffffffff",
     "tags": ["material"]
@@ -70,21 +70,21 @@
 }, {
     "name": "meal",
     "description": "Edible meal",
-    "aspects": ["food()"],
+    "components": ["food()"],
     "atlasXY": [15, 0],
     "color": "0xffffffff"
 }, {
     "name": "liquid",
     "description": "Should be replaced with dynamic description.",
-    "aspects": ["liquid()"],
+    "components": ["liquid()"],
     "atlasXY": [15, 0],
     "color": "0xffffffff"
 }, {
     "name": "meat_piece",
     "title": "Piece",
-    "aspects": ["food(30)"],
+    "components": ["food(30)"],
     "tags": ["cookable"],
-    "atlasXY": [4, 0],
+    "atlasXY": [5, 0],
     "color": "0xffffffff"
 }, {
     "name": "chain",

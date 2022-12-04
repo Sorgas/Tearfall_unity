@@ -20,6 +20,7 @@ namespace game.model.component.item {
     }
 
     public struct ItemWearComponent {
+        public const string name = "wear";
         public string bodypart; // covers listed bodyparts
         public string slot; // equpped to slot
         public string layer; // equpped to slot at layer
@@ -136,7 +137,7 @@ namespace game.model.component.item {
     }
 
     public struct ItemFoodComponent {
-        public float nutrition;
-        public float foodQuality;
+        public float nutrition; // [0, 1] - restores unit's hunger level
+        public int foodQuality; // can give mood buffs
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using entity;
 using enums.item;
 using enums.item.type;
 using enums.plant;
@@ -22,7 +21,7 @@ namespace generation.item {
             generateItem(typeName, materialName, itemEntity)
                 .Replace(new PositionComponent { position = position });
 
-        public EcsEntity generateItem(string typeName, int material, EcsEntity entity) => 
+        public EcsEntity generateItem(string typeName, int material, EcsEntity entity) =>
             generateItem(typeName, MaterialMap.get().material(material).name, entity);
 
         // generates item without position
@@ -30,19 +29,20 @@ namespace generation.item {
             ItemType type = ItemTypeMap.getItemType(typeName);
             if (type == null) Debug.LogError("Type " + typeName + " not found.");
             Material_ material = MaterialMap.get().material(materialName);
-            List<ItemTagEnum> tags = material.tags.Select(tag => (ItemTagEnum) Enum.Parse(typeof(ItemTagEnum), tag, true)).ToList();
+            List<ItemTagEnum> tags = material.tags.Select(tag => (ItemTagEnum)Enum.Parse(typeof(ItemTagEnum), tag, true)).ToList();
             entity.Replace(new ItemComponent {
-                material = material.id, type = typeName, materialString = material.name, volume = 1,
-                weight = material.density * 1, tags = new(tags)
+                material = material.id,
+                type = typeName,
+                materialString = material.name,
+                volume = 1,
+                weight = material.density * 1,
+                tags = new(tags)
             });
             if (type.tool != null) {
                 entity.Replace(new ItemToolComponent { action = type.tool.action });
             }
-            if (type.aspects.ContainsKey(typeof(WearAspect))) {
-                WearAspect aspect = (WearAspect)type.aspects[typeof(WearAspect)];
-                entity.Replace(new ItemWearComponent { slot = aspect.slot, layer = aspect.layer });
-            }
-            entity.Replace(new NameComponent{name = material.name + " " + type.title});
+            entity.Replace(new NameComponent { name = material.name + " " + type.title });
+            addComponentsFromType(type, ref entity);
             return entity;
         }
 
@@ -51,6 +51,20 @@ namespace generation.item {
                 return generateItem("log", "wood", entity);
             }
             return EcsEntity.Null;
+        }
+
+        private void addComponentsFromType(ItemType type, ref EcsEntity item) {
+            if (type.components.ContainsKey("wear")) {
+                string[] args = type.components["wear"];
+                item.Replace(new ItemWearComponent { slot = args[0], layer = args[1] });
+                Debug.Log("wear component added to item");
+            }
+            if(type.components.ContainsKey("food")) {
+                string[] args = type.components["food"];
+                item.Replace(new ItemFoodComponent { nutrition = float.Parse(args[0])
+                // , foodQuality = int.Parse(args[1]) 
+                });
+            }
         }
     }
 }

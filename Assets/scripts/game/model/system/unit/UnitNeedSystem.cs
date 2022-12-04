@@ -9,11 +9,13 @@ namespace game.model.system.unit {
     public class UnitNeedSystem : EcsRunIntervalSystem {
         public const int interval = GameTime.ticksPerMinute * 5;
         private readonly float restTick;
+        private readonly float hungerTick;
         private EcsFilter<UnitNeedComponent> filter;
         private int counter;
 
         public UnitNeedSystem() : base(interval) {
             restTick = 1f / RestNeed.hoursToSafety / GameTime.ticksPerHour * interval;
+            hungerTick = 1f / HungerNeed.hoursToSafety / GameTime.ticksPerHour * interval;
         }
 
         public override void runLogic() {
@@ -26,7 +28,8 @@ namespace game.model.system.unit {
         }
 
         private void rollNeeds(ref UnitNeedComponent component) {
-            // component.hunger -= hungerTick;
+            component.hunger -= hungerTick;
+            component.hungerPriority = Needs.hunger.getPriority(component.hunger);
             // component.thirst += 1;
             component.rest -= restTick;
             component.restPriority = Needs.rest.getPriority(component.rest);

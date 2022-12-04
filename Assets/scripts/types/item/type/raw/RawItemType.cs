@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace enums.item.type.raw {
 
@@ -14,8 +13,7 @@ namespace enums.item.type.raw {
         public string[] optionalParts; // defines parts of item. first one is main
         public string[] tags; // tags will be copied to items
 
-        // first element of lists is aspect name
-        public string[] aspects; // other aspects, item aspects filled from this on generation.
+        public string[] components; // string representation of components: NAME/[ARGUMENT[/ARGUMENT]]
 
         // render
         public int[] atlasXY;
@@ -25,7 +23,7 @@ namespace enums.item.type.raw {
             requiredParts = Array.Empty<string>();
             optionalParts = Array.Empty<string>();
             tags = Array.Empty<string>();
-            aspects = Array.Empty<string>();
+            components = Array.Empty<string>();
             atlasXY = Array.Empty<int>();
         }
     }
