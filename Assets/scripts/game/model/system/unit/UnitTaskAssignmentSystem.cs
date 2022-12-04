@@ -7,8 +7,7 @@ using UnityEngine;
 using util.lang.extension;
 using static game.model.component.task.TaskComponents;
 
-namespace game.model.system.unit
-{
+namespace game.model.system.unit {
     // finds and assigns appropriate tasks to units
     public class UnitTaskAssignmentSystem : LocalModelEcsSystem {
         EcsFilter<UnitComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter; // units without tasks

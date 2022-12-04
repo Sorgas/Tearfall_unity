@@ -49,7 +49,7 @@ namespace game.model.component.task.action {
             // TODO check performer's 'backpack'
             EcsEntity tool = model.itemContainer.util.findFreeReachableItemBySelector(selector, performer.pos());
             if(tool != EcsEntity.Null) {
-                lockItem(tool);
+                lockEntity(tool);
                 return addPreAction(new EquipToolItemAction(tool));
             }
             return FAIL;

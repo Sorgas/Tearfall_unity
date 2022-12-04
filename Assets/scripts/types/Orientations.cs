@@ -29,5 +29,17 @@ namespace types {
             if (orientation == 4) orientation = 3;
             return (Orientations)orientation;
         }
+
+        public static Vector3Int getOffset(Orientations orientation) {
+            switch (orientation) {
+                case Orientations.N: return Vector3Int.up;
+                case Orientations.E: return Vector3Int.right;
+                case Orientations.S: return Vector3Int.down;
+                case Orientations.W: return Vector3Int.left;
+                default:
+                    throw new System.ArgumentOutOfRangeException(nameof(orientation), orientation, null);
+            }
+ 
+        }
     }
 }

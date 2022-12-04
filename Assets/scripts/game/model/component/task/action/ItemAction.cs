@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using game.model.component.item;
-using game.model.component.task.action.target;
+﻿using game.model.component.task.action.target;
 using game.model.container.item;
-using Leopotam.Ecs;
 using util.lang.extension;
 using static game.model.component.task.TaskComponents;
 
-namespace game.model.component.task.action {
+namespace game.model.component.task.action
+{
     /**
     * Abstract action, which performs manipulations with items.
     * 

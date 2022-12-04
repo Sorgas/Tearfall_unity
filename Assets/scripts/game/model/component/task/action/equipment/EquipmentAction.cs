@@ -27,9 +27,9 @@ namespace game.model.component.task.action.equipment {
         }
 
         protected bool validate() {
-            if(!itemCanBeLocked(item)) return false;
+            if (!itemCanBeLocked(item)) return false;
             if (!performer.Has<UnitEquipmentComponent>()) {
-                Debug.LogWarning("unit " + performer + " has no UnitEquipmentComponent2."); 
+                Debug.LogWarning("unit " + performer + " has no UnitEquipmentComponent2.");
                 return false;
             }
             return true;

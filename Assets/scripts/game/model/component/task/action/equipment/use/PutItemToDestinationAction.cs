@@ -13,10 +13,11 @@ namespace game.model.component.task.action.equipment.use {
     public class PutItemToDestinationAction : EquipmentAction {
 
         protected PutItemToDestinationAction(ActionTarget target, EcsEntity item) : base(target, item) {
+            name = "put item to destination";
             startCondition = () => {
                 if (!validate()) return FAIL;
                 if (equipment().hauledItem != item) return addPreAction(new ObtainItemAction(item));
-                lockItem(item);
+                lockEntity(item);
                 return OK; // performer has item
             };
 

@@ -5,10 +5,10 @@ using util.geometry;
 
 namespace game.model.component.task.action.target {
     /**
- * Target for actions with no particular target.
- *
- * @author Alexander on 09.02.2020
- */
+    * Target for actions with no particular target.
+    *
+    * @author Alexander on 09.02.2020
+    */
     public class SelfActionTarget : ActionTarget {
 
         public SelfActionTarget() : base(ActionTargetTypeEnum.ANY) {

@@ -51,7 +51,7 @@ namespace game.model.component.task.action.plant {
             log("No tool equipped by performer for chopTreeAction");
             EcsEntity item = model.itemContainer.util.findFreeReachableItemBySelector(toolItemSelector, performer.pos());
             if (item == EcsEntity.Null) return FAIL;
-            lockItem(item);
+            lockEntity(item);
             return addPreAction(new EquipToolItemAction(item));
         }
 

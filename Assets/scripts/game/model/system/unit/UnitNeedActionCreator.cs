@@ -31,12 +31,14 @@ public class UnitNeedActionCreator {
         }
         if (unit.Has<UnitNeedComponent>()) {
             UnitNeedComponent needs = unit.take<UnitNeedComponent>();
-            if (needs.restPriority == priority) {
-                return Needs.rest.tryCreateAction(model, unit);
-            }
+            Action action = null;
             if(needs.hungerPriority == priority) {
-                return Needs.hunger.tryCreateAction(model, unit);
+                action = Needs.hunger.tryCreateAction(model, unit);
             }
+            if (needs.restPriority == priority && action == null) {
+                action = Needs.rest.tryCreateAction(model, unit);
+            }
+            if(action != null) return action;
         }
         return null;
     }

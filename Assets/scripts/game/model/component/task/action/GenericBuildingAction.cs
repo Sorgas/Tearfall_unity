@@ -60,7 +60,7 @@ namespace game.model.component.task.action {
             List<EcsEntity> foundItems = model.itemContainer.availableItemsManager
                 .findNearest(order.itemType, order.material, requiredItems, designation.pos());
             if (foundItems.Count != requiredItems) return FAIL;
-            lockItems(foundItems);
+            lockEntities(foundItems);
             foreach (EcsEntity item in foundItems) {
                 addPreAction(new PutItemToDesignationContainer(designation, item));
             }
@@ -76,7 +76,7 @@ namespace game.model.component.task.action {
                     Debug.Log(item.name());
                     // TODO add special 'move to near cell' non-locking action. 
                     // When units locks an item on the ground and other unit tries to build upon this item
-                    lockItem(item);
+                    lockEntity(item);
                     addPreAction(new PutItemToPositionAction(item, offSitePosition));
                     actionsAdded = true;
                 }

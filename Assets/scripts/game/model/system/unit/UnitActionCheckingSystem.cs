@@ -55,7 +55,7 @@ namespace game.model.system.unit {
         private bool actionConditionOk(ref EcsEntity unit, ref TaskActionsComponent actions) {
             string nextActionName = actions.NextAction.name;
             ActionConditionStatusEnum checkResult = actions.NextAction.startCondition.Invoke(); // creates sub actions
-            log("checking action start condition " + nextActionName + ":" + checkResult);
+            log("checked start condition of [" + nextActionName + "]:" + checkResult);
             if (checkResult == OK) return true;
             if (checkResult == ActionConditionStatusEnum.FAIL) failTask(ref unit); // fail task by start condition
             return false; // NEW
@@ -64,7 +64,7 @@ namespace game.model.system.unit {
         // checks if unit can reach action's target
         private void checkTargetAvailability(ref EcsEntity unit, TaskActionsComponent task, EcsEntity taskEntity) {
             Action action = task.NextAction;
-            string message = "checking action target of action " + action.name + " for unit " + unit.name() + ".";
+            string message = "checked target of [" + action.name + "] for unit " + unit.name() + ".";
             switch (action.target.check(unit, model)) {
                 case READY: // start performing
                     message += " ready";

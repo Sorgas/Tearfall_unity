@@ -82,7 +82,7 @@
 }, {
     "name": "meat_piece",
     "title": "Piece",
-    "components": ["food(30)"],
+    "components": ["food(0.3)"],
     "tags": ["cookable"],
     "atlasXY": [5, 0],
     "color": "0xffffffff"

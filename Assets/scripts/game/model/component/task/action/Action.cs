@@ -86,11 +86,11 @@ namespace game.model.component.task.action {
         }
 
         // TODO reference to task?
-        protected void lockItems(List<EcsEntity> items) => items.ForEach(item => lockItem(item));
+        protected void lockEntities(List<EcsEntity> items) => items.ForEach(item => lockEntity(item));
 
         // locks or unlocks item to task of this action. Item can be locked only to one task. 
         // Items are unlocked when task ends, see TaskCompletionSystem.
-        protected void lockItem(EcsEntity item) {
+        protected void lockEntity(EcsEntity item) {
             if (!itemCanBeLocked(item)) throw new ArgumentException("Cannot lock item. Item locked to another task");
             ref TaskLockedItemsComponent lockedItems = ref task.Get<TaskLockedItemsComponent>(); // can create component
             if (item.Has<LockedComponent>()) return; // item locked to this task

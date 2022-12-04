@@ -23,7 +23,7 @@ namespace game.model.component.task.action.equipment.obtain {
             name = "get item from ground action";
             startCondition = () => {
                 if (!validate()) return FAIL;
-                lockItem(item);
+                lockEntity(item);
                 UnitEquipmentComponent equipment = base.equipment();
                 if (equipment.hauledItem != EcsEntity.Null) {
                     return addPreAction(new PutItemToPositionAction(equipment.hauledItem, performer.pos()));

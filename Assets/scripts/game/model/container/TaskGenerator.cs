@@ -4,6 +4,7 @@ using game.model.component;
 using game.model.component.task;
 using game.model.component.task.action;
 using Leopotam.Ecs;
+using types.unit;
 using static game.model.component.task.TaskComponents;
 
 namespace game.model.container {
@@ -16,6 +17,7 @@ namespace game.model.container {
             entity.Replace(new TaskComponents.TaskPriorityComponent { priority = priority });
             entity.Replace(new TaskLockedItemsComponent { lockedItems = new() });
             entity.Replace(new NameComponent { name = initialAction.name });
+            entity.Replace(new TaskJobComponent{job = Jobs.NONE.name});
             initialAction.task = entity;
             return entity;
         }

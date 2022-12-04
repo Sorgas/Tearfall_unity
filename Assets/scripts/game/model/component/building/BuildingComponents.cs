@@ -42,4 +42,12 @@ namespace game.model.component.building {
     public struct BuildingSleepFurnitureC {
         public float quality;
     }
+
+    // units can sleep on building with thes component. quality affects sleep speed and mood buff
+    public struct BuildingSitFurnitureC {
+        public float quality;
+        public Orientations orientation;
+    }
+
+    public struct BuildingTableFurnitureC {}
 }

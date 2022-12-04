@@ -95,6 +95,14 @@ namespace game.model.container.item {
             return new List<EcsEntity>();
         }
 
+        public EcsEntity findFoodItem(Vector3Int position) {
+            List<EcsEntity> list = container.availableItemsManager.getAll()
+                .Where(item => item.Has<ItemFoodComponent>())
+                .ToList();
+            if(list.Count == 0) return EcsEntity.Null;
+            return selectNearest(list, position);
+        }
+
         // items for crafting should be not locked, in same area with performer, and not already selected for order
         private List<EcsEntity> filterForCrafting(List<EcsEntity> source, List<EcsEntity> otherItems, Vector3Int position, int requiredQuantity, ItemTagEnum tag) {
             IEnumerable<EcsEntity> stream = source
@@ -127,6 +135,19 @@ namespace game.model.container.item {
             }
             if (result.Count > quantity) Debug.LogError("wrong number of items taken.");
             return (from EcsEntity mItem in result.Keys select mItem).ToList();
+        }
+
+        private EcsEntity selectNearest(List<EcsEntity> items, Vector3Int position) {
+            float minDistance = -1;
+            EcsEntity result = EcsEntity.Null;
+            foreach (EcsEntity item in items) {
+                float distance = distanceToItem(item, position);
+                if(distance < minDistance || minDistance == -1) {
+                    result = item;
+                    minDistance = distance;
+                }
+            }
+            return result;
         }
 
         private float distanceToItem(EcsEntity item, Vector3Int position) => Vector3Int.Distance(item.pos(), position);

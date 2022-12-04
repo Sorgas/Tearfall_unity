@@ -30,7 +30,7 @@ class CraftItemAtWorkbenchAction : ItemCraftingAction {
         //TODO add usage of items in nearby containers.
         startCondition = () => {
             if (!ingredientOrdersValid()) return ActionConditionStatusEnum.FAIL; // check/find items for order
-            order.ingredients.ForEach(ingredientOrder => lockItems(ingredientOrder.items));
+            order.ingredients.ForEach(ingredientOrder => lockEntities(ingredientOrder.items));
             if (checkBringingItems()) return ActionConditionStatusEnum.NEW; // bring ingredient items
             return ActionConditionStatusEnum.OK;
         };
@@ -57,6 +57,7 @@ class CraftItemAtWorkbenchAction : ItemCraftingAction {
             foreach(EcsEntity item in order.allIngredientItems()) {
                 container.stored.removeItemFromContainer(item);
                 containerComponent.items.Remove(item);
+                item.Destroy();
             }
             storeProduct(result);
         };

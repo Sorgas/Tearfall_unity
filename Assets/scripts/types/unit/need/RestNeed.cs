@@ -11,8 +11,8 @@ using util.lang.extension;
 
 // TODO make sleeping restore diminishing fatigue values
 public class RestNeed : Need {
-    public const int hoursToComfort = 8;
-    public const int hoursToHealth = 16;
+    public const float hoursToComfort = 8f;
+    public const float hoursToHealth = 16f;
     public const float hoursToSafety = 36f; // full need capacity 1 to 0
 
     public const float comfortThreshold = 1 - hoursToComfort / hoursToSafety;

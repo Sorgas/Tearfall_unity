@@ -57,7 +57,7 @@ public abstract class ItemCraftingAction : ItemAction {
     public void clearOrderItems() => order.ingredients.ForEach(ingOrder => clearIngredientItems(ingOrder));
 
     public void clearIngredientItems(IngredientOrder ingredientOrder) {
-        lockItems(ingredientOrder.items);
+        lockEntities(ingredientOrder.items);
         ingredientOrder.items.Clear();
     }
 

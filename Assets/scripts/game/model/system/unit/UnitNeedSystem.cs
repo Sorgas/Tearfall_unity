@@ -29,9 +29,11 @@ namespace game.model.system.unit {
 
         private void rollNeeds(ref UnitNeedComponent component) {
             component.hunger -= hungerTick;
+            if(component.hunger < 0) component.hunger = 0;
             component.hungerPriority = Needs.hunger.getPriority(component.hunger);
             // component.thirst += 1;
             component.rest -= restTick;
+            if(component.rest < 0) component.rest = 0;
             component.restPriority = Needs.rest.getPriority(component.rest);
         }
 

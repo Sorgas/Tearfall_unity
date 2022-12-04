@@ -14,9 +14,12 @@ namespace game.model.container {
     // registry for player buildings in game.
     public class BuildingContainer : LocalMapModelComponent {
         public Dictionary<Vector3Int, EcsEntity> buildings = new(); // links position to buildings. one tile can have only one building
+        public BuildingFindingUtil util;
         private BuildingGenerator generator = new();
 
-        public BuildingContainer(LocalModel model) : base(model) { }
+        public BuildingContainer(LocalModel model) : base(model) {
+            util = new(model, this);
+        }
 
         public bool createBuilding(BuildingOrder order) {
             IntBounds3 buildingBounds = createBuildingBounds(order);
@@ -25,13 +28,13 @@ namespace game.model.container {
                 return false;
             }
             EcsEntity building = generator.generateByOrder(order, model.createEntity());
-            
+
             buildingBounds.iterate((x, y, z) => {
                 buildings.Add(new Vector3Int(x, y, z), building);
             });
             if (order.type.passage == "impassable") {
                 buildingBounds.iterate((x, y, z) => {
-                    model.localMap.passageMap.updater.update(x, y, z);        
+                    model.localMap.passageMap.updater.update(x, y, z);
                 });
             }
             Debug.Log("[BuildingContainer] building " + building.name() + " created in " + building.pos());
