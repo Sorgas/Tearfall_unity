@@ -11,6 +11,7 @@ namespace game.model.localmap {
         public readonly LocalMapUtil util;
         public readonly IntBounds3 bounds; // inclusive
         public readonly Vector3Int sizeVector; // exclusive
+        public readonly SubstrateMap substrateMap;
 
         // public LightMap light;
         //private LocalTileMapUpdater localTileMapUpdater;              // not saved to savegame,
@@ -21,6 +22,7 @@ namespace game.model.localmap {
             blockType = new BlockTypeMap(this);
             util = new LocalMapUtil(this);
             passageMap = new PassageMap(model, this);
+            substrateMap = new();
         }
 
         public void init() {

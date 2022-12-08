@@ -14,7 +14,7 @@ namespace generation.localgen {
         //private LocalRiverGenerator localRiverGenerator;
         //private LocalCaveGenerator localCaveGenerator;
         //private LocalPlantsGenerator localPlantsGenerator;
-        //private LocalSubstrateGenerator localSubstrategenerator;
+        private LocalSubstrateGenerator localSubstrategenerator;
         //private LocalFaunaGenerator localFaunaGenerator;
         //private LocalItemsGenerator localItemsGenerator;
         //private LocalTemperatureGenerator localTemperatureGenerator;

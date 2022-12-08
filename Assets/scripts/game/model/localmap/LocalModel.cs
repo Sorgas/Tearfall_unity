@@ -80,6 +80,7 @@ public class LocalModel {
     }
 }
 
+// model-aware component
 public abstract class LocalMapModelComponent {
     protected readonly LocalModel model;
 

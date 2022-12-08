@@ -4,8 +4,8 @@ using util.lang.extension;
 
 namespace game.model.container.item {
     public class ItemStateValidator : ItemContainerPart {
-        public ItemStateValidator(ItemContainer container) : base(container) { }
-        
+        public ItemStateValidator(LocalModel model, ItemContainer container) : base(model, container) { }
+
         // validate that item is registered on its position
         public void validateForTaking(EcsEntity item) {
             if (!item.hasPos()) {

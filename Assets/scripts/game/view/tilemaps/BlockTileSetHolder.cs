@@ -12,8 +12,12 @@ namespace game.view.tilemaps {
         // map of <material -> <tilecode -> tile>>
         public readonly Dictionary<string, Dictionary<string, Tile>> tiles = new();
         public readonly Dictionary<string, Dictionary<string, Sprite>> sprites = new();
+        public readonly Dictionary<int, Dictionary<string, Sprite>> substrateSprites = new();
+        public readonly Dictionary<int, Dictionary<string, Tile>> substrateTiles = new();
         private BlockTilesetSlicer slicer = new();
         Dictionary<string, List<string>> notFound = new();
+
+        private string logMessage;
 
         public void loadAll() {
             Debug.Log("loading block tilesets");
@@ -23,6 +27,8 @@ namespace game.view.tilemaps {
                 .ForEach(material => loadMaterialTilesetFromAtlas(material));
             loadTilesetFromAtlas("selection");
             loadTilesetFromAtlas("template");
+            SubstrateTypeMap.get().all()
+                .ForEach(type => loadSubstrateTilesetFromAtlas(type));
             flushNotFound();
         }
         
@@ -34,7 +40,7 @@ namespace game.view.tilemaps {
         private void loadTilesetFromAtlas(string tilesetName) {
             Sprite sprite = TexturePacker.createSpriteFromAtlas(tilesetName);
             Dictionary<string, Sprite> spriteMap = slicer.sliceBlockSpritesheet(sprite);
-            Debug.Log("adding " + tilesetName);
+            log("adding " + tilesetName);
             sprites.Add(tilesetName, spriteMap);
             tiles.Add(tilesetName, createTilesFromSprites(spriteMap));
         }
@@ -43,7 +49,7 @@ namespace game.view.tilemaps {
         private void loadMaterialTilesetFromAtlas(Material_ material) {
             Sprite sprite = TexturePacker.createSpriteFromAtlas(material.tileset);
             Dictionary<string, Sprite> spritesMap = slicer.sliceBlockSpritesheet(sprite);
-            Debug.Log("adding " + material.name);
+            log("adding " + material.name);
             sprites.Add(material.name, spritesMap);
             tiles.Add(material.name, createTilesFromSprites(spritesMap, material.color));
         }
@@ -67,11 +73,23 @@ namespace game.view.tilemaps {
             return tiles;
         }
 
+        private void loadSubstrateTilesetFromAtlas(SubstrateType type) {
+            Sprite sprite = TexturePacker.createSpriteFromAtlas(type.tileset);
+            Dictionary<string, Sprite> sprites = slicer.sliceBlockSpritesheet(sprite);
+            log("adding " + type.name);
+            substrateSprites.Add(type.id, sprites);
+            substrateTiles.Add(type.id, createTilesFromSprites(sprites, type.color));
+        }
+
         private void flushNotFound() {
             foreach (string tileset in notFound.Keys) {
-                Debug.Log("tileset " + tileset + " not found for materials:" + notFound[tileset].ToString());
+                log("tileset " + tileset + " not found for materials:" + notFound[tileset].ToString());
             }
             notFound.Clear();
+        }
+
+        private void log(string message) {
+            logMessage += message + "\n";
         }
     }
 }

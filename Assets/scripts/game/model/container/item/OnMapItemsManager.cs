@@ -11,7 +11,7 @@ namespace game.model.container.item {
         public MultiValueDictionary<Vector3Int, EcsEntity> itemsOnMap = new(); // to find what items are on position
         public HashSet<EcsEntity> all = new(); // for checking if item is on map
 
-        public OnMapItemsManager(ItemContainer container) : base(container) { }
+        public OnMapItemsManager(LocalModel model, ItemContainer container) : base(model, container) { }
 
         // adds item without position to specified position on map (used in gameplay)
         public void putItemToMap(EcsEntity item, Vector3Int position) {

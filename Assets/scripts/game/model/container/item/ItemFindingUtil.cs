@@ -14,12 +14,8 @@ using util.lang.extension;
 using static CraftingOrder;
 
 namespace game.model.container.item {
-    public class ItemFindingUtil : LocalMapModelComponent {
-        private ItemContainer container; 
-
-        public ItemFindingUtil(ItemContainer container, LocalModel model) : base(model) {
-            this.container = container;
-        }
+    public class ItemFindingUtil : ItemContainerPart {
+        public ItemFindingUtil(LocalModel model, ItemContainer container) : base(model, container) { }
 
         // returns item matching itemSelector and available from position
         public EcsEntity findFreeReachableItemBySelector(ItemSelector selector, Vector3Int pos) {
@@ -99,7 +95,7 @@ namespace game.model.container.item {
             List<EcsEntity> list = container.availableItemsManager.getAll()
                 .Where(item => item.Has<ItemFoodComponent>())
                 .ToList();
-            if(list.Count == 0) return EcsEntity.Null;
+            if (list.Count == 0) return EcsEntity.Null;
             return selectNearest(list, position);
         }
 
@@ -142,7 +138,7 @@ namespace game.model.container.item {
             EcsEntity result = EcsEntity.Null;
             foreach (EcsEntity item in items) {
                 float distance = distanceToItem(item, position);
-                if(distance < minDistance || minDistance == -1) {
+                if (distance < minDistance || minDistance == -1) {
                     result = item;
                     minDistance = distance;
                 }

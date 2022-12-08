@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\scripts\util\lang\Singleton.cs" />
+     <Compile Include="Assets\scripts\game\model\localmap\SubstrateMap.cs" />
      <Compile Include="Assets\scripts\types\item\type\ItemTypeMap.cs" />
      <Compile Include="Assets\scripts\game\model\component\plant\PlantComponents.cs" />
      <Compile Include="Assets\scripts\types\plant\PlantTypeMap.cs" />
@@ -212,7 +213,6 @@
      <Compile Include="Assets\scripts\game\model\component\plant\PlantBlock.cs" />
      <Compile Include="Assets\scripts\types\unit\RawCreatureType.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EnumExtension.cs" />
-     <Compile Include="Assets\scripts\game\model\container\item\ItemContainerPart.cs" />
      <Compile Include="Assets\scripts\game\view\ui\workbench\ItemPanelWithTooltip.cs" />
      <Compile Include="Assets\scripts\game\view\util\IconLoader.cs" />
      <Compile Include="Assets\scripts\util\geometry\bounds\TwoPointIntBounds3.cs" />
@@ -309,7 +309,7 @@
      <Compile Include="Assets\scripts\util\input\JsonArrayReader.cs" />
      <Compile Include="Assets\scripts\types\unit\need\RestNeed.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\AvailableItemsManager.cs" />
-     <Compile Include="Assets\scripts\game\model\system\plant\PlantContainer.cs" />
+     <Compile Include="Assets\scripts\game\model\container\PlantContainer.cs" />
      <Compile Include="Assets\scripts\game\view\ui\SelectorHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\EntityActionTarget.cs" />
      <Compile Include="Assets\scripts\game\view\camera\CameraMovementSystem.cs" />
@@ -363,6 +363,9 @@
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
+     <Compile Include="Assets\scripts\types\plant\SubstrateTypeMap.cs" />
+     <Compile Include="Assets\scripts\types\plant\SubstrateType.cs" />
+     <Compile Include="Assets\scripts\generation\localgen\generators\LocalSubstrateGenerator.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

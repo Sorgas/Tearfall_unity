@@ -3,13 +3,12 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.container.item {
-    
+
     // all item transitions in item container should be made through this class
     // unit's actions are mandatory to use this.
     public class ItemTransitionUtil : ItemContainerPart {
+        public ItemTransitionUtil(LocalModel model, ItemContainer container) : base(model, container) { }
 
-        public ItemTransitionUtil(ItemContainer container) : base(container) { }
-        
         public void fromUnitToGround(EcsEntity item, EcsEntity unit, Vector3Int position) {
             container.equipped.removeItemFromUnit(item, unit);
             container.onMap.putItemToMap(item, position);

@@ -16,10 +16,10 @@ namespace game.model.container.item {
         public ItemTransitionUtil transition;
         
         public ItemContainer(LocalModel model) : base(model) {
-            validator = new(this);
-            onMap = new(this);
-            util = new(this, model);
-            transition = new(this);
+            validator = new(model, this);
+            onMap = new(model, this);
+            util = new(model, this);
+            transition = new(model, this);
         }
 
         // public void removeItem(EcsEntity item) {
@@ -52,6 +52,14 @@ namespace game.model.container.item {
         public bool itemAccessibleFromPosition(EcsEntity item, Vector3Int position) {
             Vector3Int targetPosition = (stored.isStored(item) ? stored.getContainerOfItem(item) : item).pos();
             return model.localMap.passageMap.tileIsAccessibleFromArea(targetPosition, position);               
+        }
+    }
+
+    public class ItemContainerPart : LocalMapModelComponent {
+        protected ItemContainer container;
+
+        public ItemContainerPart(LocalModel model, ItemContainer container) : base(model) {
+            this.container = container;
         }
     }
 }

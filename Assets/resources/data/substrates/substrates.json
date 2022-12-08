@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "name": "grass",
+        "blockTag": "soil",
+        "tilesetName": "grass"
+    },
+    {
+        "id": 1,
+        "name": "moss",
+        "blockTag": "stone",
+        "tilesetName": "moss"
+    }
+]
