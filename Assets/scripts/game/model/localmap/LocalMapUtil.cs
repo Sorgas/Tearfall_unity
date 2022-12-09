@@ -1,16 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using enums;
 using game.model.localmap.passage;
 using types;
 using UnityEngine;
-using util.geometry;
 using util.geometry.bounds;
 using Random = UnityEngine.Random;
 
 namespace game.model.localmap {
     public class LocalMapUtil {
+        private LocalModel model;
         private LocalMap map;
 
         public LocalMapUtil(LocalMap map) {
@@ -33,9 +32,11 @@ namespace game.model.localmap {
         }
 
         // change postition to move it inside map
+        // TODO move to IntBounds3
         public void normalizePosition(Vector3Int position) => normalizeRectangle(ref position, 1, 1);
 
         // change position to move rectangle with position in [0,0] inside map
+        // TODO move to IntBounds3
         public void normalizeRectangle(ref Vector3Int position, int width, int height) {
             position.x = Math.Min(Math.Max(0, position.x), map.bounds.maxX - width);
             position.y = Math.Min(Math.Max(0, position.y), map.bounds.maxY - height);
@@ -43,7 +44,7 @@ namespace game.model.localmap {
         }
 
         public Vector3Int findFreePositionNearCenter(Vector3Int center) {
-            Vector3Int position = new NeighbourPositionStream(center).filterByPassage(PassageTypes.PASSABLE).stream.First();
+            Vector3Int position = new NeighbourPositionStream(center, model).filterByPassage(PassageTypes.PASSABLE).stream.First();
             return position;
         }
     }

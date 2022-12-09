@@ -1,40 +1,46 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using enums.action;
-using game.model;
 using game.model.localmap;
 using UnityEngine;
 using util.geometry;
 using util.lang;
 
 namespace util.pathfinding {
+    // TODO make not singleton
     public class AStar : Singleton<AStar> {
         private LocalMap localMap;
 
-        public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, ActionTargetTypeEnum targetType) {
-            localMap = GameModel.localMap;
-            Debug.Log("searching path from " + start + " to " + target);
-            return search(new Node(start, null, getH(target, start), 0), target, targetType);
+        public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, ActionTargetTypeEnum targetType, LocalMap map) {
+            localMap = map;
+            Node initialNode = new Node(start, null, getH(target, start), 0);
+            PathFinishCondition finishCondition = new PathFinishCondition(target, targetType, localMap);
+            string message = "[AStar]: finding path " + start + " -> " + target + finishCondition.getMessage();
+            List<Vector3Int> path = search(initialNode, finishCondition, target, targetType);
+            logResult(path, message);
+            return path;
         }
 
-        public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target) =>
-            makeShortestPath(start, target, ActionTargetTypeEnum.EXACT);
+        public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, LocalMap map) =>
+            makeShortestPath(start, target, ActionTargetTypeEnum.EXACT, map);
 
         /**
          * @param targetType  see {@link ActionTarget}
          * @return goal node to restore path from
          */
-        private List<Vector3Int> search(Node initialNode, Vector3Int target, ActionTargetTypeEnum targetType) {
+        private List<Vector3Int> search(Node initialNode, PathFinishCondition finishCondition, Vector3Int target, ActionTargetTypeEnum targetType) {
             var openSet = new BinaryHeap();
             var closedSet = new HashSet<Vector3Int>();
             var fetchedNodes = new Dictionary<Vector3Int, Vector3Int?>();
-            var finishCondition = new PathFinishCondition(target, targetType);
 
             openSet.push(initialNode);
             while (openSet.Count > 0) {
-                if (!openSet.tryPop(out var currentNode)) return null; // get node from open set or return not found
-                if (finishCondition.check(currentNode.position))
+                if (!openSet.tryPop(out var currentNode)) {
+                    return null; // get node from open set or return not found
+                }
+                if (finishCondition.check(currentNode.position)) {
                     return getPath(currentNode, fetchedNodes); //check if path is complete
+                }
                 var vectors = getSuccessors(currentNode.position, closedSet);
                 var pathLength = currentNode.pathLength + 1;
                 vectors.ForEach(vector => { // iterate passable near positions
@@ -45,7 +51,6 @@ namespace util.pathfinding {
                 closedSet.Add(currentNode.position); // node processed
                 fetchedNodes[currentNode.position] = currentNode.parent;
             }
-            Debug.Log("No path found");
             return null;
         }
 
@@ -67,7 +72,18 @@ namespace util.pathfinding {
                 path.Insert(0, current.Value);
                 current = nodes[current.Value];
             }
+            // path.RemoveAt(0);
             return path;
         }
+
+        private void logResult(List<Vector3Int> path, string message) {
+            if(path == null) {
+                Debug.LogWarning(message + ". No path");
+            } else {
+                Debug.Log(message + ". Length " + (path.Count - 1));
+            }
+        } 
+
+        private void logNoPath(string message) => Debug.LogWarning(message + ". No path");
     }
 }

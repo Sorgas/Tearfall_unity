@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using enums.item.type.raw;
+using Leopotam.Ecs;
 using Newtonsoft.Json;
 using UnityEngine;
 using util.lang;
@@ -13,6 +14,7 @@ namespace enums.item.type {
         private Vector2 pivot = new(0, 0);
 
         private string logMessage;
+        EcsWorld world = new();
 
         public ItemTypeMap() {
             loadItemTypes();
@@ -40,9 +42,9 @@ namespace enums.item.type {
             log("   Loading from " + file.name);
             List<RawItemType> raws = JsonConvert.DeserializeObject<List<RawItemType>>(file.text);
             for (var i = 0; i < raws.Count; i++) {
-                ItemType type = processor.process(raws[i]);
-                logMessage += processor.logMessage;
+                ItemType type = new ItemType(raws[i]);
                 type.atlasName = file.name;
+                // processor.process(raws[i], type);
                 types.Add(type.name, type);
             }
             log("   " + raws.Count + " loaded from " + file.name);

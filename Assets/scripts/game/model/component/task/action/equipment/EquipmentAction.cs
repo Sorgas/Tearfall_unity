@@ -1,4 +1,5 @@
-﻿using game.model.component.task.action.target;
+﻿using game.model.component.item;
+using game.model.component.task.action.target;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace game.model.component.task.action.equipment {
         public EcsEntity item;
 
         protected EquipmentAction(ActionTarget target, EcsEntity item) : base(target) {
+            name = "equipment action";
             this.item = item;
         }
 
@@ -25,8 +27,9 @@ namespace game.model.component.task.action.equipment {
         }
 
         protected bool validate() {
+            if (!itemCanBeLocked(item)) return false;
             if (!performer.Has<UnitEquipmentComponent>()) {
-                Debug.LogWarning("unit " + performer + " has no UnitEquipmentComponent2."); 
+                Debug.LogWarning("unit " + performer + " has no UnitEquipmentComponent2.");
                 return false;
             }
             return true;

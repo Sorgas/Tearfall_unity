@@ -1,23 +1,25 @@
-﻿namespace game.model.container.item {
+﻿using Leopotam.Ecs;
+using UnityEngine;
+using util.lang.extension;
+
+namespace game.model.container.item {
     // stores all items on the level. has separate storage classes for items on ground, stored in containers, equipped on units.
-    // transitions are made in actions.
-    public class  ItemContainer : EntityContainer {
+    // transitions are made in actions. Does not consider items locking.
+    public class ItemContainer : LocalMapModelComponent {
         public ItemStateValidator validator;
         public EquippedItemsManager equipped = new();
         public OnMapItemsManager onMap;
-        public StoredItemsManager stored;
-        
-        // TODO stored items
+        public StoredItemsManager stored = new();
         
         public AvailableItemsManager availableItemsManager = new();
         public ItemFindingUtil util;
         public ItemTransitionUtil transition;
         
-        public ItemContainer() {
-            validator = new(this);
-            onMap = new(this);
-            util = new(this);
-            transition = new(this);
+        public ItemContainer(LocalModel model) : base(model) {
+            validator = new(model, this);
+            onMap = new(model, this);
+            util = new(model, this);
+            transition = new(model, this);
         }
 
         // public void removeItem(EcsEntity item) {
@@ -45,19 +47,19 @@
         //     return getItemsInPosition(cachePosition.set(x, y, z));
         // }
         //
-        // public boolean itemAccessible(EcsEntity item, IntVector3 position) {
-        //     //TODO handle items in containers
-        //     if (isItemInContainer(item)) {
-        //         IntVector3 containerPosition = contained.get(item).entity.position;
-        //         LocalMap map = map();
-        //         byte area = map.passageMap.area.get(position);
-        //         return PositionUtil.allNeighbour.stream()
-        //             .map(pos->IntVector3.add(pos, containerPosition))
-        //             .filter(map::inMap)
-        //             .map(map.passageMap.area::get)
-        //             .anyMatch(area1->area1 == area);
-        //     }
-        //     return item.position != null && map().passageMap.area.get(position) == map().passageMap.area.get(item.position);
-        // }
+
+        // checks that items's position is accessible from 'position'
+        public bool itemAccessibleFromPosition(EcsEntity item, Vector3Int position) {
+            Vector3Int targetPosition = (stored.isStored(item) ? stored.getContainerOfItem(item) : item).pos();
+            return model.localMap.passageMap.tileIsAccessibleFromArea(targetPosition, position);               
+        }
+    }
+
+    public class ItemContainerPart : LocalMapModelComponent {
+        protected ItemContainer container;
+
+        public ItemContainerPart(LocalModel model, ItemContainer container) : base(model) {
+            this.container = container;
+        }
     }
 }

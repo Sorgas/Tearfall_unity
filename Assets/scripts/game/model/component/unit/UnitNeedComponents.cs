@@ -3,14 +3,16 @@ using enums.action;
 using enums.unit.need;
 
 namespace game.model.component.unit {
+    // stores values of unit's needs. values are [0..1]f, more means satisfied.
     public struct UnitNeedComponent {
-        public int hunger;
-        public int thirst;
-        public int sleep;
+        public float hunger;
+        public TaskPriorityEnum hungerPriority;
 
-        // filled in UnitNeedSystem
-        // tasks for this needs created in UnitTaskAssignmentSystem
-        public Dictionary<Need, TaskPriorityEnum> needsToFullfill;
+        public float thirst;
+        public TaskPriorityEnum thirstPriority;
+        
+        public float rest;
+        public TaskPriorityEnum restPriority;
     }
 
     // is present, if unit needs wear on some slots 
@@ -18,8 +20,6 @@ namespace game.model.component.unit {
         public bool valid; // when equipment changes, this component invalidates
         public List<string> desiredSlots; // slots required to be filled by creature type
     }
-
-    
     
     // is present, if required slots are empty
     public struct UnitCalculatedWearNeedComponent {
@@ -29,5 +29,9 @@ namespace game.model.component.unit {
     public struct UnitCalculatedNeedComponent {
         public Need need;
         public TaskPriorityEnum priority;
+    }
+
+    public struct NeedState {
+        
     }
 }

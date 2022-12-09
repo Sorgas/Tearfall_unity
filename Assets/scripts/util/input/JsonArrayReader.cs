@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace util.input {
@@ -5,7 +6,8 @@ namespace util.input {
 
         public static T[] readArray<T>(string json) {
             string newJson = "{ \"array\": " + json + "}";
-            JsonArrayWrapper<T> wrapper = JsonUtility.FromJson<JsonArrayWrapper<T>> (newJson);
+            JsonArrayWrapper<T> wrapper = JsonConvert.DeserializeObject<JsonArrayWrapper<T>>(newJson);
+            // JsonArrayWrapper<T> wrapper = JsonUtility.FromJson<JsonArrayWrapper<T>> (newJson);
             return wrapper.array;
         }
 

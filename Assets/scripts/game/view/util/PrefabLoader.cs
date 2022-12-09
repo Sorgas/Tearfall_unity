@@ -23,7 +23,9 @@ namespace game.view.util {
         }
         
         public static GameObject create(string name, Transform parent, Vector3 localPosition) {
-            return Object.Instantiate(get(name), localPosition, Quaternion.identity, parent);
+            GameObject prefab = Object.Instantiate<GameObject>(get(name), localPosition, Quaternion.identity, parent);
+            prefab.transform.localPosition = localPosition;
+            return prefab;
         }
         
         private GameObject getPrefab(string name) {
@@ -46,6 +48,11 @@ namespace game.view.util {
             paths.Add("Building", "prefabs/Building");
             paths.Add("Item", "prefabs/Item");
             paths.Add("Plant", "prefabs/Plant");
+            
+            // workbench
+            paths.Add("craftingOrderLine", "prefabs/workbenchMenu/CraftingOrderLine");
+            paths.Add("itemPanelWithTooltip", "prefabs/workbenchMenu/ItemPanelWithTooltip"); // TODO use for other inventory windows
+            paths.Add("recipeLine", "prefabs/workbenchMenu/RecipeLine");
         }
     }
 }

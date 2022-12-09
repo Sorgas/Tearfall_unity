@@ -8,17 +8,10 @@ using util.lang.extension;
 namespace game.model.container.item {
     // stores reference of positions to items in it. Puts and takes items from map, updating its entity's position component 
     public class OnMapItemsManager : ItemContainerPart {
-        public MultiValueDictionary<Vector3Int, EcsEntity> itemsOnMap = new();
+        public MultiValueDictionary<Vector3Int, EcsEntity> itemsOnMap = new(); // to find what items are on position
         public HashSet<EcsEntity> all = new(); // for checking if item is on map
 
-        public OnMapItemsManager(ItemContainer container) : base(container) { }
-
-        // adds item to map by its position (used on generation and loading)
-        private void addItemToMap(EcsEntity item) {
-            itemsOnMap.add(item.pos(), item);
-            all.Add(item);
-            container.availableItemsManager.add(item);
-        }
+        public OnMapItemsManager(LocalModel model, ItemContainer container) : base(model, container) { }
 
         // adds item without position to specified position on map (used in gameplay)
         public void putItemToMap(EcsEntity item, Vector3Int position) {
@@ -34,7 +27,14 @@ namespace game.model.container.item {
             item.Del<PositionComponent>();
             itemsOnMap.remove(position, item);
             all.Remove(item);
-            container.availableItemsManager.remove(item);
+            container.availableItemsManager.remove(item); // make item unavailable
+        }
+
+        // adds item to map by its position (used on generation and loading)
+        private void addItemToMap(EcsEntity item) {
+            itemsOnMap.add(item.pos(), item);
+            all.Add(item);
+            container.availableItemsManager.add(item); // make item available
         }
     }
 }

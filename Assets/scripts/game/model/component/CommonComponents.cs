@@ -24,6 +24,7 @@ namespace game.model.component {
 
     public struct TaskFinishedComponent {
         public TaskStatusEnum status;
+        public string reason; // TODO no-materials, combat, 
     }
 
     // shows that entity is ready to be deleted
@@ -31,5 +32,23 @@ namespace game.model.component {
 
     public struct TaskCreationTimeoutComponent {
         public int value;
+    }
+
+    // indicates when entity is changed 
+    public struct UiUpdateComponent { }
+
+    // units can own items and buildings.
+    public struct OwnedComponent {
+        public EcsEntity owner;
+    }
+
+    // tasks can lock other entities so other tasks should not select them
+    public struct LockedComponent {
+        public EcsEntity task;
+    }
+
+    // shows how well item or building is crafted. 
+    public struct QualityComponent {
+        public QualityEnum quality;
     }
 }

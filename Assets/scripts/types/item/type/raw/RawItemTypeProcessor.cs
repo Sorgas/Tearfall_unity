@@ -1,61 +1,50 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using entity;
-using util.lang.extension;
+using game.model.component.item;
+using Leopotam.Ecs;
 
 namespace enums.item.type.raw {
     public class RawItemTypeProcessor {
         public string logMessage;
-        
-        public ItemType process(RawItemType rawType) {
-            logMessage = "";
-            log("Processing item type " + rawType.name);
-            ItemType type = addAspectsFromRawType(new ItemType(rawType), rawType);
-            return type;
-        }
 
-        public ItemType processExtendedType(RawItemType rawType, string namePrefix) {
-            ItemType baseType = ItemTypeMap.getItemType(rawType.baseItem); // get base type
-            return addAspectsFromRawType(new ItemType(baseType, rawType, namePrefix), rawType);
-        }
+        // public ItemType process(RawItemType rawType, ItemType type) {
+        //     logMessage = "";
+        //     log("Processing item type " + rawType.name);
+        //     addComponentPrototypes(type, rawType);
+        //     return type;
+        // }
 
-        private ItemType addAspectsFromRawType(ItemType type, RawItemType raw) {
-            raw.aspects
-                .Select(aspect => createAspect(aspect, type))
-                .Where(aspect => aspect != null)
-                .ForEach(aspect => {
-                    log("   Aspect " + aspect.GetType().Name + " added");
-                    type.add(aspect);
-                });
-            return type;
-        }
+        // // public ItemType processExtendedType(RawItemType rawType, string namePrefix) {
+        // //     ItemType baseType = ItemTypeMap.getItemType(rawType.baseItem); // get base type
+        // //     return addAspectsFromRawType(new ItemType(baseType, rawType, namePrefix), rawType);
+        // // }
 
-        private Aspect createAspect(string aspectString, ItemType type) {
-            KeyValuePair<string, string[]> pair = parseAspectString(aspectString);
-            switch (pair.Key) {
-                case "value": {
-                    return new ValueAspect(float.Parse(pair.Value[0]));
-                }
-                case "fuel": {
-                    return new FuelAspect();
-                }
-                case "wear": {
-                    return new WearAspect(pair.Value[0], pair.Value[1]);
-                }
-                default: {
-                    log("   Item type aspect with name " + pair.Key + " not found");
-                    return null;
-                }
-            }
-        }
+        // private void addComponentPrototypes(ItemType type, RawItemType raw) {
+        //     foreach (string componentString in raw.components) {
+        //         KeyValuePair<string, string[]> pair = parseAspectString(componentString);
+        //         switch (pair.Key) {
+        //             case "wear": {
+        //                     type.prototype.Replace(new ItemWearComponent { slot = pair.Value[0], layer = pair.Value[1] });
+        //                     break;
+        //                 }
+        //             case "food": {
+        //                     type.prototype.Replace(new ItemFoodComponent { nutrition = float.Parse(pair.Value[0]), foodQuality = int.Parse(pair.Value[1]) });
+        //                     break;
+        //                 }
+        //             default: {
+        //                     log("   Item type aspect with name " + pair.Key + " not found");
+        //                     break;
+        //                 }
+        //         }
+        //     }
+        // }
 
-        private KeyValuePair<string, string[]> parseAspectString(string aspectString) {
-            string[] aspectParts = aspectString.Replace(")", "").Split('(');
-            return new KeyValuePair<string, string[]>(aspectParts[0], aspectParts.Length > 1 ? aspectParts[1].Split(',') : null);
-        }
-        
-        private void log(string message) {
-            logMessage += "      [RawItemTypeProcessor]: " + message + "\n";
-        }
+        // private KeyValuePair<string, string[]> parseAspectString(string aspectString) {
+        //     string[] aspectParts = aspectString.Replace(")", "").Split('(');
+        //     return new KeyValuePair<string, string[]>(aspectParts[0], aspectParts.Length > 1 ? aspectParts[1].Split(',') : null);
+        // }
+
+        // private void log(string message) {
+        //     logMessage += "      [RawItemTypeProcessor]: " + message + "\n";
+        // }
     }
 }

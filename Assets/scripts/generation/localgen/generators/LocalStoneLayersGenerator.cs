@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using enums;
-using enums.material;
 using game.model;
 using game.model.localmap;
 using types;
@@ -11,7 +9,7 @@ using util.geometry;
 
 namespace generation.localgen.generators {
 
-    // generates several layers of stone and soil materials and flushes them to map from surface to 
+    // generates several layers of stone and soil materials and flushes them to local map 
     public class LocalStoneLayersGenerator : LocalGenerator {
         private List<LayerDescriptor> layers = new List<LayerDescriptor>();
         private ValueRange layerThicknessRange = new ValueRange();
@@ -23,9 +21,10 @@ namespace generation.localgen.generators {
         private float effectiveElevation = 0;
         private float maxElevation = 0;
 
+        public LocalStoneLayersGenerator(LocalMapGenerator generator) : base(generator) {}
+
         public override void generate() {
-            container = GenerationState.get().localGenContainer;
-            map = GameModel.localMap;
+            map = container.map;
             currentHeight = new int[config.areaSize, config.areaSize];
             bounds.iterate((x, y) => currentHeight[x, y] = (int)container.heightsMap[x, y]);
             countAverageElevation();

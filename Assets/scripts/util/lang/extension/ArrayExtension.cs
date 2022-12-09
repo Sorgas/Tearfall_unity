@@ -6,7 +6,7 @@ namespace util.lang.extension {
 
         public static T[] subArray<T>(this T[] source, int startIndex) {
             T[] newArray = new T[source.Length - startIndex];
-            Array.Copy(source, startIndex, newArray,0, source.Length - startIndex);
+            Array.Copy(source, startIndex, newArray, 0, source.Length - startIndex);
             return newArray;
         }
 

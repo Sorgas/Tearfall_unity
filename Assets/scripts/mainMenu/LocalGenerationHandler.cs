@@ -10,7 +10,7 @@ namespace mainMenu {
         public Text text;
         
         void Update() {
-            LocalGenSequence sequence = GenerationState.get().localGenSequence;
+            LocalGenSequence sequence = GenerationState.get().localMapGenerator.localGenSequence;
             if(sequence == null) return;
             float progress = sequence.progress / sequence.maxProgress;
             slider.SetValueWithoutNotify(progress);
@@ -19,7 +19,7 @@ namespace mainMenu {
         }
 
         void OnEnable() {
-            GenerationState.get().generateLocalMap(); // TODO move to generation stage with progress bar
+            GenerationState.get().localMapGenerator.generateLocalMap("main", new Vector2Int()); // TODO move to generation stage with progress bar
         }
     }
 }

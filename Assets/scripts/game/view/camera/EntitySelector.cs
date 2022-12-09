@@ -6,6 +6,7 @@ using util.geometry;
 using util.geometry.bounds;
 
 namespace game.view {
+    // model object for 'mouse', stores its position, current layer, bounds, size
     public class EntitySelector {
         public Vector3Int position = new();
         public readonly IntBounds3 bounds = new();
@@ -36,7 +37,7 @@ namespace game.view {
         }
 
         public void updateBounds() {
-            LocalMap map = GameModel.localMap;
+            LocalMap map = GameModel.get().currentLocalModel.localMap;
             bounds.set(0, 0, 0, map.bounds.maxX - size.x + 1, map.bounds.maxY - size.y + 1, map.bounds.maxZ);
         }
     }

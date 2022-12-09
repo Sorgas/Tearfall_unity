@@ -15,36 +15,36 @@ using static enums.action.ActionConditionStatusEnum;
 
 namespace game.model.component.task.action {
     // base action for building constructions and buildings.
-    // defines bringing items to designation, removing other items from designation position, consuming actions.
+    // defines bringing items to designation, removing other items from designation position, consuming items.
     // TODO add place and offsiteposition after start validation
     public class GenericBuildingAction : Action {
         protected EcsEntity designation;
         protected readonly GenericBuildingOrder order;
         private Vector3Int offSitePosition; // used to remove items and performer out of site
         private IntBounds3 bounds;
-        public bool offSitePositionOk = true;
+        public bool offSitePositionOk = false;
 
         protected GenericBuildingAction(EcsEntity designation, GenericBuildingOrder order) {
             this.designation = designation;
             this.order = order;
+            name = "generic building action";
             bounds = getBuildingBounds(order);
-            findOffSitePosition();
-            if (offSitePositionOk) {
-                target = new BuildingActionTarget(offSitePosition);
-            }
+            target = new BuildingActionTarget(designation.pos());
 
             startCondition = () => {
                 if (!offSitePositionOk) {
-                    Debug.Log("no offsitePosition found");
-                    return failAction();
+                    findOffSitePosition();
+                    if (!offSitePositionOk) {
+                        return failAction("no offsitePosition found");
+                    }
                 }
                 ActionConditionStatusEnum status = checkItemsInContainer();
                 if (status == NEW) return NEW;
-                if (status == FAIL) return failAction();
+                if (status == FAIL) return failAction("items not found");
                 if (checkClearingSite(bounds)) return NEW;
                 Vector3Int pos = performer.pos();
                 if (!bounds.validate((x, y, z) => pos.x != x || pos.y != y || pos.z != z)) {
-                    Debug.Log("Building area check: bounds: " + bounds.toString() + " performer: " + pos + " offSitePosition: " + offSitePosition);
+                    log("Building area check: bounds: " + bounds.toString() + " performer: " + pos + " offSitePosition: " + offSitePosition);
                     addPreAction(new MoveAction(offSitePosition));
                     return NEW;
                 }
@@ -54,13 +54,13 @@ namespace game.model.component.task.action {
 
         // items for building should be brought into designation container. creates action to bring if possible
         private ActionConditionStatusEnum checkItemsInContainer() {
-            Debug.Log("checking items in container");
             DesignationItemContainerComponent container = designation.take<DesignationItemContainerComponent>();
-            if (container.items.Count == order.amount) return OK;
-            List<EcsEntity> foundItems = GameModel.get().itemContainer.availableItemsManager
-                .findNearest(order.itemType, order.material, order.amount, designation.pos());
-            if (foundItems.Count != order.amount) return FAIL;
-            // TODO lock items
+            int requiredItems = order.amount - container.items.Count;
+            if (requiredItems == 0) return OK;
+            List<EcsEntity> foundItems = model.itemContainer.availableItemsManager
+                .findNearest(order.itemType, order.material, requiredItems, designation.pos());
+            if (foundItems.Count != requiredItems) return FAIL;
+            lockEntities(foundItems);
             foreach (EcsEntity item in foundItems) {
                 addPreAction(new PutItemToDesignationContainer(designation, item));
             }
@@ -68,13 +68,15 @@ namespace game.model.component.task.action {
         }
 
         private bool checkClearingSite(IntBounds3 bounds) {
-            Debug.Log("checking clearing site");
-            ItemContainer container = GameModel.get().itemContainer;
+            ItemContainer container = model.itemContainer;
             bool actionsAdded = false;
             bounds.iterate((x, y, z) => {
                 Vector3Int pos = new(x, y, z);
                 foreach (EcsEntity item in container.onMap.itemsOnMap.get(pos)) {
                     Debug.Log(item.name());
+                    // TODO add special 'move to near cell' non-locking action. 
+                    // When units locks an item on the ground and other unit tries to build upon this item
+                    lockEntity(item);
                     addPreAction(new PutItemToPositionAction(item, offSitePosition));
                     actionsAdded = true;
                 }
@@ -82,42 +84,37 @@ namespace game.model.component.task.action {
             return actionsAdded;
         }
 
-        private ActionConditionStatusEnum failAction() {
-            DesignationItemContainerComponent container = designation.take<DesignationItemContainerComponent>();
+        private ActionConditionStatusEnum failAction(string message) {
+            log("failing action " + message);
+            ref DesignationItemContainerComponent container = ref designation.takeRef<DesignationItemContainerComponent>();
             foreach (EcsEntity item in container.items) {
-                // TODO unlock items
-                GameModel.get().itemContainer.onMap.putItemToMap(item, order.position);
+                model.itemContainer.onMap.putItemToMap(item, order.position);
             }
             container.items.Clear();
             return FAIL;
         }
 
         private IntBounds3 getBuildingBounds(GenericBuildingOrder order) {
-            Vector3Int offset = new();
+            Vector3Int offset = new(); // no offset for constructions (they are single-tile)
             if (order is BuildingOrder) {
                 BuildingOrder buildingOrder = (BuildingOrder)order;
-                if (OrientationUtil.isHorisontal(buildingOrder.orientation)) {
-                    offset = new(buildingOrder.type.size[1], buildingOrder.type.size[0], 0);
-                } else {
-                    offset = new(buildingOrder.type.size[0], buildingOrder.type.size[1], 0);
-                }
+                bool horizontal = OrientationUtil.isHorizontal(buildingOrder.orientation); 
+                offset = new(buildingOrder.type.size[horizontal ? 1 : 0] - 1, buildingOrder.type.size[horizontal ? 0 : 1] - 1);
             }
-            offset.x -= 1;
-            offset.y -= 1;
             return new IntBounds3(order.position, order.position + offset);
         }
-        
+
         // TODO use performer area
         private bool findOffSitePosition() {
-            LocalMap map = GameModel.localMap;
+            LocalMap map = model.localMap;
             PassageMap passageMap = map.passageMap;
             // position to step into should be in map, reachable for performer, and connected to adjacent tile inside building
             bool checkPositionReachability(int x1, int y1, int z1, int x2, int y2, int z2) {
-                if (map.inMap(x1, y1, z1) && passageMap.hasPathBetweenNeighbours(x1, y1, z1, x2, y2, z2)) {
-                    offSitePosition = new Vector3Int(x1, y1, z1);
-                    return true;
-                }
-                return false;
+                if (!map.inMap(x1, y1, z1) || !passageMap.hasPathBetweenNeighbours(x1, y1, z1, x2, y2, z2)) return false;
+                offSitePosition = new Vector3Int(x1, y1, z1);
+                offSitePositionOk = true;
+                target = new BuildingActionTarget(offSitePosition);
+                return true;
             }
             // try on same z levels
             for (int z = bounds.minZ; z <= bounds.maxZ; z++) {
@@ -137,7 +134,6 @@ namespace game.model.component.task.action {
                     if (checkPositionReachability(x, y, bounds.maxZ + 1, x, y, bounds.maxZ)) return true;
                 }
             }
-            offSitePositionOk = false;
             return false; // unreachable position, 
         }
 

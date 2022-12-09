@@ -13,7 +13,6 @@ namespace types.building {
         }
 
         private void loadFiles() {
-            Debug.Log("loading construction types");
             map.Clear();
             TextAsset file = Resources.Load<TextAsset>("data/constructions");
             int count = 0;
@@ -21,7 +20,7 @@ namespace types.building {
             if (types == null) return;
             foreach (ConstructionType type in types) {
                 type.variants = type.materials.Select(materialString => new BuildingVariant(materialString)).ToArray();
-                Debug.Log(type.blockTypeName + " " + type.materials + " " + type.name);
+                // Debug.Log(type.blockTypeName + " " + type.materials.Aggregate((material1, material2) => material1 + " " + material2) + " " + type.name);
                 type.blockType = BlockTypes.get(type.blockTypeName);
                 map.Add(type.name, type);
                 count++;

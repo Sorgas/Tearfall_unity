@@ -5,12 +5,18 @@ using Leopotam.Ecs;
 using types;
 using UnityEngine;
 using util.lang.extension;
+using static game.view.util.TilemapLayersConstants;
 
 namespace game.view.system.building {
+    // creates sprite GO for building
     public class BuildingVisualSystem : IEcsRunSystem {
         public EcsFilter<BuildingComponent>.Exclude<BuildingVisualComponent> filter;
 
         private Vector3 spriteOffset;
+
+        public BuildingVisualSystem() {
+            spriteOffset = new(0, 0, WALL_LAYER * GRID_STEP);
+        }
 
         public void Run() {
             foreach (int i in filter) {
@@ -26,9 +32,9 @@ namespace game.view.system.building {
             Sprite sprite = BuildingTilesetHolder.get().get(component.type, component.orientation);
             renderer.sprite = sprite;
             renderer.sortingOrder = position.z;
-            float scale = getScale(sprite, component.type.size[OrientationUtil.isHorisontal(component.orientation) ? 1 : 0]);
+            float scale = getScale(sprite, component.type.size[OrientationUtil.isHorizontal(component.orientation) ? 1 : 0]);
             renderer.transform.localScale = new Vector3(scale, scale, 1);
-            instance.transform.localPosition = ViewUtil.fromModelToScene(position);
+            instance.transform.localPosition = ViewUtil.fromModelToScene(position) + spriteOffset;
             return instance;
         }
 

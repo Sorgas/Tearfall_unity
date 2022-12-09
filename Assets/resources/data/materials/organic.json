@@ -2,7 +2,7 @@
     {
         "id": 501,
         "name": "meat",
-        "tags": ["meat", "edible", "raw", "cookable"],
+        "tags": ["meat", "raw", "cookable"],
         "density": "1",
         "value": "0",
         "atlasY": "-1",

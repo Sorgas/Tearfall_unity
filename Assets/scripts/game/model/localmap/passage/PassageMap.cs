@@ -1,5 +1,4 @@
-﻿using System.Data;
-using types;
+﻿using types;
 using UnityEngine;
 using util;
 using util.pathfinding;
@@ -8,7 +7,7 @@ using static types.PassageTypes;
 
 namespace game.model.localmap.passage {
     // stores isolated areas on local map to enhance pathfinding
-    public class PassageMap {
+    public class PassageMap : LocalMapModelComponent {
         private readonly LocalMap localMap;
         private readonly BlockTypeMap blockTypeMap;
         public readonly PassageUpdater updater;
@@ -17,12 +16,12 @@ namespace game.model.localmap.passage {
         public UtilByteArrayWithCounter area; // number of area
         public UtilByteArray passage; // see {@link BlockTypesEnum} for passage values.
 
-        public PassageMap(LocalMap localMap) {
+        public PassageMap(LocalModel model, LocalMap localMap) : base(model) {
             this.localMap = localMap;
             blockTypeMap = localMap.blockType;
             area = new UtilByteArrayWithCounter(localMap.sizeVector);
             passage = new UtilByteArray(localMap.sizeVector);
-            updater = new PassageUpdater(localMap, this);
+            updater = new PassageUpdater(model, localMap, this);
             util = new PassageUtil(localMap, this);
         }
 
@@ -32,7 +31,7 @@ namespace game.model.localmap.passage {
             new AreaInitializer(localMap).formPassageMap(this);
         }
 
-        // checks there is a walking path between two adjacent tiles
+        // checks there is a walking path between two ADJACENT tiles
         public bool hasPathBetweenNeighbours(int x1, int y1, int z1, int x2, int y2, int z2) {
             if (!localMap.inMap(x1, y1, z1) || !localMap.inMap(x2, y2, z2) ||
                 passage.get(x1, y1, z1) == IMPASSABLE.VALUE ||
@@ -53,15 +52,15 @@ namespace game.model.localmap.passage {
             return false;
         }
 
-        public bool tileIsAccessibleFromNeighbour(Vector3Int target, Vector3Int position, BlockType type)
-            => tileIsAccessibleFromNeighbour(target.x, target.y, target.z, position.x, position.y, position.z, type);
+        public bool hasPathBetweenNeighboursWithOverride(Vector3Int target, Vector3Int position, BlockType type)
+            => hasPathBetweenNeighboursWithOverride(target.x, target.y, target.z, position.x, position.y, position.z, type);
 
         /**
          * Checks that unit, standing in position will have access (to dig, open a chest) to target tile.
          * Same Z-level tiles are always accessible.
          * Tiles are accessible vertically with stairs or ramps.
          */
-        public bool tileIsAccessibleFromNeighbour(int tx, int ty, int tz, int x, int y, int z, BlockType targetType) {
+        public bool hasPathBetweenNeighboursWithOverride(int tx, int ty, int tz, int x, int y, int z, BlockType targetType) {
             if (!localMap.inMap(tx, ty, tz) || !localMap.inMap(x, y, z) || passage.get(x, y, z) == IMPASSABLE.VALUE) return false;
             if (tz == z) return true;
             BlockType fromType = blockTypeMap.getEnumValue(x, y, z);
@@ -79,16 +78,17 @@ namespace game.model.localmap.passage {
             return false;
         }
 
+        // target tile should be in target area, or be impassable and near tile of target area (checks only same z-level)
         public bool tileIsAccessibleFromArea(int tx, int ty, int tz, int areaValue) {
             Debug.Log("checking [" + tx + ", " + ty + ", " + tz + "] available from area " + areaValue);
             if (!localMap.inMap(tx, ty, tz)) return false;
             if (area.get(tx, ty, tz) == areaValue) return true;
-            if (getPassage(tx, ty, tz) == PASSABLE.VALUE)
-                throw new DataException("Passable tile + " + tx + " " + ty + " " + tz + " has no area value.");
-            for (int x = tx - 1; x < tx + 2; x++) {
-                for (int y = ty - 1; y < ty + 2; y++) {
-                    if ((x != tx || y != ty) && localMap.inMap(x, y, tz) && area.get(x, y, tz) == areaValue)
-                        return true;
+            // if passable and not in same area, then it is in different area
+            if (getPassage(tx, ty, tz) != PASSABLE.VALUE) {
+                for (int x = tx - 1; x < tx + 2; x++) {
+                    for (int y = ty - 1; y < ty + 2; y++) {
+                        if ((x != tx || y != ty) && localMap.inMap(x, y, tz) && area.get(x, y, tz) == areaValue) return true;
+                    }
                 }
             }
             return false;
@@ -105,8 +105,8 @@ namespace game.model.localmap.passage {
         // TODO
         public Passage calculateTilePassage(int x, int y, int z) {
             if (BlockTypes.get(blockTypeMap.get(x, y, z)).PASSAGE == IMPASSABLE) return IMPASSABLE;
-            if (!GameModel.get().plantContainer.isPlantBlockPassable(x, y, z)) return IMPASSABLE;
-            if (!GameModel.get().buildingContainer.isBuildingBlockPassable(x, y, z)) return IMPASSABLE;
+            if (!model.plantContainer.isPlantBlockPassable(x, y, z)) return IMPASSABLE;
+            if (!model.buildingContainer.isBuildingBlockPassable(x, y, z)) return IMPASSABLE;
 
             bool waterPassable = true;
             //model.optional(LiquidContainer.class)

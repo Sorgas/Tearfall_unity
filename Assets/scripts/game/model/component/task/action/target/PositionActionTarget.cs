@@ -11,8 +11,6 @@ namespace game.model.component.task.action.target {
             this.targetPosition = targetPosition;
         }
 
-        public override Vector3Int? getPos() {
-            return targetPosition;
-        }
+        public override Vector3Int? Pos => targetPosition;
     }
 }

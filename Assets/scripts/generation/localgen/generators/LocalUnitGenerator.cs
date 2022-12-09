@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using game.model;
 using game.model.component;
 using game.model.component.unit;
 using game.model.localmap;
@@ -8,6 +7,7 @@ using Leopotam.Ecs;
 using types;
 using types.unit;
 using UnityEngine;
+using util.lang.extension;
 
 namespace generation.localgen.generators {
     public class LocalUnitGenerator : LocalGenerator {
@@ -15,8 +15,10 @@ namespace generation.localgen.generators {
         private int spawnSearchMaxAttempts = 100;
         private UnitGenerator unitGenerator = new();
 
+        public LocalUnitGenerator(LocalMapGenerator generator) : base(generator) { }
+
         public override void generate() {
-            map = GameModel.localMap;
+            map = container.map;
             spawnSettlers(GenerationState.get().preparationState.settlers);
         }
 
@@ -25,16 +27,18 @@ namespace generation.localgen.generators {
             settlers.ForEach(settler => {
                 Vector3Int? spawnPoint = getSpawnPosition(center, 5);
                 if (spawnPoint.HasValue) {
-                    EcsEntity entity = GameModel.get().createEntity();
+                    EcsEntity entity = container.model.createEntity();
                     unitGenerator.generateUnit(settler, entity);
                     ref PositionComponent positionComponent = ref entity.Get<PositionComponent>();
                     positionComponent.position = spawnPoint.Value;
-                    
+                    ref UnitVisualComponent visual = ref entity.takeRef<UnitVisualComponent>();
+
                     // TODO move to settlerdata
+                    entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.NONE.name);
                     entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.MINER.name);
                     entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.WOODCUTTER.name);
                     entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.BUILDER.name);
-                    
+
                     Debug.Log("unit spawned at " + spawnPoint.Value);
                 } else {
                     Debug.LogWarning("position to spawn unit not found");

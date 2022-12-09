@@ -1,11 +1,8 @@
 using enums.action;
-using game.model.localmap.passage;
-using types;
 using UnityEngine;
-using util;
-using util.geometry;
 
 namespace game.model.component.task.action.target {
+    // action target for building buildings
     public class BuildingActionTarget : ActionTarget {
         public readonly Vector3Int center;
         public Vector3Int builderPosition;
@@ -14,11 +11,8 @@ namespace game.model.component.task.action.target {
             center = position;
         }
 
-        public override Vector3Int? getPos() {
-            return center;
-            // return builderPosition != null ? builderPosition : center;
-        }
-
+        public override Vector3Int? Pos => center;
+        // return builderPosition != null ? builderPosition : center;
         // /**
         //  * Finds appropriate position for builder to build from and bring materials.
         //  * TODO find nearest position.

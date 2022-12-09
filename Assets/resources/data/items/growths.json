@@ -2,7 +2,7 @@
     {
         "name": "generic_fruit",
         "description": "Replace this description in plant definition.",
-        "aspects": ["food(15)"],
+        "components": ["food(15)"],
         "atlasXY": [0, 0]
     }
 , {
@@ -19,7 +19,7 @@
     "name": "pumpkin",
     "baseItem": "generic_fruit",
     "description": "Large orange vegetable with thick walls and many seeds inside.",
-    "aspects": ["food(100)"],
+    "components": ["food(100)"],
     "atlasXY": [2, 0] 
 }, {
     "name": "tomato",
@@ -38,12 +38,12 @@
 }, {
     "name": "generic_seed",
     "description": "Replace this description in plant definition.",
-    "aspects": ["seed()"],
+    "components": ["seed()"],
     "atlasXY": [0, 2]
 }, {
     "name": "radish_seed",
     "description": "Seed of a radish.",
-    "aspects": ["seed(radish)"],
+    "components": ["seed(radish)"],
     "atlasXY": [0, 2]
 }, {
     "name": "generic_berry",

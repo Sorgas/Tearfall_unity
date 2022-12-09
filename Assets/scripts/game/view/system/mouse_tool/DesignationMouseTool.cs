@@ -22,12 +22,15 @@ namespace game.view.system.mouse_tool {
         public override void applyTool(IntBounds3 bounds) {
             bounds.iterate((x, y, z) => {
                 Vector3Int position = new(x, y, z);
-                
-                if (designation == null) Debug.Log("design is null");
+                if (designation == null) Debug.LogError("designation is null");
                 Debug.Log(designation.name);
-                if (designation.validator == null) Debug.Log("validator is null");
-                if (designation.validator.validate(position)) {
-                    GameModel.get().designationContainer.createDesignation(position, designation);
+                if(designation == DesignationTypes.D_CLEAR) {
+                    GameModel.get().currentLocalModel.designationContainer.removeDesignation(position);
+                } else {
+                    if (designation.validator == null) Debug.LogError("validator is null");
+                    if (designation.validator.validate(position, GameModel.get().currentLocalModel)) {
+                        GameModel.get().currentLocalModel.designationContainer.createDesignation(position, designation);
+                    }
                 }
             });
         }
@@ -46,7 +49,7 @@ namespace game.view.system.mouse_tool {
         }
 
         private bool validate(Vector3Int position) {
-            return designation.validator == null || designation.validator.validate(position);
+            return designation.validator == null || designation.validator.validate(position, GameModel.get().currentLocalModel);
         }
 
         public override void rotate() { }

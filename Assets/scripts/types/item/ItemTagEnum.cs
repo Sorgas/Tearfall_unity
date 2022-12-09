@@ -1,8 +1,10 @@
 ﻿namespace enums.item {
     public enum ItemTagEnum {
+        NULL,
+
         // generation
-        STONE_EXTRUSIVE, // used for stone layers generation
-        STONE_INTRUSIVE,
+        STONE_IGNEOUS, // used for stone layers generation
+        STONE_METAMORFIC,
         STONE_SEDIMENTARY,
         
         // materials of item
@@ -10,9 +12,11 @@
         STONE,           // gabbro(material) rock(type) // stones have no origin
         METAL,           // brass(material) bar(type)
         WOOD,            // birch(material) log(type)
+        CLOTH,
         MEAT,            // fox(origin) meat(material) piece(type)
         ORE,             // magnetite(material) rock(type)
         ORGANIC,         // 
+        FUEL,
 
         // food/corpses
         COOKABLE,        // can be boiled or roasted
@@ -26,7 +30,6 @@
 
         SEED_PRODUCE,
         WATER,
-        CLOTH,
         MATERIAL         // item is raw material for building and crafting
     }
 }

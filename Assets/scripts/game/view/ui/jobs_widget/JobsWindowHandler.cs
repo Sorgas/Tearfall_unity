@@ -1,5 +1,4 @@
-﻿using enums.unit;
-using game.model;
+﻿using game.model;
 using game.model.component;
 using game.model.component.unit;
 using Leopotam.Ecs;
@@ -10,6 +9,8 @@ using util.lang.extension;
 
 namespace game.view.ui.jobs_widget {
     public class JobsWindowHandler : MbWindow, IHotKeyAcceptor {
+        public const string name = "jobs";
+        
         public RectTransform header;
         public RectTransform content;
         private const string iconPath = "prefabs/jobsmenu/JobIcon";
@@ -50,7 +51,7 @@ namespace game.view.ui.jobs_widget {
 
         // creates rows for all units
         private void fillRows() {
-            EcsFilter filter = GameModel.ecsWorld.GetFilter(typeof(EcsFilter<UnitJobsComponent>));
+            EcsFilter filter = GameModel.get().currentLocalModel.ecsWorld.GetFilter(typeof(EcsFilter<UnitJobsComponent>));
             GameObject rowPrefab = Resources.Load<GameObject>(rowPath);
             float rowHeight = rowPrefab.GetComponent<RectTransform>().rect.height;
             foreach (var i in filter) {
@@ -88,22 +89,20 @@ namespace game.view.ui.jobs_widget {
             return name.HasValue ? name.Value.name : "no name";
         }
 
-        public override string getName() {
-            return "jobs";
-        }
+        public override string getName() => name;
 
         public bool accept(KeyCode key) {
             switch (key) {
                 case KeyCode.J:
                 case KeyCode.Q:
-                    WindowManager.get().closeWindow(this);
+                    WindowManager.get().closeWindow(name);
                     return true;
             }
             return false;
         }
 
         public void closeFromUI() {
-            WindowManager.get().closeWindow(this);
+            WindowManager.get().closeWindow(name);
         }
     }
 }

@@ -11,39 +11,44 @@ using util.geometry.bounds;
 namespace game.model.component.task.action {
     // action for removing performer from area
     public class StepOffAction : Action {
-        public StepOffAction(Vector3Int from) : base(new PositionActionTarget(from, ActionTargetTypeEnum.EXACT)) {
-            Vector3Int targetPos = findPositionForSingleTile(from);
-            if (targetPos.z != -1) {
-                startCondition = () => ActionConditionStatusEnum.OK;
-                target = new PositionActionTarget(targetPos, ActionTargetTypeEnum.EXACT);
-            }
-        } 
+        public StepOffAction(Vector3Int from, LocalModel model) : base(new PositionActionTarget(from, ActionTargetTypeEnum.EXACT)) {
+            Vector3Int targetPos = findPositionForSingleTile(from, model);
+            handleFoundPosition(targetPos);
+        }
         
-        public StepOffAction(IntBounds3 bounds, Vector3Int performerPosition) : base(null) {
+        public StepOffAction(IntBounds3 bounds, Vector3Int performerPosition, LocalModel model) : base(null) {
             Vector3Int targetPos = findPositionForBounds(bounds, performerPosition);
+            handleFoundPosition(targetPos);
+        }
+
+        private void handleFoundPosition(Vector3Int targetPos) {
             if (targetPos.z != -1) {
                 startCondition = () => ActionConditionStatusEnum.OK;
                 target = new PositionActionTarget(targetPos, ActionTargetTypeEnum.EXACT);
+            } else {
+                Debug.LogError("stepOff position not found"); // TODO handle
             }
         }
 
-        private Vector3Int findPositionForSingleTile(Vector3Int from) {
-            List<Vector3Int> positions = new NeighbourPositionStream(from).filterConnectedToCenter().stream.ToList();
+        private Vector3Int findPositionForSingleTile(Vector3Int from, LocalModel model) {
+            List<Vector3Int> positions = new NeighbourPositionStream(from, model).filterConnectedToCenter().stream.ToList();
             if (positions.Count > 0) {
+                Debug.Log("[StepOffAction]: prosition from " + from.ToString() + " found " + positions[0]);
                 return positions[0];
             }
+            Debug.Log("[StepOffAction]: prosition from " + from.ToString() + " not found");
             return new Vector3Int(0, 0, -1); // unreachable position, 
         }
         
         // tries to find free position outside of bounds where performer can move. priorities: near performer, on same z-level, above and below bounds
         private Vector3Int findPositionForBounds(IntBounds3 bounds, Vector3Int performerPosition) {
-            LocalMap map = GameModel.localMap;
+            LocalMap map = model.localMap;
             UtilByteArray areas = map.passageMap.area;
             PassageMap passageMap = map.passageMap;
             int performerArea = areas.get(performerPosition);
 
             // try around performer
-            List<Vector3Int> result = new NeighbourPositionStream(performerPosition)
+            List<Vector3Int> result = new NeighbourPositionStream(performerPosition, model)
                 .filterConnectedToCenter().stream
                 .Where(position => !bounds.isIn(position)).ToList();
             if (result.Count != 0) {

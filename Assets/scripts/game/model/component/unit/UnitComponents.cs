@@ -1,25 +1,24 @@
 using System.Collections.Generic;
-using enums;
 using enums.action;
 using game.model.component.task.action;
 using game.view.util;
+using Leopotam.Ecs;
 using types;
 using UnityEngine;
 
-namespace game.model.component.unit { 
-    
+namespace game.model.component.unit {
+
     // entity with this is a unit
     public struct UnitComponent {
         public int id;
     }
-    
+
     // stores unit's movement properties
     public struct UnitMovementComponent {
         // public Vector3Int position; // model position
         public Orientations orientation;
-        public float speed;
+        public float speed; // tiles per model tick
         public float step; // speed is added to this value; when reaches 1, position changed
-        
     }
 
     public struct UnitMovementTargetComponent {
@@ -30,13 +29,12 @@ namespace game.model.component.unit {
     public struct UnitMovementPathComponent {
         public List<Vector3Int> path;
     }
-    
+
     public struct UnitVisualComponent {
         public UnitGoHandler handler;
-    }
-
-    public struct EquipmentComponent {
-        public List<string> slots;
+        public Vector3 speed; // sprite moving speed
+        public Vector3 current;
+        public Vector3 target;
     }
 
     public struct BodyComponent {
@@ -44,7 +42,12 @@ namespace game.model.component.unit {
     }
 
     public struct HealthComponent {
+        public string overallStatus;
         public List<string> injures;
+    }
+
+    public struct MoodComponent {
+        public string status;
     }
 
     public struct UnitJobsComponent {
@@ -53,10 +56,10 @@ namespace game.model.component.unit {
     }
 
     public struct OwnershipComponent {
-
+        public string wealthStatus;
     }
 
-// stores body temperature
+    // stores body temperature
     public struct TemperatureComponent {
         public float value;
     }
@@ -69,4 +72,10 @@ namespace game.model.component.unit {
     public struct UnitCurrentActionComponent {
         public Action action;
     }
+
+    public struct UnitSleepingComponent { }
+
+    public struct UnitVisualProgressBarComponent : IEcsIgnoreInFilter { }
+
+    public struct UnitVisualOnBuildingComponent { }
 }

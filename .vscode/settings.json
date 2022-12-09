@@ -18,5 +18,8 @@
         "behaviour",
         "instanceof",
         "wallf"
-    ]
+    ],
+    "omnisharp.sdkPath": "",
+    "omnisharp.sdkVersion": "",
+    "csharp.referencesCodeLens.enabled": false
 }

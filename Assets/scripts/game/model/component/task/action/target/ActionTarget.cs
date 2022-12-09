@@ -1,6 +1,4 @@
-using enums;
 using enums.action;
-using game.model.component.unit;
 using Leopotam.Ecs;
 using types;
 using UnityEngine;
@@ -16,17 +14,17 @@ namespace game.model.component.task.action.target {
             this.type = type;
         }
 
-        public abstract Vector3Int? getPos();
+        public abstract Vector3Int? Pos { get; }
 
         /**
          * Checks if task performer has reached task target. Does not check target availability (map area).
          * Returns fail if checked from out of map.
          */
-        public ActionTargetStatusEnum check(EcsEntity performer) {
+        public ActionTargetStatusEnum check(EcsEntity performer, LocalModel model) {
             Vector3Int performerPosition = performer.pos();
-            Vector3Int? target = getPos();
+            Vector3Int? target = Pos;
             if (!target.HasValue) return READY; // target without position 
-            int distance = getDistance(performerPosition, target.Value);
+            int distance = getDistance(performerPosition, target.Value, model);
             if (distance > 1) return WAIT; // target not yet reached
             switch (type) {
                 case ActionTargetTypeEnum.EXACT:
@@ -39,11 +37,11 @@ namespace game.model.component.task.action.target {
             return FAIL;
         }
 
-        private int getDistance(Vector3Int current, Vector3Int target) {
+        private int getDistance(Vector3Int current, Vector3Int target, LocalModel model) {
             if (current == target) return 0;
             if (!current.isNeighbour(target)) return 2;
             if (current.z == target.z) return 1;
-            if (current.z < target.z && GameModel.localMap.blockType.get(current) == BlockTypes.RAMP.CODE) return 1;
+            if (current.z < target.z && model.localMap.blockType.get(current) == BlockTypes.RAMP.CODE) return 1;
             return 2;
         }
     }

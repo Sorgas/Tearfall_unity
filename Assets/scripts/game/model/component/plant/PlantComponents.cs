@@ -22,4 +22,9 @@ namespace game.model.component.plant {
     public struct PlantRemoveComponent {
         public bool leaveProduct;
     }
+
+    // grass covers ground and slowly spreads to adjacent ground
+    public struct PlantGrassComponent {
+    
+    }
 }

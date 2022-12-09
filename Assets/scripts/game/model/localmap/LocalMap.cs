@@ -1,26 +1,28 @@
 ﻿using game.model.localmap.passage;
 using game.view;
 using UnityEngine;
-using util.geometry;
 using util.geometry.bounds;
 
 namespace game.model.localmap {
-    public class LocalMap {
+    // stores arrays of blocks, passage and area values
+    public class LocalMap : LocalMapModelComponent {
         public readonly BlockTypeMap blockType;
         public readonly PassageMap passageMap; // not saved to savegame,
         public readonly LocalMapUtil util;
         public readonly IntBounds3 bounds; // inclusive
         public readonly Vector3Int sizeVector; // exclusive
+        public readonly SubstrateMap substrateMap;
 
         // public LightMap light;
         //private LocalTileMapUpdater localTileMapUpdater;              // not saved to savegame,
 
-        public LocalMap(int xSize, int ySize, int zSize) {
+        public LocalMap(int xSize, int ySize, int zSize, LocalModel model) : base(model) {
             bounds = new IntBounds3(0, 0, 0, xSize - 1, ySize - 1, zSize - 1);
             sizeVector = new Vector3Int(xSize, ySize, zSize);
             blockType = new BlockTypeMap(this);
-            passageMap = new PassageMap(this);
             util = new LocalMapUtil(this);
+            passageMap = new PassageMap(model, this);
+            substrateMap = new();
         }
 
         public void init() {

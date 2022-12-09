@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using enums.action;
+using game.model.component.item;
 using game.model.component.task.action.target;
 using Leopotam.Ecs;
 using types.action;
@@ -31,6 +33,7 @@ namespace game.model.component.task.action {
         public EcsEntity task;
         public ActionTarget target;
         public ActionStatusEnum status = ActionStatusEnum.OPEN;
+        public LocalModel model => task.take<TaskActionsComponent>().model;
 
         public bool hasPerformer => task.IsAlive() && task.Has<TaskPerformerComponent>();
 
@@ -40,12 +43,7 @@ namespace game.model.component.task.action {
                 return ref component.performer;
             }
         }
-
-        /**
-         * Condition to be met before task with this action is assigned to unit.
-         * Should check tool, consumed items, target reachability for performer. 
-         * Can use {@code task.performer}, as it is assigned to task before calling by {@link CreaturePlanningSystem}.
-         */
+        // checked before starting performing, can create sub actions, can lock items
         public Func<ActionConditionStatusEnum> startCondition = () => ActionConditionStatusEnum.FAIL; // prevent starting empty action
 
         public System.Action onStart = () => { }; // performed on phase start
@@ -53,13 +51,12 @@ namespace game.model.component.task.action {
         public Func<Boolean> finishCondition; // when reached, action ends
         public System.Action onFinish = () => { }; // performed on phase finish
 
-        public float progress;
-
         // should be set before performing
+        public float progress = 0;
         public float speed = 1;
         public float maxProgress = 1;
 
-        public Action(ActionTarget target) : this(){
+        public Action(ActionTarget target) : this() {
             this.target = target;
         }
 
@@ -70,30 +67,48 @@ namespace game.model.component.task.action {
 
         // Performs action logic. Changes status.
         public void perform(EcsEntity unit) {
-            Debug.Log("performing action " + name);
-            if (status == ActionStatusEnum.OPEN) {
-                // first execution of perform()
+            if (status == ActionStatusEnum.OPEN) { // first execution of perform()
                 status = ActionStatusEnum.ACTIVE;
                 onStart.Invoke();
             }
             progressConsumer.Invoke(unit, speed);
-            if (finishCondition.Invoke()) {
-                // last execution of perform()
-                Debug.Log("action finished -- ");
+            if (finishCondition.Invoke()) { // last execution of perform()
                 onFinish.Invoke();
                 status = ActionStatusEnum.COMPLETE;
             }
         }
 
         public ActionConditionStatusEnum addPreAction(Action action) {
-            Debug.Log("adding pre-action " + action.name);
-            task.Get<TaskActionsComponent>().addFirstPreAction(action);
+            log("adding pre-action: " + action.name);
+            task.take<TaskActionsComponent>().addFirstPreAction(action);
             action.task = task;
             return ActionConditionStatusEnum.NEW;
         }
 
-        protected void log(string message) {
-            Debug.Log("[" + name + "]: " + message);
+        // TODO reference to task?
+        protected void lockEntities(List<EcsEntity> items) => items.ForEach(item => lockEntity(item));
+
+        // locks or unlocks item to task of this action. Item can be locked only to one task. 
+        // Items are unlocked when task ends, see TaskCompletionSystem.
+        protected void lockEntity(EcsEntity item) {
+            if (!itemCanBeLocked(item)) throw new ArgumentException("Cannot lock item. Item locked to another task");
+            ref TaskLockedItemsComponent lockedItems = ref task.Get<TaskLockedItemsComponent>(); // can create component
+            if (item.Has<LockedComponent>()) return; // item locked to this task
+            item.Replace(new LockedComponent { task = task });
+            lockedItems.lockedItems.Add(item);
+            log("locking 1 item");
         }
+
+        public bool itemCanBeLocked(EcsEntity item) {
+            return !item.Has<LockedComponent>() || item.take<LockedComponent>().task == task;
+        }
+
+        // for visual progress bar. can be overriden in subclasses
+        public virtual float getActionProgress() {
+            if(maxProgress == 0) return 0;
+            return progress / maxProgress;
+        }
+
+        protected void log(string message) => Debug.Log("[" + name + "]: " + message);
     }
 }

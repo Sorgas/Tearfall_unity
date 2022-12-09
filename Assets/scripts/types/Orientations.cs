@@ -1,4 +1,4 @@
-using System;
+using UnityEngine;
 
 namespace types {
     public enum Orientations {
@@ -16,13 +16,30 @@ namespace types {
                 case Orientations.S: return Orientations.W;
                 case Orientations.W: return Orientations.N;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(orientation), orientation, null);
+                    throw new System.ArgumentOutOfRangeException(nameof(orientation), orientation, null);
             }
         }
 
-        public static bool isHorisontal(Orientations orientation) {
+        public static bool isHorizontal(Orientations orientation) {
             return orientation == Orientations.E || orientation == Orientations.W;
         }
+
+        public static Orientations getRandom() {
+            int orientation = (int)System.Math.Floor(Random.value * 4);
+            if (orientation == 4) orientation = 3;
+            return (Orientations)orientation;
+        }
+
+        public static Vector3Int getOffset(Orientations orientation) {
+            switch (orientation) {
+                case Orientations.N: return Vector3Int.up;
+                case Orientations.E: return Vector3Int.right;
+                case Orientations.S: return Vector3Int.down;
+                case Orientations.W: return Vector3Int.left;
+                default:
+                    throw new System.ArgumentOutOfRangeException(nameof(orientation), orientation, null);
+            }
+ 
+        }
     }
-    
 }

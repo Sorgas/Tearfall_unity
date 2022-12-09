@@ -1,14 +1,18 @@
 using System.Collections.Generic;
+using enums.item;
 using Leopotam.Ecs;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace game.model.component.item {
 
     // main component for all items
     public struct ItemComponent {
         public string type; // type name from ItemTypeMap
-        public float weight;
         public int material;
+        public List<ItemTagEnum> tags;
+        
+        public float weight;
         public int volume; // used for containers
 
         public string materialString; // for faster naming
@@ -16,6 +20,7 @@ namespace game.model.component.item {
     }
 
     public struct ItemWearComponent {
+        public const string name = "wear";
         public string bodypart; // covers listed bodyparts
         public string slot; // equpped to slot
         public string layer; // equpped to slot at layer
@@ -113,8 +118,13 @@ namespace game.model.component.item {
     
     // item is held or worn by creature. it will not take part in non-hostile operations
     public struct ItemVisualComponent {
-        public SpriteRenderer spriteRenderer;
         public GameObject go;
+        public SpriteRenderer spriteRenderer;
+        public GameObject iconGo;
+        public SpriteRenderer iconRenderer;
+        public SortingGroup sortingGroup;
+
+        public Sprite sprite;
     }
 
     // TODO use for position update and visual remove
@@ -126,8 +136,8 @@ namespace game.model.component.item {
         public string type;
     }
 
-    // item is used in action and should not be used in another action
-    public struct ItemLockedComponent {
-        // action reference?
+    public struct ItemFoodComponent {
+        public float nutrition; // [0, 1] - restores unit's hunger level
+        public int foodQuality; // can give mood buffs
     }
 }

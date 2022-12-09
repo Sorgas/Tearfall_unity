@@ -83,7 +83,7 @@ namespace game.view.system.designation {
         private Vector3 getSpritePosition(Vector3Int position, DesignationComponent designation) {
             Vector3 spritePosition = ViewUtil.fromModelToScene(position);
             spritePosition.z -= 0.1f;
-            if (designation.type != D_CONSTRUCT && GameModel.localMap.blockType.getEnumValue(position) == BlockTypes.WALL) {
+            if (designation.type != D_CONSTRUCT && GameModel.get().currentLocalModel.localMap.blockType.getEnumValue(position) == BlockTypes.WALL) {
                 spritePosition.y += 0.5f;
             }
             return spritePosition;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using game.view.ui.jobs_widget;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,7 @@ namespace game.view.ui.menu_widget {
         private readonly Dictionary<KeyCode, Button> hotKeys = new Dictionary<KeyCode, Button>();
 
         private void Start() {
-            createButton("toolbar/scroll-quill", 0, "jobs", KeyCode.J);
+            createButton("toolbar/scroll-quill", 0, JobsWindowHandler.name, KeyCode.J);
             // addMenu("toolbar/scroll-quill", 1, "jobs", KeyCode.K);
             // addMenu("toolbar/scroll-quill", 2, "jobs", KeyCode.L);
         }

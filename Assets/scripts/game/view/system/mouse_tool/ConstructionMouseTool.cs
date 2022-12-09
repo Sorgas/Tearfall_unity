@@ -23,7 +23,7 @@ namespace game.view.system.mouse_tool {
         }
 
         public override void applyTool(IntBounds3 bounds) {
-            DesignationContainer container = GameModel.get().designationContainer;
+            DesignationContainer container = GameModel.get().currentLocalModel.designationContainer;
             bounds.iterate((x, y, z) => {
                 Vector3Int position = new(x, y, z);
                 container.createConstructionDesignation(position, type, itemType, material);
@@ -47,7 +47,7 @@ namespace game.view.system.mouse_tool {
         }
 
         public bool validate(Vector3Int position) {
-            return validator.validateForConstruction(position.x, position.y, position.z, type);
+            return validator.validateForConstruction(position.x, position.y, position.z, type, GameModel.get().currentLocalModel);
         }
 
         private Sprite selectSpriteByBlockType() {

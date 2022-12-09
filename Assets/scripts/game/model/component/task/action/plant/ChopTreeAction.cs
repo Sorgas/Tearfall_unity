@@ -4,7 +4,6 @@ using game.model.component.plant;
 using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
 using game.model.component.unit;
-using game.model.container.item;
 using game.model.system.plant;
 using game.model.util.validation;
 using Leopotam.Ecs;
@@ -20,6 +19,7 @@ namespace game.model.component.task.action.plant {
         private Vector3Int targetPosition;
         
         public ChopTreeAction(Vector3Int position) : base(new PositionActionTarget(position, ActionTargetTypeEnum.NEAR)) {
+            name = "chop tree action";
             targetPosition = position;
             toolItemSelector = new ToolWithActionItemSelector(toolActionName);
 
@@ -37,20 +37,21 @@ namespace game.model.component.task.action.plant {
             onFinish = () => {
                 log("tree chopping finished at " + targetPosition + " by " + performer.name());
                 if (!checkTree()) return;
-                PlantContainer container = GameModel.get().plantContainer;
+                PlantContainer container = model.plantContainer;
                 EcsEntity plant = container.getPlant(targetPosition);
                 if (plant.take<PlantComponent>().type.isTree) container.removePlant(plant, true);
             };
         }
 
         private bool checkTree() {
-            return PlaceValidatorEnum.TREE_EXISTS.validate(targetPosition);
+            return PlaceValidatorEnum.TREE_EXISTS.validate(targetPosition, model);
         }
 
         private ActionConditionStatusEnum createActionForGettingTool() {
             log("No tool equipped by performer for chopTreeAction");
-            EcsEntity item = GameModel.get().itemContainer.util.findFreeReachableItemBySelector(toolItemSelector, performer.pos());
+            EcsEntity item = model.itemContainer.util.findFreeReachableItemBySelector(toolItemSelector, performer.pos());
             if (item == EcsEntity.Null) return FAIL;
+            lockEntity(item);
             return addPreAction(new EquipToolItemAction(item));
         }
 
