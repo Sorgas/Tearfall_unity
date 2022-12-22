@@ -45,6 +45,7 @@ public class EatAction : EquipmentAction {
 
         onFinish = () => {
             ref UnitNeedComponent component = ref performer.takeRef<UnitNeedComponent>();
+            log("eating " + item.take<ItemFoodComponent>().nutrition);
             component.hunger += item.take<ItemFoodComponent>().nutrition;
             component.hungerPriority = Needs.hunger.getPriority(component.hunger);
             log("eaten: " + component.hunger + " " + component.hungerPriority);

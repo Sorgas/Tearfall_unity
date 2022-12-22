@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using types.material;
+using types.plant;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using util.lang;
@@ -20,6 +21,7 @@ namespace game.view.tilemaps {
         private string logMessage;
 
         public void loadAll() {
+            logMessage = "";
             Debug.Log("loading block tilesets");
             // TODO try use this for all sprites and tilesets
             MaterialMap.get().all
@@ -30,6 +32,7 @@ namespace game.view.tilemaps {
             SubstrateTypeMap.get().all()
                 .ForEach(type => loadSubstrateTilesetFromAtlas(type));
             flushNotFound();
+            Debug.Log("[BlockTilesetHolder]" + logMessage);
         }
         
         public Sprite getSprite(string material, string tilecode) {
@@ -75,7 +78,7 @@ namespace game.view.tilemaps {
 
         private void loadSubstrateTilesetFromAtlas(SubstrateType type) {
             Sprite sprite = TexturePacker.createSpriteFromAtlas(type.tileset);
-            Dictionary<string, Sprite> sprites = slicer.sliceBlockSpritesheet(sprite);
+            Dictionary<string, Sprite> sprites = slicer.sliceBlockSpritesheet(sprite, type.tilesetSize);
             log("adding " + type.name);
             substrateSprites.Add(type.id, sprites);
             substrateTiles.Add(type.id, createTilesFromSprites(sprites, type.color));

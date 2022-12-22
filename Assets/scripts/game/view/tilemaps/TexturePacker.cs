@@ -36,6 +36,7 @@ namespace game.view.tilemaps {
                 message += textures[i].name + " ";
                 rectMap.Add(textures[i].name, rects[i]);
             }
+            log(message);
         }
 
         private void log(string message) {

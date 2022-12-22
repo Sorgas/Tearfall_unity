@@ -4,8 +4,8 @@ using static game.view.util.TilemapLayersConstants;
 
 namespace game.view.util {
     public class ViewUtil {
-        private static Vector3 spriteOffset = new(0, 0.15f, WALL_LAYER * GRID_STEP);
-        private static Vector3 spriteOffsetOnRamp = new(0, 0.15f, WALL_LAYER * GRID_STEP - GRID_STEP / 2f); // draw above walls
+        private static Vector3 spriteOffset = new(0, 0.15f, UNIT_LAYER * GRID_STEP);
+        private static Vector3 spriteOffsetOnRamp = new(0, 0.15f, UNIT_LAYER * GRID_STEP - GRID_STEP * 2.5f); // draw above walls
 
         public static Vector3 fromModelToScene(Vector3Int pos) {
             return new Vector3(pos.x, pos.y + pos.z / 2f, -pos.z * 2f); // get scene position by model
@@ -34,7 +34,7 @@ namespace game.view.util {
 
         public static Vector3 fromModelToSceneForUnit(Vector3Int position, LocalModel model) {
             bool isOnRamp = model.localMap.blockType.get(position) == BlockTypes.RAMP.CODE; // TODO or over building
-            return ViewUtil.fromModelToScene(position) + (isOnRamp ? spriteOffsetOnRamp : spriteOffset);
+            return fromModelToScene(position) + (isOnRamp ? spriteOffsetOnRamp : spriteOffset);
         }
     }
 }

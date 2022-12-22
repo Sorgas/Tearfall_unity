@@ -1,23 +1,32 @@
 using game.model.localmap;
-using generation.localgen;
+using types;
+using UnityEngine;
 
-public class LocalSubstrateGenerator : LocalGenerator {
-    public LocalSubstrateGenerator(LocalMapGenerator generator) : base(generator) {
-    }
+namespace generation.localgen.generators {
+    public class LocalSubstrateGenerator : LocalGenerator {
+        public LocalSubstrateGenerator(LocalMapGenerator generator) : base(generator) { }
 
-    public override void generate() {
-        LocalMap map = container.map;
-        int mapHeight = map.bounds.maxZ;
-        map.bounds.iterate(position => {
-            if(position.z != mapHeight) {
-                int blockType = map.blockType.get(position);
-                // if(blockType != )
+        public override void generate() {
+            LocalMap map = container.map;
+            int mapHeight = map.bounds.maxZ;
+            for (int x = 0; x <= map.bounds.maxX; x++) {
+                for (int y = 0; y <= map.bounds.maxY; y++) {
+                    for (int z = map.bounds.maxZ; z >= 0; z--) {
+                        int blockType = map.blockType.get(x, y, z);
+                        if (blockType == BlockTypes.FLOOR.CODE || blockType == BlockTypes.RAMP.CODE) {
+                            // put substrate to tiles
+                            // TODO add substrateType selection
+                            Vector3Int position = new(x, y, z);
+                            container.map.substrateMap.cells.Add(position, new SubstrateCell(position, 1, true));
+                            break;
+                        }
+                    }
+                }
             }
-        });
-        // put substrate to tiles
-    }
+        }
 
-    public override string getMessage() {
-        return "generating grass ...";
+        public override string getMessage() {
+            return "generating grass ...";
+        }
     }
 }

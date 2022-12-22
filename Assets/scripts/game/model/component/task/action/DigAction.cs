@@ -90,6 +90,7 @@ namespace game.model.component.task.action {
             LocalMap map = model.localMap;
             if (map.inMap(position)) {
                 BlockType oldType = map.blockType.getEnumValue(position);
+                map.substrateMap.removeAndActivate(position);
                 map.blockType.set(position, type);
                 leaveStone(position, oldType, type);
                 // map.light.handleDigging(position); TODO

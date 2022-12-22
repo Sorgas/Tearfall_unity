@@ -3,12 +3,16 @@
         "id": 1,
         "name": "grass",
         "blockTag": "soil",
-        "tilesetName": "grass"
+        "tileset": "grass",
+        "tilesetSize": 3,
+        "rawColor": "ffffffff"
     },
     {
-        "id": 1,
+        "id": 2,
         "name": "moss",
         "blockTag": "stone",
-        "tilesetName": "moss"
+        "tileset": "moss",
+        "tilesetSize": 1,
+        "rawColor": "ffffffff"
     }
 ]

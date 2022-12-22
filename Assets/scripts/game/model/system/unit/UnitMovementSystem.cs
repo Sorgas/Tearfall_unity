@@ -43,7 +43,6 @@ namespace game.model.system.unit {
             }
             
             ref UnitVisualComponent visual = ref unit.takeRef<UnitVisualComponent>();
-            Vector3Int pos = unit.pos();
             visual.target = ViewUtil.fromModelToSceneForUnit(path.path[0], model);
             
             movement.step += movement.speed; // accumulate speed

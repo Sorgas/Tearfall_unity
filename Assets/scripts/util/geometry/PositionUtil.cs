@@ -10,15 +10,15 @@ namespace util.geometry {
 
         public static List<Vector3Int> waterflow;
 
-        public static List<Vector3Int> all = new List<Vector3Int>();
+        public static List<Vector3Int> all = new();
 
         static PositionUtil() {
             // four orthogonally adjacent
             fourNeighbour = new List<Vector3Int>{
-                new Vector3Int(1, 0, 0),
-                new Vector3Int(0, 1, 0),
-                new Vector3Int(-1, 0, 0),
-                new Vector3Int(0, -1, 0)};
+                new(1, 0, 0),
+                new(0, 1, 0),
+                new(-1, 0, 0),
+                new(0, -1, 0)};
 
             allNeighbour = new List<Vector3Int>(fourNeighbour);
             // four diagonally adjacent

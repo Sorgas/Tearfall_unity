@@ -4,6 +4,7 @@ using game.model.localmap;
 using game.view.util;
 using types;
 using types.material;
+using types.plant;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using util.geometry;
@@ -47,20 +48,42 @@ namespace game.view.tilemaps {
         public void updateTile(int x, int y, int z, bool withRamps) {
             string material = selectMaterial(x, y, z);
             BlockType blockType = get(map.blockType.get(x, y, z));
+            Vector3Int position = new(x, y, z);
             Tile wallTile = null;
             Tile floorTile = null;
+            Tile substrateFloorTile = null;
+            Tile substrateWallTile = null;
+
             // select wall part for non-flat types
-            if (!blockType.FLAT) { 
+            if (!blockType.FLAT) {
                 string wallTileName = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;
                 wallTile = blockTileSetHolder.tiles[material][wallTileName]; // draw wall part
+                if (map.substrateMap.cells.ContainsKey(position)) {
+                    int id = map.substrateMap.cells[position].type;
+                    SubstrateType type = SubstrateTypeMap.get().get(id);
+                    wallTileName += Random.Range(0, type.tilesetSize);
+                    substrateWallTile = blockTileSetHolder.substrateTiles[id][wallTileName];
+                }
             }
             if (blockType != SPACE) {
                 string floorTileName = (blockType == STAIRS || blockType == DOWNSTAIRS) ? DOWNSTAIRS.PREFIX : FLOOR.PREFIX;
                 floorTile = blockTileSetHolder.tiles[material][floorTileName]; // draw wall part
+                if (blockType == FLOOR || blockType == DOWNSTAIRS) {
+                    if (map.substrateMap.cells.ContainsKey(position)) {
+                        int id = map.substrateMap.cells[position].type;
+                        SubstrateType type = SubstrateTypeMap.get().get(id);
+                        floorTileName += Random.Range(0, type.tilesetSize);
+                        substrateFloorTile = blockTileSetHolder.substrateTiles[id][floorTileName];
+                    }
+                }
             }
             layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER), floorTile);
             layers[z].setTile(new Vector3Int(x, y, WALL_LAYER), wallTile);
+            layers[z].setTile(new Vector3Int(x, y, SUBSTRATE_FLOOR_LAYER), substrateFloorTile);
+            layers[z].setTile(new Vector3Int(x, y, SUBSTRATE_WALL_LAYER), substrateWallTile);
+
             if (blockType == SPACE) setToppingForSpace(x, y, z);
+
             // if tile above is space, topping should be updated
             if (map.inMap(x, y, z + 1) && map.blockType.get(x, y, z + 1) == SPACE.CODE) updateTile(x, y, z + 1, false);
             if (withRamps) updateRampsAround(new Vector3Int(x, y, z));
@@ -85,9 +108,16 @@ namespace game.view.tilemaps {
             BlockType blockType = get(map.blockType.get(x, y, z - 1));
             if (blockType != RAMP) return;
             string material = selectMaterial(x, y, z - 1);
-            string type = selectRamp(x, y, z - 1) + "F";
-            layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER),
-                blockTileSetHolder.tiles[material][type]); // topping corresponds lower tile
+            string toppingTileName = selectRamp(x, y, z - 1) + "F";
+            layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER), blockTileSetHolder.tiles[material][toppingTileName]); // topping corresponds lower tile
+            Vector3Int lowerPosition = new(x, y, z - 1);
+            if (map.substrateMap.cells.ContainsKey(lowerPosition)) {
+                int id = map.substrateMap.cells[lowerPosition].type;
+                SubstrateType type = SubstrateTypeMap.get().get(id);
+                toppingTileName += Random.Range(0, type.tilesetSize);
+                Tile substrateTile = blockTileSetHolder.substrateTiles[id][toppingTileName];
+                layers[z].setTile(new Vector3Int(x, y, SUBSTRATE_FLOOR_LAYER), substrateTile);
+            }
         }
 
         private string selectMaterial(int x, int y, int z) {

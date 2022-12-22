@@ -14,7 +14,6 @@ namespace generation.localgen {
         //private LocalRiverGenerator localRiverGenerator;
         //private LocalCaveGenerator localCaveGenerator;
         //private LocalPlantsGenerator localPlantsGenerator;
-        private LocalSubstrateGenerator localSubstrategenerator;
         //private LocalFaunaGenerator localFaunaGenerator;
         //private LocalItemsGenerator localItemsGenerator;
         //private LocalTemperatureGenerator localTemperatureGenerator;
@@ -27,6 +26,7 @@ namespace generation.localgen {
             generators.Add(new LocalElevationGenerator(generator));
             generators.Add(new LocalStoneLayersGenerator(generator));
             generators.Add(new LocalRampFloorPlacer(generator));
+            generators.Add(new LocalSubstrateGenerator(generator));
             // generate to 
             generators.Add(new LocalBuildingGenerator(generator));
             generators.Add(new LocalUnitGenerator(generator));

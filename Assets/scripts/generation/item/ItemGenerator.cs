@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using enums.item;
 using enums.item.type;
@@ -61,7 +62,8 @@ namespace generation.item {
             }
             if(type.components.ContainsKey("food")) {
                 string[] args = type.components["food"];
-                item.Replace(new ItemFoodComponent { nutrition = float.Parse(args[0])
+                Debug.Log(args[0]);
+                item.Replace(new ItemFoodComponent { nutrition = float.Parse(args[0], CultureInfo.InvariantCulture.NumberFormat)
                 // , foodQuality = int.Parse(args[1]) 
                 });
             }

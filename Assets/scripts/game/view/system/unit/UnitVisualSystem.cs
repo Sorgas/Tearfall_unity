@@ -12,8 +12,7 @@ namespace game.view.system.unit {
         public EcsFilter<UnitVisualComponent, UnitMovementComponent> standingFilter;
         private float currentSpeed;
 
-        public UnitVisualSystem() {
-        }
+        public UnitVisualSystem() { }
 
         public void Run() {
             currentSpeed = GameModel.get().updateController.speed;
@@ -34,7 +33,7 @@ namespace game.view.system.unit {
             transform.localPosition = Vector3.Lerp(visual.current, visual.target, step);
             // transform.localPosition
             bool isOnRamp = GameModel.get().currentLocalModel.localMap.blockType.get(pos) == BlockTypes.RAMP.CODE
-                    || unit.Has<UnitVisualOnBuildingComponent>();
+                            || unit.Has<UnitVisualOnBuildingComponent>();
             // set mask to draw unit through z+1 toppings TODO use in movement
             visual.handler.setMaskEnabled(isOnRamp);
             visual.handler.updateZ(pos.z);

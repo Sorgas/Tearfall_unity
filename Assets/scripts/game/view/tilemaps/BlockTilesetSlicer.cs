@@ -9,8 +9,9 @@ namespace game.view.tilemaps {
         private const int DEPTH = 64;
         private const int WALL = 26;
         private const int FLOOR = 6;
-        private readonly int WALL_HEIGHT = 90;
-        private readonly int FLOOR_HEIGHT = 70;
+        private const int WALL_HEIGHT = 90;
+        private const int FLOOR_HEIGHT = 70;
+        private const int TILESET_HEIGHT = WALL_HEIGHT + FLOOR_HEIGHT;
         private readonly string[] suffixes = { "WALL", "ST", "N", "S", "W", "E", "NW", "NE", "SW", "SE", "CNW", "CNE", "CSW", "CSE", "C" };
         private Rect cacheRect;
         // private readonly Vector2 wallPivot = new(0.5f, DEPTH / 2f / (DEPTH + WALL));
@@ -18,14 +19,19 @@ namespace game.view.tilemaps {
         private readonly Vector2 wallPivot = new(0, 0);
         private readonly Vector2 floorPivot = new(0, FLOOR / 1f / (DEPTH + FLOOR));
         
-        
-        public Dictionary<string, Sprite> sliceBlockSpritesheet(Sprite sprite) {
+        public Dictionary<string, Sprite> sliceBlockSpritesheet(Sprite sprite) => sliceBlockSpritesheet(sprite, 1);
+
+        public Dictionary<string, Sprite> sliceBlockSpritesheet(Sprite sprite, int count) {
             Dictionary<string, Sprite> sprites = new();
-            for (int i = 0; i < suffixes.Length; i++) {
-                Sprite wall = cutSprite(i, FLOOR_HEIGHT, WALL_HEIGHT, wallPivot, sprite);
-                sprites.Add(suffixes[i], wall);
-                Sprite floor = cutSprite(i, 0, FLOOR_HEIGHT, floorPivot, sprite);
-                sprites.Add(suffixes[i] + "F", floor);
+            for (int i = 0; i < count; i++) {
+                int y = i * TILESET_HEIGHT;
+                string suffix = count != 1 ? i.ToString() : "";
+                for (int j = 0; j < suffixes.Length; j++) {
+                    Sprite wall = cutSprite(j, y + FLOOR_HEIGHT, WALL_HEIGHT, wallPivot, sprite);
+                    sprites.Add(suffixes[j] + suffix, wall);
+                    Sprite floor = cutSprite(j, y, FLOOR_HEIGHT, floorPivot, sprite);
+                    sprites.Add(suffixes[j] + "F" + suffix, floor);
+                }
             }
             return sprites;
         }
