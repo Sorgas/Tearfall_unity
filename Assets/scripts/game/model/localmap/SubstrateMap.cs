@@ -9,8 +9,10 @@ public class SubstrateMap {
     public void removeAndActivate(Vector3Int position) {
         cells.Remove(position);
         activeCells.RemoveWhere(cell => cell.position == position);
-        foreach (Vector3Int pos in PositionUtil.waterflow) {
+        foreach (Vector3Int offset in PositionUtil.waterflow) {
+            Vector3Int pos = position + offset;
             if (cells.ContainsKey(pos)) {
+                Debug.Log("substrate activated " + pos);
                 SubstrateCell cell = cells[pos];
                 cell.active = true;
                 activeCells.Add(cell);

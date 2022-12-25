@@ -95,6 +95,7 @@
      <Compile Include="Assets\scripts\generation\localgen\LocalGenContainer.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\Recipe.cs" />
      <Compile Include="Assets\scripts\generation\item\ItemGenerator.cs" />
+     <Compile Include="Assets\scripts\game\model\system\LocalModelIntervalSystem.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskCompletionSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\ProgressBarHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\Action.cs" />
@@ -158,6 +159,7 @@
      <Compile Include="Assets\scripts\game\model\localmap\passage\PassageMap.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitNameGenerator.cs" />
      <Compile Include="Assets\scripts\util\lang\Optional.cs" />
+     <Compile Include="Assets\scripts\game\model\system\plant\SubstrateGrowingSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\item\CraftItemAtWorkbenchAction.cs" />
      <Compile Include="Assets\scripts\types\unit\need\Needs.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromGroundAction.cs" />
@@ -370,8 +372,6 @@
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
-     <Compile Include="Assets\scripts\game\model\system\LocalModelIntervalSystem.cs" />
-     <Compile Include="Assets\scripts\game\model\system\plant\SubstrateGrowingSystem.cs" />
      <None Include="Assets\resources\data\items\growths.json" />
      <None Include="Assets\resources\data\recipes\carpenter.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -19,6 +19,7 @@ namespace game.view.system.item {
             newItemsFilter; // items put on ground but not rendered
 
         public EcsFilter<PositionComponent, ItemVisualComponent> itemsOnGroundFilter; // items on ground should update GO position
+        
         private Vector3 spriteZOffset = new(0, 0, WALL_LAYER * GRID_STEP + GRID_STEP / 2);
         private Vector3 spriteZOffsetForRamp = new(0, 0, WALL_LAYER * GRID_STEP - GRID_STEP / 2);
 
@@ -39,7 +40,7 @@ namespace game.view.system.item {
         private void createSpriteForItem(EcsEntity entity) {
             ItemComponent item = entity.takeRef<ItemComponent>();
             ItemVisualComponent visual = new();
-            Sprite sprite =  ItemTypeMap.get().getSprite(item.type);
+            Sprite sprite = ItemTypeMap.get().getSprite(item.type);
             visual.go = PrefabLoader.create("Item", GameView.get().sceneObjectsContainer.mapHolder);
             visual.spriteRenderer = visual.go.GetComponent<SpriteRenderer>();
             visual.spriteRenderer.sprite = sprite;
@@ -52,16 +53,17 @@ namespace game.view.system.item {
 
         private void updatePosition(ref ItemVisualComponent component, PositionComponent positionComponent) {
             Vector3Int pos = positionComponent.position;
-            Vector3 scenePos = ViewUtil.fromModelToScene(pos) +
-                               (GameModel.get().currentLocalModel.localMap.blockType.get(pos) == BlockTypes.RAMP.CODE
-                                   ? spriteZOffsetForRamp
-                                   : spriteZOffset);
+            Vector3 scenePos = ViewUtil.fromModelToSceneForUnit(pos, GameModel.get().currentLocalModel);
+            // Vector3 scenePos = ViewUtil.fromModelToScene(pos) +
+            //                    (GameModel.get().currentLocalModel.localMap.blockType.get(pos) == BlockTypes.RAMP.CODE
+            //                        ? spriteZOffsetForRamp
+            //                        : spriteZOffset);
             component.spriteRenderer.gameObject.transform.localPosition = scenePos;
             component.sortingGroup.sortingOrder = pos.z;
         }
 
         private void updateLockedIcon(EcsEntity entity, ItemVisualComponent component) {
-            if(entity.Has<LockedComponent>() != component.iconGo.activeSelf) {
+            if (entity.Has<LockedComponent>() != component.iconGo.activeSelf) {
                 component.iconGo.SetActive(entity.Has<LockedComponent>());
             }
         }
