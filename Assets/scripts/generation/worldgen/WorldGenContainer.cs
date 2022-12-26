@@ -18,9 +18,8 @@ namespace generation.worldgen {
         // public Random random;
 
         public WorldGenContainer() {
-            
             WorldGenConfig config = GenerationState.get().worldGenConfig;
-            this.size = config.size;
+            size = config.size;
             Random.InitState(config.seed);
             elevation = new float[size, size];
             drainage = new float[size, size];
@@ -36,7 +35,7 @@ namespace generation.worldgen {
 
         // collect intermediate results into worldMap
         public WorldMap createWorldMap() {
-            WorldMap worldMap = new WorldMap(size);
+            WorldMap worldMap = new(size);
             for (int x = 0; x < size; x++) {
                 for (int y = 0; y < size; y++) {
                     worldMap.elevation[x, y] = elevation[x, y];

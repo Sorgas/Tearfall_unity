@@ -9,17 +9,16 @@ using util.lang.extension;
 namespace game.view.system.unit {
     // creates sprite GO for units without it. update GO position
     public class UnitVisualSystem : IEcsRunSystem {
-        public EcsFilter<UnitVisualComponent, UnitMovementComponent> standingFilter;
+        public EcsFilter<UnitVisualComponent, UnitMovementComponent> filter;
         private float currentSpeed;
 
         public UnitVisualSystem() { }
 
         public void Run() {
             currentSpeed = GameModel.get().updateController.speed;
-            foreach (int i in standingFilter) {
-                ref EcsEntity unit = ref standingFilter.GetEntity(i);
-                ref UnitVisualComponent visual = ref standingFilter.Get1(i);
-                UnitMovementComponent unitMovement = standingFilter.Get2(i);
+            foreach (int i in filter) {
+                ref EcsEntity unit = ref filter.GetEntity(i);
+                ref UnitVisualComponent visual = ref filter.Get1(i);
                 if (visual.handler == null) createSpriteGo(unit, ref visual);
                 updateForMovement(unit, ref visual);
             }
@@ -36,7 +35,7 @@ namespace game.view.system.unit {
                             || unit.Has<UnitVisualOnBuildingComponent>();
             // set mask to draw unit through z+1 toppings TODO use in movement
             visual.handler.setMaskEnabled(isOnRamp);
-            visual.handler.updateZ(pos.z);
+            visual.handler.updateSpriteSorting(pos.z);
         }
 
         private void createSpriteGo(EcsEntity unit, ref UnitVisualComponent component) {

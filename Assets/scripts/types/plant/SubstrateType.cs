@@ -8,6 +8,7 @@ public class SubstrateType {
     public string tileset;
     public int tilesetSize;
     public string rawColor;
+    public string placement; // any combination of aboveground, underground, dry, wet. 
     public Color color;
     
     public SubstrateType() { }

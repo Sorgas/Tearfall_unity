@@ -6,8 +6,7 @@ using util.lang;
 namespace game.model {
     // global game model. Contains one WorldModel and multiple LocalMapModels. Passes updates to all models.
     public class GameModel : Singleton<GameModel> {
-        public World world;
-        public WorldModel worldModel;
+        public World world; // global game state
         public Dictionary<string, LocalModel> localMapModels = new();
         public LocalModel currentLocalModel;
         public GameTime time = new();

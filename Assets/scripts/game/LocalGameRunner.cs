@@ -28,12 +28,14 @@ namespace game {
         public Text modelDebugInfoPanel;
 
         private bool started = false;
-
+        private string defaultModelName = "main";
+        
+        // TODO make world and local generation independent from gamemodel singleton
         // when scene is loaded, inits game model and view
         public void Start() {
             Debug.Log("starting game");
             resolveWorld();
-            GameModel.get().init("main");
+            GameModel.get().init(defaultModelName);
             GameView.get().init(this, GameModel.get().currentLocalModel);
             started = true;
             InvokeRepeating("updateModel", 0, GameModelUpdateController.updateTickDelta);
@@ -53,6 +55,7 @@ namespace game {
             if(GameModel.get().world == null) {
                 if (true) {
                     new TestLevelInitializer().createTestLocalMap();
+                    // new TestLevelInitializer2().createTestLocalMap(defaultModelName);
                 } else {
                     // TODO load save game
                 }

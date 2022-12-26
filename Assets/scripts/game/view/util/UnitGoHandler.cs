@@ -25,7 +25,7 @@ namespace game.view.util {
 
         public EcsEntity unit;
 
-        public void updateZ(int value) {
+        public void updateSpriteSorting(int value) {
             unitRenderer.sortingOrder = value;
             background.sortingOrder = value;
             progressBar.sortingOrder = value;

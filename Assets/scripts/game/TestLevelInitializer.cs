@@ -15,7 +15,7 @@ namespace game {
             createTestSettler();
             createTestItem();
             createBuildings();
-            Vector2Int position = new Vector2Int(5, 5);
+            Vector2Int position = new(5, 5);
             state.localMapGenerator.localGenConfig.location = position;
             LocalModel localModel = state.localMapGenerator.generateLocalMap("main", position);
             GameModel.get().addLocalModel("main", localModel);

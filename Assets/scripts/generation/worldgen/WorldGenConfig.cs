@@ -1,6 +1,5 @@
 ﻿namespace generation.worldgen {
-    public
-        class WorldGenConfig {
+    public class WorldGenConfig {
         public int seed = 0; // add random
         public int size = 100;
 

@@ -57,6 +57,7 @@ namespace game.model.container.item {
         }
 
         public List<EcsEntity> getAll() {
+            if (byType.Count == 0) return new List<EcsEntity>();
             return byType.Values.Select(list => new List<EcsEntity>(list)).Aggregate((list1, list2) => {
                 list1.AddRange(list2);
                 return list1;

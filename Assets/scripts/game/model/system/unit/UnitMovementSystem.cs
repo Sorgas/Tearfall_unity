@@ -9,7 +9,8 @@ using util.lang.extension;
 using static types.PassageTypes;
 
 namespace game.model.system.unit {
-    // Moves unit along path created in UnitPathfindingSystem. If path is blocked, it will be recalculated. 
+    // Moves unit along path created in UnitPathfindingSystem.
+    // If path is blocked, it will be recalculated. 
     public class UnitMovementSystem : LocalModelEcsSystem {
         public readonly float diagonalSpeedMod = (float)Math.Sqrt(2);
         public readonly float diagonalUpSpeedMod = (float)Math.Sqrt(2);
@@ -54,30 +55,25 @@ namespace game.model.system.unit {
 
         // change position to next position in path
         private void makeStep(ref UnitMovementComponent movementComponent, ref UnitMovementPathComponent path, ref EcsEntity unit) {
-            updateOrientation(ref movementComponent, ref path, unit);
             unit.Get<PositionComponent>().position = path.path[0];
             path.path.RemoveAt(0);
             Vector3Int nextTarget = path.path.Count > 0 ? path.path[0] : unit.pos();
             updateVisual(unit, nextTarget);
         }
 
+        // updates target and orientation for visual movement
         private void updateVisual(EcsEntity unit, Vector3Int nextTarget) {
             ref UnitVisualComponent visual = ref unit.takeRef<UnitVisualComponent>();
             Vector3Int pos = unit.pos();
-            visual.current = visual.target;
+            visual.current = ViewUtil.fromModelToSceneForUnit(pos, model);
             visual.target = ViewUtil.fromModelToSceneForUnit(nextTarget, model);
-            // visual.spriteSpeed =
-            //     (visual.target - ViewUtil.fromModelToSceneForUnit(pos, model)).magnitude // step length
-            //     * movement.speed * 30;
-        }
-
-        private void updateOrientation(ref UnitMovementComponent component, ref UnitMovementPathComponent path, EcsEntity unit) {
-            Vector3Int direction = path.path[0] - unit.pos();
+            
+            Vector3Int direction = nextTarget - pos;
             if (direction.x != 0 || direction.y != 0) {
-                component.orientation = getOrientation(direction);
+                visual.orientation = getOrientation(direction);
             }
         }
-
+        
         private Orientations getOrientation(Vector3Int directionVector) {
             if (directionVector.x < 0) return Orientations.W;
             if (directionVector.x > 0) return Orientations.E;

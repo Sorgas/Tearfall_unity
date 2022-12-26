@@ -10,7 +10,7 @@ namespace generation
     }
 
     // Descriptor for settler. Used to generate unit when game starts.
-    public struct SettlerData {
+    public class SettlerData {
         public string name;
         public int age;
         public string type;

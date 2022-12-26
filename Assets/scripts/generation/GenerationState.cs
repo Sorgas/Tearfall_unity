@@ -10,22 +10,18 @@ namespace generation {
         public WorldGenSequence worldGenSequence;
         public WorldGenContainer worldGenContainer;
 
-        public PreparationState preparationState = new PreparationState(); // data from preparation screen (settlers, items, pets)
-
+        public PreparationState preparationState = new(); // data from preparation screen (settlers, items, pets)
         public LocalMapGenerator localMapGenerator = new();
-
-        public bool ready = false;
 
         // generates WorldModel and sets it to Gamemodel
         public void generateWorld() {
-            World world = new World();
+            World world = new();
             worldGenContainer = new WorldGenContainer();
             worldGenSequence = new WorldGenSequence();
             worldGenSequence.run();
             WorldMap worldMap = worldGenContainer.createWorldMap();
             world.worldModel.worldMap = worldMap;
             GameModel.get().world = world;
-            GameModel.get().worldModel = world.worldModel;
         }
     }
 }
