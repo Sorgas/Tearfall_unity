@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace enums.unit.health {
+﻿namespace types.unit.health {
     public class GameplayStatEnum {
         // public static readonly GameplayStat MOVEMENT_SPEED = new GameplayStat(3, health -> health.functions.get(WALKING) * health.functions.get(CONSCIOUSNESS), Arrays.asList(WALKING, CONSCIOUSNESS), null),
         // public static readonly GameplayStat ATTACK_SPEED = new GameplayStat(1, health -> (1 + 0.03f * health.attributes.get(AGILITY)) * health.functions.get(MOTORIC) * health.functions.get(CONSCIOUSNESS), Arrays.asList(MOTORIC, CONSCIOUSNESS), Arrays.asList(AGILITY)),

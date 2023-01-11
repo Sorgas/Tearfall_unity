@@ -1,4 +1,4 @@
-﻿using enums;
+﻿using game.model.localmap;
 using types;
 
 namespace game.model.util.validation {

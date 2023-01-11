@@ -7,7 +7,7 @@ namespace util.input {
     // First call starts counting of time. When time passes in amount of 'currentDelay' from 'delays', action is invoked, and next delay is taken.
     // Last delay runs forever
     public class DelayedController {
-        private System.Action action;
+        protected System.Action action;
         protected float[] delays = { 0, 0.3f, 0.2f, 0.1f, 0.08f }; // first 0 means first call always invokes action
         private int currentDelay = 0;
         private float time = 0f; // time from last activation

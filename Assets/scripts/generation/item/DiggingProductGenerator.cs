@@ -1,4 +1,5 @@
-﻿using Leopotam.Ecs;
+﻿using game.model.localmap;
+using Leopotam.Ecs;
 using types.material;
 
 namespace generation.item {

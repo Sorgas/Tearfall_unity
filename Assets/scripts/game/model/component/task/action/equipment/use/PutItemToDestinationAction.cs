@@ -1,7 +1,7 @@
 ﻿using game.model.component.task.action.equipment.obtain;
 using game.model.component.task.action.target;
 using Leopotam.Ecs;
-using static enums.action.ActionConditionStatusEnum;
+using static types.action.ActionConditionStatusEnum;
 
 namespace game.model.component.task.action.equipment.use {
     /**

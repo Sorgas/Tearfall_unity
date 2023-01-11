@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace enums.plant.raw {
+namespace types.plant.raw {
     
     [Serializable]
     public class RawPlantType {

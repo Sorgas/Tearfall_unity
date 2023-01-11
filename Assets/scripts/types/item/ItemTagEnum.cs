@@ -1,4 +1,4 @@
-﻿namespace enums.item {
+﻿namespace types.item {
     public enum ItemTagEnum {
         NULL,
 

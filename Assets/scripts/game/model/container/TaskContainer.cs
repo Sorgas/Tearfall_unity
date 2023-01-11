@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
-using enums.action;
+using game.model.localmap;
 using game.model.localmap.passage;
 using Leopotam.Ecs;
+using types.action;
 using types.unit;
 using UnityEngine;
 using util.lang.extension;
-using static enums.action.ActionTargetTypeEnum;
+using static types.action.ActionTargetTypeEnum;
 using static game.model.component.task.TaskComponents;
 
 namespace game.model.container {

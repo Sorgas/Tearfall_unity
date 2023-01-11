@@ -1,4 +1,4 @@
-namespace enums.unit {
+namespace types.unit {
     public class Skill {
         public string name;
         public float speed;

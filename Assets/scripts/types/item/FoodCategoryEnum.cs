@@ -1,4 +1,4 @@
-﻿namespace enums.item {
+﻿namespace types.item {
     public enum FoodCategoryEnum : int {
         READY_TO_EAT = 0,
         UNPREPARED = 1,

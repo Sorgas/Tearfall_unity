@@ -1,7 +1,7 @@
-using enums.action;
 using game.model.component.building;
 using game.model.component.task.action.target;
 using Leopotam.Ecs;
+using types.action;
 using util.lang.extension;
 
 namespace game.model.component.task.action.equipment.use {

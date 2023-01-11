@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using enums.unit;
 using game.model.component.unit;
 using Leopotam.Ecs;
+using types.unit;
 
 namespace generation.unit {
     public class UnitEquipmentComponentGenerator {

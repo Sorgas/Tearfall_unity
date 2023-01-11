@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using enums.unit.body;
-using enums.unit.body.raw;
 using Newtonsoft.Json;
+using types.unit.body;
+using types.unit.body.raw;
 using UnityEngine;
-using util.input;
 using util.lang;
 
-namespace enums.unit {
+namespace types.unit {
     // stores types of creatures loaded from jsons
     public class CreatureTypeMap : Singleton<CreatureTypeMap>{
         public readonly Dictionary<string, CreatureType> creatureTypes = new Dictionary<string, CreatureType>();

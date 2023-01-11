@@ -1,8 +1,9 @@
-﻿using enums.action;
-using game.model.component;
+﻿using game.model.component;
 using game.model.component.item;
 using game.model.component.task.action;
+using game.model.localmap;
 using Leopotam.Ecs;
+using types.action;
 using UnityEngine;
 using util.lang.extension;
 using static game.model.component.task.TaskComponents;

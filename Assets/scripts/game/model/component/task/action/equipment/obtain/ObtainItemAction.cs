@@ -1,7 +1,7 @@
-﻿using enums.action;
-using game.model.component.item;
+﻿using game.model.component.item;
 using game.model.component.task.action.target;
 using Leopotam.Ecs;
+using types.action;
 
 namespace game.model.component.task.action.equipment.obtain {
     public class ObtainItemAction : EquipmentAction {

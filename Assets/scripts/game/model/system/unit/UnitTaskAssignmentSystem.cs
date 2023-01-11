@@ -1,8 +1,9 @@
-using enums.action;
 using game.model.component;
 using game.model.component.task.action;
 using game.model.component.unit;
+using game.model.localmap;
 using Leopotam.Ecs;
+using types.action;
 using UnityEngine;
 using util.lang.extension;
 using static game.model.component.task.TaskComponents;
@@ -24,11 +25,17 @@ namespace game.model.system.unit {
         }
 
         private EcsEntity tryCreateTask(EcsEntity unit) {
+            if (unit.Has<UnitNextTaskComponent>()) return createNextTask(unit);
             EcsEntity jobTask = getTaskFromContainer(unit);
             EcsEntity needTask = needActionCreator.selectAndCreateAction(model, unit);
             EcsEntity task = priority(jobTask) > priority(needTask) ? jobTask : needTask;
             // if (task.IsNull()) task = createIdleTask(unit);
             return task;
+        }
+
+        private EcsEntity createNextTask(EcsEntity unit) {
+            return model.taskContainer.generator
+                .createTask(unit.take<UnitNextTaskComponent>().action, model.createEntity(), model);
         }
 
         // TODO add jobs priorities

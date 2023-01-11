@@ -167,6 +167,10 @@ namespace util.geometry.bounds {
         public bool isSingleTile() {
             return minX == maxX && minY == maxY && minZ == maxZ;
         }
+
+        public Vector3Int getStart() {
+            return new Vector3Int(minX, minY, minZ);
+        }
         
         public new string toString() {
             return "Int3dBounds{" + " " + minX + " " + minY + " " + minZ + " " + maxX + " " + maxY + " " + maxZ + '}';

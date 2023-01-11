@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using game.model.localmap;
 using game.model.system;
 using UnityEngine;
 using util.lang;

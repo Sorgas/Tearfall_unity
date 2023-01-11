@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace enums.item.type {
+namespace types.item.type {
     public class ToolItemType {
         public string action;  // some jobs, (mining, lumbering) require tools with specific name.
         public List<ToolAttack> attacks = new List<ToolAttack>();  // creatures will choose tools with best attack characteristics to use in combat.

@@ -1,4 +1,5 @@
 using game.model;
+using generation.localgen;
 using generation.worldgen;
 using util.lang;
 

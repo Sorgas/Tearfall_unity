@@ -20,22 +20,23 @@ namespace game.view.system.unit {
                 ref EcsEntity unit = ref filter.GetEntity(i);
                 ref UnitVisualComponent visual = ref filter.Get1(i);
                 if (visual.handler == null) createSpriteGo(unit, ref visual);
-                updateForMovement(unit, ref visual);
+                update(unit, ref visual);
             }
         }
 
-        private void updateForMovement(EcsEntity unit, ref UnitVisualComponent visual) {
+        private void update(EcsEntity unit, ref UnitVisualComponent visual) {
             Transform transform = visual.handler.gameObject.transform;
             if (transform.localPosition == visual.target) return;
             Vector3Int pos = unit.pos();
             float step = unit.take<UnitMovementComponent>().step;
+            
             transform.localPosition = Vector3.Lerp(visual.current, visual.target, step);
             // transform.localPosition
-            bool isOnRamp = GameModel.get().currentLocalModel.localMap.blockType.get(pos) == BlockTypes.RAMP.CODE
-                            || unit.Has<UnitVisualOnBuildingComponent>();
-            // set mask to draw unit through z+1 toppings TODO use in movement
-            visual.handler.setMaskEnabled(isOnRamp);
-            visual.handler.updateSpriteSorting(pos.z);
+            // bool isOnRamp = GameModel.get().currentLocalModel.localMap.blockType.get(pos) == BlockTypes.RAMP.CODE
+            //                 || unit.Has<UnitVisualOnBuildingComponent>();
+            // // set mask to draw unit through z+1 toppings TODO use in movement
+            // visual.handler.setMaskEnabled(isOnRamp);
+            // visual.handler.updateSpriteSorting(pos.z);
         }
 
         private void createSpriteGo(EcsEntity unit, ref UnitVisualComponent component) {
@@ -43,6 +44,7 @@ namespace game.view.system.unit {
             component.current = ViewUtil.fromModelToSceneForUnit(pos, GameModel.get().currentLocalModel);
             component.target = ViewUtil.fromModelToSceneForUnit(pos, GameModel.get().currentLocalModel);
             GameObject instance = PrefabLoader.create("Unit", GameView.get().sceneObjectsContainer.mapHolder);
+            instance.name = "Unit " + unit.name();
             component.handler = instance.GetComponent<UnitGoHandler>();
             component.handler.unit = unit;
         }

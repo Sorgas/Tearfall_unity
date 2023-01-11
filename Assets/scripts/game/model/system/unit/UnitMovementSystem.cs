@@ -1,6 +1,7 @@
 using System;
 using game.model.component;
 using game.model.component.unit;
+using game.model.localmap;
 using game.view.util;
 using Leopotam.Ecs;
 using types;
@@ -44,7 +45,7 @@ namespace game.model.system.unit {
             }
             
             ref UnitVisualComponent visual = ref unit.takeRef<UnitVisualComponent>();
-            visual.target = ViewUtil.fromModelToSceneForUnit(path.path[0], model);
+            visual.target = ViewUtil.fromModelToSceneForUnit(path.path[0], model) - new Vector3(0,0,1f);
             
             movement.step += movement.speed; // accumulate speed
             if (movement.step > 1f) {

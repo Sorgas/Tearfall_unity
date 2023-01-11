@@ -1,6 +1,6 @@
 using util.lang;
 
-namespace enums.action {
+namespace types.action {
     public class SkillMap : Singleton<SkillMap>{
 
         public SkillMap() {}

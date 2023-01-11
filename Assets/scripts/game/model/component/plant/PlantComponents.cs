@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using enums.plant;
+using types.plant;
 using UnityEngine;
 
 namespace game.model.component.plant {

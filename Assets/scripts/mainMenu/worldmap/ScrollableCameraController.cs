@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using util.geometry;
+using util.geometry.bounds;
 
 namespace mainMenu.worldmap {
     // controls camera of worldmap. handles zoom input, moves camera to make pointer visible.

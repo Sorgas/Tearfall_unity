@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using enums.plant.raw;
+using types.plant.raw;
 using UnityEngine;
 using util.input;
 using util.lang;
 
-namespace enums.plant {
+namespace types.plant {
     public class PlantTypeMap : Singleton<PlantTypeMap> {
         private Dictionary<string, PlantType> map = new();
 

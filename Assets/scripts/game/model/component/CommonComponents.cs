@@ -1,6 +1,7 @@
 using System.Collections.Generic;
-using enums.action;
 using Leopotam.Ecs;
+using types;
+using types.action;
 using UnityEngine;
 
 namespace game.model.component {

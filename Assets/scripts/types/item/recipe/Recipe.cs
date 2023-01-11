@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using enums.item;
+using util.lang.extension;
 
-namespace Assets.scripts.types.item.recipe {
+namespace types.item.recipe {
     public class Recipe {
         public string name;                               // recipe(id)
         public string title;                              // displayed name

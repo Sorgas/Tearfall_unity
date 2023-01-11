@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using enums.unit.body;
-using enums.unit.need;
+using types.unit.body;
+using types.unit.need;
 
-namespace enums.unit {
+namespace types.unit {
     public class CreatureType {
         public string name;
         public string title;

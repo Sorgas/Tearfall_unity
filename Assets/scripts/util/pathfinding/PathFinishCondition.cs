@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using enums.action;
 using game.model.localmap;
+using types.action;
 using UnityEngine;
 using util.geometry;
-using static enums.action.ActionTargetTypeEnum;
+using static types.action.ActionTargetTypeEnum;
 using static types.PassageTypes;
 using static types.BlockTypes;
 

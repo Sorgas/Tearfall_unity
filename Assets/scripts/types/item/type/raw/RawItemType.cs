@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace enums.item.type.raw {
+namespace types.item.type.raw {
 
     [Serializable]
     public class RawItemType {

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using enums.item;
-using enums.item.type;
-using enums.plant;
 using game.model.component;
 using game.model.component.item;
 using game.model.component.plant;
 using Leopotam.Ecs;
+using types.item;
+using types.item.type;
 using types.material;
+using types.plant;
 using UnityEngine;
 
 namespace generation.item {

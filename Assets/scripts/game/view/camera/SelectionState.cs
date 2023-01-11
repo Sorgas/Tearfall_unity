@@ -2,6 +2,7 @@
 using game.view.tilemaps;
 using UnityEngine;
 using util.geometry;
+using util.geometry.bounds;
 
 namespace game.view.camera {
     // stores bounds of tiles, displayed as selected
@@ -11,7 +12,7 @@ namespace game.view.camera {
         public TwoPointIntBounds3 bounds = new(); // actual bounds of selection
         private Vector3Int previousPos; // mouse position
         private TwoPointIntBounds3 previousBounds = new();
-        public int type;
+        public int selectionType;
         public bool started;
         
         public void startSelection(Vector3Int pos) {
@@ -23,9 +24,9 @@ namespace game.view.camera {
         }
 
         public void update(Vector3Int pos) {
-            if (pos == previousPos || type == SelectionTypes.SINGLE) return;
+            if (pos == previousPos || selectionType == SelectionTypes.SINGLE) return;
             bounds.pos2 = pos;
-            if (type == SelectionTypes.ROW) {
+            if (selectionType == SelectionTypes.ROW) {
                 if (Math.Abs(bounds.width) > Math.Abs(bounds.height)) {
                     pos.y = bounds.pos1.y;
                 } else {

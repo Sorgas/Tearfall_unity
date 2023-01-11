@@ -1,4 +1,6 @@
-﻿namespace game.model.system {
+﻿using game.model.localmap;
+
+namespace game.model.system {
     public abstract class LocalModelIntervalSystem : EcsRunIntervalSystem {
         protected LocalModel model;
 

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using enums.unit.body;
+using types.unit.body;
 using UnityEngine;
 
-namespace enums.unit {
+namespace types.unit {
     public class CreatureTypeProcessor {
         // TODO
         // private static NeedEnum[] defaultNeeds = {NeedEnum.FOOD, NeedEnum.REST, NeedEnum.WATER}; // needs for most creatures

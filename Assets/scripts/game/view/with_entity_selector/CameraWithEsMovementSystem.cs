@@ -3,6 +3,7 @@ using game.model;
 using game.model.localmap;
 using UnityEngine;
 using util.geometry;
+using util.geometry.bounds;
 
 // moves camera to be on same z-level with entity selector sprite and see it on screen
 namespace game.view.with_entity_selector {

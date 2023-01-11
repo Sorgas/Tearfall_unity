@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using enums.unit.body.raw;
 using types.unit.body.raw;
 
-namespace enums.unit.body {
+namespace types.unit.body {
     public class BodyPart {
         //determine wear items, that can be equipped (slot name = side + type)
         public string name; //

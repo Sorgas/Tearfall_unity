@@ -49,12 +49,13 @@ namespace game {
             changeBlocksAroundUnit(model.localMap, 11, FLOOR, FLOOR);
             changeBlocksAroundUnit(model.localMap, 12, FLOOR, RAMP);
             changeBlocksAroundUnit(model.localMap, 13, FLOOR, WALL);
+            changeBlocksAroundUnit(model.localMap, 13, WALL, WALL);
+            model.localMap.blockType.setRaw(14, 5, 5, RAMP.CODE, "soil");
             return model;
         }
 
         private void spawnSettlers(LocalModel model) {
-            Vector2Int center = new(model.localMap.bounds.maxX / 2, model.localMap.bounds.maxY / 2);
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 1; i++) {
                 Vector3Int spawnPoint = new(5 + i, 5, 5);
                 EcsEntity entity = model.createEntity();
                 UnitGenerator unitGenerator = new();

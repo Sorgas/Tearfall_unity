@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace enums.unit.need {
+namespace types.unit.need {
     
     // stores definitions of creature's needs
     public class Needs {

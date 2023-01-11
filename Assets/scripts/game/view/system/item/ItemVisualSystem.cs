@@ -1,10 +1,10 @@
-﻿using enums.item.type;
-using game.model;
+﻿using game.model;
 using game.model.component;
 using game.model.component.item;
 using game.view.util;
 using Leopotam.Ecs;
 using types;
+using types.item.type;
 using UnityEngine;
 using UnityEngine.Rendering;
 using util.lang.extension;

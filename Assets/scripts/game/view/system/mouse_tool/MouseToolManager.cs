@@ -1,4 +1,5 @@
 ﻿using game.view.camera;
+using Leopotam.Ecs;
 using types;
 using types.building;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace game.view.system.mouse_tool {
         private static DesignationMouseTool designationTool = new();
         private static ConstructionMouseTool constructionTool = new();
         private static BuildingMouseTool buildingTool = new();
+        private static UnitMovementTargetTool unitMovementTargetTool = new();
         private SelectorSpriteUpdater updater = new();
 
         public static void handleSelection(IntBounds3 bounds) => get().handleSelection_(bounds);
@@ -26,7 +28,7 @@ namespace game.view.system.mouse_tool {
         public static void reset() {
             get().tool?.reset();
             get()._set(selectionTool);
-            GameView.get().cameraAndMouseHandler.selectionHandler.state.type = SINGLE;
+            GameView.get().cameraAndMouseHandler.selectionHandler.state.selectionType = SINGLE;
         }
 
         public static void set(DesignationType type) {
@@ -44,6 +46,11 @@ namespace game.view.system.mouse_tool {
             get()._set(constructionTool);
         }
 
+        public void setUnitMovementTarget(EcsEntity unit) {
+            unitMovementTargetTool.unit = unit; 
+            _set(unitMovementTargetTool);
+        }
+        
         public void setItem(string typeName, int materialId) {
             if (tool is ItemConsumingMouseTool) ((ItemConsumingMouseTool)tool).setItem(typeName, materialId);
         }
@@ -56,12 +63,12 @@ namespace game.view.system.mouse_tool {
             tool?.applyTool(bounds);
         }
         
-        private void _set(MouseTool tool) {
+        private void _set(MouseTool tool) { 
             this.tool = tool;
             if (tool == null) return;
-            tool.updateMaterialSelector(); // enough items for building or items not required
+            bool enoughItems = tool.updateMaterialSelector(); // enough items for building or items not required
             tool.updateSprite();
-            GameView.get().cameraAndMouseHandler.selectionHandler.state.type = tool.selectionType;
+            GameView.get().cameraAndMouseHandler.selectionHandler.state.selectionType = tool.selectionType;
         }
     }
 }

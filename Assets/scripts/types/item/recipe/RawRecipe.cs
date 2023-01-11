@@ -1,17 +1,19 @@
 using System.Collections.Generic;
 
-public class RawRecipe {
-    public string name;
-    public string title;
-    public string itemName;
-    public string newMaterial;
-    public string iconName;
-    public string description;
+namespace types.item.recipe {
+    public class RawRecipe {
+        public string name;
+        public string title;
+        public string itemName;
+        public string newMaterial;
+        public string iconName;
+        public string description;
 
-    public List<string> ingredients = new();
-    public string newTag;
-    public string removeTag;
-    public float workAmount; // increases crafting time
-    public string job;
-    public string skill;
+        public List<string> ingredients = new();
+        public string newTag;
+        public string removeTag;
+        public float workAmount; // increases crafting time
+        public string job;
+        public string skill;
+    }
 }

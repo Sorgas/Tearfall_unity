@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using util.lang;
 
-namespace Assets.scripts.types.item.recipe {
+namespace types.item.recipe {
     public class RecipeMap : Singleton<RecipeMap> {
         private Dictionary<string, Recipe> map = new();
         private string logMessage;

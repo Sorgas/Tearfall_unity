@@ -1,15 +1,16 @@
-﻿using enums.action;
-using game.model.component.task.action.equipment.use;
+﻿using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
 using game.model.component.unit;
 using game.model.localmap;
+using game.model.util;
 using generation.item;
 using Leopotam.Ecs;
 using types;
+using types.action;
 using UnityEngine;
 using util.item;
 using util.lang.extension;
-using static enums.action.ActionConditionStatusEnum;
+using static types.action.ActionConditionStatusEnum;
 using static types.BlockTypes;
 using Random = UnityEngine.Random;
 

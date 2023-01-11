@@ -1,8 +1,9 @@
-﻿using enums.action;
-using game.model.component;
+﻿using game.model.component;
 using game.model.component.task;
 using game.model.component.unit;
+using game.model.localmap;
 using Leopotam.Ecs;
+using types.action;
 using UnityEngine;
 using util.lang.extension;
 
@@ -36,7 +37,7 @@ namespace game.model.system.unit {
             if (unit.Has<TaskComponent>()) {
                 EcsEntity task = unit.takeRef<TaskComponent>().task;
                 task.Del<TaskComponents.TaskPerformerComponent>();
-                task.Replace(new TaskFinishedComponent {status = status}); // move status to task, it will be handled by TaskStatusSystem
+                task.Replace(new TaskFinishedComponent {status = status}); // move status to task, it will be handled by TaskCompletionSystem
                 unit.Del<TaskComponent>();
             }
         }

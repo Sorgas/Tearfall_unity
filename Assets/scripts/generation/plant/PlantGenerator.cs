@@ -1,7 +1,7 @@
-using enums.plant;
 using game.model.component;
 using game.model.component.plant;
 using Leopotam.Ecs;
+using types.plant;
 using UnityEngine;
 
 namespace generation.plant {

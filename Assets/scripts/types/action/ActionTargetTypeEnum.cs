@@ -1,4 +1,4 @@
-﻿namespace enums.action {
+﻿namespace types.action {
     public enum ActionTargetTypeEnum : byte {
         EXACT = 0, // performer should stand in same position
         NEAR = 1, // performer should stand in adjacent tile or lower ramp

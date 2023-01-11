@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace enums.plant {
+namespace types.plant {
     class PlantBlockTypeEnum {
         public static readonly PlantBlockType STOMP = new(10, false, "log");
         public static readonly PlantBlockType ROOT = new(11, false, "root");

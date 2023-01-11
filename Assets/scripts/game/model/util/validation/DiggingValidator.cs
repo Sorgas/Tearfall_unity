@@ -1,4 +1,5 @@
-﻿using types;
+﻿using game.model.localmap;
+using types;
 
 namespace game.model.util.validation {
     public class DiggingValidator : PositionValidator {

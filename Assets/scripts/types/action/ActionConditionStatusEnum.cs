@@ -1,4 +1,4 @@
-namespace enums.action {
+namespace types.action {
     /**
  * Enumeration of {@link Action} check results.
  * Actions are checked by {@link CreatureActionPerformingSystem}.

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using enums.item.type.raw;
 using Leopotam.Ecs;
 using Newtonsoft.Json;
+using types.item.type.raw;
 using UnityEngine;
 using util.lang;
 
-namespace enums.item.type {
+namespace types.item.type {
     public class ItemTypeMap : Singleton<ItemTypeMap> {
         private Dictionary<string, ItemType> types = new();
         private Dictionary<string, Sprite> sprites = new();

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace game.view.ui {
+namespace game.view.ui.util {
     
     // window is UI piece that can be closed and opened
     public class MbWindow : MonoBehaviour, IWindow {

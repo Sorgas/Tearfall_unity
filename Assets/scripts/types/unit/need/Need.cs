@@ -1,6 +1,6 @@
-﻿using enums.action;
+﻿using types.action;
 
-namespace enums.unit.need {
+namespace types.unit.need {
     // defines need thresholds, priorities, penalties, task creation
     public abstract class Need {
         // public readonly string moodEffectKey;

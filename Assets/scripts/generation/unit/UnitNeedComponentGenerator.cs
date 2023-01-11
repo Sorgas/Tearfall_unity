@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using enums.unit;
 using game.model.component.unit;
 using Leopotam.Ecs;
+using types.unit;
 using UnityEngine;
 
 namespace generation.unit {

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using enums.item.type.raw;
+using types.item.type.raw;
 using UnityEngine;
-using util.lang.extension;
 
-namespace enums.item.type {
+namespace types.item.type {
     public class ItemType {
         public string name;                                          // id
         public string title;                                         // displayable name

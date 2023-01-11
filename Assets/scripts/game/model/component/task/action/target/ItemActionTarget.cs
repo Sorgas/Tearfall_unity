@@ -1,8 +1,9 @@
 ﻿using game.model.component.unit;
+using game.model.localmap;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
-using static enums.action.ActionTargetTypeEnum;
+using static types.action.ActionTargetTypeEnum;
 
 namespace game.model.component.task.action.target {
     public class ItemActionTarget : EntityActionTarget {

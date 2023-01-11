@@ -1,6 +1,6 @@
-﻿using enums.action;
-using game.model.component.task.action.target;
+﻿using game.model.component.task.action.target;
 using Leopotam.Ecs;
+using types.action;
 using UnityEngine;
 
 namespace game.model.component.task.action.equipment.use {

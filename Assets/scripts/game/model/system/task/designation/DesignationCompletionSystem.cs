@@ -1,10 +1,11 @@
-﻿using enums.action;
-using game.model.component;
+﻿using game.model.component;
 using game.model.component.task;
+using game.model.localmap;
 using Leopotam.Ecs;
+using types.action;
 using UnityEngine;
 using util.lang.extension;
-using static enums.action.TaskStatusEnum;
+using static types.action.TaskStatusEnum;
 
 namespace game.model.system.task.designation {
     // deletes cancelled and completed designations

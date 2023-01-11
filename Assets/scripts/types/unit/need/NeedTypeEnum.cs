@@ -1,4 +1,4 @@
-﻿namespace enums.unit.need {
+﻿namespace types.unit.need {
     public enum NeedTypeEnum {
         WEAR,
         REST

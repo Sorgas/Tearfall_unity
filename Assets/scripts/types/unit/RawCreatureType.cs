@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using enums.unit.race;
+using types.unit.race;
 
-namespace enums.unit {
+namespace types.unit {
     [Serializable]
     public class RawCreatureType {
         public string name;

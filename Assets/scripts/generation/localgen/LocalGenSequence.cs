@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using game.model.localmap;
 using generation.localgen.generators;
 
 namespace generation.localgen {

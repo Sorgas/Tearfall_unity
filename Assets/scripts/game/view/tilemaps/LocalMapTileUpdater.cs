@@ -96,8 +96,8 @@ namespace game.view.tilemaps {
                     Quaternion.identity, transform);
                 layer.name = "local map layer " + i;
                 layers.Add(layer.transform.GetComponentInChildren<LocalMapLayerHandler>());
-                layers[i].tilemap.GetComponent<TilemapRenderer>().sortingOrder = i;
-                layers[i].planeRenderer.sortingOrder = i;
+                // layers[i].tilemap.GetComponent<TilemapRenderer>().sortingOrder = i;
+                // layers[i].planeRenderer.sortingOrder = i;
                 layers[i].planeRenderer.sortingLayerName = "LocalMap";
             }
         }

@@ -1,5 +1,4 @@
 using game.model;
-using game.model.container;
 using game.model.util.validation;
 using game.view.tilemaps;
 using types;
@@ -7,6 +6,7 @@ using types.building;
 using UnityEngine;
 using util.geometry.bounds;
 using static game.view.camera.SelectionTypes;
+using DesignationContainer = game.model.container.DesignationContainer;
 
 namespace game.view.system.mouse_tool {
     public class ConstructionMouseTool : ItemConsumingMouseTool {
@@ -23,6 +23,10 @@ namespace game.view.system.mouse_tool {
         }
 
         public override void applyTool(IntBounds3 bounds) {
+            if (!hasMaterials) {
+                Debug.LogWarning("no materials for construction");
+                return;
+            }
             DesignationContainer container = GameModel.get().currentLocalModel.designationContainer;
             bounds.iterate((x, y, z) => {
                 Vector3Int position = new(x, y, z);
@@ -51,7 +55,10 @@ namespace game.view.system.mouse_tool {
         }
 
         private Sprite selectSpriteByBlockType() {
-            Debug.Log("getting material varian " + visualMaterial);
+            if (visualMaterial == null) {
+                
+            }
+            Debug.Log("getting material variant " + visualMaterial);
             return BlockTileSetHolder.get().getSprite(visualMaterial,
                 type.blockType.CODE == BlockTypes.RAMP.CODE ? "C" : type.blockType.PREFIX);
         }

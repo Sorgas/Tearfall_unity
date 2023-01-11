@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using game.model.component.item;
-using Leopotam.Ecs;
-
-namespace enums.item.type.raw {
+﻿namespace types.item.type.raw {
     public class RawItemTypeProcessor {
         public string logMessage;
 

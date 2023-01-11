@@ -1,16 +1,18 @@
-using game.view.ui;
+using game.view.ui.util;
 using Leopotam.Ecs;
 using UnityEngine;
 
-public abstract class UnitMenuTab : MonoBehaviour, ICloseable, IUnitMenuTab {
+namespace game.view.ui.unit_menu {
+    public abstract class UnitMenuTab : MonoBehaviour, ICloseable, IUnitMenuTab {
 
-    public void open() {
-        this.gameObject.SetActive(true);
+        public void open() {
+            this.gameObject.SetActive(true);
+        }
+
+        public void close() {
+            this.gameObject.SetActive(false);
+        }
+
+        public abstract void initFor(EcsEntity unit);
     }
-
-    public void close() {
-        this.gameObject.SetActive(false);
-    }
-
-    public abstract void initFor(EcsEntity unit);
 }

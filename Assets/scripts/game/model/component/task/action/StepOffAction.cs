@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using enums.action;
 using game.model.component.task.action.target;
 using game.model.localmap;
 using game.model.localmap.passage;
+using types.action;
 using UnityEngine;
 using util;
 using util.geometry.bounds;

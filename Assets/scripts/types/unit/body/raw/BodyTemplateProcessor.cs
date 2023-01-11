@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using types.unit.body.raw;
 using UnityEngine;
 using util.lang.extension;
 
-namespace enums.unit.body.raw {
+namespace types.unit.body.raw {
     public class BodyTemplateProcessor {
         private static string LEFT_PREFIX = "left ";
         private static string RIGHT_PREFIX = "right ";

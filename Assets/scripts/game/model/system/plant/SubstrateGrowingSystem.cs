@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using game.model.localmap;
 using game.view;
 using types;
 using types.material;
@@ -50,6 +52,9 @@ namespace game.model.system.plant {
                 if (!model.localMap.substrateMap.cells.ContainsKey(target)
                     && model.localMap.blockType.get(target) != BlockTypes.SPACE.CODE) {
                     Material_ blockMaterial = MaterialMap.get().material(model.localMap.blockType.getMaterial(target));
+                    // if (type.placement.Contains("light") && model.localMap.substrateMap.) {
+                    //
+                    // }
                     if (blockMaterial.tags.Contains(type.blockTag)) return target; // 
                 }
             }
@@ -69,5 +74,7 @@ namespace game.model.system.plant {
             }
             return result;
         }
+
+
     }
 }

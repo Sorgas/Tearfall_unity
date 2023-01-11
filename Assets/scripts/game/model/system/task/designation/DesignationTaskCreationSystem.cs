@@ -3,6 +3,7 @@ using game.model.component.task;
 using game.model.component.task.action;
 using game.model.component.task.action.plant;
 using game.model.component.task.order;
+using game.model.localmap;
 using Leopotam.Ecs;
 using types.unit;
 using UnityEngine;

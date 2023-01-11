@@ -26,7 +26,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\Bin\Debug\Assembly-CSharp\</OutputPath>
-    <DefineConstants>UNITY_2021_3_9;UNITY_2021_3;UNITY_2021;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;USE_SEARCH_ENGINE_API;USE_SEARCH_TABLE;USE_SEARCH_MODULE;USE_PROPERTY_DATABASE;USE_SEARCH_EXTENSION_API;SCENE_TEMPLATE_MODULE;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;PLATFORM_STANDALONE;TEXTCORE_1_0_OR_NEWER;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <DefineConstants>UNITY_2021_3_9;UNITY_2021_3;UNITY_2021;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;USE_SEARCH_ENGINE_API;USE_SEARCH_TABLE;USE_SEARCH_MODULE;USE_PROPERTY_DATABASE;USE_SEARCH_EXTENSION_API;SCENE_TEMPLATE_MODULE;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;PLATFORM_STANDALONE;TEXTCORE_1_0_OR_NEWER;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_INPUT_SYSTEM;ENABLE_LEGACY_INPUT_MANAGER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169,0649</NoWarn>
@@ -61,13 +61,14 @@
      <Compile Include="Assets\scripts\game\model\container\item\ItemStateValidator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\EquipmentAction.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\drainage\WorldOceanFiller.cs" />
-     <Compile Include="Assets\scripts\game\view\KeyInputSystem.cs" />
+     <Compile Include="Assets\scripts\game\input\KeyInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\EquippedItemsManager.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\BuildingTilesetSlicer.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationTaskCreationSystem.cs" />
      <Compile Include="Assets\scripts\types\unit\body\raw\BodyTemplateProcessor.cs" />
      <Compile Include="Assets\scripts\types\item\type\raw\RawItemType.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\RawRecipe.cs" />
+     <Compile Include="Assets\scripts\util\input\DelayedCompositeNavigationController.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToPositionAction.cs" />
      <Compile Include="Assets\scripts\game\model\system\building\WorkbenchOrderSelectionSystem.cs" />
      <Compile Include="Assets\scripts\game\view\system\building\WorkbenchWindowUpdateSystem.cs" />
@@ -79,7 +80,7 @@
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\MouseToolManager.cs" />
      <Compile Include="Assets\scripts\game\model\system\LocalModelEcsSystem.cs" />
      <Compile Include="Assets\scripts\game\model\container\DesignationContainer.cs" />
-     <Compile Include="Assets\scripts\game\view\camera\CameraInputSystem.cs" />
+     <Compile Include="Assets\scripts\game\input\CameraInputSystem.cs" />
      <Compile Include="Assets\scripts\types\unit\race\CombinedAppearance.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldmapController.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitActionPerformingSystem.cs" />
@@ -115,7 +116,7 @@
      <Compile Include="Assets\scripts\game\model\util\validation\BuildingValidator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\BuildingAction.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\RecipeMap.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\WidgetManager.cs" />
+     <Compile Include="Assets\scripts\game\input\WidgetManager.cs" />
      <Compile Include="Assets\scripts\types\material\RawMaterial.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\BuildingMouseTool.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\MbWindow.cs" />
@@ -167,6 +168,7 @@
      <Compile Include="Assets\scripts\types\unit\body\raw\RawBodyTemplate.cs" />
      <Compile Include="Assets\scripts\types\item\FoodCategoryEnum.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\ICloseable.cs" />
+     <Compile Include="Assets\scripts\game\view\system\mouse_tool\UnitMovementTargetTool.cs" />
      <Compile Include="Assets\scripts\util\geometry\bounds\IntBounds2.cs" />
      <Compile Include="Assets\scripts\game\view\system\plant\PlantVisualSystem.cs" />
      <Compile Include="Assets\scripts\game\TestLevelInitializer.cs" />
@@ -178,7 +180,7 @@
      <Compile Include="Assets\scripts\mainMenu\ButtonHandler.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalStoneLayersGenerator.cs" />
      <Compile Include="Assets\scripts\types\material\Material.cs" />
-     <Compile Include="Assets\scripts\game\view\camera\MouseInputSystem.cs" />
+     <Compile Include="Assets\scripts\game\input\MouseInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskAssignmentSystem.cs" />
      <Compile Include="Assets\scripts\game\view\util\TilemapLayersConstants.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\ItemFindingUtil.cs" />
@@ -187,6 +189,7 @@
      <Compile Include="Assets\scripts\game\view\ui\ItemMenuHandler.cs" />
      <Compile Include="Assets\scripts\game\model\GameModelUpdateCounter.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenConfig.cs" />
+     <Compile Include="Assets\scripts\game\TestLevelInitializer2.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\PositionValidator.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\OnMapItemsManager.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalBuildingGenerator.cs" />
@@ -200,7 +203,7 @@
      <Compile Include="Assets\scripts\util\geometry\PositionUtil.cs" />
      <Compile Include="Assets\scripts\types\unit\CreatureTypeMap.cs" />
      <Compile Include="Assets\scripts\util\item\ItemSelector.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\WindowManager.cs" />
+     <Compile Include="Assets\scripts\game\input\WindowManager.cs" />
      <Compile Include="Assets\scripts\types\action\ActionStatusEnum.cs" />
      <Compile Include="Assets\scripts\types\building\BuildingType.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\mit\AStar2.cs" />
@@ -218,6 +221,7 @@
      <Compile Include="Assets\scripts\game\model\util\validation\PlaceValidatorEnum.cs" />
      <Compile Include="Assets\scripts\types\item\type\raw\RawItemTypeProcessor.cs" />
      <Compile Include="Assets\scripts\game\view\camera\MouseMovementSystem.cs" />
+     <Compile Include="Assets\scripts\generation\worldgen\generators\WorldDeityGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\component\plant\PlantBlock.cs" />
      <Compile Include="Assets\scripts\types\unit\RawCreatureType.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EnumExtension.cs" />
@@ -273,6 +277,7 @@
      <Compile Include="Assets\scripts\game\view\system\unit\UnitActionProgressVisualSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuHealthInfoHandler.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\IEnumerableExtensions.cs" />
+     <Compile Include="Assets\input\PlayerControls.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalElevationGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitPathfindingSystem.cs" />
      <Compile Include="Assets\scripts\types\item\type\ToolItemType.cs" />
@@ -284,8 +289,9 @@
      <Compile Include="Assets\scripts\game\view\ui\generation\DifficultySelectorHandler.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\WorldGenerator.cs" />
      <Compile Include="Assets\scripts\types\unit\body\BodyTemplate.cs" />
-     <Compile Include="Assets\scripts\game\view\camera\CameraAndMouseHandler.cs" />
+     <Compile Include="Assets\scripts\game\input\CameraAndMouseHandler.cs" />
      <Compile Include="Assets\scripts\types\QualityEnum.cs" />
+     <Compile Include="Assets\scripts\util\input\DelayedLayersController.cs" />
      <Compile Include="Assets\scripts\types\unit\need\NeedTypeEnum.cs" />
      <Compile Include="Assets\scripts\types\DesignationTypes.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\TreeExistsValidator.cs" />
@@ -352,6 +358,7 @@
      <Compile Include="Assets\scripts\util\lang\extension\GameObjectExtension.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\AStar.cs" />
      <Compile Include="Assets\scripts\types\building\ConstructionTypeMap.cs" />
+     <Compile Include="Assets\scripts\game\model\component\deity\DeityComponents.cs" />
      <Compile Include="Assets\scripts\game\view\GameView.cs" />
      <Compile Include="Assets\scripts\game\model\World.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\order\GenericBuildingOrder.cs" />
@@ -363,6 +370,7 @@
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalSubstrateGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\with_entity_selector\CameraWithEsMovementSystem.cs" />
      <Compile Include="Assets\scripts\types\plant\raw\RawPlantLifeStage.cs" />
+     <Compile Include="Assets\scripts\game\input\GameInputManager.cs" />
      <Compile Include="Assets\scripts\mainMenu\MainMenuButtonHandler.cs" />
      <Compile Include="Assets\scripts\mainMenu\ButtonData.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromContainerAction.cs" />
@@ -372,7 +380,6 @@
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
-     <Compile Include="Assets\scripts\game\TestLevelInitializer2.cs" />
      <None Include="Assets\resources\data\items\growths.json" />
      <None Include="Assets\resources\data\recipes\carpenter.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -1085,8 +1092,8 @@
      <Reference Include="UnityEditor.UI">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.PlasticSCM.Editor">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
+     <Reference Include="Unity.InputSystem">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Rider.Editor">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
@@ -1096,6 +1103,9 @@
      </Reference>
      <Reference Include="UnityEngine.UI">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.PlasticSCM.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Services.Core">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Services.Core.dll</HintPath>

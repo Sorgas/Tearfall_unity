@@ -1,14 +1,14 @@
-using enums.action;
 using game.model.component;
 using game.model.component.task.action;
 using game.model.component.task.action.target;
 using game.model.component.unit;
+using game.model.localmap;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
 using util.lang.extension;
-using static enums.action.ActionConditionStatusEnum;
-using static enums.action.TaskStatusEnum;
+using static types.action.ActionConditionStatusEnum;
+using static types.action.TaskStatusEnum;
 using static game.model.component.task.action.target.ActionTargetStatusEnum;
 using static game.model.component.task.TaskComponents;
 

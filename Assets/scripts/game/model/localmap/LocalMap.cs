@@ -11,7 +11,8 @@ namespace game.model.localmap {
         public readonly LocalMapUtil util;
         public readonly IntBounds3 bounds; // inclusive
         public readonly Vector3Int sizeVector; // exclusive
-        public readonly SubstrateMap substrateMap;
+        public readonly SubstrateMap substrateMap; 
+        public readonly int[,] lightMap;
 
         // public LightMap light;
         //private LocalTileMapUpdater localTileMapUpdater;              // not saved to savegame,
@@ -23,6 +24,7 @@ namespace game.model.localmap {
             util = new LocalMapUtil(this);
             passageMap = new PassageMap(model, this);
             substrateMap = new();
+            lightMap = new int[xSize, ySize];
         }
 
         public void init() {
@@ -37,6 +39,9 @@ namespace game.model.localmap {
         public void updateTile(int x, int y, int z, bool updateRamps) {
             if (passageMap != null) passageMap.updater.update(x, y, z);
             if (GameView.get().tileUpdater != null) GameView.get().tileUpdater.updateTile(x, y, z, updateRamps);
+            if (lightMap[x, y] == z) {
+                
+            }
         }
 
         public bool inMap(int x, int y, int z) => bounds.isIn(x, y, z);

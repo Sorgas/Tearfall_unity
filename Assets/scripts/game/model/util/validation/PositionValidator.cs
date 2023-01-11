@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using game.model.localmap;
+using UnityEngine;
 
 namespace game.model.util.validation {
     public abstract class PositionValidator {

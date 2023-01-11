@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using enums.action;
-using enums.unit.need;
+using types.action;
+using types.unit.need;
 
 namespace game.model.component.unit {
     // stores values of unit's needs. values are [0..1]f, more means satisfied.

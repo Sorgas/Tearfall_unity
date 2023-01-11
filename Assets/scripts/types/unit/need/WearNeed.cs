@@ -1,6 +1,6 @@
-﻿using enums.action;
+﻿using types.action;
 
-namespace enums.unit.need {
+namespace types.unit.need {
     public class WearNeed : Need {
 
         public WearNeed() : base() {}

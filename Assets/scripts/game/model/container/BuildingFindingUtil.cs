@@ -1,32 +1,34 @@
 using System.Linq;
 using game.model.component;
 using game.model.component.building;
-using game.model.container;
+using game.model.localmap;
 using Leopotam.Ecs;
 using types;
 using UnityEngine;
 using util.lang.extension;
 
-public class BuildingFindingUtil : LocalMapModelComponent {
-    private BuildingContainer container;
+namespace game.model.container {
+    public class BuildingFindingUtil : LocalMapModelComponent {
+        private BuildingContainer container;
 
-    public BuildingFindingUtil(LocalModel model, BuildingContainer container) : base(model) {
-        this.container = container;
-    }
+        public BuildingFindingUtil(LocalModel model, BuildingContainer container) : base(model) {
+            this.container = container;
+        }
 
-    public EcsEntity findFreeChairWithTable(Vector3Int position) {
-        return container.buildings.Values
+        public EcsEntity findFreeChairWithTable(Vector3Int position) {
+            return container.buildings.Values
                 .Where(building => building.Has<BuildingSitFurnitureC>())
                 .Where(building => !building.Has<LockedComponent>())
                 .Where(chair => model.localMap.passageMap.inSameArea(position, chair.pos()))
                 .Where(chair => tableExistsInFrontOfChair(chair))
                 .FirstOrDefault();
-    }
+        }
 
-    private bool tableExistsInFrontOfChair(EcsEntity chair) {
-        BuildingSitFurnitureC component = chair.take<BuildingSitFurnitureC>();
-        Vector3Int tablePosition = chair.pos() + OrientationUtil.getOffset(component.orientation);
-        return container.buildings.ContainsKey(tablePosition)
-        && container.buildings[tablePosition].Has<BuildingTableFurnitureC>();
+        private bool tableExistsInFrontOfChair(EcsEntity chair) {
+            BuildingSitFurnitureC component = chair.take<BuildingSitFurnitureC>();
+            Vector3Int tablePosition = chair.pos() + OrientationUtil.getOffset(component.orientation);
+            return container.buildings.ContainsKey(tablePosition)
+                   && container.buildings[tablePosition].Has<BuildingTableFurnitureC>();
+        }
     }
 }

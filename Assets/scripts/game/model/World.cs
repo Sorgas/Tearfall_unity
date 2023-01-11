@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using game.model.localmap;
 
 namespace game.model {
     public class World {

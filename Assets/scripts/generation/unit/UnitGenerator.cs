@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using enums.unit;
 using game.model.component;
 using game.model.component.unit;
 using Leopotam.Ecs;
+using types.unit;
 using UnityEngine;
 
 namespace generation.unit {
@@ -25,11 +25,10 @@ namespace generation.unit {
         }
 
         private void addCommonComponents(ref EcsEntity entity, SettlerData data, CreatureType type) {
-            // TODO add name generator
             entity.Replace(new AgeComponent {age = 20})
                 .Replace(new UnitMovementComponent {speed = 0.03f, step = 0})
                 .Replace(new UnitVisualComponent()) // sprite go is created in UnitVisualSystem
-                .Replace(nameGenerator.generate())
+                .Replace(nameGenerator.generate(data))
                 .Replace(new PositionComponent {position = new Vector3Int()})
                 .Replace(bodyGenerator.generate(type))
                 .Replace(new HealthComponent{overallStatus = "healthy"})

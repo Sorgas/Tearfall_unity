@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Data;
-using enums.action;
 using game.model.component.task.action;
+using game.model.localmap;
 using Leopotam.Ecs;
 using types;
+using types.action;
 
 namespace game.model.component.task {
     public class TaskComponents {

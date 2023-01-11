@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using enums.action;
 using game.model.component.task.action;
 using game.view.util;
 using Leopotam.Ecs;
 using types;
+using types.action;
 using UnityEngine;
 
 namespace game.model.component.unit {
@@ -78,4 +78,9 @@ namespace game.model.component.unit {
     public struct UnitVisualProgressBarComponent : IEcsIgnoreInFilter { }
 
     public struct UnitVisualOnBuildingComponent { }
+
+    // overrides regular task assignment to create task with this action instead 
+    public struct UnitNextTaskComponent {
+        public Action action;
+    }
 }

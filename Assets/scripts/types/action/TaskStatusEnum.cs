@@ -1,5 +1,5 @@
 //Statues for tasks.
-namespace enums.action {
+namespace types.action {
     public enum TaskStatusEnum {
         COMPLETE,               // complete (removed from container), invalid for unassigned tasks
         FAILED,                 // not complete (removed from container), invalid for unassigned tasks

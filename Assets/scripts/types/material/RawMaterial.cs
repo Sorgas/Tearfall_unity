@@ -1,6 +1,6 @@
 using System;
 
-namespace enums.material {
+namespace types.material {
     [Serializable]
     public class RawMaterial {        
         public int id;

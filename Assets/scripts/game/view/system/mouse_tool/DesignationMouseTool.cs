@@ -25,6 +25,7 @@ namespace game.view.system.mouse_tool {
                 if (designation == null) Debug.LogError("designation is null");
                 Debug.Log(designation.name);
                 if(designation == DesignationTypes.D_CLEAR) {
+                    // TODO should cancel designation
                     GameModel.get().currentLocalModel.designationContainer.removeDesignation(position);
                 } else {
                     if (designation.validator == null) Debug.LogError("validator is null");

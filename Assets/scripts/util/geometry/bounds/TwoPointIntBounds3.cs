@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using util.geometry.bounds;
 
-namespace util.geometry {
+namespace util.geometry.bounds {
     public class TwoPointIntBounds3 : IntBounds3 {
         private Vector3Int _pos1;
         private Vector3Int _pos2;

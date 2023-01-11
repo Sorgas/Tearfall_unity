@@ -9,7 +9,7 @@ namespace game.model.localmap.passage {
     // stores isolated areas on local map to enhance pathfinding
     public class PassageMap : LocalMapModelComponent {
         private readonly LocalMap localMap;
-        private readonly BlockTypeMap blockTypeMap;
+        private readonly BlockTypeMap map;
         public readonly PassageUpdater updater;
         public readonly PassageUtil util;
 
@@ -18,7 +18,7 @@ namespace game.model.localmap.passage {
 
         public PassageMap(LocalModel model, LocalMap localMap) : base(model) {
             this.localMap = localMap;
-            blockTypeMap = localMap.blockType;
+            map = localMap.blockType;
             area = new UtilByteArrayWithCounter(localMap.sizeVector);
             passage = new UtilByteArray(localMap.sizeVector);
             updater = new PassageUpdater(model, localMap, this);
@@ -37,15 +37,16 @@ namespace game.model.localmap.passage {
                 passage.get(x1, y1, z1) == IMPASSABLE.VALUE ||
                 passage.get(x2, y2, z2) == IMPASSABLE.VALUE) return false; // out of map or not passable
             if (z1 == z2) return true; // passable tiles on same level
-            int lowerType = z1 < z2 ? blockTypeMap.get(x1, y1, z1) : blockTypeMap.get(x2, y2, z2);
+            int type1 = map.get(x1, y1, z1);
+            int type2 = map.get(x2, y2, z2);
+            int lowerType = z1 < z2 ? type1 : type2;
             if (lowerType == RAMP.CODE) {
-                // ramp has space above
-                if (x1 != x2 || y1 != y2)
-                    return (z1 < z2 ? blockTypeMap.get(x1, y1, z1 + 1) : blockTypeMap.get(x2, y2, z2 + 1)) == SPACE.CODE;
+                if (x1 != x2 || y1 != y2) // not same xy 
+                    return (z1 < z2 ? map.get(x1, y1, z1 + 1) : map.get(x2, y2, z2 + 1)) == SPACE.CODE; // ramp has space above
             } else if (lowerType == STAIRS.CODE) {
                 // stairs have stairs above
                 if (x1 == x2 && y1 == y2) {
-                    int upper = z1 > z2 ? blockTypeMap.get(x1, y1, z1) : blockTypeMap.get(x2, y2, z2);
+                    int upper = z1 > z2 ? type1 : type2;
                     return (upper == STAIRS.CODE || upper == DOWNSTAIRS.CODE) && lowerType == STAIRS.CODE; // handle stairs
                 }
             }
@@ -63,12 +64,12 @@ namespace game.model.localmap.passage {
         public bool hasPathBetweenNeighboursWithOverride(int tx, int ty, int tz, int x, int y, int z, BlockType targetType) {
             if (!localMap.inMap(tx, ty, tz) || !localMap.inMap(x, y, z) || passage.get(x, y, z) == IMPASSABLE.VALUE) return false;
             if (tz == z) return true;
-            BlockType fromType = blockTypeMap.getEnumValue(x, y, z);
+            BlockType fromType = map.getEnumValue(x, y, z);
             BlockType lowerType = tz < z ? targetType : fromType;
             if (lowerType == RAMP) {
                 // ramp has space above
                 if (tx != x || ty != y)
-                    return (tz < z ? blockTypeMap.get(tx, ty, tz + 1) : blockTypeMap.get(x, y, z + 1)) == SPACE.CODE;
+                    return (tz < z ? map.get(tx, ty, tz + 1) : map.get(x, y, z + 1)) == SPACE.CODE;
             } else if (lowerType == STAIRS) {
                 if (tx == x && ty == y) {
                     BlockType upperType = tz > z ? targetType : fromType;
@@ -104,7 +105,7 @@ namespace game.model.localmap.passage {
 
         // TODO
         public Passage calculateTilePassage(int x, int y, int z) {
-            if (BlockTypes.get(blockTypeMap.get(x, y, z)).PASSAGE == IMPASSABLE) return IMPASSABLE;
+            if (BlockTypes.get(map.get(x, y, z)).PASSAGE == IMPASSABLE) return IMPASSABLE;
             if (!model.plantContainer.isPlantBlockPassable(x, y, z)) return IMPASSABLE;
             if (!model.buildingContainer.isBuildingBlockPassable(x, y, z)) return IMPASSABLE;
 
@@ -119,6 +120,8 @@ namespace game.model.localmap.passage {
 
         public byte getPassage(int x, int y, int z) => passage.get(x, y, z);
 
+        public byte getPassage(Vector3Int position) => getPassage(position.x, position.y, position.z);
+        
         public bool inSameArea(Vector3Int pos1, Vector3Int pos2) {
             return localMap.inMap(pos1) && localMap.inMap(pos2) && area.get(pos1) == area.get(pos2);
         }

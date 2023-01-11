@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using enums.action;
 using game.model.component;
 using game.model.component.task;
+using game.model.localmap;
 using Leopotam.Ecs;
 using types;
+using types.action;
 using types.building;
 using types.material;
 using UnityEngine;

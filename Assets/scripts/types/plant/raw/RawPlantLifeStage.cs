@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace enums.plant.raw {
+namespace types.plant.raw {
     public class RawPlantLifeStage {
         public String[] titlePrefixSuffix;
         public int stageLength;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.scripts.types.item.recipe {
+namespace types.item.recipe {
     public class RecipeProcessor {
         private IngredientProcessor ingredientProcessor = new IngredientProcessor();
 

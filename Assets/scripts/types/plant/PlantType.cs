@@ -1,8 +1,7 @@
-﻿using enums.material;
-using enums.plant.raw;
-using types.material;
+﻿using types.material;
+using types.plant.raw;
 
-namespace enums.plant {
+namespace types.plant {
     public class PlantType {
         public string name;
         public string title;

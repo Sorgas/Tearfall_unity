@@ -3,6 +3,7 @@ using game.model.localmap;
 using game.view.util;
 using UnityEngine;
 using util.geometry;
+using util.geometry.bounds;
 
 namespace game.view.camera {
     // smoothly moves camera to camera target

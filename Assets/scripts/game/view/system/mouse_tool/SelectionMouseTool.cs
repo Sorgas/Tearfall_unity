@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using game.input;
 using game.model;
 using game.model.component.building;
+using game.model.localmap;
 using game.view.camera;
 using game.view.ui;
 using game.view.util;
@@ -28,7 +30,7 @@ namespace game.view.system.mouse_tool {
 
         public override void reset() {
             materialSelector.close();
-            GameView.get().cameraAndMouseHandler.selectionHandler.state.type = SelectionTypes.AREA;
+            GameView.get().cameraAndMouseHandler.selectionHandler.state.selectionType = SelectionTypes.AREA;
             selectorGO.setToolSprite(null);
         }
 

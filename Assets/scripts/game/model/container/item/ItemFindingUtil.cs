@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using enums.item;
 using game.model.component;
 using game.model.component.item;
+using game.model.component.task.order;
 using game.model.localmap;
 using Leopotam.Ecs;
 using types.building;
+using types.item;
 using UnityEngine;
 using util.item;
 using util.lang;
 using util.lang.extension;
-using static CraftingOrder;
+using static game.model.component.task.order.CraftingOrder;
 
 namespace game.model.container.item {
     public class ItemFindingUtil : ItemContainerPart {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using enums.unit;
 using game.model.component.unit;
+using types.unit;
 
 namespace generation.unit {
     public class UnitBodyComponentGenerator {

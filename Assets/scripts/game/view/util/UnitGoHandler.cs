@@ -11,6 +11,7 @@ namespace game.view.util {
         public SpriteRenderer unitRenderer;
         public SpriteMask mask;
 
+        // progress bar
         public SpriteRenderer background;
         public SpriteRenderer progressBar;
         public GameObject actionProgressBarHolder;

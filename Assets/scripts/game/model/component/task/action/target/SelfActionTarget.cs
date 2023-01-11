@@ -1,5 +1,5 @@
-﻿using enums.action;
-using Leopotam.Ecs;
+﻿using Leopotam.Ecs;
+using types.action;
 using UnityEngine;
 using util.geometry;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace enums.unit.race {
+namespace types.unit.race {
     [Serializable]
     public class CombinedAppearance {
         public string body;

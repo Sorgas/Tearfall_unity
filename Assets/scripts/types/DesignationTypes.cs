@@ -1,7 +1,7 @@
-﻿using enums.action;
-using game.model.util.validation;
+﻿using game.model.util.validation;
+using types.action;
 using types.unit;
-using static enums.action.ActionTargetTypeEnum;
+using static types.action.ActionTargetTypeEnum;
 using static types.BlockTypes;
 
 namespace types {

@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using game.model;
+using game.view;
+using game.view.camera;
 using game.view.util;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using util.lang.extension;
 using Image = UnityEngine.UI.Image;
 
-namespace game.view.camera {
+namespace game.input {
     public class MouseInputSystem {
         private MouseMovementSystem mouseMovementSystem;
         private SelectionHandler selectionHandler;

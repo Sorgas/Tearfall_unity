@@ -1,19 +1,21 @@
+using game.model.component.task.order;
+using types.item.recipe;
+using static game.model.component.task.order.CraftingOrder;
 
-using Assets.scripts.types.item.recipe;
-using static CraftingOrder;
+namespace generation.item {
+    class CraftingOrderGenerator {
 
-class CraftingOrderGenerator {
-
-    public CraftingOrder generate(Recipe recipe) {
-        CraftingOrder order = new(recipe);
-        foreach (Ingredient ingredient in recipe.ingredients.Values) {
-            order.ingredients.Add(createIngredientOrder(ingredient));   
+        public CraftingOrder generate(Recipe recipe) {
+            CraftingOrder order = new(recipe);
+            foreach (Ingredient ingredient in recipe.ingredients.Values) {
+                order.ingredients.Add(createIngredientOrder(ingredient));   
+            }
+            return order;
         }
-        return order;
-    }
 
-    private IngredientOrder createIngredientOrder(Ingredient ingredient) {
-        IngredientOrder order = new(ingredient);
-        return order;
+        private IngredientOrder createIngredientOrder(Ingredient ingredient) {
+            IngredientOrder order = new(ingredient);
+            return order;
+        }
     }
 }

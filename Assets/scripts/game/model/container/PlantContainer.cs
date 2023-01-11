@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using game.model.component;
 using game.model.component.plant;
+using game.model.localmap;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
 
-namespace game.model.system.plant {
+namespace game.model.container {
     // TODO handle multi-tile trees
     public class PlantContainer : LocalMapModelComponent {
         private Dictionary<Vector3Int, PlantBlock> plantBlocks = new();

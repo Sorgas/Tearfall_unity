@@ -1,4 +1,4 @@
-﻿namespace enums.action {
+﻿namespace types.action {
     public enum TaskPriorityEnum {
         NONE = -1,           // task not required.
         COMFORT = 3,         // performed, when no job is available

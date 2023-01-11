@@ -1,7 +1,8 @@
-using enums.plant;
 using game.model.component.plant;
+using game.model.localmap;
 using generation.item;
 using Leopotam.Ecs;
+using types.plant;
 using UnityEngine;
 using util.lang.extension;
 

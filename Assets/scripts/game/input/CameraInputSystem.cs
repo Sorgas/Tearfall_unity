@@ -1,22 +1,19 @@
 using System.Collections.Generic;
+using game.view;
+using game.view.camera;
 using UnityEngine;
 using util.input;
 
 // moves selector in model
-namespace game.view.camera {
+namespace game.input {
     public class CameraInputSystem {
         private readonly CameraMovementSystem cameraMovementSystem;
         private readonly List<DelayedConditionController> controllers = new();
-
-        public CameraInputSystem(CameraMovementSystem cameraMovementSystem) {
+        
+        public CameraInputSystem(CameraMovementSystem cameraMovementSystem, PlayerControls playerControls) {
             this.cameraMovementSystem = cameraMovementSystem;
-            controllers.Add(new DelayedKeyController(KeyCode.W, () => handleWasd(0, 1)));
-            controllers.Add(new DelayedKeyController(KeyCode.A, () => handleWasd(-1, 0)));
-            controllers.Add(new DelayedKeyController(KeyCode.S, () => handleWasd(0, -1)));
-            controllers.Add(new DelayedKeyController(KeyCode.D, () => handleWasd(1, 0)));
-            // layers of map are placed with z gap 2 and shifted by y by 0.5
-            controllers.Add(new DelayedKeyController(KeyCode.R, () => changeLayer(1)));
-            controllers.Add(new DelayedKeyController(KeyCode.F, () => changeLayer(-1)));
+            controllers.Add(new DelayedCompositeNavigationController(playerControls.Player.CameraMove, handleWasd));
+            controllers.Add(new DelayedLayersController(playerControls.Player.ChangeLayer, changeLayer));
             // move camera when mouse on screen border
             controllers.Add(new DelayedConditionController(() => moveCameraTarget(0, 1),
                 () => (Input.mousePosition.y > Screen.height * 0.99f && Input.mousePosition.y <= Screen.height)));

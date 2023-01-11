@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using enums.action;
 using game.model.localmap;
+using types.action;
 using UnityEngine;
 using util.geometry;
 using util.lang;

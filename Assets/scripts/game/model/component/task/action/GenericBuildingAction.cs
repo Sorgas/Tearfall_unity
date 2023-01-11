@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using enums.action;
 using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
 using game.model.component.task.order;
@@ -8,10 +7,11 @@ using game.model.localmap;
 using game.model.localmap.passage;
 using Leopotam.Ecs;
 using types;
+using types.action;
 using UnityEngine;
 using util.geometry.bounds;
 using util.lang.extension;
-using static enums.action.ActionConditionStatusEnum;
+using static types.action.ActionConditionStatusEnum;
 
 namespace game.model.component.task.action {
     // base action for building constructions and buildings.

@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using enums.item.type;
-using enums.material;
 using game.model;
 using game.view.system.mouse_tool;
 using game.view.util;
 using Leopotam.Ecs;
 using TMPro;
 using types.building;
+using types.item.type;
 using types.material;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,6 +44,7 @@ namespace game.view.ui.toolbar {
         }
 
         public void selectFirst() {
+            if (buttons.Count <= 0) return;
             buttons[0].GetComponentInChildren<Button>().onClick.Invoke(); // select first material by default
         }
 
@@ -55,7 +55,7 @@ namespace game.view.ui.toolbar {
             button.GetComponentInChildren<Button>().onClick
                 .AddListener(() => MouseToolManager.get().setItem(typeName, materialId));
             Material_ material = MaterialMap.get().material(materialId);
-            button.GetComponentInChildren<TextMeshProUGUI>().text = 
+            button.GetComponentInChildren<TextMeshProUGUI>().text =
                 material.name + " " + typeName + " " + amount + "/" + requiredAmount;
             button.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = ItemTypeMap.get().getSprite(typeName);
             buttons.Add(button);

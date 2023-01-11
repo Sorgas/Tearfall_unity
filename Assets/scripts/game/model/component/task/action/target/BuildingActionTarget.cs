@@ -1,4 +1,4 @@
-using enums.action;
+using types.action;
 using UnityEngine;
 
 namespace game.model.component.task.action.target {

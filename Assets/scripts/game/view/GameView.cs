@@ -1,3 +1,4 @@
+using game.input;
 using game.model;
 using game.model.localmap;
 using game.view.camera;
@@ -31,7 +32,9 @@ namespace game.view {
             initWindowManager();
             initEcs(GameModel.get().currentLocalModel.ecsWorld);
             tileUpdater = new LocalMapTileUpdater(sceneObjectsContainer.mapHolder, model);
-            cameraAndMouseHandler = new CameraAndMouseHandler(sceneObjectsContainer);
+            PlayerControls playerControls = new();
+            cameraAndMouseHandler = new CameraAndMouseHandler(sceneObjectsContainer, playerControls);
+            KeyInputSystem.get().playerControls = playerControls;
             cameraAndMouseHandler.init();
             selector = new();
             

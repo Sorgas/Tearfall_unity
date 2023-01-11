@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using game.model.component.building;
 using game.model.component.unit;
+using game.view;
+using game.view.ui.unit_menu;
+using game.view.ui.util;
+using game.view.ui.workbench;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang;
 
-namespace game.view.ui {
-
+namespace game.input {
     // keeps only one opened window on the screen (active)
     // opens and closes windows by window name
     // passes input to active window
-    // when window is shown 
     public class WindowManager : Singleton<WindowManager>, IHotKeyAcceptor {
         public readonly Dictionary<string, IWindow> windows = new Dictionary<string, IWindow>(); // windows by name
         public IWindow activeWindow;
@@ -30,12 +32,6 @@ namespace game.view.ui {
 
         public bool toggleWindowByName(string name) {
             return windows.ContainsKey(name) && toggleWindow(name);
-        }
-        
-        public void closeAll() {
-            foreach (var name in windows.Keys) {
-                closeWindow(name);
-            }
         }
 
         public void closeWindow(string name) {
@@ -73,7 +69,7 @@ namespace game.view.ui {
         private bool showWindow(string name) => showWindow(name, true);
 
         public bool showWindow(string name, bool disableCamera) {
-            closeAll();
+            closeWindow(activeWindowName);
             IWindow window = windows[name];
             Debug.Log("window " + window.getName() + " shown.");
             activeWindow = window;

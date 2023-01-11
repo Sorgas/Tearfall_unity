@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
-using game.view.ui;
 using UnityEngine;
 using util.lang;
 
-namespace game.view {
+namespace game.input {
     // dispatches all key presses in the game
+    // key event may go to ui-windows or ui-widgets. 
     public class KeyInputSystem : Singleton<KeyInputSystem> {
         private List<KeyCode> keyCodes;
         public WindowManager windowManager = WindowManager.get();
         public WidgetManager widgetManager = WidgetManager.get();
         private List<KeyCode> pressedKeys = new();
-
+        public PlayerControls playerControls;
+        
         public KeyInputSystem() {
             // WASDRF is handled by camera input system, because these keys should only move camera
             KeyCode[] keys = {
@@ -33,6 +34,10 @@ namespace game.view {
             foreach (var key in keyCodes) {
                 if (Input.GetKeyDown(key)) pressedKeys.Add(key);
             }
+        }
+
+        private void collectNavigationKeys() {
+            
         }
 
         private void handlePressedKeys() {

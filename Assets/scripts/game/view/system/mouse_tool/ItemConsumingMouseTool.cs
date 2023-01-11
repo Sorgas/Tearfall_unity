@@ -1,5 +1,6 @@
 using types.building;
 using types.material;
+using UnityEngine;
 
 namespace game.view.system.mouse_tool {
     public abstract class ItemConsumingMouseTool : MouseTool {
@@ -19,6 +20,7 @@ namespace game.view.system.mouse_tool {
             hasMaterials = materialSelector.fill(variants); // do not set tool if not enough materials
             materialSelector.selectFirst();
             materialSelector.open();
+            if(!hasMaterials) Debug.LogWarning("materials for construction not found.");
             return hasMaterials;
         }
     }

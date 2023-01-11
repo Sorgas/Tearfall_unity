@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using types.unit.body.raw;
 
-namespace enums.unit.body.raw {
+namespace types.unit.body.raw {
 
     [Serializable]
     public class RawBodyTemplate {

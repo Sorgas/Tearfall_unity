@@ -13,15 +13,15 @@ namespace types.building {
     }
 
     public class BuildingVariant : IEquatable<BuildingVariant> {
+        public string itemType;
+        public int amount;
+        
         public BuildingVariant(string raw) {
             string[] args = raw.Split("/");
             itemType = args[0];
             amount = int.Parse(args[1]);
         }
-
-        public string itemType;
-        public int amount;
-
+        
         public bool Equals(BuildingVariant other) {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

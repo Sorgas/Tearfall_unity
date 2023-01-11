@@ -1,6 +1,6 @@
-﻿using enums.unit.need;
-using game.model.component.unit;
+﻿using game.model.component.unit;
 using Leopotam.Ecs;
+using types.unit.need;
 
 namespace game.model.system.unit {
     // rolls needs counters in NeedsComponent (hunger, thirst, rest)

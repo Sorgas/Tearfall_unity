@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using enums.item;
 using Leopotam.Ecs;
+using types.item;
 using UnityEngine;
 using UnityEngine.Rendering;
 

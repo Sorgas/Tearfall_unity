@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using enums.unit.body.raw;
+using types.unit.body.raw;
 
-namespace enums.unit.body {
+namespace types.unit.body {
     public class BodyTemplate {
         public string name;
         public Dictionary<string, BodyPart> body; // name to bodyPart

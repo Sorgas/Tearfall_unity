@@ -1,6 +1,7 @@
 using System;
 using game.model;
 using game.model.util.validation;
+using game.view.camera;
 using game.view.tilemaps;
 using types;
 using types.building;
@@ -29,10 +30,10 @@ namespace game.view.system.mouse_tool {
 
         // TODO add unit/building/item/plant/block selection for NONE tool
         public override void applyTool(IntBounds3 bounds) {
-            if (bounds.minX != bounds.maxX || bounds.minY != bounds.maxY || bounds.minZ != bounds.maxZ) {
+            if (!bounds.isSingleTile()) {
                 Debug.LogError("building bounds not single tile !!!");
             }
-            Vector3Int position = new(bounds.minX, bounds.minY, bounds.minZ);
+            Vector3Int position = bounds.getStart();
             if (GameView.get().selector.position != position) {
                 Debug.LogError("building bounds not on selector position !!!");
             }

@@ -1,8 +1,12 @@
 using game.model;
 using game.view;
+using game.view.ui;
+using game.view.ui.gamespeed_widget;
 using game.view.ui.jobs_widget;
 using game.view.ui.menu_widget;
 using game.view.ui.toolbar;
+using game.view.ui.unit_menu;
+using game.view.ui.workbench;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,8 +58,8 @@ namespace game {
         private void resolveWorld() {
             if(GameModel.get().world == null) {
                 if (true) {
-                    new TestLevelInitializer().createTestLocalMap();
-                    // new TestLevelInitializer2().createTestLocalMap(defaultModelName);
+                    // new TestLevelInitializer().createTestLocalMap();
+                    new TestLevelInitializer2().createTestLocalMap(defaultModelName);
                 } else {
                     // TODO load save game
                 }

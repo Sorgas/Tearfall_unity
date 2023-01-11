@@ -5,6 +5,7 @@
         "blockTag": "soil",
         "tileset": "grass",
         "tilesetSize": 3,
+        "placement": ["light"],
         "rawColor": "ffffffff"
     },
     {
@@ -13,6 +14,7 @@
         "blockTag": "stone",
         "tileset": "moss",
         "tilesetSize": 1,
+        "placement": ["underground"],
         "rawColor": "ffffffff"
     }
 ]

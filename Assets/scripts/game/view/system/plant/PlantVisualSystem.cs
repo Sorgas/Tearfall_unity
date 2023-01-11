@@ -1,7 +1,7 @@
-using enums.plant;
 using game.model.component.plant;
 using game.view.util;
 using Leopotam.Ecs;
+using types.plant;
 using UnityEngine;
 using util.lang.extension;
 using static game.view.util.TilemapLayersConstants;
