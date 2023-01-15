@@ -5,10 +5,9 @@ using types.building;
 using UnityEngine;
 using util.geometry.bounds;
 using util.lang;
-using static game.view.camera.SelectionTypes;
+using static game.view.camera.SelectionType;
 
 namespace game.view.system.mouse_tool {
-    // TODO split into different tools
     public class MouseToolManager : Singleton<MouseToolManager> {
         private MouseTool tool;
         private static SelectionMouseTool selectionTool = new();
@@ -52,7 +51,11 @@ namespace game.view.system.mouse_tool {
         }
         
         public void setItem(string typeName, int materialId) {
-            if (tool is ItemConsumingMouseTool) ((ItemConsumingMouseTool)tool).setItem(typeName, materialId);
+            if (tool is ItemConsumingMouseTool) {
+                ((ItemConsumingMouseTool)tool).setItem(typeName, materialId);
+            } else {
+                Debug.LogError("item set to inappropriate tool in MouseToolManager.");
+            }
         }
 
         public virtual void rotateBuilding() {

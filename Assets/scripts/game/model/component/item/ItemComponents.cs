@@ -117,6 +117,7 @@ namespace game.model.component.item {
     }
     
     // item is held or worn by creature. it will not take part in non-hostile operations
+    // todo move to monobeh handler of item go.
     public struct ItemVisualComponent {
         public GameObject go;
         public SpriteRenderer spriteRenderer;

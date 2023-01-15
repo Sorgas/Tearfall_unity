@@ -6,6 +6,7 @@ using UnityEngine;
 using util.lang;
 
 namespace types.item.type {
+    // loads and caches types and sprites for items. 
     public class ItemTypeMap : Singleton<ItemTypeMap> {
         private Dictionary<string, ItemType> types = new();
         private Dictionary<string, Sprite> sprites = new();
@@ -41,15 +42,20 @@ namespace types.item.type {
         private void loadFromFile(TextAsset file, RawItemTypeProcessor processor) {
             log("   Loading from " + file.name);
             List<RawItemType> raws = JsonConvert.DeserializeObject<List<RawItemType>>(file.text);
-            for (var i = 0; i < raws.Count; i++) {
-                ItemType type = new ItemType(raws[i]);
-                type.atlasName = file.name;
-                // processor.process(raws[i], type);
-                types.Add(type.name, type);
+            if (raws != null) {
+                for (var i = 0; i < raws.Count; i++) {
+                    ItemType type = new ItemType(raws[i]);
+                    type.atlasName = file.name;
+                    // processor.process(raws[i], type);
+                    types.Add(type.name, type);
+                }
+            } else {
+                Debug.LogError("Can't load item types, " + file.name + " cannot be parsed");
             }
             log("   " + raws.Count + " loaded from " + file.name);
         }
 
+        // TODO add material arg to tint sprite with material color
         public Sprite getSprite(string type) {
             if (!sprites.ContainsKey(type)) sprites.Add(type, createSprite(type));
             return sprites[type];

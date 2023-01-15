@@ -11,7 +11,7 @@ namespace game.view.system.mouse_tool {
         private string iconPath;
 
         public DesignationMouseTool() {
-            selectionType = SelectionTypes.AREA;
+            selectionType = SelectionType.AREA;
         }
 
         public override bool updateMaterialSelector() {

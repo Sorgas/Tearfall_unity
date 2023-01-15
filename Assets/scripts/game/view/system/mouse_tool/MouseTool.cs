@@ -3,12 +3,13 @@ using game.view.ui;
 using game.view.ui.toolbar;
 using UnityEngine;
 using util.geometry.bounds;
+using static game.view.camera.SelectionType;
 
 namespace game.view.system.mouse_tool {
     public abstract class MouseTool {
         protected MaterialSelectionWidgetHandler materialSelector;
         protected SelectorHandler selectorGO;
-        public int selectionType = SelectionTypes.AREA; // should be reset in subclasses
+        public SelectionType selectionType = AREA; // should be reset in subclasses
 
         protected MouseTool() {
             materialSelector = GameView.get().sceneObjectsContainer.materialSelectionWidgetHandler;

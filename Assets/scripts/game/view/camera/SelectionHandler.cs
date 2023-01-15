@@ -2,7 +2,8 @@
 using UnityEngine;
 
 namespace game.view.camera {
-    // stores state of selection
+    // handles input events of mouse. stores state and logic of selecting tiles with frames.
+    // passes completed selections to MouseToolManager
     // TODO cancel selection when type changed
     // TODO add visual validation for designations
     public class SelectionHandler {
@@ -17,10 +18,15 @@ namespace game.view.camera {
             if (enabled && !state.started) state.startSelection(position);
         }
 
+        // finishes selection
         public void handleMouseUp() {
-            if (state.started) finishSelection();
+            if (state.started) {
+                MouseToolManager.handleSelection(state.bounds);
+                state.reset();
+            }
         }
 
+        // TODO also cancel tools, close menus (ES2)
         public void handleSecondaryMouseClick() {
             if (state.started) state.reset();
         }
@@ -29,11 +35,6 @@ namespace game.view.camera {
             if (state.started) {
                 state.update(newPosition);
             }
-        }
-
-        private void finishSelection() {
-            MouseToolManager.handleSelection(state.bounds);
-            state.reset();
         }
     }
 }

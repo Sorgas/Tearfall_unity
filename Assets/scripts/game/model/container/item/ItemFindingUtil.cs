@@ -33,12 +33,11 @@ namespace game.model.container.item {
                     : cur); // select nearest
         }
 
-        // returns variant -> material -> list of items 
+        // returns variant -> materialId -> list of items 
         public Dictionary<BuildingVariant, MultiValueDictionary<int, EcsEntity>> findForBuildingVariants(BuildingVariant[] variants) {
             Dictionary<BuildingVariant, MultiValueDictionary<int, EcsEntity>> resultMap = new();
             foreach (BuildingVariant variant in variants) {
                 MultiValueDictionary<int, EcsEntity> map = container.availableItemsManager.findByType(variant.itemType);
-                map.removeByPredicate(entities => entities.Count < variant.amount);
                 resultMap.Add(variant, map);
             }
             return resultMap;
@@ -85,7 +84,7 @@ namespace game.model.container.item {
                 foreach (int material in ingredient.materials) {
                     log("searching " + itemType + " material: " + material);
                     List<EcsEntity> items = filterForCrafting(model.itemContainer.availableItemsManager.findByTypeAndMaterial(itemType, material),
-                            otherItems, position, requiredQuantity, ItemTagEnum.NULL);
+                        otherItems, position, requiredQuantity, ItemTagEnum.NULL);
                     if (items.Count > 0) return items;
                 }
             }

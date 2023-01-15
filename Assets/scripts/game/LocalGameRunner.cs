@@ -58,8 +58,8 @@ namespace game {
         private void resolveWorld() {
             if(GameModel.get().world == null) {
                 if (true) {
-                    // new TestLevelInitializer().createTestLocalMap();
-                    new TestLevelInitializer2().createTestLocalMap(defaultModelName);
+                    new TestLevelInitializer().createTestLocalMap();
+                    // new TestLevelInitializer2().createTestLocalMap(defaultModelName);
                 } else {
                     // TODO load save game
                 }

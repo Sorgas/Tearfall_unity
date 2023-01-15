@@ -5,11 +5,11 @@ namespace util.lang {
         public MultiValueDictionary() { }
 
         public MultiValueDictionary(MultiValueDictionary<K, V> source) {
-            for (var i = 0; i < source.Count; i++) {
+            // for (var i = 0; i < source.Count; i++) {
                 foreach (KeyValuePair<K,List<V>> pair in source) {
                     Add(pair.Key, pair.Value);
                 }
-            }
+            // }
         }
 
         public void add(K key, V value) {

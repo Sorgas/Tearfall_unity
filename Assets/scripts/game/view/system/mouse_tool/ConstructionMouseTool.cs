@@ -5,7 +5,7 @@ using types;
 using types.building;
 using UnityEngine;
 using util.geometry.bounds;
-using static game.view.camera.SelectionTypes;
+using static game.view.camera.SelectionType;
 using DesignationContainer = game.model.container.DesignationContainer;
 
 namespace game.view.system.mouse_tool {

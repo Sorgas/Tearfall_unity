@@ -30,7 +30,7 @@ namespace game.view.system.mouse_tool {
 
         public override void reset() {
             materialSelector.close();
-            GameView.get().cameraAndMouseHandler.selectionHandler.state.selectionType = SelectionTypes.AREA;
+            GameView.get().cameraAndMouseHandler.selectionHandler.state.selectionType = SelectionType.AREA;
             selectorGO.setToolSprite(null);
         }
 

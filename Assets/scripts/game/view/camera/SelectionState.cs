@@ -8,12 +8,14 @@ namespace game.view.camera {
     // stores bounds of tiles, displayed as selected
     // adds new tiles when selection is updated.
     public class SelectionState {
-        public LocalMapTileUpdater updater;
+        public LocalMapTileUpdater updater; // for showing selection frame tiles
         public TwoPointIntBounds3 bounds = new(); // actual bounds of selection
+        public SelectionType selectionType;
+        public bool started;
+
+        // optimization
         private Vector3Int previousPos; // mouse position
         private TwoPointIntBounds3 previousBounds = new();
-        public int selectionType;
-        public bool started;
         
         public void startSelection(Vector3Int pos) {
             started = true;
@@ -24,9 +26,9 @@ namespace game.view.camera {
         }
 
         public void update(Vector3Int pos) {
-            if (pos == previousPos || selectionType == SelectionTypes.SINGLE) return;
+            if (pos == previousPos || selectionType == SelectionType.SINGLE) return;
             bounds.pos2 = pos;
-            if (selectionType == SelectionTypes.ROW) {
+            if (selectionType == SelectionType.ROW) {
                 if (Math.Abs(bounds.width) > Math.Abs(bounds.height)) {
                     pos.y = bounds.pos1.y;
                 } else {
@@ -85,9 +87,9 @@ namespace game.view.camera {
         }
     }
 
-    public class SelectionTypes {
-        public const int AREA = 0;
-        public const int ROW = 1;
-        public const int SINGLE = 2;
+    public enum SelectionType {
+        AREA,
+        ROW,
+        SINGLE
     }
 }
