@@ -1,10 +1,10 @@
-﻿using game.view.system.mouse_tool;
-using game.view.ui.toolbar;
+﻿using game.view.ui.toolbar;
 using TMPro;
 using types.item.type;
 using types.material;
 using UnityEngine;
 using UnityEngine.UI;
+using static game.view.ui.UiColorsEnum;
 
 namespace game.view.ui.material_selector {
     // stores item type and material. can be clicked and sets item properties to current mouse tool
@@ -28,18 +28,15 @@ namespace game.view.ui.material_selector {
         }
 
         public void updateSelected(string itemType, int material) {
+            if (!button.interactable) return; // no changes if not enough materials
             ColorBlock colorBlock = button.colors;
-            bool selected = 
-                // this.itemType.Equals(itemType) && 
-                this.material == material; 
-            colorBlock.normalColor = selected ? Color.yellow : Color.white;
+            bool selected = this.itemType.Equals(itemType) && this.material == material; 
+            colorBlock.normalColor = selected ? BUTTON_CHOSEN : BUTTON_NORMAL;
             button.colors = colorBlock;
-            button.interactable = !selected;
         }
 
         public void select() {
-            MouseToolManager.get().setItem(itemType, material);
-            widgetHandler.updateSelected(itemType, material);
+            widgetHandler.select(itemType, material);
         }
     }
 }

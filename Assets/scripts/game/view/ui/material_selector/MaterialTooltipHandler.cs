@@ -11,10 +11,12 @@ namespace game.view.ui.material_selector {
         public void OnPointerExit(PointerEventData eventData) => buttonHandler.mouseExitedTooltip();
 
         public void close() {
+            Debug.Log("closing tooltip");
             gameObject.SetActive(false);
         }
 
         public void open() {
+            Debug.Log("opening tooltip");
             gameObject.SetActive(true);
         }
     }

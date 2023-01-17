@@ -16,8 +16,8 @@ namespace game.view.system.mouse_tool {
             updateSprite();
         }
         
-        protected bool fillSelectorForVariants(BuildingVariant[] variants) {
-            hasMaterials = materialSelector.fill(variants); // do not set tool if not enough materials
+        protected bool fillSelectorForVariants(string buildingName, BuildingVariant[] variants) {
+            hasMaterials = materialSelector.fill(buildingName, variants); // do not set tool if not enough materials
             materialSelector.selectFirst();
             materialSelector.open();
             if(!hasMaterials) Debug.LogWarning("materials for construction not found.");

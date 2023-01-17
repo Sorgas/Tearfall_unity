@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using game.model;
+using game.view.system.mouse_tool;
 using game.view.ui.material_selector;
 using game.view.util;
 using Leopotam.Ecs;
@@ -14,24 +15,25 @@ namespace game.view.ui.toolbar {
     // TODO add multi-ingredient buildings
     public class MaterialSelectionWidgetHandler : MonoBehaviour {
         private List<MaterialButtonHandler> buttons = new();
+        private Dictionary<string, KeyValuePair<string, int>> selectedMaterials = new();
+        private string currentBuilding;
         
-        public bool fill(BuildingVariant[] variants) {
+        public bool fill(string buildingName, BuildingVariant[] variants) {
             clear();
             // variant -> materialId -> items
             Dictionary<BuildingVariant, MultiValueDictionary<int, EcsEntity>> items =
                 GameModel.get().currentLocalModel.itemContainer.util.findForBuildingVariants(variants);
-            bool itemsSelected = false;
+            MaterialButtonHandler buttonToSelect = null;
             for (int i = 0; i < variants.Length; i++) {
                 GameObject button = 
                     PrefabLoader.create("itemButtonWithMaterialList", gameObject.transform, new Vector3(i * 100, 0, 0));
                 MaterialButtonHandler handler = button.GetComponentInChildren<MaterialButtonHandler>();
                 handler.init(variants[i], items[variants[i]], this);
-                if (!itemsSelected && handler.hasEnoughItems()) {
-                    handler.selectAny();
-                    itemsSelected = true;
-                }
+                if (buttonToSelect == null && handler.hasEnoughItems()) buttonToSelect = handler;
+                buttons.Add(handler);
             }
-            return itemsSelected;
+            if(buttonToSelect != null) buttonToSelect.selectAny();
+            return buttonToSelect != null;
         }
         
         public void clear() {
@@ -40,11 +42,12 @@ namespace game.view.ui.toolbar {
         }
 
         public void selectFirst() {
-            if (buttons.Count <= 0) return;
-            buttons[0].GetComponentInChildren<Button>().onClick.Invoke(); // select first material by default
+            if (buttons.Count > 0) buttons[0].selectAny();
         }
 
-        public void updateSelected(string itemType, int materialId) {
+        // selects itemType/material combination to mouse tool
+        public void select(string itemType, int materialId) {
+            MouseToolManager.get().setItem(itemType, materialId);
             buttons.ForEach(button => button.updateSelected(itemType, materialId));
         }
 

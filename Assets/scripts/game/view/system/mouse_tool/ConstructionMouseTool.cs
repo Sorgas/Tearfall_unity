@@ -14,7 +14,7 @@ namespace game.view.system.mouse_tool {
         private ConstructionValidator validator = new();
         
         public override bool updateMaterialSelector() {
-            return fillSelectorForVariants(type.variants);
+            return fillSelectorForVariants(type.name, type.variants);
         }
 
         public void set(ConstructionType type) {

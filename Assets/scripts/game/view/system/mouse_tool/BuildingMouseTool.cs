@@ -23,7 +23,7 @@ namespace game.view.system.mouse_tool {
         }
 
         public override bool updateMaterialSelector() {
-            return fillSelectorForVariants(type.variants);
+            return fillSelectorForVariants(type.name, type.variants);
         }
 
         // TODO make buildings able to be designated in draw mode (like in ONI)

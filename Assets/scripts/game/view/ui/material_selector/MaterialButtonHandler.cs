@@ -32,9 +32,8 @@ namespace game.view.ui.material_selector {
             itemImage.sprite = ItemTypeMap.get().getSprite(variant.itemType);
             tooltip.close();
             fillRows(variant, items, widgetHandler);
-            if (items.Values.Any(list => list.Count >= variant.amount)) {
-            } else {
-                button.enabled = false;
+            if (!items.Values.Any(list => list.Count >= variant.amount)) {
+                button.interactable = false;
             }
             button.onClick.AddListener(() => tooltip.open());
         }
@@ -56,16 +55,16 @@ namespace game.view.ui.material_selector {
         }
 
         public void updateSelected(string itemType, int material) {
+            if (!button.interactable) return;
             ColorBlock colorBlock = button.colors;
             bool selected = this.itemType == itemType;
-            colorBlock.normalColor = selected ? Color.yellow : Color.white;
-            rows.Values.ForEach(row => row.updateSelected(itemType, material));
+            colorBlock.normalColor = selected ? UiColorsEnum.BUTTON_CHOSEN : UiColorsEnum.BUTTON_NORMAL;
             button.colors = colorBlock;
-            button.interactable = !selected;
+            rows.Values.ForEach(row => row.updateSelected(itemType, material));
         }
 
         public void selectAny() {
-            List<MaterialRowHandler> enabledRows = rows.Values.Where(row => row.button.enabled).ToList();
+            List<MaterialRowHandler> enabledRows = rows.Values.Where(row => row.button.interactable).ToList();
             if (enabledRows.Count > 0) {
                 enabledRows[0].select();
             } else {
@@ -84,7 +83,7 @@ namespace game.view.ui.material_selector {
                 rowHandler.init(materialId, variant.itemType, items[materialId].Count, widgetHandler);
                 rows.Add(materialId, rowHandler);
                 if (items[materialId].Count < variant.amount) {
-                    rowHandler.button.enabled = false;
+                    rowHandler.button.interactable= false;
                 }
                 i++;
             }
