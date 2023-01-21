@@ -50,6 +50,7 @@ namespace game.view.system.mouse_tool {
             _set(unitMovementTargetTool);
         }
         
+        // sets item type and material selection from material selector widget
         public void setItem(string typeName, int materialId) {
             if (tool is ItemConsumingMouseTool) {
                 ((ItemConsumingMouseTool)tool).setItem(typeName, materialId);

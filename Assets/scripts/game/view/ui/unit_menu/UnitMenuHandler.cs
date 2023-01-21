@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using game.input;
+using game.view.system.mouse_tool;
 using game.view.ui.util;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -49,6 +50,7 @@ namespace game.view.ui.unit_menu { // TODO generalize item building and unit men
 
         public bool accept(KeyCode key) {
             if(key == KeyCode.Q) WindowManager.get().closeWindow(NAME);
+            MouseToolManager.reset();
             return true;
         }
 

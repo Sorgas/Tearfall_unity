@@ -62,7 +62,7 @@ namespace game.view.system.mouse_tool {
             Vector3 selectorPos = ViewUtil.fromModelToScene(GameView.get().selector.position);
             Vector3 scenePos = ViewUtil.fromScreenToSceneGlobal(Input.mousePosition, GameView.get());
             Vector2 castPos = new Vector2(scenePos.x, scenePos.y);
-            RaycastHit2D hit = Physics2D.Raycast(castPos, new Vector2(1,1), 0.01f, 1, selectorPos.z, selectorPos.z + 1);
+            RaycastHit2D hit = Physics2D.Raycast(castPos, new Vector2(1,1), 0.01f, 1, selectorPos.z - 0.6f, selectorPos.z + 1.4f);
             if(hit.collider != null) {
                 UnitGoHandler unitComponent = hit.collider.gameObject.GetComponent<UnitGoHandler>();
                 if(unitComponent != null) {

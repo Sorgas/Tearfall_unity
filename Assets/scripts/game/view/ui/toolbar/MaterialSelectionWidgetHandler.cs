@@ -6,7 +6,6 @@ using game.view.util;
 using Leopotam.Ecs;
 using types.building;
 using UnityEngine;
-using UnityEngine.UI;
 using util.lang;
 
 namespace game.view.ui.toolbar {

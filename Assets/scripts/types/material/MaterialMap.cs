@@ -5,14 +5,18 @@ using util.input;
 using util.lang;
 
 namespace types.material {
+    // reads and stores material definitions from jsons. 
+    // id's x00 - material category, 0xx - material. material variants have +x000
     public class MaterialMap : Singleton<MaterialMap> {
         public const int GENERIC_PLANT = 4;
         private Dictionary<string, Material_> map = new();
         private Dictionary<int, Material_> idMap = new();
-
+        private MaterialVariantGenerator variantGenerator;
+        
         public MaterialMap() {
             loadFiles();
-            createVariants();
+            variantGenerator = new(this);
+            variantGenerator.createVariants();
         }
 
         private void loadFiles() {
@@ -32,17 +36,11 @@ namespace types.material {
             }
         }
 
-        public Material_ material(int id) {
-            return idMap[id];
-        }
+        public Material_ material(int id) => idMap[id];
 
-        public Material_ material(string name) {
-            return map[name];
-        }
+        public Material_ material(string name) => map[name];
 
-        public int id(string name) {
-            return material(name).id;
-        }
+        public int id(string name) => material(name).id;
 
         public List<Material_> getByTag(string tag) {
             return map.Values
@@ -51,40 +49,14 @@ namespace types.material {
                 .ToList();
         }
 
-        private void createVariants() {
-            Debug.Log("creating material variants");
-            int count = 0;
-            count += createVariantByTag("stone", "rock", 1000);
-            count += createVariantByTag("wood", "log", 1000);
-            // TODO metal bar
-            Debug.Log("created " + count);
-        }
-
-        private int createVariantByTag(string tag, string itemTypeName, int idMod) {
-            int count = 0;
-            List<Material_> materials = map.Values.Where(material => material.tags.Contains(tag)).ToList();
-            foreach (Material_ material in materials) {
-                Material_ variant = new(material);
-                if (variant.tileset == null) variant.tileset = variant.name;
-                variant.id += idMod;
-                variant.name = variateValue(variant.name, itemTypeName);
-                variant.tileset = variateValue(variant.tileset, itemTypeName);
-                saveMaterial(variant);
-                count++;
-            }
-            return count;
-        }
-
-        // applies wording rule to value for variation
-        public static string variateValue(string value, string itemTypeName) {
-            return value + "_" + itemTypeName;
-        }
-
-        private void saveMaterial(Material_ material) {
+        public void saveMaterial(Material_ material) {
             map.Add(material.name, material);
             idMap.Add(material.id, material);
         }
-
+        
+        // applies wording rule to value for variation (material names and tilesets)
+        public static string variateValue(string value, string itemTypeName) => MaterialVariantGenerator.variateValue(value, itemTypeName);
+        
         public List<Material_> all => map.Values.ToList();
     }
 }

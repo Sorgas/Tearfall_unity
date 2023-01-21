@@ -14,9 +14,9 @@ namespace game.input {
     // opens and closes windows by window name
     // passes input to active window
     public class WindowManager : Singleton<WindowManager>, IHotKeyAcceptor {
-        public readonly Dictionary<string, IWindow> windows = new Dictionary<string, IWindow>(); // windows by name
+        public readonly Dictionary<string, IWindow> windows = new(); // windows by name
+        public string activeWindowName = "";
         public IWindow activeWindow;
-        public string activeWindowName;
 
         public bool accept(KeyCode key) {
             return (activeWindow as IHotKeyAcceptor)?.accept(key) ?? false;
@@ -35,8 +35,10 @@ namespace game.input {
         }
 
         public void closeWindow(string name) {
+            log("closing window " + name);
             activeWindow = null;
-            activeWindowName = null;
+            activeWindowName = "";
+            if (!windows.ContainsKey(name)) return;
             windows[name].close();
             GameView.get().cameraAndMouseHandler.enabled = true;
         }
@@ -71,12 +73,16 @@ namespace game.input {
         public bool showWindow(string name, bool disableCamera) {
             closeWindow(activeWindowName);
             IWindow window = windows[name];
-            Debug.Log("window " + window.getName() + " shown.");
+            log("window " + window.getName() + " shown.");
             activeWindow = window;
             activeWindowName = name;
             activeWindow.open();
             if(disableCamera) GameView.get().cameraAndMouseHandler.enabled = false;
             return true;
+        }
+
+        private void log(string message) {
+            Debug.Log("[WindowManager] " + message);
         }
     }
 }

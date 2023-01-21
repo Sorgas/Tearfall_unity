@@ -13,5 +13,11 @@ namespace game.view.util {
         }
         
         public void setTile(Vector3Int position, Tile tile) => tilemap.SetTile(position, tile);
+
+        public void setTile(Vector3Int position, Tile tile, Color color) {
+            tilemap.SetTile(position, tile);
+            tilemap.SetTileFlags(position, TileFlags.None);
+            tilemap.SetColor(position, color);
+        }
     }
 }

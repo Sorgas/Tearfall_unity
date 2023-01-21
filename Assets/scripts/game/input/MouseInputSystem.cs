@@ -26,7 +26,6 @@ namespace game.input {
                 if (Input.GetMouseButtonDown(0)
                     && GameModel.get().currentLocalModel.localMap.bounds.isIn(modelPosition)
                     && !clickIsOverUi()) {
-                    Debug.Log("clicked2");
                     selectionHandler.handleMouseDown(modelPosition);
                 }
             }
