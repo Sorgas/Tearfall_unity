@@ -5,18 +5,16 @@ using util.input;
 using util.lang;
 
 namespace types.material {
-    // reads and stores material definitions from jsons. 
+    // reads and stores material definitions from jsons.
     // id's x00 - material category, 0xx - material. material variants have +x000
     public class MaterialMap : Singleton<MaterialMap> {
         public const int GENERIC_PLANT = 4;
         private Dictionary<string, Material_> map = new();
         private Dictionary<int, Material_> idMap = new();
-        private MaterialVariantGenerator variantGenerator;
         
         public MaterialMap() {
             loadFiles();
-            variantGenerator = new(this);
-            variantGenerator.createVariants();
+            new MaterialVariantGenerator(this).createVariants();
         }
 
         private void loadFiles() {
@@ -58,5 +56,7 @@ namespace types.material {
         public static string variateValue(string value, string itemTypeName) => MaterialVariantGenerator.variateValue(value, itemTypeName);
         
         public List<Material_> all => map.Values.ToList();
+
+        public bool hasMaterial(string materialName) => map.ContainsKey(materialName);
     }
 }

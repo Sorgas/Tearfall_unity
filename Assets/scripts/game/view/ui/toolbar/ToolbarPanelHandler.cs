@@ -11,6 +11,7 @@ namespace game.view.ui.toolbar {
     // holds and manages sub-panels for toolbar panel
     // only one sub-panel can be enabled at once
     // passes input to sub-panels
+    // for buttons initialisation see ToolbarWidgetHandler 
     public class ToolbarPanelHandler : MonoBehaviour, IHotKeyAcceptor, ICloseable {
         public Action closeAction;
         private Dictionary<KeyCode, Button> buttons = new();

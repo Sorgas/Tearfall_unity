@@ -20,9 +20,9 @@ namespace types.material {
             Debug.Log("creating material variants");
             int count = 0;
             count += createVariantByTag("stone", "rock", 1000);
-            // stone blocks
+            count += createVariantByTag("stone", "block", 2000);
             count += createVariantByTag("wood", "log", 1000);
-            // wood planks
+            count += createVariantByTag("wood", "plank", 2000);
             // TODO metal bar
             Debug.Log("created " + count);
         }

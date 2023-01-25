@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using game.model.component;
 using game.model.localmap;
 using game.view.util;
+using Leopotam.Ecs;
 using types;
 using types.material;
 using types.plant;
@@ -9,6 +11,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using util.geometry;
 using util.lang;
+using util.lang.extension;
 using static types.BlockTypes;
 using static game.view.util.TilemapLayersConstants;
 
@@ -53,7 +56,6 @@ namespace game.view.tilemaps {
             Tile floorTile = null;
             Tile substrateFloorTile = null;
             Tile substrateWallTile = null;
-
             // select wall part for non-flat types
             if (!blockType.FLAT) {
                 string wallTileName = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;
@@ -79,6 +81,7 @@ namespace game.view.tilemaps {
             }
             layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER), floorTile);
             layers[z].setTile(new Vector3Int(x, y, WALL_LAYER), wallTile);
+            layers[z].setTile(new Vector3Int(x, y, ZONE_FLOOR_LAYER), getZoneTile(position));
             layers[z].setTile(new Vector3Int(x, y, SUBSTRATE_FLOOR_LAYER), substrateFloorTile);
             layers[z].setTile(new Vector3Int(x, y, SUBSTRATE_WALL_LAYER), substrateWallTile);
 
@@ -133,6 +136,12 @@ namespace game.view.tilemaps {
                 .ToList().ForEach(pos => updateTile(pos, false));
         }
 
+        private Tile getZoneTile(Vector3Int position) {
+            EcsEntity zone = model.zoneContainer.getZone(position);
+            if (zone == EcsEntity.Null) return null;
+            return blockTileSetHolder.zoneTiles[zone.take<ZoneComponent>().type];
+        }
+        
         // Chooses ramp tile by surrounding walls. Don't touch!
         private string selectRamp(int x, int y, int z) {
             uint walls = observeWalls(x, y, z);

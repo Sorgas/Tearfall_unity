@@ -9,17 +9,6 @@
         "atlasY": "-1",
         "color": "ffffffff"
     },{
-        "id": 1,
-    "name": "wood",
-    "tags": ["wood"],
-    "density": "0.8",
-    "reactions": {
-        "burn": ["3600"]
-    },
-    "value": "10",
-    "atlasY": "1",
-    "color": "ffffffff"
-}, {
     "id": 2,
     "name": "soil",
     "tags": ["soil"],

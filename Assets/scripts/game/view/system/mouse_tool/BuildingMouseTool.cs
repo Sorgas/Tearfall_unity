@@ -34,7 +34,7 @@ namespace game.view.system.mouse_tool {
                 Debug.LogError("building bounds not single tile !!!");
             }
             Vector3Int position = bounds.getStart();
-            if (GameView.get().selector.position != position) {
+            if (GameView.get().selector.position  != position) {
                 Debug.LogError("building bounds not on selector position !!!");
             }
             if (validate()) {

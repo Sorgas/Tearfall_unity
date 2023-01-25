@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using game.view.system.mouse_tool;
 using types.material;
 using types.plant;
 using UnityEngine;
@@ -12,10 +13,12 @@ namespace game.view.tilemaps {
     public class BlockTileSetHolder : Singleton<BlockTileSetHolder> {
         // map of tileset -> tilecode -> tile/sprite
         public readonly Dictionary<string, Dictionary<string, Sprite>> sprites = new();
-       
+
         // map of <material -> <tilecode -> tile>>
         public readonly Dictionary<string, Dictionary<string, Tile>> tiles = new();
         public readonly Dictionary<int, Dictionary<string, Tile>> substrateTiles = new();
+
+        public readonly Dictionary<ZoneTypeEnum, Tile> zoneTiles = new();
         private BlockTilesetSlicer slicer = new();
         Dictionary<string, List<string>> notFound = new();
 
@@ -32,6 +35,7 @@ namespace game.view.tilemaps {
             loadTilesetFromAtlas("template");
             SubstrateTypeMap.get().all()
                 .ForEach(type => loadSubstrateTilesetFromAtlas(type));
+            createZoneTiles();
             flushNotFound();
             Debug.Log("[BlockTilesetHolder]" + logMessage);
         }
@@ -74,13 +78,23 @@ namespace game.view.tilemaps {
         }
 
         private Dictionary<string, Sprite> getBlockTileset(string tileset) => getBlockTileset(tileset, 1);
-        
+
         private Dictionary<string, Sprite> getBlockTileset(string tileset, int tilesetSize) {
             if (!sprites.ContainsKey(tileset)) {
                 Sprite sprite = TexturePacker.createSpriteFromAtlas(tileset);
                 sprites.Add(tileset, slicer.sliceBlockSpritesheet(sprite, tilesetSize));
             }
             return sprites[tileset];
+        }
+
+        private void createZoneTiles() {
+            // storage
+            Sprite sprite = TexturePacker.createSpriteFromAtlas("zone_tile");
+            Tile tile = ScriptableObject.CreateInstance<Tile>();
+            tile.sprite = sprite;
+            tile.color = Color.magenta;
+            zoneTiles.Add(ZoneTypeEnum.STOCKPILE, tile);
+            zoneTiles.Add(ZoneTypeEnum.FARM, tile); // TODO add another color
         }
         
         private void flushNotFound() {

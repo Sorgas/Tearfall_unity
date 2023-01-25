@@ -15,6 +15,7 @@ namespace game.view.system.mouse_tool {
         private static ConstructionMouseTool constructionTool = new();
         private static BuildingMouseTool buildingTool = new();
         private static UnitMovementTargetTool unitMovementTargetTool = new();
+        private static ZoneMouseTool zoneMouseTool = new();
         private SelectorSpriteUpdater updater = new();
 
         public static void handleSelection(IntBounds3 bounds) => get().handleSelection_(bounds);

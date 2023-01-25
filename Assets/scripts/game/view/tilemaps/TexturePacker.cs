@@ -6,6 +6,7 @@ using util.lang;
 namespace game.view.tilemaps {
     
     // makes all tilesets in game to be loaded from same texture
+    // packs only textures in tilesets folder. Names should be unique
     public class TexturePacker : Singleton<TexturePacker> {
         private Texture2D atlasTexture;
         private Rect[] rects;

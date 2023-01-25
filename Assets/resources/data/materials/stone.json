@@ -2,6 +2,7 @@
     {
         "id": 101,
         "name": "granite",
+        "description": "Hardest of common stones.",
         "tags": ["stone", "stone_igneous"],
         "density": "2.7",
         "value": "10",

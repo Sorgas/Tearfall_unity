@@ -1,0 +1,81 @@
+﻿[
+  {
+  "id": 601,
+  "name": "oak", 
+  "description": "Heavy and sturdy wood.", 
+  "tags": ["wood"],
+  "density": "0.8",
+  "reactions": {
+    "burn": ["3600"]
+  },
+  "value": "10",
+  "atlasY": "1",
+  "color": "be9964ff"
+},{
+  "id": 602,
+  "name": "maple",
+  "tags": ["wood"],
+  "density": "0.8",
+  "reactions": {
+    "burn": ["3600"]
+  },
+  "value": "10",
+  "atlasY": "1",
+  "color": "fcecd4ff"
+},{
+  "id": 603,
+  "name": "chestnut",
+  "tags": ["wood"],
+  "density": "0.8",
+  "reactions": {
+    "burn": ["3600"]
+  },
+  "value": "10",
+  "atlasY": "1",
+  "color": "c9a164ff"
+},{
+  "id": 604,
+  "name": "pine",
+  "tags": ["wood"],
+  "density": "0.8",
+  "reactions": {
+    "burn": ["3600"]
+  },
+  "value": "10",
+  "atlasY": "1",
+  "color": "ad734bff"
+},{
+  "id": 605,
+  "name": "spruce",
+  "tags": ["wood"],
+  "density": "0.8",
+  "reactions": {
+    "burn": ["3600"]
+  },
+  "value": "10",
+  "atlasY": "1",
+  "color": "b3814eff"
+},{
+  "id": 606,
+  "name": "birch",
+  "tags": ["wood"],
+  "density": "0.8",
+  "reactions": {
+    "burn": ["3600"]
+  },
+  "value": "10",
+  "atlasY": "1",
+  "color": "e4cda1ff"
+},{
+  "id": 607,
+  "name": "willow",
+  "tags": ["wood"],
+  "density": "0.8",
+  "reactions": {
+    "burn": ["3600"]
+  },
+  "value": "10",
+  "atlasY": "1",
+  "color": "cea879ff"
+}
+]

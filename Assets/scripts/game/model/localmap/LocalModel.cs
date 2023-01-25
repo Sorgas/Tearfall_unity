@@ -22,7 +22,8 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public readonly ItemContainer itemContainer;
         public readonly PlantContainer plantContainer;
         public readonly BuildingContainer buildingContainer;
-
+        public readonly ZoneContainer zoneContainer;
+        
         public LocalModel() {
             designationContainer = new(this);
             taskContainer = new(this);
