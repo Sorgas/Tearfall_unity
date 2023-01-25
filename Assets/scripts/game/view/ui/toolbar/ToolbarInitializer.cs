@@ -52,11 +52,9 @@ namespace game.view.ui.toolbar {
         }
 
         private void fillZonesPanel(ToolbarPanelHandler panel) {
-            panel.createButton("Stockpile", "toolbar/zones/stockpile", () => Debug.Log("press Z 1"), KeyCode.Z);
-            panel.createButton("Farm", "toolbar/zones/farm", () => Debug.Log("press Z 2"), KeyCode.X);
-            panel.createButton("Pasture", "toolbar/cancel", () => Debug.Log("press Z 3"), KeyCode.C);
-            panel.createButton("Room", "toolbar/cancel", () => Debug.Log("press Z 4"), KeyCode.V);
-            panel.createButton("Clear", "toolbar/cancel", () => Debug.Log("zone cancel press"), KeyCode.B);
+            widget.createZoneButton(panel, "Stockpile", "toolbar/zones/stockpile", ZoneTypeEnum.STOCKPILE, KeyCode.Z);
+            widget.createZoneButton(panel, "Farm", "toolbar/zones/farm", ZoneTypeEnum.FARM, KeyCode.X);
+            widget.createZoneButton(panel, "Clear", "toolbar/zones/clear", ZoneTypeEnum.NONE, KeyCode.N);
             panel.closeAction = () => MouseToolManager.reset();
         }
 

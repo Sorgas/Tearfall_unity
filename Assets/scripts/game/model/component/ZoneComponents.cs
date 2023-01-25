@@ -13,5 +13,9 @@ namespace game.model.component {
     }
 
     // present when zone is changed but changes not yet processed by visual system
-    public struct ZoneVisualUpdatedComponent { }
+    public struct ZoneVisualUpdatedComponent {
+        public List<Vector3Int> tiles;
+    }
+    
+    public struct ZoneDeletedComponent {}
 }

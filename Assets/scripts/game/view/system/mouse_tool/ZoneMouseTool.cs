@@ -3,19 +3,28 @@ using game.view.util;
 using types;
 using UnityEngine;
 using util.geometry.bounds;
+using static game.view.system.mouse_tool.ZoneTypeEnum;
 
 namespace game.view.system.mouse_tool {
     public class ZoneMouseTool : MouseTool {
         public ZoneTypeEnum zoneType; 
-        
+        // public TODO zone data
+
+        public void set(ZoneTypeEnum zoneType) {
+            this.zoneType = zoneType;
+        }
+
         public override bool updateMaterialSelector() {
             materialSelector.close();
             return true;
         }
 
         public override void applyTool(IntBounds3 bounds) {
-            
-            // TODO create zone in bounds
+            if (zoneType == NONE) {
+            GameModel.get().currentLocalModel.zoneContainer.eraseZones(bounds);
+                
+            }
+            GameModel.get().currentLocalModel.zoneContainer.createZone(bounds, zoneType);
         }
 
         public override void updateSprite() {
@@ -37,6 +46,7 @@ namespace game.view.system.mouse_tool {
 
     public enum ZoneTypeEnum {
         STOCKPILE,
-        FARM
+        FARM,
+        NONE // for deletion
     }
 }

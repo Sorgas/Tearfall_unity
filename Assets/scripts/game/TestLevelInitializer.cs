@@ -43,7 +43,7 @@ namespace game {
         }
 
         private void createBuildings() {
-            GenerationState.get().localMapGenerator.buildingsToGenerate.Add("carpenter's table", "wood");
+            GenerationState.get().localMapGenerator.buildingsToGenerate.Add("carpenter's table", "oak");
         }
     }
 }

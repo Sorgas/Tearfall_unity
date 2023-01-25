@@ -41,6 +41,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\scripts\game\model\system\zone\ZoneDeletionSystem.cs" />
      <Compile Include="Assets\scripts\util\lang\Singleton.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\SubstrateMap.cs" />
      <Compile Include="Assets\scripts\types\item\type\ItemTypeMap.cs" />
@@ -100,6 +101,7 @@
      <Compile Include="Assets\scripts\game\model\system\LocalModelIntervalSystem.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskCompletionSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\ProgressBarHandler.cs" />
+     <Compile Include="Assets\scripts\game\model\component\ZoneComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\Action.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationCompletionSystem.cs" />
      <Compile Include="Assets\scripts\game\model\container\BuildingFindingUtil.cs" />
@@ -158,6 +160,7 @@
      <Compile Include="Assets\scripts\game\view\ui\workbench\WorkbenchWindowHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepOnGroundAction.cs" />
      <Compile Include="Assets\scripts\game\LocalGameRunner.cs" />
+     <Compile Include="Assets\scripts\game\view\system\mouse_tool\ZoneMouseTool.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\PassageMap.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitNameGenerator.cs" />
      <Compile Include="Assets\scripts\util\lang\Optional.cs" />
@@ -209,6 +212,7 @@
      <Compile Include="Assets\scripts\types\action\ActionStatusEnum.cs" />
      <Compile Include="Assets\scripts\types\building\BuildingType.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\mit\AStar2.cs" />
+     <Compile Include="Assets\scripts\game\model\container\ZoneContainer.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\DesignationMouseTool.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\TaskComponents.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\LocalMap.cs" />
@@ -216,6 +220,7 @@
      <Compile Include="Assets\scripts\game\view\camera\SelectionState.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\ScrollableCameraController.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarInitializer.cs" />
      <Compile Include="Assets\scripts\types\unit\need\HungerNeed.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTarget.cs" />
      <Compile Include="Assets\scripts\game\view\util\HotKeySequence.cs" />
@@ -327,6 +332,7 @@
      <Compile Include="Assets\scripts\generation\worldgen\generators\elevation\WorldElevationGenerator.cs" />
      <Compile Include="Assets\scripts\util\input\JsonArrayReader.cs" />
      <Compile Include="Assets\scripts\types\unit\need\RestNeed.cs" />
+     <Compile Include="Assets\scripts\generation\ZoneGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\AvailableItemsManager.cs" />
      <Compile Include="Assets\scripts\game\model\container\PlantContainer.cs" />
      <Compile Include="Assets\scripts\game\view\ui\SelectorHandler.cs" />
@@ -343,6 +349,7 @@
      <Compile Include="Assets\scripts\types\building\BuildingTypeMap.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\UnitEquipmentComponent.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\BinaryHeap.cs" />
+     <Compile Include="Assets\scripts\game\view\system\zone\ZoneVisualSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\toolbar\MaterialSelectionWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\BuildingActionTarget.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntVector2.cs" />
@@ -385,12 +392,6 @@
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarInitializer.cs" />
-     <Compile Include="Assets\scripts\game\view\system\mouse_tool\ZoneMouseTool.cs" />
-     <Compile Include="Assets\scripts\game\model\system\zone\ZoneVisualSystem.cs" />
-     <Compile Include="Assets\scripts\game\model\component\ZoneComponents.cs" />
-     <Compile Include="Assets\scripts\generation\ZoneGenerator.cs" />
-     <Compile Include="Assets\scripts\game\model\container\ZoneContainer.cs" />
      <None Include="Assets\resources\data\items\growths.json" />
      <None Include="Assets\resources\data\recipes\carpenter.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

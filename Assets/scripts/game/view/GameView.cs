@@ -8,6 +8,7 @@ using game.view.system.item;
 using game.view.system.mouse_tool;
 using game.view.system.plant;
 using game.view.system.unit;
+using game.view.system.zone;
 using game.view.tilemaps;
 using Leopotam.Ecs;
 using types;
@@ -37,7 +38,7 @@ namespace game.view {
             KeyInputSystem.get().playerControls = playerControls;
             cameraAndMouseHandler.init();
             selector = new();
-            
+
             selector.updateBounds();
             selector.zRange.set(0, GameModel.get().currentLocalModel.localMap.bounds.maxZ - 1);
             tileUpdater.flush();
@@ -46,7 +47,7 @@ namespace game.view {
             sceneObjectsContainer.gamespeedWidgetHandler.updateVisual();
             Debug.Log("view initialized");
         }
-        
+
         public void update() {
             KeyInputSystem.get().update();
             cameraAndMouseHandler?.update();
@@ -56,16 +57,17 @@ namespace game.view {
 
         private void initEcs(EcsWorld ecsWorld) {
             systems = new EcsSystems(ecsWorld);
-            systems.Add(new UnitVisualSystem());
-            systems.Add(new UnitActionProgressBarUpdateSystem());
-            systems.Add(new ItemVisualSystem());
-            systems.Add(new ItemVisualRemoveSystem());
-            systems.Add(new DesignationVisualSystem());
-            systems.Add(new PlantVisualSystem());
-            systems.Add(new BuildingVisualSystem());
-            systems.Add(new WorkbenchWindowUpdateSystem());
-            systems.Add(new UnitMenuUpdateSystem());
-            systems.Init();
+            systems.Add(new UnitVisualSystem())
+                .Add(new UnitActionProgressBarUpdateSystem())
+                .Add(new ItemVisualSystem())
+                .Add(new ItemVisualRemoveSystem())
+                .Add(new DesignationVisualSystem())
+                .Add(new PlantVisualSystem())
+                .Add(new BuildingVisualSystem())
+                .Add(new WorkbenchWindowUpdateSystem())
+                .Add(new UnitMenuUpdateSystem())
+                .Add(new ZoneVisualSystem())
+                .Init();
         }
 
         private void initWindowManager() {
@@ -79,11 +81,11 @@ namespace game.view {
             system.widgetManager.addWidget(sceneObjectsContainer.toolbarWidget);
 
         }
-        
+
         private void resetCameraPosition() {
             LocalMap map = GameModel.get().currentLocalModel.localMap;
             Vector3Int cameraPosition = new(map.bounds.maxX / 2, map.bounds.maxY / 2, 0);
-            for (int z = map.bounds.maxZ - 1; z >=0 ; z--) {
+            for (int z = map.bounds.maxZ - 1; z >= 0; z--) {
                 if (map.blockType.get(cameraPosition.x, cameraPosition.y, z) != BlockTypes.SPACE.CODE) {
                     cameraPosition.z = z;
                     break;

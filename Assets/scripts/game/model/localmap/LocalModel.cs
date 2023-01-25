@@ -5,6 +5,7 @@ using game.model.system.plant;
 using game.model.system.task;
 using game.model.system.task.designation;
 using game.model.system.unit;
+using game.model.system.zone;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -30,6 +31,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
             itemContainer = new(this);
             plantContainer = new(this);
             buildingContainer = new(this);
+            zoneContainer = new(this);
         }
 
         public void update() {
@@ -67,6 +69,8 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
                 .Add(new WorkbenchOrderSelectionSystem())
                 .Add(new WorkbenchTaskCreationSystem(this))
                 .Add(new WorkbenchTaskCompletionSystem())
+                
+                .Add(new ZoneDeletionSystem())
                 .Init();
         }
 

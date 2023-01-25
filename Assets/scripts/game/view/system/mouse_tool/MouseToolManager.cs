@@ -15,7 +15,7 @@ namespace game.view.system.mouse_tool {
         private static ConstructionMouseTool constructionTool = new();
         private static BuildingMouseTool buildingTool = new();
         private static UnitMovementTargetTool unitMovementTargetTool = new();
-        private static ZoneMouseTool zoneMouseTool = new();
+        private static ZoneMouseTool zoneTool = new();
         private SelectorSpriteUpdater updater = new();
 
         public static void handleSelection(IntBounds3 bounds) => get().handleSelection_(bounds);
@@ -46,6 +46,11 @@ namespace game.view.system.mouse_tool {
             get()._set(constructionTool);
         }
 
+        public static void set(ZoneTypeEnum type) {
+            zoneTool.set(type);
+            get()._set(zoneTool);
+        }
+        
         public void setUnitMovementTarget(EcsEntity unit) {
             unitMovementTargetTool.unit = unit; 
             _set(unitMovementTargetTool);

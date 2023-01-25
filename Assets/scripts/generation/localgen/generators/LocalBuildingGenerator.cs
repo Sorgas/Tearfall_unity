@@ -16,13 +16,13 @@ namespace generation.localgen.generators {
             foreach (var entry in container.buildingsToAdd) {
                 BuildingType type = BuildingTypeMap.get(entry.Key);
                 Vector3Int position = getPositionForBuilding(type);
-                Debug.Log("position for " + type.name + " found: " + position.ToString());
+                Debug.Log("position for " + type.name + " found: " + position);
                 if(position.z >= 0) createBuilding(type, position, entry.Value);
             }
         }
 
         public void createBuilding(BuildingType type, Vector3Int position, string material) {
-            BuildingOrder order = new BuildingOrder("log", MaterialMap.get().material(material).id, 1, position);
+            BuildingOrder order = new("log", MaterialMap.get().material(material).id, 1, position);
             order.type = type;
             order.orientation = Orientations.N;
             container.model.buildingContainer.createBuilding(order);
