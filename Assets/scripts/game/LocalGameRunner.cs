@@ -37,12 +37,14 @@ namespace game {
         // TODO make world and local generation independent from gamemodel singleton
         // when scene is loaded, inits game model and view
         public void Start() {
+            Debug.unityLogger.logEnabled = false;
             Debug.Log("starting game");
             resolveWorld();
             GameModel.get().init(defaultModelName);
             GameView.get().init(this, GameModel.get().currentLocalModel);
             started = true;
             InvokeRepeating("updateModel", 0, GameModelUpdateController.updateTickDelta);
+            Debug.unityLogger.logEnabled = true;
         }
 
         public void Update() {

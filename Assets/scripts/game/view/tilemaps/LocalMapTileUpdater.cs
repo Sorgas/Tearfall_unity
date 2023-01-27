@@ -9,6 +9,7 @@ using types.material;
 using types.plant;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using util;
 using util.geometry;
 using util.lang;
 using util.lang.extension;

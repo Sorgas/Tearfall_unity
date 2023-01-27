@@ -20,7 +20,11 @@ namespace game.model.container {
 
         public void createZone(IntBounds3 bounds, ZoneTypeEnum type) {
             EcsEntity zone = zoneGenerator.generate(bounds, type, model.createEntity(), model);
-            zone.Replace(new ZoneVisualUpdatedComponent{tiles = new List<Vector3Int>()});
+            List<Vector3Int> tiles = zone.Get<ZoneComponent>().tiles;
+            zone.Replace(new ZoneVisualUpdatedComponent{tiles = new List<Vector3Int>(tiles)});
+            foreach (Vector3Int tile in tiles) {
+                zones.Add(tile, zone);
+            }
             log("zone " + type + " created");
         }
 

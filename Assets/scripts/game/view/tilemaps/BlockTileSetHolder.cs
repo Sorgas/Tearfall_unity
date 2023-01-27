@@ -90,6 +90,7 @@ namespace game.view.tilemaps {
         private void createZoneTiles() {
             // storage
             Sprite sprite = TexturePacker.createSpriteFromAtlas("zone_tile");
+            if(sprite == null) Debug.Log("zone sprite is null");
             Tile tile = ScriptableObject.CreateInstance<Tile>();
             tile.sprite = sprite;
             tile.color = Color.magenta;
