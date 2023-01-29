@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using game.view.system.mouse_tool;
+using types;
 using UnityEngine;
 
 namespace game.model.component {
@@ -13,7 +13,7 @@ namespace game.model.component {
     }
 
     // present when zone is changed but changes not yet processed by visual system
-    public struct ZoneVisualUpdatedComponent {
+    public struct ZoneUpdatedComponent {
         public List<Vector3Int> tiles;
     }
     

@@ -19,7 +19,7 @@ namespace game.view.system.mouse_tool {
             return true;
         }
 
-        public override void applyTool(IntBounds3 bounds) {
+        public override void applyTool(IntBounds3 bounds, Vector3Int start) {
             bounds.iterate((x, y, z) => {
                 Vector3Int position = new(x, y, z);
                 if (designation == null) Debug.LogError("designation is null");

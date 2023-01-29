@@ -15,7 +15,7 @@ namespace game.view.ui.toolbar {
     public class ToolbarPanelHandler : MonoBehaviour, IHotKeyAcceptor, ICloseable {
         public Action closeAction;
         private Dictionary<KeyCode, Button> buttons = new();
-        private Dictionary<KeyCode, Func<bool>> enableFunctions = new();
+        private Dictionary<KeyCode, Func<bool>> enableFunctions = new(); // used to enable/disable buttons
         protected Dictionary<KeyCode, ToolbarPanelHandler> subPanels = new(); // map to open/close subpanels
 
         private Dictionary<KeyCode, Action> hotKeyMap = new(); // map to invoke actions
@@ -78,6 +78,7 @@ namespace game.view.ui.toolbar {
             go.transform.localPosition = new Vector3(buttonWidth * buttonCount++, 0, 0);
             Button button = go.GetComponentInChildren<Button>();
             button.onClick.AddListener(onClick.Invoke);
+            button.onClick.AddListener(() => highlightButton(hotKey));
             go.GetComponentInChildren<TextMeshProUGUI>().text = text;
             go.GetComponentsInChildren<Image>()[1].sprite = sprite;
             hotKeyMap.Add(hotKey, () => button.onClick.Invoke());
@@ -97,6 +98,14 @@ namespace game.view.ui.toolbar {
 
             createButton(text, icon, () => toggleSubpanel(handler), hotKey);
             return handler;
+        }
+
+        private void highlightButton(KeyCode key) {
+            foreach (KeyValuePair<KeyCode,Button> pair in buttons) {
+                ColorBlock block = buttons[pair.Key].GetComponent<Button>().colors;
+                block.normalColor = pair.Key == key ? Color.yellow : Color.white;
+                buttons[pair.Key].GetComponent<Button>().colors = block;
+            }
         }
     }
 }

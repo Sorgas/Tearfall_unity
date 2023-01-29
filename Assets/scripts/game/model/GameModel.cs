@@ -28,6 +28,7 @@ namespace game.model {
             Debug.Log("model initialized");
         }
 
+        public static LocalModel local() => get().currentLocalModel;
 
         // init with entities generated on new game or loaded from savegame
         public void update() {

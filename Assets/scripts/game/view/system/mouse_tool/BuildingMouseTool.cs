@@ -29,7 +29,7 @@ namespace game.view.system.mouse_tool {
         // TODO make buildings able to be designated in draw mode (like in ONI)
 
         // TODO add unit/building/item/plant/block selection for NONE tool
-        public override void applyTool(IntBounds3 bounds) {
+        public override void applyTool(IntBounds3 bounds, Vector3Int start) {
             if (!bounds.isSingleTile()) {
                 Debug.LogError("building bounds not single tile !!!");
             }

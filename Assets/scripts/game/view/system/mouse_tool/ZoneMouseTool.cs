@@ -1,17 +1,32 @@
-﻿using game.model;
+﻿using System;
+using System.Collections.Generic;
+using game.model;
+using game.model.container;
 using game.view.util;
+using Leopotam.Ecs;
 using types;
 using UnityEngine;
 using util.geometry.bounds;
-using static game.view.system.mouse_tool.ZoneTypeEnum;
 
 namespace game.view.system.mouse_tool {
+    // creation tool:
+    //      overwrites overlapped zones with new.
+    // update tool:
+    //      if selection starts on existing zone, it is extended. 
+    //      if selection starts on free tile and overlaps zone, it is cleared
+    //      if selection starts on existing zone and overlaps zone of the same type, they are merged
+    //      if selection starts on existing zone and overlaps zone of another type, it is overwritten
     public class ZoneMouseTool : MouseTool {
-        public ZoneTypeEnum zoneType; 
-        // public TODO zone data
+        public ZoneMouseToolType toolType;
+        public ZoneTypeEnum zoneType; // only for CREATE toolType
+        
+        public void set(ZoneTypeEnum type) {
+            toolType = ZoneMouseToolType.CREATE;
+            zoneType = type;
+        }
 
-        public void set(ZoneTypeEnum zoneType) {
-            this.zoneType = zoneType;
+        public void set(ZoneMouseToolType type) {
+            toolType = type;
         }
 
         public override bool updateMaterialSelector() {
@@ -19,14 +34,32 @@ namespace game.view.system.mouse_tool {
             return true;
         }
 
-        public override void applyTool(IntBounds3 bounds) {
-            if (zoneType == NONE) {
-            GameModel.get().currentLocalModel.zoneContainer.eraseZones(bounds);
-                
+        public override void applyTool(IntBounds3 bounds, Vector3Int start) {
+            switch (toolType) {
+                case ZoneMouseToolType.CREATE:
+                    GameModel.local().zoneContainer.createZone(bounds, zoneType);
+                    break;
+                case ZoneMouseToolType.UPDATE:
+                    updateZones(bounds, start);
+                    break;
+                case ZoneMouseToolType.DELETE:
+                    GameModel.local().zoneContainer.eraseZones(bounds);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            GameModel.get().currentLocalModel.zoneContainer.createZone(bounds, zoneType);
         }
 
+        private void updateZones(IntBounds3 bounds, Vector3Int start) {
+            ZoneContainer container = GameModel.local().zoneContainer;
+            EcsEntity zone = container.getZone(start);
+            if (zone == EcsEntity.Null) {
+                container.eraseZones(bounds);
+            } else {
+                container.addTilesToZone(zone, bounds);
+            }
+        } 
+        
         public override void updateSprite() {
             selectorGO.setToolSprite(IconLoader.get("mousetool/zone"));
         }
@@ -44,9 +77,9 @@ namespace game.view.system.mouse_tool {
         }
     }
 
-    public enum ZoneTypeEnum {
-        STOCKPILE,
-        FARM,
-        NONE // for deletion
+    public enum ZoneMouseToolType {
+        CREATE,
+        UPDATE,
+        DELETE
     }
 }

@@ -18,8 +18,10 @@ namespace game.view.system.mouse_tool {
         private static ZoneMouseTool zoneTool = new();
         private SelectorSpriteUpdater updater = new();
 
-        public static void handleSelection(IntBounds3 bounds) => get().handleSelection_(bounds);
-        
+        public static void handleSelection(IntBounds3 bounds, Vector3Int start) {
+            get().handleSelection_(bounds, start);   
+        }
+
         public void mouseMoved(Vector3Int position) {
             tool?.updateSpriteColor(position); // TODO use position in tools (for performance)
             updater.updateSprite(position);
@@ -50,6 +52,11 @@ namespace game.view.system.mouse_tool {
             zoneTool.set(type);
             get()._set(zoneTool);
         }
+
+        public static void set(ZoneMouseToolType type) {
+            zoneTool.set(type);
+            get()._set(zoneTool);
+        }
         
         public void setUnitMovementTarget(EcsEntity unit) {
             unitMovementTargetTool.unit = unit; 
@@ -69,8 +76,8 @@ namespace game.view.system.mouse_tool {
             tool.rotate();
         }
 
-        private void handleSelection_(IntBounds3 bounds) {
-            tool?.applyTool(bounds);
+        private void handleSelection_(IntBounds3 bounds, Vector3Int selectionStart) {
+            tool?.applyTool(bounds, selectionStart);
         }
         
         private void _set(MouseTool tool) { 

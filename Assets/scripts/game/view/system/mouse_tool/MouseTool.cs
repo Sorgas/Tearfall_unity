@@ -18,7 +18,7 @@ namespace game.view.system.mouse_tool {
 
         public abstract bool updateMaterialSelector();
 
-        public abstract void applyTool(IntBounds3 bounds);
+        public abstract void applyTool(IntBounds3 bounds, Vector3Int start);
 
         public abstract void updateSprite();
 

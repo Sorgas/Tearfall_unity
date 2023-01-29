@@ -54,7 +54,9 @@ namespace game.view.ui.toolbar {
         private void fillZonesPanel(ToolbarPanelHandler panel) {
             widget.createZoneButton(panel, "Stockpile", "toolbar/zones/stockpile", ZoneTypeEnum.STOCKPILE, KeyCode.Z);
             widget.createZoneButton(panel, "Farm", "toolbar/zones/farm", ZoneTypeEnum.FARM, KeyCode.X);
-            widget.createZoneButton(panel, "Clear", "toolbar/zones/clear", ZoneTypeEnum.NONE, KeyCode.N);
+            // TODO room zones
+            widget.createZoneToolButton(panel, "Update", "toolbar/zones/expand", ZoneMouseToolType.UPDATE, KeyCode.B);
+            widget.createZoneToolButton(panel, "Clear", "toolbar/zones/clear", ZoneMouseToolType.DELETE, KeyCode.N);
             panel.closeAction = () => MouseToolManager.reset();
         }
 

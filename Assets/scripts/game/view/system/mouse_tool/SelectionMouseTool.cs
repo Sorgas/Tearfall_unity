@@ -13,7 +13,7 @@ using util.geometry.bounds;
 namespace game.view.system.mouse_tool {
     public class SelectionMouseTool : MouseTool {
 
-        public override void applyTool(IntBounds3 bounds) {
+        public override void applyTool(IntBounds3 bounds, Vector3Int start) {
             Vector3Int position = new(bounds.minX, bounds.minY, bounds.minZ);
             LocalModel model = GameModel.get().currentLocalModel;
             if (model.buildingContainer.buildings.ContainsKey(position)) {

@@ -9,7 +9,6 @@ using types.material;
 using types.plant;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using util;
 using util.geometry;
 using util.lang;
 using util.lang.extension;
@@ -141,8 +140,7 @@ namespace game.view.tilemaps {
 
         private Tile getZoneTile(Vector3Int position) {
             EcsEntity zone = model.zoneContainer.getZone(position);
-            if (zone == EcsEntity.Null) return null;
-            return blockTileSetHolder.zoneTiles[zone.take<ZoneComponent>().type];
+            return zone == EcsEntity.Null ? null : blockTileSetHolder.zoneTiles[zone.take<ZoneComponent>().type];
         }
         
         // Chooses ramp tile by surrounding walls. Don't touch!
@@ -178,7 +176,7 @@ namespace game.view.tilemaps {
         }
 
         public void createSelectionTile(int x, int y, int z) {
-            Vector3Int vector = new Vector3Int(x, y, SELECTION_LAYER);
+            Vector3Int vector = new(x, y, SELECTION_LAYER);
             BlockType blockType = get(map.blockType.get(x, y, z));
             Tile tile = null;
             if (blockType != SPACE) {

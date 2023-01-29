@@ -22,7 +22,7 @@ namespace game.view.system.mouse_tool {
             selectionType = type.name == "wall" ? ROW : AREA;
         }
 
-        public override void applyTool(IntBounds3 bounds) {
+        public override void applyTool(IntBounds3 bounds, Vector3Int start) {
             if (!hasMaterials) {
                 Debug.LogWarning("no materials for construction");
                 return;

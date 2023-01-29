@@ -18,7 +18,7 @@ namespace game.view.system.mouse_tool {
             return true;
         }
 
-        public override void applyTool(IntBounds3 bounds) {
+        public override void applyTool(IntBounds3 bounds, Vector3Int start) {
             if (!bounds.isSingleTile()) {
                 Debug.LogError("unit movement target is not single tile !!!");
             } 

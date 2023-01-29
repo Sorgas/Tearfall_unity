@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using game.view.system.mouse_tool;
+using types;
 using types.material;
 using types.plant;
 using UnityEngine;
@@ -88,16 +88,15 @@ namespace game.view.tilemaps {
         }
 
         private void createZoneTiles() {
-            // storage
             Sprite sprite = TexturePacker.createSpriteFromAtlas("zone_tile");
-            if(sprite == null) Debug.Log("zone sprite is null");
-            Tile tile = ScriptableObject.CreateInstance<Tile>();
-            tile.sprite = sprite;
-            tile.color = Color.magenta;
-            zoneTiles.Add(ZoneTypeEnum.STOCKPILE, tile);
-            zoneTiles.Add(ZoneTypeEnum.FARM, tile); // TODO add another color
+            foreach (ZoneType zoneType in ZoneTypes.all) {
+                Tile tile = ScriptableObject.CreateInstance<Tile>();
+                tile.sprite = sprite;
+                tile.color = zoneType.tileColor;
+                zoneTiles.Add(zoneType.value, tile);
+            }
         }
-        
+
         private void flushNotFound() {
             foreach (string tileset in notFound.Keys) {
                 log("tileset " + tileset + " not found for materials:" + notFound[tileset].ToString());

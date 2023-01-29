@@ -21,7 +21,7 @@ namespace game.view.camera {
         // finishes selection
         public void handleMouseUp() {
             if (state.started) {
-                MouseToolManager.handleSelection(state.bounds);
+                MouseToolManager.handleSelection(state.bounds, state.selectionStart);
                 state.reset();
             }
         }

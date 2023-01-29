@@ -9,6 +9,7 @@ namespace game.view.camera {
     // adds new tiles when selection is updated.
     public class SelectionState {
         public LocalMapTileUpdater updater; // for showing selection frame tiles
+        public Vector3Int selectionStart;
         public TwoPointIntBounds3 bounds = new(); // actual bounds of selection
         public SelectionType selectionType;
         public bool started;
@@ -19,6 +20,7 @@ namespace game.view.camera {
         
         public void startSelection(Vector3Int pos) {
             started = true;
+            selectionStart = pos;
             previousPos = pos;
             bounds.set(pos, pos);
             previousBounds.set(pos, pos);
@@ -43,6 +45,7 @@ namespace game.view.camera {
 
         public void reset() {
             started = false;
+            selectionStart = Vector3Int.left;
             bounds.iterate((x, y, z) => updater.hideSelectionTile(x,y,z));
             bounds.set(-1, -1, -1, -1, -1, -1);
         }

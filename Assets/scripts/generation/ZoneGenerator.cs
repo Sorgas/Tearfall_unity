@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using game.model.component;
 using game.model.localmap;
-using game.view.system.mouse_tool;
 using Leopotam.Ecs;
 using types;
 using UnityEngine;

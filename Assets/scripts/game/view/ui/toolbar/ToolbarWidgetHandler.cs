@@ -37,5 +37,9 @@ namespace game.view.ui.toolbar {
         public void createZoneButton(ToolbarPanelHandler panel, string text, string iconName, ZoneTypeEnum zoneType, KeyCode key) {
             panel.createButton(text, iconName, () => MouseToolManager.set(zoneType), key);
         }
+
+        public void createZoneToolButton(ToolbarPanelHandler panel, string text, string iconName, ZoneMouseToolType zoneType, KeyCode key) {
+            panel.createButton(text, iconName, () => MouseToolManager.set(zoneType), key);
+        }
     }
 }
