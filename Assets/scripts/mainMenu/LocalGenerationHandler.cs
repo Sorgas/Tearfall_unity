@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace mainMenu {
     public class LocalGenerationHandler : MonoBehaviour {
-        public Slider slider;
+        public UnityEngine.UIElements.Slider slider;
         public Text text;
         
         void Update() {

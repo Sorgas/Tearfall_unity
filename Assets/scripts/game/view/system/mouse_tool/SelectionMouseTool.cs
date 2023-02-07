@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using game.input;
 using game.model;
+using game.model.component;
 using game.model.component.building;
 using game.model.localmap;
 using game.view.camera;
 using game.view.ui;
+using game.view.ui.stockpileMenu;
 using game.view.util;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -24,6 +26,9 @@ namespace game.view.system.mouse_tool {
             }
             if (model.itemContainer.onMap.itemsOnMap.ContainsKey(position)) {
                 handleItemSelection(model.itemContainer.onMap.itemsOnMap[position]);
+            }
+            if (model.zoneContainer.zones.ContainsKey(position)) {
+                handleZoneSelection(model.zoneContainer.getZone(position));
             }
             raycastUnit();
         }
@@ -68,6 +73,14 @@ namespace game.view.system.mouse_tool {
                 if(unitComponent != null) {
                     WindowManager.get().showWindowForUnit(unitComponent.unit);
                 }
+            }
+        }
+
+        private void handleZoneSelection(EcsEntity entity) {
+            if (entity.Has<StockpileComponent>()) {
+                StockpileMenuHandler window = (StockpileMenuHandler)WindowManager.get().windows[StockpileMenuHandler.name];
+                window.initFor(entity);
+                WindowManager.get().showWindowByName(StockpileMenuHandler.name, false);
             }
         }
     }

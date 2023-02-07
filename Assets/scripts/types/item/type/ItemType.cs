@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using types.item.type.raw;
 using UnityEngine;
 
@@ -16,7 +17,9 @@ namespace types.item.type {
         public List<string> optionalParts = new();
         public string atlasName;
         public Dictionary<string, string[]> components = new(); // component name to array of component arguments
-
+        public string stockpileCategory;
+        public List<string> stockpileMaterialTags = new();
+        
         public ItemType(RawItemType raw) {
             name = raw.name;
             title = raw.title ?? raw.name;
@@ -58,6 +61,16 @@ namespace types.item.type {
                 return;
             }
             components.Add(array[0], array.Length > 1 ? array[1].Split(',') : null);
+        }
+
+        private void extractStockpileValues(RawItemType raw) {
+            
+            stockpileCategory = raw.stockpileCategory == null ? "special" : raw.stockpileCategory;
+            if (raw.stockpileMaterialTags == null) {
+                stockpileMaterialTags.Add("stone"); // should never be used
+            } else {
+                stockpileMaterialTags.AddRange(raw.stockpileMaterialTags.Split(","));
+            }
         }
     }
 }

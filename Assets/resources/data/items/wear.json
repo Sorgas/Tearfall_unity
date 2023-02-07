@@ -3,36 +3,48 @@
         "name": "shirt",
         "description": "Wear for covering upper body and arms.",
         "components": ["value(0)", "wear(body,medium)"],
+        "stockpileCategory": "wear",
+        "stockpileMaterialTags": "cloth",
         "atlasXY": [1, 0],
         "color": "0xffffffff"
     }, {
     "name": "pants",
     "description": "Wear for legs.",
     "components": ["value(0)", "wear(legs,medium)", "container(solid)"],
+    "stockpileCategory": "wear",
+    "stockpileMaterialTags": "cloth,leather",
     "atlasXY": [0, 0],
     "color": "0xffffffff"
 }, {
     "name": "hat",
     "description": "Wear for head.",
     "components": ["value(0)", "wear(head,medium)"],
+    "stockpileCategory": "wear",
+    "stockpileMaterialTags": "cloth,leather",
     "atlasXY": [5, 0],
     "color": "0xffffffff"
 }, {
     "name": "glove",
     "description": "Wear for hand.",
     "components": ["value(0)", "wear(hand,medium)"],
+    "stockpileCategory": "wear",
+    "stockpileMaterialTags": "cloth,leather",
     "atlasXY": [5, 0],
     "color": "0xffffffff"
 }, {
     "name": "backpack",
     "description": "Sac with two straps. Allows to carry many items, keeping hands free.",
     "components": ["value(0)", "wear(body,above)", "container(solid)"],
+    "stockpileCategory": "special",
+    "stockpileMaterialTags": "cloth,leather",
     "atlasXY": [4, 0],
     "color": "0xffffffff"
 }, {
     "name": "boot",
     "description": "Wear for feet.",
     "components": ["value(0)", "wear(foot,medium)"],
+    "stockpileCategory": "wear",
+    "stockpileMaterialTags": "cloth,leather",
     "atlasXY": [5, 0],
     "color": "0xffffffff"
 }

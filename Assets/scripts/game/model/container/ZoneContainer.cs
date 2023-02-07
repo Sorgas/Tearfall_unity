@@ -3,6 +3,7 @@ using System.Linq;
 using game.model.component;
 using game.model.localmap;
 using generation;
+using generation.zone;
 using Leopotam.Ecs;
 using types;
 using UnityEngine;
@@ -16,7 +17,8 @@ namespace game.model.container {
         public Dictionary<Vector3Int, EcsEntity> zones = new();
         private ZoneGenerator zoneGenerator = new();
         private bool debug = true;
-
+        public readonly StockpileInitializer stockpileInitializer = new();
+        
         public ZoneContainer(LocalModel model) : base(model) { }
 
         // creates zone and overwrites other zones

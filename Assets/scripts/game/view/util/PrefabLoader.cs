@@ -55,6 +55,11 @@ namespace game.view.util {
             paths.Add("recipeLine", "prefabs/workbenchMenu/RecipeLine");
             paths.Add("itemButtonWithMaterialList", "prefabs/materialSelector/ItemButtonWithMaterialList");
             paths.Add("materialRow", "prefabs/materialSelector/MaterialRow");
+            
+            // stockpile
+            
+            paths.Add("StockpileCategoryRow", "prefabs/stockpileMenu/StockpileCategoryRow");
+            // paths.Add("materialRow", "prefabs/materialSelector/MaterialRow");
         }
     }
 }

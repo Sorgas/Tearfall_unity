@@ -4,6 +4,7 @@ using game.view.ui;
 using game.view.ui.gamespeed_widget;
 using game.view.ui.jobs_widget;
 using game.view.ui.menu_widget;
+using game.view.ui.stockpileMenu;
 using game.view.ui.toolbar;
 using game.view.ui.unit_menu;
 using game.view.ui.workbench;
@@ -28,6 +29,7 @@ namespace game {
         public WorkbenchWindowHandler workbenchWindowHandler;
         public ItemMenuHandler itemMenuHandler;
         public UnitMenuHandler unitMenuHandler;
+        public StockpileMenuHandler stockpileMenuHandler;
         public Text debugInfoPanel;
         public Text modelDebugInfoPanel;
 
@@ -37,8 +39,7 @@ namespace game {
         // TODO make world and local generation independent from gamemodel singleton
         // when scene is loaded, inits game model and view
         public void Start() {
-            Debug.unityLogger.logEnabled = false;
-            Debug.Log("starting game");
+            // Debug.unityLogger.logEnabled = false;
             resolveWorld();
             GameModel.get().init(defaultModelName);
             GameView.get().init(this, GameModel.get().currentLocalModel);

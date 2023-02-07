@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Leopotam.Ecs;
 using Newtonsoft.Json;
 using types.item.type.raw;
@@ -29,10 +30,14 @@ namespace types.item.type {
             return get().types.ContainsKey(title);
         }
 
+        public static List<ItemType> getAll() {
+            return get().types.Values.ToList();
+        }
+        
         private void loadItemTypes() {
             log("Loading item types");
             TextAsset[] files = Resources.LoadAll<TextAsset>("data/items");
-            RawItemTypeProcessor processor = new RawItemTypeProcessor();
+            RawItemTypeProcessor processor = new();
             foreach (var file in files) {
                 loadFromFile(file, processor);
             }
@@ -44,7 +49,10 @@ namespace types.item.type {
             List<RawItemType> raws = JsonConvert.DeserializeObject<List<RawItemType>>(file.text);
             if (raws != null) {
                 for (var i = 0; i < raws.Count; i++) {
-                    ItemType type = new ItemType(raws[i]);
+                    if (raws[i] == null) {
+                        Debug.Log("");
+                    }
+                    ItemType type = new(raws[i]);
                     type.atlasName = file.name;
                     // processor.process(raws[i], type);
                     types.Add(type.name, type);

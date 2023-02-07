@@ -10,7 +10,7 @@ using Random = System.Random;
 
 namespace mainMenu {
     public class WorldGenButtonHandler : ButtonHandler {
-        public Slider sizeSlider;
+        public UnityEngine.UIElements.Slider sizeSlider;
         public InputField seedField;
         public WorldmapController worldmapController;
         public Button continueButton;

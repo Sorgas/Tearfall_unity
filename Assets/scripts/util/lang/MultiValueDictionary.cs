@@ -27,6 +27,10 @@ namespace util.lang {
             return this[key];
         }
 
+        public bool contains(K key, V value) {
+            return ContainsKey(key) && this[key].Contains(value);
+        }
+
         public MultiValueDictionary<K ,V> clone() {
             return new(this);
         }

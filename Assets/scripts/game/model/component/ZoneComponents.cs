@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using types;
 using UnityEngine;
+using util.lang;
 
 namespace game.model.component {
     public struct ZoneComponent {
@@ -18,4 +19,12 @@ namespace game.model.component {
     }
     
     public struct ZoneDeletedComponent {}
+
+    // stores allowed itemTypes -> materials
+    public struct StockpileComponent {
+        public MultiValueDictionary<string, string> map;
+        public string preset;
+        public int priority;
+        public bool paused; // new hauling tasks not generated when paused.
+    }
 }

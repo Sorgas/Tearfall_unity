@@ -3,112 +3,152 @@
     "name": "log",
     "description": "Large part of a tree.",
     "components": ["fuel(1)"],
+    "tags": ["material"],
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "wood",
     "atlasXY": [0, 0],
-    "color": "0xffffffff",
-    "tags": ["material"]
+    "color": "0xffffffff"
 }, {
     "name": "branch",
     "description": "Small part of a tree.",
     "components": ["fuel(1)"],
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "wood",
     "atlasXY": [1, 0],
     "color": "0xffffffff"
 }, {
     "name": "plank",
     "description": "Fine formed piece of wood.",
     "components": ["fuel(0)"],
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "wood",
     "atlasXY": [2, 0],
     "color": "0xffffffff",
     "tags": ["material"]
 }, {
     "name": "rock",
     "description": "Rock.",
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "stone",
     "atlasXY": [3, 0],
     "color": "0xffffffff",
     "tags": ["material"]
 }, {
     "name": "ore",
     "description": "Ore piece.",
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "ore",
     "atlasXY": [4, 0],
     "color": "0xffffffff"
 }, {
     "name": "bar",
     "description": "Piece of metal, formed for further use.",
     "atlasXY": [5, 0],
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "metal",
     "color": "0xffffffff",
     "tags": ["material"]
 }, {
-    "name": "roll",
+    "name": "cloth_roll",
     "description": "Rolled cloth.",
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "cloth",
     "atlasXY": [10, 0],
     "color": "0xffffffff"
 }, {
-    "name": "leather",
+    "name": "leather_sheet",
     "description": "Large leather piece.",
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "leather",
     "atlasXY": [11, 0],
     "color": "0xffffffff"
 }, {
     "name": "brick",
     "description": "Building brick made of clay.",
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "clay",
     "atlasXY": [12, 0],
     "color": "0xffffffff",
     "tags": ["material"]
 }, {
     "name": "rope",
+    "stockpileCategory": "material",
     "description": "For binding items to each other.",
+    "stockpileMaterialTags": "cloth",
     "atlasXY": [14, 0],
     "color": "0xffffffff"
 }, {
     "name": "lantern",
     "description": "Shows path in the dark.",
+    "stockpileCategory": "special",
+    "stockpileMaterialTags": "metal",
     "atlasXY": [14, 0],
     "color": "0xffffffff"
 }, {
     "name": "torch",
     "description": "Lights the way.",
+    "stockpileCategory": "special",
+    "stockpileMaterialTags": "wood",
     "atlasXY": [15, 0],
     "color": "0xffffffff"
 }, {
     "name": "meal",
     "description": "Edible meal",
     "components": ["food()"],
+    "stockpileCategory": "food",
+    "stockpileMaterialTags": "",
     "atlasXY": [15, 0],
     "color": "0xffffffff"
 }, {
     "name": "liquid",
     "description": "Should be replaced with dynamic description.",
     "components": ["liquid()"],
+    "stockpileCategory": "liquid",
+    "stockpileMaterialTags": "",
     "atlasXY": [15, 0],
     "color": "0xffffffff"
 }, {
     "name": "meat_piece",
     "title": "Piece",
     "components": ["food(0.3)"],
+    "stockpileCategory": "food",
+    "stockpileMaterialTags": "",
     "tags": ["cookable"],
     "atlasXY": [5, 0],
     "color": "0xffffffff"
 }, {
     "name": "chain",
     "description": "Strong metal chain.",
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "metal",
     "atlasXY": [15, 0],
     "color": "0xffffffff"
 }, {
     "name": "book",
     "description": "Source of knowledge.",
+    "stockpileCategory": "special",
+    "stockpileMaterialTags": "paper",
     "atlasXY": [15, 0],
     "color": "0xffffffff"
 }, {
     "name": "nail",
     "description": "Metal nail for building.",
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "metal",
     "atlasXY": [15, 0],
     "color": "0xffffffff"
 }, {
     "name": "arrow",
     "description": "Ammunition for bows.",
+    "stockpileCategory": "ammo",
+    "stockpileMaterialTags": "metal",
     "atlasXY": [15, 0],
     "color": "0xffffffff"
 }, {
     "name": "bolt",
     "description": "Ammunition for crossbows.",
+    "stockpileCategory": "bolt",
+    "stockpileMaterialTags": "metal",
     "atlasXY": [15, 0],
     "color": "0xffffffff"
 }

@@ -47,6 +47,13 @@ namespace types.material {
                 .ToList();
         }
 
+        public List<Material_> getByTagsAny(List<string> tags) {
+            return map.Values
+                .Select(material => material)
+                .Where(material => material.tags.Any(tag => tags.Contains(tag)))
+                .ToList();
+        }
+
         public void saveMaterial(Material_ material) {
             map.Add(material.name, material);
             idMap.Add(material.id, material);

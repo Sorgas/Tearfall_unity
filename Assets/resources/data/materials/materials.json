@@ -26,7 +26,7 @@
 }, {
     "id": 4,
     "name": "generic_plant",
-    "tags": ["biomass"],
+    "tags": ["organic"],
     "density": "1",
     "reactions": {
         "burn": ["2500"]

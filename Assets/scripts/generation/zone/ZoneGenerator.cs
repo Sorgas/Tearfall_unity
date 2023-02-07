@@ -6,7 +6,7 @@ using types;
 using UnityEngine;
 using util.geometry.bounds;
 
-namespace generation {
+namespace generation.zone {
     public class ZoneGenerator {
 
         public EcsEntity generate(IntBounds3 bounds, ZoneTypeEnum type, EcsEntity entity, LocalModel model) {
@@ -17,6 +17,9 @@ namespace generation {
                 }
             });
             entity.Replace(new ZoneComponent { tiles = tiles, type = type });
+            if (type == ZoneTypeEnum.STOCKPILE) {
+                entity.Replace(new StockpileComponent());
+            }
             return entity;
         }
     }

@@ -14,7 +14,7 @@ namespace generation {
         public PreparationState preparationState = new(); // data from preparation screen (settlers, items, pets)
         public LocalMapGenerator localMapGenerator = new();
 
-        // generates WorldModel and sets it to Gamemodel
+        // generates WorldModel and sets it to GameModel
         public void generateWorld() {
             World world = new();
             worldGenContainer = new WorldGenContainer();
@@ -22,7 +22,7 @@ namespace generation {
             worldGenSequence.run();
             WorldMap worldMap = worldGenContainer.createWorldMap();
             world.worldModel.worldMap = worldMap;
-            GameModel.get().world = world;
+            GameModel.get().world = world; // first instantiating on GameModel
         }
     }
 }

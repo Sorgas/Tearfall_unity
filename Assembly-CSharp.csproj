@@ -204,6 +204,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToDesignationContainer.cs" />
      <Compile Include="Assets\scripts\generation\item\CraftingOrderGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\ui\gamespeed_widget\GameTimeWidgetHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\stockpileMenu\StockpileMenuHandler.cs" />
      <Compile Include="Assets\scripts\game\view\system\item\ItemVIsualRemoveSystem.cs" />
      <Compile Include="Assets\scripts\util\geometry\PositionUtil.cs" />
      <Compile Include="Assets\scripts\types\unit\CreatureTypeMap.cs" />
@@ -334,7 +335,7 @@
      <Compile Include="Assets\scripts\generation\worldgen\generators\elevation\WorldElevationGenerator.cs" />
      <Compile Include="Assets\scripts\util\input\JsonArrayReader.cs" />
      <Compile Include="Assets\scripts\types\unit\need\RestNeed.cs" />
-     <Compile Include="Assets\scripts\generation\ZoneGenerator.cs" />
+     <Compile Include="Assets\scripts\generation\zone\ZoneGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\AvailableItemsManager.cs" />
      <Compile Include="Assets\scripts\game\model\container\PlantContainer.cs" />
      <Compile Include="Assets\scripts\game\view\ui\SelectorHandler.cs" />
@@ -354,9 +355,11 @@
      <Compile Include="Assets\scripts\game\view\system\zone\ZoneVisualSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\toolbar\MaterialSelectionWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\BuildingActionTarget.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\stockpileMenu\StockpileConfigMenuHandler.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntVector2.cs" />
      <Compile Include="Assets\scripts\types\unit\need\Need.cs" />
      <Compile Include="Assets\scripts\game\model\container\TaskContainer.cs" />
+     <Compile Include="Assets\scripts\generation\zone\StockpileInitializer.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantRemovingSystem.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\LocalModel.cs" />
      <Compile Include="Assets\scripts\generation\BuildingGenerator.cs" />
@@ -391,9 +394,11 @@
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />
      <Compile Include="Assets\scripts\game\view\ui\gamespeed_widget\GamespeedWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\StepOffAction.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\stockpileMenu\StockpileConfigRowHandler.cs" />
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
+     <Compile Include="Assets\scripts\util\geometry\IntRange.cs" />
      <None Include="Assets\resources\data\items\growths.json" />
      <None Include="Assets\resources\data\recipes\carpenter.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
