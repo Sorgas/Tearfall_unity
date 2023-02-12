@@ -7,6 +7,7 @@ namespace game.model.component {
     public struct ZoneComponent {
         public List<Vector3Int> tiles;
         public ZoneTypeEnum type;
+        public int number; // used for name generation
     }
 
     public struct ZoneVisualComponent {

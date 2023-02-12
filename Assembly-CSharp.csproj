@@ -371,6 +371,7 @@
      <Compile Include="Assets\scripts\generation\localgen\LocalGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationTaskCreationTimeoutSystem.cs" />
      <Compile Include="Assets\scripts\game\model\system\building\WorkbenchTaskCompletionSystem.cs" />
+     <Compile Include="Assets\scripts\util\geometry\IntRange.cs" />
      <Compile Include="Assets\scripts\types\item\ItemTagEnum.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\GameObjectExtension.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\AStar.cs" />
@@ -398,7 +399,6 @@
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
-     <Compile Include="Assets\scripts\util\geometry\IntRange.cs" />
      <None Include="Assets\resources\data\items\growths.json" />
      <None Include="Assets\resources\data\recipes\carpenter.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

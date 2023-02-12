@@ -18,12 +18,15 @@ namespace game.model.container {
         private ZoneGenerator zoneGenerator = new();
         private bool debug = true;
         public readonly StockpileInitializer stockpileInitializer = new();
-        
+
+        private List<int> freeNumbers = new();
+        private int nextNumber = 1;
+
         public ZoneContainer(LocalModel model) : base(model) { }
 
         // creates zone and overwrites other zones
         public void createZone(IntBounds3 bounds, ZoneTypeEnum type) {
-            EcsEntity zone = zoneGenerator.generate(bounds, type, model.createEntity(), model);
+            EcsEntity zone = zoneGenerator.generate(bounds, type, getFreeNumber(), model.createEntity(), model);
             List<Vector3Int> tiles = zone.Get<ZoneComponent>().tiles;
             zone.Replace(new ZoneUpdatedComponent { tiles = new List<Vector3Int>(tiles) });
             foreach (Vector3Int tile in tiles) {
@@ -47,6 +50,7 @@ namespace game.model.container {
             foreach (Vector3Int tile in component.tiles) {
                 zones.Remove(tile);
             }
+            freeNumbers.Add(component.number);
             zone.Replace(new ZoneDeletedComponent());
         }
 
@@ -88,6 +92,18 @@ namespace game.model.container {
                 if (zones.ContainsKey(position)) set.Add(zones[position]);
             });
             return set;
+        }
+
+        private int getFreeNumber() {
+            int value;
+            if (freeNumbers.Count != 0) {
+                value = freeNumbers[0];
+                freeNumbers.RemoveAt(0);
+            } else {
+                value = nextNumber;
+                nextNumber++;
+            }
+            return value;
         }
 
         private void log(string message) {
