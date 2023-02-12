@@ -46,7 +46,7 @@ namespace game.view.ui.toolbar {
                 foreach (BuildingType type in entry.Value) {
                     widget.createBuildingButton(subpanel, type.name, type, hotKeySequence.getNext()); // TODO use building title instead of name
                 }
-                subpanel.createButton("rotate", "toolbar/rotate", () => MouseToolManager.get().rotateBuilding(), KeyCode.T);
+                subpanel.createButton("rotate", "toolbar/rotate", () => MouseToolManager.get().rotateBuilding(), KeyCode.T, false);
                 subpanel.closeAction = () => MouseToolManager.reset();
             }
         }

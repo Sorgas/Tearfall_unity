@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using util.lang.extension;
 
 namespace game.view.ui.toolbar {
     // holds and manages sub-panels for toolbar panel
@@ -14,98 +15,109 @@ namespace game.view.ui.toolbar {
     // for buttons initialisation see ToolbarWidgetHandler 
     public class ToolbarPanelHandler : MonoBehaviour, IHotKeyAcceptor, ICloseable {
         public Action closeAction;
-        private Dictionary<KeyCode, Button> buttons = new();
-        private Dictionary<KeyCode, Func<bool>> enableFunctions = new(); // used to enable/disable buttons
-        protected Dictionary<KeyCode, ToolbarPanelHandler> subPanels = new(); // map to open/close subpanels
-
-        private Dictionary<KeyCode, Action> hotKeyMap = new(); // map to invoke actions
+        private readonly Dictionary<KeyCode, ToolbarPanelChild> children = new();
 
         private ToolbarPanelHandler activeSubpanel;
         private ToolbarPanelHandler parentPanel;
         private int buttonCount;
 
+        private Color normalColor = Color.white;
+        private Color selectedColor = Color.yellow;
+
+
         public bool accept(KeyCode key) {
             if (activeSubpanel != null) return activeSubpanel.accept(key); // pass to subpanel
-            if (buttons.ContainsKey(key)) {
-                ExecuteEvents.Execute(buttons[key].gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
-                return true;
+            if (children.ContainsKey(key)) {
+                ExecuteEvents.Execute(children[key].button.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
             }
-            if (key == KeyCode.Q) {
-                // close self
-                close();
-                return false;
-            }
+            if (key == KeyCode.Q) close();
             return false; // not handled
-        }
-
-        private void toggleSubpanel(ToolbarPanelHandler panel) {
-            if (panel.gameObject.activeSelf) {
-                // close if open
-                panel.close();
-            } else {
-                if (activeSubpanel != null) activeSubpanel.close();
-                panel.open();
-                activeSubpanel = panel;
-            }
-        }
-
-        public virtual void close() {
-            foreach (var toolbarPanelHandler in subPanels.Values) {
-                toolbarPanelHandler.close();
-            }
-            activeSubpanel = null;
-            closeAction?.Invoke();
-            gameObject.SetActive(false);
-            if (parentPanel != null) parentPanel.activeSubpanel = null;
         }
 
         public void open() {
             gameObject.SetActive(true);
-            foreach (KeyCode key in buttons.Keys) {
-                buttons[key].GetComponentInChildren<Button>().interactable = enableFunctions[key].Invoke();
+            foreach (ToolbarPanelChild child in children.Values) {
+                child.button.GetComponentInChildren<Button>().interactable = child.enableFunction.Invoke();
             }
+            if (parentPanel != null) parentPanel.activeSubpanel = this;
         }
 
-        public void createButton(string text, string iconName, Action onClick, KeyCode hotKey) =>
-            createButton(text, iconName, onClick, () => true, hotKey);
+        public virtual void close() {
+            if (activeSubpanel != null) activeSubpanel.close();
+            closeAction?.Invoke();
+            gameObject.SetActive(false);
+            highlightButton(KeyCode.None);
+            if (parentPanel == null) return;
+            parentPanel.activeSubpanel = null;
+            parentPanel.highlightButton(KeyCode.None);
+        }
 
-        public void createButton(string text, string iconName, Action onClick, Func<bool> enableFunction, KeyCode hotKey) =>
-            createButton(text, IconLoader.get(iconName), onClick, () => true, hotKey);
+        private void toggleSubpanel(KeyCode key) {
+            ToolbarPanelHandler panel = children[key].panel;
+            if (panel == null) return;
+            if (panel.gameObject.activeSelf) {
+                panel.close();
+            } else {
+                if (activeSubpanel != null) activeSubpanel.close();
+                panel.open();
+            }
+        }
+        
+        public void createButton(string text, Sprite sprite, Action onClick, Func<bool> enableFunction, KeyCode key) => 
+            createButton(text, sprite, onClick, enableFunction, key, null, true);
 
-        public void createButton(string text, Sprite sprite, Action onClick, Func<bool> enableFunction, KeyCode hotKey) {
+        public void createButton(string text, string icon, Action onClick, KeyCode key) =>
+            createButton(text, IconLoader.get(icon), onClick, null, key, null, true);
+
+        private void createButton(string text, string icon, Action onClick, KeyCode key, ToolbarPanelHandler panel) =>
+            createButton(text, IconLoader.get(icon), onClick, null, key, panel, true);
+
+        public void createButton(string text, string icon, Action onClick, KeyCode key, bool buttonHighlight) =>
+            createButton(text, IconLoader.get(icon), onClick, null, key, null, buttonHighlight);
+
+        private void createButton(string text, Sprite sprite, Action onClick, Func<bool> enableFunction, KeyCode key, ToolbarPanelHandler panel, bool buttonHighlight) {
+            enableFunction ??= () => true;
             GameObject go = PrefabLoader.create("toolbarButton", gameObject.transform);
             float buttonWidth = go.GetComponent<RectTransform>().rect.width;
             go.transform.localPosition = new Vector3(buttonWidth * buttonCount++, 0, 0);
             Button button = go.GetComponentInChildren<Button>();
             button.onClick.AddListener(onClick.Invoke);
-            button.onClick.AddListener(() => highlightButton(hotKey));
+            if (buttonHighlight) button.onClick.AddListener(() => highlightButton(key));
             go.GetComponentInChildren<TextMeshProUGUI>().text = text;
             go.GetComponentsInChildren<Image>()[1].sprite = sprite;
-            hotKeyMap.Add(hotKey, () => button.onClick.Invoke());
-            enableFunctions.Add(hotKey, enableFunction);
-            buttons.Add(hotKey, button);
+            children.Add(key, new ToolbarPanelChild(panel, button, enableFunction));
         }
 
-        // creates subpanel, button, registers panel to hotkey
-        public ToolbarPanelHandler createSubPanel(string text, string icon, KeyCode hotKey) {
-            GameObject panel = PrefabLoader.create("toolbarPanel", gameObject.transform);
-            panel.transform.localPosition = new Vector3(0, panel.GetComponent<RectTransform>().rect.height, 0);
-            panel.SetActive(false);
-
-            ToolbarPanelHandler handler = panel.GetComponent<ToolbarPanelHandler>();
-            handler.parentPanel = this;
-            subPanels.Add(hotKey, handler);
-
-            createButton(text, icon, () => toggleSubpanel(handler), hotKey);
-            return handler;
+        public ToolbarPanelHandler createSubPanel(string text, string icon, KeyCode key) {
+            GameObject go = PrefabLoader.create("toolbarPanel", gameObject.transform);
+            go.transform.localPosition = new Vector3(0, go.GetComponent<RectTransform>().rect.height, 0);
+            go.SetActive(false);
+            ToolbarPanelHandler panel = go.GetComponent<ToolbarPanelHandler>();
+            panel.parentPanel = this;
+            createButton(text, icon, () => toggleSubpanel(key), key, panel);
+            return panel;
         }
 
         private void highlightButton(KeyCode key) {
-            foreach (KeyValuePair<KeyCode,Button> pair in buttons) {
-                ColorBlock block = buttons[pair.Key].GetComponent<Button>().colors;
-                block.normalColor = pair.Key == key ? Color.yellow : Color.white;
-                buttons[pair.Key].GetComponent<Button>().colors = block;
+            foreach (KeyValuePair<KeyCode, ToolbarPanelChild> pair in children) {
+                Button button = pair.Value.button;
+                ColorBlock block = button.GetComponent<Button>().colors;
+                block.normalColor = pair.Key == key ? selectedColor : normalColor;
+                button.GetComponent<Button>().colors = block;
             }
         }
+
+        private class ToolbarPanelChild {
+            public ToolbarPanelHandler panel;
+            public Button button;
+            public Func<bool> enableFunction;
+
+            public ToolbarPanelChild(ToolbarPanelHandler panel, Button button, Func<bool> enableFunction) {
+                this.panel = panel;
+                this.button = button;
+                this.enableFunction = enableFunction;
+            }
+        }
+
     }
 }
