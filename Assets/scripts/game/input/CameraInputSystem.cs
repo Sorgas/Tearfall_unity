@@ -4,12 +4,13 @@ using game.view.camera;
 using UnityEngine;
 using util.input;
 
-// moves selector in model
 namespace game.input {
+    // gets WASD RF scroll input, checks if mouse is on screen side.
+    // Passes all events to CameraMovementSystem  
     public class CameraInputSystem {
         private readonly CameraMovementSystem cameraMovementSystem;
         private readonly List<DelayedConditionController> controllers = new();
-        
+
         public CameraInputSystem(CameraMovementSystem cameraMovementSystem, PlayerControls playerControls) {
             this.cameraMovementSystem = cameraMovementSystem;
             controllers.Add(new DelayedCompositeNavigationController(playerControls.Player.CameraMove, handleWasd));
@@ -29,8 +30,6 @@ namespace game.input {
             float deltaTime = Time.deltaTime;
             if (GameView.get().screenBounds.isIn(Input.mousePosition)) {
                 controllers.ForEach(controller => controller.update(deltaTime));
-                float zoomDelta = Input.GetAxis("Mouse ScrollWheel");
-                if(zoomDelta != 0) cameraMovementSystem.zoomCamera(zoomDelta);
             }
         }
 

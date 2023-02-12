@@ -10,9 +10,11 @@ using util.lang.extension;
 using Image = UnityEngine.UI.Image;
 
 namespace game.input {
-    // reads input events from mouse, passes them to MouseMovementSystem for updating visual, to SelectionHandler for updating logic
+    // reads input events from mouse, passes them to MouseMovementSystem for updating visual,
+    // to SelectionHandler for updating logic
     public class MouseInputSystem {
         private MouseMovementSystem mouseMovementSystem;
+        private CameraMovementSystem cameraMovementSystem;
         private SelectionHandler selectionHandler;
 
         public void update() {
@@ -22,11 +24,16 @@ namespace game.input {
                 modelPosition = GameView.get().selector.updatePosition(modelPosition);
                 selectionHandler.handleMouseMove(modelPosition);
                 mouseMovementSystem.updateTarget(modelPosition);
-                // if pressed inside map and not on ui, start selection
-                if (Input.GetMouseButtonDown(0)
-                    && GameModel.get().currentLocalModel.localMap.bounds.isIn(modelPosition)
-                    && !clickIsOverUi()) {
-                    selectionHandler.handleMouseDown(modelPosition);
+                
+                if (!clickIsOverUi()) { // no clicking and scrolling map 
+                    // if pressed inside map and not on ui, start selection
+                    if (Input.GetMouseButtonDown(0)
+                        && GameModel.get().currentLocalModel.localMap.bounds.isIn(modelPosition)) {
+                        selectionHandler.handleMouseDown(modelPosition);
+                    }
+                    
+                    float zoomDelta = Input.GetAxis("Mouse ScrollWheel");
+                    if (zoomDelta != 0) cameraMovementSystem.zoomCamera(zoomDelta);
                 }
             }
             if (Input.GetMouseButtonUp(0)) selectionHandler.handleMouseUp();
@@ -36,6 +43,7 @@ namespace game.input {
         public void init() {
             selectionHandler = GameView.get().cameraAndMouseHandler.selectionHandler;
             mouseMovementSystem = GameView.get().cameraAndMouseHandler.mouseMovementSystem;
+            cameraMovementSystem = GameView.get().cameraAndMouseHandler.cameraMovementSystem;
         }
 
         // raycasts mouse position to ui element

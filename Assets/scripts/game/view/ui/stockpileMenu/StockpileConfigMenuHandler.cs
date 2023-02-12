@@ -13,7 +13,7 @@ using StockpileConfigItem = generation.zone.StockpileConfigItem;
 using Vector3 = UnityEngine.Vector3;
 
 namespace game.view.ui.stockpileMenu {
-    public class StockpileConfigMenuHandler : MbWindow {
+    public class StockpileConfigMenuHandler : MbWindow, IHotKeyAcceptor {
         private static string ROW_NAME = "StockpileCategoryRow";
 
         public Transform categoriesContainer;
@@ -176,6 +176,11 @@ namespace game.view.ui.stockpileMenu {
         private StockpileConfigRowHandler createRow(Transform parent, int i) {
             GameObject row = PrefabLoader.create(ROW_NAME, parent, new Vector3(0, -rowHeight * i, 0));
             return row.GetComponent<StockpileConfigRowHandler>();
+        }
+
+        public bool accept(KeyCode key) {
+            if (key == KeyCode.Q) close();
+            return true;
         }
     }
 

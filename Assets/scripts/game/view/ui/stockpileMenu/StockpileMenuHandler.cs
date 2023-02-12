@@ -2,6 +2,7 @@
 using game.view.ui.util;
 using Leopotam.Ecs;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 using util.geometry;
 using util.lang.extension;
@@ -9,7 +10,7 @@ using util.lang.extension;
 namespace game.view.ui.stockpileMenu {
     // menu for stockpiles. allows to do basic actions. allows to open config menu and presets menu.
     // TODO stats block, containers buttons
-    public class StockpileMenuHandler : MbWindow {
+    public class StockpileMenuHandler : MbWindow, IHotKeyAcceptor {
         public const string name = "stockpile";
         public Button closeButton;
         public Button pauseButton;
@@ -45,7 +46,15 @@ namespace game.view.ui.stockpileMenu {
             nameText.text = entity.name();
             presetNameText.text = entity.take<StockpileComponent>().preset;
         }
-
+        
+        public bool accept(KeyCode key) {
+            if (configMenuHandler.gameObject.activeSelf) return configMenuHandler.accept(key);
+            if (key == KeyCode.Q) {
+                
+            }
+            return false;
+        }
+        
         private void changePriority(int delta) {
             ref StockpileComponent component = ref entity.takeRef<StockpileComponent>();
             component.priority += delta;
