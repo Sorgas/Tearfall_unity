@@ -10,16 +10,17 @@ using types.plant;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using util.geometry;
-using util.lang;
 using util.lang.extension;
 using static types.BlockTypes;
 using static game.view.util.TilemapLayersConstants;
+using Debug = UnityEngine.Debug;
 
 // stores tilemaps of layers in array
 // changes unity tilemaps to be consistent with local map in game model
 // tiles are organized into layers: floor tiles, wall tiles, plants & buildings, liquids
 namespace game.view.tilemaps {
     public class LocalMapTileUpdater {
+        private RampUtil rampUtil;
         private readonly List<LocalMapLayerHandler> layers = new();
         public readonly BlockTileSetHolder blockTileSetHolder = BlockTileSetHolder.get();
         public GameObject layerPrefab;
@@ -33,16 +34,16 @@ namespace game.view.tilemaps {
             this.model = model;
             layerPrefab = Resources.Load<GameObject>("prefabs/LocalMapLayer");
             map = model.localMap;
+            rampUtil = new(map);
             blockTileSetHolder.loadAll();
         }
 
         public void flush() {
             Debug.Log("flushing localMap tiles");
-            new Optional<LocalMap>(model.localMap)
-                .ifPresent(map => {
-                    createLayers();
-                    map.bounds.iterate(position => updateTile(position, false)); // no need to update ramps on whole map update
-                });
+            createLayers();
+            layers.ForEach(layer => layer.setLock());
+            map.bounds.iterate(position => updateTile(position, false)); // no need to update ramps on whole map update
+            layers.ForEach(layer => layer.unlock());
         }
 
         public void updateTile(Vector3Int position, bool withRamps) => updateTile(position.x, position.y, position.z, withRamps);
@@ -52,13 +53,9 @@ namespace game.view.tilemaps {
             string material = selectMaterial(x, y, z);
             BlockType blockType = get(map.blockType.get(x, y, z));
             Vector3Int position = new(x, y, z);
-            Tile wallTile = null;
-            Tile floorTile = null;
-            Tile substrateFloorTile = null;
-            Tile substrateWallTile = null;
-            // select wall part for non-flat types
+            Tile wallTile = null, floorTile = null, substrateFloorTile = null, substrateWallTile = null;
             if (!blockType.FLAT) {
-                string wallTileName = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;
+                string wallTileName = blockType == RAMP ? rampUtil.selectRampPrefix(x, y, z) : blockType.PREFIX;
                 wallTile = blockTileSetHolder.tiles[material][wallTileName]; // draw wall part
                 if (map.substrateMap.cells.ContainsKey(position)) {
                     int id = map.substrateMap.cells[position].type;
@@ -79,19 +76,24 @@ namespace game.view.tilemaps {
                     }
                 }
             }
-            layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER), floorTile);
-            layers[z].setTile(new Vector3Int(x, y, WALL_LAYER), wallTile);
+            LocalMapLayerHandler layerHandler = layers[z];
+            bool wasLocked = layerHandler.locked;
+            if (!wasLocked) layerHandler.setLock();
+            layerHandler.setTile(new Vector3Int(x, y, FLOOR_LAYER), floorTile);
+            layerHandler.setTile(new Vector3Int(x, y, WALL_LAYER), wallTile);
             Tile zoneTile = getZoneTile(position);
-            if(zoneTile == null) Debug.Log("zone tile IsNull");
-            layers[z].setTile(new Vector3Int(x, y, ZONE_FLOOR_LAYER), zoneTile);
-            layers[z].setTile(new Vector3Int(x, y, SUBSTRATE_FLOOR_LAYER), substrateFloorTile);
-            layers[z].setTile(new Vector3Int(x, y, SUBSTRATE_WALL_LAYER), substrateWallTile);
+            if (zoneTile == null) Debug.Log("zone tile IsNull");
+            layerHandler.setTile(new Vector3Int(x, y, ZONE_FLOOR_LAYER), zoneTile);
+            layerHandler.setTile(new Vector3Int(x, y, SUBSTRATE_FLOOR_LAYER), substrateFloorTile);
+            layerHandler.setTile(new Vector3Int(x, y, SUBSTRATE_WALL_LAYER), substrateWallTile);
 
             if (blockType == SPACE) setToppingForSpace(x, y, z);
 
             // if tile above is space, topping should be updated
             if (map.inMap(x, y, z + 1) && map.blockType.get(x, y, z + 1) == SPACE.CODE) updateTile(x, y, z + 1, false);
             if (withRamps) updateRampsAround(new Vector3Int(x, y, z));
+            
+            if (!wasLocked) layerHandler.unlock();
         }
 
         private void createLayers() {
@@ -113,8 +115,8 @@ namespace game.view.tilemaps {
             BlockType blockType = get(map.blockType.get(x, y, z - 1));
             if (blockType != RAMP) return;
             string material = selectMaterial(x, y, z - 1);
-            string toppingTileName = selectRamp(x, y, z - 1) + "F";
-            layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER), blockTileSetHolder.tiles[material][toppingTileName]); // topping corresponds lower tile
+            string toppingTileName = rampUtil.selectRampPrefix(x, y, z - 1) + "F";
+            layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER), blockTileSetHolder.tiles[material][toppingTileName]);
             Vector3Int lowerPosition = new(x, y, z - 1);
             if (map.substrateMap.cells.ContainsKey(lowerPosition)) {
                 int id = map.substrateMap.cells[lowerPosition].type;
@@ -142,45 +144,13 @@ namespace game.view.tilemaps {
             EcsEntity zone = model.zoneContainer.getZone(position);
             return zone == EcsEntity.Null ? null : blockTileSetHolder.zoneTiles[zone.take<ZoneComponent>().type];
         }
-        
-        // Chooses ramp tile by surrounding walls. Don't touch!
-        private string selectRamp(int x, int y, int z) {
-            uint walls = observeWalls(x, y, z);
-            if ((walls & 0b00001010) == 0b00001010) return "SW";
-            if ((walls & 0b01010000) == 0b01010000) return "NE";
-            if ((walls & 0b00010010) == 0b00010010) return "SE";
-            if ((walls & 0b01001000) == 0b01001000) return "NW";
-            if ((walls & 0b00010000) != 0) return "E";
-            if ((walls & 0b01000000) != 0) return "N";
-            if ((walls & 0b00000010) != 0) return "S";
-            if ((walls & 0b00001000) != 0) return "W";
-            if ((walls & 0b10000000) != 0) return "CNE";
-            if ((walls & 0b00000100) != 0) return "CSE";
-            if ((walls & 0b00100000) != 0) return "CNW";
-            if ((walls & 0b00000001) != 0) return "CSW";
-            return "C";
-        }
-
-        // Counts walls to choose ramp type and orientation.
-        public uint observeWalls(int cx, int cy, int cz) {
-            uint bitpos = 1;
-            uint walls = 0;
-            for (int y = cy - 1; y <= cy + 1; y++) {
-                for (int x = cx - 1; x <= cx + 1; x++) {
-                    if (x == cx && y == cy) continue;
-                    if (map.blockType.get(x, y, cz) == WALL.CODE) walls |= bitpos;
-                    bitpos *= 2; // shift to 1 bit
-                }
-            }
-            return walls;
-        }
 
         public void createSelectionTile(int x, int y, int z) {
             Vector3Int vector = new(x, y, SELECTION_LAYER);
             BlockType blockType = get(map.blockType.get(x, y, z));
             Tile tile = null;
             if (blockType != SPACE) {
-                string type = blockType == RAMP ? selectRamp(x, y, z) : blockType.PREFIX;
+                string type = blockType == RAMP ? rampUtil.selectRampPrefix(x, y, z) : blockType.PREFIX;
                 tile = blockTileSetHolder.tiles["selection"][type];
             }
             layers[z].setTile(vector, tile);
@@ -190,8 +160,7 @@ namespace game.view.tilemaps {
         public void hideSelectionTile(int x, int y, int z) {
             layers[z].setTile(new Vector3Int(x, y, SELECTION_LAYER), null);
         }
-
-        // 
+        
         public void updateLayersVisibility(int newZ) {
             for (int z = 0; z < map.bounds.maxZ; z++) {
                 layers[z].setVisible(z > (newZ - viewDepth) && z <= newZ);

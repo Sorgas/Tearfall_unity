@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using game.model;
 using game.view;
 using game.view.ui;
@@ -10,6 +11,7 @@ using game.view.ui.unit_menu;
 using game.view.ui.workbench;
 using UnityEngine;
 using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
 namespace game {
     // Entry point from Unity scene to game logic. Creates GameModel and GameView when local map scene is loaded. 
@@ -39,13 +41,21 @@ namespace game {
         // TODO make world and local generation independent from gamemodel singleton
         // when scene is loaded, inits game model and view
         public void Start() {
+            Stopwatch stopwatch = new();
             Debug.unityLogger.logEnabled = false;
+            System.DateTime.Now.ToString();
+            stopwatch.Start();
             resolveWorld();
+            long generationTime = stopwatch.ElapsedMilliseconds;
             GameModel.get().init(defaultModelName);
+            long modelInitTime = stopwatch.ElapsedMilliseconds - generationTime;
             GameView.get().init(this, GameModel.get().currentLocalModel);
+            stopwatch.Stop();
+            long viewInitTime = stopwatch.ElapsedMilliseconds - modelInitTime;
             started = true;
             InvokeRepeating("updateModel", 0, GameModelUpdateController.updateTickDelta);
             Debug.unityLogger.logEnabled = true;
+            Debug.Log("generation: " + generationTime + "\n model: " + modelInitTime + "\n view:" + viewInitTime);
         }
 
         public void Update() {
