@@ -15,39 +15,44 @@ using Vector3 = UnityEngine.Vector3;
 namespace game.view.ui.stockpileMenu {
     public class StockpileConfigMenuHandler : MbWindow, IHotKeyAcceptor {
         private static string ROW_NAME = "StockpileCategoryRow";
-
         public Transform categoriesContainer;
         public Transform itemTypesContainer;
         public Transform materialsContainer;
 
-        public EcsEntity stockpile;
-        private Dictionary<string, StockpileConfigItem> map = new();
+        private EcsEntity stockpile;
+        private readonly Dictionary<string, StockpileConfigItem> map = new(); // when menu opens, this map is filled
 
         // currently displayed
         private string selectedCategory;
         private string selectedItemType;
-        private Dictionary<string, StockpileConfigRowHandler> shownCategories = new();
-        private Dictionary<string, StockpileConfigRowHandler> shownItemTypes = new();
+        private readonly Dictionary<string, StockpileConfigRowHandler> shownCategories = new();
+        private readonly Dictionary<string, StockpileConfigRowHandler> shownItemTypes = new();
+        private readonly Dictionary<string, StockpileConfigRowHandler> shownMaterials = new();
         
-        private StockpileInitializer initializer = new();
+        private readonly StockpileInitializer initializer = new();
         private float rowHeight;
 
-        public void init() {
-            initializer.init();
-            rowHeight = PrefabLoader.get("StockpileCategoryRow").GetComponent<RectTransform>().rect.height;
-        }
-
-        public void initFor(EcsEntity stockpile) {
+        public void openFor(EcsEntity stockpile) {
+            open();
+            if (!initializer.loaded) {
+                initializer.init();
+                rowHeight = PrefabLoader.get("StockpileCategoryRow").GetComponent<RectTransform>().rect.height;
+            }
             this.stockpile = stockpile;
             createConfigItemStructure();
             createCategoryButtons();
         }
 
+        public override void close() {
+            // save config
+            base.close();
+        }
+
         // enables category, item type or material.
         public void enable(StockpileMenuLevel level, string categoryName, string itemTypeName, string materialName, StockpileConfigItemStatus status) {
             StockpileConfigItem itemToSet = getItemByLevel(level, categoryName, itemTypeName, materialName);
-            setEnableStatusToItem(itemToSet, status);
-            if (level != CATEGORY) updateStatusByChildren(map[categoryName]);
+            setEnableStatusToItem(itemToSet, status); // recursive
+            if (level != CATEGORY) updateStatusByChildren(map[categoryName]); // recursive
         }
 
         private StockpileConfigItem getItemByLevel(StockpileMenuLevel level, string categoryName, string itemTypeName, string materialName) {
@@ -85,11 +90,11 @@ namespace game.view.ui.stockpileMenu {
             clearContainer(categoriesContainer);
             shownCategories.Clear();
             int i = 0;
-            foreach (StockpileConfigItem item in map.Values) {
+            foreach (StockpileConfigItem categoryItem in map.Values) {
                 StockpileConfigRowHandler row = createRow(categoriesContainer, i++)
-                    .init(this, stockpile, selectedCategory, item.name, null, ITEM_TYPE)
-                    .setStatus(item.status);
-                shownCategories.Add(item.name, row);
+                    .init(this, stockpile, categoryItem.name, null, null, CATEGORY)
+                    .setStatus(categoryItem.status);
+                shownCategories.Add(categoryItem.name, row);
             }
         }
 

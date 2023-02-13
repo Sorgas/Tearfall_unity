@@ -8,15 +8,19 @@ using util.lang;
 using util.lang.extension;
 
 namespace generation.zone {
+    // stores prototype tree-structure of stockpile categories->itemTypes->materials
     public class StockpileInitializer {
         public readonly Dictionary<string, StockpileConfigItem> prototype = new();
-
+        public bool loaded;
+        
         public void init() {
-            MultiValueDictionary<string, ItemType> map = ItemTypeMap.getAll().Aggregate(new MultiValueDictionary<string, ItemType>(), (map, type) => {
-                map.add(type.stockpileCategory, type);
-                return map;
-            });
-            foreach (var pair in map) {
+            // aggregate by stockpile category
+            MultiValueDictionary<string, ItemType> categories = ItemTypeMap.getAll()
+                .Aggregate(new MultiValueDictionary<string, ItemType>(), (map, type) => {
+                    map.add(type.stockpileCategory ?? "null", type);
+                    return map;
+                });
+            foreach (var pair in categories) {
                 StockpileConfigItem category = new(pair.Key);
                 foreach (ItemType itemType in pair.Value) {
                     StockpileConfigItem itemTypeConfigItem = new(itemType.name);
@@ -27,6 +31,7 @@ namespace generation.zone {
                 }
                 prototype.Add(category.name, category);
             }
+            loaded = true;
         }
 
         public void initEntity(EcsEntity entity) {
@@ -45,21 +50,21 @@ namespace generation.zone {
         public string name;
         public Dictionary<string, StockpileConfigItem> children;
         public StockpileConfigItemStatus status;
-        
+
         public StockpileConfigItem(string name) {
             this.name = name;
             children = new();
         }
 
         public StockpileConfigItem clone() {
-            StockpileConfigItem clone = new StockpileConfigItem(name);
-            foreach (KeyValuePair<string,StockpileConfigItem> pair in children) {
+            StockpileConfigItem clone = new(name);
+            foreach (KeyValuePair<string, StockpileConfigItem> pair in children) {
                 clone.children.Add(pair.Key, pair.Value.clone());
             }
             return clone;
         }
     }
-    
+
     public enum StockpileConfigItemStatus {
         ENABLED,
         DISABLED,

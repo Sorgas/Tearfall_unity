@@ -20,7 +20,7 @@ namespace generation.zone {
             entity.Replace(new ZoneComponent { tiles = tiles, type = type, number = number });
             entity.Replace(new NameComponent { name = generateName(type, number) });
             if (type == ZoneTypeEnum.STOCKPILE) {
-                entity.Replace(new StockpileComponent());
+                entity.Replace(new StockpileComponent{map = new(), priority = 5});
             }
             return entity;
         }

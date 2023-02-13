@@ -43,6 +43,7 @@ namespace types.item.type {
             foreach (string rawComponent in raw.components) {
                 parseAndAddComponentDefinition(rawComponent);
             }
+            extractStockpileValues(raw);
         }
 
         public ItemType(ItemType type, RawItemType rawType, string namePrefix) {
@@ -64,7 +65,6 @@ namespace types.item.type {
         }
 
         private void extractStockpileValues(RawItemType raw) {
-            
             stockpileCategory = raw.stockpileCategory == null ? "special" : raw.stockpileCategory;
             if (raw.stockpileMaterialTags == null) {
                 stockpileMaterialTags.Add("stone"); // should never be used

@@ -1,4 +1,5 @@
-﻿using game.model.component;
+﻿using game.input;
+using game.model.component;
 using game.view.ui.util;
 using Leopotam.Ecs;
 using TMPro;
@@ -27,10 +28,10 @@ namespace game.view.ui.stockpileMenu {
         public Image presetIcon;
 
         private EcsEntity entity;
-        private readonly IntRange priorityRange = new IntRange(1, 8);
-        
+        private readonly IntRange priorityRange = new(1, 8);
+
         public void Start() {
-            configButton.onClick.AddListener(() => configMenuHandler.open());
+            configButton.onClick.AddListener(() => toggleConfigMenu());
             closeButton.onClick.AddListener(close);
             pauseButton.onClick.AddListener(() => {
                 ref StockpileComponent component = ref entity.takeRef<StockpileComponent>();
@@ -46,21 +47,30 @@ namespace game.view.ui.stockpileMenu {
             nameText.text = entity.name();
             presetNameText.text = entity.take<StockpileComponent>().preset;
         }
-        
+
         public bool accept(KeyCode key) {
             if (configMenuHandler.gameObject.activeSelf) return configMenuHandler.accept(key);
             if (key == KeyCode.Q) {
-                
+                WindowManager.get().closeWindow(name);
             }
             return false;
         }
-        
+
         private void changePriority(int delta) {
             ref StockpileComponent component = ref entity.takeRef<StockpileComponent>();
             component.priority += delta;
         }
 
+        private void toggleConfigMenu() {
+            if (configMenuHandler.gameObject.activeSelf) {
+                configMenuHandler.close();
+            } else {
+                configMenuHandler.openFor(entity);
+            }
+        }
+
         public override void close() {
+            configMenuHandler.close();
             entity = EcsEntity.Null;
             base.close();
         }

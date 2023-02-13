@@ -18,13 +18,13 @@ namespace game.model.component {
     public struct ZoneUpdatedComponent {
         public List<Vector3Int> tiles;
     }
-    
-    public struct ZoneDeletedComponent {}
 
-    // stores allowed itemTypes -> materials
+    public struct ZoneDeletedComponent {
+    }
+
     public struct StockpileComponent {
-        public MultiValueDictionary<string, string> map;
-        public string preset;
+        public MultiValueDictionary<string, string> map; // allowed itemTypes -> materials
+        public string preset; // TODO if preset is set, map in this component is empty, and config stored in ZoneContainer in localmodel
         public int priority;
         public bool paused; // new hauling tasks not generated when paused.
     }

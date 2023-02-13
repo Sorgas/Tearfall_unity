@@ -53,7 +53,7 @@ namespace game {
             stopwatch.Stop();
             long viewInitTime = stopwatch.ElapsedMilliseconds - modelInitTime;
             started = true;
-            InvokeRepeating("updateModel", 0, GameModelUpdateController.updateTickDelta);
+            InvokeRepeating("updateModel", 0.2f, GameModelUpdateController.updateTickDelta);
             Debug.unityLogger.logEnabled = true;
             Debug.Log("generation: " + generationTime + "\n model: " + modelInitTime + "\n view:" + viewInitTime);
         }

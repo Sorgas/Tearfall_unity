@@ -6,7 +6,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using util.lang.extension;
 
 namespace game.view.ui.toolbar {
     // holds and manages sub-panels for toolbar panel

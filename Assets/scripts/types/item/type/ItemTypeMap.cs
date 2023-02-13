@@ -49,9 +49,6 @@ namespace types.item.type {
             List<RawItemType> raws = JsonConvert.DeserializeObject<List<RawItemType>>(file.text);
             if (raws != null) {
                 for (var i = 0; i < raws.Count; i++) {
-                    if (raws[i] == null) {
-                        Debug.Log("");
-                    }
                     ItemType type = new(raws[i]);
                     type.atlasName = file.name;
                     // processor.process(raws[i], type);

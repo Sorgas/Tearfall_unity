@@ -1,5 +1,4 @@
 ﻿using System;
-using game.model.component;
 using generation.zone;
 using Leopotam.Ecs;
 using TMPro;
@@ -12,9 +11,9 @@ namespace game.view.ui.stockpileMenu {
     // shows status with button background color (enabled, disabled, mixed)
     // shows if category is shown in item types column by frame  
     public class StockpileConfigRowHandler : MonoBehaviour {
-        public Image statusIndicator;
-        public Button selectButton;
-        public Button toggleButton;
+        public Image statusIndicator; // changes color basing on status
+        public Button selectButton; // only shows children of this row
+        public Button toggleButton; // toggles all children of this row
         public TextMeshProUGUI nameText;
 
         private StockpileConfigMenuHandler handler;
@@ -32,9 +31,9 @@ namespace game.view.ui.stockpileMenu {
             this.itemType = itemType;
             this.material = material;
             this.level = level;
-            toggleButton.onClick.AddListener(() => toggle());
-
-            nameText.text = category; //TODO switch
+            toggleButton.onClick.AddListener(toggle);
+            selectButton.onClick.AddListener(select);
+            nameText.text = selectText(category, itemType, material, level);
             return this;
         }
 
@@ -77,6 +76,19 @@ namespace game.view.ui.stockpileMenu {
                     throw new ArgumentOutOfRangeException();
             }
             return this;
+        }
+
+        private string selectText(string category, string itemType, string material, StockpileMenuLevel level) {
+            switch (level) {
+                case StockpileMenuLevel.CATEGORY:
+                    return category;
+                case StockpileMenuLevel.ITEM_TYPE:
+                    return itemType;
+                case StockpileMenuLevel.MATERIAL:
+                    return material;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(level), level, null);
+            }
         }
     }
 }
