@@ -1,9 +1,8 @@
 ﻿using System;
-using generation.zone;
-using Leopotam.Ecs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static game.view.ui.stockpileMenu.StockpileMenuLevel;
 using static generation.zone.StockpileConfigItemStatus;
 
 namespace game.view.ui.stockpileMenu {
@@ -15,80 +14,64 @@ namespace game.view.ui.stockpileMenu {
         public Button selectButton; // only shows children of this row
         public Button toggleButton; // toggles all children of this row
         public TextMeshProUGUI nameText;
-
+        public Image selectionFrame;
+        
         private StockpileConfigMenuHandler handler;
-        private EcsEntity stockpile;
-        private string category;
-        private string itemType;
-        private string material;
-        private StockpileMenuLevel level;
-        public StockpileConfigItemStatus status;
+        private StockpileConfigItem configItem;
+        public string category;
+        public string itemType; // can be null
+        public string material; // can be null
 
-        public StockpileConfigRowHandler init(StockpileConfigMenuHandler handler, EcsEntity stockpile, string category, string itemType, string material, StockpileMenuLevel level) {
+        public StockpileConfigRowHandler init(StockpileConfigMenuHandler handler, string category, string itemType, string material, StockpileConfigItem configItem) {
             this.handler = handler;
-            this.stockpile = stockpile;
             this.category = category;
             this.itemType = itemType;
             this.material = material;
-            this.level = level;
+            this.configItem = configItem;
             toggleButton.onClick.AddListener(toggle);
             selectButton.onClick.AddListener(select);
-            nameText.text = selectText(category, itemType, material, level);
+            nameText.text = selectText(category, itemType, material, configItem.level);
             return this;
         }
 
-        public void toggle() {
-            handler.enable(level, category, itemType, material, status == ENABLED ? DISABLED : ENABLED);
+        // changes status of this and all children rows
+        private void toggle() {
+            handler.toggle(category, itemType, material, configItem);
         }
 
-        public void select() {
-            switch (level) {
-                case StockpileMenuLevel.CATEGORY:
-                    handler.selectCategory(category);
-                    break;
-                case StockpileMenuLevel.ITEM_TYPE:
-                    handler.selectItemType(category, itemType);
-                    break;
-                case StockpileMenuLevel.MATERIAL:
-                    // unselectable
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+        // shows children rows of this row
+        private void select() {
+            if (configItem.level == CATEGORY) {
+                handler.selectCategory(category);
+            } else if (configItem.level == ITEM_TYPE) {
+                handler.selectItemType(category, itemType);
             }
         }
 
         // changes visual only
-        public StockpileConfigRowHandler setStatus(StockpileConfigItemStatus status) {
-            switch (status) {
-                case ENABLED:
-                    statusIndicator.color = Color.green;
-                    toggleButton.GetComponentInChildren<TextMeshProUGUI>().text = "D";
-                    break;
-                case DISABLED:
-                    statusIndicator.color = Color.red;
-                    toggleButton.GetComponentInChildren<TextMeshProUGUI>().text = "E";
-                    break;
-                case MIXED:
-                    statusIndicator.color = Color.yellow;
-                    toggleButton.GetComponentInChildren<TextMeshProUGUI>().text = "M";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+        public StockpileConfigRowHandler updateVisual(bool selected) {
+            return configItem.status switch {
+                ENABLED => setVisual(Color.green, "D", selected),
+                DISABLED => setVisual(Color.red, "E", selected),
+                MIXED => setVisual(Color.yellow, "M", selected),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
+        private StockpileConfigRowHandler setVisual(Color color, string buttonText, bool selected) {
+            statusIndicator.color = color;
+            toggleButton.GetComponentInChildren<TextMeshProUGUI>().text = buttonText;
+            selectionFrame.gameObject.SetActive(selected);
             return this;
         }
 
         private string selectText(string category, string itemType, string material, StockpileMenuLevel level) {
-            switch (level) {
-                case StockpileMenuLevel.CATEGORY:
-                    return category;
-                case StockpileMenuLevel.ITEM_TYPE:
-                    return itemType;
-                case StockpileMenuLevel.MATERIAL:
-                    return material;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(level), level, null);
-            }
+            return level switch {
+                CATEGORY => category,
+                ITEM_TYPE => itemType,
+                MATERIAL => material,
+                _ => throw new ArgumentOutOfRangeException(nameof(level), level, null)
+            };
         }
     }
 }

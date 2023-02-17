@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using game.view.ui.util;
 using game.view.util;
 using generation.zone;
 using Leopotam.Ecs;
 using UnityEngine;
-using util.lang;
-using util.lang.extension;
 using static game.view.ui.stockpileMenu.StockpileMenuLevel;
 using static generation.zone.StockpileConfigItemStatus;
-using StockpileComponent = game.model.component.StockpileComponent;
-using StockpileConfigItem = generation.zone.StockpileConfigItem;
 using Vector3 = UnityEngine.Vector3;
 
 namespace game.view.ui.stockpileMenu {
@@ -20,162 +17,89 @@ namespace game.view.ui.stockpileMenu {
         public Transform materialsContainer;
 
         private EcsEntity stockpile;
-        private readonly Dictionary<string, StockpileConfigItem> map = new(); // when menu opens, this map is filled
+        private StockpileConfiguration config = new();
 
         // currently displayed
         private string selectedCategory;
         private string selectedItemType;
-        private readonly Dictionary<string, StockpileConfigRowHandler> shownCategories = new();
-        private readonly Dictionary<string, StockpileConfigRowHandler> shownItemTypes = new();
-        private readonly Dictionary<string, StockpileConfigRowHandler> shownMaterials = new();
-        
-        private readonly StockpileInitializer initializer = new();
+        private readonly List<StockpileConfigRowHandler> shownCategories = new();
+        private readonly List<StockpileConfigRowHandler> shownItemTypes = new();
+        private readonly List<StockpileConfigRowHandler> shownMaterials = new();
         private float rowHeight;
 
         public void openFor(EcsEntity stockpile) {
             open();
-            if (!initializer.loaded) {
-                initializer.init();
-                rowHeight = PrefabLoader.get("StockpileCategoryRow").GetComponent<RectTransform>().rect.height;
-            }
+            rowHeight = PrefabLoader.get("StockpileCategoryRow").GetComponent<RectTransform>().rect.height;
             this.stockpile = stockpile;
-            createConfigItemStructure();
+            config.fillStructureFromEntity(stockpile); // fills map
             createCategoryButtons();
         }
 
         public override void close() {
-            // save config
+            config.saveStructureToEntity(stockpile);
             base.close();
         }
 
-        // enables category, item type or material.
-        public void enable(StockpileMenuLevel level, string categoryName, string itemTypeName, string materialName, StockpileConfigItemStatus status) {
-            StockpileConfigItem itemToSet = getItemByLevel(level, categoryName, itemTypeName, materialName);
-            setEnableStatusToItem(itemToSet, status); // recursive
-            if (level != CATEGORY) updateStatusByChildren(map[categoryName]); // recursive
+        // enables category, item type or material
+        public void toggle(string category, string itemType, string material, StockpileConfigItem configItem) {
+            Debug.Log("enable " + configItem.level + " " + category + " " + itemType + " " + material + " " + configItem.status);
+            StockpileConfigItemStatus status = configItem.status == ENABLED ? DISABLED : ENABLED;
+            configItem.setStatus(status);
+            if (configItem.level != CATEGORY) {
+                config.getItemByLevel(CATEGORY, category, null, null)
+                    .updateStatusByChildren(); // recursive
+            }
+            // update button colors
+            updateButtonsState();
         }
 
-        private StockpileConfigItem getItemByLevel(StockpileMenuLevel level, string categoryName, string itemTypeName, string materialName) {
-            switch (level) {
-                case CATEGORY:
-                    return map[categoryName];
-                case ITEM_TYPE:
-                    return map[categoryName].children[itemTypeName];
-                case MATERIAL:
-                    return map[categoryName].children[itemTypeName].children[materialName];
-            }
-            return null; // never reached
-        }
-
-        // recursively sets new status to item and its children
-        private void setEnableStatusToItem(StockpileConfigItem item, StockpileConfigItemStatus newStatus) {
-            item.status = newStatus;
-            if (item.children == null) return;
-            item.children.Values.ForEach(child => setEnableStatusToItem(child, newStatus));
-        }
-
-        // recursively update statuses from children to parents
-        private void updateStatusByChildren(StockpileConfigItem item) {
-            item.children.Values.ForEach(child => updateStatusByChildren(child));
-            item.status = getStatusByChildren(item);
-            if (selectedCategory == item.name) {
-                shownCategories[selectedCategory].status = item.status;
-            }
-            if (selectedItemType == item.name) {
-                shownItemTypes[selectedItemType].status = item.status;
-            }
-        }
-        
         private void createCategoryButtons() {
-            clearContainer(categoriesContainer);
-            shownCategories.Clear();
-            int i = 0;
-            foreach (StockpileConfigItem categoryItem in map.Values) {
-                StockpileConfigRowHandler row = createRow(categoriesContainer, i++)
-                    .init(this, stockpile, categoryItem.name, null, null, CATEGORY)
-                    .setStatus(categoryItem.status);
-                shownCategories.Add(categoryItem.name, row);
+            clearColumn(categoriesContainer, shownCategories);
+            List<StockpileConfigItem> items = config.map.Values.ToList();
+            for (var i = 0; i < items.Count; i++) {
+                StockpileConfigItem item = items[i];
+                if (i == 0) selectCategory(item.name);
+                StockpileConfigRowHandler row = createRow(categoriesContainer, i)
+                    .init(this, item.name, null, null, item);
+                shownCategories.Add(row);
             }
+            updateButtonsState();
         }
 
         // shows item types of category, show materials of first itemType
         public void selectCategory(string category) {
-            clearContainer(itemTypesContainer);
-            shownItemTypes.Clear();
-            int i = 0;
-            foreach (StockpileConfigItem item in map[category].children.Values) {
-                StockpileConfigRowHandler row = createRow(itemTypesContainer, i++)
-                    .init(this, stockpile, category, item.name, null, ITEM_TYPE)
-                    .setStatus(item.status);
-                shownItemTypes.Add(item.name, row);
-            }
             selectedCategory = category;
+            clearColumn(itemTypesContainer, shownItemTypes);
+            List<StockpileConfigItem> items = config.map[category].children.Values.ToList();
+            for (var i = 0; i < items.Count; i++) {
+                StockpileConfigItem item = items[i];
+                if (i == 0) selectItemType(category, item.name);
+                StockpileConfigRowHandler row = createRow(itemTypesContainer, i)
+                    .init(this, category, item.name, null, item);
+                shownItemTypes.Add(row);
+            }
+            updateButtonsState();
         }
 
         public void selectItemType(string category, string itemType) {
-            StockpileConfigItem itemTypeItem = map[category].children[itemType];
-            clearContainer(materialsContainer);
-            int i = 0;
-            foreach (StockpileConfigItem item in itemTypeItem.children.Values) {
-                createRow(materialsContainer, i++)
-                    .init(this, stockpile, category, itemType, item.name, MATERIAL)
-                    .setStatus(item.status);
-            }
             selectedCategory = category;
             selectedItemType = itemType;
+            clearColumn(materialsContainer, shownMaterials);
+            List<StockpileConfigItem> items = config.map[category].children[itemType].children.Values.ToList();
+            for (var i = 0; i < items.Count; i++) {
+                StockpileConfigItem item = items[i];
+                StockpileConfigRowHandler row = createRow(materialsContainer, i)
+                    .init(this, category, itemType, item.name, item);
+                shownMaterials.Add(row);
+            }
+            updateButtonsState();
         }
 
-        // creates 3-level tree structure for current stockpile for easier configuring
-        private void createConfigItemStructure() {
-            map.Clear();
-            foreach (KeyValuePair<string, StockpileConfigItem> pair in initializer.prototype) {
-                map.Add(pair.Key, pair.Value.clone());
-            }
-            MultiValueDictionary<string, string> stockpileMap = stockpile.take<StockpileComponent>().map;
-            foreach (StockpileConfigItem category in map.Values) {
-                foreach (KeyValuePair<string, StockpileConfigItem> itemTypePair in category.children) {
-                    foreach (KeyValuePair<string, StockpileConfigItem> materialPair in itemTypePair.Value.children) {
-                        materialPair.Value.status = stockpileMap.contains(itemTypePair.Key, materialPair.Key) ? ENABLED : DISABLED;
-                    }
-                    StockpileConfigItemStatus status = DISABLED;
-                    if (stockpileMap.ContainsKey(itemTypePair.Key)) {
-                        if (stockpileMap[itemTypePair.Key].Count == category.children.Count) {
-                            status = ENABLED; // all materials for item type
-                        } else {
-                            status = MIXED; // not all materials for item type
-                        }
-                    }
-                    itemTypePair.Value.status = status;
-                }
-                category.status = getStatusByChildren(category);
-            }
-        }
-
-        // combines statuses of all children. All enabled -> enabled, all disabled -> disabled, mixed otherwise.
-        private StockpileConfigItemStatus getStatusByChildren(StockpileConfigItem item) {
-            if (item.children == null) return item.status;
-            bool hasEnabled = false;
-            bool hasDisabled = false;
-            foreach (StockpileConfigItem child in item.children.Values) {
-                switch (child.status) {
-                    case MIXED:
-                        return MIXED;
-                    case ENABLED:
-                        hasEnabled = true;
-                        break;
-                    case DISABLED:
-                        hasDisabled = true;
-                        break;
-                }
-                if (hasEnabled && hasDisabled) return MIXED;
-            }
-            return hasEnabled ? ENABLED : DISABLED;
-        }
-
-        private void clearContainer(Transform container) {
+        private void clearColumn(Transform container, List<StockpileConfigRowHandler> handlers) {
             foreach (Transform row in container.transform) {
                 Destroy(row.gameObject);
             }
+            handlers.Clear();
         }
 
         private StockpileConfigRowHandler createRow(Transform parent, int i) {
@@ -186,6 +110,12 @@ namespace game.view.ui.stockpileMenu {
         public bool accept(KeyCode key) {
             if (key == KeyCode.Q) close();
             return true;
+        }
+
+        private void updateButtonsState() {
+            shownCategories.ForEach(row => row.updateVisual(row.category.Equals(selectedCategory)));
+            shownItemTypes.ForEach(row => row.updateVisual(row.itemType.Equals(selectedItemType)));
+            shownMaterials.ForEach(row => row.updateVisual(false));
         }
     }
 

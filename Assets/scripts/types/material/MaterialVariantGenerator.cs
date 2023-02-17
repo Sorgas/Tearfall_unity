@@ -12,7 +12,7 @@ namespace types.material {
     public class MaterialVariantGenerator {
         private MaterialMap map;
 
-        public MaterialVariantGenerator(MaterialMap map) {
+        public  MaterialVariantGenerator(MaterialMap map) {
             this.map = map;
         }
 
@@ -36,6 +36,7 @@ namespace types.material {
                 variant.id += idMod;
                 variant.name = variateValue(variant.name, itemTypeName);
                 variant.tileset = variateValue(variant.tileset, itemTypeName);
+                variant.isVariant = true;
                 map.saveMaterial(variant);
                 count++;
             }

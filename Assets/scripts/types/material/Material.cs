@@ -11,7 +11,8 @@ namespace types.material {
         public int value;
         public string tileset;
         public Color color;
-
+        public bool isVariant;
+        
         public Material_(RawMaterial raw) {
             id = raw.id;
             name = raw.name;
@@ -33,7 +34,6 @@ namespace types.material {
         }
 
         public Color parseColor(string color) {
-            color.Substring(0,2);
             float r = Int32.Parse(color.Substring(0,2), System.Globalization.NumberStyles.HexNumber);
             float g = Int32.Parse(color.Substring(2,2), System.Globalization.NumberStyles.HexNumber);
             float b = Int32.Parse(color.Substring(4,2), System.Globalization.NumberStyles.HexNumber);
