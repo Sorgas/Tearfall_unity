@@ -43,7 +43,7 @@ namespace game.view {
             selector.zRange.set(0, GameModel.get().currentLocalModel.localMap.bounds.maxZ - 1);
             tileUpdater.flush();
             resetCameraPosition();
-            MouseToolManager.reset();
+            MouseToolManager.get().reset();
             sceneObjectsContainer.gamespeedWidgetHandler.updateVisual();
             Debug.Log("view initialized");
         }
@@ -52,7 +52,7 @@ namespace game.view {
             KeyInputSystem.get().update();
             cameraAndMouseHandler?.update();
             systems?.Run();
-            sceneObjectsContainer.modelDebugInfoPanel.text = GameModel.get().getDebugInfo();
+            sceneObjectsContainer.modelDebugInfoPanel.text += GameModel.get().getDebugInfo();
         }
 
         private void initEcs(EcsWorld ecsWorld) {
@@ -80,7 +80,6 @@ namespace game.view {
             system.widgetManager.addWidget(sceneObjectsContainer.gamespeedWidgetHandler);
             system.widgetManager.addWidget(sceneObjectsContainer.menuWidget);
             system.widgetManager.addWidget(sceneObjectsContainer.toolbarWidget);
-
         }
 
         private void resetCameraPosition() {

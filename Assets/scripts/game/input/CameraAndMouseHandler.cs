@@ -3,11 +3,11 @@
 namespace game.input {
     // container for all logic of mouse and camera
     public class CameraAndMouseHandler {
-        private CameraInputSystem cameraInputSystem;
-        public CameraMovementSystem cameraMovementSystem = new();
-        private MouseInputSystem mouseInputSystem = new(); // handles mouse movement and clicks
-        public MouseMovementSystem mouseMovementSystem; // moves selector go to 'follow' mouse on screen
-        public SelectionHandler selectionHandler = new();
+        private readonly CameraInputSystem cameraInputSystem;
+        public readonly CameraMovementSystem cameraMovementSystem = new();
+        private readonly MouseInputSystem mouseInputSystem = new(); // handles mouse movement and clicks
+        public readonly MouseMovementSystem mouseMovementSystem; // moves selector go to 'follow' mouse on screen
+        public readonly SelectionHandler selectionHandler = new();
         public bool enabled = true;
 
         public CameraAndMouseHandler(LocalGameRunner initializer, PlayerControls playerControls) {

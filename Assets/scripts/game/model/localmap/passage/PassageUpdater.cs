@@ -15,8 +15,8 @@ namespace game.model.localmap.passage {
         private string logMessage;
 
         public PassageUpdater(LocalModel model, LocalMap localMap, PassageMap passageMap) : base(model) {
-            this.map = localMap;
-            this.passage = passageMap;
+            map = localMap;
+            passage = passageMap;
         }
 
         // Called when local map passage is updated. If cell becomes non-passable, it may split area into two.
@@ -79,7 +79,7 @@ namespace game.model.localmap.passage {
          * Gets sets of tiles of same area and splits them into subsets of connected tiles.
          * If there were more than 1 subset(area has been split), refills such areas with new number.
          *
-         * @param posMap - area number to positions of this area.
+         * @param center - position which became impassable.
          */
         private void splitAreas(Vector3Int center) {
             Dictionary<byte, List<Vector3Int>> areas = new NeighbourPositionStream(center, model).filterByPassage(PASSABLE).groupByAreas();
@@ -90,6 +90,9 @@ namespace game.model.localmap.passage {
                 List<HashSet<Vector3Int>> isolatedPositions = collectIsolatedPositions(posList);
                 if (isolatedPositions.Count < 2) continue; // all positions from old areas remain connected, do nothing.
                 isolatedPositions.RemoveAt(0);
+                if (!passage.area.sizes.ContainsKey(areaValue)) {
+                    Debug.Log("");
+                }
                 int oldCount = passage.area.sizes[areaValue];
                 foreach (HashSet<Vector3Int> positions in isolatedPositions) {
                     oldCount -= fill(positions.First(), getUnusedAreaNumber()); // refill isolated area with new number
@@ -98,17 +101,17 @@ namespace game.model.localmap.passage {
             }
         }
 
-        // splits given list of positions into groups. positions in one group are interconnected. positions in different groups are isolated.
+        // Splits given list of positions into groups. Positions in one group are interconnected. Positions in different groups are isolated.
         private List<HashSet<Vector3Int>> collectIsolatedPositions(List<Vector3Int> list) {
-            List<HashSet<Vector3Int>> groups = new List<HashSet<Vector3Int>>();
+            List<HashSet<Vector3Int>> groups = new();
             while (list.Count > 0) {
-                HashSet<Vector3Int> connectedPositions = new HashSet<Vector3Int>();
+                HashSet<Vector3Int> connectedPositions = new();
                 Vector3Int first = list.removeAndGet(0); // first position is connected to itself
                 connectedPositions.Add(first);
                 for (int i = list.Count - 1; i >= 0; i--) {
                     Vector3Int pos = list[i];
-                    // positions are accessible neighbours or path exists
-                    if (pos.isNeighbour(first) && passage.hasPathBetweenNeighbours(pos, first) || AStar.get().makeShortestPath(pos, first, model.localMap) != null) { // TODO change to shortestPathExists()
+                    if (pos.isNeighbour(first) && passage.hasPathBetweenNeighbours(pos, first) 
+                        || AStar.get().pathExists(pos, first, model.localMap)) {
                         connectedPositions.Add(list.removeAndGet(i));
                     }
                 }
@@ -120,7 +123,7 @@ namespace game.model.localmap.passage {
         // Fills all tiles available from given with new area value.
         private int fill(Vector3Int start, byte value) {
             int counter = 0;
-            HashSet<Vector3Int> openSet = new HashSet<Vector3Int>();
+            HashSet<Vector3Int> openSet = new();
             for (openSet.Add(start); openSet.Count() != 0; counter++) {
                 Vector3Int center = openSet.First();
                 openSet.Remove(center);

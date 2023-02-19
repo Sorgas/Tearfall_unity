@@ -81,9 +81,7 @@ namespace game.view.tilemaps {
             if (!wasLocked) layerHandler.setLock();
             layerHandler.setTile(new Vector3Int(x, y, FLOOR_LAYER), floorTile);
             layerHandler.setTile(new Vector3Int(x, y, WALL_LAYER), wallTile);
-            Tile zoneTile = getZoneTile(position);
-            if (zoneTile == null) Debug.Log("zone tile IsNull");
-            layerHandler.setTile(new Vector3Int(x, y, ZONE_FLOOR_LAYER), zoneTile);
+            layerHandler.setTile(new Vector3Int(x, y, ZONE_FLOOR_LAYER), getZoneTile(position));
             layerHandler.setTile(new Vector3Int(x, y, SUBSTRATE_FLOOR_LAYER), substrateFloorTile);
             layerHandler.setTile(new Vector3Int(x, y, SUBSTRATE_WALL_LAYER), substrateWallTile);
 

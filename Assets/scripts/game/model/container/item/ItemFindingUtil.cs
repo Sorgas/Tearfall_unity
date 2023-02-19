@@ -99,6 +99,19 @@ namespace game.model.container.item {
             return selectNearest(list, position);
         }
 
+        public EcsEntity findForStockpile(MultiValueDictionary<string, int> config, Vector3Int position) {
+            List<EcsEntity> list = container.availableItemsManager.getAll()
+                .Where(item => !item.Has<LockedComponent>())
+                .Where(item => config.ContainsKey(item.take<ItemComponent>().type)) // allowed item types
+                .Where(item => {
+                    ItemComponent component = item.take<ItemComponent>();
+                    return config[component.type].Contains(component.material);
+                })
+                .ToList();
+            if (list.Count == 0) return EcsEntity.Null;
+            return selectNearest(list, position);
+        }
+        
         // items for crafting should be not locked, in same area with performer, and not already selected for order
         private List<EcsEntity> filterForCrafting(List<EcsEntity> source, List<EcsEntity> otherItems, Vector3Int position, int requiredQuantity, ItemTagEnum tag) {
             IEnumerable<EcsEntity> stream = source

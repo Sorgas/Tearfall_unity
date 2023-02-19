@@ -27,14 +27,14 @@ namespace game.view.ui.toolbar {
         private void fillOrdersPanel(ToolbarPanelHandler panel) {
             widget.createToolButton(panel, "Z: Chop trees", DesignationTypes.D_CHOP, KeyCode.Z);
             ToolbarPanelHandler diggingPanel = panel.createSubPanel("C: Digging", "toolbar/digging", KeyCode.C);
-            diggingPanel.closeAction = () => MouseToolManager.set(DesignationTypes.D_CLEAR);
+            diggingPanel.closeAction = () => MouseToolManager.get().set(DesignationTypes.D_CLEAR);
             widget.createToolButton(diggingPanel, "Z: Dig wall", DesignationTypes.D_DIG, KeyCode.Z);
             widget.createToolButton(diggingPanel, "X: Channel", DesignationTypes.D_CHANNEL, KeyCode.X);
             widget.createToolButton(diggingPanel, "C: Ramp", DesignationTypes.D_RAMP, KeyCode.C);
             widget.createToolButton(diggingPanel, "V: Stairs", DesignationTypes.D_STAIRS, KeyCode.V);
             widget.createToolButton(diggingPanel, "B: Downstairs", DesignationTypes.D_DOWNSTAIRS, KeyCode.B);
             widget.createToolButton(diggingPanel, "N: Clear", DesignationTypes.D_CLEAR, KeyCode.N);
-            panel.closeAction = () => MouseToolManager.reset();
+            panel.closeAction = () => MouseToolManager.get().reset();
         }
 
         private void fillBuildingsPanel(ToolbarPanelHandler panel) {
@@ -46,8 +46,8 @@ namespace game.view.ui.toolbar {
                 foreach (BuildingType type in entry.Value) {
                     widget.createBuildingButton(subpanel, type.name, type, hotKeySequence.getNext()); // TODO use building title instead of name
                 }
-                subpanel.createButton("rotate", "toolbar/rotate", () => MouseToolManager.get().rotateBuilding(), KeyCode.T, false);
-                subpanel.closeAction = () => MouseToolManager.reset();
+                subpanel.createButton("rotate", "toolbar/rotate", () => MouseToolManager.get().rotate(), KeyCode.T, false);
+                subpanel.closeAction = () => MouseToolManager.get().reset();
             }
         }
 
@@ -57,7 +57,7 @@ namespace game.view.ui.toolbar {
             // TODO room zones
             widget.createZoneToolButton(panel, "Update", "toolbar/zones/expand", ZoneMouseToolType.UPDATE, KeyCode.B);
             widget.createZoneToolButton(panel, "Clear", "toolbar/zones/clear", ZoneMouseToolType.DELETE, KeyCode.N);
-            panel.closeAction = () => MouseToolManager.reset();
+            panel.closeAction = () => MouseToolManager.get().reset();
         }
 
         private void fillConstructionsPanel(ToolbarPanelHandler panel) {
@@ -67,7 +67,7 @@ namespace game.view.ui.toolbar {
             widget.createConstructionButton(panel, "stairs", "stairs", ConstructionTypeMap.get("stairs"), KeyCode.V);
             widget.createConstructionButton(panel, "downstairs", "downstairs", ConstructionTypeMap.get("downstairs"), KeyCode.B);
             // TODO add clear button
-            panel.closeAction = () => MouseToolManager.reset();
+            panel.closeAction = () => MouseToolManager.get().reset();
         }
     }
 }

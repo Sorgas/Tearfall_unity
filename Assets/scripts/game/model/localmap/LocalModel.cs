@@ -86,7 +86,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         }
     }
 
-// model-aware component
+    // model-aware component
     public abstract class LocalMapModelComponent {
         protected readonly LocalModel model;
 

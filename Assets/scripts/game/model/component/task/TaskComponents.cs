@@ -46,6 +46,11 @@ namespace game.model.component.task {
             public EcsEntity building;
         }
 
+        // exists, if task is generated from zone(stockpile, etc.)
+        public struct TaskZoneComponent {
+            public EcsEntity zone;
+        }
+        
         public struct TaskPriorityComponent {
             public TaskPriorityEnum priority;
         }

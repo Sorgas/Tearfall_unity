@@ -29,7 +29,7 @@ namespace generation.zone {
                     MaterialMap.get()
                         .getByTagsAny(itemType.stockpileMaterialTags)
                         .Where(material => !material.isVariant)
-                        .Select(material => new StockpileConfigItem(material.name, MATERIAL))
+                        .Select(material => new StockpileConfigItem(material.name, MATERIAL, material.id))
                         .ForEach(configItem => itemTypeConfigItem.children.Add(configItem.name, configItem));
                     category.children.Add(itemType.name, itemTypeConfigItem);
                 }
@@ -43,7 +43,7 @@ namespace generation.zone {
             foreach (StockpileConfigItem category in prototype.Values) {
                 foreach (StockpileConfigItem itemTypeItem in category.children.Values) {
                     foreach (StockpileConfigItem materialItem in itemTypeItem.children.Values) {
-                        component.map.add(itemTypeItem.name, materialItem.name);
+                        component.map.add(itemTypeItem.name, materialItem.id);
                     }
                 }
             }

@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using generation.zone;
 using util.lang.extension;
-using static game.view.ui.stockpileMenu.StockpileMenuLevel;
 using static generation.zone.StockpileConfigItemStatus;
 
 namespace game.view.ui.stockpileMenu {
     public class StockpileConfigItem {
         public string name;
+        public int id; // for materials
         public Dictionary<string, StockpileConfigItem> children;
         public StockpileMenuLevel level;
         public StockpileConfigItemStatus status;
 
-        public StockpileConfigItem(string name, StockpileMenuLevel level) {
+        public StockpileConfigItem(string name, StockpileMenuLevel level, int id = -1) {
             this.name = name;
+            this.id = id;
             this.level = level;
             children = new();
         }

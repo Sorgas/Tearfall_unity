@@ -26,7 +26,7 @@ namespace game.view.ui.stockpileMenu {
             foreach (StockpileConfigItem category in map.Values) {
                 foreach (StockpileConfigItem itemType in category.children.Values) {
                     foreach (StockpileConfigItem material in itemType.children.Values) {
-                        if(material.status == ENABLED) component.map.add(itemType.name, material.name);
+                        if(material.status == ENABLED) component.map.add(itemType.name, material.id);
                     }
                 }
             }
@@ -50,11 +50,11 @@ namespace game.view.ui.stockpileMenu {
         }
 
         private void readItemsStatuses(EcsEntity stockpile) {
-            MultiValueDictionary<string, string> stockpileMap = stockpile.take<StockpileComponent>().map;
+            MultiValueDictionary<string, int> stockpileMap = stockpile.take<StockpileComponent>().map;
             foreach (StockpileConfigItem category in map.Values) {
                 foreach (StockpileConfigItem itemType in category.children.Values) {
                     foreach (StockpileConfigItem material in itemType.children.Values) {
-                        material.status = stockpileMap.contains(itemType.name, material.name) ? ENABLED : DISABLED;
+                        material.status = stockpileMap.contains(itemType.name, material.id) ? ENABLED : DISABLED;
                     }
                     StockpileConfigItemStatus status = DISABLED;
                     if (stockpileMap.ContainsKey(itemType.name)) {

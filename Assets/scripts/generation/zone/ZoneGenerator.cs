@@ -9,7 +9,6 @@ using util.geometry.bounds;
 
 namespace generation.zone {
     public class ZoneGenerator {
-
         public EcsEntity generate(IntBounds3 bounds, ZoneTypeEnum type, int number, EcsEntity entity, LocalModel model) {
             List<Vector3Int> tiles = new();
             bounds.iterate(position => {
@@ -19,21 +18,19 @@ namespace generation.zone {
             });
             entity.Replace(new ZoneComponent { tiles = tiles, type = type, number = number });
             entity.Replace(new NameComponent { name = generateName(type, number) });
+            entity.Replace(new ZoneTasksComponent { tasks = new(), priority = 5 });
             if (type == ZoneTypeEnum.STOCKPILE) {
-                entity.Replace(new StockpileComponent{map = new(), priority = 5});
+                entity.Replace(new StockpileComponent { map = new() });
             }
             return entity;
         }
 
         public string generateName(ZoneTypeEnum type, int number) {
-            switch (type) {
-                case ZoneTypeEnum.STOCKPILE:
-                    return "Stockpile #" + number;
-                case ZoneTypeEnum.FARM:
-                    return "Farm #" + number;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
+            return type switch {
+                ZoneTypeEnum.STOCKPILE => "Stockpile #" + number,
+                ZoneTypeEnum.FARM => "Farm #" + number,
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
         }
     }
 }

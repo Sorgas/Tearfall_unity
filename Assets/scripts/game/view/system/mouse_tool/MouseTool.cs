@@ -16,13 +16,16 @@ namespace game.view.system.mouse_tool {
             selectorGO = GameView.get().sceneObjectsContainer.selector.GetComponent<SelectorHandler>();
         }
 
+        // should recreate item buttons in material selector widget. called when tool is selected in MouseToolManager
         public abstract bool updateMaterialSelector();
-
+        
         public abstract void applyTool(IntBounds3 bounds, Vector3Int start);
+        
+        public virtual void updateSprite() {
+            selectorGO.setToolSprite(null);
+        }
 
-        public abstract void updateSprite();
-
-        public abstract void rotate();
+        public virtual void rotate() { }
 
         public abstract void updateSpriteColor(Vector3Int position);
 

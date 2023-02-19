@@ -50,7 +50,7 @@ namespace game.view.ui.unit_menu { // TODO generalize item building and unit men
 
         public bool accept(KeyCode key) {
             if(key == KeyCode.Q) WindowManager.get().closeWindow(NAME);
-            MouseToolManager.reset();
+            MouseToolManager.get().reset();
             return true;
         }
 

@@ -9,12 +9,12 @@ using util.lang;
 namespace util.pathfinding {
     // TODO make not singleton
     public class AStar : Singleton<AStar> {
-        private LocalMap localMap;
+        private LocalMap localMap; // TODO make stateless
 
         public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, ActionTargetTypeEnum targetType, LocalMap map) {
             localMap = map;
-            Node initialNode = new Node(start, null, getH(target, start), 0);
-            PathFinishCondition finishCondition = new PathFinishCondition(target, targetType, localMap);
+            Node initialNode = new(start, null, getH(target, start), 0);
+            PathFinishCondition finishCondition = new(target, targetType, localMap);
             string message = "[AStar]: finding path " + start + " -> " + target + finishCondition.getMessage();
             List<Vector3Int> path = search(initialNode, finishCondition, target, targetType);
             logResult(path, message);
@@ -23,6 +23,12 @@ namespace util.pathfinding {
 
         public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, LocalMap map) =>
             makeShortestPath(start, target, ActionTargetTypeEnum.EXACT, map);
+
+        public bool pathExists(Vector3Int start, Vector3Int target, LocalMap map) {
+            localMap = map;
+            Node initialNode = new(start, null, getH(target, start), 0);
+            return pathExists(initialNode, target);
+        }
 
         /**
          * @param targetType  see {@link ActionTarget}
@@ -61,8 +67,9 @@ namespace util.pathfinding {
         private List<Vector3Int> getSuccessors(Vector3Int center, HashSet<Vector3Int> closedSet) {
             return PositionUtil.all
                 .Select(vector => center + vector)
+                .Where(vector => !closedSet.Contains(vector))
                 .Where(vector => localMap.inMap(vector) && localMap.passageMap.hasPathBetweenNeighbours(center, vector))
-                .Where(vector => !closedSet.Contains(vector)).ToList();
+                .ToList();
         }
 
         private List<Vector3Int> getPath(Node node, Dictionary<Vector3Int, Vector3Int?> nodes) {
@@ -76,13 +83,33 @@ namespace util.pathfinding {
             return path;
         }
 
+        private bool pathExists(Node initialNode, Vector3Int target) {
+            BinaryHeap openSet = new();
+            HashSet<Vector3Int> closedSet = new();
+      
+            openSet.push(initialNode);
+            while (openSet.Count > 0) {
+                if (!openSet.tryPop(out Node currentNode)) return false; // no more tiles to search
+                if (target == currentNode.position) return true; // path found
+                List<Vector3Int> vectors = getSuccessors(currentNode.position, closedSet);
+                int pathLength = currentNode.pathLength + 1;
+                vectors.ForEach(vector => { // iterate passable near positions
+                    openSet.tryGet(vector, out Node? oldNode);
+                    if (oldNode == null) // if successor node is newly found
+                        openSet.push(new Node(vector, currentNode.position, getH(target, vector), pathLength)); // add to open set
+                });
+                closedSet.Add(currentNode.position); // node processed
+            }
+            return false;
+        }
+
         private void logResult(List<Vector3Int> path, string message) {
-            if(path == null) {
+            if (path == null) {
                 Debug.LogWarning(message + ". No path");
             } else {
                 Debug.Log(message + ". Length " + (path.Count - 1));
             }
-        } 
+        }
 
         private void logNoPath(string message) => Debug.LogWarning(message + ". No path");
     }

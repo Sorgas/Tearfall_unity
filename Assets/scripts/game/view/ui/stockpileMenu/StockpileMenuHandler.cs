@@ -34,7 +34,7 @@ namespace game.view.ui.stockpileMenu {
             configButton.onClick.AddListener(() => toggleConfigMenu());
             closeButton.onClick.AddListener(close);
             pauseButton.onClick.AddListener(() => {
-                ref StockpileComponent component = ref entity.takeRef<StockpileComponent>();
+                ref ZoneTasksComponent component = ref entity.takeRef<ZoneTasksComponent>();
                 component.paused = !component.paused;
             });
             priorityPlusButton.onClick.AddListener(() => changePriority(1));
@@ -57,7 +57,7 @@ namespace game.view.ui.stockpileMenu {
         }
 
         private void changePriority(int delta) {
-            ref StockpileComponent component = ref entity.takeRef<StockpileComponent>();
+            ref ZoneTasksComponent component = ref entity.takeRef<ZoneTasksComponent>();
             component.priority += delta;
         }
 

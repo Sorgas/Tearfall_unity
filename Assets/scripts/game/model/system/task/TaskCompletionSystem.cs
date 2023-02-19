@@ -41,9 +41,9 @@ namespace game.model.system.task {
             }
         }
 
-        // if task was completed by unit, designation is no longer needed
+        // detaches designation from 
         private void detachDesignation(ref EcsEntity task, TaskFinishedComponent component) {
-            if (component.status == TaskStatusEnum.COMPLETE && task.Has<TaskDesignationComponent>()) {
+            if (task.Has<TaskDesignationComponent>()) {
                 ref EcsEntity designation = ref task.takeRef<TaskDesignationComponent>().designation;
                 designation.Replace(component);
                 designation.Del<TaskComponent>();

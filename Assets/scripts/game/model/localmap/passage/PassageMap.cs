@@ -11,10 +11,10 @@ namespace game.model.localmap.passage {
         private readonly LocalMap localMap;
         private readonly BlockTypeMap map;
         public readonly PassageUpdater updater;
-        public readonly PassageUtil util;
+        // public readonly PassageUtil util;
 
-        public UtilByteArrayWithCounter area; // number of area
-        public UtilByteArray passage; // see {@link BlockTypesEnum} for passage values.
+        public readonly UtilByteArrayWithCounter area; // number of area
+        public readonly UtilByteArray passage; // see {@link BlockTypesEnum} for passage values.
 
         public PassageMap(LocalModel model, LocalMap localMap) : base(model) {
             this.localMap = localMap;
@@ -22,7 +22,7 @@ namespace game.model.localmap.passage {
             area = new UtilByteArrayWithCounter(localMap.sizeVector);
             passage = new UtilByteArray(localMap.sizeVector);
             updater = new PassageUpdater(model, localMap, this);
-            util = new PassageUtil(localMap, this);
+            // util = new PassageUtil(localMap, this);
         }
 
         // Resets values to the whole map.

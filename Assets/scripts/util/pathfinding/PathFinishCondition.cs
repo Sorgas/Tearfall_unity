@@ -11,7 +11,7 @@ using static types.BlockTypes;
 namespace util.pathfinding {
     class PathFinishCondition {
         // positions, where path can finish
-        private readonly HashSet<Vector3Int> acceptable = new HashSet<Vector3Int>();
+        private readonly HashSet<Vector3Int> acceptable = new();
         private readonly ActionTargetTypeEnum targetType;
 
         public PathFinishCondition(Vector3Int target, ActionTargetTypeEnum targetType, LocalMap map) {
