@@ -1,29 +1,41 @@
-﻿using game.model.component.task.action.target;
+﻿using game.model.component.task.action.equipment.obtain;
+using game.model.component.task.action.target;
+using game.model.component.unit;
 using Leopotam.Ecs;
-using types.action;
+using UnityEngine;
+using util.lang.extension;
+using static types.action.ActionConditionStatusEnum;
 
 namespace game.model.component.task.action.zone {
     // TODO add containers usage
     // when assigned, searches item that can be brought to stockpile. 
     public class HaulItemToStockpileAction : Action {
-        private EcsEntity item;
+        private StockpileActionTarget actionTarget;
+        private EcsEntity item = EcsEntity.Null;
         private EcsEntity stockpile;
         
         // TODO use zone as target
-        public HaulItemToStockpileAction(ActionTarget target) : base(target) {
+        public HaulItemToStockpileAction(StockpileActionTarget target) : base(target) {
+            actionTarget = target;
             startCondition = () => {
-                return ActionConditionStatusEnum.FAIL;
+                if (!checkFreeTile()) return FAIL;
+                if (item == EcsEntity.Null && !findItem()) return FAIL;
+                if (performer.take<UnitEquipmentComponent>().hauledItem != item) return addPreAction(new ObtainItemAction(item));
+                return OK;
             };
 
             onFinish = () => { };
         }
-
-        private void check() {
-            if (item == EcsEntity.Null) {
-                // model.itemContainer.util.findForStockpile();
-                // find item in zone area or fail
-            }
-            // find free cell in zone or fail
+        
+        // TODO optimize with flag in StockpileComponent
+        private bool checkFreeTile() {
+            Vector3Int tile = actionTarget.lookupFreeTile();
+            return tile != Vector3Int.back;
+        }
+        
+        private bool findItem() {
+            item = model.itemContainer.util.findForStockpile(stockpile.take<StockpileComponent>().map, stockpile.pos());
+            return item != EcsEntity.Null;
         }
     }
 }

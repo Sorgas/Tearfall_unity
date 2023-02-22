@@ -13,12 +13,12 @@ namespace game.model.component {
 
     public struct ZoneTasksComponent {
         public bool paused; // new tasks not generated when paused.
-        public Dictionary<Vector3Int, EcsEntity> tasks; // each free cell can have 1 task
+        public HashSet<EcsEntity> bringTasks;
+        public HashSet<EcsEntity> removeTasks;
         public int priority;
     }
 
     public struct ZoneOpenTaskComponent { // exists when zone is waiting for performer
-        public Vector3Int position;
         public EcsEntity task;
     }
     
@@ -35,7 +35,7 @@ namespace game.model.component {
 
     public struct StockpileComponent {
         public MultiValueDictionary<string, int> map; // allowed itemTypes -> materials
-        public Dictionary<Vector3Int, EcsEntity> items; // stored items
         public string preset; // TODO if preset is set, map in this component is empty, and config stored in ZoneContainer in localmodel
+        public bool hasFreeTile; // TODO use this field for optimising checks on hauling tasks
     }
 }

@@ -20,7 +20,7 @@ namespace game.model.system.unit {
             foreach (int i in filter) {
                 ref EcsEntity unit = ref filter.GetEntity(i);
                 EcsEntity task = tryCreateTask(unit);
-                if (!task.IsNull()) assignTask(ref unit, task);
+                if (task != EcsEntity.Null) assignTask(ref unit, task);
             }
         }
 

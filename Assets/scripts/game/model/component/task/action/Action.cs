@@ -43,7 +43,7 @@ namespace game.model.component.task.action {
                 return ref component.performer;
             }
         }
-        // checked before starting performing, can create sub actions, can lock items
+        // checked before starting performing and before starting moving, can create sub actions, can lock items
         public Func<ActionConditionStatusEnum> startCondition = () => ActionConditionStatusEnum.FAIL; // prevent starting empty action
 
         public System.Action onStart = () => { }; // performed on phase start

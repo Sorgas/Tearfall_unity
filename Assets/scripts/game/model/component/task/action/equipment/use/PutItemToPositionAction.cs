@@ -10,6 +10,7 @@ namespace game.model.component.task.action.equipment.use {
             onFinish = () => {
                 equipment().hauledItem = EcsEntity.Null;
                 // TODO put item to map
+                // TODO add component ItemPutToGroundComponent
                 // GameModel.get().itemContainer.
             };
         }

@@ -18,7 +18,7 @@ namespace generation.zone {
             });
             entity.Replace(new ZoneComponent { tiles = tiles, type = type, number = number });
             entity.Replace(new NameComponent { name = generateName(type, number) });
-            entity.Replace(new ZoneTasksComponent { tasks = new(), priority = 5 });
+            entity.Replace(new ZoneTasksComponent { bringTasks = new(), priority = 5 });
             if (type == ZoneTypeEnum.STOCKPILE) {
                 entity.Replace(new StockpileComponent { map = new() });
             }

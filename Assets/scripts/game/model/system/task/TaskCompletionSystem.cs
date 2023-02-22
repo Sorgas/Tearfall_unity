@@ -1,5 +1,4 @@
 ﻿using game.model.component;
-using game.model.component.item;
 using game.model.component.task.action;
 using game.model.localmap;
 using Leopotam.Ecs;
@@ -7,6 +6,7 @@ using types.action;
 using UnityEngine;
 using util.lang.extension;
 using static game.model.component.task.TaskComponents;
+using TaskComponent = game.model.component.TaskComponent;
 
 namespace game.model.system.task {
     // When task is completed by some reason, this system notifies other entities related to task.
@@ -24,6 +24,7 @@ namespace game.model.system.task {
                 detachPerformer(ref task, component);
                 detachDesignation(ref task, component);
                 detachBuilding(ref task, component);
+                detachZone(ref task, component);
                 unlockItems(task);
                 flushLog();
                 model.taskContainer.removeTask(task);
@@ -61,9 +62,19 @@ namespace game.model.system.task {
             }
         }
 
+        // on any status 
+        private void detachZone(ref EcsEntity task, TaskFinishedComponent component) {
+            if (component.status == TaskStatusEnum.COMPLETE && task.Has<TaskBuildingComponent>()) {
+                ref EcsEntity zone = ref task.takeRef<TaskZoneComponent>().zone;
+                zone.take<ZoneTasksComponent>().bringTasks;
+                zone.Replace(component);
+                zone.Del<TaskComponent>();
+                log(", zone detached");
+            }
+        }
+        
         // unlock all items locked by task
         private void unlockItems(EcsEntity task) {
-
             if(task.Has<TaskLockedItemsComponent>()) {
                 Action initialAction = task.take<TaskActionsComponent>().initialAction;
                 TaskLockedItemsComponent lockedComponent = task.take<TaskLockedItemsComponent>();

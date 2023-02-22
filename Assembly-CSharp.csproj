@@ -95,6 +95,7 @@
      <Compile Include="Assets\scripts\util\geometry\bounds\FloatBounds2.cs" />
      <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorVisualMovementSystem.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\LocalMapTileUpdater.cs" />
+     <Compile Include="Assets\scripts\game\view\system\mouse_tool\DebugTileMouseTool.cs" />
      <Compile Include="Assets\scripts\game\view\ui\material_selector\MaterialButtonHandler.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenContainer.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\Recipe.cs" />
@@ -198,6 +199,7 @@
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenConfig.cs" />
      <Compile Include="Assets\scripts\game\TestLevelInitializer2.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\PositionValidator.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\target\StockpileActionTarget.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\OnMapItemsManager.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalBuildingGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\WorldMap.cs" />
@@ -218,6 +220,7 @@
      <Compile Include="Assets\scripts\util\pathfinding\mit\AStar2.cs" />
      <Compile Include="Assets\scripts\game\model\container\ZoneContainer.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\DesignationMouseTool.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\debug_tools\DebugToolsPanelHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\TaskComponents.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\LocalMap.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedKeyController.cs" />
@@ -310,6 +313,7 @@
      <Compile Include="Assets\scripts\types\QualityEnum.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedLayersController.cs" />
      <Compile Include="Assets\scripts\types\unit\need\NeedTypeEnum.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\debug_tools\DebugToolsHandler.cs" />
      <Compile Include="Assets\scripts\types\DesignationTypes.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\TreeExistsValidator.cs" />
      <Compile Include="Assets\scripts\util\geometry\ValueRange.cs" />
@@ -347,7 +351,6 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\target\EntityActionTarget.cs" />
      <Compile Include="Assets\scripts\game\view\camera\CameraMovementSystem.cs" />
      <Compile Include="Assets\scripts\test\TestEcsSetup.cs" />
-     <Compile Include="Assets\scripts\game\model\system\zone\ZoneTaskAssignmentSystem.cs" />
      <Compile Include="Assets\scripts\game\view\camera\EntitySelector.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\MoveAction.cs" />
      <Compile Include="Assets\scripts\util\geometry\bounds\IntBounds3.cs" />
@@ -406,9 +409,8 @@
      <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\debug_tools\DebugToolsHandler.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\debug_tools\DebugToolsPanelHandler.cs" />
-     <Compile Include="Assets\scripts\game\view\system\mouse_tool\DebugTileMouseTool.cs" />
+     <Compile Include="Assets\scripts\game\model\util\ZoneUtils.cs" />
+     <Compile Include="Assets\scripts\game\model\system\zone\ZoneTaskAssignmentSystem.cs" />
      <None Include="Assets\resources\data\items\growths.json" />
      <None Include="Assets\resources\data\recipes\carpenter.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
