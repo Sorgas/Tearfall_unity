@@ -26,7 +26,7 @@ namespace game {
         // creates test settler as it was selected on preparation screen
         private void createTestSettler() {
             GenerationState.get().preparationState.settlers.Add(new SettlerData {name = "settler1", age = 30, type = "human"});
-            GenerationState.get().preparationState.settlers.Add(new SettlerData {name = "settler2", age = 30, type = "human"});
+            // GenerationState.get().preparationState.settlers.Add(new SettlerData {name = "settler2", age = 30, type = "human"});
         }
 
         // creates test item as it was selected on preparation screen

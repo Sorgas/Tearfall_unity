@@ -5,15 +5,13 @@ namespace util.lang {
         public MultiValueDictionary() { }
 
         public MultiValueDictionary(MultiValueDictionary<K, V> source) {
-            // for (var i = 0; i < source.Count; i++) {
-                foreach (KeyValuePair<K,List<V>> pair in source) {
-                    Add(pair.Key, pair.Value);
-                }
-            // }
+            foreach (KeyValuePair<K, List<V>> pair in source) {
+                Add(pair.Key, pair.Value);
+            }
         }
 
         public void add(K key, V value) {
-            if(!ContainsKey(key)) Add(key, new List<V>());
+            if (!ContainsKey(key)) Add(key, new List<V>());
             this[key].Add(value);
         }
 
@@ -23,7 +21,7 @@ namespace util.lang {
         }
 
         public List<V> get(K key) {
-            if(!ContainsKey(key)) return new List<V>();
+            if (!ContainsKey(key)) return new List<V>();
             return this[key];
         }
 
@@ -31,7 +29,7 @@ namespace util.lang {
             return ContainsKey(key) && this[key].Contains(value);
         }
 
-        public MultiValueDictionary<K ,V> clone() {
+        public MultiValueDictionary<K, V> clone() {
             return new(this);
         }
     }

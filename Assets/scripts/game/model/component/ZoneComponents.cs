@@ -13,8 +13,6 @@ namespace game.model.component {
 
     public struct ZoneTasksComponent {
         public bool paused; // new tasks not generated when paused.
-        public HashSet<EcsEntity> bringTasks;
-        public HashSet<EcsEntity> removeTasks;
         public int priority;
     }
 
@@ -37,5 +35,10 @@ namespace game.model.component {
         public MultiValueDictionary<string, int> map; // allowed itemTypes -> materials
         public string preset; // TODO if preset is set, map in this component is empty, and config stored in ZoneContainer in localmodel
         public bool hasFreeTile; // TODO use this field for optimising checks on hauling tasks
+    }
+
+    public struct StockpileTasksComponent {
+        public HashSet<EcsEntity> bringTasks;
+        public HashSet<EcsEntity> removeTasks;
     }
 }

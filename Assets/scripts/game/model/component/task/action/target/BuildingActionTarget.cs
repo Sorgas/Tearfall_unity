@@ -11,7 +11,7 @@ namespace game.model.component.task.action.target {
             center = position;
         }
 
-        public override Vector3Int? Pos => center;
+        public override Vector3Int pos => center;
         // return builderPosition != null ? builderPosition : center;
         // /**
         //  * Finds appropriate position for builder to build from and bring materials.

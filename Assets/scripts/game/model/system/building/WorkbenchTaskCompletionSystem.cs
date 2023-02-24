@@ -1,11 +1,11 @@
 using game.model.component;
 using game.model.component.building;
+using game.model.component.task;
 using game.model.component.task.order;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
 using util.lang.extension;
-using static game.model.component.task.TaskComponents;
 
 // if WB marked with finished task, task and current order should be reset, then OrderSelectionSystem will select new Current order
 namespace game.model.system.building {

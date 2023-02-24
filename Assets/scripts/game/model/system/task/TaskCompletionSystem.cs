@@ -1,11 +1,10 @@
 ﻿using game.model.component;
-using game.model.component.task.action;
+using game.model.component.task;
 using game.model.localmap;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
 using util.lang.extension;
-using static game.model.component.task.TaskComponents;
 using TaskComponent = game.model.component.TaskComponent;
 
 namespace game.model.system.task {
@@ -20,14 +19,14 @@ namespace game.model.system.task {
             foreach (var i in filter) {
                 ref EcsEntity task = ref filter.GetEntity(i);
                 TaskFinishedComponent component = filter.Get2(i);
-                log("[TaskCompletionSystem]: completing task " + task.Get<TaskActionsComponent>().initialAction.name);
+                log("[TaskCo pletionSystem]: completing task " + task.Get<TaskActionsComponent>().initialAction.name);
                 detachPerformer(ref task, component);
                 detachDesignation(ref task, component);
                 detachBuilding(ref task, component);
-                detachZone(ref task, component);
+                detachZone(ref task);
                 unlockItems(task);
                 flushLog();
-                model.taskContainer.removeTask(task);
+                model.taskContainer.removeTask(task); // destroys task
             }
         }
 
@@ -35,7 +34,7 @@ namespace game.model.system.task {
         // unlink unit from task and notify that task is finished
         private void detachPerformer(ref EcsEntity task, TaskFinishedComponent component) {
             if (task.Has<TaskPerformerComponent>()) {
-                ref EcsEntity unit = ref task.takeRef<TaskPerformerComponent>().performer; 
+                ref EcsEntity unit = ref task.takeRef<TaskPerformerComponent>().performer;
                 unit.Replace(component);
                 unit.Del<TaskComponent>();
                 log(", performer detached");
@@ -62,24 +61,31 @@ namespace game.model.system.task {
             }
         }
 
-        // on any status 
-        private void detachZone(ref EcsEntity task, TaskFinishedComponent component) {
-            if (component.status == TaskStatusEnum.COMPLETE && task.Has<TaskBuildingComponent>()) {
-                ref EcsEntity zone = ref task.takeRef<TaskZoneComponent>().zone;
-                zone.take<ZoneTasksComponent>().bringTasks;
-                zone.Replace(component);
-                zone.Del<TaskComponent>();
-                log(", zone detached");
+        // on any status task is removed from zone components 
+        private void detachZone(ref EcsEntity task) {
+            if (!task.Has<TaskZoneComponent>()) return;
+            ref EcsEntity zone = ref task.takeRef<TaskZoneComponent>().zone;
+            ZoneTasksComponent zoneTasks = zone.take<ZoneTasksComponent>();
+            StockpileTasksComponent stockpileTasks = zone.take<StockpileTasksComponent>();
+            if (stockpileTasks.bringTasks.Contains(task)) {
+                stockpileTasks.bringTasks.Remove(task);
+            } else if (stockpileTasks.removeTasks.Contains(task)) {
+                stockpileTasks.removeTasks.Remove(task);
+            } else if (zone.Has<ZoneOpenTaskComponent>()) {
+                if (zone.take<ZoneOpenTaskComponent>().task.Equals(task)) {
+                    zone.Del<ZoneOpenTaskComponent>();
+                }
+            } else {
+                Debug.LogError("Completed task " + task.name() + " pointed to zone, but not referenced from zone.");
             }
         }
-        
+
         // unlock all items locked by task
         private void unlockItems(EcsEntity task) {
-            if(task.Has<TaskLockedItemsComponent>()) {
-                Action initialAction = task.take<TaskActionsComponent>().initialAction;
+            if (task.Has<TaskLockedItemsComponent>()) {
                 TaskLockedItemsComponent lockedComponent = task.take<TaskLockedItemsComponent>();
-                foreach(EcsEntity item in lockedComponent.lockedItems) {
-                    if(item.IsAlive()) item.Del<LockedComponent>();
+                foreach (EcsEntity item in lockedComponent.lockedItems) {
+                    if (item.IsAlive()) item.Del<LockedComponent>();
                 }
                 log(", unlocked " + lockedComponent.lockedItems.Count + " items");
             }

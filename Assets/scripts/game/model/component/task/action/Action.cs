@@ -7,7 +7,6 @@ using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
 using util.lang.extension;
-using static game.model.component.task.TaskComponents;
 
 namespace game.model.component.task.action {
     /**
@@ -79,16 +78,15 @@ namespace game.model.component.task.action {
         }
 
         public ActionConditionStatusEnum addPreAction(Action action) {
-            log("adding pre-action: " + action.name);
             task.take<TaskActionsComponent>().addFirstPreAction(action);
             action.task = task;
             return ActionConditionStatusEnum.NEW;
         }
 
         // TODO reference to task?
-        protected void lockEntities(List<EcsEntity> items) => items.ForEach(item => lockEntity(item));
+        protected void lockEntities(List<EcsEntity> items) => items.ForEach(lockEntity);
 
-        // locks or unlocks item to task of this action. Item can be locked only to one task. 
+        // locks item to task of this action. Item can be locked only to one task. 
         // Items are unlocked when task ends, see TaskCompletionSystem.
         protected void lockEntity(EcsEntity item) {
             if (!itemCanBeLocked(item)) throw new ArgumentException("Cannot lock item. Item locked to another task");

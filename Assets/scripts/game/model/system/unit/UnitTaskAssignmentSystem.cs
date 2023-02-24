@@ -1,4 +1,5 @@
 using game.model.component;
+using game.model.component.task;
 using game.model.component.task.action;
 using game.model.component.unit;
 using game.model.localmap;
@@ -6,7 +7,6 @@ using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
 using util.lang.extension;
-using static game.model.component.task.TaskComponents;
 
 namespace game.model.system.unit {
     // finds and assigns appropriate tasks to units
@@ -62,7 +62,7 @@ namespace game.model.system.unit {
         }
 
         private TaskPriorityEnum priority(EcsEntity task) {
-            return task.IsNull() ? TaskPriorityEnum.NONE : task.take<TaskPriorityComponent>().priority;
+            return task.IsNull() ? TaskPriorityEnum.NONE : task.take<TaskActionsComponent>().priority;
         }
     }
 }

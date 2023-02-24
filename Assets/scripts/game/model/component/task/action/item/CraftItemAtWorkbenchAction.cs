@@ -27,7 +27,7 @@ namespace game.model.component.task.action.item {
         // unit will stand near wb while performing task
         public CraftItemAtWorkbenchAction(CraftingOrder order, EcsEntity workbench) : base(order, new WorkbenchActionTarget(workbench)) {
             this.workbench = workbench;
-            this.name = "crafting " + order.name + " action";
+            name = "crafting " + order.name + " action";
         
             //TODO check ingredients and fuel availability before bringing something to workbench.
             //TODO add usage of items in nearby containers.

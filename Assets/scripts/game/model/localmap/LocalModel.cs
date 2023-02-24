@@ -58,7 +58,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
                 .Add(new TaskCompletionSystem(this)) // handle completed tasks
                 .Add(new DesignationCompletionSystem(this)) // handle designation with completed tasks
                 .Add(new DesignationTaskCreationSystem(this)) // create tasks for designations
-                .Add(new DesignationTaskCreationTimeoutSystem())
+                .Add(new TaskCreationTimeoutSystem())
 
                 .Add(new UnitWearNeedSystem())
                 .Add(new UnitNeedSystem())

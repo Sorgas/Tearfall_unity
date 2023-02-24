@@ -40,7 +40,7 @@ namespace game.model.system.task.designation {
                 if (task.IsAlive()) {
                     task.Replace(taskFinishedComponent);
                     Debug.Log("[DesignationCompletionSystem]: deleting taskDesignation component from task");
-                    task.Del<TaskComponents.TaskDesignationComponent>();
+                    task.Del<TaskDesignationComponent>();
                 }
                 Debug.Log("[DesignationCompletionSystem]: deleting task component from designation " + designation.take<DesignationComponent>().type.name + " " + designation.pos());
                 designation.Del<TaskComponent>();

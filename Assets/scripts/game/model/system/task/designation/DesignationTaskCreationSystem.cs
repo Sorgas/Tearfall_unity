@@ -8,7 +8,6 @@ using Leopotam.Ecs;
 using types.unit;
 using UnityEngine;
 using util.lang.extension;
-using static game.model.component.task.TaskComponents;
 
 namespace game.model.system.task.designation {
     // creates tasks for designations without tasks. stores tasks in TaskContainer

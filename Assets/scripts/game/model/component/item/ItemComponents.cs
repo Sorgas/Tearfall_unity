@@ -111,7 +111,7 @@ namespace game.model.component.item {
         public EcsEntity holder;
     }
 
-    // item is contained in container
+    // item is contained in container (chest)
     public struct ItemContainedComponent {
         public EcsEntity container;
     }
@@ -127,16 +127,7 @@ namespace game.model.component.item {
 
         public Sprite sprite;
     }
-
-    // TODO use for position update and visual remove
-    // item with this was moved recently, and requires to update its visual and position components
-    public struct ItemManipulationComponent {
-        public const string toMap = "toMap";
-        public const string fromMap = "fromMap";
-
-        public string type;
-    }
-
+    
     public struct ItemFoodComponent {
         public float nutrition; // [0, 1] - restores unit's hunger level
         public int foodQuality; // can give mood buffs

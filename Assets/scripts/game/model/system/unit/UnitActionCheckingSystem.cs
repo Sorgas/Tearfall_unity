@@ -1,4 +1,5 @@
 using game.model.component;
+using game.model.component.task;
 using game.model.component.task.action;
 using game.model.component.task.action.target;
 using game.model.component.unit;
@@ -10,7 +11,6 @@ using util.lang.extension;
 using static types.action.ActionConditionStatusEnum;
 using static types.action.TaskStatusEnum;
 using static game.model.component.task.action.target.ActionTargetStatusEnum;
-using static game.model.component.task.TaskComponents;
 
 namespace game.model.system.unit {
     // handle units with tasks, which are not moving or performing
@@ -55,7 +55,7 @@ namespace game.model.system.unit {
         private bool actionConditionOk(ref EcsEntity unit, ref TaskActionsComponent actions) {
             string nextActionName = actions.NextAction.name;
             ActionConditionStatusEnum checkResult = actions.NextAction.startCondition.Invoke(); // creates sub actions
-            log("checked start condition of [" + nextActionName + "]:" + checkResult);
+            log("checked start condition of [" + nextActionName + "]:" + checkResult + ": " + actions.NextAction.name);
             if (checkResult == OK) return true;
             if (checkResult == ActionConditionStatusEnum.FAIL) failTask(ref unit); // fail task by start condition
             return false; // NEW
@@ -71,8 +71,8 @@ namespace game.model.system.unit {
                     unit.Replace(new UnitCurrentActionComponent { action = action });
                     break;
                 case WAIT: // start movement
-                    Vector3Int? target = action.target.Pos;
-                    if (!target.HasValue) {
+                    Vector3Int? target = action.target.pos;
+                    if (target == Vector3Int.back) {
                         Debug.LogWarning("action " + action + " has not target position.");
                         break;
                     }
@@ -96,6 +96,12 @@ namespace game.model.system.unit {
             unit.Replace(new TaskFinishedComponent { status = FAILED });
         }
 
+        private void logStartConditionCheck(string checkedActionName, ActionConditionStatusEnum result, TaskActionsComponent actions) {
+            string message = "checked start condition of [" + checkedActionName + "]:" + result;
+            if (result == NEW) message += ": " + actions.NextAction.name;
+            log(message);
+        }
+        
         private void log(string message) {
             Debug.Log("[UnitActionCheckingSystem]: " + message);
         }

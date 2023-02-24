@@ -1,17 +1,20 @@
 ﻿using game.model.component.task.action.target;
+using game.model.component.unit;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
+using util.lang.extension;
 
 namespace game.model.component.task.action.equipment.use {
+    // puts item from unit's hands to ground tile. check is made in superclass
     public class PutItemToPositionAction : PutItemToDestinationAction {
         public PutItemToPositionAction(EcsEntity item, Vector3Int targetPosition) : base(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.ANY), item) {
-            name = "put item to position";
+            name = "put item " + item.name() + " to position " + targetPosition;
+            
             onFinish = () => {
-                equipment().hauledItem = EcsEntity.Null;
-                // TODO put item to map
-                // TODO add component ItemPutToGroundComponent
-                // GameModel.get().itemContainer.
+                ref UnitEquipmentComponent equipment = ref this.equipment();
+                equipment.hauledItem = EcsEntity.Null;
+                model.itemContainer.transition.fromUnitToGround(item, performer, targetPosition);
             };
         }
     }

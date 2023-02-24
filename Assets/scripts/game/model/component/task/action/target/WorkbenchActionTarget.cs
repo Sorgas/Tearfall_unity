@@ -17,8 +17,6 @@ namespace game.model.component.task.action.target {
             accessPosition.y += type.access[1];
         }
 
-        public override Vector3Int? Pos {
-            get => accessPosition;
-        }
+        public override Vector3Int pos => accessPosition;
     }
 }

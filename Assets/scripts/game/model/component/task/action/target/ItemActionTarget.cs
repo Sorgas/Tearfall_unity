@@ -9,9 +9,8 @@ namespace game.model.component.task.action.target {
     public class ItemActionTarget : EntityActionTarget {
         public EcsEntity item;
 
-        public override Vector3Int? Pos =>
-            // todo add contained items
-            item.pos();
+        // todo add contained items
+        public override Vector3Int pos => item.pos();
 
         public ItemActionTarget(EcsEntity item) : base(item, EXACT) {
             this.item = item;

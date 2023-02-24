@@ -17,7 +17,7 @@ namespace game.model.container.item {
     */
     public class EquippedItemsManager {
         // item to unit mapping
-        public Dictionary<EcsEntity, EcsEntity> equippedItems = new Dictionary<EcsEntity, EcsEntity>();
+        public Dictionary<EcsEntity, EcsEntity> equippedItems = new();
         
         // registers item as equipped by unit
         public void addItemToUnit(EcsEntity item, EcsEntity unit) {

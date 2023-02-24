@@ -99,13 +99,14 @@ namespace game.model.container.item {
             return selectNearest(list, position);
         }
 
-        public EcsEntity findForStockpile(MultiValueDictionary<string, int> config, Vector3Int position) {
+        public EcsEntity findForStockpile(MultiValueDictionary<string, int> config, List<Vector3Int> zonePositions, Vector3Int position) {
             List<EcsEntity> list = container.availableItemsManager.getAll()
                 .Where(item => !item.Has<LockedComponent>())
                 .Where(item => config.ContainsKey(item.take<ItemComponent>().type)) // allowed item types
+                .Where(item => !zonePositions.Contains(item.pos()))
                 .Where(item => {
                     ItemComponent component = item.take<ItemComponent>();
-                    return config[component.type].Contains(component.material);
+                    return config.ContainsKey(component.type) && config[component.type].Contains(component.material);
                 })
                 .ToList();
             if (list.Count == 0) return EcsEntity.Null;

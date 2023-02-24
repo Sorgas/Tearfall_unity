@@ -11,6 +11,6 @@ namespace game.model.component.task.action.target {
             this.entity = entity;
         }
 
-        public override Vector3Int? Pos => entity.pos();
+        public override Vector3Int pos => entity.pos();
     }
 }

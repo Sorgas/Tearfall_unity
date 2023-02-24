@@ -19,7 +19,7 @@ namespace game.view.ui.stockpileMenu {
         }
 
         public StockpileConfigItem clone() {
-            StockpileConfigItem clone = new(name, level);
+            StockpileConfigItem clone = new(name, level, id);
             foreach (KeyValuePair<string, StockpileConfigItem> pair in children) {
                 clone.children.Add(pair.Key, pair.Value.clone());
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using game.model.component;
+using JetBrains.Annotations;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace util.lang.extension {
             }
             throw new EcsException("Entity does not have component " + typeof(T).Name);
         }
-        
+
         public static Vector3Int pos(this EcsEntity entity) {
             if(entity.hasPos()) return entity.Get<PositionComponent>().position;
             throw new ArgumentException("entity has no PositionComponent!");

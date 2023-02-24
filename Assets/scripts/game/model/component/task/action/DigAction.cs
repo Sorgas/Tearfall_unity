@@ -18,8 +18,8 @@ namespace game.model.component.task.action {
     // digs a tile of map. performer should have tool with dig action in hands
     // TODO move looking for tool to dedicated action 
     public class DigAction : Action {
-        private DesignationType type;
-        private string toolActionName = "dig";
+        private readonly DesignationType type;
+        private readonly string toolActionName = "dig";
         private ToolWithActionItemSelector selector;
 
         public DigAction(Vector3Int position, DesignationType type) : base(new PositionActionTarget(position, type.targetType)) {
@@ -28,7 +28,7 @@ namespace game.model.component.task.action {
             selector = new ToolWithActionItemSelector(toolActionName);
 
             startCondition = () => {
-                if (!type.validator.validate(target.Pos.Value, model)) return FAIL; // tile became invalid
+                if (!type.validator.validate(target.pos, model)) return FAIL; // tile became invalid
                 if (!performer.Has<UnitEquipmentComponent>()) return FAIL;
                 if (!performer.take<UnitEquipmentComponent>().toolWithActionEquipped(toolActionName)) 
                     return addEquipAction(); // find tool
@@ -40,7 +40,7 @@ namespace game.model.component.task.action {
             };
 
             onFinish = () => {
-                if (!type.validator.validate(target.Pos.Value, model)) return;
+                if (!type.validator.validate(target.pos, model)) return;
                 updateMap();
                 // TODO give exp
             };
@@ -59,28 +59,28 @@ namespace game.model.component.task.action {
         // Applies changes to local map. Some types of digging change not only target tile.
         private void updateMap() {
             LocalMap map = model.localMap;
-            Vector3Int target = this.target.Pos.Value;
+            Vector3Int targetPos = target.pos;
             switch (type.name) {
                 case "dig":
-                    updateAndRevealMap(target, FLOOR);
+                    updateAndRevealMap(targetPos, FLOOR);
                     break;
                 case "stairs":
                     // TODO fix type selection
-                    updateAndRevealMap(target, map.blockType.get(target) == WALL.CODE ? STAIRS : DOWNSTAIRS);
+                    updateAndRevealMap(targetPos, map.blockType.get(targetPos) == WALL.CODE ? STAIRS : DOWNSTAIRS);
                     break;
                 case "ramp":
-                    updateAndRevealMap(target, RAMP);
-                    updateAndRevealMap(target + Vector3Int.forward, SPACE);
+                    updateAndRevealMap(targetPos, RAMP);
+                    updateAndRevealMap(targetPos + Vector3Int.forward, SPACE);
                     break;
                 case "channel":
-                    updateAndRevealMap(target, SPACE); // current
-                    Vector3Int rampPosition = target + Vector3Int.back;
+                    updateAndRevealMap(targetPos, SPACE); // current
+                    Vector3Int rampPosition = targetPos + Vector3Int.back;
                     if (map.blockType.get(rampPosition) == WALL.CODE) updateAndRevealMap(rampPosition, RAMP); // lower
                     break;
                 case "downstairs":
-                    byte currentType = map.blockType.get(target);
-                    if (currentType != STAIRS.CODE && currentType != DOWNSTAIRS.CODE) updateAndRevealMap(target, DOWNSTAIRS); // current 
-                    Vector3Int stairsPosition = target + Vector3Int.back;
+                    byte currentType = map.blockType.get(targetPos);
+                    if (currentType != STAIRS.CODE && currentType != DOWNSTAIRS.CODE) updateAndRevealMap(targetPos, DOWNSTAIRS); // current 
+                    Vector3Int stairsPosition = targetPos + Vector3Int.back;
                     byte lowerType = map.blockType.get(stairsPosition);
                     if (lowerType == WALL.CODE || lowerType == RAMP.CODE) updateAndRevealMap(stairsPosition, STAIRS); // lower
                     break;

@@ -23,7 +23,7 @@ namespace game.model.util {
         public static int countFreeStockpileCells(ZoneComponent zone, StockpileComponent stockpile, LocalModel model) {
             return zone.tiles
                 .Count(tile => !model.itemContainer.onMap.itemsOnMap.ContainsKey(tile) ||
-                               model.itemContainer.onMap.itemsOnMap[tile]
+                               !model.itemContainer.onMap.itemsOnMap[tile]
                                    .Select(item => item.take<ItemComponent>())
                                    .Any(item => stockpile.map.ContainsKey(item.type) && stockpile.map[item.type].Contains(item.material)));
         }

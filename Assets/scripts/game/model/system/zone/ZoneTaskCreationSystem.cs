@@ -13,6 +13,8 @@ using util.lang.extension;
 
 namespace game.model.system.zone {
     // creates open task for zone without open task
+    // TODO when task is assigned, add marker component to it. if task of stockpile, move it to assigned tasks of zone
+    // TODO when item put on ground, add merker component to it. if put into stockpile, update free cells etc.
     public class ZoneTaskCreationSystem : LocalModelEcsSystem {
         public EcsFilter<StockpileComponent>.Exclude<ZoneOpenTaskComponent, TaskCreationTimeoutComponent> stockpileFilter;
         private readonly TaskGenerator generator = new();
@@ -24,11 +26,11 @@ namespace game.model.system.zone {
                 EcsEntity entity = stockpileFilter.GetEntity(i);
                 StockpileComponent stockpile = stockpileFilter.Get1(i);
                 ZoneComponent zone = entity.take<ZoneComponent>();
-                ZoneTasksComponent tasks = entity.take<ZoneTasksComponent>();
+                StockpileTasksComponent tasks = entity.take<StockpileTasksComponent>();
                 EcsEntity task = createTaskForStockpile(stockpile, zone, tasks, entity);
                 if (task != EcsEntity.Null) {
                     Debug.Log("stockpile task created");
-                    task.Replace(new TaskComponents.TaskZoneComponent { zone = entity });
+                    task.Replace(new TaskZoneComponent { zone = entity });
                     entity.Replace(new ZoneOpenTaskComponent { task = task });
                     model.taskContainer.addOpenTask(task);
                 } else {
@@ -38,7 +40,7 @@ namespace game.model.system.zone {
             }
         }
 
-        private EcsEntity createTaskForStockpile(StockpileComponent stockpile, ZoneComponent zone, ZoneTasksComponent tasks, EcsEntity entity) {
+        private EcsEntity createTaskForStockpile(StockpileComponent stockpile, ZoneComponent zone, StockpileTasksComponent tasks, EcsEntity entity) {
             if (stockpile.map.Count > 0) {
                 int freeCells = ZoneUtils.countFreeStockpileCells(zone, stockpile, model);
                 if (tasks.bringTasks.Count < freeCells) {

@@ -1,5 +1,6 @@
 using game.model.component;
 using game.model.component.building;
+using game.model.component.task;
 using game.model.component.task.action;
 using game.model.component.task.action.item;
 using game.model.component.task.order;
@@ -7,7 +8,6 @@ using game.model.localmap;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
-using static game.model.component.task.TaskComponents;
 
 // if workbench has current order, task should be created
 namespace game.model.system.building {
