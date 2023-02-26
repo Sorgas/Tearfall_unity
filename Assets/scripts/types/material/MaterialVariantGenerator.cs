@@ -29,7 +29,9 @@ namespace types.material {
 
         private int createVariantByTag(string tag, string itemTypeName, int idMod) {
             int count = 0;
-            List<Material_> materials = map.all.Where(material => material.tags.Contains(tag)).ToList();
+            List<Material_> materials = map.all
+                .Where(material => material.isVariant == false)
+                .Where(material => material.tags.Contains(tag)).ToList();
             foreach (Material_ material in materials) {
                 Material_ variant = new(material);
                 if (variant.tileset == null) variant.tileset = variant.name;

@@ -1,5 +1,4 @@
-﻿using game.model.component.item;
-using game.model.component.task.action.equipment.use;
+﻿using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
 using game.model.component.unit;
 using game.model.localmap;
@@ -24,7 +23,7 @@ namespace game.model.component.task.action.equipment.obtain {
             startCondition = () => {
                 if (!validate()) return FAIL;
                 lockEntity(item);
-                UnitEquipmentComponent equipment = base.equipment();
+                UnitEquipmentComponent equipment = this.equipment();
                 if (equipment.hauledItem != EcsEntity.Null) {
                     return addPreAction(new PutItemToPositionAction(equipment.hauledItem, performer.pos()));
                 }

@@ -22,7 +22,7 @@ namespace game.view.tilemaps {
             BuildingTilesetSlicer slicer = new();
             foreach (BuildingType type in BuildingTypeMap.get().all()) {
                 if (!spritesCache.ContainsKey(type.tileset))
-                    spritesCache[type.tileset] = TexturePacker.createSpriteFromAtlas(type.tileset);
+                    spritesCache[type.tileset] = TextureLoader.get().getSprite(type.tileset);
                 Sprite sprite = spritesCache[type.tileset];
                 sprites.Add(type, slicer.slice(type, sprite));
             }

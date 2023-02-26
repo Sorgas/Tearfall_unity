@@ -43,6 +43,7 @@ namespace types.material {
         public List<Material_> getByTag(string tag) {
             return map.Values
                 .Select(material => material)
+                .Where(material => !material.isVariant)
                 .Where(material => material.tags.Contains(tag))
                 .ToList();
         }

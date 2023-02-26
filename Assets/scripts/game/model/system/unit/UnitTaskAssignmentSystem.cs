@@ -11,8 +11,8 @@ using util.lang.extension;
 namespace game.model.system.unit {
     // finds and assigns appropriate tasks to units
     public class UnitTaskAssignmentSystem : LocalModelEcsSystem {
-        EcsFilter<UnitComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter; // units without tasks
-        private UnitNeedActionCreator needActionCreator = new();
+        public EcsFilter<UnitComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter; // units without tasks
+        private readonly UnitNeedActionCreator needActionCreator = new();
 
         public UnitTaskAssignmentSystem(LocalModel model) : base(model) { }
 

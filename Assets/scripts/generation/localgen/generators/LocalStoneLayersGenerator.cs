@@ -11,8 +11,8 @@ namespace generation.localgen.generators {
 
     // generates several layers of stone and soil materials and flushes them to local map 
     public class LocalStoneLayersGenerator : LocalGenerator {
-        private List<LayerDescriptor> layers = new List<LayerDescriptor>();
-        private ValueRange layerThicknessRange = new ValueRange();
+        private List<LayerDescriptor> layers = new();
+        private ValueRange layerThicknessRange = new();
         private LocalMap map;
         private int[,] currentHeight;
         private float xOffset;

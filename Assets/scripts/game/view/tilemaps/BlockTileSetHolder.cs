@@ -13,11 +13,9 @@ namespace game.view.tilemaps {
     public class BlockTileSetHolder : Singleton<BlockTileSetHolder> {
         // map of tileset -> tilecode -> tile/sprite
         public readonly Dictionary<string, Dictionary<string, Sprite>> sprites = new();
-
         // map of <material -> <tilecode -> tile>>
         public readonly Dictionary<string, Dictionary<string, Tile>> tiles = new();
         public readonly Dictionary<int, Dictionary<string, Tile>> substrateTiles = new();
-
         public readonly Dictionary<ZoneTypeEnum, Tile> zoneTiles = new();
         private BlockTilesetSlicer slicer = new();
         Dictionary<string, List<string>> notFound = new();
@@ -30,11 +28,11 @@ namespace game.view.tilemaps {
             // TODO try use this for all sprites and tilesets
             MaterialMap.get().all
                 .Where(material => material.tileset != null)
-                .ForEach(material => loadMaterialTilesetFromAtlas(material));
+                .ForEach(loadMaterialTilesetFromAtlas);
             loadTilesetFromAtlas("selection");
             loadTilesetFromAtlas("template");
             SubstrateTypeMap.get().all()
-                .ForEach(type => loadSubstrateTilesetFromAtlas(type));
+                .ForEach(loadSubstrateTilesetFromAtlas);
             createZoneTiles();
             flushNotFound();
             Debug.Log("[BlockTilesetHolder]" + logMessage);
@@ -45,19 +43,19 @@ namespace game.view.tilemaps {
             return tiles[material][tilecode].sprite;
         }
 
-        private void loadTilesetFromAtlas(string tilesetName) {
-            Sprite sprite = TexturePacker.createSpriteFromAtlas(tilesetName);
-            Dictionary<string, Sprite> spriteMap = slicer.sliceBlockSpritesheet(sprite);
-            log("adding " + tilesetName);
-            sprites.Add(tilesetName, spriteMap);
-            tiles.Add(tilesetName, createTilesFromSprites(spriteMap, Color.white));
-        }
-
         // looks for sprite of material in atlas. If not present, uses template sprite.
         private void loadMaterialTilesetFromAtlas(Material_ material) {
             log("adding " + material.name);
             Dictionary<string, Sprite> spritesMap = getBlockTileset(material.tileset);
             tiles.Add(material.name, createTilesFromSprites(spritesMap, material.color));
+        }
+
+        private void loadTilesetFromAtlas(string tilesetName) {
+            Sprite sprite = TextureLoader.get().getSprite(tilesetName);
+            Dictionary<string, Sprite> spriteMap = slicer.sliceBlockSpritesheet(sprite);
+            log("adding " + tilesetName);
+            sprites.Add(tilesetName, spriteMap);
+            tiles.Add(tilesetName, createTilesFromSprites(spriteMap, Color.white));
         }
 
         private Dictionary<string, Tile> createTilesFromSprites(Dictionary<string, Sprite> sprites, Color color) {
@@ -81,14 +79,14 @@ namespace game.view.tilemaps {
 
         private Dictionary<string, Sprite> getBlockTileset(string tileset, int tilesetSize) {
             if (!sprites.ContainsKey(tileset)) {
-                Sprite sprite = TexturePacker.createSpriteFromAtlas(tileset);
+                Sprite sprite = TextureLoader.get().getSprite(tileset);
                 sprites.Add(tileset, slicer.sliceBlockSpritesheet(sprite, tilesetSize));
             }
             return sprites[tileset];
         }
 
         private void createZoneTiles() {
-            Sprite sprite = TexturePacker.createSpriteFromAtlas("zone_tile");
+            Sprite sprite = TextureLoader.get().getSprite("zone_tile");
             foreach (ZoneType zoneType in ZoneTypes.all) {
                 Tile tile = ScriptableObject.CreateInstance<Tile>();
                 tile.sprite = sprite;
