@@ -19,6 +19,7 @@ namespace types.item.type {
         public Dictionary<string, string[]> components = new(); // component name to array of component arguments
         public string stockpileCategory;
         public List<string> stockpileMaterialTags = new();
+        public int stackSize = 1; // how many items allowed on ground cell
         
         public ItemType(RawItemType raw) {
             name = raw.name;

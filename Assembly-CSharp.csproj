@@ -387,7 +387,7 @@
      <Compile Include="Assets\scripts\util\lang\extension\GameObjectExtension.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\AStar.cs" />
      <Compile Include="Assets\scripts\types\building\ConstructionTypeMap.cs" />
-     <Compile Include="Assets\scripts\game\model\system\zone\ZoneTaskCreationSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\system\zone\StockpileTaskCreationSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\deity\DeityComponents.cs" />
      <Compile Include="Assets\scripts\game\view\GameView.cs" />
      <Compile Include="Assets\scripts\game\model\World.cs" />

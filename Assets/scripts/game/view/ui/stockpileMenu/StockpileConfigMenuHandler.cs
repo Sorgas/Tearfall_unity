@@ -37,6 +37,7 @@ namespace game.view.ui.stockpileMenu {
 
         public override void close() {
             config.saveStructureToEntity(stockpile);
+            stockpile = EcsEntity.Null;
             base.close();
         }
 

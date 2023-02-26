@@ -70,7 +70,7 @@ namespace game.view.ui.stockpileMenu {
         }
 
         public override void close() {
-            configMenuHandler.close();
+            if(configMenuHandler.gameObject.activeSelf) configMenuHandler.close();
             entity = EcsEntity.Null;
             base.close();
         }

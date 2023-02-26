@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using game.model.component.item;
 using Leopotam.Ecs;
 using types;
 using UnityEngine;
@@ -16,8 +17,12 @@ namespace game.model.component {
         public int priority;
     }
 
-    public struct ZoneOpenTaskComponent { // exists when zone is waiting for performer
-        public EcsEntity task;
+    public struct StockpileOpenBringTaskComponent { // exists when zone is waiting for performer
+        public EcsEntity bringTask;
+    }
+
+    public struct StockpileOpenRemoveTaskComponent {
+        public EcsEntity removeTask;
     }
     
     public struct ZoneVisualComponent {
@@ -35,6 +40,10 @@ namespace game.model.component {
         public MultiValueDictionary<string, int> map; // allowed itemTypes -> materials
         public string preset; // TODO if preset is set, map in this component is empty, and config stored in ZoneContainer in localmodel
         public bool hasFreeTile; // TODO use this field for optimising checks on hauling tasks
+        
+        public bool itemAllowed(ItemComponent item) {
+            return map.ContainsKey(item.type) && map[item.type].Contains(item.material);
+        }
     }
 
     public struct StockpileTasksComponent {

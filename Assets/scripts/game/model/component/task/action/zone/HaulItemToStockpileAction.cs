@@ -41,7 +41,7 @@ namespace game.model.component.task.action.zone {
         }
 
         private bool findItem() {
-            item = model.itemContainer.util.findForStockpile(stockpile.take<StockpileComponent>().map, stockpile.take<ZoneComponent>().tiles,
+            item = model.itemContainer.util.findForStockpile(stockpile.take<StockpileComponent>(), stockpile.take<ZoneComponent>().tiles,
                 stockpile.take<ZoneComponent>().tiles[0]);
             return item != EcsEntity.Null;
         }

@@ -65,15 +65,19 @@ namespace game.model.system.task {
         private void detachZone(ref EcsEntity task) {
             if (!task.Has<TaskZoneComponent>()) return;
             ref EcsEntity zone = ref task.takeRef<TaskZoneComponent>().zone;
-            ZoneTasksComponent zoneTasks = zone.take<ZoneTasksComponent>();
             StockpileTasksComponent stockpileTasks = zone.take<StockpileTasksComponent>();
+            // remove task from whatever pointing component it was
             if (stockpileTasks.bringTasks.Contains(task)) {
                 stockpileTasks.bringTasks.Remove(task);
             } else if (stockpileTasks.removeTasks.Contains(task)) {
                 stockpileTasks.removeTasks.Remove(task);
-            } else if (zone.Has<ZoneOpenTaskComponent>()) {
-                if (zone.take<ZoneOpenTaskComponent>().task.Equals(task)) {
-                    zone.Del<ZoneOpenTaskComponent>();
+            } else if (zone.Has<StockpileOpenBringTaskComponent>()) {
+                if (zone.take<StockpileOpenBringTaskComponent>().bringTask.Equals(task)) {
+                    zone.Del<StockpileOpenBringTaskComponent>();
+                }
+            } else if (zone.Has<StockpileOpenRemoveTaskComponent>()) {
+                if (zone.take<StockpileOpenRemoveTaskComponent>().removeTask.Equals(task)) {
+                    zone.Del<StockpileOpenRemoveTaskComponent>();
                 }
             } else {
                 Debug.LogError("Completed task " + task.name() + " pointed to zone, but not referenced from zone.");
