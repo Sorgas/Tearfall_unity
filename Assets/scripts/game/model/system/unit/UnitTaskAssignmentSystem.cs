@@ -23,7 +23,7 @@ namespace game.model.system.unit {
                 if (task != EcsEntity.Null) assignTask(ref unit, task);
             }
         }
-
+ 
         private EcsEntity tryCreateTask(EcsEntity unit) {
             if (unit.Has<UnitNextTaskComponent>()) return createNextTask(unit);
             EcsEntity jobTask = getTaskFromContainer(unit);
@@ -58,6 +58,7 @@ namespace game.model.system.unit {
             Debug.Log("[UnitTaskAssignmentSystem] assigning task " + task.name() + " to " + unit.name());
             unit.Replace(new TaskComponent { task = task });
             task.Replace(new TaskPerformerComponent { performer = unit });
+            task.Replace(new TaskAssignedComponent());
             model.taskContainer.claimTask(task, unit);
         }
 

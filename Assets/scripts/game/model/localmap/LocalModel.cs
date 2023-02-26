@@ -49,6 +49,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
             systems = new EcsSystems(ecsWorld);
             systems
                 .Add(new UnitTaskAssignmentSystem(this)) // find or create tasks for units
+                .Add(new TaskAssignmentHandlingSystem()) // performs additional actions for just assigned tasks
                 .Add(new UnitActionCheckingSystem(this)) // check action condition and target reachability, creates sub actions
                 .Add(new UnitPathfindingSystem(this)) // find paths to action targets
                 .Add(new UnitMovementSystem(this)) // move unit along path

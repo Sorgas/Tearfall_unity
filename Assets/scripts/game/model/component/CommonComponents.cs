@@ -52,4 +52,10 @@ namespace game.model.component {
     public struct QualityComponent {
         public QualityEnum quality;
     }
+
+    // event component
+    public struct TaskAssignedComponent { }
+
+    // see EcsEntityExtension
+    public struct NullComponent { }
 }

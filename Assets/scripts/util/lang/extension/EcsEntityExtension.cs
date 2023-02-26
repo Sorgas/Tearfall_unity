@@ -6,6 +6,8 @@ using UnityEngine;
 
 namespace util.lang.extension {
     public static class EcsEntityExtension {
+        private static NullComponent nullComponent = new();
+        
         public static T? optional<T>(this EcsEntity entity) where T : struct {
             return entity.Has<T>() ? entity.Get<T>() : null;
         }

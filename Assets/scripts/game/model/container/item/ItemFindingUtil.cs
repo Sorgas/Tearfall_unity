@@ -16,6 +16,7 @@ using static game.model.component.task.order.CraftingOrder;
 
 namespace game.model.container.item {
     public class ItemFindingUtil : ItemContainerPart {
+        // TODO rewrite stockpile method to use item selectors. selector should be stored in stockpile component and updated from stockpile config menu.
         public ItemFindingUtil(LocalModel model, ItemContainer container) : base(model, container) { }
 
         // returns item matching itemSelector and available from position
@@ -28,7 +29,7 @@ namespace game.model.container.item {
                 .Where(item => !item.Has<LockedComponent>())
                 .Where(selector.checkItem)
                 .DefaultIfEmpty(EcsEntity.Null)
-                .Aggregate((cur, item) => cur == EcsEntity.Null || (distanceToItem(item, pos) < distanceToItem(cur, pos))
+                .Aggregate((cur, item) => cur == EcsEntity.Null || (fastDistance(item, pos) < fastDistance(cur, pos))
                     ? item
                     : cur); // select nearest
         }
@@ -125,7 +126,7 @@ namespace game.model.container.item {
         private List<EcsEntity> selectNNearest(List<EcsEntity> items, int quantity, Vector3Int position) {
             OrderedDictionary result = new();
             foreach (EcsEntity item in items) {
-                float distance = distanceToItem(item, position);
+                float distance = fastDistance(item, position);
                 if (result.Count < quantity || distance < ((float)result[quantity - 1])) {
                     int index = 0;
                     for (int i = 0; i < result.Count; i++) {
@@ -146,8 +147,9 @@ namespace game.model.container.item {
             float minDistance = -1;
             EcsEntity result = EcsEntity.Null;
             foreach (EcsEntity item in items) {
-                float distance = distanceToItem(item, position);
-                if (distance < minDistance || minDistance == -1) {
+                float distance = fastDistance(item, position);
+                if (distance == 0) return item;
+                if (distance < minDistance || minDistance < 0) {
                     result = item;
                     minDistance = distance;
                 }
@@ -155,7 +157,7 @@ namespace game.model.container.item {
             return result;
         }
 
-        private float distanceToItem(EcsEntity item, Vector3Int position) => Vector3Int.Distance(item.pos(), position);
+        private float fastDistance(EcsEntity item, Vector3Int position) => Vector3Int.Distance(item.pos(), position);
 
         private void log(string message) => Debug.Log("[ItemFindingUtil]: " + message);
     }

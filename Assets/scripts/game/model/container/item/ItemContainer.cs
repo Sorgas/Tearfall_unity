@@ -7,14 +7,14 @@ namespace game.model.container.item {
     // stores all items on the level. has separate storage classes for items on ground, stored in containers, equipped on units.
     // transitions are made in actions. Does not consider items locking.
     public class ItemContainer : LocalMapModelComponent {
-        public ItemStateValidator validator;
-        public EquippedItemsManager equipped = new();
-        public OnMapItemsManager onMap;
-        public StoredItemsManager stored = new();
+        public readonly ItemStateValidator validator;
+        public readonly EquippedItemsManager equipped = new();
+        public readonly OnMapItemsManager onMap;
+        public readonly StoredItemsManager stored = new();
         
-        public AvailableItemsManager availableItemsManager = new();
-        public ItemFindingUtil util;
-        public ItemTransitionUtil transition;
+        public readonly AvailableItemsManager availableItemsManager = new();
+        public readonly ItemFindingUtil util;
+        public readonly ItemTransitionUtil transition;
         
         public ItemContainer(LocalModel model) : base(model) {
             validator = new(model, this);
@@ -57,7 +57,7 @@ namespace game.model.container.item {
     }
 
     public class ItemContainerPart : LocalMapModelComponent {
-        protected ItemContainer container;
+        protected readonly ItemContainer container;
 
         public ItemContainerPart(LocalModel model, ItemContainer container) : base(model) {
             this.container = container;
