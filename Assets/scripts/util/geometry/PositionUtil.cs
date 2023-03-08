@@ -2,7 +2,8 @@
 using UnityEngine;
 
 namespace util.geometry {
-    class PositionUtil {
+    // provides collections for neighbours
+    static class PositionUtil {
         public static List<Vector3Int> fourNeighbour;
 
         // 8 on same level except center

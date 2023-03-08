@@ -27,6 +27,14 @@ namespace game.model.system.task {
                 if (zone.Has<StockpileOpenBringTaskComponent>() && zone.take<StockpileOpenBringTaskComponent>().bringTask == task) {
                     zone.take<StockpileTasksComponent>().bringTasks.Add(task);
                     zone.Del<StockpileOpenBringTaskComponent>();
+                    return;
+                }
+            }
+            if (zone.Has<FarmComponent>()) {
+                if (zone.Has<FarmOpenHoeingTaskComponent>() && zone.take<FarmOpenHoeingTaskComponent>().hoeTask == task) {
+                    zone.take<FarmTaskTrackingComponent>().hoe.Add(task);
+                    zone.Del<FarmOpenHoeingTaskComponent>();
+                    return;
                 }
             }
         }

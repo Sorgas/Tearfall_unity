@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using types;
+﻿using types;
 using types.material;
 using UnityEngine;
 using util;
@@ -28,7 +27,6 @@ namespace game.model.localmap {
             int currentBlockType = get(x, y, z);
             setRaw(x, y, z, blockType, material);
             localMap.updateTile(x, y, z, (currentBlockType == WALL.CODE) != (blockType == WALL.CODE));
-
             // TODO destroy buildings if type != floor
             // TODO kill units if type == wall
             // set floor above

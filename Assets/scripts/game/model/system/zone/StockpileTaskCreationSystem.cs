@@ -27,7 +27,7 @@ namespace game.model.system.zone {
     public class StockpileTaskCreationSystem : LocalModelEcsSystem {
         public EcsFilter<StockpileComponent>.Exclude<StockpileOpenBringTaskComponent, TaskCreationTimeoutComponent> bringFilter;
         public EcsFilter<StockpileComponent>.Exclude<StockpileOpenRemoveTaskComponent, TaskCreationTimeoutComponent> removeFilter;
-        private readonly TaskGenerator generator = new(); 
+        private readonly TaskGenerator generator = new();
 
         public StockpileTaskCreationSystem(LocalModel model) : base(model) { }
 
@@ -52,12 +52,12 @@ namespace game.model.system.zone {
         }
 
         private void tryCreateRemoveTask(StockpileComponent stockpile, EcsEntity entity) {
-            Action action = createRemoveAction(stockpile, entity.take<ZoneComponent>(), entity.take<StockpileTasksComponent>(), entity);
+            Action action = createRemoveAction(stockpile, entity.take<ZoneComponent>());
             if (action == null) return;
             EcsEntity task = createTask(action, entity);
             entity.Replace(new StockpileOpenRemoveTaskComponent { removeTask = task });
         }
-        
+
         private Action createBringAction(StockpileComponent stockpile, ZoneComponent zone, StockpileTasksComponent tasks, EcsEntity entity) {
             if (stockpile.map.Count <= 0) return null;
             int freeCells = ZoneUtils.countFreeStockpileCells(zone, stockpile, model);
@@ -67,7 +67,7 @@ namespace game.model.system.zone {
             return null;
         }
 
-        private Action createRemoveAction(StockpileComponent stockpile, ZoneComponent zone, StockpileTasksComponent tasks, EcsEntity entity) {
+        private Action createRemoveAction(StockpileComponent stockpile, ZoneComponent zone) {
             EcsEntity item = findUndesiredItem(zone, stockpile);
             if (item == EcsEntity.Null) return null;
             Vector3Int targetPosition = findFreeCellOffZone(zone.tiles, item, new List<Vector3Int>(zone.tiles));

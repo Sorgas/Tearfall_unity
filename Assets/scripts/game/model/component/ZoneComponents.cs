@@ -29,8 +29,12 @@ namespace game.model.component {
         public List<Vector3Int> tiles;
     }
 
-    // present when zone is changed but changes not yet processed by visual system
     public struct ZoneUpdatedComponent {
+        public List<Vector3Int> tiles;
+    }
+
+    // present when zone is changed but changes not yet processed by visual system
+    public struct ZoneVisualUpdatedComponent {
         public List<Vector3Int> tiles;
     }
 
@@ -49,5 +53,35 @@ namespace game.model.component {
     public struct StockpileTasksComponent {
         public HashSet<EcsEntity> bringTasks;
         public HashSet<EcsEntity> removeTasks;
+    }
+
+    public struct FarmComponent {
+        public List<string> config; // stores plants allowed on farm
+    }
+
+    // stores tiles which should be targeted by tesks
+    public struct FarmTileTrackingComponent {
+        public List<Vector3Int> toHoe; // soil floor tiles
+        public List<Vector3Int> toPlant; // tiles without desired plant
+        public List<Vector3Int> toRemove; // tiles with undesired plant
+    }
+
+    // stores created tasks (all states)
+    public struct FarmTaskTrackingComponent {
+        public List<EcsEntity> hoe;
+        public Dictionary<Vector3Int, EcsEntity> plant;
+        public Dictionary<Vector3Int, EcsEntity> remove; // TODO implement with designations
+    }
+    
+    public struct FarmOpenHoeingTaskComponent {
+        public EcsEntity hoeTask;
+    }
+    
+    public struct FarmOpenPlantingTaskComponent {
+        public EcsEntity plantTask;
+    }
+    
+    public struct FarmOpenRemovingTaskComponent {
+        public EcsEntity removeTask;
     }
 }

@@ -71,6 +71,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
                 .Add(new WorkbenchTaskCreationSystem(this))
                 .Add(new WorkbenchTaskCompletionSystem())
                 
+                .Add(new ZoneUpdateSystem(this))
                 .Add(new ZoneDeletionSystem())
                 .Add(new StockpileTaskCreationSystem(this))
                 .Init();
@@ -81,8 +82,14 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
             EcsEntity entity = ecsWorld.NewEntity();
             // Debug.Log("created entity: " + entity.GetInternalId());
             return entity;
-        } 
+        }
 
+        // when tile of map is changed, all entities on that tile should be updated,
+        // e.g zone remove, buildings collapse, items fall
+        public void updateOnLocalMapChange(Vector3Int tile) {
+            zoneContainer.updateZone(tile);
+        }
+        
         public string getDebugInfo() {
             return "TaskContainer: open: " + taskContainer.openTaskCount + " assigned: " + taskContainer.assignedTaskCount + " \n";
         }

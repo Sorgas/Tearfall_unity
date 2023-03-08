@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using game.model.component;
 using game.model.localmap;
-using generation;
+using game.model.util.validation;
 using generation.zone;
 using Leopotam.Ecs;
 using types;
@@ -26,12 +25,16 @@ namespace game.model.container {
 
         // creates zone and overwrites other zones
         public void createZone(IntBounds3 bounds, ZoneTypeEnum type) {
+            PositionValidator validator = ZoneTypes.get(type).positionValidator;
             EcsEntity zone = zoneGenerator.generate(bounds, type, getFreeNumber(), model.createEntity(), model);
             List<Vector3Int> tiles = zone.Get<ZoneComponent>().tiles;
             zone.Replace(new ZoneUpdatedComponent { tiles = new List<Vector3Int>(tiles) });
+            zone.Replace(new ZoneVisualUpdatedComponent { tiles = new List<Vector3Int>(tiles) });
             foreach (Vector3Int tile in tiles) {
-                removeTileFromZone(tile);
-                zones.Add(tile, zone);
+                if (validator.validate(tile, model)) {
+                    removeTileFromZone(tile); // remove from previous zone
+                    zones.Add(tile, zone);
+                }
             }
             log("zone " + type + " created");
         }
@@ -78,8 +81,10 @@ namespace game.model.container {
         }
 
         private void addTileToBeUpdated(EcsEntity zone, Vector3Int tile) {
-            if (!zone.Has<ZoneUpdatedComponent>()) zone.Replace(new ZoneUpdatedComponent { tiles = new List<Vector3Int>() });
+            if (!zone.Has<ZoneUpdatedComponent>()) zone.Replace(new ZoneUpdatedComponent { tiles = new() });
             zone.Get<ZoneUpdatedComponent>().tiles.Add(tile);
+            if (!zone.Has<ZoneVisualUpdatedComponent>()) zone.Replace(new ZoneVisualUpdatedComponent { tiles = new() });
+            zone.Get<ZoneVisualUpdatedComponent>().tiles.Add(tile);
         }
 
         public EcsEntity getZone(Vector3Int position) {
@@ -92,6 +97,14 @@ namespace game.model.container {
                 if (zones.ContainsKey(position)) set.Add(zones[position]);
             });
             return set;
+        }
+
+        public void updateZone(Vector3Int tile) {
+            if (!zones.ContainsKey(tile)) return;
+            if (!zones[tile].Has<ZoneUpdatedComponent>()) {
+                zones[tile].Replace(new ZoneUpdatedComponent { tiles = new() });
+            }
+            zones[tile].take<ZoneUpdatedComponent>().tiles.Add(tile);
         }
 
         private int getFreeNumber() {

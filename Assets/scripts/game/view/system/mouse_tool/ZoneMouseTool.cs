@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using game.model;
 using game.model.container;
 using game.view.util;
@@ -58,7 +57,7 @@ namespace game.view.system.mouse_tool {
             } else {
                 container.addTilesToZone(zone, bounds);
             }
-        } 
+        }
         
         public override void updateSprite() {
             selectorGO.setToolSprite(IconLoader.get("mousetool/zone"));
@@ -67,8 +66,8 @@ namespace game.view.system.mouse_tool {
         public override void rotate() {}
 
         public override void updateSpriteColor(Vector3Int position) {
-            bool passable = GameModel.get().currentLocalModel.localMap.passageMap.passage.get(position) == PassageTypes.PASSABLE.VALUE;
-            selectorGO.designationValid(passable);
+            bool valid = ZoneTypes.get(zoneType).positionValidator.validate(position, GameModel.get().currentLocalModel);
+            selectorGO.designationValid(valid);
         }
 
         public override void reset() {

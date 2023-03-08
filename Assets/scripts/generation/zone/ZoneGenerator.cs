@@ -23,6 +23,11 @@ namespace generation.zone {
                 entity.Replace(new StockpileComponent { map = new() });
                 entity.Replace(new StockpileTasksComponent { bringTasks = new(), removeTasks = new() });
             }
+            if (type == ZoneTypeEnum.FARM) {
+                entity.Replace(new FarmComponent { config = new() });
+                entity.Replace(new FarmTileTrackingComponent { toHoe = new(), toPlant = new(), toRemove = new() });
+                entity.Replace(new FarmTaskTrackingComponent { hoe = new(), plant = new(), remove = new() });
+            }
             return entity;
         }
 

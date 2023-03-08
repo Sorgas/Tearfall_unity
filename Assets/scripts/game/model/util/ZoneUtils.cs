@@ -1,7 +1,11 @@
 ﻿using System.Linq;
 using game.model.component;
 using game.model.component.item;
+using game.model.component.plant;
 using game.model.localmap;
+using Leopotam.Ecs;
+using types;
+using types.material;
 using UnityEngine;
 using util.lang.extension;
 
@@ -26,6 +30,29 @@ namespace game.model.util {
                                !model.itemContainer.onMap.itemsOnMap[tile]
                                    .Select(item => item.take<ItemComponent>())
                                    .Any(item => stockpile.map.ContainsKey(item.type) && stockpile.map[item.type].Contains(item.material)));
+        }
+
+        public static Vector3Int findUnhoedTile(ZoneComponent zone, LocalModel model) {
+            foreach (Vector3Int tile in zone.tiles) {
+                if (model.localMap.blockType.get(tile) == BlockTypes.FLOOR.CODE) {
+                    int material = model.localMap.blockType.getMaterial(tile);
+                    if (MaterialMap.get().material(material).tags.Contains("soil")) {
+                        return tile;
+                    }
+                }
+            }
+            return Vector3Int.back;
+        }
+
+        public static Vector3Int findUnplantedTile(ZoneComponent zone, FarmComponent farm, LocalModel model) {
+            return zone.tiles
+                .Where(tile => model.localMap.blockType.get(tile) == BlockTypes.FARM.CODE)
+                .Where(tile => {
+                    EcsEntity plant = model.plantContainer.getPlant(tile);
+                    if (plant == EcsEntity.Null) return false;
+                    return farm.config.Contains(plant.take<PlantComponent>().type.name);
+                })
+                .First();
         }
     }
 }

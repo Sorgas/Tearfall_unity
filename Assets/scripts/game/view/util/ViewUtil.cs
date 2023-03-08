@@ -4,7 +4,8 @@ using UnityEngine;
 using static game.view.util.TilemapLayersConstants;
 
 namespace game.view.util {
-    public class ViewUtil {
+    // provides methods for converting scene screen and model positions to each other
+    public static class ViewUtil {
         private static Vector3 spriteOffset = new(0, 0.15f, UNIT_LAYER * GRID_STEP);
         private static Vector3 spriteOffsetOnRamp = new(0, 0.15f, UNIT_LAYER * GRID_STEP - GRID_STEP * 4f); // draw above walls
 
