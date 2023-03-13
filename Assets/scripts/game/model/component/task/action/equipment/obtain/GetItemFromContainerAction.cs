@@ -8,7 +8,7 @@ using util.lang.extension;
 
 // Action for taking item from container. Locks item. Item should not be locked or be locked to same task
 namespace game.model.component.task.action.equipment.obtain {
-    public class GetItemFromContainerAction : EquipmentAction {
+    public class GetItemFromContainerAction : ItemAction {
 
         public GetItemFromContainerAction(EcsEntity item) : base(null, item) {
             EcsEntity containerEntity = item.take<ItemContainedComponent>().container;

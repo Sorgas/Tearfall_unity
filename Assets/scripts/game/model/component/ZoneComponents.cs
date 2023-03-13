@@ -57,6 +57,7 @@ namespace game.model.component {
 
     public struct FarmComponent {
         public List<string> config; // stores plants allowed on farm
+        public string plant;
     }
 
     // stores tiles which should be targeted by tesks

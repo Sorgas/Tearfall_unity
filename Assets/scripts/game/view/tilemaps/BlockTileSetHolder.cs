@@ -17,6 +17,7 @@ namespace game.view.tilemaps {
         public readonly Dictionary<string, Dictionary<string, Tile>> tiles = new();
         public readonly Dictionary<int, Dictionary<string, Tile>> substrateTiles = new();
         public readonly Dictionary<ZoneTypeEnum, Tile> zoneTiles = new();
+        public readonly Dictionary<string, Tile> farmTiles = new();
         private BlockTilesetSlicer slicer = new();
         Dictionary<string, List<string>> notFound = new();
 
@@ -43,6 +44,15 @@ namespace game.view.tilemaps {
             return tiles[material][tilecode].sprite;
         }
 
+        public Tile getFarmTile(string materialName) {
+            if(!farmTiles.ContainsKey(materialName)) {
+                Sprite sprite = TextureLoader.get().getSprite("farm_tile");
+                Material_ material = MaterialMap.get().material(materialName);
+                farmTiles.Add(materialName, createTile(sprite, material.color));
+            }
+            return farmTiles[materialName];
+        }
+        
         // looks for sprite of material in atlas. If not present, uses template sprite.
         private void loadMaterialTilesetFromAtlas(Material_ material) {
             log("adding " + material.name);
@@ -61,10 +71,7 @@ namespace game.view.tilemaps {
         private Dictionary<string, Tile> createTilesFromSprites(Dictionary<string, Sprite> sprites, Color color) {
             Dictionary<string, Tile> tilesMap = new();
             foreach (string key in sprites.Keys) {
-                Tile tile = ScriptableObject.CreateInstance<Tile>();
-                tile.sprite = sprites[key];
-                tile.color = color;
-                tilesMap.Add(key, tile);
+                tilesMap.Add(key, createTile(sprites[key], color));
             }
             return tilesMap;
         }
@@ -88,10 +95,7 @@ namespace game.view.tilemaps {
         private void createZoneTiles() {
             Sprite sprite = TextureLoader.get().getSprite("zone_tile");
             foreach (ZoneType zoneType in ZoneTypes.all) {
-                Tile tile = ScriptableObject.CreateInstance<Tile>();
-                tile.sprite = sprite;
-                tile.color = zoneType.tileColor;
-                zoneTiles.Add(zoneType.value, tile);
+                zoneTiles.Add(zoneType.value, createTile(sprite, zoneType.tileColor));
             }
         }
 
@@ -102,6 +106,13 @@ namespace game.view.tilemaps {
             notFound.Clear();
         }
 
+        private Tile createTile(Sprite sprite, Color color) {
+            Tile tile = ScriptableObject.CreateInstance<Tile>();
+            tile.sprite = sprite;
+            tile.color = color;
+            return tile;
+        }
+        
         private void log(string message) => logMessage += message + "\n";
     }
 }

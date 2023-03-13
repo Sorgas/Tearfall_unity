@@ -8,7 +8,7 @@ using util.pathfinding;
 using static types.PassageTypes;
 
 namespace game.model.localmap.passage {
-    public class PassageUpdater : LocalMapModelComponent {
+    public class PassageUpdater : LocalModelComponent {
         private LocalMap map;
         private PassageMap passage;
         private bool debug = true;

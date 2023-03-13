@@ -10,7 +10,7 @@ namespace game.model.component.task.action.equipment.use {
     *
     * @author Alexander on 12.04.2020
     */
-    public class PutItemToDestinationAction : EquipmentAction {
+    public class PutItemToDestinationAction : ItemAction {
 
         protected PutItemToDestinationAction(ActionTarget target, EcsEntity item) : base(target, item) {
             name = "put item to destination";

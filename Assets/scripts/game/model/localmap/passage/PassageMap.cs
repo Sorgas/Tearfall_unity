@@ -7,7 +7,7 @@ using static types.PassageTypes;
 
 namespace game.model.localmap.passage {
     // stores isolated areas on local map to enhance pathfinding
-    public class PassageMap : LocalMapModelComponent {
+    public class PassageMap : LocalModelComponent {
         private readonly LocalMap localMap;
         private readonly BlockTypeMap map;
         public readonly PassageUpdater updater;

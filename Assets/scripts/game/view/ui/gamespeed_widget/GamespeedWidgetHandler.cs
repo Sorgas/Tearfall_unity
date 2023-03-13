@@ -16,8 +16,8 @@ namespace game.view.ui.gamespeed_widget {
         public GameObject speed1Button;
         public GameObject speed2Button;
         public GameObject speed3Button;
-        public Color activeColor = new Color(0.75f, 0.75f, 0.75f, 1);
-        public Color inactiveColor = new Color(0.4f, 0.4f, 0.4f, 1);
+        public Color activeColor = new(0.75f, 0.75f, 0.75f, 1);
+        public Color inactiveColor = new(0.4f, 0.4f, 0.4f, 1);
 
         public void Start() {
             pauseButton.GetComponent<Button>().onClick.AddListener(() => togglePause());
@@ -38,7 +38,6 @@ namespace game.view.ui.gamespeed_widget {
         }
 
         public bool accept(KeyCode key) {
-            // Debug.Log("speed widget: " + key);
             if (key == KeyCode.Space) {
                 ExecuteEvents.Execute(pauseButton, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
                 return true;

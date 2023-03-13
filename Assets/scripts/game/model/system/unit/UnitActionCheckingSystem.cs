@@ -7,6 +7,7 @@ using game.model.localmap;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
+using util;
 using util.lang.extension;
 using static types.action.ActionConditionStatusEnum;
 using static types.action.TaskStatusEnum;
@@ -51,14 +52,18 @@ namespace game.model.system.unit {
             return false;
         }
 
-        // checks action start condition and create sub action if needed. Created sub action handled on next tick
+        // checks action start condition and create sub action if needed.
         private bool actionConditionOk(ref EcsEntity unit, ref TaskActionsComponent actions) {
             string nextActionName = actions.NextAction.name;
             ActionConditionStatusEnum checkResult = actions.NextAction.startCondition.Invoke(); // creates sub actions
             log("checked start condition of [" + nextActionName + "]:" + checkResult + ": " + actions.NextAction.name);
-            if (checkResult == OK) return true;
-            if (checkResult == ActionConditionStatusEnum.FAIL) failTask(ref unit); // fail task by start condition
-            return false; // NEW
+            if (checkResult == OK) return true; // can start performing
+            if (checkResult == ActionConditionStatusEnum.FAIL) {
+                failTask(ref unit); // fail task by start condition
+                return false;
+            }
+            if (checkResult == NEW) return false; // will be checked on next tick
+            throw new GameException("Unhandled ActionConditionStatusEnum value: " + checkResult);
         }
 
         // checks if unit can reach action's target

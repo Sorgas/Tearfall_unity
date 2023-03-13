@@ -54,25 +54,27 @@ namespace game.view.tilemaps {
             BlockType blockType = get(map.blockType.get(x, y, z));
             Vector3Int position = new(x, y, z);
             Tile wallTile = null, floorTile = null, substrateFloorTile = null, substrateWallTile = null;
-            if (!blockType.FLAT) {
+            if (!blockType.FLAT) { // tile has wall part
                 string wallTileName = blockType == RAMP ? rampUtil.selectRampPrefix(x, y, z) : blockType.PREFIX;
                 wallTile = blockTileSetHolder.tiles[material][wallTileName]; // draw wall part
-                if (map.substrateMap.cells.ContainsKey(position)) {
-                    int id = map.substrateMap.cells[position].type;
+                if (map.substrateMap.has(position)) {
+                    int id = map.substrateMap.get(position).type;
                     SubstrateType type = SubstrateTypeMap.get().get(id);
                     wallTileName += Random.Range(0, type.tilesetSize);
                     substrateWallTile = blockTileSetHolder.substrateTiles[id][wallTileName];
                 }
             }
-            if (blockType != SPACE) {
+            if (blockType != SPACE) { // tile has floor part
                 string floorTileName = (blockType == STAIRS || blockType == DOWNSTAIRS) ? DOWNSTAIRS.PREFIX : FLOOR.PREFIX;
                 floorTile = blockTileSetHolder.tiles[material][floorTileName]; // draw wall part
                 if (blockType == FLOOR || blockType == DOWNSTAIRS) {
-                    if (map.substrateMap.cells.ContainsKey(position)) {
-                        int id = map.substrateMap.cells[position].type;
+                    if (map.substrateMap.has(position)) {
+                        int id = map.substrateMap.get(position).type;
                         SubstrateType type = SubstrateTypeMap.get().get(id);
                         floorTileName += Random.Range(0, type.tilesetSize);
                         substrateFloorTile = blockTileSetHolder.substrateTiles[id][floorTileName];
+                    } else if (model.farmContainer.isFarm(position)) {
+                        substrateFloorTile = blockTileSetHolder.getFarmTile(material);
                     }
                 }
             }
@@ -116,8 +118,8 @@ namespace game.view.tilemaps {
             string toppingTileName = rampUtil.selectRampPrefix(x, y, z - 1) + "F";
             layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER), blockTileSetHolder.tiles[material][toppingTileName]);
             Vector3Int lowerPosition = new(x, y, z - 1);
-            if (map.substrateMap.cells.ContainsKey(lowerPosition)) {
-                int id = map.substrateMap.cells[lowerPosition].type;
+            if (map.substrateMap.has(lowerPosition)) {
+                int id = map.substrateMap.get(lowerPosition).type;
                 SubstrateType type = SubstrateTypeMap.get().get(id);
                 toppingTileName += Random.Range(0, type.tilesetSize);
                 Tile substrateTile = blockTileSetHolder.substrateTiles[id][toppingTileName];

@@ -26,6 +26,7 @@ namespace game.model.localmap {
             if (!withinBounds(x, y, z)) return;
             int currentBlockType = get(x, y, z);
             setRaw(x, y, z, blockType, material);
+            // update ramps if wall changed to non-wall or otherwise
             localMap.updateTile(x, y, z, (currentBlockType == WALL.CODE) != (blockType == WALL.CODE));
             // TODO destroy buildings if type != floor
             // TODO kill units if type == wall

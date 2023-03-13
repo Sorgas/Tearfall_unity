@@ -11,7 +11,7 @@ using util.lang.extension;
 using static types.action.ActionConditionStatusEnum;
 
 namespace game.model.component.task.action.needs {
-    public class EatAction : EquipmentAction {
+    public class EatAction : ItemAction {
         public Vector3Int tableBlock;
         public EcsEntity chair;
         public bool started = false; // used in unit drawer

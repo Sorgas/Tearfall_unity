@@ -32,6 +32,7 @@ namespace game.view.system.unit {
             log("updating");
             if (actionComponent.action == null) {
                 Debug.LogError("action is null!");
+                return;
             }
             float progress = actionComponent.action.progress / actionComponent.action.maxProgress;
             visual.handler.setProgress(progress);

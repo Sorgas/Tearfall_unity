@@ -1,12 +1,7 @@
-﻿using game.model.component.task.action.equipment.use;
-using game.model.component.task.action.target;
-using game.model.component.unit;
+﻿using game.model.component.task.action.target;
 using Leopotam.Ecs;
-using types;
 using types.action;
 using UnityEngine;
-using util.item;
-using util.lang.extension;
 
 // TODO two units can hoe same tile. make farm track hoed tiles
 // TODO when finished, should search another tile (make hoeing in pre-action, and tile selection in current action)
@@ -27,14 +22,8 @@ namespace game.model.component.task.action.plant {
             target = farmTarget;
             
             startCondition = () => {
-                if (findTile()) return createHoeingPreAction();
+                if (findTile()) return createHoeingPreAction(); // tile found, create subtask
                 return ActionConditionStatusEnum.OK; // no more tiles to hoe, can finish successfully
-            };
-
-            onStart = () => maxProgress = 200;
-
-            onFinish = () => {
-                model.localMap.blockType.set(targetPosition, BlockTypes.FARM);
             };
         }
 

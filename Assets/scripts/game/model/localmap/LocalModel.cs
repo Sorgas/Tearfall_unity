@@ -1,3 +1,4 @@
+using game.model.component;
 using game.model.container;
 using game.model.container.item;
 using game.model.system.building;
@@ -8,12 +9,13 @@ using game.model.system.unit;
 using game.model.system.zone;
 using Leopotam.Ecs;
 using UnityEngine;
+using util.lang.extension;
 
 namespace game.model.localmap { // contains LocalMap and ECS world for its entities
     public class LocalModel {
         public LocalMap localMap;
 
-        public EcsWorld ecsWorld = new EcsWorld();
+        public EcsWorld ecsWorld = new();
         public EcsSystems systems; // model systems
 
         // containers for referencing and CRUD on entities
@@ -24,14 +26,17 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public readonly PlantContainer plantContainer;
         public readonly BuildingContainer buildingContainer;
         public readonly ZoneContainer zoneContainer;
+        public readonly FarmContainer farmContainer;
         
         public LocalModel() {
+            Debug.Log("creating EcsWorld");
             designationContainer = new(this);
             taskContainer = new(this);
             itemContainer = new(this);
             plantContainer = new(this);
             buildingContainer = new(this);
             zoneContainer = new(this);
+            farmContainer = new(this);
         }
 
         public void update() {
@@ -80,7 +85,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         //TODO move ecs world to global game model. (as units should travel between regions)
         public EcsEntity createEntity() {
             EcsEntity entity = ecsWorld.NewEntity();
-            // Debug.Log("created entity: " + entity.GetInternalId());
+            Debug.Log("created entity: " + entity.GetInternalId());
             return entity;
         }
 
@@ -96,9 +101,23 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
     }
 
     // model-aware component
-    public abstract class LocalMapModelComponent {
+    public abstract class LocalModelComponent {
         protected readonly LocalModel model;
 
-        public LocalMapModelComponent(LocalModel model) => this.model = model;
+        protected LocalModelComponent(LocalModel model) => this.model = model;
+    }
+
+    public abstract class LocalModelUpdateComponent : LocalModelComponent {
+        protected EcsEntity updateEntity;
+
+        protected LocalModelUpdateComponent(LocalModel model) : base(model) {
+            Debug.Log("creating localModelUpdateComponent");
+            updateEntity = model.createEntity();
+            updateEntity.Replace(new PositionUpdateComponent { set = new() });
+        }
+
+        protected void addPositionForUpdate(Vector3Int position) {
+            updateEntity.take<PositionUpdateComponent>().set.Add(position);
+        }
     }
 }

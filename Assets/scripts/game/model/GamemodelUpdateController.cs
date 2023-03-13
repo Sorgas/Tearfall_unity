@@ -4,8 +4,8 @@
 namespace game.model {
     public class GameModelUpdateController {
         public const float updateTickDelta = 1/90f; // ticks per second on max gamespeed
-        public bool paused;
-        public int speed;
+        public bool paused = false;
+        public int speed = 1; // [1; 3]
 
         private GameModel model;
         private GameSpeedController speed1 = new(3);
@@ -29,6 +29,7 @@ namespace game.model {
         }
 
         public void setSpeed(int speed) {
+            this.speed = speed;
             if (speed == 1) {
                 currentSpeed = speed1;
             } else if (speed == 2) {

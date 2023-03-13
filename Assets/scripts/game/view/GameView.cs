@@ -67,6 +67,7 @@ namespace game.view {
                 .Add(new WorkbenchWindowUpdateSystem())
                 .Add(new UnitMenuUpdateSystem())
                 .Add(new ZoneVisualSystem())
+                .Add(new TileUpdateVisualSystem())
                 .Init();
         }
 

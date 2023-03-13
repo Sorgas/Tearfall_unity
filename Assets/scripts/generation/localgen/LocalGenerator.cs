@@ -1,4 +1,5 @@
-﻿using util.geometry.bounds;
+﻿using UnityEngine;
+using util.geometry.bounds;
 
 namespace generation.localgen {
     public abstract class LocalGenerator {
@@ -6,6 +7,7 @@ namespace generation.localgen {
         protected LocalGenContainer container;
         protected LocalGenConfig config;
         protected IntBounds2 bounds = new IntBounds2();
+        protected bool debug = false;
         
         protected LocalGenerator(LocalMapGenerator generator) {
             this.generator = generator; 
@@ -17,5 +19,9 @@ namespace generation.localgen {
         public abstract void generate();
 
         public abstract string getMessage();
+
+        protected void log(string message) {
+            if(debug) Debug.Log(message);
+        }
     }
 }

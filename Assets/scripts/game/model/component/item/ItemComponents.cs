@@ -132,4 +132,8 @@ namespace game.model.component.item {
         public float nutrition; // [0, 1] - restores unit's hunger level
         public int foodQuality; // can give mood buffs
     }
+
+    public struct ItemSeedComponent {
+        public string plant;
+    }
 }

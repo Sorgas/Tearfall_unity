@@ -13,7 +13,7 @@ namespace types.plant {
         }
 
         public PlantType get(string name) {
-            return map[name];
+            return (name != null && map.ContainsKey(name)) ? map[name] : null;
         }
 
         private void loadAll() {

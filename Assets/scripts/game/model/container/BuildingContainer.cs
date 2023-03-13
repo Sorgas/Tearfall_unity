@@ -12,7 +12,7 @@ using util.lang.extension;
 
 namespace game.model.container {
     // registry for player buildings in game.
-    public class BuildingContainer : LocalMapModelComponent {
+    public class BuildingContainer : LocalModelComponent {
         public Dictionary<Vector3Int, EcsEntity> buildings = new(); // links position to buildings. one tile can have only one building
         public BuildingFindingUtil util;
         private BuildingGenerator generator = new();

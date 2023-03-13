@@ -5,7 +5,7 @@ using util.geometry.bounds;
 
 namespace game.model.localmap {
     // stores arrays of blocks, passage and area values
-    public class LocalMap : LocalMapModelComponent {
+    public class LocalMap : LocalModelComponent {
         public readonly BlockTypeMap blockType;
         public readonly PassageMap passageMap; // not saved to savegame,
         public readonly LocalMapUtil util;
@@ -23,7 +23,7 @@ namespace game.model.localmap {
             blockType = new BlockTypeMap(this);
             util = new LocalMapUtil(this);
             passageMap = new PassageMap(model, this);
-            substrateMap = new();
+            substrateMap = new(model);
             lightMap = new int[xSize, ySize];
         }
 
@@ -37,10 +37,7 @@ namespace game.model.localmap {
         
         public void updateTile(int x, int y, int z, bool updateRamps) {
             if (passageMap != null) passageMap.updater.update(x, y, z);
-            if (GameView.get().tileUpdater != null) GameView.get().tileUpdater.updateTile(x, y, z, updateRamps);
-            if (lightMap[x, y] == z) {
-                
-            }
+            if (GameView.get().tileUpdater != null ) GameView.get().tileUpdater.updateTile(x, y, z, updateRamps);
             model.updateOnLocalMapChange(new Vector3Int(x, y, z));
         }
 

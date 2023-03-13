@@ -1,19 +1,16 @@
-﻿using System.Linq;
-using game.model.component;
-using game.model.component.plant;
+﻿using game.model.component;
 using game.model.component.task.action.plant;
 using game.model.container;
 using game.model.localmap;
-using game.model.util;
 using Leopotam.Ecs;
-using types;
-using UnityEngine;
+using types.plant;
 using util.lang.extension;
 using Action = game.model.component.task.action.Action;
 
 namespace game.model.system.zone {
     public class FarmTaskCreationSystem : LocalModelEcsSystem {
         public EcsFilter<FarmComponent>.Exclude<FarmOpenHoeingTaskComponent> hoeingFilter;
+        public EcsFilter<FarmComponent>.Exclude<FarmOpenPlantingTaskComponent> plantingFilter;
         private readonly TaskGenerator generator = new();
 
         public FarmTaskCreationSystem(LocalModel model) : base(model) {
@@ -27,36 +24,35 @@ namespace game.model.system.zone {
                 FarmTileTrackingComponent tracking = entity.take<FarmTileTrackingComponent>();
                 tryCreateHoeingTask(zone, entity);
             }
+            foreach (int i in plantingFilter) {
+                EcsEntity entity = plantingFilter.GetEntity(i);
+                FarmComponent farm = plantingFilter.Get1(i);
+                ZoneComponent zone = entity.take<ZoneComponent>();
+                tryCreatePlantingTask(entity, zone, farm);
+            }
         }
 
         private void tryCreateHoeingTask(ZoneComponent zone, EcsEntity entity) {
             FarmTileTrackingComponent tracking = entity.take<FarmTileTrackingComponent>();
             if (tracking.toHoe.Count > 0) { // has tiles to hoe
                 Action action = new FarmHoeingAction(entity);
-                EcsEntity task = generator.createTask(action, model.createEntity(), model);
+                EcsEntity task = createTask(action);
                 entity.Replace(new FarmOpenHoeingTaskComponent { hoeTask = task });
-                model.taskContainer.addOpenTask(task);
             }
         }
 
-        private Action tryCreateTask(EcsEntity entity, ZoneComponent zone, FarmComponent farm) {
-
-            if (hasUnplantedTiles(zone, farm)) {
-                // planting task
+        private void tryCreatePlantingTask(EcsEntity entity, ZoneComponent zone, FarmComponent farm) {
+            if (PlantTypeMap.get().get(farm.plant) != null && entity.take<FarmTileTrackingComponent>().toPlant.Count > 0) {
+                Action action = new PlantingAction(entity);
+                EcsEntity task = createTask(action);
+                entity.Replace(new FarmOpenPlantingTaskComponent { plantTask = task });
             }
-            return null;
         }
 
-        private bool hasUnplantedTiles(ZoneComponent zone, FarmComponent farm) {
-            if (farm.config.Count == 0) return false;
-            return zone.tiles
-                .Where(tile => model.localMap.blockType.get(tile) == BlockTypes.FARM.CODE)
-                .Where(tile => {
-                    EcsEntity plant = model.plantContainer.getPlant(tile);
-                    if (plant == EcsEntity.Null) return false;
-                    return farm.config.Contains(plant.take<PlantComponent>().type.name);
-                })
-                .Any();
+        private EcsEntity createTask(Action action) {
+            EcsEntity task = generator.createTask(action, model.createEntity(), model);
+            model.taskContainer.addOpenTask(task);
+            return task;
         }
     }
 }

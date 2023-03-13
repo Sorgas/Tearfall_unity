@@ -1,5 +1,4 @@
-﻿using game.model.component.item;
-using game.model.component.task.action.target;
+﻿using game.model.component.task.action.target;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -14,16 +13,12 @@ namespace game.model.component.task.action.equipment {
      * 
      * @author Alexander on 22.06.2020.
      */
-    public abstract class EquipmentAction : ItemAction {
-        public EcsEntity item;
+    public abstract class ItemAction : EquipmentAction {
+        protected EcsEntity item;
 
-        protected EquipmentAction(ActionTarget target, EcsEntity item) : base(target) {
+        protected ItemAction(ActionTarget target, EcsEntity item) : base(target) {
             name = "equipment action";
             this.item = item;
-        }
-
-        protected ref UnitEquipmentComponent equipment() {
-            return ref performer.takeRef<UnitEquipmentComponent>();
         }
 
         protected bool validate() {

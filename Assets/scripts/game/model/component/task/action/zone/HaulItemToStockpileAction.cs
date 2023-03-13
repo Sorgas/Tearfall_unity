@@ -10,7 +10,7 @@ using static types.action.ActionConditionStatusEnum;
 namespace game.model.component.task.action.zone {
     // TODO add containers usage
     // when assigned, searches item that can be brought to stockpile. 
-    public class HaulItemToStockpileAction : EquipmentAction {
+    public class HaulItemToStockpileAction : ItemAction {
         private StockpileActionTarget actionTarget;
         private EcsEntity stockpile;
         private Vector3Int targetTile;

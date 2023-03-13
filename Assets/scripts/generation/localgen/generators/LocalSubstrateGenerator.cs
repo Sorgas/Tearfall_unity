@@ -17,7 +17,7 @@ namespace generation.localgen.generators {
                             // put substrate to tiles
                             // TODO add substrateType selection
                             Vector3Int position = new(x, y, z);
-                            container.map.substrateMap.cells.Add(position, new SubstrateCell(position, 1, true));
+                            container.map.substrateMap.add(position, 1, true);
                             break;
                         }
                     }

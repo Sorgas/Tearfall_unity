@@ -9,7 +9,7 @@ using static game.model.component.task.order.CraftingOrder;
 
 // action for crafting with CraftingOrder. Finds and locks ingredient items, generates result item.
 namespace game.model.component.task.action.item {
-    public abstract class ItemCraftingAction : ItemAction {
+    public abstract class ItemCraftingAction : EquipmentAction {
         public CraftingOrder order;
 
         protected ItemCraftingAction(CraftingOrder order, ActionTarget target) : base(target) {

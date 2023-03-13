@@ -16,7 +16,7 @@ namespace game.model.component.task.action.equipment.obtain {
     *
     * @author Alexander on 12.01.2019.
     */
-    public class GetItemFromGroundAction : EquipmentAction {
+    public class GetItemFromGroundAction : ItemAction {
 
         public GetItemFromGroundAction(EcsEntity item) : base(new ItemActionTarget(item), item) {
             name = "get item from ground action";

@@ -55,7 +55,7 @@ namespace game {
             started = true;
             InvokeRepeating("updateModel", 0.2f, GameModelUpdateController.updateTickDelta);
             Debug.unityLogger.logEnabled = true;
-            Debug.Log("generation: " + generationTime + "\n model: " + modelInitTime + "\n view:" + viewInitTime);
+            // Debug.Log("generation: " + generationTime + "\n model: " + modelInitTime + "\n view:" + viewInitTime);
         }
 
         public void Update() {

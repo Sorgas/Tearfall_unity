@@ -11,6 +11,7 @@ namespace types.material {
         public const int GENERIC_PLANT = 4;
         private Dictionary<string, Material_> map = new();
         private Dictionary<int, Material_> idMap = new();
+        private bool debug = false;
         
         public MaterialMap() {
             loadFiles();
@@ -18,7 +19,7 @@ namespace types.material {
         }
 
         private void loadFiles() {
-            Debug.Log("loading materials");
+            log("loading materials");
             map.Clear();
             TextAsset[] files = Resources.LoadAll<TextAsset>("data/materials");
             foreach (TextAsset file in files) {
@@ -30,7 +31,7 @@ namespace types.material {
                     saveMaterial(material);
                     count++;
                 }
-                Debug.Log("loaded " + count + " from " + file.name);
+                log("loaded " + count + " from " + file.name);
             }
         }
 
@@ -66,5 +67,9 @@ namespace types.material {
         public List<Material_> all => map.Values.ToList();
 
         public bool hasMaterial(string materialName) => map.ContainsKey(materialName);
+
+        private void log(string message) {
+            if(debug) Debug.Log("[MaterialMap]" + message);
+        }
     }
 }

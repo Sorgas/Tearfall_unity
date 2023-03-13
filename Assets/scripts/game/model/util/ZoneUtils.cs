@@ -11,6 +11,8 @@ using util.lang.extension;
 
 namespace game.model.util {
     public class ZoneUtils {
+        private const string SOIL_TAG = "soil";
+        
         public static Vector3Int findFreeStockpileCells(ZoneComponent zone, StockpileComponent stockpile, LocalModel model) {
             foreach (Vector3Int tile in zone.tiles) {
                 if (!model.itemContainer.onMap.itemsOnMap.ContainsKey(tile)) return tile;
@@ -34,16 +36,21 @@ namespace game.model.util {
 
         public static Vector3Int findUnhoedTile(ZoneComponent zone, LocalModel model) {
             foreach (Vector3Int tile in zone.tiles) {
-                if (model.localMap.blockType.get(tile) == BlockTypes.FLOOR.CODE) {
-                    int material = model.localMap.blockType.getMaterial(tile);
-                    if (MaterialMap.get().material(material).tags.Contains("soil")) {
-                        return tile;
-                    }
-                }
+                if (tileUnhoed(tile, model)) return tile;
             }
             return Vector3Int.back;
         }
 
+        public static bool tileUnhoed(Vector3Int tile, LocalModel model) {
+            if (model.localMap.blockType.get(tile) == BlockTypes.FLOOR.CODE) {
+                int material = model.localMap.blockType.getMaterial(tile);
+                if (MaterialMap.get().material(material).tags.Contains(SOIL_TAG)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
         public static Vector3Int findUnplantedTile(ZoneComponent zone, FarmComponent farm, LocalModel model) {
             return zone.tiles
                 .Where(tile => model.localMap.blockType.get(tile) == BlockTypes.FARM.CODE)

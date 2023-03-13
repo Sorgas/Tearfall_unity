@@ -12,7 +12,7 @@ using static types.action.ActionTargetTypeEnum;
 namespace game.model.container {
     // contains all shared tasks for settlers. Personal tasks like eating or resting are not handled
     // only contains tasks with TaskJobComponent
-    public class TaskContainer : LocalMapModelComponent {
+    public class TaskContainer : LocalModelComponent {
         public TaskGenerator generator = new();
         public bool debug = true;
         

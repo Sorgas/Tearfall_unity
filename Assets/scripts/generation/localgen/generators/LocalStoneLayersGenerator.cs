@@ -20,7 +20,7 @@ namespace generation.localgen.generators {
 
         private float effectiveElevation = 0;
         private float maxElevation = 0;
-
+        
         public LocalStoneLayersGenerator(LocalMapGenerator generator) : base(generator) {}
 
         public override void generate() {
@@ -57,14 +57,14 @@ namespace generation.localgen.generators {
             createLayerGroup("stone_sedimentary", sedimentaryLayer, "sedimentary");
             createLayerGroup("stone_metamorfic", metamorficLayer, "metamorfic");
             createLayerGroup("stone_igneous", igneousLayer, "igneous");
-            Debug.Log(layers.Count + " layers generated");
+            log(layers.Count + " layers generated");
         }
 
         private void createLayerGroup(string tag, int totalThickness, string type) {
             List<Material_> materials = MaterialMap.get().getByTag(tag);
             int singleLayerThickness = totalThickness / materials.Count;
             materials.ForEach(material => layers.Add(generateLayer(material.name, singleLayerThickness - 1, singleLayerThickness + 1)));
-            Debug.Log(type + " stone layers created, total: " + totalThickness + ", single: " + singleLayerThickness);
+            log(type + " stone layers created, total: " + totalThickness + ", single: " + singleLayerThickness);
         }
 
         private LayerDescriptor generateLayer(string material, int minThickness, int maxThickness) {

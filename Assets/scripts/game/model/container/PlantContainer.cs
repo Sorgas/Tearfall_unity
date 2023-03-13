@@ -8,15 +8,12 @@ using util.lang.extension;
 
 namespace game.model.container {
     // TODO handle multi-tile trees
-    public class PlantContainer : LocalMapModelComponent {
+    public class PlantContainer : LocalModelComponent {
+        // private PlantProductGenerator plantProductGenerator;
         private Dictionary<Vector3Int, PlantBlock> plantBlocks = new();
         private Dictionary<Vector3Int, EcsEntity> plants = new();
 
         public PlantContainer(LocalModel model) : base(model) {}
-
-        //    private PlantProductGenerator plantProductGenerator;
-        //    private LocalMap localMap;
-        //    private final Position cachePosition;
 
         public void addPlant(EcsEntity plant, Vector3Int position) {
             plants.Add(position, plant);
@@ -39,6 +36,10 @@ namespace game.model.container {
             plants.Remove(plant.pos());
             plantBlocks.Remove(plant.pos());
             plant.Replace(new PlantRemoveComponent{leaveProduct = leaveProduct});
+        }
+
+        public void removePlant(Vector3Int position, bool leaveProduct) {
+            if (plants.ContainsKey(position)) removePlant(plants[position], leaveProduct);
         }
         
         //public PlantContainer() {

@@ -60,7 +60,7 @@
      <Compile Include="Assets\scripts\game\model\component\building\BuildingComponents.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuTab.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\ItemStateValidator.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\equipment\EquipmentAction.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\equipment\ItemAction.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\drainage\WorldOceanFiller.cs" />
      <Compile Include="Assets\scripts\game\input\KeyInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\EquippedItemsManager.cs" />
@@ -68,6 +68,7 @@
      <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationTaskCreationSystem.cs" />
      <Compile Include="Assets\scripts\types\unit\body\raw\BodyTemplateProcessor.cs" />
      <Compile Include="Assets\scripts\types\item\type\raw\RawItemType.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\plant\PlantSeedToTileAction.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\RawRecipe.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedCompositeNavigationController.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToPositionAction.cs" />
@@ -151,6 +152,7 @@
      <Compile Include="Assets\scripts\util\TexturePacker\AssetPacker\TextureAsset.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\FarmHoeingActionTarget.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\ObtainItemAction.cs" />
+     <Compile Include="Assets\scripts\game\view\system\zone\TileUpdateVisualSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\DigAction.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalUnitGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\system\designation\DesignationVisualSystem.cs" />
@@ -176,6 +178,7 @@
      <Compile Include="Assets\scripts\game\model\system\plant\SubstrateGrowingSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\item\CraftItemAtWorkbenchAction.cs" />
      <Compile Include="Assets\scripts\types\unit\need\Needs.cs" />
+     <Compile Include="Assets\scripts\game\model\container\FarmContainer.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromGroundAction.cs" />
      <Compile Include="Assets\scripts\util\item\ToolWithActionItemSelector.cs" />
      <Compile Include="Assets\scripts\game\view\ui\UiColorsEnum.cs" />
@@ -253,6 +256,7 @@
      <Compile Include="Assets\scripts\types\action\TaskPriorityEnum.cs" />
      <Compile Include="Assets\scripts\game\view\ui\workbench\WorkbenchInventoryHandler.cs" />
      <Compile Include="Assets\scripts\game\model\system\building\WorkbenchTaskCreationSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\target\ZoneActionTarget.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenConfig.cs" />
      <Compile Include="Assets\scripts\game\view\system\item\ItemVisualSystem.cs" />
      <Compile Include="Assets\scripts\game\model\container\TaskGenerator.cs" />
@@ -264,10 +268,11 @@
      <Compile Include="Assets\scripts\game\view\util\ItemVisualUtil.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuGeneralInfoHandler.cs" />
      <Compile Include="Assets\scripts\game\model\util\DiggingWorkAmountCalculator.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\ItemAction.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\EquipmentAction.cs" />
      <Compile Include="Assets\scripts\game\view\ui\stockpileMenu\StockpileConfigItem.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\ItemConsumingMouseTool.cs" />
      <Compile Include="Assets\scripts\types\unit\health\GameplayStatEnum.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\plant\PlantingAction.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldTiles.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\WorkbenchActionTarget.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\EatAction.cs" />
@@ -318,6 +323,7 @@
      <Compile Include="Assets\scripts\game\input\CameraAndMouseHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\material_selector\MaterialTooltipHandler.cs" />
      <Compile Include="Assets\scripts\types\QualityEnum.cs" />
+     <Compile Include="Assets\scripts\util\item\SeedItemSelector.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedLayersController.cs" />
      <Compile Include="Assets\scripts\types\unit\need\NeedTypeEnum.cs" />
      <Compile Include="Assets\scripts\game\view\ui\debug_tools\DebugToolsHandler.cs" />

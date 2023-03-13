@@ -51,9 +51,5 @@ namespace game.model.component.task.action.needs {
             QualityEnum bedQuality = bed.Has<QualityComponent>() ? bed.take<QualityComponent>().quality : QualityEnum.AWFUL;
             return baseSleepSpeed * Needs.rest.getSleepSpeedByBedQuality(bedQuality);
         }
-
-        public override float getActionProgress() {
-            return 1f - performer.take<UnitNeedComponent>().rest / initialRest;
-        }
     }
 }

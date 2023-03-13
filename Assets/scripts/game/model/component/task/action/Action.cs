@@ -29,7 +29,7 @@ namespace game.model.component.task.action {
 */
     public abstract class Action {
         public string name = "base action";
-        public EcsEntity task;
+        public EcsEntity task; // set when action is added to task
         public ActionTarget target;
         public ActionStatusEnum status = ActionStatusEnum.OPEN;
         public LocalModel model => task.take<TaskActionsComponent>().model;
@@ -45,15 +45,15 @@ namespace game.model.component.task.action {
         // checked before starting performing and before starting moving, can create sub actions, can lock items
         public Func<ActionConditionStatusEnum> startCondition = () => ActionConditionStatusEnum.FAIL; // prevent starting empty action
 
-        public System.Action onStart = () => { }; // performed on phase start
-        public Action<EcsEntity, float> progressConsumer; // performs logic
-        public Func<Boolean> finishCondition; // when reached, action ends
-        public System.Action onFinish = () => { }; // performed on phase finish
+        protected System.Action onStart = () => { }; // performed on phase start
+        protected Action<EcsEntity, float> progressConsumer; // performs logic TODO consider removing all arguments except delta
+        protected Func<Boolean> finishCondition; // when reached, action ends
+        protected System.Action onFinish = () => { }; // performed on phase finish
 
-        // should be set before performing
+        // should be set before performing. action is instant by default
+        protected float speed = 1;
         public float progress = 0;
-        public float speed = 1;
-        public float maxProgress = 1;
+        public float maxProgress = 0;
 
         public Action(ActionTarget target) : this() {
             this.target = target;
@@ -83,7 +83,6 @@ namespace game.model.component.task.action {
             return ActionConditionStatusEnum.NEW;
         }
 
-        // TODO reference to task?
         protected void lockEntities(List<EcsEntity> items) => items.ForEach(lockEntity);
 
         // locks item to task of this action. Item can be locked only to one task. 
@@ -99,12 +98,6 @@ namespace game.model.component.task.action {
 
         public bool itemCanBeLocked(EcsEntity item) {
             return !item.Has<LockedComponent>() || item.take<LockedComponent>().task == task;
-        }
-
-        // for visual progress bar. can be overriden in subclasses
-        public virtual float getActionProgress() {
-            if(maxProgress == 0) return 0;
-            return progress / maxProgress;
         }
 
         protected void log(string message) => Debug.Log("[" + name + "]: " + message);

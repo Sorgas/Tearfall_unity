@@ -11,12 +11,12 @@ namespace game.model.component.task.action.target {
     public abstract class ActionTarget {
         public ActionTargetTypeEnum type;
 
+        // should return current action target position or Vector3Int.back
+        public abstract Vector3Int pos { get; }
+        
         public ActionTarget(ActionTargetTypeEnum type) {
             this.type = type;
         }
-
-        // should return current action target position or Vector3Int.back
-        public abstract Vector3Int pos { get; }
 
         /**
          * Checks if task performer has reached task target. Does not check target availability (map area).

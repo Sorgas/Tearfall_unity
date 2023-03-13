@@ -11,7 +11,7 @@ using util.lang;
 using util.lang.extension;
 
 namespace game.model.container {
-    public class ZoneContainer : LocalMapModelComponent {
+    public class ZoneContainer : LocalModelComponent {
         public HashSet<EcsEntity> zoneSet = new();
         public Dictionary<Vector3Int, EcsEntity> zones = new();
         private ZoneGenerator zoneGenerator = new();

@@ -6,7 +6,7 @@ using util.lang;
 namespace game.view.tilemaps {
     // point to load and cache all tilesets in game (except icons).
     // makes all tilesets in game to be loaded from same texture
-    // packs only textures in tilesets folder. Names should be unique
+    // packs only textures in /tilesets folder. Names should be unique
     public class TextureLoader : Singleton<TextureLoader>, TextureLoader.ITextureLoader {
         private readonly PackingTextureLoader packer = new();
         private readonly SimpleTextureLoader simple = new();

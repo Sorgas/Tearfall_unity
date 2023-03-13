@@ -4,7 +4,7 @@ using Leopotam.Ecs;
 using types.action;
 
 namespace game.model.component.task.action.equipment.obtain {
-    public class ObtainItemAction : EquipmentAction {
+    public class ObtainItemAction : ItemAction {
 
         public ObtainItemAction(EcsEntity item) : base(new SelfActionTarget(), item) {
             name = "obtain item action";
