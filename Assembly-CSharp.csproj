@@ -61,6 +61,7 @@
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuTab.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\ItemStateValidator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\ItemAction.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\util\TooltipHandler.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\drainage\WorldOceanFiller.cs" />
      <Compile Include="Assets\scripts\game\input\KeyInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\EquippedItemsManager.cs" />
@@ -85,6 +86,7 @@
      <Compile Include="Assets\scripts\game\model\container\DesignationContainer.cs" />
      <Compile Include="Assets\scripts\game\input\CameraInputSystem.cs" />
      <Compile Include="Assets\scripts\types\unit\race\CombinedAppearance.cs" />
+     <Compile Include="Assets\scripts\game\model\container\TechnologyContainer.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap\WorldmapController.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitActionPerformingSystem.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalForestGenerator.cs" />
@@ -145,6 +147,7 @@
      <Compile Include="Assets\scripts\game\model\system\unit\UnitActionCheckingSystem.cs" />
      <Compile Include="Assets\scripts\game\view\camera\SelectionHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarWidgetHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\FarmMenuHandler.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\AssetPacker\AssetPacker.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenSequence.cs" />
      <Compile Include="Assets\scripts\generation\item\DiggingProductGenerator.cs" />
@@ -250,6 +253,7 @@
      <Compile Include="Assets\scripts\types\unit\RawCreatureType.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EnumExtension.cs" />
      <Compile Include="Assets\scripts\game\view\ui\workbench\ItemPanelWithTooltip.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\util\TooltipParentHandler.cs" />
      <Compile Include="Assets\scripts\game\view\util\IconLoader.cs" />
      <Compile Include="Assets\scripts\util\geometry\bounds\TwoPointIntBounds3.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\IngredientProcessor.cs" />
@@ -440,6 +444,7 @@
      <None Include="Assets\resources\data\creatures\creatures.json" />
      <None Include="Assets\resources\data\buildings\workbenches.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+     <None Include="Assets\resources\data\plants\domestic.json" />
      <None Include="Assets\resources\data\materials\organic.json" />
      <None Include="Assets\resources\data\lists.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using game.model.container;
 using game.model.localmap;
 using game.model.system;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace game.model {
         public GameModelUpdateCounter counter = new();
         public GameModelUpdateController updateController;
 
+        public TechnologyContainer technologyContainer = new();
         // public static EcsWorld ecsWorld => get()._ecsWorld;
         // public static LocalMap localMap => get().world.localMaps[get().localMapName];
 

@@ -81,6 +81,10 @@ namespace game.view.system.mouse_tool {
                 StockpileMenuHandler window = (StockpileMenuHandler)WindowManager.get().windows[StockpileMenuHandler.name];
                 window.initFor(entity);
                 WindowManager.get().showWindowByName(StockpileMenuHandler.name, false);
+            } else if (entity.Has<FarmComponent>()) {
+                FarmMenuHandler window = (FarmMenuHandler )WindowManager.get().windows[FarmMenuHandler .name];
+                window.initFor(entity);
+                WindowManager.get().showWindowByName(FarmMenuHandler .name, false);
             }
         }
     }

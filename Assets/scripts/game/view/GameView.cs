@@ -78,6 +78,8 @@ namespace game.view {
             system.windowManager.addWindow(sceneObjectsContainer.itemMenuHandler);
             system.windowManager.addWindow(sceneObjectsContainer.unitMenuHandler);
             system.windowManager.addWindow(sceneObjectsContainer.stockpileMenuHandler);
+            system.windowManager.addWindow(sceneObjectsContainer.farmMenuHandler);
+            
             system.widgetManager.addWidget(sceneObjectsContainer.gamespeedWidgetHandler);
             system.widgetManager.addWidget(sceneObjectsContainer.menuWidget);
             system.widgetManager.addWidget(sceneObjectsContainer.toolbarWidget);

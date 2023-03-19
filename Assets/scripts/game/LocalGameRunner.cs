@@ -32,6 +32,7 @@ namespace game {
         public ItemMenuHandler itemMenuHandler;
         public UnitMenuHandler unitMenuHandler;
         public StockpileMenuHandler stockpileMenuHandler;
+        public FarmMenuHandler farmMenuHandler;
         public Text debugInfoPanel;
         public Text modelDebugInfoPanel;
 

@@ -59,6 +59,7 @@ namespace game.view.util {
             // stockpile
             
             paths.Add("StockpileCategoryRow", "prefabs/stockpileMenu/StockpileCategoryRow");
+            paths.Add("WideButtonWithIcon", "prefabs/farmMenu/WideButtonWithIcon");
             // paths.Add("materialRow", "prefabs/materialSelector/MaterialRow");
         }
     }
