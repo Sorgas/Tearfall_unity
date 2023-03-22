@@ -2,8 +2,9 @@
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
+using util.lang.extension;
 
-// TODO two units can hoe same tile. make farm track hoed tiles
+// TODO two units can hoe same tile. make farm track targeted tiles
 // TODO when finished, should search another tile (make hoeing in pre-action, and tile selection in current action)
 namespace game.model.component.task.action.plant {
     /**
@@ -18,6 +19,7 @@ namespace game.model.component.task.action.plant {
         private Vector3Int targetPosition; 
         
         public FarmHoeingAction(EcsEntity zone) {
+            name = "hoeing action";
             farmTarget = new FarmHoeingActionTarget(zone);
             target = farmTarget;
             
@@ -29,7 +31,9 @@ namespace game.model.component.task.action.plant {
 
         // finds tile to hoe, returns false if there is none
         private bool findTile() {
-            targetPosition = farmTarget.lookupFreeTile();
+            targetPosition = task.Has<TaskPerformerComponent>() 
+                ? farmTarget.lookupFreeNearestTile(performer.pos()) 
+                : farmTarget.lookupFreeTile();
             return targetPosition != Vector3Int.back;
         }
 

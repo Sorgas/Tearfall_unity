@@ -3,7 +3,8 @@ using game.model.localmap;
 using UnityEngine;
 
 namespace game.model.container {
-    // stores farm positions. On changes, add position for visual update, see TileUpdateVisualSystem
+    // Stores positions of hoed tiles
+    // On changes, adds position for visual update, see TileUpdateVisualSystem
     public class FarmContainer : LocalModelUpdateComponent {
         private readonly Dictionary<Vector3Int, int> farms = new();
 

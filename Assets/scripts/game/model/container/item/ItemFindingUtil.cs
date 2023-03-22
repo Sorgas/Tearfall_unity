@@ -157,7 +157,7 @@ namespace game.model.container.item {
             return result;
         }
 
-        private float fastDistance(EcsEntity item, Vector3Int position) => Vector3Int.Distance(item.pos(), position);
+        private float fastDistance(EcsEntity item, Vector3Int position) => (item.pos() - position).sqrMagnitude;
 
         private void log(string message) => Debug.Log("[ItemFindingUtil]: " + message);
     }

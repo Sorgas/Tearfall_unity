@@ -3,7 +3,6 @@ using game.model.component;
 using game.model.component.item;
 using game.view.util;
 using Leopotam.Ecs;
-using types;
 using types.item.type;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -41,12 +40,14 @@ namespace game.view.system.item {
             ItemComponent item = entity.takeRef<ItemComponent>();
             ItemVisualComponent visual = new();
             Sprite sprite = ItemTypeMap.get().getSprite(item.type);
-            visual.go = PrefabLoader.create("Item", GameView.get().sceneObjectsContainer.mapHolder);
-            visual.spriteRenderer = visual.go.GetComponent<SpriteRenderer>();
+            GameObject go = PrefabLoader.create("Item", GameView.get().sceneObjectsContainer.mapHolder);
+            go.name = "Item " + item.type + " " + item.materialString;
+            visual.go = go;
+            visual.spriteRenderer = go.GetComponent<SpriteRenderer>();
             visual.spriteRenderer.sprite = sprite;
-            visual.iconGo = visual.go.transform.GetChild(0).gameObject;
+            visual.iconGo = go.transform.GetChild(0).gameObject;
             visual.iconRenderer = visual.iconGo.GetComponent<SpriteRenderer>();
-            visual.sortingGroup = visual.go.GetComponent<SortingGroup>();
+            visual.sortingGroup = go.GetComponent<SortingGroup>();
             visual.sprite = sprite;
             entity.Replace(visual);
         }

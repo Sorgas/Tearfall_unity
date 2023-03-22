@@ -13,19 +13,20 @@ namespace game.model.component.task.action.plant {
     // actually hoes one tile of a farm. See FarmHoeingAction
     // also destroys plant and substrate on tile
     public class FarmTileHoeingAction : Action {
-        private const string toolActionName = "hoe";
+        private const string TOOL_ACTION_NAME = "hoe";
 
-        public FarmTileHoeingAction(Vector3Int tile) : base(new PositionActionTarget(tile, ActionTargetTypeEnum.NEAR)) {
+        public FarmTileHoeingAction(Vector3Int tile) : base(new PositionActionTarget(tile, ActionTargetTypeEnum.ANY)) {
+            name = "tile hoeing action";
             startCondition = () => {
-                if (!performer.take<UnitEquipmentComponent>().toolWithActionEquipped(toolActionName)) return tryCreateEquippingAction();
+                if (!performer.take<UnitEquipmentComponent>().toolWithActionEquipped(TOOL_ACTION_NAME)) return tryCreateEquippingAction();
                 return ZoneUtils.tileUnhoed(tile, model) ? OK : FAIL;
             };
-            maxProgress = 200;
+            maxProgress = 100;
             onFinish = () => hoeTile(tile);
         }
 
         private ActionConditionStatusEnum tryCreateEquippingAction() {
-            ItemSelector toolItemSelector = new ToolWithActionItemSelector(toolActionName);
+            ItemSelector toolItemSelector = new ToolWithActionItemSelector(TOOL_ACTION_NAME);
             EcsEntity item = model.itemContainer.util.findFreeReachableItemBySelector(toolItemSelector, performer.pos());
             if (item == EcsEntity.Null) return FAIL;
             addPreAction(new EquipToolItemAction(item));

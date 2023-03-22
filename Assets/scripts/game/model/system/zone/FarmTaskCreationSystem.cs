@@ -8,13 +8,12 @@ using util.lang.extension;
 using Action = game.model.component.task.action.Action;
 
 namespace game.model.system.zone {
-    public class FarmTaskCreationSystem : LocalModelEcsSystem {
+    public class FarmTaskCreationSystem : LocalModelEcsSystem { // TODO make interval
         public EcsFilter<FarmComponent>.Exclude<FarmOpenHoeingTaskComponent> hoeingFilter;
         public EcsFilter<FarmComponent>.Exclude<FarmOpenPlantingTaskComponent> plantingFilter;
         private readonly TaskGenerator generator = new();
 
-        public FarmTaskCreationSystem(LocalModel model) : base(model) {
-        }
+        public FarmTaskCreationSystem(LocalModel model) : base(model) { }
 
         public override void Run() {
             foreach (int i in hoeingFilter) {
@@ -22,7 +21,7 @@ namespace game.model.system.zone {
                 FarmComponent farm = hoeingFilter.Get1(i);
                 ZoneComponent zone = entity.take<ZoneComponent>();
                 FarmTileTrackingComponent tracking = entity.take<FarmTileTrackingComponent>();
-                tryCreateHoeingTask(zone, entity);
+                tryCreateHoeingTask(zone, farm, entity);
             }
             foreach (int i in plantingFilter) {
                 EcsEntity entity = plantingFilter.GetEntity(i);
@@ -32,7 +31,8 @@ namespace game.model.system.zone {
             }
         }
 
-        private void tryCreateHoeingTask(ZoneComponent zone, EcsEntity entity) {
+        private void tryCreateHoeingTask(ZoneComponent zone, FarmComponent farm, EcsEntity entity) {
+            if (farm.plant == null) return;
             FarmTileTrackingComponent tracking = entity.take<FarmTileTrackingComponent>();
             if (tracking.toHoe.Count > 0) { // has tiles to hoe
                 Action action = new FarmHoeingAction(entity);
@@ -49,6 +49,7 @@ namespace game.model.system.zone {
             }
         }
 
+        // TODO add farmer job
         private EcsEntity createTask(Action action) {
             EcsEntity task = generator.createTask(action, model.createEntity(), model);
             model.taskContainer.addOpenTask(task);

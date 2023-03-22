@@ -5,12 +5,8 @@ namespace util.geometry {
     // provides collections for neighbours
     static class PositionUtil {
         public static List<Vector3Int> fourNeighbour;
-
-        // 8 on same level except center
-        public static List<Vector3Int> allNeighbour;
-
+        public static List<Vector3Int> allNeighbour; // 8 on same level except center
         public static List<Vector3Int> waterflow;
-
         public static List<Vector3Int> all = new();
 
         static PositionUtil() {
@@ -40,6 +36,10 @@ namespace util.geometry {
                     }
                 }
             }
+        }
+
+        public static int fastDistance(Vector3Int pos1, Vector3Int pos2) {
+            return (pos1 - pos2).sqrMagnitude;
         }
     }
 }

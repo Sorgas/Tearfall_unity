@@ -82,9 +82,9 @@ namespace game.view.system.mouse_tool {
                 window.initFor(entity);
                 WindowManager.get().showWindowByName(StockpileMenuHandler.name, false);
             } else if (entity.Has<FarmComponent>()) {
-                FarmMenuHandler window = (FarmMenuHandler )WindowManager.get().windows[FarmMenuHandler .name];
+                FarmMenuHandler window = (FarmMenuHandler )WindowManager.get().windows[FarmMenuHandler .NAME];
                 window.initFor(entity);
-                WindowManager.get().showWindowByName(FarmMenuHandler .name, false);
+                WindowManager.get().showWindowByName(FarmMenuHandler .NAME, false);
             }
         }
     }

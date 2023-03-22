@@ -36,6 +36,7 @@ namespace game.model.system.zone {
                 tracking.toRemove.Remove(tile);
                 getListForTile(entity, tracking, tile)?.Add(tile);
             }
+            Debug.Log("farm updated");
         }
 
         // finds list to put tile

@@ -79,6 +79,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
                 .Add(new ZoneUpdateSystem(this))
                 .Add(new ZoneDeletionSystem())
                 .Add(new StockpileTaskCreationSystem(this))
+                .Add(new FarmTaskCreationSystem(this))
                 .Init();
         }
 

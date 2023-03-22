@@ -26,24 +26,25 @@ namespace game {
         // creates test settler as it was selected on preparation screen
         private void createTestSettler() {
             GenerationState.get().preparationState.settlers.Add(new SettlerData {name = "settler1", age = 30, type = "human"});
-            GenerationState.get().preparationState.settlers.Add(new SettlerData {name = "settler2", age = 30, type = "human"});
+            // GenerationState.get().preparationState.settlers.Add(new SettlerData {name = "settler2", age = 30, type = "human"});
         }
 
         // creates test item as it was selected on preparation screen
         private void createTestItem() {
             GenerationState.get().preparationState.items.Add(new ItemData {material = "iron", type = "pickaxe", quantity = 1});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "iron", type = "axe", quantity = 1});
-            GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "pants", quantity = 1});
-            GenerationState.get().preparationState.items.Add(new ItemData {material = "marble", type = "rock", quantity = 10});
+            GenerationState.get().preparationState.items.Add(new ItemData {material = "iron", type = "hoe", quantity = 1});
+            // GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "pants", quantity = 1});
+             GenerationState.get().preparationState.items.Add(new ItemData {material = "marble", type = "rock", quantity = 10});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "granite", type = "rock", quantity = 10});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "sandstone", type = "rock", quantity = 10});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "oak", type = "log", quantity = 10});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "oak", type = "plank", quantity = 10});
-            GenerationState.get().preparationState.items.Add(new ItemData {material = "meat", type = "meat_piece", quantity = 5});
+            // GenerationState.get().preparationState.items.Add(new ItemData {material = "meat", type = "meat_piece", quantity = 5});
         }
 
         private void createBuildings() {
-            GenerationState.get().localMapGenerator.buildingsToGenerate.Add("carpenter's table", "oak");
+            // GenerationState.get().localMapGenerator.buildingsToGenerate.Add("carpenter's table", "oak");
         }
     }
 }

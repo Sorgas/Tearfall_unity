@@ -26,5 +26,10 @@ namespace game.model.component.task.action.target {
             position = ZoneUtils.findUnhoedTile(zone.take<ZoneComponent>(), GameModel.get().currentLocalModel);
             return position;
         }
+
+        public Vector3Int lookupFreeNearestTile(Vector3Int position) {
+            position = ZoneUtils.findNearestUnhoedTile(zone.take<ZoneComponent>(), position, GameModel.get().currentLocalModel);
+            return position;
+        }
     }
 }
