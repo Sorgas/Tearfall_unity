@@ -68,8 +68,9 @@ namespace game.view.ui {
                 if (product != null) {
                     selectedPlantIcon.sprite = ItemTypeMap.get().getSprite(product);
                 }
+            } else {
+                selectedPlantName.text = "no plant selected";
             }
-            selectedPlantName.text = "no plant selected";
         }
 
         private void fillPlantList() {
@@ -117,9 +118,12 @@ namespace game.view.ui {
         }
 
         private void selectPlant(string plant) {
-            Debug.Log("plant selected " + plant);
             ref FarmComponent farmComponent = ref farm.takeRef<FarmComponent>();
+            // update all tiles if selection changes
+            if (farmComponent.plant != plant) farm.Replace(new ZoneUpdatedComponent { tiles = new(farm.take<ZoneComponent>().tiles) });
             farmComponent.plant = plant;
+            Debug.Log("selected plant " + farmComponent.plant + "_" + plant);
+            showSelectedPlant();
         }
 
         private void changePriority(int delta) {

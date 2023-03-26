@@ -15,6 +15,7 @@ namespace game.model.component.task.action.equipment.use {
                 ref UnitEquipmentComponent equipment = ref this.equipment();
                 equipment.hauledItem = EcsEntity.Null;
                 model.itemContainer.transition.fromUnitToGround(item, performer, targetPosition);
+                
             };
         }
     }

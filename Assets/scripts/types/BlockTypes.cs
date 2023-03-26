@@ -9,8 +9,7 @@ namespace types {
         public static BlockType STAIRS = new(3, PASSABLE, 8, false, 2, "stairs", "ST"); // DF-like stairs
         public static BlockType DOWNSTAIRS = new(4, PASSABLE, 14, true, 1, "downstairs", "STF");
         public static BlockType RAMP = new(5, PASSABLE, 6, false, 2, "ramp", ""); // passable, liquids don't fall
-        public static BlockType FARM = new(6, PASSABLE, 12, true, 1, "farm plot", ""); // TODO remove. use special entity for farm tiles
-        private static BlockType[] all = { SPACE, WALL, FLOOR, STAIRS, DOWNSTAIRS, RAMP, FARM };
+        private static BlockType[] all = { SPACE, WALL, FLOOR, STAIRS, DOWNSTAIRS, RAMP};
 
         private static Dictionary<int, BlockType> map = new();
         private static Dictionary<string, BlockType> nameMap = new();

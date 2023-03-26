@@ -66,6 +66,7 @@
      <Compile Include="Assets\scripts\game\input\KeyInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\EquippedItemsManager.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\BuildingTilesetSlicer.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\zone\ZoneAction.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationTaskCreationSystem.cs" />
      <Compile Include="Assets\scripts\types\unit\body\raw\BodyTemplateProcessor.cs" />
      <Compile Include="Assets\scripts\types\item\type\raw\RawItemType.cs" />
@@ -146,6 +147,7 @@
      <Compile Include="Assets\scripts\game\model\util\validation\FarmPositionValidator.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitActionCheckingSystem.cs" />
      <Compile Include="Assets\scripts\game\view\camera\SelectionHandler.cs" />
+     <Compile Include="Assets\scripts\game\model\system\TileUpdatingSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\FarmMenuHandler.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\AssetPacker\AssetPacker.cs" />
@@ -211,7 +213,6 @@
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenConfig.cs" />
      <Compile Include="Assets\scripts\game\TestLevelInitializer2.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\PositionValidator.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\target\StockpileActionTarget.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\OnMapItemsManager.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalBuildingGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\WorldMap.cs" />
@@ -234,6 +235,7 @@
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\DesignationMouseTool.cs" />
      <Compile Include="Assets\scripts\game\view\ui\debug_tools\DebugToolsPanelHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\TaskComponents.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\ActionLockingUtility.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\LocalMap.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedKeyController.cs" />
      <Compile Include="Assets\scripts\game\view\camera\SelectionState.cs" />
@@ -301,7 +303,7 @@
      <Compile Include="Assets\scripts\util\TexturePacker\RectanglePacking\SortableSize.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\SelfActionTarget.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\RecipeProcessor.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\zone\HaulItemToStockpileAction.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\zone\StoreItemToStockpileAction.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\AssetPacker\TextureToPack.cs" />
      <Compile Include="Assets\scripts\game\view\util\ViewUtil.cs" />
      <Compile Include="Assets\scripts\game\model\GameModel.cs" />

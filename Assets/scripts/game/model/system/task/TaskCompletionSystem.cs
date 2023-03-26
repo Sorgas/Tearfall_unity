@@ -1,4 +1,4 @@
-﻿using game.model.component;
+﻿ using game.model.component;
 using game.model.component.task;
 using game.model.localmap;
 using Leopotam.Ecs;
@@ -64,23 +64,19 @@ namespace game.model.system.task {
         // on any status task is removed from zone components 
         private void detachZone(ref EcsEntity task) {
             if (!task.Has<TaskZoneComponent>()) return;
+            TaskZoneComponent taskZone = task.take<TaskZoneComponent>();
             ref EcsEntity zone = ref task.takeRef<TaskZoneComponent>().zone;
-            StockpileTasksComponent stockpileTasks = zone.take<StockpileTasksComponent>();
-            // remove task from whatever pointing component it was
-            if (stockpileTasks.bringTasks.Contains(task)) {
-                stockpileTasks.bringTasks.Remove(task);
-            } else if (stockpileTasks.removeTasks.Contains(task)) {
-                stockpileTasks.removeTasks.Remove(task);
-            } else if (zone.Has<StockpileOpenBringTaskComponent>()) {
-                if (zone.take<StockpileOpenBringTaskComponent>().bringTask.Equals(task)) {
-                    zone.Del<StockpileOpenBringTaskComponent>();
-                }
-            } else if (zone.Has<StockpileOpenRemoveTaskComponent>()) {
-                if (zone.take<StockpileOpenRemoveTaskComponent>().removeTask.Equals(task)) {
-                    zone.Del<StockpileOpenRemoveTaskComponent>();
-                }
-            } else {
-                Debug.LogError("Completed task " + task.name() + " pointed to zone, but not referenced from zone.");
+            zone.take<ZoneTrackingComponent>().tasks[taskZone.taskType].Remove(task);
+            if (zone.Has<StockpileOpenStoreTaskComponent>() && zone.take<StockpileOpenStoreTaskComponent>().bringTask.Equals(task)) {
+                zone.Del<StockpileOpenStoreTaskComponent>();
+            } else if (zone.Has<StockpileOpenRemoveTaskComponent>() && zone.take<StockpileOpenRemoveTaskComponent>().removeTask.Equals(task)) {
+                zone.Del<StockpileOpenRemoveTaskComponent>();
+            } else if (zone.Has<FarmOpenHoeingTaskComponent>() && zone.take<FarmOpenHoeingTaskComponent>().hoeTask.Equals(task)) {
+                zone.Del<FarmOpenHoeingTaskComponent>();
+            } else if (zone.Has<FarmOpenPlantingTaskComponent>() && zone.take<FarmOpenPlantingTaskComponent>().plantTask.Equals(task)) {
+                zone.Del<FarmOpenPlantingTaskComponent>();
+            } else if (zone.Has<FarmOpenRemovingTaskComponent>() && zone.take<FarmOpenRemovingTaskComponent>().removeTask.Equals(task)) {
+                zone.Del<FarmOpenRemovingTaskComponent>();
             }
         }
 

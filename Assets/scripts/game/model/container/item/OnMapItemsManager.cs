@@ -30,6 +30,7 @@ namespace game.model.container.item {
             itemsOnMap.remove(position, item);
             all.Remove(item);
             container.availableItemsManager.remove(item); // make item unavailable
+            addPositionForUpdate(position);
         }
 
         // adds item to map by its position (used on generation and loading)
@@ -37,6 +38,7 @@ namespace game.model.container.item {
             itemsOnMap.add(item.pos(), item);
             all.Add(item);
             container.availableItemsManager.add(item); // make item available
+            addPositionForUpdate(item.pos());
         }
     }
 }

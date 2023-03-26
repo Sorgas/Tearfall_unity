@@ -6,9 +6,9 @@ using UnityEngine;
 namespace types {
     public class ZoneTypes {
         public static ZoneType STOCKPILE = new("stockpile", ZoneTypeEnum.STOCKPILE, new StockpilePositionValidator(), new Color(1f, 0.92f, 0.015f, 0.2f));
-        public static ZoneType FARM = new("farm", ZoneTypeEnum.FARM, new FarmPositionValidator(), new Color(0, 1, 0 , 0.2f));
+        public static ZoneType FARM = new("farm", ZoneTypeEnum.FARM, new FarmPositionValidator(), new Color(0, 1, 0, 0.2f));
 
-        public static List<ZoneType> all = new() {STOCKPILE, FARM};
+        public static List<ZoneType> all = new() { STOCKPILE, FARM };
 
         public static ZoneType get(ZoneTypeEnum type) {
             return type switch {
@@ -24,7 +24,7 @@ namespace types {
         public readonly ZoneTypeEnum value;
         public readonly Color tileColor;
         public readonly PositionValidator positionValidator;
-        
+
         public ZoneType(string name, ZoneTypeEnum value, PositionValidator positionValidator, Color tileColor) {
             this.name = name;
             this.value = value;
@@ -36,5 +36,17 @@ namespace types {
     public enum ZoneTypeEnum {
         STOCKPILE,
         FARM
+    }
+
+    public class ZoneTaskTypes {
+        public const string STORE_ITEM = "storeItem";
+        public const string REMOVE_ITEM = "removeItem";
+        public const string HOE = "hoe";
+        public const string PLANT = "plant";
+        public const string HARVEST = "harvest";
+        public const string REMOVE_PLANT = "removePlant";
+
+        public static readonly string[] STOCKPILE_TASKS = { STORE_ITEM, REMOVE_ITEM };
+        public static readonly string[] FARM_TASKS = { HOE, PLANT, HARVEST, REMOVE_PLANT };
     }
 }

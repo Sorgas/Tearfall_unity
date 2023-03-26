@@ -1,6 +1,7 @@
 using game.model.component;
 using game.model.container;
 using game.model.container.item;
+using game.model.system;
 using game.model.system.building;
 using game.model.system.plant;
 using game.model.system.task;
@@ -69,6 +70,8 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
                 .Add(new UnitWearNeedSystem())
                 .Add(new UnitNeedSystem())
             
+                .Add(new TileUpdatingSystem(this)) // dispatches entities updates to other update systems
+                
                 .Add(new PlantRemovingSystem(this))
                 .Add(new SubstrateGrowingSystem(this))
 
@@ -76,7 +79,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
                 .Add(new WorkbenchTaskCreationSystem(this))
                 .Add(new WorkbenchTaskCompletionSystem())
                 
-                .Add(new ZoneUpdateSystem(this))
+                .Add(new ZoneUpdateSystem(this)) // updates zones
                 .Add(new ZoneDeletionSystem())
                 .Add(new StockpileTaskCreationSystem(this))
                 .Add(new FarmTaskCreationSystem(this))
@@ -108,17 +111,18 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         protected LocalModelComponent(LocalModel model) => this.model = model;
     }
 
+    // for containers which can update positions
     public abstract class LocalModelUpdateComponent : LocalModelComponent {
         protected EcsEntity updateEntity;
 
         protected LocalModelUpdateComponent(LocalModel model) : base(model) {
             Debug.Log("creating localModelUpdateComponent");
             updateEntity = model.createEntity();
-            updateEntity.Replace(new PositionUpdateComponent { set = new() });
+            updateEntity.Replace(new TileUpdateComponent { tiles = new() });
         }
 
         protected void addPositionForUpdate(Vector3Int position) {
-            updateEntity.take<PositionUpdateComponent>().set.Add(position);
+            updateEntity.take<TileUpdateComponent>().tiles.Add(position);
         }
     }
 }

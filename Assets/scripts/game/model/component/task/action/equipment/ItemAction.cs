@@ -2,7 +2,6 @@
 using game.model.component.unit;
 using Leopotam.Ecs;
 using UnityEngine;
-using util.lang.extension;
 
 namespace game.model.component.task.action.equipment {
 

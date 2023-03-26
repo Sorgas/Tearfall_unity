@@ -16,11 +16,13 @@ namespace game.model.component.task.action.plant {
      */
     public class FarmHoeingAction : Action {
         public readonly FarmHoeingActionTarget farmTarget;
-        private Vector3Int targetPosition; 
-        
-        public FarmHoeingAction(EcsEntity zone) {
+        private Vector3Int targetPosition;
+        private EcsEntity farm;
+
+        public FarmHoeingAction(EcsEntity farm) {
             name = "hoeing action";
-            farmTarget = new FarmHoeingActionTarget(zone);
+            this.farm = farm;
+            farmTarget = new FarmHoeingActionTarget(farm);
             target = farmTarget;
             
             startCondition = () => {
@@ -38,7 +40,7 @@ namespace game.model.component.task.action.plant {
         }
 
         private ActionConditionStatusEnum createHoeingPreAction() {
-            addPreAction(new FarmTileHoeingAction(targetPosition));
+            addPreAction(new FarmTileHoeingAction(targetPosition, farm));
             return ActionConditionStatusEnum.NEW;
         }
     }

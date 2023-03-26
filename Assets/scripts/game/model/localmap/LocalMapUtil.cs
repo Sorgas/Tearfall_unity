@@ -17,14 +17,13 @@ namespace game.model.localmap {
         }
 
         public Vector3Int? getRandomPosition(Vector3Int center, int xRange, int zRange) {
-            IntBounds3 bounds = new IntBounds3(center, xRange, xRange, zRange);
+            IntBounds3 bounds = new (center, xRange, xRange, zRange);
             map.bounds.normalizeBounds(bounds);
             List<Vector3Int> positions = new List<Vector3Int>();
             bounds.iterate((x, y, z) => {
                 int blockType = map.blockType.get(x, y, z);
                 if (blockType != BlockTypes.SPACE.CODE
-                    && blockType != BlockTypes.WALL.CODE
-                    && blockType != BlockTypes.FARM.CODE) { // passable position
+                    && blockType != BlockTypes.WALL.CODE) { // passable position
                     positions.Add(new Vector3Int(x, y, z));
                 }
             });

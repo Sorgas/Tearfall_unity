@@ -29,7 +29,7 @@ namespace game.model.system.unit {
             EcsEntity jobTask = getTaskFromContainer(unit);
             EcsEntity needTask = needActionCreator.selectAndCreateAction(model, unit);
             EcsEntity task = priority(jobTask) > priority(needTask) ? jobTask : needTask;
-            // if (task.IsNull()) task = createIdleTask(unit);
+            if (task.IsNull()) task = createIdleTask(unit);
             return task;
         }
 

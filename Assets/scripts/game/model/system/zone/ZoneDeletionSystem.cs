@@ -8,6 +8,7 @@ namespace game.model.system.zone {
         public void Run() {
             foreach (int i in filter) {
                 filter.GetEntity(i).Destroy();
+                // TODO cancel zone tasks
             }
         }
     }

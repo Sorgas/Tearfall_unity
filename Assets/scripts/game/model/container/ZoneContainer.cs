@@ -47,7 +47,7 @@ namespace game.model.container {
             });
             log("zones erased");
         }
-
+        
         private void deleteZone(EcsEntity zone) {
             ZoneComponent component = zone.take<ZoneComponent>();
             foreach (Vector3Int tile in component.tiles) {
@@ -70,7 +70,7 @@ namespace game.model.container {
         }
 
         // removes tile from its current zone, deletes zone if it was last tile
-        private void removeTileFromZone(Vector3Int tile) {
+        public void removeTileFromZone(Vector3Int tile) {
             if (!zones.ContainsKey(tile)) return;
             EcsEntity zone = zones[tile];
             ZoneComponent component = zone.take<ZoneComponent>();

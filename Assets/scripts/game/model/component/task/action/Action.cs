@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using game.model.component.item;
 using game.model.component.task.action.target;
 using game.model.localmap;
 using Leopotam.Ecs;
@@ -33,7 +32,7 @@ namespace game.model.component.task.action {
         public ActionTarget target;
         public ActionStatusEnum status = ActionStatusEnum.OPEN;
         public LocalModel model => task.take<TaskActionsComponent>().model;
-
+        
         public bool hasPerformer => task.IsAlive() && task.Has<TaskPerformerComponent>();
 
         public ref EcsEntity performer {
@@ -55,11 +54,11 @@ namespace game.model.component.task.action {
         public float progress = 0;
         public float maxProgress = 0;
 
-        public Action(ActionTarget target) : this() {
+        protected Action(ActionTarget target) : this() {
             this.target = target;
         }
 
-        public Action() {
+        protected Action() {
             finishCondition = () => progress >= maxProgress;
             progressConsumer = (unit, delta) => progress += delta; // performs logic
         }
@@ -82,24 +81,13 @@ namespace game.model.component.task.action {
             action.task = task;
             return ActionConditionStatusEnum.NEW;
         }
-
-        protected void lockEntities(List<EcsEntity> items) => items.ForEach(lockEntity);
-
-        // locks item to task of this action. Item can be locked only to one task. 
-        // Items are unlocked when task ends, see TaskCompletionSystem.
-        protected void lockEntity(EcsEntity item) {
-            if (!itemCanBeLocked(item)) throw new ArgumentException("Cannot lock item. Item locked to another task");
-            ref TaskLockedItemsComponent lockedItems = ref task.Get<TaskLockedItemsComponent>(); // can create component
-            if (item.Has<LockedComponent>()) return; // item locked to this task
-            item.Replace(new LockedComponent { task = task });
-            lockedItems.lockedItems.Add(item);
-            log("locking 1 item");
-        }
-
-        public bool itemCanBeLocked(EcsEntity item) {
-            return !item.Has<LockedComponent>() || item.take<LockedComponent>().task == task;
-        }
-
+        
+        protected void lockEntities(List<EcsEntity> items) => ActionLockingUtility.lockEntities(items, task);
+        protected void lockEntity(EcsEntity item) => ActionLockingUtility.lockEntity(item, task);
+        public void lockZoneTile(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.lockZoneTile(zone, tile, task);
+        protected bool itemCanBeLocked(EcsEntity item) => ActionLockingUtility.itemCanBeLocked(item, task);
+        public bool tileCanBeLocked(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.tileCanBeLocked(zone, tile, task);
+        
         protected void log(string message) => Debug.Log("[" + name + "]: " + message);
     }
 }

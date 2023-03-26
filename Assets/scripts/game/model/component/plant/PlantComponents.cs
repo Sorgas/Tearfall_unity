@@ -7,6 +7,7 @@ namespace game.model.component.plant {
     public struct PlantComponent {
         public PlantType type;
         public PlantBlock block;
+        public int age;
     }
     
     // stores tree blocks

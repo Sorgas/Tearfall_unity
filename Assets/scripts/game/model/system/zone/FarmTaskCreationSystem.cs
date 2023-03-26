@@ -5,6 +5,7 @@ using game.model.localmap;
 using Leopotam.Ecs;
 using types.plant;
 using util.lang.extension;
+using static types.ZoneTaskTypes;
 using Action = game.model.component.task.action.Action;
 
 namespace game.model.system.zone {
@@ -20,7 +21,7 @@ namespace game.model.system.zone {
                 EcsEntity entity = hoeingFilter.GetEntity(i);
                 FarmComponent farm = hoeingFilter.Get1(i);
                 ZoneComponent zone = entity.take<ZoneComponent>();
-                FarmTileTrackingComponent tracking = entity.take<FarmTileTrackingComponent>();
+                ZoneTrackingComponent tracking = entity.take<ZoneTrackingComponent>();
                 tryCreateHoeingTask(zone, farm, entity);
             }
             foreach (int i in plantingFilter) {
@@ -33,8 +34,8 @@ namespace game.model.system.zone {
 
         private void tryCreateHoeingTask(ZoneComponent zone, FarmComponent farm, EcsEntity entity) {
             if (farm.plant == null) return;
-            FarmTileTrackingComponent tracking = entity.take<FarmTileTrackingComponent>();
-            if (tracking.toHoe.Count > 0) { // has tiles to hoe
+            ZoneTrackingComponent tracking = entity.take<ZoneTrackingComponent>();
+            if (tracking.tiles[HOE].Count > 0) { // has tiles to hoe
                 Action action = new FarmHoeingAction(entity);
                 EcsEntity task = createTask(action);
                 entity.Replace(new FarmOpenHoeingTaskComponent { hoeTask = task });
@@ -42,7 +43,7 @@ namespace game.model.system.zone {
         }
 
         private void tryCreatePlantingTask(EcsEntity entity, ZoneComponent zone, FarmComponent farm) {
-            if (PlantTypeMap.get().get(farm.plant) != null && entity.take<FarmTileTrackingComponent>().toPlant.Count > 0) {
+            if (PlantTypeMap.get().get(farm.plant) != null && entity.take<ZoneTrackingComponent>().tiles[PLANT].Count > 0) {
                 Action action = new PlantingAction(entity);
                 EcsEntity task = createTask(action);
                 entity.Replace(new FarmOpenPlantingTaskComponent { plantTask = task });

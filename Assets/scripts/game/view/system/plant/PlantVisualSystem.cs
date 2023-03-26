@@ -20,7 +20,6 @@ namespace game.view.system.plant {
                 EcsEntity entity = filter.GetEntity(i);
                 PlantComponent plant = filter.Get1(i);
                 entity.Replace(createVisualComponent(entity, plant));
-                // Debug.Log("plantSprite created");
             }
         }
 
@@ -30,16 +29,17 @@ namespace game.view.system.plant {
             visual.go = PrefabLoader.create("Plant", GameView.get().sceneObjectsContainer.mapHolder);
             visual.go.transform.localPosition = spritePosition;
             visual.spriteRenderer = visual.go.GetComponent<SpriteRenderer>();
-            visual.spriteRenderer.sprite = createSprite(plant.type);
+            visual.spriteRenderer.sprite = createSprite(plant.type, plant);
             visual.spriteRenderer.sortingOrder = entity.pos().z;
             return visual;
         }
 
-        private Sprite createSprite(PlantType type) {
+        private Sprite createSprite(PlantType type, PlantComponent plant) {
             Sprite sprite = Resources.Load<Sprite>("tilesets/plants/" + type.atlasName); // TODO move to ItemTypeMap & TileSetLoader
             Texture2D texture = sprite.texture;
             int x = type.tileXY[0];
             int y = type.tileXY[1];
+            
             Rect rect = new(x * SIZE_X, texture.height - (y + 1) * SIZE_Y, SIZE_X, SIZE_Y);
             return Sprite.Create(texture, rect, pivot, 64);
         }

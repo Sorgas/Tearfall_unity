@@ -59,7 +59,7 @@ namespace game.model.component {
     // see EcsEntityExtension
     public struct NullComponent { }
 
-    public struct PositionUpdateComponent {
-        public HashSet<Vector3Int> set;
+    public struct TileUpdateComponent {
+        public HashSet<Vector3Int> tiles;
     }
 }

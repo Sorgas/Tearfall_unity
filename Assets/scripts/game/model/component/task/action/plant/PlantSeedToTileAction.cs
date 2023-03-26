@@ -20,11 +20,12 @@ namespace game.model.component.task.action.plant {
         private string plantName;
         
         public PlantSeedToTileAction(Vector3Int tile, EcsEntity zone) : base(new PositionActionTarget(tile, ActionTargetTypeEnum.NEAR)) {
+            name = "plant seed to tile";
             this.zone = zone;
             seedSelector = new SeedItemSelector(zone.take<FarmComponent>().plant);
             plantName = zone.take<FarmComponent>().plant;
+            maxProgress = 100;
             startCondition = () => {
-                // TODO use seeds?
                 // if (seedSelector.checkItem(equipment().hauledItem)) return OK;
                 // EcsEntity seedItem = model.itemContainer.util.findFreeReachableItemBySelector(seedSelector, performer.pos());
                 // if (seedItem != EcsEntity.Null) {

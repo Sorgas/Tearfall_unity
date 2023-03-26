@@ -50,6 +50,7 @@ namespace game.model.component.task {
     // exists, if task is generated from zone(stockpile, etc.)
     public struct TaskZoneComponent {
         public EcsEntity zone;
+        public string taskType; // used for task tracking by zone. see ZoneTaskTypes
     }
     
     // when building blocks, target reachability should be calculated basing on override block type

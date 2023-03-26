@@ -14,15 +14,22 @@ namespace game.model.component.task.action.plant {
     // also destroys plant and substrate on tile
     public class FarmTileHoeingAction : Action {
         private const string TOOL_ACTION_NAME = "hoe";
+        private EcsEntity zone;
 
-        public FarmTileHoeingAction(Vector3Int tile) : base(new PositionActionTarget(tile, ActionTargetTypeEnum.ANY)) {
+        public FarmTileHoeingAction(Vector3Int tile, EcsEntity zone) : base(new PositionActionTarget(tile, ActionTargetTypeEnum.ANY)) {
             name = "tile hoeing action";
+            this.zone = zone;
             startCondition = () => {
                 if (!performer.take<UnitEquipmentComponent>().toolWithActionEquipped(TOOL_ACTION_NAME)) return tryCreateEquippingAction();
-                return ZoneUtils.tileUnhoed(tile, model) ? OK : FAIL;
+                if (!ZoneUtils.tileUnhoed(tile, model)) return FAIL;
+                lockTile(tile);
+                return OK;
             };
             maxProgress = 100;
-            onFinish = () => hoeTile(tile);
+            onFinish = () => {
+                hoeTile(tile);
+                unlockTile(tile);
+            };
         }
 
         private ActionConditionStatusEnum tryCreateEquippingAction() {
@@ -34,9 +41,15 @@ namespace game.model.component.task.action.plant {
         }
 
         private void hoeTile(Vector3Int tile) {
-            model.farmContainer.addFarm(tile);
+            model.farmContainer.addFarm(tile); // triggers tile update 
             model.plantContainer.removePlant(tile, true);
             model.localMap.substrateMap.remove(tile);
+        }
+
+        private void lockTile(Vector3Int tile) {
+        }
+
+        private void unlockTile(Vector3Int tile) {
         }
     }
 }

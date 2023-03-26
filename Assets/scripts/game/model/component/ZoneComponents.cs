@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using game.model.component.item;
 using Leopotam.Ecs;
 using types;
 using UnityEngine;
@@ -17,7 +16,7 @@ namespace game.model.component {
         public int priority;
     }
 
-    public struct StockpileOpenBringTaskComponent { // exists when zone is waiting for performer
+    public struct StockpileOpenStoreTaskComponent { // exists when zone is waiting for performer
         public EcsEntity bringTask;
     }
 
@@ -37,43 +36,27 @@ namespace game.model.component {
     public struct ZoneVisualUpdatedComponent {
         public List<Vector3Int> tiles;
     }
-
+    
+    // TODO make zone deletion instant: ui event -> delete from containers, cancel tasks, delete visual tiles (add and use special un-pausable systems)
     public struct ZoneDeletedComponent { }
 
     public struct StockpileComponent {
         public MultiValueDictionary<string, int> map; // allowed itemTypes -> materials
         public string preset; // TODO if preset is set, map in this component is empty, and config stored in ZoneContainer in localmodel
         public bool hasFreeTile; // TODO use this field for optimising checks on hauling tasks
-        
-        public bool itemAllowed(ItemComponent item) {
-            return map.ContainsKey(item.type) && map[item.type].Contains(item.material);
-        }
-    }
-
-    public struct StockpileTasksComponent {
-        public HashSet<EcsEntity> bringTasks;
-        public HashSet<EcsEntity> removeTasks;
-    }
-
-    public struct FarmComponent {
-        public List<string> config; // stores plants allowed on farm
-        public string plant;
     }
 
     // stores tiles which should be targeted by tesks
-    public struct FarmTileTrackingComponent {
-        public List<Vector3Int> toHoe; // soil floor tiles
-        public List<Vector3Int> toPlant; // tiles without desired plant
-        public List<Vector3Int> toRemove; // tiles with undesired plant
+    public struct ZoneTrackingComponent {
+        public Dictionary<string, HashSet<EcsEntity>> tasks; // task type -> task (just stores tasks associated with zone)
+        public Dictionary<string, HashSet<Vector3Int>> tiles; // task type -> tiles (tracks tiles to perform tasks to)
+        public Dictionary<Vector3Int, EcsEntity> locked; // tile -> task (locks tiles to tasks to ensure only one task can be performed on a tile)
     }
 
-    // stores created tasks (all states)
-    public struct FarmTaskTrackingComponent {
-        public List<EcsEntity> hoe;
-        public Dictionary<Vector3Int, EcsEntity> plant;
-        public Dictionary<Vector3Int, EcsEntity> remove; // TODO implement with designations
+    public struct FarmComponent {
+        public string plant;
     }
-    
+
     public struct FarmOpenHoeingTaskComponent {
         public EcsEntity hoeTask;
     }

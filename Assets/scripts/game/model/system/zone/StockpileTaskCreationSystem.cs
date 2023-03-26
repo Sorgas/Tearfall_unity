@@ -5,7 +5,6 @@ using game.model.component.item;
 using game.model.component.task;
 using game.model.component.task.action;
 using game.model.component.task.action.equipment.use;
-using game.model.component.task.action.target;
 using game.model.component.task.action.zone;
 using game.model.container;
 using game.model.localmap;
@@ -14,28 +13,26 @@ using Leopotam.Ecs;
 using types;
 using types.action;
 using types.item.type;
-using UnityEditor;
 using UnityEngine;
 using util.geometry;
 using util.lang;
 using util.lang.extension;
 
 namespace game.model.system.zone {
-    // creates tasks for bringing and removing items to/from stockpiles
-    // TODO when task is assigned, add marker component to it. if task of stockpile, move it to assigned tasks of zone
     // TODO when item put on ground, add marker component to it. if put into stockpile, update free cells etc.
+    // creates tasks for bringing and removing items to/from stockpiles
     public class StockpileTaskCreationSystem : LocalModelEcsSystem {
-        public EcsFilter<StockpileComponent>.Exclude<StockpileOpenBringTaskComponent, TaskCreationTimeoutComponent> bringFilter;
+        public EcsFilter<StockpileComponent>.Exclude<StockpileOpenStoreTaskComponent, TaskCreationTimeoutComponent> storeFilter;
         public EcsFilter<StockpileComponent>.Exclude<StockpileOpenRemoveTaskComponent, TaskCreationTimeoutComponent> removeFilter;
         private readonly TaskGenerator generator = new();
 
         public StockpileTaskCreationSystem(LocalModel model) : base(model) { }
 
         public override void Run() {
-            foreach (int i in bringFilter) {
-                EcsEntity entity = bringFilter.GetEntity(i);
-                StockpileComponent stockpile = bringFilter.Get1(i);
-                tryCreateBringTask(stockpile, entity);
+            foreach (int i in storeFilter) {
+                EcsEntity entity = storeFilter.GetEntity(i);
+                StockpileComponent stockpile = storeFilter.Get1(i);
+                tryCreateStoreTask(stockpile, entity);
             }
             foreach (int i in removeFilter) {
                 EcsEntity entity = removeFilter.GetEntity(i);
@@ -43,38 +40,33 @@ namespace game.model.system.zone {
                 tryCreateRemoveTask(stockpile, entity);
             }
         }
-
-        private void tryCreateBringTask(StockpileComponent stockpile, EcsEntity entity) {
-            Action action = createBringAction(stockpile, entity.take<ZoneComponent>(), entity.take<StockpileTasksComponent>(), entity);
-            if (action == null) return;
-            EcsEntity task = createTask(action, entity);
-            entity.Replace(new StockpileOpenBringTaskComponent { bringTask = task });
+        
+        private void tryCreateStoreTask(StockpileComponent stockpile, EcsEntity entity) {
+            Action action = tryCreateStoreAction(stockpile, entity.take<ZoneComponent>(), entity.take<ZoneTrackingComponent>(), entity);
+            if (action == null) return; // TODO add timeout component when action not created
+            EcsEntity task = createTask(action, entity, ZoneTaskTypes.STORE_ITEM);
+            entity.Replace(new StockpileOpenStoreTaskComponent { bringTask = task });
         }
 
         private void tryCreateRemoveTask(StockpileComponent stockpile, EcsEntity entity) {
-            Action action = createRemoveAction(stockpile, entity.take<ZoneComponent>());
+            Action action = tryCreateRemoveAction(stockpile, entity.take<ZoneComponent>());
             if (action == null) return;
-            EcsEntity task = createTask(action, entity);
+            EcsEntity task = createTask(action, entity, ZoneTaskTypes.REMOVE_ITEM);
             entity.Replace(new StockpileOpenRemoveTaskComponent { removeTask = task });
         }
-
-        private Action createBringAction(StockpileComponent stockpile, ZoneComponent zone, StockpileTasksComponent tasks, EcsEntity entity) {
-            if (stockpile.map.Count <= 0) return null;
-            int freeCells = ZoneUtils.countFreeStockpileCells(zone, stockpile, model);
-            if (tasks.bringTasks.Count < freeCells) {
-                return new HaulItemToStockpileAction(new StockpileActionTarget(entity));
-            }
-            return null;
+  
+        private Action tryCreateStoreAction(StockpileComponent stockpile, ZoneComponent zone, ZoneTrackingComponent tracking, EcsEntity entity) {
+            if (stockpile.map.Count <= 0) return null; // stockpile not configured
+            if (ZoneUtils.countFreeStockpileTiles(zone, stockpile, tracking, model) <= 0) return null; // all tiles are locked or filled
+            return new StoreItemToStockpileAction(entity);
         }
 
-        private Action createRemoveAction(StockpileComponent stockpile, ZoneComponent zone) {
+        private Action tryCreateRemoveAction(StockpileComponent stockpile, ZoneComponent zone) {
             EcsEntity item = findUndesiredItem(zone, stockpile);
             if (item == EcsEntity.Null) return null;
             Vector3Int targetPosition = findFreeCellOffZone(zone.tiles, item, new List<Vector3Int>(zone.tiles));
-            if (targetPosition != Vector3Int.back) {
-                return new PutItemToPositionAction(item, targetPosition);
-            }
-            return null;
+            if (targetPosition == Vector3Int.back) return null;
+            return new PutItemToPositionAction(item, targetPosition);
         }
 
         private EcsEntity findUndesiredItem(ZoneComponent zone, StockpileComponent stockpile) {
@@ -83,12 +75,13 @@ namespace game.model.system.zone {
                 .SelectMany(tile => model.itemContainer.onMap.itemsOnMap.get(tile))
                 .Where(item => {
                     ItemComponent component = item.take<ItemComponent>();
-                    return !stockpile.itemAllowed(component);
+                    return !ZoneUtils.itemAllowedInStockpile(stockpile, component);
                 })
                 .ToList();
             return items.Count > 0 ? items[0] : EcsEntity.Null;
         }
 
+        // TODO move to remove action
         // finds free tile or tile with not full stack of same items
         private Vector3Int findFreeCellOffZone(List<Vector3Int> tiles, EcsEntity item, List<Vector3Int> searchedTiles) {
             ItemComponent itemComponent = item.take<ItemComponent>();
@@ -119,9 +112,10 @@ namespace game.model.system.zone {
             return false;
         }
 
-        private EcsEntity createTask(Action action, EcsEntity zone) {
+        private EcsEntity createTask(Action action, EcsEntity zone, string taskType) {
             EcsEntity task = generator.createTask(action, TaskPriorityEnum.JOB, model.createEntity(), model);
-            task.Replace(new TaskZoneComponent { zone = zone });
+            task.Replace(new TaskZoneComponent { zone = zone, taskType = taskType });
+            zone.take<ZoneTrackingComponent>().tasks[taskType].Add(task);
             model.taskContainer.addOpenTask(task);
             return task;
         }

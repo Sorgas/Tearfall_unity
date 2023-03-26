@@ -5,6 +5,7 @@ using game.model.component;
 using game.model.component.item;
 using game.model.component.task.order;
 using game.model.localmap;
+using game.model.util;
 using Leopotam.Ecs;
 using types.building;
 using types.item;
@@ -104,7 +105,7 @@ namespace game.model.container.item {
             List<EcsEntity> list = container.availableItemsManager.getAll()
                 .Where(item => !item.Has<LockedComponent>()) // item not locked by another task
                 .Where(item => !zonePositions.Contains(item.pos())) // item not in stockpile already
-                .Where(item => stockpile.itemAllowed(item.take<ItemComponent>())) // item allowed for stockpile
+                .Where(item => ZoneUtils.itemAllowedInStockpile(stockpile, item.take<ItemComponent>())) // item allowed for stockpile
                 .ToList();
             return list.Count == 0 ? EcsEntity.Null : selectNearest(list, position);
         }
