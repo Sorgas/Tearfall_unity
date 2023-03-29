@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using types.item.type.raw;
 using UnityEngine;
 
@@ -12,7 +10,7 @@ namespace types.item.type {
         public ToolItemType tool;                                    // is set if this item could be used as tool TODO replace with type aspec
         public int[] atlasXY;
         public string color;
-        public HashSet<ItemTagEnum> tags = new();
+        public HashSet<string> tags = new();
         public List<string> requiredParts = new();
         public List<string> optionalParts = new();
         public string atlasName;
@@ -32,14 +30,8 @@ namespace types.item.type {
             } else {
                 requiredParts.AddRange(raw.requiredParts);
             }
-            Type itemTagEnumType = typeof(ItemTagEnum);
-            foreach (var tag in raw.tags) {
-                string tag2 = tag.ToUpper();
-                if (Enum.IsDefined(itemTagEnumType, tag2)) {
-                    tags.Add((ItemTagEnum)Enum.Parse(itemTagEnumType, tag2));
-                } else {
-                    Debug.LogError("tag " + tag2 + " not found");
-                }
+            foreach (string rawTag in raw.tags) {
+                tags.Add(rawTag);
             }
             foreach (string rawComponent in raw.components) {
                 parseAndAddComponentDefinition(rawComponent);

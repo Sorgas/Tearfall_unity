@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using game.model.component;
+using game.model.component.task;
 using game.model.localmap;
 using game.model.util.validation;
 using generation.zone;
 using Leopotam.Ecs;
 using types;
+using types.action;
 using UnityEngine;
 using util.geometry.bounds;
 using util.lang;
@@ -48,6 +50,7 @@ namespace game.model.container {
             log("zones erased");
         }
         
+        // TODO cancel all tasks of zone
         private void deleteZone(EcsEntity zone) {
             ZoneComponent component = zone.take<ZoneComponent>();
             foreach (Vector3Int tile in component.tiles) {
@@ -74,7 +77,7 @@ namespace game.model.container {
             if (!zones.ContainsKey(tile)) return;
             EcsEntity zone = zones[tile];
             ZoneComponent component = zone.take<ZoneComponent>();
-            component.tiles.Remove(tile);
+            component.tiles.Remove(tile); // TODO cancel tasks related to this tile
             zones.Remove(tile);
             addTileToBeUpdated(zone, tile);
             if (component.tiles.Count == 0) deleteZone(zone);
@@ -99,14 +102,14 @@ namespace game.model.container {
             return set;
         }
 
-        public void updateZone(Vector3Int tile) {
-            if (!zones.ContainsKey(tile)) return;
-            if (!zones[tile].Has<ZoneUpdatedComponent>()) {
-                zones[tile].Replace(new ZoneUpdatedComponent { tiles = new() });
+        // cancels task which locked given tile.
+        private void cancelZoneTask(EcsEntity zone, Vector3Int tile) {
+            var tracking = zone.take<ZoneTrackingComponent>();
+            if (tracking.locked.ContainsKey(tile)) {
+                tracking.locked[tile].Replace(new TaskFinishedComponent { status = TaskStatusEnum.CANCELED });
             }
-            zones[tile].take<ZoneUpdatedComponent>().tiles.Add(tile);
         }
-
+        
         private int getFreeNumber() {
             int value;
             if (freeNumbers.Count != 0) {
@@ -118,7 +121,7 @@ namespace game.model.container {
             }
             return value;
         }
-
+        
         private void log(string message) {
             Debug.Log("[ZoneContainer]: " + message);
         }

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace util.lang {
     public class Singleton<T> where T : Singleton<T>, new() {
         public static T instance;
@@ -6,6 +8,7 @@ namespace util.lang {
         public static T get() {
             if (instance == null) {
                 lock (lockObject) {
+                    Debug.Log("[Singleton]: creating instance of " + typeof(T).Name);
                     instance = new T();
                     instance.init();
                 }

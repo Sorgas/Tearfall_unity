@@ -32,9 +32,7 @@ namespace game.view.ui {
             ItemType type = ItemTypeMap.getItemType(component.type);
             itemTitle.text = type.name;
             itemMaterial.text = component.materialString;
-            itemTags.text = component.tags
-                .Select(tag => Enum.GetName(typeof(ItemTagEnum), tag))
-                .Aggregate((tag1, tag2) => tag1 + ", " + tag2);
+            itemTags.text = component.tags.Aggregate((tag1, tag2) => tag1 + ", " + tag2);
             image.sprite = ItemVisualUtil.resolveItemSprite(item);
         }
 

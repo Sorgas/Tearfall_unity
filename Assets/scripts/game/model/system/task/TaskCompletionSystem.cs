@@ -1,4 +1,5 @@
-﻿ using game.model.component;
+﻿using System.Linq;
+using game.model.component;
 using game.model.component.task;
 using game.model.localmap;
 using Leopotam.Ecs;
@@ -66,6 +67,7 @@ namespace game.model.system.task {
             if (!task.Has<TaskZoneComponent>()) return;
             TaskZoneComponent taskZone = task.take<TaskZoneComponent>();
             ref EcsEntity zone = ref task.takeRef<TaskZoneComponent>().zone;
+            unlockTiles(task, zone);
             zone.take<ZoneTrackingComponent>().tasks[taskZone.taskType].Remove(task);
             if (zone.Has<StockpileOpenStoreTaskComponent>() && zone.take<StockpileOpenStoreTaskComponent>().bringTask.Equals(task)) {
                 zone.Del<StockpileOpenStoreTaskComponent>();
@@ -89,6 +91,15 @@ namespace game.model.system.task {
                 }
                 log(", unlocked " + lockedComponent.lockedItems.Count + " items");
             }
+        }
+
+        private void unlockTiles(EcsEntity task, EcsEntity zone) {
+            ZoneTrackingComponent tracking = zone.take<ZoneTrackingComponent>();
+            tracking.locked
+                .Where(pair => pair.Value == task)
+                .Select(pair => pair.Key)
+                .ToList() // TODO required ?
+                .ForEach(tile => tracking.locked.Remove(tile));
         }
 
         private void log(string message) {

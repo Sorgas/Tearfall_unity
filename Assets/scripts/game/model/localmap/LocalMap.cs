@@ -38,7 +38,7 @@ namespace game.model.localmap {
         public void updateTile(int x, int y, int z, bool updateRamps) {
             if (passageMap != null) passageMap.updater.update(x, y, z);
             if (GameView.get().tileUpdater != null ) GameView.get().tileUpdater.updateTile(x, y, z, updateRamps);
-            model.updateOnLocalMapChange(new Vector3Int(x, y, z));
+            model.itemContainer.addPositionForUpdate(new Vector3Int(x, y, z));
         }
 
         public bool inMap(int x, int y, int z) => bounds.isIn(x, y, z);

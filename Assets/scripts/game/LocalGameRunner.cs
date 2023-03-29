@@ -43,7 +43,7 @@ namespace game {
         // when scene is loaded, inits game model and view
         public void Start() {
             Stopwatch stopwatch = new();
-            Debug.unityLogger.logEnabled = false;
+            // Debug.unityLogger.logEnabled = false;
             System.DateTime.Now.ToString();
             stopwatch.Start();
             resolveWorld();

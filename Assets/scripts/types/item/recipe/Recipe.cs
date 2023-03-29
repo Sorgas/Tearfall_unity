@@ -10,8 +10,8 @@ namespace types.item.recipe {
 
         public string newType;                            // type of crafted item
         public string newMaterial;                        // material of crafted item.
-        public ItemTagEnum newTag;                        // this tag will be added to product
-        public ItemTagEnum removeTag;                     // this tag will be removed from main ingredient item
+        public string newTag;                        // this tag will be added to product
+        public string removeTag;                     // this tag will be removed from main ingredient item
 
         public Dictionary<string, Ingredient> ingredients = new(); // all ingredients, mapped to parts, 'consumed' or 'main'
 
@@ -26,12 +26,8 @@ namespace types.item.recipe {
             newMaterial = raw.newMaterial;
             iconName = raw.iconName;
             description = raw.description;
-            if(raw.newTag != null) {
-                newTag = ItemTagEnum.BREWABLE.get(raw.newTag);
-            }
-            if(raw.removeTag != null) {
-                removeTag = ItemTagEnum.BREWABLE.get(raw.removeTag);
-            }
+            newTag = raw.newTag;
+            removeTag = raw.removeTag;
             workAmount = raw.workAmount != 0 ? raw.workAmount : 1f;
             job = raw.job;
             skill = raw.skill;

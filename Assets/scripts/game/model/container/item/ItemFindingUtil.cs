@@ -67,7 +67,7 @@ namespace game.model.container.item {
         }
 
         private List<EcsEntity> findHavingTag(IngredientOrder ingredient, CraftingOrder order, Vector3Int position, List<EcsEntity> otherItems) {
-            ItemTagEnum tag = order.recipe.ingredients[ingredient.key].tag;
+            string tag = order.recipe.ingredients[ingredient.key].tag;
             int requiredQuantity = order.recipe.ingredients[ingredient.key].quantity;
             foreach (string itemType in ingredient.itemTypes) {
                 MultiValueDictionary<int, EcsEntity> itemsOfType = model.itemContainer.availableItemsManager.findByType(itemType);
@@ -86,7 +86,7 @@ namespace game.model.container.item {
                 foreach (int material in ingredient.materials) {
                     log("searching " + itemType + " material: " + material);
                     List<EcsEntity> items = filterForCrafting(model.itemContainer.availableItemsManager.findByTypeAndMaterial(itemType, material),
-                        otherItems, position, requiredQuantity, ItemTagEnum.NULL);
+                        otherItems, position, requiredQuantity, ItemTags.NULL);
                     if (items.Count > 0) return items;
                 }
             }
@@ -111,11 +111,11 @@ namespace game.model.container.item {
         }
         
         // items for crafting should be not locked, in same area with performer, and not already selected for order
-        private List<EcsEntity> filterForCrafting(List<EcsEntity> source, List<EcsEntity> otherItems, Vector3Int position, int requiredQuantity, ItemTagEnum tag) {
+        private List<EcsEntity> filterForCrafting(List<EcsEntity> source, List<EcsEntity> otherItems, Vector3Int position, int requiredQuantity, string tag) {
             IEnumerable<EcsEntity> stream = source
                 .Where(itemEntity => !itemEntity.Has<LockedComponent>())
                 .Where(itemEntity => !otherItems.Contains(itemEntity));
-            if (tag != ItemTagEnum.NULL) {
+            if (tag != ItemTags.NULL) {
                 stream = stream.Where(itemEntity => itemEntity.take<ItemComponent>().tags.Contains(tag));
             }
             List<EcsEntity> items = stream.Where(itemEntity => model.localMap.passageMap.inSameArea(itemEntity.pos(), position)).ToList();

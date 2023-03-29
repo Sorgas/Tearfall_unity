@@ -5,10 +5,10 @@ namespace types.item.recipe {
     public class Ingredient {
         public string key;                     // item/building part name, 'consumed', 'main'
         public List<string> itemTypes;         // acceptable item types
-        public ItemTagEnum tag;                // acceptable item tags
+        public string tag;                // acceptable item tags
         public int quantity;                   // number of items
 
-        public Ingredient(string key, List<string> itemTypes, ItemTagEnum tag, int quantity) {
+        public Ingredient(string key, List<string> itemTypes, string tag, int quantity) {
             this.key = key;
             this.itemTypes = new(itemTypes);
             this.tag = tag;

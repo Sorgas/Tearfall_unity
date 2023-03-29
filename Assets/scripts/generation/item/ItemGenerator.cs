@@ -30,7 +30,7 @@ namespace generation.item {
             ItemType type = ItemTypeMap.getItemType(typeName);
             if (type == null) Debug.LogError("Type " + typeName + " not found.");
             Material_ material = MaterialMap.get().material(materialName);
-            List<ItemTagEnum> tags = material.tags.Select(tag => (ItemTagEnum)Enum.Parse(typeof(ItemTagEnum), tag, true)).ToList();
+            List<string> tags = material.tags.ToList();
             entity.Replace(new ItemComponent {
                 material = material.id,
                 type = typeName,

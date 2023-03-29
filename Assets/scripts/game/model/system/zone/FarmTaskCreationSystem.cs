@@ -2,8 +2,10 @@
 using game.model.component.task.action.plant;
 using game.model.container;
 using game.model.localmap;
+using game.model.util;
 using Leopotam.Ecs;
 using types.plant;
+using UnityEngine;
 using util.lang.extension;
 using static types.ZoneTaskTypes;
 using Action = game.model.component.task.action.Action;
@@ -21,7 +23,6 @@ namespace game.model.system.zone {
                 EcsEntity entity = hoeingFilter.GetEntity(i);
                 FarmComponent farm = hoeingFilter.Get1(i);
                 ZoneComponent zone = entity.take<ZoneComponent>();
-                ZoneTrackingComponent tracking = entity.take<ZoneTrackingComponent>();
                 tryCreateHoeingTask(zone, farm, entity);
             }
             foreach (int i in plantingFilter) {

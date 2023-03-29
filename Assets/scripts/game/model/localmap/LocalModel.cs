@@ -28,6 +28,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public readonly BuildingContainer buildingContainer;
         public readonly ZoneContainer zoneContainer;
         public readonly FarmContainer farmContainer;
+        private EcsEntity updateEntity;
         
         public LocalModel() {
             Debug.Log("creating EcsWorld");
@@ -84,6 +85,8 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
                 .Add(new StockpileTaskCreationSystem(this))
                 .Add(new FarmTaskCreationSystem(this))
                 .Init();
+            updateEntity = createEntity();
+            updateEntity.Replace(new TileUpdateComponent { tiles = new() });
         }
 
         //TODO move ecs world to global game model. (as units should travel between regions)
@@ -93,12 +96,6 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
             return entity;
         }
 
-        // when tile of map is changed, all entities on that tile should be updated,
-        // e.g zone remove, buildings collapse, items fall
-        public void updateOnLocalMapChange(Vector3Int tile) {
-            zoneContainer.updateZone(tile);
-        }
-        
         public string getDebugInfo() {
             return "TaskContainer: open: " + taskContainer.openTaskCount + " assigned: " + taskContainer.assignedTaskCount + " \n";
         }
@@ -121,7 +118,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
             updateEntity.Replace(new TileUpdateComponent { tiles = new() });
         }
 
-        protected void addPositionForUpdate(Vector3Int position) {
+        public void addPositionForUpdate(Vector3Int position) {
             updateEntity.take<TileUpdateComponent>().tiles.Add(position);
         }
     }

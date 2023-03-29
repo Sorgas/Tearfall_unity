@@ -6,12 +6,12 @@ using util.lang.extension;
 
 namespace types.item.recipe {
     public class IngredientProcessor {
+        // format is: "itemPart:itemType1/itemType2:materialTag:quantity" 
         public Ingredient parseIngredient(string ingredientString) {
             if (!validateIngredient(ingredientString)) return null;
             string[] args = ingredientString.Split(":");
             List<string> itemTypes = new(args[1].Split("/"));
-            ItemTagEnum tag = ItemTagEnum.BREWABLE.get(args[2]);
-            return new Ingredient(args[0], itemTypes, tag, int.Parse(args[3]));
+            return new Ingredient(args[0], itemTypes, args[2], int.Parse(args[3]));
         }
 
         // true if ok
@@ -21,17 +21,13 @@ namespace types.item.recipe {
                 Debug.LogError("Ingredient has empty or missing args.");
                 return false;
             }
-            if (args.Where(s => s == null || s.Length == 0).Count() > 0) {
+            if (args.Count(String.IsNullOrEmpty) > 0) {
                 Debug.LogError("Ingredient has empty argument.");
                 return false;
             }
-            if (!"any".Equals(args[2])) {
-                try {
-                    ItemTagEnum.BREWABLE.get(args[2]);
-                } catch (ArgumentException) {
-                    Debug.LogError("Ingredient " + ingredientString + " tag " + args[2] + " is invalid");
-                    return false;
-                }
+            if (!"any".Equals(args[2]) && !ItemTags.all.Contains(args[2])) {
+                Debug.LogError("Ingredient " + ingredientString + " tag " + args[2] + " is invalid");
+                return false;
             }
             return true;
         }

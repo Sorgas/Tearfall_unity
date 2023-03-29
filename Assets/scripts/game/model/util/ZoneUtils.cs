@@ -13,7 +13,7 @@ namespace game.model.util {
     public class ZoneUtils {
         private const string SOIL_TAG = "soil";
 
-                // TODO add task parameter and check locking by other tasks
+        // TODO add task parameter and check locking by other tasks
         public static Vector3Int findFreeStockpileTile(ZoneComponent zone, StockpileComponent stockpile, LocalModel model) {
             foreach (Vector3Int tile in zone.tiles) {
                 if (!model.itemContainer.onMap.itemsOnMap.ContainsKey(tile)) return tile;
@@ -30,7 +30,7 @@ namespace game.model.util {
         // counts tile that can accept brought item
         public static int countFreeStockpileTiles(ZoneComponent zone, StockpileComponent stockpile, ZoneTrackingComponent tracking, LocalModel model) {
             return zone.tiles
-                .Where(tile => !tracking.locked.ContainsKey(tile))
+                .Where(tile => !tracking.locked.ContainsKey(tile)) // tile not locked by some existing task
                 .Count(tile =>
                     !model.itemContainer.onMap.itemsOnMap.ContainsKey(tile) || // no items on tile
                     !allItemsNotAllowedInStockpile(stockpile, model.itemContainer.onMap.itemsOnMap[tile])); // no allowed items
@@ -43,11 +43,18 @@ namespace game.model.util {
             return Vector3Int.back;
         }
 
-        public static Vector3Int findNearestUnhoedTile(ZoneComponent zone, Vector3Int position, LocalModel model) {
+        public static Vector3Int findNearestUnhoedTile(ZoneComponent zone, ZoneTrackingComponent tracking, Vector3Int position, LocalModel model) {
             return zone.tiles
+                .Where(tile => !tracking.locked.ContainsKey(tile)) // tile not locked by some existing task
                 .Where(tile => tileUnhoed(tile, model))
                 .OrderBy(tile => PositionUtil.fastDistance(tile, position))
                 .firstOrDefault(Vector3Int.back);
+        }
+
+        public static int countUnhoedTiles(ZoneComponent zone, ZoneTrackingComponent tracking, LocalModel model) {
+            return zone.tiles
+                .Where(tile => !tracking.locked.ContainsKey(tile)) // tile not locked by some existing task
+                .Count(tile => tileUnhoed(tile, model));
         }
 
         // returns true, if tile can be hoed
@@ -67,7 +74,6 @@ namespace game.model.util {
         //         .First();
         // }
 
-
         public static bool itemAllowedInStockpile(StockpileComponent stockpile, ItemComponent item) {
             return stockpile.map.ContainsKey(item.type) && stockpile.map[item.type].Contains(item.material);
         }
@@ -76,7 +82,7 @@ namespace game.model.util {
             return items.Select(item => item.take<ItemComponent>())
                 .All(item => itemAllowedInStockpile(stockpile, item));
         }
-        
+
         public static bool allItemsNotAllowedInStockpile(StockpileComponent stockpile, List<EcsEntity> items) {
             return items.Select(item => item.take<ItemComponent>())
                 .All(item => !itemAllowedInStockpile(stockpile, item));

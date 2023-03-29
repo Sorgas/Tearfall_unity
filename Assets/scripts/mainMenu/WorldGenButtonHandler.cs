@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using game.model;
 using generation;
 using mainMenu.worldmap;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Random = System.Random;
+using Slider = UnityEngine.UI.Slider;
 
 namespace mainMenu {
     public class WorldGenButtonHandler : ButtonHandler {
-        public UnityEngine.UIElements.Slider sizeSlider;
+        public Slider sizeSlider;
         public InputField seedField;
         public WorldmapController worldmapController;
         public Button continueButton;
@@ -20,9 +22,9 @@ namespace mainMenu {
 
         protected override void initButtons() {
             buttons = new List<ButtonData> {
-                new ButtonData("CreateButton", KeyCode.C, createWorld),
-                new ButtonData("BackButton", KeyCode.Q, backToMainMenu),
-                new ButtonData("ContinueButton", KeyCode.V, toPreparation)
+                new("CreateButton", KeyCode.C, createWorld),
+                new("BackButton", KeyCode.Q, backToMainMenu),
+                new("ContinueButton", KeyCode.V, toPreparation)
             };
         }
 

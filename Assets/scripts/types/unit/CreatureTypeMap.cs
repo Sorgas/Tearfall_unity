@@ -10,8 +10,8 @@ using util.lang;
 namespace types.unit {
     // stores types of creatures loaded from jsons
     public class CreatureTypeMap : Singleton<CreatureTypeMap>{
-        public readonly Dictionary<string, CreatureType> creatureTypes = new Dictionary<string, CreatureType>();
-        public readonly Dictionary<string, BodyTemplate> templates = new Dictionary<string, BodyTemplate>();
+        public readonly Dictionary<string, CreatureType> creatureTypes = new();
+        public readonly Dictionary<string, BodyTemplate> templates = new();
 
         public CreatureTypeMap() {
             loadTemplates();
@@ -21,7 +21,7 @@ namespace types.unit {
         private void loadTemplates() {
             Debug.Log("loading body templates");
             TextAsset file = Resources.Load<TextAsset>("data/creatures/body_templates");
-            BodyTemplateProcessor templateProcessor = new BodyTemplateProcessor();
+            BodyTemplateProcessor templateProcessor = new();
             RawBodyTemplate[] rawTemplates = JsonConvert.DeserializeObject<RawBodyTemplate[]>(file.text);
             rawTemplates.Select(template => templateProcessor.process(template)).ToList().ForEach(template => templates.Add(template.name, template));
         }
@@ -29,7 +29,7 @@ namespace types.unit {
         private void loadCreatures() {
             Debug.Log("loading creature types");
             TextAsset file = Resources.Load<TextAsset>("data/creatures/creatures");
-            CreatureTypeProcessor typeProcessor = new CreatureTypeProcessor(this);
+            CreatureTypeProcessor typeProcessor = new(this);
             List<RawCreatureType> types = JsonConvert.DeserializeObject<List<RawCreatureType>>(file.text);
             types.Select(type => typeProcessor.process(type)).ToList().ForEach(type => creatureTypes.Add(type.name, type));
         }

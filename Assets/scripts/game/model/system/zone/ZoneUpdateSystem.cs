@@ -3,11 +3,13 @@ using System.Linq;
 using game.model.component;
 using game.model.component.plant;
 using game.model.localmap;
+using game.model.util;
 using Leopotam.Ecs;
 using types;
 using types.material;
 using UnityEngine;
 using util.lang.extension;
+using EcsEntity = Leopotam.Ecs.EcsEntity;
 
 namespace game.model.system.zone {
     // recounts tile tracked state for updated zones.
@@ -26,14 +28,10 @@ namespace game.model.system.zone {
                 ZoneComponent zone = entity.take<ZoneComponent>();
                 ZoneUpdatedComponent updatedComponent = filter.Get1(i);
                 updateZone(entity, updatedComponent);
-                if (zone.type == ZoneTypeEnum.FARM) {
-                    updateFarm(entity, zone, updatedComponent);
-                }
-                if (zone.type == ZoneTypeEnum.STOCKPILE) {
-                    updateStockpile(entity);
-                }
-                // TODO same for stockpiles
+                if (zone.type == ZoneTypeEnum.FARM) updateFarm(entity, zone, updatedComponent);
+                if (zone.type == ZoneTypeEnum.STOCKPILE) updateStockpile(entity, updatedComponent);
                 entity.Del<ZoneUpdatedComponent>();
+                entity.Del<TaskCreationTimeoutComponent>(); // check task creation for updated zone
             }
         }
 
@@ -57,28 +55,42 @@ namespace game.model.system.zone {
                 foreach (string taskType in ZoneTaskTypes.FARM_TASKS) {
                     tracking.tiles[taskType].Remove(tile);
                 }
-                getListForTile(entity, tracking, tile)?.Add(tile);
+                string taskType1 = getTaskType(entity, tracking, tile);
+                if (taskType1 != null) tracking.tiles[taskType1].Add(tile);
             }
             Debug.Log("farm updated");
         }
-
-        private void updateStockpile(EcsEntity entity) {
-            // TODO check items on tile, update tracking component
+        
+        private void updateStockpile(EcsEntity entity, ZoneUpdatedComponent updated) {
+            StockpileComponent stockpile = entity.take<StockpileComponent>();
+            ZoneTrackingComponent tracking = entity.take<ZoneTrackingComponent>();
+            foreach (Vector3Int tile in updated.tiles) {
+                foreach (string taskType in ZoneTaskTypes.STOCKPILE_TASKS) {
+                    tracking.tiles[taskType].Remove(tile);
+                }
+                List<EcsEntity> items = model.itemContainer.onMap.itemsOnMap.get(tile);
+                if (items.Count == 0) {
+                    tracking.tiles[ZoneTaskTypes.STORE_ITEM].Add(tile);
+                } else if (ZoneUtils.allItemsAllowedInStockpile(stockpile, items)) {
+                    // check stack size
+                } else {
+                    tracking.tiles[ZoneTaskTypes.REMOVE_ITEM].Add(tile);
+                }
+            }
         }
 
-        // finds list to put tile. clean tiles hoed first, then planted. If undesired plant present, it is removed
-        // tile is guaranteed to be soil floor 
-        // TODO add harvest
-        private HashSet<Vector3Int> getListForTile(EcsEntity entity, ZoneTrackingComponent tracking, Vector3Int tile) {
+        // resolves taskType for farm tile. clean tiles hoed first, then planted. If undesired plant present, it is removed
+        // tile is guaranteed to be soil floor
+        private string getTaskType(EcsEntity entity, ZoneTrackingComponent tracking, Vector3Int tile) {
             FarmComponent farm = entity.take<FarmComponent>();
             // byte blockType = model.localMap.blockType.get(tile);
             EcsEntity plant = model.plantContainer.getPlant(tile);
             if (plant == EcsEntity.Null) {
-                if (model.farmContainer.isFarm(tile)) return tracking.tiles[ZoneTaskTypes.PLANT]; // already hoed and no plant
-                return tracking.tiles[ZoneTaskTypes.HOE]; // not hoed
+                if (model.farmContainer.isFarm(tile)) return ZoneTaskTypes.PLANT; // already hoed and no plant
+                return ZoneTaskTypes.HOE; // not hoed
             }
-            if (farm.plant != plant.take<PlantComponent>().type.name) return tracking.tiles[ZoneTaskTypes.REMOVE_PLANT]; // undesired plant
-            return null; // desired plant
+            if (farm.plant != plant.take<PlantComponent>().type.name) return ZoneTaskTypes.REMOVE_PLANT; // undesired plant
+            return null; // desired plant TODO add harvest check here
         }
     }
 }

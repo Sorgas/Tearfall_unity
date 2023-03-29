@@ -33,7 +33,7 @@ namespace game.view.ui.workbench {
             itemName.text = material.name + " " + typeName;
             itemMaterial.text = material.name; // TODO add description
             itemTags.text = itemComponent.tags
-                .Select(tag => Enum.GetName(typeof(ItemTagEnum), tag))
+                .Select(tag => Enum.GetName(typeof(ItemTags), tag))
                 .Aggregate((tag1, tag2) => tag1 + ", " + tag2);
         }
 
