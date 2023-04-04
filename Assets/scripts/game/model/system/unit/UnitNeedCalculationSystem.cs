@@ -1,11 +1,11 @@
 namespace game.model.system.unit {
-    public class UnitNeedCalculationSystem : EcsRunIntervalSystem {
+    public class UnitNeedCalculationSystem : LocalModelIntervalEcsSystem {
     
         public UnitNeedCalculationSystem(int interval) : base(interval) {
         }
 
-        public override void runLogic() {
-
+        protected override void runIntervalLogic(int updates) {
+            
         }
     }
 }

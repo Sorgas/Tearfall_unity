@@ -14,7 +14,7 @@ using static UnityEngine.Object;
 namespace game.model.container {
     // registry of designation entities, creates and destroys designations, called by ECS systems
     // TODO allow multiple designation on one tile
-    public class DesignationContainer : LocalModelComponent {
+    public class DesignationContainer : LocalModelContainer {
         public readonly Dictionary<Vector3Int, EcsEntity> designations = new();
 
         public DesignationContainer(LocalModel model) : base(model) {}

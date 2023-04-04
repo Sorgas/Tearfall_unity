@@ -1,8 +1,10 @@
+using System;
 using game.model.localmap;
 using Leopotam.Ecs;
 using types;
 using types.action;
 using UnityEngine;
+using util;
 using util.geometry;
 using util.lang.extension;
 using static game.model.component.task.action.target.ActionTargetStatusEnum;
@@ -36,7 +38,7 @@ namespace game.model.component.task.action.target {
                 case ActionTargetTypeEnum.ANY:
                     return READY; // distance is 0 or 1 here
             }
-            return FAIL;
+            throw new GameException("Unhandled ActionTargetType value: " + type);
         }
 
         private int getDistance(Vector3Int current, Vector3Int target, LocalModel model) {

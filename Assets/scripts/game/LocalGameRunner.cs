@@ -54,7 +54,7 @@ namespace game {
             stopwatch.Stop();
             long viewInitTime = stopwatch.ElapsedMilliseconds - modelInitTime;
             started = true;
-            InvokeRepeating("updateModel", 0.2f, GameModelUpdateController.updateTickDelta);
+            InvokeRepeating("updateModel", 0.2f, GameModelUpdateController.UPDATE_TICK_DELTA);
             Debug.unityLogger.logEnabled = true;
             // Debug.Log("generation: " + generationTime + "\n model: " + modelInitTime + "\n view:" + viewInitTime);
         }
@@ -65,7 +65,7 @@ namespace game {
         }
 
         private void updateModel() {
-            GameModel.get().updateController.update(GameModelUpdateController.updateTickDelta);
+            GameModel.get().updateController.update(GameModelUpdateController.UPDATE_TICK_DELTA);
         }
 
         // gets world either from worldgen/localgen, savefile, or creates test one

@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
 using game.model.component;
-using game.model.localmap;
 using Leopotam.Ecs;
 using UnityEngine;
 
-namespace game.model.system {
-    public class TileUpdatingSystem : LocalModelEcsSystem {
+namespace game.model.system.util {
+    public class TileUpdatingSystem : LocalModelUnscalableEcsSystem {
         public EcsFilter<TileUpdateComponent> filter;
 
-        public TileUpdatingSystem(LocalModel model) : base(model) { }
-        
         public override void Run() {
             foreach (int i in filter) {
                 foreach (Vector3Int tile in filter.Get1(i).tiles) {

@@ -8,7 +8,7 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.container {
-    public class BuildingFindingUtil : LocalModelComponent {
+    public class BuildingFindingUtil : LocalModelContainer {
         private BuildingContainer container;
 
         public BuildingFindingUtil(LocalModel model, BuildingContainer container) : base(model) {

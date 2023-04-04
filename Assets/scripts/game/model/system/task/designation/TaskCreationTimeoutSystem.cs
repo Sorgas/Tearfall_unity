@@ -1,15 +1,15 @@
 using game.model.component;
-using game.model.component.task;
 using Leopotam.Ecs;
 
 namespace game.model.system.task.designation {
-    public class TaskCreationTimeoutSystem : IEcsRunSystem {
+    public class TaskCreationTimeoutSystem : LocalModelScalableEcsSystem {
         public EcsFilter<TaskCreationTimeoutComponent> filter;
-        
-        public void Run() {
+
+        protected override void runLogic(int ticks) {
             foreach (var i in filter) {
                 ref TaskCreationTimeoutComponent timeout = ref filter.Get1(i);
-                if (timeout.value-- <= 0) {
+                timeout.value -= ticks;
+                if (timeout.value <= 0) {
                     filter.GetEntity(i).Del<TaskCreationTimeoutComponent>();
                 }
             }

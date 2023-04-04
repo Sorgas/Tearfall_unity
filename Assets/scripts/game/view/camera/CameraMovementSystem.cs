@@ -8,13 +8,16 @@ using util.geometry.bounds;
 namespace game.view.camera {
     // smoothly moves camera to camera target
     // keeps target within bounds for camera target
-    // TODO add camera velocity
+    // TODO change camera speed on zoom.
     public class CameraMovementSystem {
         private Camera camera;
         private Vector3 target = new(0, 0, -1); // target in scene coordinates
         private readonly FloatBounds2 cameraBounds = new(); // scene bounds in 1 z-level
         private readonly ValueRange cameraZoomRange = new(2, 20);
         private Vector3 cameraSpeed;
+        private float maxCameraSpeed;
+        private float movementSpeed = 8f;
+        private float cameraTargetChangeMod = 0.5f;
         private const int overlookTiles = 3;
 
         public void init() {
@@ -24,7 +27,11 @@ namespace game.view.camera {
 
         public void update() {
             if (camera.transform.localPosition == target) return;
-            camera.transform.localPosition = Vector3.SmoothDamp(camera.transform.localPosition, target, ref cameraSpeed, 0.08f);
+            camera.transform.localPosition = Vector3.Lerp(camera.transform.localPosition, target, 
+                // Time.deltaTime * movementTime
+                1f
+                );
+            // camera.transform.localPosition = Vector3.SmoothDamp(camera.transform.localPosition, target, ref cameraSpeed, 0.08f);
         }
 
         public void zoomCamera(float delta) {
@@ -35,7 +42,10 @@ namespace game.view.camera {
         }
         
         // called from CIS
-        public void moveCameraTarget(int dx, int dy) => setCameraTarget(target.x + dx, target.y + dy, target.z);
+        public void moveCameraTarget(int dx, int dy) {
+            
+            setCameraTarget(target.x + dx * cameraTargetChangeMod, target.y + dy * cameraTargetChangeMod, target.z);
+        }
 
         // called from CIS
         public void moveCameraTargetZ(int dz) {

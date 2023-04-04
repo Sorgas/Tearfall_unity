@@ -8,6 +8,9 @@ using util.lang;
 
 namespace util.pathfinding {
     // TODO make not singleton
+    // TODO add weights to tiles, add pathfinding weight visual overlay
+    // TODO add 'difficult terrain',
+    // TODO add doors(passable, counted with special weight), if door is locked by player, it becomes impassable
     public class AStar : Singleton<AStar> {
         private LocalMap localMap; // TODO make stateless
 

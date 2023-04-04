@@ -2,7 +2,6 @@ using game.model.component;
 using game.model.component.task;
 using game.model.component.task.action;
 using game.model.component.unit;
-using game.model.localmap;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
@@ -10,11 +9,9 @@ using util.lang.extension;
 
 namespace game.model.system.unit {
     // finds and assigns appropriate tasks to units
-    public class UnitTaskAssignmentSystem : LocalModelEcsSystem {
+    public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
         public EcsFilter<UnitComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter; // units without tasks
         private readonly UnitNeedActionCreator needActionCreator = new();
-
-        public UnitTaskAssignmentSystem(LocalModel model) : base(model) { }
 
         public override void Run() {
             foreach (int i in filter) {
@@ -65,5 +62,6 @@ namespace game.model.system.unit {
         private TaskPriorityEnum priority(EcsEntity task) {
             return task.IsNull() ? TaskPriorityEnum.NONE : task.take<TaskActionsComponent>().priority;
         }
+
     }
 }

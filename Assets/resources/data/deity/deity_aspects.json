@@ -1,0 +1,52 @@
+﻿[
+  {
+    "name": "fire",
+    "bonuses": [
+      {
+        "name": "embers",
+        "description": "Fire spend less fuel",
+        "devotionLevel": 30
+      },
+      {
+        "name": "bonfire",
+        "description": "Faster heating, drying, and cooking",
+        "devotionLevel": 45
+      },
+      {
+        "name": "kiln",
+        "description": "Faster smelting and forging",
+        "devotionLevel": 60
+      },
+      {
+        "name": "magic",
+        "description": "Faster learning of fire magic",
+        "devotionLevel": 85
+      }
+    ]
+  },
+  {
+    "name": "water",
+    "bonuses": [
+      {
+        "name": "drops",
+        "description": "No mood penalty for rain",
+        "devotionLevel": 30
+      },
+      {
+        "name": "stream",
+        "description": "Watermills are more efficient",
+        "devotionLevel": 45
+      },
+      {
+        "name": "sea",
+        "description": "",
+        "devotionLevel": 60
+      },
+      {
+        "name": "magic",
+        "description": "Faster learning of water magic",
+        "devotionLevel": 85
+      }
+    ]
+  }
+]

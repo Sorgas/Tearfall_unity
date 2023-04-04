@@ -3,7 +3,6 @@ namespace game.model.component.task.action.target {
     public enum ActionTargetStatusEnum {
         READY, // target position reached
         WAIT, // target position not reached
-        STEP_OFF, // creature should free target tile
-        FAIL // failed to create action
+        STEP_OFF // creature should free target tile
     }
 }

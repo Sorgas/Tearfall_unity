@@ -21,12 +21,10 @@ using util.lang.extension;
 namespace game.model.system.zone {
     // TODO when item put on ground, add marker component to it. if put into stockpile, update free cells etc.
     // creates tasks for bringing and removing items to/from stockpiles
-    public class StockpileTaskCreationSystem : LocalModelEcsSystem {
+    public class StockpileTaskCreationSystem : LocalModelUnscalableEcsSystem {
         public EcsFilter<StockpileComponent>.Exclude<StockpileOpenStoreTaskComponent, TaskCreationTimeoutComponent> storeFilter;
         public EcsFilter<StockpileComponent>.Exclude<StockpileOpenRemoveTaskComponent, TaskCreationTimeoutComponent> removeFilter;
         private readonly TaskGenerator generator = new();
-
-        public StockpileTaskCreationSystem(LocalModel model) : base(model) { }
 
         public override void Run() {
             foreach (int i in storeFilter) {

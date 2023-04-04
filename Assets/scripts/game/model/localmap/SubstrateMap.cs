@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using game.model.container;
 using UnityEngine;
 using util.geometry;
 using Random = UnityEngine.Random;
 
 namespace game.model.localmap {
-    public class SubstrateMap : LocalModelUpdateComponent {
+    public class SubstrateMap : LocalModelUpdateContainer {
         private readonly Dictionary<Vector3Int, SubstrateCell> cells = new();
         private readonly HashSet<SubstrateCell> activeCells = new();
 

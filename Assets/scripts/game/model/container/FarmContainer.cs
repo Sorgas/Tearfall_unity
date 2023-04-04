@@ -5,7 +5,7 @@ using UnityEngine;
 namespace game.model.container {
     // Stores positions of hoed tiles
     // On changes, adds position for visual update, see TileUpdateVisualSystem
-    public class FarmContainer : LocalModelUpdateComponent {
+    public class FarmContainer : LocalModelUpdateContainer {
         private readonly Dictionary<Vector3Int, int> farms = new();
 
         public FarmContainer(LocalModel model) : base(model) { }

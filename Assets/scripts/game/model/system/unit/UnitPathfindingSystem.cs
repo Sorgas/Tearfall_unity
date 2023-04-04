@@ -12,16 +12,13 @@ using util.pathfinding;
 namespace game.model.system.unit {
     // When unit has UnitMovementTargetComponent, this system finds path to target and adds UnitMovementPathComponent to unit
     // Can fail unit's task if path not found
-    public class UnitPathfindingSystem : LocalModelEcsSystem {
+    public class UnitPathfindingSystem : LocalModelUnscalableEcsSystem {
         EcsFilter<UnitComponent, UnitMovementTargetComponent>.Exclude<UnitMovementPathComponent> filter = null;
-
-        public UnitPathfindingSystem(LocalModel model) : base(model) { }
 
         public override void Run() {
             foreach (int i in filter) {
                 UnitMovementTargetComponent target = filter.Get2(i);
                 ref EcsEntity unit = ref filter.GetEntity(i);
-                // Debug.Log("");
                 findPath(target, ref unit);
             }
         }
@@ -37,5 +34,6 @@ namespace game.model.system.unit {
             unit.Replace(new TaskFinishedComponent { status = TaskStatusEnum.FAILED });
             unit.Del<UnitMovementTargetComponent>();
         }
+
     }
 }

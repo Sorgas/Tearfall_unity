@@ -1,65 +1,82 @@
+using System;
+using UnityEngine;
 
-
-// updates model with one of 3 speed settings. 
 namespace game.model {
+    // updates model with one of 3 speed settings. 
     public class GameModelUpdateController {
-        public const float updateTickDelta = 1/90f; // ticks per second on max gamespeed
+        public const float UPDATE_TICK_DELTA = 1 / 30f; // ticks per second on normal gamespeed
         public bool paused = false;
         public int speed = 1; // [1; 3]
+        private readonly TimeIntervalCounter intervalCounter;
 
-        private GameModel model;
-        private GameSpeedController speed1 = new(3);
-        private GameSpeedController speed2 = new(2);
-        private GameSpeedController speed3 = new(1);
+        private readonly GameModel model;
+        private readonly GameSpeedController speed1 = new(3);
+        private readonly GameSpeedController speed2 = new(2);
+        private readonly GameSpeedController speed3 = new(1);
         private GameSpeedController currentSpeed;
         private float timeCounter = 0;
+        private float remainingTime;
 
         public GameModelUpdateController(GameModel model) {
             this.model = model;
             currentSpeed = speed1;
+            intervalCounter = new();
+            intervalCounter.init();
         }
 
         public void update(float delta) {
             if (paused) return;
-            timeCounter += delta;
-            if (currentSpeed.update()) {
-                model.update();
-                timeCounter = 0;
-            }
+
+            // timeCounter += delta;
+            // if (currentSpeed.update()) {
+            //     model.update();
+            //     timeCounter = 0;
+            // }
+
+            float timePassed = intervalCounter.get() * speed + remainingTime;
+            int wholeTicks = (int)Math.Floor(timePassed / UPDATE_TICK_DELTA);
+            remainingTime = timePassed % UPDATE_TICK_DELTA;
+            Debug.Log(wholeTicks);
+            model.update(wholeTicks);
         }
 
         public void setSpeed(int speed) {
             this.speed = speed;
-            if (speed == 1) {
-                currentSpeed = speed1;
-            } else if (speed == 2) {
-                currentSpeed = speed2;
-            } else if (speed == 3) {
-                currentSpeed = speed3;
-            }
+            currentSpeed = speed switch {
+                1 => speed1,
+                2 => speed2,
+                3 => speed3,
+                _ => currentSpeed
+            };
         }
 
+        // returs true each [interval] updates
         private class GameSpeedController {
-            public readonly int speed;
-            private int counter = 0;
+            public readonly int interval;
+            private int counter;
 
-            public GameSpeedController(int speed) {
-                this.speed = speed;
-            }
+            public GameSpeedController(int interval) => this.interval = interval;
 
             public bool update() {
                 counter++;
-                if (counter == speed) {
-                    counter = 0;
-                    return true;
-                }
-                return false;
+                if (counter != interval) return false;
+                counter = 0;
+                return true;
             }
         }
 
-        // time per tick
-        public float getCurrentSpeed() {
-            return currentSpeed.speed * updateTickDelta;
+        // counts intervals in seconds between calls of its get() method
+        private class TimeIntervalCounter {
+            private float previous;
+
+            public void init() => previous = Time.realtimeSinceStartup;
+
+            public float get() {
+                float old = previous;
+                previous = Time.realtimeSinceStartup;
+                return previous - old;
+            }
+
         }
     }
 }

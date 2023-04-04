@@ -1,4 +1,5 @@
-﻿using types;
+﻿using game.model.container;
+using types;
 using UnityEngine;
 using util;
 using util.pathfinding;
@@ -7,7 +8,7 @@ using static types.PassageTypes;
 
 namespace game.model.localmap.passage {
     // stores isolated areas on local map to enhance pathfinding
-    public class PassageMap : LocalModelComponent {
+    public class PassageMap : LocalModelContainer {
         private readonly LocalMap localMap;
         private readonly BlockTypeMap map;
         public readonly PassageUpdater updater;

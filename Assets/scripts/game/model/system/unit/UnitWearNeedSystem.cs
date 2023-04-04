@@ -7,12 +7,12 @@ using util.lang.extension;
 
 namespace game.model.system.unit {
     // checks slots required for unit to be filled, and creates UnitCalculatedWearNeedComponent
-    public class UnitWearNeedSystem : EcsRunIntervalSystem {
+    public class UnitWearNeedSystem : LocalModelIntervalEcsSystem {
         private EcsFilter<UnitWearNeedComponent>.Exclude<UnitCalculatedWearNeedComponent> filter;
 
         public UnitWearNeedSystem() : base(100) { }
 
-        public override void runLogic() {
+        protected override void runIntervalLogic(int updates) {
             foreach (var i in filter) {
                 ref EcsEntity unit = ref filter.GetEntity(i);
                 ref UnitWearNeedComponent wearNeed = ref filter.Get1(i);
@@ -43,5 +43,6 @@ namespace game.model.system.unit {
             Debug.LogError("Unit has UnitWearNeedComponent, but no EquipmentComponent");
             return new List<string>();
         }
+
     }
 }

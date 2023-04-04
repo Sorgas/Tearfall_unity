@@ -7,19 +7,21 @@ using UnityEngine;
 using util.geometry;
 
 namespace game.model.system.plant {
-    // spreads substrates to nearby available tiles
+    // spreads substrates to nearby available tiles, deactivates substrate tile if it cannot spread.
     // TODO activate substrates on digging, animal pastures, fires etc.
-    public class SubstrateGrowingSystem : LocalModelIntervalSystem {
-        private static Vector3Int notFoundValue = Vector3Int.back;
+    public class SubstrateGrowingSystem : LocalModelIntervalEcsSystem {
+        private static readonly Vector3Int notFoundValue = Vector3Int.back;
 
-        public SubstrateGrowingSystem(LocalModel model) : base(model, 500) { }
-
-        public override void runLogic() {
+        public SubstrateGrowingSystem() : base(500) { }
+        
+        // updates not used due to long interval
+        protected override void runIntervalLogic(int updates) {
             SubstrateMap map = model.localMap.substrateMap;
             if (map.hasActive()) return;
             HashSet<SubstrateCell> toAdd = new();
             HashSet<Vector3Int> toDeactivate = new();
             ICollection<SubstrateCell> list = map.selectNRandomActiveCells(0.1f);
+            // TODO add fori updates here to simulate faster growing
             foreach (SubstrateCell cell in list) {
                 Vector3Int target = checkTilesAround(cell);
                 if (target != notFoundValue) {

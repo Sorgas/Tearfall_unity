@@ -64,12 +64,12 @@ namespace game.model.component.task.action {
         }
 
         // Performs action logic. Changes status.
-        public void perform(EcsEntity unit) {
+        public void perform(EcsEntity unit, int ticks) {
             if (status == ActionStatusEnum.OPEN) { // first execution of perform()
                 status = ActionStatusEnum.ACTIVE;
                 onStart.Invoke();
             }
-            progressConsumer.Invoke(unit, speed);
+            progressConsumer.Invoke(unit, speed * ticks);
             if (finishCondition.Invoke()) { // last execution of perform()
                 onFinish.Invoke();
                 status = ActionStatusEnum.COMPLETE;

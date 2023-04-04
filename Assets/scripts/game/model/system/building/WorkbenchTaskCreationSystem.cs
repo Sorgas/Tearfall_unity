@@ -4,17 +4,14 @@ using game.model.component.task;
 using game.model.component.task.action;
 using game.model.component.task.action.item;
 using game.model.component.task.order;
-using game.model.localmap;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
 
 // if workbench has current order, task should be created
 namespace game.model.system.building {
-    public class WorkbenchTaskCreationSystem : LocalModelEcsSystem {
+    public class WorkbenchTaskCreationSystem : LocalModelUnscalableEcsSystem {
         public EcsFilter<WorkbenchCurrentOrderComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter;
-
-        public WorkbenchTaskCreationSystem(LocalModel model) : base(model) {}
 
         public override void Run() {
             foreach(int i in filter) {
@@ -30,5 +27,6 @@ namespace game.model.system.building {
                 Debug.Log("[WorkbenchTaskCreationSystem] crafting task " + action.name + " created in " + entity.name());
             }
         }
+
     }
 }

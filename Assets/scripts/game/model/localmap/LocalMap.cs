@@ -1,11 +1,12 @@
-﻿using game.model.localmap.passage;
+﻿using game.model.container;
+using game.model.localmap.passage;
 using game.view;
 using UnityEngine;
 using util.geometry.bounds;
 
 namespace game.model.localmap {
     // stores arrays of blocks, passage and area values
-    public class LocalMap : LocalModelComponent {
+    public class LocalMap : LocalModelContainer {
         public readonly BlockTypeMap blockType;
         public readonly PassageMap passageMap; // not saved to savegame,
         public readonly LocalMapUtil util;

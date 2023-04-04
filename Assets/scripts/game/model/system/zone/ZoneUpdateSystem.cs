@@ -14,11 +14,11 @@ using EcsEntity = Leopotam.Ecs.EcsEntity;
 namespace game.model.system.zone {
     // recounts tile tracked state for updated zones.
     // TODO add update zone component when plant or item is put on farm, 
-    public class ZoneUpdateSystem : LocalModelEcsSystem {
+    public class ZoneUpdateSystem : LocalModelUnscalableEcsSystem {
         public EcsFilter<ZoneUpdatedComponent> filter;
-        private List<int> allowedFarmMaterials;
+        private readonly List<int> allowedFarmMaterials;
 
-        public ZoneUpdateSystem(LocalModel model) : base(model) {
+        public ZoneUpdateSystem() {
             allowedFarmMaterials = MaterialMap.get().getByTag("soil").Select(material => material.id).ToList();
         }
 
@@ -92,5 +92,6 @@ namespace game.model.system.zone {
             if (farm.plant != plant.take<PlantComponent>().type.name) return ZoneTaskTypes.REMOVE_PLANT; // undesired plant
             return null; // desired plant TODO add harvest check here
         }
+
     }
 }

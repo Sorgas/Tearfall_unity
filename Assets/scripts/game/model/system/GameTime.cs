@@ -23,23 +23,25 @@ namespace game.model.system {
         public int minute;
         public int tick;
 
-        public void update() {
-            tick++;
-            if (tick == ticksPerMinute) {
-                tick = 0;
-                minute++;
-                if (minute == 60) {
-                    minute = 0;
-                    hour++;
-                    if(hour == 24) {
-                        hour = 0;
-                        day++;
-                        if(day == 31) {
-                            day = 1;
-                            month ++;
-                            if(month == 13) {
-                                month = 1;
-                                year++;
+        public void update(int ticks) {
+            for (int i = 0; i < ticks; i++) {
+                tick++;
+                if (tick >= ticksPerMinute) {
+                    tick -= ticksPerMinute;
+                    minute++;
+                    if (minute == 60) {
+                        minute = 0;
+                        hour++;
+                        if(hour == 24) {
+                            hour = 0;
+                            day++;
+                            if(day == 31) {
+                                day = 1;
+                                month ++;
+                                if(month == 13) {
+                                    month = 1;
+                                    year++;
+                                }
                             }
                         }
                     }

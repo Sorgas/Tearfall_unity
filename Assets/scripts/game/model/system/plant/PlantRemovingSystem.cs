@@ -1,5 +1,4 @@
 using game.model.component.plant;
-using game.model.localmap;
 using generation.item;
 using Leopotam.Ecs;
 using types.plant;
@@ -7,11 +6,9 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.system.plant {
-    public class PlantRemovingSystem : LocalModelEcsSystem {
+    public class PlantRemovingSystem : LocalModelUnscalableEcsSystem {
         public EcsFilter<PlantRemoveComponent> filter;
         private ItemGenerator generator = new();
-
-        public PlantRemovingSystem(LocalModel model) : base(model) {}
 
         public override void Run() {
             foreach (int i in filter) {

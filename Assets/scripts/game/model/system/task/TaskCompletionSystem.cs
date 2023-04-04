@@ -10,11 +10,9 @@ using TaskComponent = game.model.component.TaskComponent;
 
 namespace game.model.system.task {
     // When task is completed by some reason, this system notifies other entities related to task.
-    public class TaskCompletionSystem : LocalModelEcsSystem {
+    public class TaskCompletionSystem : LocalModelUnscalableEcsSystem {
         public EcsFilter<TaskActionsComponent, TaskFinishedComponent> filter;
         private string logMessage;
-
-        public TaskCompletionSystem(LocalModel model) : base(model) { }
 
         public override void Run() {
             foreach (var i in filter) {

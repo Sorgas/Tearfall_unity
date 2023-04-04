@@ -1,24 +1,21 @@
 ﻿using game.model.component;
 using game.model.component.task.action.plant;
 using game.model.container;
-using game.model.localmap;
-using game.model.util;
 using Leopotam.Ecs;
 using types.plant;
-using UnityEngine;
 using util.lang.extension;
 using static types.ZoneTaskTypes;
 using Action = game.model.component.task.action.Action;
 
 namespace game.model.system.zone {
-    public class FarmTaskCreationSystem : LocalModelEcsSystem { // TODO make interval
+    public class FarmTaskCreationSystem : LocalModelIntervalEcsSystem { // TODO make interval
         public EcsFilter<FarmComponent>.Exclude<FarmOpenHoeingTaskComponent> hoeingFilter;
         public EcsFilter<FarmComponent>.Exclude<FarmOpenPlantingTaskComponent> plantingFilter;
         private readonly TaskGenerator generator = new();
 
-        public FarmTaskCreationSystem(LocalModel model) : base(model) { }
+        public FarmTaskCreationSystem() : base(100) { }
 
-        public override void Run() {
+        protected override void runIntervalLogic(int updates) {
             foreach (int i in hoeingFilter) {
                 EcsEntity entity = hoeingFilter.GetEntity(i);
                 FarmComponent farm = hoeingFilter.Get1(i);

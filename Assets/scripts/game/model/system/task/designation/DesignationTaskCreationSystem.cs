@@ -11,10 +11,8 @@ using util.lang.extension;
 
 namespace game.model.system.task.designation {
     // creates tasks for designations without tasks. stores tasks in TaskContainer
-    public class DesignationTaskCreationSystem : LocalModelEcsSystem {
+    public class DesignationTaskCreationSystem : LocalModelUnscalableEcsSystem {
         public EcsFilter<DesignationComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter;
-
-        public DesignationTaskCreationSystem(LocalModel model) : base(model) { }
 
         public override void Run() {
             foreach (var i in filter) {

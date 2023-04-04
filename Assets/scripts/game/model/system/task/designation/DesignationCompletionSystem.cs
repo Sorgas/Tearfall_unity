@@ -10,10 +10,8 @@ using static types.action.TaskStatusEnum;
 namespace game.model.system.task.designation {
     // deletes cancelled and completed designations
     // removes task from failed designations to be reopened later 
-    public class DesignationCompletionSystem : LocalModelEcsSystem {
+    public class DesignationCompletionSystem : LocalModelUnscalableEcsSystem {
         public EcsFilter<DesignationComponent, TaskFinishedComponent> filter;
-
-        public DesignationCompletionSystem(LocalModel model) : base(model) { }
 
         public override void Run() {
             foreach (var i in filter) {

@@ -6,48 +6,51 @@ using UnityEngine;
 using util.lang;
 
 namespace game.model {
-    // global game model. Contains one WorldModel and multiple LocalMapModels. Passes updates to all models.
+    // global game model. Contains one WorldModel and multiple LocalMapModels.
+    // Passes updates to all models.
     public class GameModel : Singleton<GameModel> {
         public World world; // global game state
-        public Dictionary<string, LocalModel> localMapModels = new();
+        private readonly Dictionary<string, LocalModel> localMapModels = new();
         public LocalModel currentLocalModel;
-        public GameTime time = new();
-
-        public GameModelUpdateCounter counter = new();
+        public readonly GameTime gameTime = new();
+        public readonly EcsGlobalSharedData globalSharedData = new();
         public GameModelUpdateController updateController;
-
-        public TechnologyContainer technologyContainer = new();
-        // public static EcsWorld ecsWorld => get()._ecsWorld;
-        // public static LocalMap localMap => get().world.localMaps[get().localMapName];
+        public readonly GameModelUpdateCounter counter = new();
+        public readonly TechnologyContainer technologyContainer = new();
 
         public void init(string name) {
             Debug.Log("initializing model for " + name);
             currentLocalModel = localMapModels[name];
             currentLocalModel.init();
             updateController = new(this);
-            // selectorSystem.selector = selector;
-            // selectorSystem.placeSelectorAtMapCenter();
             Debug.Log("model initialized");
         }
 
+        // TODO remove
         public static LocalModel local() => get().currentLocalModel;
 
-        // init with entities generated on new game or loaded from savegame
-        public void update() {
-            counter.update();
-            time.update();
+        public void update(int ticks) {
+            globalSharedData.set(ticks);
+            counter.update(ticks); // debug thing
+            gameTime.update(ticks); // calendar
             foreach (LocalModel model in localMapModels.Values) {
-                model.update();
+                model.update(ticks); // ticks passed with globalSharedData
             }
         }
-
-        public string getDebugInfo() {
-            return currentLocalModel.getDebugInfo();
-        }
-
+        
         public void addLocalModel(string name, LocalModel model) {
             world.localMapModels.Add(name, model);
             localMapModels.Add(name, model);
+        }
+    }
+    
+    // injected to all systems of GameModel
+    public class EcsGlobalSharedData {
+        public int ticks => value; // number of ticks to calculate
+        private int value;
+        
+        public void set(int value) {
+            this.value = value;
         }
     }
 }

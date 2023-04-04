@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using game.model.container;
 using types;
 using UnityEngine;
 using util.geometry;
@@ -8,7 +9,7 @@ using util.pathfinding;
 using static types.PassageTypes;
 
 namespace game.model.localmap.passage {
-    public class PassageUpdater : LocalModelComponent {
+    public class PassageUpdater : LocalModelContainer {
         private LocalMap map;
         private PassageMap passage;
         private bool debug = true;

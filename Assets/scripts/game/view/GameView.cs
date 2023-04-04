@@ -52,7 +52,7 @@ namespace game.view {
             KeyInputSystem.get().update();
             cameraAndMouseHandler?.update();
             systems?.Run();
-            sceneObjectsContainer.modelDebugInfoPanel.text += GameModel.get().getDebugInfo();
+            sceneObjectsContainer.modelDebugInfoPanel.text += GameModel.get().currentLocalModel.getDebugInfo();
         }
 
         private void initEcs(EcsWorld ecsWorld) {
