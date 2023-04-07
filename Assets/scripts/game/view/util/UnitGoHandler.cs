@@ -1,3 +1,4 @@
+using System;
 using Leopotam.Ecs;
 using types;
 using UnityEngine;
@@ -42,6 +43,9 @@ namespace game.view.util {
         public void setProgress(float value) {
             Vector3 scale = actionProgressBar.localScale;
             scale.x = value;
+            if (Single.IsNaN(scale.x)) {
+                Debug.LogError(value);
+            }
             actionProgressBar.localScale = scale;
         }
 

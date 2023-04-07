@@ -1,4 +1,5 @@
-﻿using game.model.component.task.action.equipment.use;
+﻿using System;
+using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
 using game.model.component.unit;
 using game.model.util;
@@ -22,13 +23,13 @@ namespace game.model.component.task.action.plant {
             startCondition = () => {
                 if (!performer.take<UnitEquipmentComponent>().toolWithActionEquipped(TOOL_ACTION_NAME)) return tryCreateEquippingAction();
                 if (!ZoneUtils.tileUnhoed(tile, model)) return FAIL;
-                lockTile(tile);
+                lockZoneTile(zone, tile);
                 return OK;
             };
             maxProgress = 100;
             onFinish = () => {
                 hoeTile(tile);
-                unlockTile(tile);
+                unlockZoneTile(zone, tile);
             };
         }
 
@@ -44,12 +45,6 @@ namespace game.model.component.task.action.plant {
             model.farmContainer.addFarm(tile); // triggers tile update 
             model.plantContainer.removePlant(tile, true);
             model.localMap.substrateMap.remove(tile);
-        }
-
-        private void lockTile(Vector3Int tile) {
-        }
-
-        private void unlockTile(Vector3Int tile) {
         }
     }
 }

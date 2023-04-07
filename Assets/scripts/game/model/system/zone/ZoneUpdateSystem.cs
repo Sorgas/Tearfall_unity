@@ -55,7 +55,7 @@ namespace game.model.system.zone {
                 foreach (string taskType in ZoneTaskTypes.FARM_TASKS) {
                     tracking.tiles[taskType].Remove(tile);
                 }
-                string taskType1 = getTaskType(entity, tracking, tile);
+                string taskType1 = getTaskTypeForFarm(entity, tracking, tile);
                 if (taskType1 != null) tracking.tiles[taskType1].Add(tile);
             }
             Debug.Log("farm updated");
@@ -81,7 +81,7 @@ namespace game.model.system.zone {
 
         // resolves taskType for farm tile. clean tiles hoed first, then planted. If undesired plant present, it is removed
         // tile is guaranteed to be soil floor
-        private string getTaskType(EcsEntity entity, ZoneTrackingComponent tracking, Vector3Int tile) {
+        private string getTaskTypeForFarm(EcsEntity entity, ZoneTrackingComponent tracking, Vector3Int tile) {
             FarmComponent farm = entity.take<FarmComponent>();
             // byte blockType = model.localMap.blockType.get(tile);
             EcsEntity plant = model.plantContainer.getPlant(tile);
@@ -90,8 +90,7 @@ namespace game.model.system.zone {
                 return ZoneTaskTypes.HOE; // not hoed
             }
             if (farm.plant != plant.take<PlantComponent>().type.name) return ZoneTaskTypes.REMOVE_PLANT; // undesired plant
-            return null; // desired plant TODO add harvest check here
+            return null; // desired plant
         }
-
     }
 }

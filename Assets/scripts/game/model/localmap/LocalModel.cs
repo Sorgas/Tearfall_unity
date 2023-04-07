@@ -20,8 +20,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public readonly BuildingContainer buildingContainer;
         public readonly ZoneContainer zoneContainer;
         public readonly FarmContainer farmContainer;
-        public EcsEntity updateEntity;
-
+ 
         public LocalModel() {
             Debug.Log("creating EcsWorld");
             designationContainer = new(this);

@@ -1,8 +1,9 @@
 ﻿using game.model.component.task.action.target;
+using game.model.util;
 using Leopotam.Ecs;
-using types.action;
 using UnityEngine;
 using util.lang.extension;
+using static types.action.ActionConditionStatusEnum;
 
 // TODO two units can hoe same tile. make farm track targeted tiles
 // TODO when finished, should search another tile (make hoeing in pre-action, and tile selection in current action)
@@ -16,32 +17,29 @@ namespace game.model.component.task.action.plant {
      */
     public class FarmHoeingAction : Action {
         public readonly FarmHoeingActionTarget farmTarget;
-        private Vector3Int targetPosition;
         private EcsEntity farm;
 
-        public FarmHoeingAction(EcsEntity farm) {
+        public FarmHoeingAction(EcsEntity farm) : base(new FarmHoeingActionTarget(farm)) {
             name = "hoeing action";
+            farmTarget = (FarmHoeingActionTarget)target;
             this.farm = farm;
-            farmTarget = new FarmHoeingActionTarget(farm);
-            target = farmTarget;
-            
+
             startCondition = () => {
-                if (findTile()) return createHoeingPreAction(); // tile found, create subtask
-                return ActionConditionStatusEnum.OK; // no more tiles to hoe, can finish successfully
+                Vector3Int targetPosition = findTile();
+                if (targetPosition == Vector3Int.back) return OK; // no more tiles to hoe, can finish successfully
+                lockZoneTile(farm, targetPosition);
+                return addPreAction(new FarmTileHoeingAction(targetPosition, farm)); // tile found, create subtask
             };
         }
 
-        // finds tile to hoe, returns false if there is none
-        private bool findTile() {
-            targetPosition = task.Has<TaskPerformerComponent>() 
-                ? farmTarget.lookupFreeNearestTile(performer.pos()) 
-                : farmTarget.lookupFreeTile();
-            return targetPosition != Vector3Int.back;
-        }
-
-        private ActionConditionStatusEnum createHoeingPreAction() {
-            addPreAction(new FarmTileHoeingAction(targetPosition, farm));
-            return ActionConditionStatusEnum.NEW;
+        // finds tile to hoe
+        private Vector3Int findTile() {
+            if (task.Has<TaskPerformerComponent>())
+                return farmTarget.lookupFreeNearestTile(performer.pos());
+            else {
+                Debug.LogWarning("hoeing action checked without performer");
+                return farmTarget.lookupFreeTile();
+            }
         }
     }
 }

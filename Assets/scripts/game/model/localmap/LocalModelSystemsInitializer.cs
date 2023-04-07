@@ -45,9 +45,6 @@ namespace game.model.localmap {
                 .Inject(GameModel.get().globalSharedData)
                 .Inject(model)
                 .Init();
-            model.updateEntity = model.createEntity();
-            model.updateEntity.Replace(new TileUpdateComponent { tiles = new() });
-
         }
         
         private void addSystem(LocalModel model, IEcsSystem system) {

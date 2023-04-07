@@ -48,7 +48,7 @@ namespace game.view.ui {
             priorityMinusButton.onClick.AddListener(() => changePriority(-1));
             closeButton.onClick.AddListener(() => WindowManager.get().closeWindow(NAME));
         }
-        
+
         public void initFor(EcsEntity farm) {
             this.farm = farm;
             farmName.text = farm.name();
@@ -64,11 +64,12 @@ namespace game.view.ui {
             if (farmComponent.plant != null) {
                 PlantType type = PlantTypeMap.get().get(farmComponent.plant);
                 selectedPlantName.text = type.title;
-                string product = type.productItem;
+                string product = type.productItemType;
                 if (product != null) {
                     selectedPlantIcon.sprite = ItemTypeMap.get().getSprite(product);
                 }
             } else {
+                selectedPlantIcon.sprite = null;
                 selectedPlantName.text = "no plant selected";
             }
         }
@@ -83,13 +84,17 @@ namespace game.view.ui {
             for (int i = 0; i < list.Count; i++) {
                 string plant = list[i];
                 PlantType type = PlantTypeMap.get().get(plant);
-                GameObject button = PrefabLoader.create("WideButtonWithIcon", plantList,
-                    new Vector3(5, 5 + i * (height + 5), 0));
-                Debug.Log(5 + i * (height + 5));
-                button.GetComponent<Button>().onClick.AddListener(() => selectPlant(plant));
-                button.GetComponentInChildren<TextMeshProUGUI>().text = type.title;
-                button.GetComponentsInChildren<Image>()[1].sprite = createSprite(type);
+                createPlantButton(i, plant, type, height);
             }
+            createPlantButton(list.Count, null, null, height);
+        }
+
+        private void createPlantButton(int i, string plant, PlantType type, float height) {
+            GameObject button = PrefabLoader.create("WideButtonWithIcon", plantList,
+                new Vector3(5, 5 + i * (height + 5), 0));
+            button.GetComponent<Button>().onClick.AddListener(() => selectPlant(plant));
+            button.GetComponentInChildren<TextMeshProUGUI>().text = type != null ? type.title : "None";
+            button.GetComponentsInChildren<Image>()[1].sprite = type != null ? createSprite(type) : null;
         }
 
         private void updatePauseButton() {
@@ -108,21 +113,15 @@ namespace game.view.ui {
             // button.GetComponent<Image>().color = active ? activeColor : inactiveColor;
             button.GetComponent<Button>().interactable = active;
         }
-        
+
         private Sprite createSprite(PlantType type) {
-            List<string> productItems = type.lifeStages
-                .Where(stage => stage.harvestProduct != null)
-                .Select(stage => stage.harvestProduct)
-                .ToList();
-            return productItems.Count > 0 ? ItemTypeMap.get().getSprite(productItems[0]) : null;
+            return ItemTypeMap.get().getSprite(type.productItemType);
         }
 
         private void selectPlant(string plant) {
             ref FarmComponent farmComponent = ref farm.takeRef<FarmComponent>();
-            // update all tiles if selection changes
             if (farmComponent.plant != plant) farm.Replace(new ZoneUpdatedComponent { tiles = new(farm.take<ZoneComponent>().tiles) });
             farmComponent.plant = plant;
-            Debug.Log("selected plant " + farmComponent.plant + "_" + plant);
             showSelectedPlant();
         }
 
@@ -133,7 +132,7 @@ namespace game.view.ui {
             if (tasksComponent.priority > maxPriority) tasksComponent.priority = maxPriority;
             updatePriority();
         }
-        
+
         public override string getName() => NAME;
 
         public bool accept(KeyCode key) {

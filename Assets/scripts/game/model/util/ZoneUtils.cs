@@ -2,6 +2,7 @@
 using System.Linq;
 using game.model.component;
 using game.model.component.item;
+using game.model.component.plant;
 using game.model.localmap;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -36,19 +37,25 @@ namespace game.model.util {
                     !allItemsNotAllowedInStockpile(stockpile, model.itemContainer.onMap.itemsOnMap[tile])); // no allowed items
         }
 
-        public static Vector3Int findUnhoedTile(ZoneComponent zone, LocalModel model) {
-            foreach (Vector3Int tile in zone.tiles) {
-                if (tileUnhoed(tile, model)) return tile;
-            }
-            return Vector3Int.back;
+        // tile not locked, not farm
+        public static Vector3Int findUnhoedTile(EcsEntity entity, LocalModel model) {
+            return findUnhoedTiles(entity, model)
+                .firstOrDefault(Vector3Int.back);
         }
 
-        public static Vector3Int findNearestUnhoedTile(ZoneComponent zone, ZoneTrackingComponent tracking, Vector3Int position, LocalModel model) {
-            return zone.tiles
-                .Where(tile => !tracking.locked.ContainsKey(tile)) // tile not locked by some existing task
-                .Where(tile => tileUnhoed(tile, model))
+        // tile not locked, not farm
+        public static Vector3Int findNearestUnhoedTile(EcsEntity entity, Vector3Int position, LocalModel model) {
+            return findUnhoedTiles(entity, model)
                 .OrderBy(tile => PositionUtil.fastDistance(tile, position))
                 .firstOrDefault(Vector3Int.back);
+        }
+
+        private static IEnumerable<Vector3Int> findUnhoedTiles(EcsEntity entity, LocalModel model) {
+            var zone = entity.take<ZoneComponent>();
+            var tracking = entity.take<ZoneTrackingComponent>();
+            return zone.tiles
+                .Where(tile => !tracking.locked.ContainsKey(tile)) // tile not locked by some existing task
+                .Where(tile => tileUnhoed(tile, model));
         }
 
         public static int countUnhoedTiles(ZoneComponent zone, ZoneTrackingComponent tracking, LocalModel model) {
@@ -58,21 +65,29 @@ namespace game.model.util {
         }
 
         // returns true, if tile can be hoed
-        public static bool tileUnhoed(Vector3Int tile, LocalModel model) {
-            return !model.farmContainer.isFarm(tile);
+        public static bool tileUnhoed(Vector3Int tile, LocalModel model) => !model.farmContainer.isFarm(tile);
+
+        // only checks presence of desired plants. block type and material should be maintained in ZoneUpdateSystem
+        public static Vector3Int findUnplantedTile(EcsEntity entity, LocalModel model) {
+            return findUnplantedTiles(entity, model).First();
         }
 
-        // // only checks presence of desired plants. block type and material should be maintained in ZoneUpdateSystem
-        // public static Vector3Int findUnplantedTile(ZoneComponent zone, FarmComponent farm, LocalModel model) {
-        //     return zone.tiles
-        //         .Where(tile => model.farmContainer.isFarm(tile))
-        //         .Where(tile => {
-        //             EcsEntity plant = model.plantContainer.getPlant(tile);
-        //             if (plant == EcsEntity.Null) return true;
-        //             return farm.plant == plant.take<PlantComponent>().type.name;
-        //         })
-        //         .First();
-        // }
+        // only checks presence of desired plants. block type and material should be maintained in ZoneUpdateSystem
+        public static Vector3Int findNearestUnplantedTile(EcsEntity entity, Vector3Int position, LocalModel model) {
+            return findUnplantedTiles(entity, model)
+                .OrderBy(tile => PositionUtil.fastDistance(tile, position))
+                .firstOrDefault(Vector3Int.back);
+        }
+
+        private static IEnumerable<Vector3Int> findUnplantedTiles(EcsEntity entity, LocalModel model) {
+            ZoneComponent zone = entity.take<ZoneComponent>();
+            ZoneTrackingComponent tracking = entity.take<ZoneTrackingComponent>();
+            FarmComponent farm = entity.take<FarmComponent>();
+            return zone.tiles
+                .Where(tile => !tracking.locked.ContainsKey(tile)) // tile not locked by some existing task
+                .Where(tile => model.farmContainer.isFarm(tile))
+                .Where(tile => model.plantContainer.getPlant(tile) == EcsEntity.Null);
+        }
 
         public static bool itemAllowedInStockpile(StockpileComponent stockpile, ItemComponent item) {
             return stockpile.map.ContainsKey(item.type) && stockpile.map[item.type].Contains(item.material);

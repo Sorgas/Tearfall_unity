@@ -1,4 +1,5 @@
 ﻿using game.model.component.task.action.target;
+using game.model.util;
 using Leopotam.Ecs;
 using types;
 using types.action;
@@ -12,15 +13,15 @@ namespace game.model.component.task.action.plant {
      * Checks if there is some unplanted tile, then creates action to plant it.
      */
     public class PlantingAction : Action {
-        private EcsEntity zone;
+        private EcsEntity farm;
         
-        public PlantingAction(EcsEntity zone) : base (new ZoneActionTarget(zone, ActionTargetTypeEnum.ANY)) {
+        public PlantingAction(EcsEntity farm) : base (new ZoneActionTarget(farm, ActionTargetTypeEnum.ANY)) {
             name = "planting action";
-            this.zone = zone;
+            this.farm = farm;
             startCondition = () => {
                 Vector3Int tile = getTile();
                 if (tile == Vector3Int.back) return OK; // no more tiles to plant
-                return addPreAction(new PlantSeedToTileAction(tile, zone));
+                return addPreAction(new PlantSeedToTileAction(tile, farm));
             };
 
             onFinish = () => {
@@ -29,7 +30,9 @@ namespace game.model.component.task.action.plant {
         }
 
         private Vector3Int getTile() {
-            return zone.take<ZoneTrackingComponent>().tiles[ZoneTaskTypes.PLANT].firstOrDefault(Vector3Int.back);
+            return task.Has<TaskPerformerComponent>()
+                ? ZoneUtils.findNearestUnplantedTile(farm, performer.pos(), model)
+                : ZoneUtils.findUnplantedTile(farm, model);
         } 
     }
 }

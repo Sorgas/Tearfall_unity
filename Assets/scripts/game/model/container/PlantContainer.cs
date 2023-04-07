@@ -32,6 +32,7 @@ namespace game.model.container {
             return plantBlocks.ContainsKey(position) ? plantBlocks[position] : null;
         }
 
+        // TODO fix plant removing on hoeing farms
         public void removePlant(EcsEntity plant, bool leaveProduct) {
             if (plant == EcsEntity.Null) return;
             plants.Remove(plant.pos());

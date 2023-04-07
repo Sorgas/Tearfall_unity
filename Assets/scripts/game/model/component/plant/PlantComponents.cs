@@ -8,8 +8,9 @@ namespace game.model.component.plant {
         public PlantType type;
         public PlantBlock block;
         public int age;
+        public int growth; // 
     }
-    
+
     // stores tree blocks
     public struct TreeComponent {
         public List<PlantBlock> blocks;
@@ -22,10 +23,5 @@ namespace game.model.component.plant {
 
     public struct PlantRemoveComponent {
         public bool leaveProduct;
-    }
-
-    // grass covers ground and slowly spreads to adjacent ground
-    public struct PlantGrassComponent {
-    
     }
 }

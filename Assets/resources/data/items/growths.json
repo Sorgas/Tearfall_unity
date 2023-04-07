@@ -48,7 +48,14 @@
     "description": "Most common grain. Used to prepare bread or beer.",
     "stockpileCategory": "food",
     "stockpileMaterialTags": "organic",
-    "atlasXY": [0, 1]
+    "atlasXY": [4, 0]
+}, {
+    "name": "cabbage",
+    "baseItem": "generic_fruit",
+    "description": "",
+    "stockpileCategory": "food",
+    "stockpileMaterialTags": "organic",
+    "atlasXY": [5, 0]
 }, {
     "name": "generic_seed",
     "description": "Replace this description in plant definition.",

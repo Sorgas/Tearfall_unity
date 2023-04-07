@@ -43,7 +43,7 @@ namespace game {
         // when scene is loaded, inits game model and view
         public void Start() {
             Stopwatch stopwatch = new();
-            // Debug.unityLogger.logEnabled = false;
+            Debug.unityLogger.logEnabled = false;
             System.DateTime.Now.ToString();
             stopwatch.Start();
             resolveWorld();
@@ -64,9 +64,7 @@ namespace game {
             GameView.get().update();
         }
 
-        private void updateModel() {
-            GameModel.get().updateController.update(GameModelUpdateController.UPDATE_TICK_DELTA);
-        }
+        private void updateModel() => GameModel.get().update();
 
         // gets world either from worldgen/localgen, savefile, or creates test one
         private void resolveWorld() {

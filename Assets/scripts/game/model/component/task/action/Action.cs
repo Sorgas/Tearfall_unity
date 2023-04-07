@@ -84,9 +84,10 @@ namespace game.model.component.task.action {
         
         protected void lockEntities(List<EcsEntity> items) => ActionLockingUtility.lockEntities(items, task);
         protected void lockEntity(EcsEntity item) => ActionLockingUtility.lockEntity(item, task);
-        public void lockZoneTile(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.lockZoneTile(zone, tile, task);
+        protected void lockZoneTile(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.lockZoneTile(zone, tile, task);
+        protected void unlockZoneTile(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.unlockZoneTile(zone, tile, task);
         protected bool itemCanBeLocked(EcsEntity item) => ActionLockingUtility.itemCanBeLocked(item, task);
-        public bool tileCanBeLocked(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.tileCanBeLocked(zone, tile, task);
+        // public bool tileCanBeLocked(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.tileCanBeLocked(zone, tile, task);
         
         protected void log(string message) => Debug.Log("[" + name + "]: " + message);
     }

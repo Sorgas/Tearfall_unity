@@ -34,8 +34,12 @@ namespace game.view.system.unit {
                 Debug.LogError("action is null!");
                 return;
             }
-            float progress = actionComponent.action.progress / actionComponent.action.maxProgress;
-            visual.handler.setProgress(progress);
+            if (actionComponent.action.maxProgress == 0) {
+                visual.handler.setProgress(0);
+            } else {
+                float progress = actionComponent.action.progress / actionComponent.action.maxProgress;
+                visual.handler.setProgress(progress);
+            }
         }
 
         private void disableProgressBarForUnit(EcsEntity entity, UnitVisualComponent visual) {

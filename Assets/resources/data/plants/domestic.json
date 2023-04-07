@@ -2,146 +2,79 @@
   {
     "name": "radish",
     "title": "Radish",
-    "description": "Pink root-crop with green leaves. Is fast and easy to grow, but has bitter taste.",
-    "temperatureBounds": ["-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "placingTags": ["water_near", "water_far", "soil_stone"],
+    "description": "Pink root-crop with green leaves. It's fast and easy to grow, but has bitter taste.",
+    "lifespan" : 4,
+    "destroyOnHarvest" : true,
     "tileXY": ["0", "0"],
-    "lifeStages": [
-      {
-        "titlePrefixSuffix": ["Young", ""],
-        "stageLength": "1"
-      }, {
-        "titlePrefixSuffix": ["", ""],
-        "stageLength": "2"
-      }, {
-        "titlePrefixSuffix": ["Grown", ""],
-        "stageLength": "2",
-        "harvestProduct": "radish",
-        "productDropRatio": "2"
-      }
-    ]
+    "tiles": 5,
+    "productItemType" : "radish",
+    "productCount" :  2,
+    "harvestPeriod" : 20
   }, {
   "name": "turnip",
   "title": "Turnip",
   "description": "Large yellow root-crop with green leaves. Grows fast, but not everyone likes its taste.",
-  "temperatureBounds": ["-40", "40"],
-  "rainfallBounds": ["0", "100"],
-  "placingTags": ["water_near", "water_far", "soil_stone"],
-  "tileXY": ["3", "0"],
-  "lifeStages": [
-    {
-      "titlePrefixSuffix": ["Young", ""],
-      "stageLength": "2"
-    }, {
-      "titlePrefixSuffix": ["", ""],
-      "stageLength": "2"
-    }, {
-      "titlePrefixSuffix": ["Grown", ""],
-      "stageLength": "2",
-      "harvestProduct": "turnip",
-      "productDropRatio": "2"
-    }
-  ]
+  "lifespan" : 5,
+  "destroyOnHarvest" : true,
+  "tileXY": ["0", "1"],
+  "tiles": 5,
+  "productItemType" : "turnip",
+  "productCount" :  2,
+  "harvestPeriod" : 20
 }, {
   "name": "wheat",
   "title": "Wheat",
-  "description": "Tall grass which produce grain. Its decent yield made it main ration component in most societies.",
-  "temperatureBounds": ["-40", "40"],
-  "rainfallBounds": ["0", "100"],
-  "placingTags": ["water_near", "water_far", "soil_stone"],
-  "tileXY": ["6", "0"],
-  "lifeStages": [
-    {
-      "titlePrefixSuffix": ["Young", ""],
-      "stageLength": "2"
-    }, {
-      "titlePrefixSuffix": ["", ""],
-      "stageLength": "3"
-    }, {
-      "titlePrefixSuffix": ["", ""],
-      "stageLength": "2"
-    }, {
-      "titlePrefixSuffix": ["Grown", ""],
-      "stageLength": "2",
-      "harvestProduct": "wheat",
-      "productDropRatio": "4"
-    }
-  ]
+  "description": "",
+  "lifespan" : 10,
+  "destroyOnHarvest" : true,
+  "tileXY": ["0", "2"],
+  "tiles": 5,
+  "productItemType" : "wheat",
+  "productCount" :  4,
+  "harvestPeriod" : 15
 }, {
   "name": "cabbage",
   "title": "Cabbage",
   "description": "Large vegetable with meaty leaves. Takes moderate time to grow and provides good amount of food.",
-  "temperatureBounds": ["-40", "40"],
-  "rainfallBounds": ["0", "100"],
-  "placingTags": ["water_near", "water_far", "soil_stone"],
-  "tileXY": ["10", "0"],
-  "lifeStages": [
-    {
-      "titlePrefixSuffix": ["Young", ""],
-      "stageLength": "2"
-    }, {
-      "titlePrefixSuffix": ["", ""],
-      "stageLength": "3"
-    }, {
-      "titlePrefixSuffix": ["", ""],
-      "stageLength": "3"
-    }, {
-      "titlePrefixSuffix": ["Grown", ""],
-      "stageLength": "2",
-      "harvestProduct": "cabbage",
-      "productDropRatio": "5"
-    }
-  ]
+  "lifespan" : 15,
+  "destroyOnHarvest" : true,
+  "tileXY": ["0", "3"],
+  "tiles": 5,
+  "productItemType" : "cabbage",
+  "productCount" :  8,
+  "harvestPeriod" : 10
 }, {
   "name": "pumpkin",
   "title": "Pumpkin",
   "description": "Long-growing orange vegetables, known for its mild sweet taste.",
-  "temperatureBounds": ["-40", "40"],
-  "rainfallBounds": ["0", "100"],
-  "placingTags": ["water_near", "water_far", "soil_stone"],
-  "tileXY": ["14", "0"],
-  "lifeStages": [
-    {
-      "titlePrefixSuffix": ["Young", ""],
-      "stageLength": "3"
-    }, {
-      "titlePrefixSuffix": ["", ""],
-      "stageLength": "3"
-    }, {
-      "titlePrefixSuffix": ["", ""],
-      "stageLength": "4"
-    }, {
-      "titlePrefixSuffix": ["Grown", ""],
-      "stageLength": "2",
-      "harvestProduct": "pumpkin",
-      "productDropRatio": "4"
-    }
-  ]
+  "lifespan" : 20,
+  "destroyOnHarvest" : true,
+  "tileXY": ["0", "4"],
+  "tiles": 5,
+  "productItemType" : "pumpkin",
+  "productCount" :  12,
+  "harvestPeriod" : 10
 }, {
   "name": "tomato",
   "title": "Tomato",
   "description": "Fragile red fruit valued by cooks. Long growing time and relatively low yields are compensated by delicious taste.",
-  "temperatureBounds": ["-40", "40"],
-  "rainfallBounds": ["0", "100"],
-  "placingTags": ["water_near", "water_far", "soil_stone"],
-  "tileXY": ["18", "0"],
-  "lifeStages": [
-    {
-      "titlePrefixSuffix": ["Young", ""],
-      "stageLength": "3"
-    }, {
-      "titlePrefixSuffix": ["", ""],
-      "stageLength": "5"
-    }, {
-      "titlePrefixSuffix": ["", ""],
-      "stageLength": "4"
-    }, {
-      "titlePrefixSuffix": ["Grown", ""],
-      "stageLength": "2",
-      "harvestProduct": "tomato",
-      "productDropRatio": "3"
-    }
-  ]
+  "lifespan" : 14,
+  "destroyOnHarvest" : true,
+  "tileXY": ["0", "5"],
+  "tiles": 5,
+  "productItemType" : "tomato",
+  "productCount" :  5,
+  "harvestPeriod" : 15
+}, {
+  "name": "pepper",
+  "title": "Pepper",
+  "description": "",
+  "lifespan" : 12,
+  "destroyOnHarvest" : true,
+  "tileXY": ["0", "6"],
+  "tiles": 5,
+  "productItemType" : "pepper",
+  "productCount" :  9,
+  "harvestPeriod" : 15
 }
 ]

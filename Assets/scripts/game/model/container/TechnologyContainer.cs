@@ -3,6 +3,6 @@
 namespace game.model.container {
     // stores knowledges, available to player
     public class TechnologyContainer {
-        public List<string> farmPlants = new() {"radish", "turnip", "pumpkin", "tomato"};
+        public List<string> farmPlants = new() {"radish", "turnip", "pumpkin", "tomato", "wheat", "cabbage"};
     }
 }

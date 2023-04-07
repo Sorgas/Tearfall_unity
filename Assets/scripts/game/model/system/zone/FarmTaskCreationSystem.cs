@@ -11,6 +11,7 @@ namespace game.model.system.zone {
     public class FarmTaskCreationSystem : LocalModelIntervalEcsSystem { // TODO make interval
         public EcsFilter<FarmComponent>.Exclude<FarmOpenHoeingTaskComponent> hoeingFilter;
         public EcsFilter<FarmComponent>.Exclude<FarmOpenPlantingTaskComponent> plantingFilter;
+        public EcsFilter<FarmComponent>.Exclude<FarmOpenRemovingTaskComponent> removeFilter;
         private readonly TaskGenerator generator = new();
 
         public FarmTaskCreationSystem() : base(100) { }
@@ -27,6 +28,12 @@ namespace game.model.system.zone {
                 FarmComponent farm = plantingFilter.Get1(i);
                 ZoneComponent zone = entity.take<ZoneComponent>();
                 tryCreatePlantingTask(entity, zone, farm);
+            }
+            foreach (int i in removeFilter) {
+                EcsEntity entity = removeFilter.GetEntity(i);
+                FarmComponent farm = removeFilter.Get1(i);
+                ZoneComponent zone = entity.take<ZoneComponent>();
+                tryCreateRemovingTask(entity, zone, farm);
             }
         }
 
@@ -46,6 +53,10 @@ namespace game.model.system.zone {
                 EcsEntity task = createTask(action);
                 entity.Replace(new FarmOpenPlantingTaskComponent { plantTask = task });
             }
+        }
+
+        private void tryCreateRemovingTask(EcsEntity entity, ZoneComponent zone, FarmComponent farm) {
+            
         }
 
         // TODO add farmer job

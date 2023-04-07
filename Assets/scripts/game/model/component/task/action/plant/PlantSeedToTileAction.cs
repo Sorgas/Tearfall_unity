@@ -1,7 +1,4 @@
-﻿using game.model.component.task.action.equipment;
-using game.model.component.task.action.equipment.obtain;
-using game.model.component.task.action.target;
-using game.model.container;
+﻿using game.model.component.task.action.target;
 using generation.plant;
 using Leopotam.Ecs;
 using types.action;
@@ -20,23 +17,27 @@ namespace game.model.component.task.action.plant {
         private string plantName;
         
         public PlantSeedToTileAction(Vector3Int tile, EcsEntity zone) : base(new PositionActionTarget(tile, ActionTargetTypeEnum.NEAR)) {
-            name = "plant seed to tile";
+            name = "plant farm tile";
             this.zone = zone;
             seedSelector = new SeedItemSelector(zone.take<FarmComponent>().plant);
             plantName = zone.take<FarmComponent>().plant;
             maxProgress = 100;
             startCondition = () => {
+
                 // if (seedSelector.checkItem(equipment().hauledItem)) return OK;
                 // EcsEntity seedItem = model.itemContainer.util.findFreeReachableItemBySelector(seedSelector, performer.pos());
                 // if (seedItem != EcsEntity.Null) {
                 //     return addPreAction(new ObtainItemAction(seedItem));
                 // }
                 // return FAIL;
+                lockZoneTile(zone, tile);
                 return OK;
             };
 
             onFinish = () => {
                 createPlant();
+                unlockZoneTile(zone, tile);
+                // Debug.Log("action " + name + " finished " + tile);
             };
         }
 

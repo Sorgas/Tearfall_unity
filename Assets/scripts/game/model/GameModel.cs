@@ -22,14 +22,15 @@ namespace game.model {
             Debug.Log("initializing model for " + name);
             currentLocalModel = localMapModels[name];
             currentLocalModel.init();
-            updateController = new(this);
+            updateController = new();
             Debug.Log("model initialized");
         }
 
         // TODO remove
         public static LocalModel local() => get().currentLocalModel;
 
-        public void update(int ticks) {
+        public void update() {
+            int ticks = updateController.getTicksForUpdate();
             globalSharedData.set(ticks);
             counter.update(ticks); // debug thing
             gameTime.update(ticks); // calendar
