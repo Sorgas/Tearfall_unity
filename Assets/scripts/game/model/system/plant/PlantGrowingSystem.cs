@@ -1,5 +1,6 @@
 ﻿using game.model.component.plant;
 using Leopotam.Ecs;
+using UnityEngine;
 using static game.model.component.plant.PlantUpdateType;
 
 namespace game.model.system.plant {
@@ -21,7 +22,9 @@ namespace game.model.system.plant {
                     // TODO check light level on plant tile
                     // TODO check current temperature on plant tile
                     plant.growth += PLANT_AGE_DELTA * updates / plant.type.maturityAge;
+                    Debug.Log(plant.growth);
                     if (plant.growth > plant.type.growthStages[plant.currentStage]) {
+                        Debug.Log("stage " + plant.currentStage);
                         plant.currentStage++;
                         filter.GetEntity(i).Replace(new PlantVisualUpdateComponent { type = GROW });
                         filter.GetEntity(i).Replace(new PlantUpdateComponent { type = GROW });

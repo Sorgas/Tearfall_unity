@@ -19,7 +19,7 @@ namespace types.plant {
         public int[] tileXY;
         public int tiles; // number of tiles in row. [n - 1] tiles are equally spread along growth period (growthStages), last tile is shown when plant is mature
         public string atlasName;
-        public float[] growthStages; // [0; 1] based on number of tiles 
+        public float[] growthStages; // [0; 1] based on number of tiles
 
         // product
         public string productItemType; // products differ between stages
@@ -66,7 +66,7 @@ namespace types.plant {
         private void countLifeStages(RawPlantType raw) {
             growthStages = new float[raw.tiles];
             for (int i = 0; i < raw.tiles; i++) {
-                growthStages[i] = (i + 1) / (float)tiles;
+                growthStages[i] = (i + 1) / (float)(tiles - 1);
             }
         }
 

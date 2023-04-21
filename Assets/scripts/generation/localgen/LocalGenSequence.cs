@@ -23,15 +23,13 @@ namespace generation.localgen {
 
         public LocalGenSequence(LocalMapGenerator generator) {
             this.generator = generator;
-            // generate to localMap
             generators.Add(new LocalElevationGenerator(generator));
             generators.Add(new LocalStoneLayersGenerator(generator));
             generators.Add(new LocalRampFloorPlacer(generator));
             generators.Add(new LocalSubstrateGenerator(generator));
-            // generate to 
             generators.Add(new LocalBuildingGenerator(generator));
             generators.Add(new LocalUnitGenerator(generator));
-            generators.Add(new LocalForestGenerator(generator));
+            // generators.Add(new LocalForestGenerator(generator));
             generators.Add(new LocalItemGenerator(generator));
             maxProgress = generators.Count - 1;
         }

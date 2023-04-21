@@ -22,9 +22,7 @@ namespace game.view.system.plant {
                     PlantType plantType = plant.type;
                     visual.spriteRenderer.sprite = PlantTypeMap.get().spriteMap.getSprite(plantType.name, plant.currentStage);
                     visual.tileNumber = plant.currentStage;
-                    continue;
-                }
-                if (type == NEW) {
+                } else if (type == NEW) {
                     entity.Replace(createVisualComponent(entity, plant));
                     // create visual component
                 }
