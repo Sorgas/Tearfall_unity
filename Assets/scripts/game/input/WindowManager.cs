@@ -14,15 +14,15 @@ namespace game.input {
     // opens and closes windows by window name
     // passes input to active window
     public class WindowManager : Singleton<WindowManager>, IHotKeyAcceptor {
-        public readonly Dictionary<string, IWindow> windows = new(); // windows by name
+        public readonly Dictionary<string, INamed> windows = new(); // windows by name
         public string activeWindowName = "";
-        public IWindow activeWindow;
+        public INamed activeWindow;
 
         public bool accept(KeyCode key) {
             return (activeWindow as IHotKeyAcceptor)?.accept(key) ?? false;
         }
 
-        public void addWindow(IWindow window) {
+        public void addWindow(INamed window) {
             windows.Add(window.getName(), window);
         }
 
@@ -43,9 +43,15 @@ namespace game.input {
             GameView.get().cameraAndMouseHandler.enabled = true;
         }
 
+        public void closeAll() {
+            foreach (string name in windows.Keys) {
+                closeWindow(name);
+            }
+        }
+
         public void showWindowForBuilding(EcsEntity entity) {
             if(entity.Has<WorkbenchComponent>()) {
-                IWindow window = windows[WorkbenchWindowHandler.name];
+                INamed window = windows[WorkbenchWindowHandler.name];
                 ((WorkbenchWindowHandler) window).init(entity);
                 showWindow(WorkbenchWindowHandler.name, false);
             }
@@ -53,7 +59,7 @@ namespace game.input {
 
         public void showWindowForUnit(EcsEntity entity) {
             if(entity.Has<UnitComponent>()) {
-                IWindow window = windows[UnitMenuHandler.NAME];
+                INamed window = windows[UnitMenuHandler.NAME];
                 ((UnitMenuHandler) window).initFor(entity);
                 showWindow(UnitMenuHandler.NAME, false);
             }
@@ -72,7 +78,7 @@ namespace game.input {
 
         public bool showWindow(string name, bool disableCamera) {
             closeWindow(activeWindowName);
-            IWindow window = windows[name];
+            INamed window = windows[name];
             log("window " + window.getName() + " shown.");
             activeWindow = window;
             activeWindowName = name;

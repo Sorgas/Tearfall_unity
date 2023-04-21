@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 
 namespace types.plant.raw {
-    
+
     [Serializable]
     public class RawPlantType {
         public string name;
         public string title;
         public string description;
         public string material = "generic_plant"; // is null for substrates
-        public float lifespan; // in days
+        
+        public float maxAge; // in days, plant dies after this
+        public float maturityAge; // in days, plant becomes harvestable, last sprite applied, fertility can speed up growth
+
         public bool isTree; // false by default
         public bool destroyOnHarvest; // false by default
 
@@ -18,13 +21,12 @@ namespace types.plant.raw {
         public int tiles; // length of tiles row. tiles are equally spread along lifespan, last tile is shown when plant is ready for harvest.
         public string atlasName; // same as json file by default
 
-        // product
-        public string productItemType; // products differ between stages
+        // product. 
+        public string productItemType; // should be present for other fields to work
         public string productMaterial; // generic_plant by default
         public int productCount; // per block, scaled to plant health
-        public float harvestPeriod; // when present, plant is harvestable in the end of lifespan
         public string harvestMonth; // when present, plant is harvestable in specified month
-        
+
         // public List<RawPlantLifeStage> lifeStages = new List<RawPlantLifeStage>();
         // public List<string> placingTags = new List<string>();
         // // "placingTags": ["water_near", "water_far", "soil_stone"],

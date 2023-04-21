@@ -57,7 +57,7 @@ namespace game.model.container {
             return !buildings.ContainsKey(position) || buildings[position].take<BuildingComponent>().type.passage != "impassable";
         }
 
-        public EcsEntity get(Vector3Int position) {
+        public EcsEntity getBuilding(Vector3Int position) {
             return buildings.ContainsKey(position) ? buildings[position] : EcsEntity.Null;
         }
 

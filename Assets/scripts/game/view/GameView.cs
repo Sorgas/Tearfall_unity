@@ -30,7 +30,6 @@ namespace game.view {
         public void init(LocalGameRunner sceneObjectsContainer, LocalModel model) {
             Debug.Log("initializing view");
             this.sceneObjectsContainer = sceneObjectsContainer;
-            initWindowManager();
             initEcs(GameModel.get().currentLocalModel.ecsWorld);
             tileUpdater = new LocalMapTileUpdater(sceneObjectsContainer.mapHolder, model);
             PlayerControls playerControls = new();
@@ -38,6 +37,7 @@ namespace game.view {
             KeyInputSystem.get().playerControls = playerControls;
             cameraAndMouseHandler.init();
             selector = new();
+            initWindowManager();
 
             selector.updateBounds();
             selector.zRange.set(0, GameModel.get().currentLocalModel.localMap.bounds.maxZ - 1);
@@ -62,7 +62,7 @@ namespace game.view {
                 .Add(new ItemVisualSystem())
                 .Add(new ItemVisualRemoveSystem())
                 .Add(new DesignationVisualSystem())
-                .Add(new PlantVisualSystem())
+                .Add(new PlantVisualUpdateSystem())
                 .Add(new BuildingVisualSystem())
                 .Add(new WorkbenchWindowUpdateSystem())
                 .Add(new UnitMenuUpdateSystem())
@@ -79,10 +79,13 @@ namespace game.view {
             system.windowManager.addWindow(sceneObjectsContainer.unitMenuHandler);
             system.windowManager.addWindow(sceneObjectsContainer.stockpileMenuHandler);
             system.windowManager.addWindow(sceneObjectsContainer.farmMenuHandler);
+            system.windowManager.addWindow(sceneObjectsContainer.plantMenuHandler);
+            system.windowManager.closeAll();
             
             system.widgetManager.addWidget(sceneObjectsContainer.gamespeedWidgetHandler);
             system.widgetManager.addWidget(sceneObjectsContainer.menuWidget);
             system.widgetManager.addWidget(sceneObjectsContainer.toolbarWidget);
+            
         }
 
         private void resetCameraPosition() {

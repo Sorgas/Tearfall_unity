@@ -27,7 +27,7 @@ namespace game.view.tilemaps {
         private RectTransform mapHolder;
         private LocalModel model;
         private LocalMap map;
-        public int viewDepth = 6;
+        public int viewDepth = 5;
 
         public LocalMapTileUpdater(RectTransform mapHolder, LocalModel model) {
             this.mapHolder = mapHolder;

@@ -10,9 +10,9 @@ using UnityEngine.UI;
 using util.lang.extension;
 
 namespace game.view.ui.jobs_widget {
-    public class JobsWindowHandler : MbWindow, IHotKeyAcceptor {
+    public class JobsWindowHandler : WindowManagerMenu {
         public const string name = "jobs";
-        
+
         public RectTransform header;
         public RectTransform content;
         private const string iconPath = "prefabs/jobsmenu/JobIcon";
@@ -94,11 +94,11 @@ namespace game.view.ui.jobs_widget {
         public override string getName() => name;
 
         public bool accept(KeyCode key) {
-            switch (key) {
-                case KeyCode.J:
-                case KeyCode.Q:
+            if (!base.accept(key)) {
+                if (key == KeyCode.J) {
                     WindowManager.get().closeWindow(name);
                     return true;
+                }
             }
             return false;
         }

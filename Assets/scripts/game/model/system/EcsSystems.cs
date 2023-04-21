@@ -22,7 +22,7 @@ namespace game.model.system {
     
     public abstract class LocalModelIntervalEcsSystem : LocalModelScalableEcsSystem {
         private int counter;
-        private readonly int interval;
+        private readonly int interval; // in ticks
 
         protected LocalModelIntervalEcsSystem(int interval) {
             this.interval = interval;

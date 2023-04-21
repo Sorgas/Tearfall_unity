@@ -22,6 +22,7 @@ namespace game.view.camera {
         public void init() {
             camera = GameView.get().sceneObjectsContainer.mainCamera;
             updateCameraBounds();
+            updateCameraSpeed();
         }
 
         public void update() {
@@ -33,7 +34,7 @@ namespace game.view.camera {
         public void zoomCamera(float delta) {
             if (delta == 0) return;
             camera.orthographicSize = cameraZoomRange.clamp(camera.orthographicSize + delta * 2);
-            cameraTargetChangeMod = camera.orthographicSize * 0.04f;
+            updateCameraSpeed();
             updateCameraBounds(); // visible area size changed, but still need to maintain 3 visible offmap tiles
             ensureCameraBounds();
         }
@@ -59,6 +60,9 @@ namespace game.view.camera {
             camera.transform.localPosition = target;
         }
 
+        // camera speed depends on zoom level
+        private void updateCameraSpeed() => cameraTargetChangeMod = camera.orthographicSize * 0.04f;
+
         // sets camera target by value (scene)
         private void setCameraTarget(float x, float y, float z) {
             target.Set(x, y, z);
@@ -66,16 +70,16 @@ namespace game.view.camera {
         }
 
         // updates camera bounds to make 3 tiles around map visible
-        public void updateCameraBounds() {
+        private void updateCameraBounds() {
             LocalMap map = GameModel.get().currentLocalModel.localMap;
+            float cameraWidth = camera.orthographicSize * Screen.width / Screen.height;
             cameraBounds.set(1, 1, map.bounds.maxX, map.bounds.maxY);
-            cameraBounds.extendX((int)(OVERLOOK_TILES - cameraWidth()));
+            cameraBounds.extendX((int)(OVERLOOK_TILES - cameraWidth));
             cameraBounds.extendY((int)(OVERLOOK_TILES - camera.orthographicSize));
             cameraBounds.move(0, -target.z / 4f);
         }
 
+        // puts camera into bounds
         private void ensureCameraBounds() => target = cameraBounds.putInto(target);
-
-        private float cameraWidth() => camera.orthographicSize * Screen.width / Screen.height;
     }
 }

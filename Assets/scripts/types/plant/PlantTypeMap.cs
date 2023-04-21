@@ -7,9 +7,13 @@ using util.lang;
 namespace types.plant {
     public class PlantTypeMap : Singleton<PlantTypeMap> {
         private Dictionary<string, PlantType> map = new();
+        public readonly PlantSpriteMap spriteMap = new();
 
         public PlantTypeMap() {
             loadAll();
+            foreach (PlantType plantType in map.Values) {
+                spriteMap.createSprites(plantType);
+            }
         }
 
         public PlantType get(string name) {

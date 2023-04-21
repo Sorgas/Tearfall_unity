@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using game.model.component;
-using game.model.component.item;
 using game.model.localmap;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -14,6 +13,13 @@ namespace game.model.container.item {
         public readonly HashSet<EcsEntity> all = new(); // for checking if item is on map
 
         public OnMapItemsManager(LocalModel model, ItemContainer container) : base(model, container) { }
+        
+        public List<EcsEntity> getItems(Vector3Int position) {
+            if (itemsOnMap.ContainsKey(position)) {
+                return itemsOnMap[position];
+            }
+            return new List<EcsEntity>();
+        }
 
         // adds item without position to specified position on map (used in gameplay)
         public void putItemToMap(EcsEntity item, Vector3Int position) {

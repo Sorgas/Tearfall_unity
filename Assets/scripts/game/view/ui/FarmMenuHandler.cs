@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using game.input;
 using game.model;
 using game.model.component;
@@ -17,7 +16,7 @@ using util.lang.extension;
 using ZoneTasksComponent = game.model.component.ZoneTasksComponent;
 
 namespace game.view.ui {
-    public class FarmMenuHandler : MbWindow, IHotKeyAcceptor {
+    public class FarmMenuHandler : WindowManagerMenu {
         public const string NAME = "farm";
         public TextMeshProUGUI farmName;
         public Image selectedPlantIcon;

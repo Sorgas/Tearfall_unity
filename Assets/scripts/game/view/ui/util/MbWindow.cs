@@ -3,7 +3,7 @@
 namespace game.view.ui.util {
     
     // window is UI piece that can be closed and opened
-    public class MbWindow : MonoBehaviour, IWindow {
+    public abstract class MbWindow : MonoBehaviour, ICloseable {
         
         public virtual void close() {
             gameObject.SetActive(false);
@@ -11,10 +11,6 @@ namespace game.view.ui.util {
 
         public virtual void open() {
             gameObject.SetActive(true);
-        }
-
-        public virtual string getName() {
-            return "";
         }
     }
 }

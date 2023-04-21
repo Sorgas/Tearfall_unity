@@ -15,7 +15,7 @@ using UnityEngine.UI;
 using util.lang.extension;
 
 namespace game.view.ui.workbench {
-    public class WorkbenchWindowHandler : MbWindow, IHotKeyAcceptor {
+    public class WorkbenchWindowHandler : WindowManagerMenu {
         public const string name = "workbench";
         public TextMeshProUGUI workbenchNameText;
         public Button addOrderButton;
@@ -51,13 +51,6 @@ namespace game.view.ui.workbench {
         public void updateState() {
             WorkbenchComponent workbench = entity.take<WorkbenchComponent>();
             fillOrdersList(workbench);
-        }
-
-        public bool accept(KeyCode key) {
-            if (key == KeyCode.Q) {
-                WindowManager.get().closeWindow(name);
-            }
-            return true;
         }
 
         public void createOrder(string recipeName) => createOrder(recipeName, orderLines.Count);

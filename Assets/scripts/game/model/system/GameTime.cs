@@ -11,8 +11,8 @@ namespace game.model.system {
     // stores game time state and constants
     public class GameTime {
         public const int ticksPerMinute = 20; // ticks of minute
-        public const int ticksPerHour = 1200; // ticks of hour (hour is 60 minutes)
-        public const int ticksPerDay = 28800; // ticks of day (day is 24 hours)
+        public const int ticksPerHour = ticksPerMinute * 60; // ticks of hour (hour is 60 minutes)
+        public const int ticksPerDay = ticksPerHour * 24; // ticks of day (day is 24 hours)
 
         public const float baseRestSpeed = 1;
 
@@ -32,13 +32,13 @@ namespace game.model.system {
                     if (minute == 60) {
                         minute = 0;
                         hour++;
-                        if(hour == 24) {
+                        if (hour == 24) {
                             hour = 0;
                             day++;
-                            if(day == 31) {
+                            if (day == 31) {
                                 day = 1;
-                                month ++;
-                                if(month == 13) {
+                                month++;
+                                if (month == 13) {
                                     month = 1;
                                     year++;
                                 }

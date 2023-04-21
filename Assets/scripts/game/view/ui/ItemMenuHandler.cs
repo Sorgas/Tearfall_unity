@@ -1,19 +1,15 @@
-using System;
 using System.Linq;
-using game.input;
 using game.model.component.item;
 using game.view.ui.util;
 using game.view.util;
 using Leopotam.Ecs;
 using TMPro;
-using types.item;
 using types.item.type;
-using UnityEngine;
 using UnityEngine.UI;
 using util.lang.extension;
 
 namespace game.view.ui {
-    public class ItemMenuHandler : MbWindow, IHotKeyAcceptor {
+    public class ItemMenuHandler : WindowManagerMenu {
         public const string name = "item_menu";
         public Image image;
         public TextMeshProUGUI itemTitle;
@@ -21,11 +17,6 @@ namespace game.view.ui {
         public TextMeshProUGUI itemTags;
     
         public EcsEntity item;
-
-        public bool accept(KeyCode key) {
-            if(key == KeyCode.Q) WindowManager.get().closeWindow(name);
-            return true;
-        }
 
         public void FillForItem(EcsEntity item) {
             ItemComponent component = item.take<ItemComponent>();

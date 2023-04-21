@@ -8,8 +8,8 @@ namespace game.model {
         public const float UPDATE_TICK_DELTA = 1 / 30f; // ticks per second on normal game speed
         public bool paused = false;
         public int speed = 1; // [1; 3]
-        private float remainingTime;
-        private float previous = Time.realtimeSinceStartup;
+        private float remainingTime; // excess time after counting ticks
+        private float previous = Time.realtimeSinceStartup; // time of previous call
 
         // returns ticks to be passed to game model
         public int getTicksForUpdate() {

@@ -10,7 +10,7 @@ using static generation.zone.StockpileConfigItemStatus;
 using Vector3 = UnityEngine.Vector3;
 
 namespace game.view.ui.stockpileMenu {
-    public class StockpileConfigMenuHandler : MbWindow, IHotKeyAcceptor {
+    public class StockpileConfigMenuHandler : MbWindow {
         private static string ROW_NAME = "StockpileCategoryRow";
         public Transform categoriesContainer;
         public Transform itemTypesContainer;
@@ -40,7 +40,7 @@ namespace game.view.ui.stockpileMenu {
             stockpile = EcsEntity.Null;
             base.close();
         }
-
+        
         // enables category, item type or material
         public void toggle(string category, string itemType, string material, StockpileConfigItem configItem) {
             Debug.Log("enable " + configItem.level + " " + category + " " + itemType + " " + material + " " + configItem.status);

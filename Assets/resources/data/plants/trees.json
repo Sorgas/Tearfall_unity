@@ -3,6 +3,9 @@
     "name": "oak",
     "title": "Oak",
     "material": "oak",
-    "tileXY": [0,0]
+    "tileXY": [0,0],
+    "maxAge" : 365000,
+    "maturityAge" : 40,
+    "tiles": 1
   }
 ]

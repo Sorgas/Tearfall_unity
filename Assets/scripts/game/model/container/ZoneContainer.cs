@@ -14,8 +14,8 @@ using util.lang.extension;
 
 namespace game.model.container {
     public class ZoneContainer : LocalModelContainer {
-        public HashSet<EcsEntity> zoneSet = new();
-        public Dictionary<Vector3Int, EcsEntity> zones = new();
+        public readonly HashSet<EcsEntity> zoneSet = new();
+        public readonly Dictionary<Vector3Int, EcsEntity> zones = new();
         private ZoneGenerator zoneGenerator = new();
         private bool debug = true;
         public readonly StockpileInitializer stockpileInitializer = new();

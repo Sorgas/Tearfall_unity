@@ -13,10 +13,7 @@ namespace game.model.container.item {
                 Debug.LogError("Item " + item + " has no position.");
             }
             Vector3Int position = item.pos();
-            if (!container.onMap.itemsOnMap.ContainsKey(position)) {
-                Debug.LogError("Tile on " + item + " position is empty.");
-            }
-            if (!container.onMap.itemsOnMap[position].Contains(item)) {
+            if (!container.onMap.getItems(position).Contains(item)) {
                 Debug.LogError("Item " + item + " is not registered by its position.");
             }
         }

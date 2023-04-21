@@ -7,7 +7,6 @@ using game.model.component.task.action;
 using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.zone;
 using game.model.container;
-using game.model.localmap;
 using game.model.util;
 using Leopotam.Ecs;
 using types;

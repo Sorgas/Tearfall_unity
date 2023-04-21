@@ -5,6 +5,7 @@ using Leopotam.Ecs;
 using types.plant;
 using UnityEngine;
 using util.lang.extension;
+using static game.model.component.plant.PlantUpdateType;
 
 namespace generation.plant {
     public class PlantGenerator {
@@ -14,12 +15,8 @@ namespace generation.plant {
             PlantType type = PlantTypeMap.get().get(typeName);
             entity.Replace(new PlantComponent { block = createPlantBlock(entity, type), type = type });
             entity.Replace(new NameComponent { name = type.title });
-            return entity;
-        }
-
-        public EcsEntity generate(string typeName, Vector3Int position, EcsEntity entity) {
-            generate(typeName, entity);
-            entity.Replace(new PositionComponent { position = position });
+            entity.Replace(new PlantVisualUpdateComponent{type = NEW});
+            
             return entity;
         }
 
@@ -29,6 +26,12 @@ namespace generation.plant {
             return generate(plantName, position, entity);
         }
         
+        private EcsEntity generate(string typeName, Vector3Int position, EcsEntity entity) {
+            generate(typeName, entity);
+            entity.Replace(new PositionComponent { position = position });
+            return entity;
+        }
+
         private PlantBlock createPlantBlock(EcsEntity entity, PlantType type) {
             PlantBlock block = new(type.material, PlantBlockTypeEnum.TRUNK.code);
             block.plant = entity;

@@ -11,7 +11,7 @@ using util.lang.extension;
 namespace game.view.ui.stockpileMenu {
     // menu for stockpiles. allows to do basic actions. allows to open config menu and presets menu.
     // TODO stats block, containers buttons
-    public class StockpileMenuHandler : MbWindow, IHotKeyAcceptor {
+    public class StockpileMenuHandler : WindowManagerMenu {
         public const string name = "stockpile";
         public Button closeButton;
         public Button pauseButton;
@@ -48,12 +48,9 @@ namespace game.view.ui.stockpileMenu {
             presetNameText.text = entity.take<StockpileComponent>().preset;
         }
 
-        public bool accept(KeyCode key) {
+        public new bool accept(KeyCode key) {
             if (configMenuHandler.gameObject.activeSelf) return configMenuHandler.accept(key);
-            if (key == KeyCode.Q) {
-                WindowManager.get().closeWindow(name);
-            }
-            return false;
+            return base.accept(key);
         }
 
         private void changePriority(int delta) {
@@ -70,13 +67,11 @@ namespace game.view.ui.stockpileMenu {
         }
 
         public override void close() {
-            if(configMenuHandler.gameObject.activeSelf) configMenuHandler.close();
+            if (configMenuHandler.gameObject.activeSelf) configMenuHandler.close();
             entity = EcsEntity.Null;
             base.close();
         }
 
-        public override string getName() {
-            return name;
-        }
+        public override string getName() => name;
     }
 }

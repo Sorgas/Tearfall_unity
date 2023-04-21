@@ -9,7 +9,7 @@ namespace game.model.util.validation {
         
         public override bool validate(int x, int y, int z, LocalModel model) {
             return model.localMap.blockType.get(x, y, z) == BlockTypes.FLOOR.CODE 
-                   && model.buildingContainer.get(new Vector3Int(x, y, z)) == EcsEntity.Null;
+                   && model.buildingContainer.getBuilding(new Vector3Int(x, y, z)) == EcsEntity.Null;
         }
     }
 }

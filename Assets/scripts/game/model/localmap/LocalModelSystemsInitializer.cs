@@ -37,6 +37,7 @@ namespace game.model.localmap {
             addSystem(model, new ZoneDeletionSystem());
             addSystem(model, new StockpileTaskCreationSystem());
             addSystem(model, new FarmTaskCreationSystem());
+            addSystem(model, new PlantGrowingSystem());
             model.scalableSystems
                 .Inject(GameModel.get().globalSharedData)
                 .Inject(model)

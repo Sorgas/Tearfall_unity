@@ -33,6 +33,7 @@ namespace game {
         public UnitMenuHandler unitMenuHandler;
         public StockpileMenuHandler stockpileMenuHandler;
         public FarmMenuHandler farmMenuHandler;
+        public PlantMenuHandler plantMenuHandler;
         public Text debugInfoPanel;
         public Text modelDebugInfoPanel;
 
@@ -43,7 +44,7 @@ namespace game {
         // when scene is loaded, inits game model and view
         public void Start() {
             Stopwatch stopwatch = new();
-            Debug.unityLogger.logEnabled = false;
+            Debug.unityLogger.logEnabled = true;
             System.DateTime.Now.ToString();
             stopwatch.Start();
             resolveWorld();

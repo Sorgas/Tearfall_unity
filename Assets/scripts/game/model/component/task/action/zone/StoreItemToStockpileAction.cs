@@ -10,6 +10,7 @@ using static types.action.ActionConditionStatusEnum;
 namespace game.model.component.task.action.zone {
     // TODO add containers usage
     // when assigned, searches item that can be brought to stockpile, locks item and tile, then creates put to position action.
+    // Brings only one item
     public class StoreItemToStockpileAction : Action {
         private readonly ZoneActionTarget actionTarget;
         private readonly EcsEntity zone;
@@ -33,7 +34,7 @@ namespace game.model.component.task.action.zone {
                 }
                 return OK; // put action was created and was not failed
             };
-        } 
+        }
         
         private bool findFreeTile() {
             targetTile = ZoneUtils.findFreeStockpileTile(zone.take<ZoneComponent>(), zone.take<StockpileComponent>(), model);

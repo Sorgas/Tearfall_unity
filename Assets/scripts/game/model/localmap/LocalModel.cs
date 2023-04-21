@@ -7,7 +7,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
     public class LocalModel {
         public LocalMap localMap;
         
-        public EcsWorld ecsWorld = new();
+        public readonly EcsWorld ecsWorld = new();
         public EcsSystems unscalableSystems;
         public EcsSystems scalableSystems; // for scalable and interval systems
 

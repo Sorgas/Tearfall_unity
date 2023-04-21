@@ -7,8 +7,8 @@ namespace game.input {
     // key event may go to ui-windows or ui-widgets. 
     public class KeyInputSystem : Singleton<KeyInputSystem> {
         private List<KeyCode> keyCodes;
-        public WindowManager windowManager = WindowManager.get();
-        public WidgetManager widgetManager = WidgetManager.get();
+        public readonly WindowManager windowManager = WindowManager.get();
+        public readonly WidgetManager widgetManager = WidgetManager.get();
         private List<KeyCode> pressedKeys = new();
         public PlayerControls playerControls;
         

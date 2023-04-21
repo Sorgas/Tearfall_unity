@@ -10,8 +10,8 @@ namespace game.model.container {
     // TODO handle multi-tile trees
     public class PlantContainer : LocalModelUpdateContainer {
         // private PlantProductGenerator plantProductGenerator;
-        private Dictionary<Vector3Int, PlantBlock> plantBlocks = new();
-        private Dictionary<Vector3Int, EcsEntity> plants = new();
+        public readonly Dictionary<Vector3Int, PlantBlock> plantBlocks = new();
+        public readonly Dictionary<Vector3Int, EcsEntity> plants = new();
 
         public PlantContainer(LocalModel model) : base(model) {}
 
@@ -22,6 +22,7 @@ namespace game.model.container {
             addPositionForUpdate(position);
         }
 
+        // TODO get from plantBlocks
         public EcsEntity getPlant(Vector3Int position) {
             return plants.ContainsKey(position) ? plants[position] : EcsEntity.Null;
         }

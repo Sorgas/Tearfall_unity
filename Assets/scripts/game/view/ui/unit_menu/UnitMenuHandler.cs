@@ -6,8 +6,8 @@ using Leopotam.Ecs;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace game.view.ui.unit_menu { // TODO generalize item building and unit menus to EntityWindow
-    public class UnitMenuHandler : MbWindow, IHotKeyAcceptor {
+namespace game.view.ui.unit_menu {
+    public class UnitMenuHandler : WindowManagerMenu {
         public const string NAME = "unit";
         public Image portrait;
         public UnitMenuGeneralInfoHandler generalInfoHandler;
@@ -22,7 +22,7 @@ namespace game.view.ui.unit_menu { // TODO generalize item building and unit men
         private bool inited = false;
 
         public void initFor(EcsEntity unit) {
-            if(!inited) init();
+            if (!inited) init();
             this.unit = unit;
             showPanel(generalInfoHandler);
         }
@@ -33,8 +33,8 @@ namespace game.view.ui.unit_menu { // TODO generalize item building and unit men
 
         private void showPanel(UnitMenuTab panel) {
             Debug.Log("showing panel " + panel);
-            foreach(UnitMenuTab tab in tabs) {
-                if(tab.gameObject == panel.gameObject) {
+            foreach (UnitMenuTab tab in tabs) {
+                if (tab.gameObject == panel.gameObject) {
                     tab.open();
                     tab.initFor(unit);
                     activeTab = tab;
@@ -46,12 +46,6 @@ namespace game.view.ui.unit_menu { // TODO generalize item building and unit men
 
         public override string getName() {
             return NAME;
-        }
-
-        public bool accept(KeyCode key) {
-            if(key == KeyCode.Q) WindowManager.get().closeWindow(NAME);
-            MouseToolManager.get().reset();
-            return true;
         }
 
         private void init() {

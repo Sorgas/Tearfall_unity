@@ -16,7 +16,7 @@ namespace game.model.component.task.action.needs {
 
         public SleepInBedAction(EcsEntity bed) : base(new EntityActionTarget(bed, ActionTargetTypeEnum.EXACT)) {
             startCondition = () => {
-                if (model.buildingContainer.get(bed.pos()) == bed 
+                if (model.buildingContainer.getBuilding(bed.pos()) == bed 
                     && bed.Has<BuildingSleepFurnitureC>())
                     return ActionConditionStatusEnum.OK;
                 return ActionConditionStatusEnum.FAIL;

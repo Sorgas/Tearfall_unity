@@ -22,7 +22,7 @@ namespace game.model.container.item {
             util = new(model, this);
             transition = new(model, this);
         }
-
+        
         // public void removeItem(EcsEntity item) {
         //     if (!objects.contains(item)) {
         //         Logger.ITEMS.logWarn("Removing not present item " + item.type.name);
