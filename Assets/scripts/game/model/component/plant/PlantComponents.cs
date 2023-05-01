@@ -41,9 +41,7 @@ namespace game.model.component.plant {
         public float harvestTime; 
     }
     
-    public struct PlantHarvestedComponent {
-        
-    }
+    public struct PlantHarvestedComponent { }
     
     // stores tree blocks
     public struct TreeComponent {

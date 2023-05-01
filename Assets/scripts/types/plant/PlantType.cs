@@ -22,7 +22,12 @@ namespace types.plant {
                 ? MaterialMap.get().id(material)
                 : MaterialMap.GENERIC_PLANT;
             countLifeStages();
-            productGrowthStartAbsolute = maturityAge * productGrowthStart;
+            if (productItemType != null) {
+                productGrowthStartAbsolute = maturityAge * productGrowthStart;
+                if (productGrowthTime <= 0) { // if growth time is not set, product will grow on maturityAge
+                    productGrowthTime = maturityAge - productGrowthStartAbsolute;
+                }
+            }
         }
 
         // array stores growth value of stage end. last stage has 2 and never ends,  
@@ -79,7 +84,6 @@ namespace types.plant {
 
         public RawPlantType() {
             productGrowthStart = 0; // plant will grow products from planting
-            productGrowthTime = maturityAge; // products will be ready when plant is mature 
             productKeepTime = -1; // keep products forever
         }
     }

@@ -3,6 +3,7 @@ using game.model.component.task.action.plant;
 using game.model.container;
 using Leopotam.Ecs;
 using types.plant;
+using UnityEngine;
 using util.lang.extension;
 using static types.ZoneTaskTypes;
 using Action = game.model.component.task.action.Action;
@@ -56,10 +57,11 @@ namespace game.model.system.zone {
         }
 
         private void tryCreatePlantingTask(EcsEntity entity, ZoneComponent zone, FarmComponent farm) {
-            if (PlantTypeMap.get().get(farm.plant) != null && entity.take<ZoneTrackingComponent>().tiles[PLANT].Count > 0) {
+            if (farm.plant != null && entity.take<ZoneTrackingComponent>().tiles[PLANT].Count > 0) {
                 Action action = new PlantingAction(entity);
                 EcsEntity task = createTask(action);
                 entity.Replace(new FarmOpenPlantingTaskComponent { plantTask = task });
+                Debug.Log("FarmTaskCreationSystem] plant task created for " + entity.name());
             }
         }
 

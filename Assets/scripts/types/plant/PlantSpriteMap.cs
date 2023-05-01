@@ -25,7 +25,7 @@ namespace types.plant {
         }
 
         public Sprite getSprite(string type, int number) {
-            Debug.Log(type + " " + number);
+            // Debug.Log(type + " " + number);
             return sprites[type][number];
         }
     }

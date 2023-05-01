@@ -41,6 +41,7 @@ namespace game.model.container {
             plants.Remove(plant.pos());
             plantBlocks.Remove(plant.pos());
             plant.Replace(new PlantVisualUpdateComponent{type = PlantUpdateType.REMOVE});
+            addPositionForUpdate(plant.pos());
         }
 
         public void removePlant(Vector3Int position, bool leaveProduct) {

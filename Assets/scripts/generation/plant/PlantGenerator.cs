@@ -68,18 +68,26 @@ namespace generation.plant {
             if (age < type.maturityAge) { // plant is still growing
                 entity.Replace(generateGrowthComponent(type, age));
             }
-            if (type.productItemType != null) {
-                if (age < type.productGrowthStartAbsolute) { // plant not yet grows products
-                    entity.Replace(new PlantProductGrowthWaitingComponent { productGrowthStartAbsolute = type.productGrowthStartAbsolute });
-                } else { // plant grows products
-                    // normalized in [product grow, product keep] cycle
-                    float normalizedAge = (age - type.productGrowthStartAbsolute) % (type.productGrowthTime + type.productKeepTime);
-                    if (normalizedAge < type.productGrowthTime) { // product is growing
-                        entity.Replace(generateProductGrowthComponent(type, normalizedAge));
-                    } else { // product has grown
-                        entity.Replace(new PlantHarvestableComponent());
-                        entity.Replace(new PlantHarvestKeepComponent { harvestTime = normalizedAge - type.productGrowthTime });
-                    }
+            if (type.productItemType == null) return;
+            if (age < type.productGrowthStartAbsolute) { // plant not yet grows products
+                entity.Replace(new PlantProductGrowthWaitingComponent { productGrowthStartAbsolute = type.productGrowthStartAbsolute });
+                return;
+            }
+
+            // plant grows products
+            float normalizedAge = age - type.productGrowthStartAbsolute; // after product growth started
+            if (!type.destroyOnHarvest && type.productKeepTime >= 0) // multiple harvests with limited keep time
+                normalizedAge %= type.productGrowthTime + type.productKeepTime;
+            if (normalizedAge < type.productGrowthTime) { // product is growing
+                entity.Replace(generateProductGrowthComponent(type, normalizedAge));
+            } else { // product has grown
+                entity.Replace(new PlantHarvestableComponent());
+                if (type.productKeepTime >= 0) { // limited harvest keep
+                    entity.Replace(new PlantHarvestKeepComponent { harvestTime = normalizedAge - type.productGrowthTime });
+                }
+                // single harvest, limited keep time and plant too old
+                if (type.destroyOnHarvest && type.productKeepTime >= 0 && normalizedAge > type.productGrowthTime + type.productKeepTime) {
+                    Debug.LogError("Invalid age " + age + " passed for generation of plant " + type.name);
                 }
             }
         }

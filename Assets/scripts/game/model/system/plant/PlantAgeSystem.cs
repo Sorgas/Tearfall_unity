@@ -1,5 +1,6 @@
 ﻿using game.model.component.plant;
 using Leopotam.Ecs;
+using UnityEngine;
 
 namespace game.model.system.plant {
     // plant age is limited
@@ -12,7 +13,9 @@ namespace game.model.system.plant {
                 ref PlantAgeComponent ageComponent = ref filter.Get1(i);
                 ageComponent.age += TIME_DELTA * updates;
                 if (ageComponent.age > ageComponent.maxAge) {
-                    model.plantContainer.removePlant(filter.GetEntity(1), false);
+                    EcsEntity entity = filter.GetEntity(i);
+                    Debug.Log("plant reached max age");
+                    model.plantContainer.removePlant(entity, false);
                 }
             }
         }

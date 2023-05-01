@@ -14,17 +14,19 @@ namespace game.model.localmap {
         public void init(LocalModel model) {
             model.scalableSystems = new EcsSystems(model.ecsWorld);
             model.unscalableSystems = new EcsSystems(model.ecsWorld);
+            // tasks
+            addSystem(model, new UnitTaskAssignmentSystem()); // find or create tasks for units
             addSystem(model, new UnitMovementSystem()); // move unit along path
             addSystem(model, new UnitActionPerformingSystem()); // add progress to unit's action and remove it when finished
             addSystem(model, new TaskCreationTimeoutSystem());
-            addSystem(model, new UnitNeedSystem());
-            addSystem(model, new UnitWearNeedSystem());
             addSystem(model, new UnitActionCheckingSystem()); // check action condition and target reachability, creates sub actions
-            addSystem(model, new UnitTaskAssignmentSystem()); // find or create tasks for units
             addSystem(model, new TaskAssignmentHandlingSystem()); // performs additional actions for just assigned tasks
             addSystem(model, new UnitPathfindingSystem()); // find paths to action targets
             addSystem(model, new UnitTaskCompletionSystem()); // handle unit with completed tasks
             addSystem(model, new TaskCompletionSystem()); // handle completed tasks
+
+            addSystem(model, new UnitNeedSystem());
+            addSystem(model, new UnitWearNeedSystem());
             addSystem(model, new DesignationCompletionSystem()); // handle designation with completed tasks
             addSystem(model, new DesignationTaskCreationSystem()); // create tasks for designations
             addSystem(model, new TileUpdatingSystem()); // dispatches entities updates to other update systems

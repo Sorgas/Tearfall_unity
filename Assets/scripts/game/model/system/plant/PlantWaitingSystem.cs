@@ -2,6 +2,7 @@
 using generation.plant;
 using Leopotam.Ecs;
 using types.plant;
+using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.system.plant {
@@ -28,6 +29,7 @@ namespace game.model.system.plant {
                 EcsEntity entity = harvestDestroyFilter.GetEntity(i);
                 component.harvestTime += TIME_DELTA * updates;
                 if (component.harvestTime > component.productKeepTime) {
+                    Debug.Log("plant product kept for max time");
                     entity.Del<PlantHarvestableComponent>();
                     entity.Replace(new PlantHarvestedComponent());
                 }

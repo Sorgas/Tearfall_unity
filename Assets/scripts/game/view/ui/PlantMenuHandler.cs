@@ -30,6 +30,7 @@ namespace game.view.ui {
 
         private void Update() {
             if (entity == EcsEntity.Null) return;
+            if (!entity.IsAlive()) return;
             updateText();
         }
 

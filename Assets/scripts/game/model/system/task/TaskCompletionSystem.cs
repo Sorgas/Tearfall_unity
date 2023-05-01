@@ -18,7 +18,7 @@ namespace game.model.system.task {
             foreach (var i in filter) {
                 ref EcsEntity task = ref filter.GetEntity(i);
                 TaskFinishedComponent component = filter.Get2(i);
-                log("[TaskCo pletionSystem]: completing task " + task.Get<TaskActionsComponent>().initialAction.name);
+                log("[TaskCompletionSystem]: completing task " + task.Get<TaskActionsComponent>().initialAction.name);
                 detachPerformer(ref task, component);
                 detachDesignation(ref task, component);
                 detachBuilding(ref task, component);
