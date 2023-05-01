@@ -7,6 +7,7 @@ public class OptionsMenuButtonHandler : ButtonHandler {
     public GameObject mainMenuStage;
 
     protected override void initButtons() {
+        
         buttons = new List<ButtonData> {
             new ButtonData("ApplyButton", KeyCode.E, () => {
                 // todo apply changes

@@ -58,12 +58,9 @@ namespace game.model.component.plant {
 
     // added when something happens with plant
     public struct PlantVisualUpdateComponent {
-        public PlantUpdateType type; 
-
+        public PlantUpdateType type;
     }
     
-    public struct PlantRemoveComponent {}
-
     public struct PlantUpdateComponent {
         public PlantUpdateType type;
     }

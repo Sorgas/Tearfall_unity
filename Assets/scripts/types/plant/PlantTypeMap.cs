@@ -26,13 +26,13 @@ namespace types.plant {
             TextAsset[] files = Resources.LoadAll<TextAsset>("data/plants");
             foreach (TextAsset file in files) {
                 int count = 0;
-                RawPlantType[] raws = JsonArrayReader.readArray<RawPlantType>(file.text);
-                if (raws == null) continue;
-                foreach (RawPlantType raw in raws) {
-                    PlantType type = new(raw);
-                    map.Add(type.name, type);
+                PlantType[] types = JsonArrayReader.readArray<PlantType>(file.text);
+                if (types == null) continue;
+                foreach (PlantType type in types) {
+                    type.init();
                     type.atlasName = file.name;
                     if (file.name.Equals("trees")) type.isTree = true;
+                    map.Add(type.name, type);
                     count++;
                 }
                 logMessage += "loaded " + count + " from " + file.name + "\n";

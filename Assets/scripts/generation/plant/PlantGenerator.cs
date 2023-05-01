@@ -31,7 +31,7 @@ namespace generation.plant {
             string plantName = seedItem.take<ItemSeedComponent>().plant;
             return generate(plantName, position, entity);
         }
-        
+
         private EcsEntity generate(string typeName, Vector3Int position, EcsEntity entity) {
             generate(typeName, entity);
             entity.Replace(new PositionComponent { position = position });
@@ -56,7 +56,7 @@ namespace generation.plant {
                 growthEnd = type.productGrowthTime
             };
         }
-        
+
         private PlantBlock createPlantBlock(EcsEntity entity, PlantType type) {
             PlantBlock block = new(type.materialId, PlantBlockTypeEnum.TRUNK.code);
             block.plant = entity;
@@ -77,7 +77,8 @@ namespace generation.plant {
                     if (normalizedAge < type.productGrowthTime) { // product is growing
                         entity.Replace(generateProductGrowthComponent(type, normalizedAge));
                     } else { // product has grown
-                        entity.Replace(new PlantHarvestableComponent { harvestTime = normalizedAge - type.productGrowthTime });
+                        entity.Replace(new PlantHarvestableComponent());
+                        entity.Replace(new PlantHarvestKeepComponent { harvestTime = normalizedAge - type.productGrowthTime });
                     }
                 }
             }

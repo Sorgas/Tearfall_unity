@@ -6,6 +6,7 @@ using game.model.system.task.designation;
 using game.model.system.unit;
 using game.model.system.util;
 using game.model.system.zone;
+using game.view.system.plant;
 using Leopotam.Ecs;
 
 namespace game.model.localmap {
@@ -40,9 +41,11 @@ namespace game.model.localmap {
             addSystem(model, new PlantGrowthSystem()); // grows plants to maturity
             addSystem(model, new PlantWaitingSystem()); // tracks time for growing an keeping products
             addSystem(model, new PlantProductGrowthSystem()); // grows products on plants
-            addSystem(model, new PlantRemovingSystem()); // removes plants
+            // addSystem(model, new PlantRemovingSystem()); // removes plants
             addSystem(model, new SubstrateGrowingSystem()); // spreads substrates to free tiles
-
+            addSystem(model, new PlantHarvestSystem()); // kills plants or restarts product growth
+            addSystem(model, new PlantVisualUpdateSystem()); // updates sprites of plants
+            
             model.scalableSystems.Inject(GameModel.get().globalSharedData).Inject(model).Init();
             model.unscalableSystems.Inject(GameModel.get().globalSharedData).Inject(model).Init();
         }

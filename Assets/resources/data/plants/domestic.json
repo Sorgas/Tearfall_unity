@@ -9,8 +9,7 @@
     "tileXY": ["0", "0"],
     "tiles": 5,
     "productItemType" : "radish",
-    "productCount" :  2,
-    "harvestPeriod" : 20
+    "productCount" :  2
   }, 
   {
     "name": "radish",
@@ -22,8 +21,7 @@
     "tileXY": ["0", "0"],
     "tiles": 5,
     "productItemType" : "radish",
-    "productCount" :  2,
-    "harvestPeriod" : 20
+    "productCount" :  2
   }, {
   "name": "turnip",
   "title": "Turnip",
@@ -34,8 +32,7 @@
   "tileXY": ["0", "1"],
   "tiles": 5,
   "productItemType" : "turnip",
-  "productCount" :  2,
-  "harvestPeriod" : 20
+  "productCount" :  2
 }, {
   "name": "wheat",
   "title": "Wheat",
@@ -46,8 +43,7 @@
   "tileXY": ["0", "2"],
   "tiles": 5,
   "productItemType" : "wheat",
-  "productCount" :  4,
-  "harvestPeriod" : 15
+  "productCount" :  4
 }, {
   "name": "cabbage",
   "title": "Cabbage",
@@ -58,8 +54,7 @@
   "tileXY": ["0", "3"],
   "tiles": 5,
   "productItemType" : "cabbage",
-  "productCount" :  8,
-  "harvestPeriod" : 10
+  "productCount" :  8
 }, {
   "name": "pumpkin",
   "title": "Pumpkin",
@@ -70,8 +65,7 @@
   "tileXY": ["0", "4"],
   "tiles": 5,
   "productItemType" : "pumpkin",
-  "productCount" :  12,
-  "harvestPeriod" : 10
+  "productCount" :  12
 }, {
   "name": "tomato",
   "title": "Tomato",
@@ -82,8 +76,7 @@
   "tileXY": ["0", "5"],
   "tiles": 5,
   "productItemType" : "tomato",
-  "productCount" :  5,
-  "harvestPeriod" : 15
+  "productCount" :  5
 }, {
   "name": "pepper",
   "title": "Pepper",
@@ -94,7 +87,6 @@
   "tileXY": ["0", "6"],
   "tiles": 5,
   "productItemType" : "pepper",
-  "productCount" :  9,
-  "harvestPeriod" : 15
+  "productCount" :  9
 }
 ]

@@ -14,25 +14,27 @@ namespace types.plant {
         public int materialId; // used for tree logs, plants burning
         public float[] growthStages; // [0+; maturityAge * 2], stores growth value when each stage ends
         public float productGrowthStartAbsolute; // calculated from productGrowthStart
+
+        public PlantType() { }
         
-        public PlantType(RawPlantType raw) {
-            materialId = raw.material != null
-                ? MaterialMap.get().id(raw.material)
+        public void init() {
+            materialId = material != null
+                ? MaterialMap.get().id(material)
                 : MaterialMap.GENERIC_PLANT;
-            countLifeStages(raw);
+            countLifeStages();
             productGrowthStartAbsolute = maturityAge * productGrowthStart;
         }
 
         // array stores growth value of stage end. last stage has 2 and never ends,  
-        private void countLifeStages(RawPlantType raw) {
-            growthStages = new float[raw.tiles];
+        private void countLifeStages() {
+            growthStages = new float[tiles];
             if (tiles > 1) {
-                float stageLength = raw.maturityAge / (tiles - 1);
-                for (int i = 0; i < raw.tiles - 1; i++) {
+                float stageLength = maturityAge / (tiles - 1);
+                for (int i = 0; i < tiles - 1; i++) {
                     growthStages[i] = stageLength * (i + 1);
                 }
             }
-            growthStages[raw.tiles - 1] = maturityAge * 2;
+            growthStages[tiles - 1] = maturityAge * 2;
         }
 
         public int getStageByAge(float age) {
@@ -56,7 +58,7 @@ namespace types.plant {
         public float maturityAge; // in days, defines growing period
         public float productGrowthStart; // [0; 1] relative to growing period, default 0
         public float productGrowthTime; // in days, defines product growing period, default maturityAge
-        public float productKeepTime; // in days, defines product harvestable period
+        public float productKeepTime; // in days, defines product harvestable period, default forever
 
         // render
         public int[] tileXY = new int[2];

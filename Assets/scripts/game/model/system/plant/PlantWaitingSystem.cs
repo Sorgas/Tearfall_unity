@@ -11,7 +11,7 @@ namespace game.model.system.plant {
     // checks harvestKeepTime to destroy harvest
     public class PlantWaitingSystem : LocalModelPlantSystem {
         public EcsFilter<PlantProductGrowthWaitingComponent> growthStartFilter;
-        public EcsFilter<PlantHarvestableComponent> harvestDestroyFilter;
+        public EcsFilter<PlantHarvestKeepComponent> harvestDestroyFilter;
         private readonly PlantGenerator generator = new();
 
         protected override void runIntervalLogic(int updates) {
@@ -24,7 +24,7 @@ namespace game.model.system.plant {
                 }
             }
             foreach (int i in harvestDestroyFilter) {
-                ref PlantHarvestableComponent component = ref harvestDestroyFilter.Get1(i);
+                ref PlantHarvestKeepComponent component = ref harvestDestroyFilter.Get1(i);
                 EcsEntity entity = harvestDestroyFilter.GetEntity(i);
                 component.harvestTime += TIME_DELTA * updates;
                 if (component.harvestTime > component.productKeepTime) {

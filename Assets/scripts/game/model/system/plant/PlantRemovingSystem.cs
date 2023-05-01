@@ -8,16 +8,16 @@ using util.lang.extension;
 namespace game.model.system.plant {
     // removes plant entity and visual sprite GO
     public class PlantRemovingSystem : LocalModelUnscalableEcsSystem {
-        public EcsFilter<PlantRemoveComponent> filter;
+        // public EcsFilter<PlantRemoveComponent> filter;
         private ItemGenerator generator = new();
 
         public override void Run() {
-            foreach (int i in filter) {
-                EcsEntity plant = filter.GetEntity(i);
-                if (plant.Has<PlantVisualComponent>()) {
-                }
-                    
-            }
+            // foreach (int i in filter) {
+            //     EcsEntity plant = filter.GetEntity(i);
+            //     if (plant.Has<PlantVisualComponent>()) {
+            //     }
+            //         
+            // }
         }
 
         // TODO move to ChopTreeAction

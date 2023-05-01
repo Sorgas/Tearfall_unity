@@ -9,7 +9,7 @@ namespace game.model.system.plant {
     // plants are growing from planting moment to maturity age
     // counts plant growth. Creates update events when stage changes. 
     public class PlantGrowthSystem : LocalModelPlantSystem {
-        public EcsFilter<PlantGrowthComponent>.Exclude<PlantRemoveComponent> filter;
+        public EcsFilter<PlantGrowthComponent> filter;
         
         protected override void runIntervalLogic(int updates) {
             foreach (int i in filter) {
