@@ -1,27 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using game.model.component;
 using game.model.component.item;
 using game.model.component.plant;
 using Leopotam.Ecs;
-using types.item;
 using types.item.type;
 using types.material;
 using types.plant;
 using UnityEngine;
+using util.lang.extension;
 
 namespace generation.item {
     public class ItemGenerator {
-
-        public EcsEntity generateItem(ItemData data, Vector3Int position, EcsEntity entity) =>
-            generateItem(data.type, data.material, position, entity);
-
-        public EcsEntity generateItem(string typeName, string materialName, Vector3Int position, EcsEntity itemEntity) =>
-            generateItem(typeName, materialName, itemEntity)
-                .Replace(new PositionComponent { position = position });
-
+        
         public EcsEntity generateItem(string typeName, int material, EcsEntity entity) =>
             generateItem(typeName, MaterialMap.get().material(material).name, entity);
 
@@ -52,6 +44,11 @@ namespace generation.item {
                 return generateItem("log", "wood", entity);
             }
             return EcsEntity.Null;
+        }
+
+        public EcsEntity generatePlantProduct(EcsEntity plant, EcsEntity entity) {
+            PlantType type = plant.take<PlantComponent>().type;
+            return generateItem(type.productItemType, type.productMaterial, entity);
         }
 
         private void addComponentsFromType(ItemType type, ref EcsEntity item) {

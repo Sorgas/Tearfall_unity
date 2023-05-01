@@ -72,4 +72,8 @@ namespace game.model.component {
     public struct FarmOpenRemovingTaskComponent {
         public EcsEntity removeTask;
     }
+    
+    public struct FarmOpenHarvestTaskComponent {
+        public EcsEntity removeTask;
+    }
 }

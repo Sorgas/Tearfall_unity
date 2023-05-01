@@ -1,10 +1,23 @@
 ﻿[
   {
+    "name": "testPlant",
+    "title": "TestPlant",
+    "description": "Test Plant",
+    "maxAge" : 6,
+    "maturityAge" : 0.1,
+    "destroyOnHarvest" : true,
+    "tileXY": ["0", "0"],
+    "tiles": 5,
+    "productItemType" : "radish",
+    "productCount" :  2,
+    "harvestPeriod" : 20
+  }, 
+  {
     "name": "radish",
     "title": "Radish",
     "description": "Pink root-crop with green leaves. It's fast and easy to grow, but has bitter taste.",
     "maxAge" : 6,
-    "maturityAge" : 0.5,
+    "maturityAge" : 4,
     "destroyOnHarvest" : true,
     "tileXY": ["0", "0"],
     "tiles": 5,

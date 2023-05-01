@@ -6,6 +6,7 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.system.plant {
+    // removes plant entity and visual sprite GO
     public class PlantRemovingSystem : LocalModelUnscalableEcsSystem {
         public EcsFilter<PlantRemoveComponent> filter;
         private ItemGenerator generator = new();
@@ -14,16 +15,12 @@ namespace game.model.system.plant {
             foreach (int i in filter) {
                 EcsEntity plant = filter.GetEntity(i);
                 if (plant.Has<PlantVisualComponent>()) {
-                    Object.Destroy(plant.Get<PlantVisualComponent>().go);
                 }
-                if (filter.Get1(i).leaveProduct) {
-                    leavePlantProduct(plant);
-                }
-                plant.Destroy();
+                    
             }
         }
 
-        // TODO handle multi-block trees
+        // TODO move to ChopTreeAction
         private void leavePlantProduct(EcsEntity plant) {
             PlantComponent component = plant.take<PlantComponent>();
             PlantType type = component.type;
@@ -34,7 +31,6 @@ namespace game.model.system.plant {
 
         private void leaveBlockProduct(PlantBlock block, Vector3Int position) {
             if (block.blockType == PlantBlockTypeEnum.TRUNK.code) {
-                
                 EcsEntity product = generator.generateItem("log", "wood", model.createEntity());
                 model.itemContainer.onMap.putItemToMap(product, position);
             }

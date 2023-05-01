@@ -8,10 +8,12 @@ using static types.ZoneTaskTypes;
 using Action = game.model.component.task.action.Action;
 
 namespace game.model.system.zone {
-    public class FarmTaskCreationSystem : LocalModelIntervalEcsSystem { // TODO make interval
+    public class FarmTaskCreationSystem : LocalModelIntervalEcsSystem {
         public EcsFilter<FarmComponent>.Exclude<FarmOpenHoeingTaskComponent> hoeingFilter;
         public EcsFilter<FarmComponent>.Exclude<FarmOpenPlantingTaskComponent> plantingFilter;
         public EcsFilter<FarmComponent>.Exclude<FarmOpenRemovingTaskComponent> removeFilter;
+        public EcsFilter<FarmComponent>.Exclude<FarmOpenHarvestTaskComponent> harvestFilter;
+        
         private readonly TaskGenerator generator = new();
 
         public FarmTaskCreationSystem() : base(100) { }
@@ -34,6 +36,12 @@ namespace game.model.system.zone {
                 FarmComponent farm = removeFilter.Get1(i);
                 ZoneComponent zone = entity.take<ZoneComponent>();
                 tryCreateRemovingTask(entity, zone, farm);
+            }
+            foreach (int i in harvestFilter) {
+                EcsEntity entity = removeFilter.GetEntity(i);
+                FarmComponent farm = removeFilter.Get1(i);
+                ZoneComponent zone = entity.take<ZoneComponent>();
+                tryCreateHarvestTask(entity, zone, farm);
             }
         }
 
@@ -59,6 +67,14 @@ namespace game.model.system.zone {
             
         }
 
+        private void tryCreateHarvestTask(EcsEntity entity, ZoneComponent zone, FarmComponent farm) {
+            if (entity.take<ZoneTrackingComponent>().tiles[HARVEST].Count > 0) {
+                Action action = new PlantingAction(entity);
+                EcsEntity task = createTask(action);
+                entity.Replace(new FarmOpenPlantingTaskComponent { plantTask = task });
+            }
+        }
+        
         // TODO add farmer job
         private EcsEntity createTask(Action action) {
             EcsEntity task = generator.createTask(action, model.createEntity(), model);

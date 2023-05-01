@@ -1,5 +1,4 @@
-﻿using System;
-using game.model.component.task.action.equipment.use;
+﻿using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
 using game.model.component.unit;
 using game.model.util;

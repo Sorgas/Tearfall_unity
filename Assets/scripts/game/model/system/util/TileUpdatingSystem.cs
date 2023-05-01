@@ -4,6 +4,8 @@ using Leopotam.Ecs;
 using UnityEngine;
 
 namespace game.model.system.util {
+    // changing entities in model containers can update tile (see LocalModelUpdateContainer).
+    // This system consumes tile updates and recreates updates for entities on updated tiles
     public class TileUpdatingSystem : LocalModelUnscalableEcsSystem {
         public EcsFilter<TileUpdateComponent> filter;
 

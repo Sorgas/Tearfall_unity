@@ -1,79 +1,84 @@
-﻿using types.material;
-using types.plant.raw;
+﻿using System;
+using types.material;
 
 namespace types.plant {
-    public class PlantType {
-        public string name;
-        public string title;
-        public int material;
-
-        public float maxAge; // in days, plant dies after this
-        // TODO use in hours maturity age and apply growth only when plant is lit
-        public float maturityAge; // in days, plant becomes harvestable, last sprite applied, fertility can speed up growth
-
-        public bool isTree; // false by default
-        public bool destroyOnHarvest;
-        // TODO add require light flag
+    /**
+     * Plants have several periods:
+     *      Life span - plants die after reaching maxAge. Progress independent from conditions.
+     *      Growth period - Plant is growing from young to adult plant(maturityAge). Progress depends on conditions.
+     *      Product growth waiting - Plant is to young to grow products. Defined by productGrowthStart relatively to Growth period. Progress independent from conditions.
+     *      Product growth period - Plant is growing its fruits. From productGrowthStart to productGrowthTime. Progress depends on conditions.
+     *      Product keeping period - Plant products are ready to be harvested and will stay for productKeepTime. Progress independent from conditions. 
+     */
+    public class PlantType : RawPlantType {
+        public int materialId; // used for tree logs, plants burning
+        public float[] growthStages; // [0+; maturityAge * 2], stores growth value when each stage ends
+        public float productGrowthStartAbsolute; // calculated from productGrowthStart
         
-        // render
-        public int[] tileXY;
-        public int tiles; // number of tiles in row. [n - 1] tiles are equally spread along growth period (growthStages), last tile is shown when plant is mature
-        public string atlasName;
-        public float[] growthStages; // [0; 1] based on number of tiles
-
-        // product
-        public string productItemType; // products differ between stages
-        public string productMaterial; // default is generic_plant
-        public int productCount; // per block, scaled to plant health
-        public float harvestPeriod; // when present, plant is harvestable in the end of lifespan
-        public string harvestMonth; // when present, plant is harvestable in specified month
-
-        // tree
-        // public list<TreeForm> treeForms; 
-
-        // public int[] temperatureBounds; // min and max temperature
-        // public int[] rainfallBounds;  // min and max painfall
-        // public readonly List<PlantLifeStage> lifeStages = new();
-        // public readonly List<string> placingTags = new ();
-
         public PlantType(RawPlantType raw) {
-            name = raw.name;
-            title = raw.title ?? name;
-            material = raw.material != null
+            materialId = raw.material != null
                 ? MaterialMap.get().id(raw.material)
                 : MaterialMap.GENERIC_PLANT;
-            maxAge = raw.maxAge;
-            maturityAge = raw.maturityAge;
-            isTree = raw.isTree;
-            destroyOnHarvest = raw.destroyOnHarvest;
-            tileXY = raw.tileXY;
-            tiles = raw.tiles;
-            atlasName = raw.atlasName;
-            productItemType = raw.productItemType;
-            productMaterial = raw.productMaterial;
-            productCount = raw.productCount;
-            harvestMonth = raw.harvestMonth;
-            // lifeStages = rawType.lifeStages
-            //     .Select(rawStage => new PlantLifeStage(rawStage))
-            //     .ToList();
-            // temperatureBounds = rawType.temperatureBounds; // min and max temperature
-            // rainfallBounds = rawType.rainfallBounds;  // min and max rainfall
-            // plantingStart = rawType.plantingStart;
-            // destroyOnHarvest = rawType.destroyOnHarvest;
             countLifeStages(raw);
+            productGrowthStartAbsolute = maturityAge * productGrowthStart;
         }
 
+        // array stores growth value of stage end. last stage has 2 and never ends,  
         private void countLifeStages(RawPlantType raw) {
             growthStages = new float[raw.tiles];
-            for (int i = 0; i < raw.tiles; i++) {
-                growthStages[i] = (i + 1) / (float)(tiles - 1);
+            if (tiles > 1) {
+                float stageLength = raw.maturityAge / (tiles - 1);
+                for (int i = 0; i < raw.tiles - 1; i++) {
+                    growthStages[i] = stageLength * (i + 1);
+                }
             }
+            growthStages[raw.tiles - 1] = maturityAge * 2;
         }
 
-        public void setTypeFlags() {
-            // isTree = lifeStages[0].treeForm != null;
-            // isSubstrate = materialName == null;
-            // isPlant = !isTree && !isSubstrate;
+        public int getStageByAge(float age) {
+            if (tiles == 1) return 0;
+            if (age > maturityAge) return tiles - 1;
+            return (int) Math.Floor(age / (maturityAge / tiles - 1));
+        }
+    }
+
+    [Serializable]
+    // to read from json
+    public class RawPlantType {
+        public string name;
+        public string title;
+        public string description;
+        public string material = "generic_plant"; // is null for substrates
+
+        // lifespan
+        // TODO use in hours maturity age and apply growth only when plant is lit
+        public float maxAge; // in days, plant dies after this
+        public float maturityAge; // in days, defines growing period
+        public float productGrowthStart; // [0; 1] relative to growing period, default 0
+        public float productGrowthTime; // in days, defines product growing period, default maturityAge
+        public float productKeepTime; // in days, defines product harvestable period
+
+        // render
+        public int[] tileXY = new int[2];
+        // [n - 1] tiles are equally spread along growth period (growthStages), last tile is shown when plant is mature
+        public int tiles;
+        public string atlasName; // same as json file by default
+
+        // product
+        public string productItemType; // should be present for other fields to work
+        public string productMaterial; // generic_plant by default
+        public int productCount; // per block, scaled to plant health
+        public string harvestMonth; // when present, plant is harvestable in specified month
+
+        // flags
+        // TODO add require light flag
+        public bool isTree; // false by default
+        public bool destroyOnHarvest; // false by default
+
+        public RawPlantType() {
+            productGrowthStart = 0; // plant will grow products from planting
+            productGrowthTime = maturityAge; // products will be ready when plant is mature 
+            productKeepTime = -1; // keep products forever
         }
     }
 }

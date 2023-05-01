@@ -33,16 +33,23 @@ namespace game.model.container {
             return plantBlocks.ContainsKey(position) ? plantBlocks[position] : null;
         }
 
+        public void removePlant(EcsEntity plant) => removePlant(plant, false);
+        
         // TODO fix plant removing on hoeing farms
         public void removePlant(EcsEntity plant, bool leaveProduct) {
             if (plant == EcsEntity.Null) return;
             plants.Remove(plant.pos());
             plantBlocks.Remove(plant.pos());
-            plant.Replace(new PlantRemoveComponent{leaveProduct = leaveProduct});
+            plant.Replace(new PlantVisualUpdateComponent{type = PlantUpdateType.REMOVE});
         }
 
         public void removePlant(Vector3Int position, bool leaveProduct) {
             if (plants.ContainsKey(position)) removePlant(plants[position], leaveProduct);
+        }
+
+        public void plantUpdated(EcsEntity entity) {
+            // TODO add support for multi-tile trees
+            addPositionForUpdate(entity.pos());
         }
         
         //public PlantContainer() {

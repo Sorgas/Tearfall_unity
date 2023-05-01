@@ -15,30 +15,52 @@ namespace game.view.system.plant {
         public void Run() {
             foreach (int i in filter) {
                 EcsEntity entity = filter.GetEntity(i);
-                var type = filter.Get1(i).type;
+                PlantUpdateType type = filter.Get1(i).type;
                 PlantComponent plant = entity.take<PlantComponent>();
-                if (type == GROW) {
-                    ref PlantVisualComponent visual = ref entity.takeRef<PlantVisualComponent>();
-                    PlantType plantType = plant.type;
-                    visual.spriteRenderer.sprite = PlantTypeMap.get().spriteMap.getSprite(plantType.name, plant.currentStage);
-                    visual.tileNumber = plant.currentStage;
-                } else if (type == NEW) {
-                    entity.Replace(createVisualComponent(entity, plant));
-                    // create visual component
+                PlantType plantType = plant.type;
+                int growthStage = getPlantStage(entity);
+                switch (type) {
+                    case STAGE_CHANGE: {
+                        ref PlantVisualComponent visual = ref entity.takeRef<PlantVisualComponent>();
+                        visual.spriteRenderer.sprite = PlantTypeMap.get().spriteMap.getSprite(plantType.name, growthStage);
+                        visual.tileNumber = growthStage;
+                        break;
+                    }
+                    case NEW:
+                        entity.Replace(createVisualComponent(entity, plant, growthStage));
+                        break;
+                    case REMOVE:
+                        Object.Destroy(entity.Get<PlantVisualComponent>().go);
+                        entity.Destroy();
+                        break;
+                    case HARVEST_READY:
+                        addHarvestSprite(entity);
+                        break;
                 }
                 filter.GetEntity(i).Del<PlantVisualUpdateComponent>();
             }
         }
 
-        private PlantVisualComponent createVisualComponent(EcsEntity entity, PlantComponent plant) {
+        private int getPlantStage(EcsEntity entity) {
+            if (entity.Has<PlantGrowthComponent>()) {
+                return entity.take<PlantGrowthComponent>().currentStage;
+            }
+            return entity.take<PlantComponent>().type.growthStages.Length - 1;
+        }
+
+        private PlantVisualComponent createVisualComponent(EcsEntity entity, PlantComponent plant, int stage) {
             PlantVisualComponent visual = new();
             Vector3 spritePosition = ViewUtil.fromModelToScene(entity.pos()) + zOffset;
             visual.go = PrefabLoader.create("Plant", GameView.get().sceneObjectsContainer.mapHolder);
             visual.go.transform.localPosition = spritePosition;
             visual.spriteRenderer = visual.go.GetComponent<SpriteRenderer>();
-            visual.spriteRenderer.sprite = PlantTypeMap.get().spriteMap.getSprite(plant.type.name, plant.currentStage);
+            visual.spriteRenderer.sprite = PlantTypeMap.get().spriteMap.getSprite(plant.type.name, stage);
             visual.spriteRenderer.sortingOrder = entity.pos().z;
             return visual;
+        }
+
+        private void addHarvestSprite(EcsEntity entity) {
+            
         }
     }
 }

@@ -1,0 +1,27 @@
+﻿using game.model.component.plant;
+using generation.plant;
+using Leopotam.Ecs;
+using types.plant;
+using util.lang.extension;
+
+namespace game.model.system.plant {
+    // Handles plants which are considered harvested. Restarts growth or destroys plant
+    public class PlantHarvestSystem : LocalModelUnscalableEcsSystem {
+        public EcsFilter<PlantHarvestedComponent> filter;
+        private readonly PlantGenerator generator = new();
+        
+        public override void Run() {
+            foreach (int i in filter) {
+                EcsEntity entity = filter.GetEntity(i);
+                PlantType plantType = entity.take<PlantComponent>().type;
+                entity.Del<PlantHarvestedComponent>();
+                if (plantType.destroyOnHarvest) {
+                    model.plantContainer.removePlant(entity);
+                } else {
+                    entity.Replace(generator.generateProductGrowthComponent(plantType, 0));
+                    entity.Replace(new PlantVisualUpdateComponent { type = PlantUpdateType.HARVEST_TIMEOUT });
+                }
+            }
+        }
+    }
+}

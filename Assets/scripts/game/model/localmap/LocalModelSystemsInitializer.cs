@@ -1,5 +1,4 @@
-﻿using game.model.component;
-using game.model.system;
+﻿using game.model.system;
 using game.model.system.building;
 using game.model.system.plant;
 using game.model.system.task;
@@ -19,7 +18,6 @@ namespace game.model.localmap {
             addSystem(model, new TaskCreationTimeoutSystem());
             addSystem(model, new UnitNeedSystem());
             addSystem(model, new UnitWearNeedSystem());
-            addSystem(model, new SubstrateGrowingSystem());
             addSystem(model, new UnitActionCheckingSystem()); // check action condition and target reachability, creates sub actions
             addSystem(model, new UnitTaskAssignmentSystem()); // find or create tasks for units
             addSystem(model, new TaskAssignmentHandlingSystem()); // performs additional actions for just assigned tasks
@@ -29,7 +27,6 @@ namespace game.model.localmap {
             addSystem(model, new DesignationCompletionSystem()); // handle designation with completed tasks
             addSystem(model, new DesignationTaskCreationSystem()); // create tasks for designations
             addSystem(model, new TileUpdatingSystem()); // dispatches entities updates to other update systems
-            addSystem(model, new PlantRemovingSystem());
             addSystem(model, new WorkbenchOrderSelectionSystem());
             addSystem(model, new WorkbenchTaskCreationSystem());
             addSystem(model, new WorkbenchTaskCompletionSystem());
@@ -37,17 +34,19 @@ namespace game.model.localmap {
             addSystem(model, new ZoneDeletionSystem());
             addSystem(model, new StockpileTaskCreationSystem());
             addSystem(model, new FarmTaskCreationSystem());
-            addSystem(model, new PlantGrowingSystem());
-            model.scalableSystems
-                .Inject(GameModel.get().globalSharedData)
-                .Inject(model)
-                .Init();
-            model.unscalableSystems
-                .Inject(GameModel.get().globalSharedData)
-                .Inject(model)
-                .Init();
+
+            // plants
+            addSystem(model, new PlantAgeSystem()); // kills plants on max age
+            addSystem(model, new PlantGrowthSystem()); // grows plants to maturity
+            addSystem(model, new PlantWaitingSystem()); // tracks time for growing an keeping products
+            addSystem(model, new PlantProductGrowthSystem()); // grows products on plants
+            addSystem(model, new PlantRemovingSystem()); // removes plants
+            addSystem(model, new SubstrateGrowingSystem()); // spreads substrates to free tiles
+
+            model.scalableSystems.Inject(GameModel.get().globalSharedData).Inject(model).Init();
+            model.unscalableSystems.Inject(GameModel.get().globalSharedData).Inject(model).Init();
         }
-        
+
         private void addSystem(LocalModel model, IEcsSystem system) {
             (system is LocalModelScalableEcsSystem ? model.scalableSystems : model.unscalableSystems).Add(system);
         }

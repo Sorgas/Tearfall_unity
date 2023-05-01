@@ -1,16 +1,14 @@
 ﻿using game.model.component.task.action.target;
-using game.model.util;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
 using static types.action.ActionConditionStatusEnum;
 
-// TODO two units can hoe same tile. make farm track targeted tiles
-// TODO when finished, should search another tile (make hoeing in pre-action, and tile selection in current action)
 namespace game.model.component.task.action.plant {
     /**
      * Action for preparing farm soil for planting plants.
-     * Selects tile to hoe within farm and creates FarmTileHoeningAction.
+     * Selects tile to hoe within farm and creates FarmTileHoeingAction.
+     * Locks tile.
      * Finishes when there is no tiles to hoe.
      *
      * @author Alexander on 20.03.2019.

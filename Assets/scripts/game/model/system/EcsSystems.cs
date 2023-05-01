@@ -12,7 +12,7 @@ namespace game.model.system {
     }
 
     // EcsSystem that have link to LocalMapModel for operating on entities
-    // cannot emulate faster game speed, should be called multiple times from game model
+    // cannot emulate faster game speed, called multiple times from game model
     public abstract class LocalModelUnscalableEcsSystem : MyEcsRunSystem {
         protected EcsGlobalSharedData globalSharedData; // injected
         protected LocalModel model; // injected

@@ -90,6 +90,7 @@ namespace game.model.system.zone {
                 return ZoneTaskTypes.HOE; // not hoed
             }
             if (farm.plant != plant.take<PlantComponent>().type.name) return ZoneTaskTypes.REMOVE_PLANT; // undesired plant
+            if (plant.Has<PlantHarvestableComponent>()) return ZoneTaskTypes.HARVEST; // plant ready for harvest
             return null; // desired plant
         }
     }
