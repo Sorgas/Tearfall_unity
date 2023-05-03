@@ -28,7 +28,9 @@ namespace game.view.ui {
         public Button plantListButton;
         public RectTransform plantList;
         public Button closeButton;
-
+        public FarmDebugInfoHandler debugInfoHandler;
+        public bool debug = true;
+        
         public Color activeColor = new(0.75f, 0.75f, 0.75f, 1);
         public Color inactiveColor = new(0.4f, 0.4f, 0.4f, 1);
 
@@ -50,6 +52,7 @@ namespace game.view.ui {
 
         public void initFor(EcsEntity farm) {
             this.farm = farm;
+            debugInfoHandler.entity = farm;
             farmName.text = farm.name();
             // TODO task priority
             showSelectedPlant();
@@ -57,7 +60,7 @@ namespace game.view.ui {
             updatePauseButton();
             updatePriority();
         }
-
+        
         private void showSelectedPlant() {
             FarmComponent farmComponent = farm.take<FarmComponent>();
             if (farmComponent.plant != null) {
@@ -119,7 +122,7 @@ namespace game.view.ui {
 
         private void selectPlant(string plant) {
             ref FarmComponent farmComponent = ref farm.takeRef<FarmComponent>();
-            if (farmComponent.plant != plant) farm.Replace(new ZoneUpdatedComponent { tiles = new(farm.take<ZoneComponent>().tiles) });
+            if (farmComponent.plant != plant) farm.Replace(new ZoneUpdateComponent { tiles = new(farm.take<ZoneComponent>().tiles) });
             farmComponent.plant = plant;
             showSelectedPlant();
         }
@@ -145,7 +148,13 @@ namespace game.view.ui {
 
         public override void close() {
             plantList.gameObject.SetActive(false);
+            debugInfoHandler.gameObject.SetActive(false);
             base.close();
+        }
+
+        public override void open() {
+            // debugInfoHandler.gameObject.SetActive(true);
+            base.open();
         }
     }
 }

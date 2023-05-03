@@ -19,9 +19,10 @@ namespace game.model.component.task.action.plant {
             this.plant = plant;
             maxProgress = 100;
             plantPosition = plant.pos();
-            zone = model.zoneContainer.getZone(plantPosition);
+            name = "harvest plant " + plantPosition;
 
             startCondition = () => {
+                zone = model.zoneContainer.getZone(plantPosition);
                 if (!plant.IsAlive()) return ActionConditionStatusEnum.FAIL;
                 if (!plant.Has<PlantHarvestableComponent>()) return ActionConditionStatusEnum.FAIL;
                 if (zone != EcsEntity.Null) lockZoneTile(zone, plantPosition);

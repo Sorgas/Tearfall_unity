@@ -22,7 +22,7 @@ namespace game.model.system.plant {
                         entity.Replace(new PlantHarvestKeepComponent { productKeepTime = type.productKeepTime, harvestTime = 0 });
                     }
                     entity.Replace(new PlantHarvestableComponent());
-                    entity.Replace(new PlantVisualUpdateComponent { type = PlantUpdateType.HARVEST_READY });
+                    entity.Get<PlantVisualUpdateComponent>().add(PlantUpdateType.HARVEST_READY);
                     model.plantContainer.plantUpdated(entity); // to update zones
                 }
             }

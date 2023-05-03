@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using game.model.component;
 using game.model.component.task;
-using game.model.localmap;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
@@ -77,6 +76,8 @@ namespace game.model.system.task {
                 zone.Del<FarmOpenPlantingTaskComponent>();
             } else if (zone.Has<FarmOpenRemovingTaskComponent>() && zone.take<FarmOpenRemovingTaskComponent>().removeTask.Equals(task)) {
                 zone.Del<FarmOpenRemovingTaskComponent>();
+            } else if (zone.Has<FarmOpenHarvestTaskComponent>() && zone.take<FarmOpenHarvestTaskComponent>().harvestTask.Equals(task)) {
+                zone.Del<FarmOpenHarvestTaskComponent>();
             }
         }
 

@@ -12,35 +12,37 @@ namespace game.view.system.plant {
         public EcsFilter<PlantVisualUpdateComponent> filter;
         private readonly Vector3 zOffset = new(0, 0, WALL_LAYER * GRID_STEP + GRID_STEP / 2f);
         private bool debug = true;
-        
+
         public void Run() {
             foreach (int i in filter) {
                 EcsEntity entity = filter.GetEntity(i);
-                PlantUpdateType type = filter.Get1(i).type;
+                PlantVisualUpdateComponent update = filter.Get1(i);
                 entity.Del<PlantVisualUpdateComponent>();
                 PlantComponent plant = entity.take<PlantComponent>();
                 PlantType plantType = plant.type;
                 int growthStage = getPlantStage(entity);
-                switch (type) {
-                    case STAGE_CHANGE:
-                        ref PlantVisualComponent visual = ref entity.takeRef<PlantVisualComponent>();
-                        visual.spriteRenderer.sprite = PlantTypeMap.get().spriteMap.getSprite(plantType.name, growthStage);
-                        visual.tileNumber = growthStage;
-                        log("plant sprite changed to next stage");
-                        break;
-                    case NEW:
-                        entity.Replace(createVisualComponent(entity, plant, growthStage));
-                        log("plant sprite created");
-                        break;
-                    case REMOVE:
-                        Object.Destroy(entity.Get<PlantVisualComponent>().go);
-                        entity.Destroy();
-                        log("plant destroyed");
-                        break;
-                    case HARVEST_READY:
-                        addHarvestSprite(entity);
-                        log("plant harvest sprite added");
-                        break;
+                foreach (PlantUpdateType type in update.updates) {
+                    switch (type) {
+                        case STAGE_CHANGE:
+                            ref PlantVisualComponent visual = ref entity.takeRef<PlantVisualComponent>();
+                            visual.spriteRenderer.sprite = PlantTypeMap.get().spriteMap.getSprite(plantType.name, growthStage);
+                            visual.tileNumber = growthStage;
+                            log("plant sprite changed to next stage");
+                            break;
+                        case NEW:
+                            entity.Replace(createVisualComponent(entity, plant, growthStage));
+                            log("plant sprite created");
+                            break;
+                        case REMOVE:
+                            Object.Destroy(entity.Get<PlantVisualComponent>().go);
+                            entity.Destroy();
+                            log("plant destroyed");
+                            break;
+                        case HARVEST_READY:
+                            addHarvestSprite(entity);
+                            log("plant harvest sprite added");
+                            break;
+                    }
                 }
             }
         }
@@ -64,11 +66,11 @@ namespace game.view.system.plant {
         }
 
         private void addHarvestSprite(EcsEntity entity) {
-            
+
         }
 
         private void log(string message) {
-            if(debug) Debug.Log("[PlantVisualUpdateSystem] " + message);
+            if (debug) Debug.Log("[PlantVisualUpdateSystem] " + message);
         }
     }
 }

@@ -73,7 +73,7 @@ namespace types.plant {
 
         // product
         public string productItemType; // should be present for other fields to work
-        public string productMaterial; // generic_plant by default
+        public string productMaterial = "generic_plant";
         public int productCount; // per block, scaled to plant health
         public string harvestMonth; // when present, plant is harvestable in specified month
 

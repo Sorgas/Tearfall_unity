@@ -6,8 +6,8 @@
         "stockpileCategory": "plant",
         "stockpileMaterialTags": "organic",
         "atlasXY": [0, 0]
-    }
-, {
+    }, 
+    {
     "name": "radish",
     "baseItem": "generic_fruit",
     "description": "Tiny bitter root-crops.",

@@ -2,6 +2,7 @@
 using game.model.component.task;
 using Leopotam.Ecs;
 using types;
+using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.system.task {
@@ -38,6 +39,9 @@ namespace game.model.system.task {
                     break;
                 case ZoneTaskTypes.REMOVE_PLANT: 
                     zone.Del<FarmOpenRemovingTaskComponent>();
+                    break;
+                case ZoneTaskTypes.HARVEST: 
+                    zone.Del<FarmOpenHarvestTaskComponent>();
                     break;
             }
         }

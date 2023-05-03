@@ -17,7 +17,7 @@ namespace generation.plant {
             if (type == null) throw new ArgumentException("type " + typeName + " not found in PlantTypeMap. Check resources/data/plants");
             entity.Replace(new PlantComponent { block = createPlantBlock(entity, type), type = type });
             entity.Replace(new NameComponent { name = type.title });
-            entity.Replace(new PlantVisualUpdateComponent { type = NEW });
+            entity.Get<PlantVisualUpdateComponent>().add(NEW);
             addAgeComponents(entity, age, type);
             return entity;
         }

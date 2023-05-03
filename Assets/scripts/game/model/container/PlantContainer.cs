@@ -37,10 +37,10 @@ namespace game.model.container {
         
         // TODO fix plant removing on hoeing farms
         public void removePlant(EcsEntity plant, bool leaveProduct) {
-            if (plant == EcsEntity.Null) return;
+            if (plant== EcsEntity.Null) return;
             plants.Remove(plant.pos());
             plantBlocks.Remove(plant.pos());
-            plant.Replace(new PlantVisualUpdateComponent{type = PlantUpdateType.REMOVE});
+            plant.Get<PlantVisualUpdateComponent>().add(PlantUpdateType.REMOVE);
             addPositionForUpdate(plant.pos());
         }
 

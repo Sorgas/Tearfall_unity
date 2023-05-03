@@ -30,7 +30,7 @@ namespace game.model.container {
             PositionValidator validator = ZoneTypes.get(type).positionValidator;
             EcsEntity zone = zoneGenerator.generate(bounds, type, getFreeNumber(), model.createEntity(), model);
             List<Vector3Int> tiles = zone.Get<ZoneComponent>().tiles;
-            zone.Replace(new ZoneUpdatedComponent { tiles = new List<Vector3Int>(tiles) });
+            zone.Get<ZoneUpdateComponent>().add(tiles);
             zone.Replace(new ZoneVisualUpdatedComponent { tiles = new List<Vector3Int>(tiles) });
             foreach (Vector3Int tile in tiles) {
                 if (validator.validate(tile, model)) {
@@ -84,8 +84,8 @@ namespace game.model.container {
         }
 
         private void addTileToBeUpdated(EcsEntity zone, Vector3Int tile) {
-            if (!zone.Has<ZoneUpdatedComponent>()) zone.Replace(new ZoneUpdatedComponent { tiles = new() });
-            zone.Get<ZoneUpdatedComponent>().tiles.Add(tile);
+            if (!zone.Has<ZoneUpdateComponent>()) zone.Replace(new ZoneUpdateComponent { tiles = new() });
+            zone.Get<ZoneUpdateComponent>().tiles.Add(tile);
             if (!zone.Has<ZoneVisualUpdatedComponent>()) zone.Replace(new ZoneVisualUpdatedComponent { tiles = new() });
             zone.Get<ZoneVisualUpdatedComponent>().tiles.Add(tile);
         }

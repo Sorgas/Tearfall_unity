@@ -13,6 +13,7 @@ namespace util.pathfinding {
     // TODO add doors(passable, counted with special weight), if door is locked by player, it becomes impassable
     public class AStar : Singleton<AStar> {
         private LocalMap localMap; // TODO make stateless
+        private bool debug = false;
 
         public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, ActionTargetTypeEnum targetType, LocalMap map) {
             localMap = map;
@@ -89,7 +90,7 @@ namespace util.pathfinding {
         private bool pathExists(Node initialNode, Vector3Int target) {
             BinaryHeap openSet = new();
             HashSet<Vector3Int> closedSet = new();
-      
+
             openSet.push(initialNode);
             while (openSet.Count > 0) {
                 if (!openSet.tryPop(out Node currentNode)) return false; // no more tiles to search
@@ -107,13 +108,12 @@ namespace util.pathfinding {
         }
 
         private void logResult(List<Vector3Int> path, string message) {
+            if (!debug) return;
             if (path == null) {
                 Debug.LogWarning(message + ". No path");
             } else {
                 Debug.Log(message + ". Length " + (path.Count - 1));
             }
         }
-
-        private void logNoPath(string message) => Debug.LogWarning(message + ". No path");
     }
 }

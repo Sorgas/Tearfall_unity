@@ -82,7 +82,7 @@ namespace game.model.localmap.passage {
 
         // target tile should be in target area, or be impassable and near tile of target area (checks only same z-level)
         public bool tileIsAccessibleFromArea(int tx, int ty, int tz, int areaValue) {
-            Debug.Log("checking [" + tx + ", " + ty + ", " + tz + "] available from area " + areaValue);
+            // Debug.Log("checking [" + tx + ", " + ty + ", " + tz + "] available from area " + areaValue);
             if (!localMap.inMap(tx, ty, tz)) return false;
             if (area.get(tx, ty, tz) == areaValue) return true;
             // if passable and not in same area, then it is in different area

@@ -1,9 +1,7 @@
 using game.model.component;
 using game.model.component.task;
 using game.model.component.task.action;
-using game.model.component.task.action.target;
 using game.model.component.unit;
-using game.model.localmap;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
@@ -29,7 +27,7 @@ namespace game.model.system.unit {
                 ref EcsEntity unit = ref filter.GetEntity(i);
                 ref TaskComponent taskComponent = ref filter.Get2(i);
                 ref TaskActionsComponent task = ref taskComponent.task.takeRef<TaskActionsComponent>();
-                log("handling task " + taskComponent.task.name());
+                // log("handling task " + taskComponent.task.name());
                 if (checkCompletion(ref unit, ref task)) return;
                 if (!actionConditionOk(ref unit, ref task, ticks)) return;
                 checkTargetAvailability(ref unit, task, taskComponent.task);
@@ -41,7 +39,7 @@ namespace game.model.system.unit {
         // returns true if task(initial action is complete)
         private bool checkCompletion(ref EcsEntity unit, ref TaskActionsComponent task) {
             if (task.initialAction.status == ActionStatusEnum.COMPLETE) { // main action and task are complete, mark unit
-                log("initial action completed " + task.initialAction.name);
+                log("initial action completed [" + task.initialAction.name + "]");
                 unit.Replace(new TaskFinishedComponent { status = COMPLETE });
                 return true;
             }
@@ -54,13 +52,14 @@ namespace game.model.system.unit {
         private bool actionConditionOk(ref EcsEntity unit, ref TaskActionsComponent actions, int ticks) {
             string nextActionName = actions.NextAction.name;
             ActionConditionStatusEnum checkResult = actions.NextAction.startCondition.Invoke(); // creates sub actions
-            log("checked start condition of [" + nextActionName + "]:" + checkResult + ": " + actions.NextAction.name);
             if (checkResult == OK) return true; // can start performing
             if (checkResult == FAIL) {
+                log("checked start condition of [" + nextActionName + "]: FAIL");
                 failTask(ref unit); // fail task by start condition
                 return false;
             }
             if (checkResult == NEW) { // will be checked on next tick
+                log("checked start condition of [" + nextActionName + "]: NEW: " + actions.NextAction.name);
                 return ticks > 0 && actionConditionOk(ref unit, ref actions, ticks - 1); // false on 0 ticks
             }
             throw new GameException("Unhandled ActionConditionStatusEnum value: " + checkResult);
@@ -69,7 +68,7 @@ namespace game.model.system.unit {
         // checks if unit can reach action's target
         private void checkTargetAvailability(ref EcsEntity unit, TaskActionsComponent task, EcsEntity taskEntity) {
             Action action = task.NextAction;
-            string message = "checked target of [" + action.name + "] for unit " + unit.name() + ".";
+            string message = "";
             switch (action.target.check(unit, model)) {
                 case READY: // start performing
                     message += " ready";
@@ -78,7 +77,7 @@ namespace game.model.system.unit {
                 case WAIT: // start movement
                     Vector3Int? target = action.target.pos;
                     if (target == Vector3Int.back) {
-                        Debug.LogError("action " + action + " has not target position.");
+                        Debug.LogError("action [" + action.name + "] has no target position.");
                         break;
                     }
                     message += " move to " + target.Value;
@@ -89,19 +88,13 @@ namespace game.model.system.unit {
                     action.addPreAction(new StepOffAction(unit.pos(), model));
                     break;
             }
-            log(message);
+            log("checked target of [" + action.name + "] for unit " + unit.name() + "." + message);
         }
 
         private void failTask(ref EcsEntity unit) => unit.Replace(new TaskFinishedComponent { status = FAILED });
 
-        private void logStartConditionCheck(string checkedActionName, ActionConditionStatusEnum result, TaskActionsComponent actions) {
-            string message = "checked start condition of [" + checkedActionName + "]:" + result;
-            if (result == NEW) message += ": " + actions.NextAction.name;
-            log(message);
-        }
-
         private void log(string message) {
-            Debug.Log("[UnitActionCheckingSystem]: " + message);
+            if(debug) Debug.Log("[UnitActionCheckingSystem]: " + message);
         }
     }
 }

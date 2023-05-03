@@ -25,7 +25,7 @@ namespace game.model.system.plant {
                         } else {
                             growthComponent.nextStage = type.growthStages[growthComponent.currentStage];
                         }
-                        entity.Replace(new PlantVisualUpdateComponent { type = STAGE_CHANGE }); // to update visual
+                        entity.Get<PlantVisualUpdateComponent>().add(STAGE_CHANGE); // to update visual
                     }
                 }
             }

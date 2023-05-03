@@ -56,7 +56,12 @@ namespace game.model.component.plant {
 
     // added when something happens with plant
     public struct PlantVisualUpdateComponent {
-        public PlantUpdateType type;
+        public List<PlantUpdateType> updates;
+
+        public void add(PlantUpdateType type) {
+            if (updates == null) updates = new();
+            updates.Add(type);
+        }
     }
     
     public struct PlantUpdateComponent {

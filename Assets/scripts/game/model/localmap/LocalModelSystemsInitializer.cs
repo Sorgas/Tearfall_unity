@@ -29,7 +29,7 @@ namespace game.model.localmap {
             addSystem(model, new UnitWearNeedSystem());
             addSystem(model, new DesignationCompletionSystem()); // handle designation with completed tasks
             addSystem(model, new DesignationTaskCreationSystem()); // create tasks for designations
-            addSystem(model, new TileUpdatingSystem()); // dispatches entities updates to other update systems
+            addSystem(model, new TileUpdateSystem()); // dispatches entities updates to other update systems
             addSystem(model, new WorkbenchOrderSelectionSystem());
             addSystem(model, new WorkbenchTaskCreationSystem());
             addSystem(model, new WorkbenchTaskCompletionSystem());

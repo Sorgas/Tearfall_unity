@@ -52,7 +52,7 @@ namespace game.model.system.unit {
 
         // bind unit and task entities
         private void assignTask(ref EcsEntity unit, EcsEntity task) {
-            Debug.Log("[UnitTaskAssignmentSystem] assigning task " + task.name() + " to " + unit.name());
+            Debug.Log("[UnitTaskAssignmentSystem] assigning task [" + task.name() + "] to " + unit.name());
             unit.Replace(new TaskComponent { task = task });
             task.Replace(new TaskPerformerComponent { performer = unit });
             task.Replace(new TaskAssignedComponent());
@@ -62,6 +62,5 @@ namespace game.model.system.unit {
         private TaskPriorityEnum priority(EcsEntity task) {
             return task.IsNull() ? TaskPriorityEnum.NONE : task.take<TaskActionsComponent>().priority;
         }
-
     }
 }

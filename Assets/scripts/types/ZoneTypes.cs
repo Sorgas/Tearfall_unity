@@ -6,7 +6,7 @@ using UnityEngine;
 namespace types {
     public class ZoneTypes {
         public static ZoneType STOCKPILE = new("stockpile", ZoneTypeEnum.STOCKPILE, new StockpilePositionValidator(), new Color(1f, 0.92f, 0.015f, 0.2f));
-        public static ZoneType FARM = new("farm", ZoneTypeEnum.FARM, new FarmPositionValidator(), new Color(0, 1, 0, 0.2f));
+        public static ZoneType FARM = new("farm", ZoneTypeEnum.FARM, new FarmPositionValidator(), new Color(172f / 255, 1, 89f / 255, 0.2f));
 
         public static List<ZoneType> all = new() { STOCKPILE, FARM };
 

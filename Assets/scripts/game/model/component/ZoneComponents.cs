@@ -9,10 +9,6 @@ namespace game.model.component {
         public List<Vector3Int> tiles;
         public ZoneTypeEnum type;
         public int number; // used for name generation
-
-        public T take<T>() {
-            throw new System.NotImplementedException();
-        }
     }
 
     public struct ZoneTasksComponent {
@@ -32,8 +28,20 @@ namespace game.model.component {
         public List<Vector3Int> tiles;
     }
 
-    public struct ZoneUpdatedComponent {
-        public List<Vector3Int> tiles;
+    public struct ZoneUpdateComponent {
+        public HashSet<Vector3Int> tiles;
+
+        public void add(Vector3Int tile) {
+            if (tiles == null) tiles = new();
+            tiles.Add(tile);
+        }
+
+        public void add(ICollection<Vector3Int> values) {
+            if (tiles == null) tiles = new();
+            foreach (Vector3Int tile in values) {
+                tiles.Add(tile);
+            }
+        }
     }
 
     // present when zone is changed but changes not yet processed by visual system
@@ -52,9 +60,18 @@ namespace game.model.component {
 
     // stores tiles which should be targeted by tesks
     public struct ZoneTrackingComponent {
-        public Dictionary<string, HashSet<EcsEntity>> tasks; // task type -> task (just stores tasks associated with zone)
+        public Dictionary<string, HashSet<EcsEntity>> tasks; // task type -> task (just stores tasks associated with zone, both open and active)
         public Dictionary<string, HashSet<Vector3Int>> tiles; // task type -> tiles (tracks tiles to perform tasks to)
         public Dictionary<Vector3Int, EcsEntity> locked; // tile -> task (locks tiles to tasks to ensure only one task can be performed on a tile)
+        
+        public Dictionary<Vector3Int, string> tilesToTask; // tile -> task type to perform
+
+        // removes tile from all task types
+        public void removeTile(Vector3Int tile) {
+            foreach (string taskType in ZoneTaskTypes.FARM_TASKS) {
+                tiles[taskType].Remove(tile);
+            }
+        }
     }
 
     public struct FarmComponent {
@@ -74,6 +91,10 @@ namespace game.model.component {
     }
     
     public struct FarmOpenHarvestTaskComponent {
-        public EcsEntity removeTask;
+        public EcsEntity harvestTask;
+    }
+
+    public struct FarmOpenTaskComponent {
+        public EcsEntity task;
     }
 }

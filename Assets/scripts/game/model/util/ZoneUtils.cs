@@ -39,8 +39,7 @@ namespace game.model.util {
 
         // tile not locked, not farm
         public static Vector3Int findUnhoedTile(EcsEntity entity, LocalModel model) {
-            return findUnhoedTiles(entity, model)
-                .firstOrDefault(Vector3Int.back);
+            return findUnhoedTiles(entity, model).firstOrDefault(Vector3Int.back);
         }
 
         // tile not locked, not farm

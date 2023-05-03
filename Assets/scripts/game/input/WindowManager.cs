@@ -17,7 +17,8 @@ namespace game.input {
         public readonly Dictionary<string, INamed> windows = new(); // windows by name
         public string activeWindowName = "";
         public INamed activeWindow;
-
+        private bool debug = false;
+        
         public bool accept(KeyCode key) {
             return (activeWindow as IHotKeyAcceptor)?.accept(key) ?? false;
         }
@@ -88,7 +89,7 @@ namespace game.input {
         }
 
         private void log(string message) {
-            Debug.Log("[WindowManager] " + message);
+            if(debug) Debug.Log("[WindowManager] " + message);
         }
     }
 }

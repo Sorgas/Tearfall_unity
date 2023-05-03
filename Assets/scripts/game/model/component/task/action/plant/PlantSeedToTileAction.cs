@@ -16,7 +16,7 @@ namespace game.model.component.task.action.plant {
         private EcsEntity zone;
         private string plantName;
         
-        public PlantSeedToTileAction(Vector3Int tile, EcsEntity zone) : base(new PositionActionTarget(tile, ActionTargetTypeEnum.NEAR)) {
+        public PlantSeedToTileAction(Vector3Int tile, EcsEntity zone) : base(new PositionActionTarget(tile, ActionTargetTypeEnum.ANY)) {
             name = "plant farm tile";
             this.zone = zone;
             seedSelector = new SeedItemSelector(zone.take<FarmComponent>().plant);

@@ -6,13 +6,15 @@ using UnityEngine;
 namespace game.model.system.util {
     // changing entities in model containers can update tile (see LocalModelUpdateContainer).
     // This system consumes tile updates and recreates updates for entities on updated tiles
-    public class TileUpdatingSystem : LocalModelUnscalableEcsSystem {
+    public class TileUpdateSystem : LocalModelUnscalableEcsSystem {
         public EcsFilter<TileUpdateComponent> filter;
-
+        private bool debug = true;
+        
         public override void Run() {
             foreach (int i in filter) {
                 foreach (Vector3Int tile in filter.Get1(i).tiles) {
                     updateTile(tile);
+                    log(tile.ToString());
                 }
             }
         }
@@ -24,9 +26,11 @@ namespace game.model.system.util {
 
         private void updateZone(EcsEntity zone, Vector3Int tile) {
             if (zone == EcsEntity.Null) return;
-            ref ZoneUpdatedComponent updatedComponent = ref zone.Get<ZoneUpdatedComponent>();
-            if (updatedComponent.tiles == null) updatedComponent.tiles = new List<Vector3Int>();
-            updatedComponent.tiles.Add(tile);
+            zone.Get<ZoneUpdateComponent>().add(tile);
+        }
+
+        private void log(string message) {
+            if(debug) Debug.Log("[TileUpdateSystem] " + message);
         }
     }
 }

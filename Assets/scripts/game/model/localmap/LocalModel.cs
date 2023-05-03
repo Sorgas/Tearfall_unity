@@ -49,7 +49,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         //TODO move ecs world to global game model. (as units should travel between regions)
         public EcsEntity createEntity() {
             EcsEntity entity = ecsWorld.NewEntity();
-            Debug.Log("created entity: " + entity.GetInternalId());
+            // Debug.Log("created entity: " + entity.GetInternalId());
             return entity;
         }
 
