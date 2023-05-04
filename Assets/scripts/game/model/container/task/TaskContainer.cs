@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using game.model.component.task;
-using game.model.container.task;
 using game.model.localmap;
 using game.model.localmap.passage;
 using Leopotam.Ecs;
@@ -10,7 +9,7 @@ using UnityEngine;
 using util.lang.extension;
 using static types.action.ActionTargetTypeEnum;
 
-namespace game.model.container {
+namespace game.model.container.task {
     // contains all shared tasks for settlers. Personal tasks like eating or resting are not handled
     // only contains tasks with TaskJobComponent
     public class TaskContainer : LocalModelContainer {

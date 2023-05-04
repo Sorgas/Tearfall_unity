@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using game.model.container;
 using game.model.container.item;
+using game.model.container.task;
 using game.model.localmap.update;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -11,7 +13,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public readonly EcsWorld ecsWorld = new();
         public EcsSystems unscalableSystems;
         public EcsSystems scalableSystems; // for scalable and interval systems
-
+        
         // containers for referencing and CRUD on entities
         public readonly UnitContainer unitContainer = new();
         public readonly DesignationContainer designationContainer;
@@ -22,7 +24,9 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public readonly ZoneContainer zoneContainer;
         public readonly FarmContainer farmContainer;
         public readonly TileUpdateUtil updateUtil;
-        
+
+        private readonly List<string> modelUpdateEventQueue = new();
+
         public LocalModel() {
             Debug.Log("creating EcsWorld");
             designationContainer = new(this);
@@ -36,7 +40,6 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         }
 
         public void update(int ticks) {
-            // Debug.Log("-------------------------------------------------------------------");
             scalableSystems?.Run();
             for (var i = 0; i < ticks; i++) {
                 unscalableSystems?.Run();
@@ -55,6 +58,20 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
             EcsEntity entity = ecsWorld.NewEntity();
             // Debug.Log("created entity: " + entity.GetInternalId());
             return entity;
+        }
+
+        public void addUpdateEvent(string newEvent) {
+            lock (modelUpdateEventQueue) {
+                modelUpdateEventQueue.Add(newEvent);
+            }
+        }
+
+        public List<string> getUpdateEvents() {
+            lock (modelUpdateEventQueue) {
+                List<string> result = new List<string>(modelUpdateEventQueue);
+                modelUpdateEventQueue.Clear();
+                return result;
+            }
         }
 
         public string getDebugInfo() => taskContainer.getDebugIngo();

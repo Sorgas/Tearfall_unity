@@ -46,6 +46,8 @@ namespace game.model.localmap {
             addSystem(model, new PlantHarvestSystem()); // kills plants or restarts product growth
             addSystem(model, new PlantVisualUpdateSystem()); // updates sprites of plants
             
+            addSystem(model, new ModelUpdateSystem());
+            
             model.scalableSystems.Inject(GameModel.get().globalSharedData).Inject(model).Init();
             model.unscalableSystems.Inject(GameModel.get().globalSharedData).Inject(model).Init();
         }

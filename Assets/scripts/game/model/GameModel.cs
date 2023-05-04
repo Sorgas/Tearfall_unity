@@ -31,7 +31,7 @@ namespace game.model {
 
         public void update() {
             int ticks = updateController.getTicksForUpdate();
-            globalSharedData.set(ticks);
+            globalSharedData.set(ticks); // systems consume ticks from here
             counter.update(ticks); // debug thing
             gameTime.update(ticks); // calendar
             foreach (LocalModel model in localMapModels.Values) {
