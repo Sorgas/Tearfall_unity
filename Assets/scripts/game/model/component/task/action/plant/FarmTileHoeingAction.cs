@@ -19,13 +19,17 @@ namespace game.model.component.task.action.plant {
         public FarmTileHoeingAction(Vector3Int tile, EcsEntity zone) : base(new PositionActionTarget(tile, ActionTargetTypeEnum.ANY)) {
             name = "tile hoeing action";
             this.zone = zone;
+            maxProgress = 100;
             startCondition = () => {
                 if (!performer.take<UnitEquipmentComponent>().toolWithActionEquipped(TOOL_ACTION_NAME)) return tryCreateEquippingAction();
-                if (!ZoneUtils.tileUnhoed(tile, model)) return FAIL;
+                if (!zone.take<ZoneComponent>().tiles.Contains(tile)) return FAIL;
+                if (ZoneUtils.tileHoed(tile, model)) {
+                    log("tile already hoed");
+                    return FAIL;
+                }
                 lockZoneTile(zone, tile);
                 return OK;
             };
-            maxProgress = 100;
             onFinish = () => {
                 hoeTile(tile);
                 unlockZoneTile(zone, tile);
@@ -42,7 +46,7 @@ namespace game.model.component.task.action.plant {
 
         private void hoeTile(Vector3Int tile) {
             model.farmContainer.addFarm(tile); // triggers tile update 
-            model.plantContainer.removePlant(tile, true);
+            model.plantContainer.removePlant(tile); // triggers tile update
             model.localMap.substrateMap.remove(tile);
         }
     }

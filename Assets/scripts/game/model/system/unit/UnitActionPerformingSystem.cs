@@ -19,7 +19,7 @@ namespace game.model.system.unit {
                 action.perform(unit, ticks);
                 // Debug.Log("[UnitActionPerformingSystem]: task components count: " + action.task.GetComponentsCount());
                 if (action.status == ActionStatusEnum.COMPLETE) {
-                    Debug.Log("[UnitActionPerformingSystem]: removing UnitCurrentActionComponent from unit");
+                    Debug.Log("[UnitActionPerformingSystem]: action " + action.name + " complete");
                     // Debug.Log("[UnitActionPerformingSystem]: components count: " + unit.GetComponentsCount());
                     unit.Del<UnitCurrentActionComponent>();
                 }

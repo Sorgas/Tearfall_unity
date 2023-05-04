@@ -9,6 +9,8 @@ using util.lang;
 using static game.view.camera.SelectionType;
 
 namespace game.view.system.mouse_tool {
+    
+    // TODO rewrite to generate ModelUpdateEvent s to be consumed by ModelUpdateEventSystem to be run in same thread as model time updates
     public sealed class MouseToolManager : Singleton<MouseToolManager> {
         private readonly SelectionMouseTool selectionTool = new();
         private readonly DesignationMouseTool designationTool = new();

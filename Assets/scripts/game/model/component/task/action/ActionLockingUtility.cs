@@ -22,11 +22,11 @@ namespace game.model.component.task.action {
 
         public static void lockZoneTile(EcsEntity zone, Vector3Int tile, EcsEntity task) {
             ZoneTrackingComponent tracking = zone.take<ZoneTrackingComponent>();
-            if (tracking.locked.ContainsKey(tile)) {
+            if (!tileCanBeLocked(zone, tile, task)) {
                 if (tracking.locked[tile] != task) throw new ArgumentException("Cannot lock tile. Tile locked to another task");
                 // already locked to this task
             } else {
-                tracking.locked.Add(tile, task);
+                if (!tracking.locked.ContainsKey(tile)) tracking.locked.Add(tile, task);
             }
         }
 
@@ -41,9 +41,10 @@ namespace game.model.component.task.action {
             tracking.locked.Remove(tile);
         }
 
-        // public static bool tileCanBeLocked(EcsEntity zone, Vector3Int tile, EcsEntity task) {
-        //     ZoneTrackingComponent tracking = zone.take<ZoneTrackingComponent>();
-        //     return !tracking.locked.ContainsKey(tile) || tracking.locked[tile] == task;
-        // }
+        // tile is not locked or already locked to given task
+        public static bool tileCanBeLocked(EcsEntity zone, Vector3Int tile, EcsEntity task) {
+            ZoneTrackingComponent tracking = zone.take<ZoneTrackingComponent>();
+            return !tracking.locked.ContainsKey(tile) || tracking.locked[tile] == task;
+        }
     }
 }

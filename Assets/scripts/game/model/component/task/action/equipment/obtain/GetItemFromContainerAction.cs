@@ -13,7 +13,8 @@ namespace game.model.component.task.action.equipment.obtain {
         public GetItemFromContainerAction(EcsEntity item) : base(null, item) {
             EcsEntity containerEntity = item.take<ItemContainedComponent>().container;
             target = new EntityActionTarget(containerEntity, ActionTargetTypeEnum.NEAR);
-
+            maxProgress = 50;
+            
             startCondition = () => {
                 if (!validate()) return ActionConditionStatusEnum.FAIL;
                 // setItemLocked(item, true);
@@ -22,8 +23,6 @@ namespace game.model.component.task.action.equipment.obtain {
                     return addPreAction(new PutItemToPositionAction(equipment().hauledItem, performer.pos()));
                 return ActionConditionStatusEnum.OK;
             };
-
-            onStart = () => maxProgress = 50;
 
             onFinish = () => {
                 container.transition.fromContainerToUnit(item, containerEntity, performer);

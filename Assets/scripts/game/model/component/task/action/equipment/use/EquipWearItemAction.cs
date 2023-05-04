@@ -26,7 +26,7 @@ namespace game.model.component.task.action.equipment.use {
 
         private void updateWearNeed() {
             if (performer.Has<UnitWearNeedComponent>()) {
-                performer.takeRef<UnitWearNeedComponent>().valid = false;
+                performerRef.takeRef<UnitWearNeedComponent>().valid = false;
             }
         }
     }

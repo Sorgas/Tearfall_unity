@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using game.model.component.task;
+using game.model.container.task;
 using game.model.localmap;
 using game.model.localmap.passage;
 using Leopotam.Ecs;
@@ -15,6 +16,7 @@ namespace game.model.container {
     public class TaskContainer : LocalModelContainer {
         public TaskGenerator generator = new();
         public bool debug = true;
+        private TaskCompletionUtil taskCompletionUtil = new();
         
         // TODO have separate open tasks dictionaries for different priorities
         private Dictionary<string, HashSet<EcsEntity>> openTasks = new(); // job name to tasks
@@ -74,6 +76,10 @@ namespace game.model.container {
             assigned.Add(task, performer);
         }
 
+        public void cancelTask(EcsEntity task) {
+            
+        }
+        
         private bool checkTaskTarget(EcsEntity task, byte performerArea, PassageMap passageMap) {
             ActionTargetTypeEnum targetType = task.take<TaskActionsComponent>().initialAction.target.type;
             Vector3Int target = task.take<TaskActionsComponent>().initialAction.target.pos;

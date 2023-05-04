@@ -1,6 +1,7 @@
 ﻿using game.model.component.task.action.target;
 using game.model.component.unit;
 using game.model.container.item;
+using Leopotam.Ecs;
 using util.lang.extension;
 
 namespace game.model.component.task.action {
@@ -17,7 +18,7 @@ namespace game.model.component.task.action {
         }
         
         protected ref UnitEquipmentComponent equipment() {
-            return ref performer.takeRef<UnitEquipmentComponent>();
+            return ref (performerRef.takeRef<UnitEquipmentComponent>());
         }
     }
 }

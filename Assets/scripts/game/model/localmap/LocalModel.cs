@@ -1,5 +1,6 @@
 using game.model.container;
 using game.model.container.item;
+using game.model.localmap.update;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -20,7 +21,8 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public readonly BuildingContainer buildingContainer;
         public readonly ZoneContainer zoneContainer;
         public readonly FarmContainer farmContainer;
- 
+        public readonly TileUpdateUtil updateUtil;
+        
         public LocalModel() {
             Debug.Log("creating EcsWorld");
             designationContainer = new(this);
@@ -30,9 +32,11 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
             buildingContainer = new(this);
             zoneContainer = new(this);
             farmContainer = new(this);
+            updateUtil = new(this);
         }
 
         public void update(int ticks) {
+            // Debug.Log("-------------------------------------------------------------------");
             scalableSystems?.Run();
             for (var i = 0; i < ticks; i++) {
                 unscalableSystems?.Run();

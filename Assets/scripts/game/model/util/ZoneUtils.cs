@@ -54,17 +54,17 @@ namespace game.model.util {
             var tracking = entity.take<ZoneTrackingComponent>();
             return zone.tiles
                 .Where(tile => !tracking.locked.ContainsKey(tile)) // tile not locked by some existing task
-                .Where(tile => tileUnhoed(tile, model));
+                .Where(tile => !tileHoed(tile, model));
         }
 
         public static int countUnhoedTiles(ZoneComponent zone, ZoneTrackingComponent tracking, LocalModel model) {
             return zone.tiles
                 .Where(tile => !tracking.locked.ContainsKey(tile)) // tile not locked by some existing task
-                .Count(tile => tileUnhoed(tile, model));
+                .Count(tile => !tileHoed(tile, model));
         }
 
         // returns true, if tile can be hoed
-        public static bool tileUnhoed(Vector3Int tile, LocalModel model) => !model.farmContainer.isFarm(tile);
+        public static bool tileHoed(Vector3Int tile, LocalModel model) => model.farmContainer.isFarm(tile);
 
         // only checks presence of desired plants. block type and material should be maintained in ZoneUpdateSystem
         public static Vector3Int findUnplantedTile(EcsEntity entity, LocalModel model) {

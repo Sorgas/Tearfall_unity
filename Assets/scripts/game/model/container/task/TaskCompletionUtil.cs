@@ -1,20 +1,19 @@
 ﻿using System.Linq;
 using game.model.component;
 using game.model.component.task;
+using game.model.localmap;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
 using util.lang.extension;
-using TaskComponent = game.model.component.TaskComponent;
 
-namespace game.model.system.task {
-    // When task is completed by some reason, this system notifies other entities related to task.
-    // TODO rewrite to instant utility
-    public class TaskCompletionSystem : LocalModelUnscalableEcsSystem {
+namespace game.model.container.task {
+    public class TaskCompletionUtil {
+        private LocalModel model;
         public EcsFilter<TaskActionsComponent, TaskFinishedComponent> filter;
         private string logMessage;
 
-        public override void Run() {
+        public void Run() {
             foreach (var i in filter) {
                 ref EcsEntity task = ref filter.GetEntity(i);
                 TaskFinishedComponent component = filter.Get2(i);

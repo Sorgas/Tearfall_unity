@@ -20,6 +20,7 @@ namespace game.model.component.task.action.equipment.obtain {
 
         public GetItemFromGroundAction(EcsEntity item) : base(new ItemActionTarget(item), item) {
             name = "get item from ground action";
+            maxProgress = 20;
             startCondition = () => {
                 if (!validate()) return FAIL;
                 lockEntity(item);
@@ -29,8 +30,6 @@ namespace game.model.component.task.action.equipment.obtain {
                 }
                 return OK;
             };
-
-            onStart = () => maxProgress = 20;
 
             onFinish = () => { // add item to unit
                 model.itemContainer.transition.fromGroundToUnit(item, performer);

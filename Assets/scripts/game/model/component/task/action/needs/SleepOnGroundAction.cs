@@ -1,6 +1,7 @@
 using game.model.component.task.action.target;
 using game.model.component.unit;
 using game.model.system;
+using Leopotam.Ecs;
 using types;
 using types.action;
 using types.unit.need;
@@ -24,6 +25,7 @@ namespace game.model.component.task.action.needs {
             };
         
             progressConsumer = (unit, delta) => {
+                EcsEntity performer = this.performer;
                 ref UnitNeedComponent component = ref performer.takeRef<UnitNeedComponent>();
                 component.rest -= delta; // decrease fatigue
             };

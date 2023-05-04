@@ -62,4 +62,8 @@ namespace game.model.component {
     public struct TileUpdateComponent {
         public HashSet<Vector3Int> tiles;
     }
+    
+    public struct TileVisualUpdateComponent {
+        public HashSet<Vector3Int> tiles;
+    }
 }

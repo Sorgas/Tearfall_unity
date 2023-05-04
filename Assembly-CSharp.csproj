@@ -48,12 +48,14 @@
   <ItemGroup>
     <Compile Include="Assets\scripts\game\model\container\BuildingContainer.cs" />
     <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToDestinationAction.cs" />
+    <Compile Include="Assets\scripts\game\model\container\task\TaskCompletionUtil.cs" />
+    <Compile Include="Assets\scripts\game\model\container\task\TaskContainer.cs" />
+    <Compile Include="Assets\scripts\game\model\container\task\TaskGenerator.cs" />
     <Compile Include="Assets\scripts\util\geometry\PositionUtil.cs" />
     <Compile Include="Assets\scripts\types\deity\DeityAspectEnum.cs" />
     <Compile Include="Assets\scripts\game\model\system\zone\StockpileTaskCreationSystem.cs" />
     <Compile Include="Assets\scripts\game\view\camera\SelectionState.cs" />
     <Compile Include="Assets\scripts\game\model\system\plant\PlantAgeSystem.cs" />
-    <Compile Include="Assets\scripts\util\lang\CachedVariable.cs" />
     <Compile Include="Assets\scripts\util\lang\extension\ListExtensions.cs" />
     <Compile Include="Assets\scripts\game\view\util\LocalMapLayerHandler.cs" />
     <Compile Include="Assets\scripts\types\DesignationTypes.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="Assets\scripts\game\view\tilemaps\BlockTileSetHolder.cs" />
     <Compile Include="Assets\scripts\game\view\system\plant\PlantVisualUpdateSystem.cs" />
     <Compile Include="Assets\scripts\game\view\ui\util\ProgressBarHandler.cs" />
+    <Compile Include="Assets\scripts\game\model\task\plant\PlantRemoveAction.cs" />
     <Compile Include="Assets\scripts\generation\worldgen\WorldGenConfig.cs" />
     <Compile Include="Assets\scripts\game\view\ui\util\MbWindow.cs" />
     <Compile Include="Assets\scripts\util\item\WearWithSlotItemSelector.cs" />
@@ -141,6 +144,7 @@
     <Compile Include="Assets\scripts\game\view\system\mouse_tool\ItemConsumingMouseTool.cs" />
     <Compile Include="Assets\scripts\game\view\ui\workbench\WorkbenchRecipeListHandler.cs" />
     <Compile Include="Assets\scripts\types\unit\CreatureTypeMap.cs" />
+    <Compile Include="Assets\scripts\game\model\localmap\update\ZoneUpdateUtil.cs" />
     <Compile Include="Assets\scripts\game\view\system\building\BuildingVisualSystem.cs" />
     <Compile Include="Assets\scripts\game\model\util\DiggingWorkAmountCalculator.cs" />
     <Compile Include="Assets\scripts\game\model\component\task\action\target\SelfActionTarget.cs" />
@@ -170,11 +174,8 @@
     <Compile Include="Assets\scripts\util\geometry\IntRange.cs" />
     <Compile Include="Assets\scripts\generation\item\DiggingProductGenerator.cs" />
     <Compile Include="Assets\scripts\types\unit\need\Need.cs" />
-    <Compile Include="Assets\scripts\game\model\container\TaskGenerator.cs" />
     <Compile Include="Assets\scripts\game\view\camera\SelectionHandler.cs" />
     <Compile Include="Assets\scripts\game\view\system\designation\DesignationVisualSystem.cs" />
-    <Compile Include="Assets\scripts\game\model\task\plant\WorkOnFarmAction.cs" />
-    <Compile Include="Assets\scripts\game\model\container\TaskContainer.cs" />
     <Compile Include="Assets\scripts\generation\PreparationState.cs" />
     <Compile Include="Assets\scripts\game\model\system\task\designation\TaskCreationTimeoutSystem.cs" />
     <Compile Include="Assets\scripts\generation\localgen\LocalGenerator.cs" />
@@ -186,7 +187,6 @@
     <Compile Include="Assets\scripts\game\view\system\unit\UnitMenuUpdateSystem.cs" />
     <Compile Include="Assets\scripts\mainMenu\ButtonHandler.cs" />
     <Compile Include="Assets\scripts\generation\localgen\generators\LocalForestGenerator.cs" />
-    <Compile Include="Assets\scripts\game\model\system\zone\ZoneUpdateSystem.cs" />
     <Compile Include="Assets\scripts\util\TexturePacker\RectanglePacking\RectanglePacker.cs" />
     <Compile Include="Assets\scripts\util\pathfinding\Node.cs" />
     <Compile Include="Assets\scripts\game\model\component\task\action\target\ItemActionTarget.cs" />
@@ -208,12 +208,14 @@
     <Compile Include="Assets\scripts\game\view\tilemaps\BuildingTilesetSlicer.cs" />
     <Compile Include="Assets\scripts\game\view\ui\jobs_widget\UnitJobRow.cs" />
     <Compile Include="Assets\scripts\game\view\ui\stockpileMenu\StockpileConfigMenuHandler.cs" />
+    <Compile Include="Assets\scripts\game\model\system\zone\FarmTaskCreationSystemOld.cs" />
     <Compile Include="Assets\scripts\types\item\recipe\RecipeProcessor.cs" />
     <Compile Include="Assets\scripts\types\building\BuildingType.cs" />
     <Compile Include="Assets\scripts\game\model\WorldModel.cs" />
     <Compile Include="Assets\scripts\util\geometry\IntVector2.cs" />
     <Compile Include="Assets\scripts\game\model\system\GameTime.cs" />
     <Compile Include="Assets\scripts\util\geometry\bounds\IntBounds2.cs" />
+    <Compile Include="Assets\scripts\game\model\task\plant\FarmingAction.cs" />
     <Compile Include="Assets\scripts\util\input\DelayedLayersController.cs" />
     <Compile Include="Assets\scripts\game\model\GamemodelUpdateController.cs" />
     <Compile Include="Assets\scripts\game\model\system\plant\PlantWaitingSystem.cs" />
@@ -266,6 +268,7 @@
     <Compile Include="Assets\scripts\types\unit\need\RestNeed.cs" />
     <Compile Include="Assets\scripts\game\view\camera\MouseMovementSystem.cs" />
     <Compile Include="Assets\scripts\types\plant\PlantSpriteMap.cs" />
+    <Compile Include="Assets\scripts\game\model\localmap\update\TileUpdateUtil.cs" />
     <Compile Include="Assets\scripts\types\unit\RawCreatureType.cs" />
     <Compile Include="Assets\scripts\game\model\localmap\LocalMap.cs" />
     <Compile Include="Assets\scripts\game\model\component\task\action\MoveAction.cs" />
@@ -365,6 +368,7 @@
     <Compile Include="Assets\scripts\util\UtilByteArray.cs" />
     <Compile Include="Assets\scripts\game\model\component\task\action\GenericBuildingAction.cs" />
     <Compile Include="Assets\scripts\mainMenu\WorldGenButtonHandler.cs" />
+    <Compile Include="Assets\scripts\util\lang\CachedVariable.cs" />
     <Compile Include="Assets\scripts\game\view\ui\jobs_widget\JobsWindowHandler.cs" />
     <Compile Include="Assets\scripts\game\view\ui\menu_widget\MenuWidgetHandler.cs" />
     <Compile Include="Assets\scripts\util\TexturePacker\RectanglePacking\SortableSize.cs" />
@@ -436,7 +440,6 @@
     <Compile Include="Assets\scripts\game\model\component\task\action\target\BuildingActionTarget.cs" />
     <Compile Include="Assets\scripts\game\model\localmap\passage\PassageUpdater.cs" />
     <Compile Include="Assets\scripts\game\model\component\task\action\target\ZoneActionTarget.cs" />
-    <Compile Include="Assets\scripts\game\model\system\zone\ZoneDeletionSystem.cs" />
     <Compile Include="Assets\scripts\game\model\component\task\action\DigAction.cs" />
     <Compile Include="Assets\scripts\game\view\util\IconLoader.cs" />
     <Compile Include="Assets\scripts\game\view\ui\util\TooltipHandler.cs" />
@@ -516,6 +519,7 @@
     <Folder Include="Assets\resources\data\creatures" />
     <Folder Include="Assets\resources\ui_prefabs" />
     <Folder Include="Assets\scripts\util\TexturePacker" />
+    <Folder Include="Assets\scripts\game\model\localmap\update" />
     <Folder Include="Assets\scripts\game\view\ui\generation" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <Folder Include="Assets\scripts\types\action" />
@@ -607,7 +611,6 @@
     <None Include="Assets\resources\data\materials\stone.json" />
     <Folder Include="Assets\resources\icons\items" />
     <Folder Include="Assets\scripts\game\model\component\task\order" />
-    <Folder Include="Assets\scripts\game\model\container" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <Folder Include="Assets\Scenes\MainMenu" />
     <None Include="Assets\resources\data\items\tools.json" />
@@ -644,6 +647,7 @@
     <None Include="Assets\resources\data\items\wear.json" />
     <None Include="Assets\resources\data\plants\trees.json" />
     <Folder Include="Assets\resources\ui" />
+    <Folder Include="Assets\scripts\util\lang" />
     <Folder Include="Assets\scripts\mainMenu" />
     <Folder Include="Assets\scripts\game\model\component\task\action\plant" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />

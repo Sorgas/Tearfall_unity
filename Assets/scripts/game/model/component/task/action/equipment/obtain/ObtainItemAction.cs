@@ -17,8 +17,6 @@ namespace game.model.component.task.action.equipment.obtain {
                 if(item.Has<PositionComponent>()) return addPreAction(new GetItemFromGroundAction(item)); // pickup from ground
                 return ActionConditionStatusEnum.FAIL; // item is not registered in container or equipped on another unit
             };
-
-            onStart = () => maxProgress = 0;
         }
     }
 }

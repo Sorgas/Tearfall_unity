@@ -45,6 +45,7 @@ namespace game.model.component.task.action.needs {
             };
 
             onFinish = () => {
+                EcsEntity performer = this.performer;
                 ref UnitNeedComponent component = ref performer.takeRef<UnitNeedComponent>();
                 log("eating " + item.take<ItemFoodComponent>().nutrition);
                 component.hunger += item.take<ItemFoodComponent>().nutrition;

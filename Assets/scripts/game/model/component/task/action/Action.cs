@@ -31,16 +31,11 @@ namespace game.model.component.task.action {
         public EcsEntity task; // set when action is added to task
         public ActionTarget target;
         public ActionStatusEnum status = ActionStatusEnum.OPEN;
-        public LocalModel model => task.take<TaskActionsComponent>().model;
         
-        public bool hasPerformer => task.IsAlive() && task.Has<TaskPerformerComponent>();
-
-        public ref EcsEntity performer {
-            get {
-                ref var component = ref task.takeRef<TaskPerformerComponent>();
-                return ref component.performer;
-            }
-        }
+        public LocalModel model => task.take<TaskActionsComponent>().model;
+        public EcsEntity performer => task.take<TaskPerformerComponent>().performer;
+        public ref EcsEntity performerRef => ref task.takeRef<TaskPerformerComponent>().performer;
+        
         // checked before starting performing and before starting moving, can create sub actions, can lock items
         public Func<ActionConditionStatusEnum> startCondition = () => ActionConditionStatusEnum.FAIL; // prevent starting empty action
 
@@ -87,7 +82,7 @@ namespace game.model.component.task.action {
         protected void lockZoneTile(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.lockZoneTile(zone, tile, task);
         protected void unlockZoneTile(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.unlockZoneTile(zone, tile, task);
         protected bool itemCanBeLocked(EcsEntity item) => ActionLockingUtility.itemCanBeLocked(item, task);
-        // public bool tileCanBeLocked(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.tileCanBeLocked(zone, tile, task);
+        public bool tileCanBeLocked(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.tileCanBeLocked(zone, tile, task);
         
         protected void log(string message) => Debug.Log("[" + name + "]: " + message);
     }

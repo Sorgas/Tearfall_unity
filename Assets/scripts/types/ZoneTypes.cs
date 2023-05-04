@@ -45,8 +45,9 @@ namespace types {
         public const string PLANT = "plant";
         public const string HARVEST = "harvest";
         public const string REMOVE_PLANT = "removePlant";
-
+        public const string FARM_WORK = "work";
+        
         public static readonly string[] STOCKPILE_TASKS = { STORE_ITEM, REMOVE_ITEM };
-        public static readonly string[] FARM_TASKS = { HOE, PLANT, HARVEST, REMOVE_PLANT };
+        public static readonly string[] FARM_TASKS = { HOE, PLANT, HARVEST, REMOVE_PLANT, FARM_WORK };
     }
 }

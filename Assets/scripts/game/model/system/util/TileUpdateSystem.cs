@@ -12,22 +12,25 @@ namespace game.model.system.util {
         
         public override void Run() {
             foreach (int i in filter) {
-                foreach (Vector3Int tile in filter.Get1(i).tiles) {
-                    updateTile(tile);
+                TileUpdateComponent component = filter.Get1(i);
+                foreach (Vector3Int tile in component.tiles) {
+                    // updateTile(tile);
                     log(tile.ToString());
                 }
+                component.tiles.Clear();
             }
         }
         
         private void updateTile(Vector3Int tile) {
-            updateZone(model.zoneContainer.getZone(tile), tile);
+            model.updateUtil.updateTile(tile);
+            // updateZone(model.zoneContainer.getZone(tile), tile);
             // TODO update other entities like this. e.g.: destroy plants and buildings on dig
         }
 
-        private void updateZone(EcsEntity zone, Vector3Int tile) {
-            if (zone == EcsEntity.Null) return;
-            zone.Get<ZoneUpdateComponent>().add(tile);
-        }
+        // private void updateZone(EcsEntity zone, Vector3Int tile) {
+        //     if (zone == EcsEntity.Null) return;
+        //     // zone.Get<ZoneUpdateComponent>().add(tile);
+        // }
 
         private void log(string message) {
             if(debug) Debug.Log("[TileUpdateSystem] " + message);

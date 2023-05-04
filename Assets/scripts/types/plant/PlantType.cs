@@ -45,7 +45,7 @@ namespace types.plant {
         public int getStageByAge(float age) {
             if (tiles == 1) return 0;
             if (age > maturityAge) return tiles - 1;
-            return (int) Math.Floor(age / (maturityAge / tiles - 1));
+            return (int) Math.Floor(age / (maturityAge / (tiles - 1)));
         }
     }
 

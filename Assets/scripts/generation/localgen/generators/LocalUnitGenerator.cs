@@ -38,6 +38,7 @@ namespace generation.localgen.generators {
                     entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.MINER.name);
                     entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.WOODCUTTER.name);
                     entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.BUILDER.name);
+                    entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.FARMER.name);
 
                     Debug.Log("unit spawned at " + spawnPoint.Value);
                 } else {

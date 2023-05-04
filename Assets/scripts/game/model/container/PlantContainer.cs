@@ -48,6 +48,8 @@ namespace game.model.container {
             if (plants.ContainsKey(position)) removePlant(plants[position], leaveProduct);
         }
 
+        public void removePlant(Vector3Int position) => removePlant(position, false);
+
         public void plantUpdated(EcsEntity entity) {
             // TODO add support for multi-tile trees
             addPositionForUpdate(entity.pos());

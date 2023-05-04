@@ -20,10 +20,13 @@ namespace game.model.container {
             Debug.Log("creating localModelUpdateComponent");
             updateEntity = model.createEntity();
             updateEntity.Replace(new TileUpdateComponent { tiles = new() });
+            updateEntity.Replace(new TileVisualUpdateComponent { tiles = new() });
         }
 
         public void addPositionForUpdate(Vector3Int position) {
-            updateEntity.take<TileUpdateComponent>().tiles.Add(position);
+            model.updateUtil.updateTile(position);
+            // updateEntity.take<TileUpdateComponent>().tiles.Add(position);
+            updateEntity.take<TileVisualUpdateComponent>().tiles.Add(position);
         }
     }
 }

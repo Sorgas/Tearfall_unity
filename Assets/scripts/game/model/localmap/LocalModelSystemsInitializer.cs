@@ -33,8 +33,6 @@ namespace game.model.localmap {
             addSystem(model, new WorkbenchOrderSelectionSystem());
             addSystem(model, new WorkbenchTaskCreationSystem());
             addSystem(model, new WorkbenchTaskCompletionSystem());
-            addSystem(model, new ZoneUpdateSystem()); // updates zones
-            addSystem(model, new ZoneDeletionSystem());
             addSystem(model, new StockpileTaskCreationSystem());
             addSystem(model, new FarmTaskCreationSystem());
 

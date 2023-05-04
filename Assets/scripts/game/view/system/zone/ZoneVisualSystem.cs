@@ -4,21 +4,21 @@ using UnityEngine;
 
 namespace game.view.system.zone {
     public class ZoneVisualSystem : IEcsRunSystem {
-        public EcsFilter<ZoneVisualUpdatedComponent> filter;
+        public EcsFilter<ZoneVisualUpdateComponent> filter;
         
         public void Run() {
             foreach (int i in filter) {
                 EcsEntity entity = filter.GetEntity(i);
-                ZoneVisualUpdatedComponent updatedComponent = filter.Get1(i);
-                updateTiles(entity, updatedComponent);
+                ZoneVisualUpdateComponent updateComponent = filter.Get1(i);
+                updateTiles(entity, updateComponent);
             }
         }
 
-        private void updateTiles(EcsEntity entity, ZoneVisualUpdatedComponent updatedComponent) {
-            foreach (Vector3Int tile in updatedComponent.tiles) {
+        private void updateTiles(EcsEntity entity, ZoneVisualUpdateComponent updateComponent) {
+            foreach (Vector3Int tile in updateComponent.tiles) {
                 GameView.get().tileUpdater.updateTile(tile, false);
             }
-            entity.Del<ZoneVisualUpdatedComponent>();
+            entity.Del<ZoneVisualUpdateComponent>();
         }
     }
 }

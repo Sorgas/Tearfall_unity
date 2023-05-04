@@ -112,7 +112,7 @@ namespace game.model.system.zone {
         private EcsEntity createTask(Action action, EcsEntity zone, string taskType) {
             EcsEntity task = generator.createTask(action, TaskPriorityEnum.JOB, model.createEntity(), model);
             task.Replace(new TaskZoneComponent { zone = zone, taskType = taskType });
-            zone.take<ZoneTrackingComponent>().tasks[taskType].Add(task);
+            zone.take<ZoneTrackingComponent>().totalTasks.Add(task);
             model.taskContainer.addOpenTask(task);
             return task;
         }
