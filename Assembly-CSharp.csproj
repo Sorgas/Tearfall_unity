@@ -363,6 +363,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToDesignationContainer.cs" />
      <Compile Include="Assets\scripts\types\material\MaterialMap.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenConfig.cs" />
+     <Compile Include="Assets\scripts\game\model\container\ModelUpdateEvent.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepOnGroundAction.cs" />
      <Compile Include="Assets\scripts\game\model\component\building\BuildingComponents.cs" />
      <Compile Include="Assets\scripts\util\UtilByteArray.cs" />

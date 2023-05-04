@@ -25,7 +25,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public readonly FarmContainer farmContainer;
         public readonly TileUpdateUtil updateUtil;
 
-        private readonly List<string> modelUpdateEventQueue = new();
+        private readonly List<ModelUpdateEvent> modelUpdateEventQueue = new();
 
         public LocalModel() {
             Debug.Log("creating EcsWorld");
@@ -60,15 +60,15 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
             return entity;
         }
 
-        public void addUpdateEvent(string newEvent) {
+        public void addUpdateEvent(ModelUpdateEvent newEvent) {
             lock (modelUpdateEventQueue) {
                 modelUpdateEventQueue.Add(newEvent);
             }
         }
 
-        public List<string> getUpdateEvents() {
+        public List<ModelUpdateEvent> getUpdateEvents() {
             lock (modelUpdateEventQueue) {
-                List<string> result = new List<string>(modelUpdateEventQueue);
+                List<ModelUpdateEvent> result = new(modelUpdateEventQueue);
                 modelUpdateEventQueue.Clear();
                 return result;
             }
