@@ -12,9 +12,7 @@ namespace game.model.component.task {
         public LocalModel model;
         public Action initialAction; // main action
         public List<Action> preActions; // actions can create pre-actions
-        public TaskPriorityEnum priority;
-    
-        public Action NextAction => preActions.Count > 0 ? preActions[0] : initialAction;
+        public Action nextAction => preActions.Count > 0 ? preActions[0] : initialAction;
 
         public void addFirstPreAction(Action action) => preActions.Insert(0, action);
         
@@ -32,8 +30,10 @@ namespace game.model.component.task {
     }
 
     // unit should have job enabled to get task (optional)
+    // tasks are given by priority
     public struct TaskJobComponent {
         public string job;
+        public int priority;
     }
 
     // exists, if task is generated from designation

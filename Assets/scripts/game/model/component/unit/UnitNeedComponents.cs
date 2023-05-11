@@ -6,13 +6,13 @@ namespace game.model.component.unit {
     // stores values of unit's needs. values are [0..1]f, more means satisfied.
     public struct UnitNeedComponent {
         public float hunger;
-        public TaskPriorityEnum hungerPriority;
+        public TaskPriorities hungerPriority;
 
         public float thirst;
-        public TaskPriorityEnum thirstPriority;
+        public TaskPriorities thirstPriority;
         
         public float rest;
-        public TaskPriorityEnum restPriority;
+        public TaskPriorities restPriority;
     }
 
     // is present, if unit needs wear on some slots 
@@ -28,7 +28,7 @@ namespace game.model.component.unit {
 
     public struct UnitCalculatedNeedComponent {
         public Need need;
-        public TaskPriorityEnum priority;
+        public TaskPriorities priority;
     }
 
     public struct NeedState {

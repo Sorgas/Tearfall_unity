@@ -10,7 +10,7 @@ namespace game.view.camera {
     public class EntitySelector {
         public Vector3Int position = new();
         public readonly IntBounds3 bounds = new();
-        public Vector2Int size = new(1, 1);
+        private Vector2Int size = new(1, 1);
         public readonly ValueRangeInt zRange = new(); // range for current z in model units
         
         public Vector3Int updatePosition(Vector3Int position) {
@@ -30,8 +30,8 @@ namespace game.view.camera {
             return position.z - oldZ;
         }
 
-        public void changeSelectorSize(int x, int y) {
-            size.Set(x, y);
+        public void changeSelectorSize(Vector2Int newSize) {
+            size.Set(newSize[0], newSize[1]);
             updateBounds();
             updatePosition(position);
         }

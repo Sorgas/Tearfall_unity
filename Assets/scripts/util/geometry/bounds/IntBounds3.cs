@@ -18,7 +18,7 @@ namespace util.geometry.bounds {
 
         public IntBounds3(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) => set(minX, minY, minZ, maxX, maxY, maxZ);
 
-        public new bool isIn(IntVector3 vector) => isIn(vector.x, vector.y, vector.z);
+        public bool isIn(IntVector3 vector) => isIn(vector.x, vector.y, vector.z);
 
         public bool isIn(Vector3 vector) => isIn(vector.x, vector.y, vector.z);
 

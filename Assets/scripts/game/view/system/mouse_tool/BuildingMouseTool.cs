@@ -1,7 +1,6 @@
 using System;
 using game.model;
 using game.model.util.validation;
-using game.view.camera;
 using game.view.tilemaps;
 using types;
 using types.building;
@@ -14,7 +13,8 @@ namespace game.view.system.mouse_tool {
     public class BuildingMouseTool : ItemConsumingMouseTool {
         public BuildingType type;
         private Orientations orientation;
-        private BuildingValidator validator = new();
+        private Vector2Int size;
+        private readonly BuildingValidator validator = new();
         private bool materialsValid;
         private bool wasValid;
 
@@ -26,20 +26,17 @@ namespace game.view.system.mouse_tool {
             return fillSelectorForVariants(type.name, type.variants);
         }
 
-        // TODO make buildings able to be designated in draw mode (like in ONI)
-
-        // TODO add unit/building/item/plant/block selection for NONE tool
+        // TODO make buildings able to be designated in draw mode (like in OnI)
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {
-            if (!bounds.isSingleTile()) {
-                Debug.LogError("building bounds not single tile !!!");
-            }
-            Vector3Int position = bounds.getStart();
-            if (GameView.get().selector.position  != position) {
-                Debug.LogError("building bounds not on selector position !!!");
-            }
-            if (validate()) {
-                GameModel.get().currentLocalModel.designationContainer.createBuildingDesignation(position, type, orientation, itemType, material);
-            }
+            validateBounds(bounds);
+            addUpdateEvent(model => {
+                Vector3Int position = bounds.getStart();
+                if (validator.validateArea(position, size, model)) {
+                    model.designationContainer.createBuildingDesignation(bounds.getStart(), type, orientation, itemType, material);
+                } else {
+                    Debug.LogErrorFormat("Position {0} for building {1} is invalid.", position, type.name);
+                }
+            });
         }
 
         // select sprite by type and rotation
@@ -54,35 +51,22 @@ namespace game.view.system.mouse_tool {
 
         // validate by selector position
         public override void updateSpriteColor(Vector3Int position) {
-            selectorGO.buildingValid(validate());
+            selectorGO.buildingValid(validator.validateArea(position, size, GameModel.get().currentLocalModel));
         }
 
         public override void reset() {
             materialSelector.close();
             selectorGO.setBuildingSprite(null, 1);
-            selectorGO.setAccessPoint(0,0, null);
+            selectorGO.setAccessPoint(0, 0, null);
         }
 
         public override void rotate() {
             orientation = OrientationUtil.getNext(orientation);
-            updateSelectorSize();
+            GameView.get().selector.changeSelectorSize(type.getSizeByOrientation(orientation));
             updateSprite();
             updateSpriteColor(new Vector3Int());
         }
-
-        private bool validate() {
-            EntitySelector selector = GameView.get().selector;
-            return validator.validateArea(selector.position, selector.size, GameModel.get().currentLocalModel);
-        }
-
-        private void updateSelectorSize() {
-            if (!OrientationUtil.isHorizontal(orientation)) {
-                GameView.get().selector.changeSelectorSize(type.size[0], type.size[1]);
-            } else {
-                GameView.get().selector.changeSelectorSize(type.size[1], type.size[0]);
-            }
-        }
-
+        
         private int[] getRotatedAccessPoint() {
             int[] result = new int[2];
             switch (orientation) {
@@ -106,6 +90,15 @@ namespace game.view.system.mouse_tool {
                     throw new ArgumentOutOfRangeException();
             }
             return result;
+        }
+
+        private void validateBounds(IntBounds3 bounds) {
+            if (!bounds.isSingleTile()) {
+                Debug.LogWarning("building bounds not single tile !!!");
+            }
+            if (GameView.get().selector.position != bounds.getStart()) {
+                Debug.LogWarning("building bounds not on selector position !!!");
+            }
         }
     }
 }

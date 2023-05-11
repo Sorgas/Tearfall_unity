@@ -15,11 +15,11 @@ namespace types.unit.need {
         private float comfortThreshold = 1f - hoursToComfort / hoursToSafety;
         private float healthThreshold = 1f - hoursToHealth / hoursToSafety;
 
-        public override TaskPriorityEnum getPriority(float value) {
-            if (value > comfortThreshold) return TaskPriorityEnum.NONE;
-            if (value > healthThreshold) return TaskPriorityEnum.COMFORT;
-            if (value > 0) return TaskPriorityEnum.HEALTH_NEEDS;
-            return TaskPriorityEnum.SAFETY;
+        public override TaskPriorities getPriority(float value) {
+            if (value > comfortThreshold) return TaskPriorities.NONE;
+            if (value > healthThreshold) return TaskPriorities.COMFORT;
+            if (value > 0) return TaskPriorities.HEALTH_NEEDS;
+            return TaskPriorities.SAFETY;
         }
 
         public Action tryCreateAction(LocalModel model, EcsEntity unit) {

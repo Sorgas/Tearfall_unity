@@ -16,16 +16,16 @@ namespace game.model.system.task {
 
         public override void Run() {
             foreach (var i in filter) {
-                ref EcsEntity task = ref filter.GetEntity(i);
-                TaskFinishedComponent component = filter.Get2(i);
-                log("[TaskCompletionSystem]: completing task " + task.Get<TaskActionsComponent>().initialAction.name);
-                detachPerformer(ref task, component);
-                detachDesignation(ref task, component);
-                detachBuilding(ref task, component);
-                detachZone(ref task);
-                unlockItems(task);
-                flushLog();
-                model.taskContainer.removeTask(task); // destroys task
+                // ref EcsEntity task = ref filter.GetEntity(i);
+                // TaskFinishedComponent component = filter.Get2(i);
+                // log("[TaskCompletionSystem]: completing task " + task.Get<TaskActionsComponent>().initialAction.name);
+                // detachPerformer(ref task, component);
+                // detachDesignation(ref task, component);
+                // detachBuilding(ref task, component);
+                // detachZone(ref task);
+                // unlockItems(task);
+                // flushLog();
+                // model.taskContainer.destroyTask(task); // destroys task
             }
         }
 

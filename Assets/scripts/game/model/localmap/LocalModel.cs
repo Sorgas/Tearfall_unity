@@ -60,6 +60,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
             return entity;
         }
 
+        // to receive update events from UI. 
         public void addUpdateEvent(ModelUpdateEvent newEvent) {
             lock (modelUpdateEventQueue) {
                 modelUpdateEventQueue.Add(newEvent);

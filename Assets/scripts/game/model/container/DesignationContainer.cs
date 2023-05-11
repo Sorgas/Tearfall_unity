@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using game.model.component;
 using game.model.component.task;
+using game.model.container.task;
 using game.model.localmap;
 using Leopotam.Ecs;
 using types;
@@ -17,7 +18,7 @@ namespace game.model.container {
     public class DesignationContainer : LocalModelContainer {
         public readonly Dictionary<Vector3Int, EcsEntity> designations = new();
 
-        public DesignationContainer(LocalModel model) : base(model) {}
+        public DesignationContainer(LocalModel model) : base(model) { }
 
         public void createDesignation(Vector3Int position, DesignationType type) {
             EcsEntity entity = model.createEntity();
@@ -44,7 +45,7 @@ namespace game.model.container {
             entity.Replace(new DesignationComponent { type = DesignationTypes.D_BUILD });
             string materialName = MaterialMap.get().material(material).name;
             BuildingVariant variant = type.selectVariant(itemType);
-            if(variant == null) Debug.LogError("no variant for " + itemType + " in " + type.name);
+            if (variant == null) Debug.LogError("no variant for " + itemType + " in " + type.name);
             entity.Replace(new DesignationBuildingComponent {
                 type = type, orientation = orientation, itemType = itemType, material = material, amount = variant.amount, // TODO get amount from building type
                 materialVariant = MaterialMap.variateValue(materialName, itemType)
@@ -59,53 +60,46 @@ namespace game.model.container {
 
         private void addDesignation(EcsEntity entity, Vector3Int position) {
             entity.Replace(new PositionComponent { position = position });
-            if (designations.ContainsKey(position)) {
-                // replace previous designation
-                cancelDesignation(position); // cancel previous designation
-            }
+            removeDesignation(position); // replace previous designation
             if (entity.Has<MultiPositionComponent>()) {
-//                foreach (Vector3Int position in entity.Get<MultiPositionComponent>().positions) {
+                // TODO
+                //                foreach (Vector3Int position in entity.Get<MultiPositionComponent>().positions) {
 //
 //                }
             }
             designations[position] = entity;
         }
 
-        // removes designation in given position
+        // removes designation in given position. if it had task, removes it too
         public void removeDesignation(Vector3Int position) {
             if (designations.ContainsKey(position)) {
-                removeDesignation(designations[position]);
-            } else {
-                Debug.LogWarning("deleting designation by position " + position + " unregistered in DesignationContainer");
+                EcsEntity designation = designations[position];
+                designations.Remove(designation.pos());
+                removeDesignationTask(designation);
+                removeDesignationVisual(designations[position]);
+                designation.Destroy();
+            }
+        }
+        
+        private void removeDesignationTask(EcsEntity designation) {
+            if (designation.Has<TaskComponent>()) {
+                EcsEntity task = designation.take<TaskComponent>().task;
+                task.Del<TaskDesignationComponent>();
+                designation.Del<TaskComponent>();
+                model.taskContainer.removeTask(task, TaskStatusEnum.CANCELED);
             }
         }
 
         // use only when task is completed! 
-        public void removeDesignation(EcsEntity designation) {
-            designations.Remove(designation.pos());
+        private void removeDesignationVisual(EcsEntity designation) {
             if (designation.Has<DesignationVisualComponent>()) {
                 Destroy(designation.Get<DesignationVisualComponent>().spriteRenderer.gameObject);
                 designation.Del<DesignationVisualComponent>();
-            } else {
-                Debug.LogWarning("deleting designation without DesignationVisualComponent");
-            }
-
-            designation.Destroy();
-        }
-
-        // mark designation as canceled. will be handled in DesignationCompletionSystem
-        public void cancelDesignation(Vector3Int position) {
-            addFinishedComponent(position, TaskStatusEnum.CANCELED);
-        }
-
-        private void addFinishedComponent(Vector3Int position, TaskStatusEnum status) {
-            if (designations.ContainsKey(position)) {
-                designations[position].Replace(new TaskFinishedComponent { status = TaskStatusEnum.CANCELED });
             }
         }
 
         private MultiPositionComponent createMultiPositionComponent(BuildingType type, Orientations orientation, Vector3Int position) {
-            MultiPositionComponent component = new MultiPositionComponent { positions = new List<Vector3Int>() };
+            MultiPositionComponent component = new() { positions = new List<Vector3Int>() };
             for (int x = 0; x < type.size[0]; x++) {
                 for (int y = 0; y < type.size[1]; y++) {
                     component.positions.Add(new Vector3Int(position.x + x, position.y + y, position.z));
@@ -113,64 +107,5 @@ namespace game.model.container {
             }
             return component;
         }
-        //    /**
-        // * Gets tasks for unit. Filters task by units's allowed jobs.
-        // * Does not assign task to unit, because after this method is compared to unit's other tasks, see {@link stonering.game.model.system.unit.CreaturePlanningSystem}.
-        // * TODO consider task priority
-        // */
-        //    public Task getActiveTask(CanvasScaler.Unit unit) {
-        //        List<String> enabledJobs = new ArrayList<>();
-        //        enabledJobs.add("none");
-        //        unit.optional(JobSkillAspect.class).ifPresent(aspect->enabledJobs.addAll(aspect.enabledJobs));
-        //        return tasks.keySet().stream()
-        //            .filter(enabledJobs::contains)
-        //            .map(tasks::get)
-        //            .flatMap(taskList->taskList.tasks.stream())
-        //            .filter(task->taskTargetReachable(unit, task)) // tasks with reachable targets
-        //            .min(Comparator.comparingInt(task->task.initialAction.target.getPosition().fastDistance(unit.position))) // nearest target
-        //            .orElse(null);
-        //    }
-        //
-        //    /**
-        // * Moves given task to set of taken tasks, making it unavailable for units to take.
-        // * If task was generated by unit (e.g. need), does nothing.
-        // */
-        //    public void claimTask(@NotNull Task task) {
-        //        if (tasks.get(task.job).remove(task)) {
-        //            assignedTasks.add(task);
-        //            Logger.TASKS.logDebug("task " + task + " claimed.");
-        //        } else {
-        //            Logger.TASKS.logError("claimed task " + task + " is not in open tasks.");
-        //        }
-        //    }
-        //
-        //    public void addTask(Task task) {
-        //        Optional<>.ofNullable(task)
-        //            .map(task1->tasks.get(task1.job))
-        //            .ifPresent(list-> {
-        //            list.add(task);
-        //            if (task.designation != null) designations.put(task.designation.position, task.designation);
-        //            Logger.TASKS.logDebug("Task " + task + " added to TaskContainer.");
-        //        });
-        //    }
-        //
-        //    /**
-        // * Task should have no performer.
-        // */
-        //    public void reopenTask(@Nonnull Task task) {
-        //        task.reset(); // delete actions
-        //        assignedTasks.remove(task);
-        //        tasks.get(task.job).reopen(task);
-        //    }
-        //
-        //    public void removeTask(@Nonnull Task task) {
-        //        if (task.designation != null) designations.remove(task.designation.position);
-        //        assignedTasks.remove(task);
-        //        tasks.get(task.job).remove(task);
-        //    }
-        //
-        //    private boolean taskTargetReachable(CanvasScaler.Unit unit, Task task) {
-        //        return map().util.positionReachable(unit.position, task.initialTarget().getPosition(), task.initialTarget().type != EXACT);
-        //    }
     }
 }

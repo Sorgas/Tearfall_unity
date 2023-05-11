@@ -44,7 +44,7 @@ namespace game.model.system.building {
                     break;
                 case TaskStatusEnum.CANCELED: {
                     // recreate task
-                }
+                } 
                     break;
             }
             detachTask(entity, taskFinished);

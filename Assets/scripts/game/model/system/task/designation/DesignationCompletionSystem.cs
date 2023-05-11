@@ -9,7 +9,8 @@ using static types.action.TaskStatusEnum;
 
 namespace game.model.system.task.designation {
     // deletes cancelled and completed designations
-    // removes task from failed designations to be reopened later 
+    // removes task from failed designations to be reopened later
+    // TODO make instant and called from container
     public class DesignationCompletionSystem : LocalModelUnscalableEcsSystem {
         public EcsFilter<DesignationComponent, TaskFinishedComponent> filter;
 
@@ -25,7 +26,7 @@ namespace game.model.system.task.designation {
                 TaskStatusEnum status = taskFinishedComponent.status;
                 if (status == CANCELED || status == COMPLETE) {
                     Debug.Log("[DesignationCompletionSystem]: deleting designation " + designation.take<DesignationComponent>().type.name + " " + designation.pos());
-                    model.designationContainer.removeDesignation(designation);
+                    // model.designationContainer.destroyDesignation(designation);
                 } else if (status == FAILED) {
                     designation.Replace(new TaskCreationTimeoutComponent { value = 50 });
                 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using game.model.component.task.action;
 using game.view.util;
 using Leopotam.Ecs;
@@ -51,8 +52,11 @@ namespace game.model.component.unit {
     }
 
     public struct UnitJobsComponent {
-        // TODO add priorities as {job, priority} entry. handle in taskcontainer and task assignment system
-        public List<string> enabledJobs;
+        public Dictionary<string, int> enabledJobs; // job -> priority
+
+        public List<string> getByPriority(int priority) =>
+            enabledJobs.Where(pair => pair.Value == priority)
+                .Select(pair => pair.Key).ToList();
     }
 
     public struct OwnershipComponent {
@@ -73,11 +77,14 @@ namespace game.model.component.unit {
         public Action action;
     }
 
-    public struct UnitSleepingComponent { }
+    public struct UnitSleepingComponent {
+    }
 
-    public struct UnitVisualProgressBarComponent : IEcsIgnoreInFilter { }
+    public struct UnitVisualProgressBarComponent : IEcsIgnoreInFilter {
+    }
 
-    public struct UnitVisualOnBuildingComponent { }
+    public struct UnitVisualOnBuildingComponent {
+    }
 
     // overrides regular task assignment to create task with this action instead 
     public struct UnitNextTaskComponent {

@@ -34,8 +34,8 @@ namespace game.view.ui {
         public Color activeColor = new(0.75f, 0.75f, 0.75f, 1);
         public Color inactiveColor = new(0.4f, 0.4f, 0.4f, 1);
 
-        private const int maxPriority = (int)TaskPriorityEnum.TASK_MAX_PRIORITY;
-        private const int minPriority = (int)TaskPriorityEnum.TASK_MIN_PRIORITY;
+        private const int maxPriority = (int)TaskPriorities.TASK_MAX_PRIORITY;
+        private const int minPriority = (int)TaskPriorities.TASK_MIN_PRIORITY;
         private EcsEntity farm;
 
         public void Start() {

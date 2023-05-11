@@ -1,3 +1,7 @@
+using System;
+using game.model;
+using game.model.container;
+using game.model.localmap;
 using game.view.camera;
 using game.view.ui;
 using game.view.ui.toolbar;
@@ -16,8 +20,12 @@ namespace game.view.system.mouse_tool {
             selectorGO = GameView.get().sceneObjectsContainer.selector.GetComponent<SelectorHandler>();
         }
 
-        // should recreate item buttons in material selector widget. called when tool is selected in MouseToolManager
-        public abstract bool updateMaterialSelector();
+        // called when tool is selected in MouseToolManager
+        // should return false if there are not enough materials
+        public virtual bool updateMaterialSelector() {
+            materialSelector.close();
+            return true;
+        }
         
         public abstract void applyTool(IntBounds3 bounds, Vector3Int start);
         
@@ -30,5 +38,9 @@ namespace game.view.system.mouse_tool {
         public abstract void updateSpriteColor(Vector3Int position);
 
         public abstract void reset();
+
+        protected void addUpdateEvent(Action<LocalModel> action) {
+            GameModel.get().currentLocalModel.addUpdateEvent(new ModelUpdateEvent(action));
+        }
     }
 }

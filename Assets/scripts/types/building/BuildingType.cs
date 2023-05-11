@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace types.building {
     [Serializable]
@@ -8,7 +9,9 @@ namespace types.building {
 
         public string name;
         public string tileset;
-        public int[] size; // for N orientation
+        public int[] size; // for N, S orientations
+        public Vector2Int horizontalSize;
+        public Vector2Int verticalSize;
         public int[] positionN;
         public int[] positionS;
         public int[] positionE;
@@ -23,6 +26,11 @@ namespace types.building {
         public string[] rawComponents;
         public List<string> components = new(); // components that should be added to building
 
+        public void init() {
+            horizontalSize = new Vector2Int(size[1], size[0]);
+            verticalSize = new Vector2Int(size[0], size[1]);
+        }
+        
         public bool isSingleTile() => size[0] == 1 && size[1] == 1;
 
         public BuildingVariant selectVariant(string itemType) {
@@ -33,5 +41,7 @@ namespace types.building {
             }
             return null;
         }
+
+        public Vector2Int getSizeByOrientation(Orientations orientation) => OrientationUtil.isHorizontal(orientation) ? horizontalSize : verticalSize;
     }
 }

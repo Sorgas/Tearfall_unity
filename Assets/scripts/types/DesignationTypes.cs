@@ -7,6 +7,7 @@ using static types.BlockTypes;
 namespace types {
     // types of designations, referenced from MouseToolEnum
     // icons for cursor are taken from icons/designations/[spriteName]
+    // TODO add non-null validators to all 
     public static class DesignationTypes {
         public static DesignationType D_CLEAR = new("none", null, "cancel", "cancel"); // for removing simple designations
 
@@ -16,7 +17,7 @@ namespace types {
         public static DesignationType D_RAMP = new("ramp", new DiggingValidator(RAMP), ANY, "miner", "ramp", "ramp");
         public static DesignationType D_CHANNEL = new("channel", new DiggingChannelValidator(), NEAR, "miner", "channel", "channel");
 
-        public static DesignationType D_CHOP = new("chopping trees", PlaceValidatorEnum.TREE_EXISTS, NEAR, Jobs.WOODCUTTER.name, "choptrees", "choptrees"); // chop trees in th area
+        public static DesignationType D_CHOP = new("chopping trees", PlaceValidators.TREE_EXISTS, NEAR, Jobs.WOODCUTTER.name, "choptrees", "choptrees"); // chop trees in th area
         public static DesignationType D_CONSTRUCT = new("construction", "builder");
         public static DesignationType D_BUILD = new("building", "builder");
     }

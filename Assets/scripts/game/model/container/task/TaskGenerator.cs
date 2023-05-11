@@ -7,19 +7,22 @@ using Leopotam.Ecs;
 using types.action;
 using types.unit;
 
-namespace game.model.container {
+namespace game.model.container.task {
     // creates task entities
     public class TaskGenerator {
-        public EcsEntity createTask(Action initialAction, EcsEntity entity, LocalModel model) => createTask(initialAction, TaskPriorityEnum.JOB, entity, model);
-        
-        public EcsEntity createTask(Action initialAction, TaskPriorityEnum priority, EcsEntity entity, LocalModel model) {
-            entity.Replace(new TaskActionsComponent { initialAction = initialAction, preActions = new List<Action>(), 
-                model = model, priority = priority });
+        public EcsEntity createTask(Action initialAction, Job job, EcsEntity entity, LocalModel model) =>
+            createTask(initialAction, job, TaskPriorities.JOB, entity, model);
+
+        public EcsEntity createTask(Action initialAction, Job job, int priority, EcsEntity entity, LocalModel model) {
+            entity.Replace(new TaskActionsComponent {
+                initialAction = initialAction, preActions = new List<Action>(),
+                model = model
+            });
             entity.Replace(new TaskLockedItemsComponent { lockedItems = new() });
             entity.Replace(new NameComponent { name = initialAction.name });
-            entity.Replace(new TaskJobComponent{job = Jobs.NONE.name});
+            entity.Replace(new TaskJobComponent { job = job.name, priority = priority });
             initialAction.task = entity;
             return entity;
-        } 
+        }
     }
-}  
+}

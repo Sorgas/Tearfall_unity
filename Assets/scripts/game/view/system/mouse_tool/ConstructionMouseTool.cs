@@ -1,4 +1,5 @@
 using game.model;
+using game.model.container;
 using game.model.util.validation;
 using game.view.tilemaps;
 using types;
@@ -12,7 +13,7 @@ namespace game.view.system.mouse_tool {
     public class ConstructionMouseTool : ItemConsumingMouseTool {
         public ConstructionType type;
         private ConstructionValidator validator = new();
-        
+
         public override bool updateMaterialSelector() {
             return fillSelectorForVariants(type.name, type.variants);
         }
@@ -27,10 +28,11 @@ namespace game.view.system.mouse_tool {
                 Debug.LogWarning("no materials for construction");
                 return;
             }
-            DesignationContainer container = GameModel.get().currentLocalModel.designationContainer;
-            bounds.iterate((x, y, z) => {
-                Vector3Int position = new(x, y, z);
-                container.createConstructionDesignation(position, type, itemType, material);
+            addUpdateEvent(model => {
+                bounds.iterate((x, y, z) => {
+                    Vector3Int position = new(x, y, z);
+                    model.designationContainer.createConstructionDesignation(position, type, itemType, material);
+                });
             });
         }
 
@@ -38,7 +40,7 @@ namespace game.view.system.mouse_tool {
             selectorGO.setConstructionSprite(selectSpriteByBlockType());
         }
 
-        public override void rotate() {}
+        public override void rotate() { }
 
         public override void updateSpriteColor(Vector3Int position) {
             selectorGO.buildingValid(validate(position));
@@ -56,7 +58,7 @@ namespace game.view.system.mouse_tool {
 
         private Sprite selectSpriteByBlockType() {
             if (visualMaterial == null) {
-                
+
             }
             Debug.Log("getting material variant " + visualMaterial);
             return BlockTileSetHolder.get().getSprite(visualMaterial,

@@ -5,8 +5,8 @@ namespace types.unit.need {
 
         public WearNeed() : base() {}
 
-        public override TaskPriorityEnum getPriority(float value) {
-            return TaskPriorityEnum.HEALTH_NEEDS;
+        public override TaskPriorities getPriority(float value) {
+            return TaskPriorities.HEALTH_NEEDS;
         }
         //
         // public override boolean isSatisfied(CanvasScaler.Unit unit) {

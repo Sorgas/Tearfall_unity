@@ -40,18 +40,18 @@ namespace game.model.system.unit {
         private bool checkCompletion(ref EcsEntity unit, ref TaskActionsComponent task) {
             if (task.initialAction.status == ActionStatusEnum.COMPLETE) { // main action and task are complete, mark unit
                 log("initial action completed [" + task.initialAction.name + "]");
-                unit.Replace(new TaskFinishedComponent { status = COMPLETE });
+                model.taskContainer.removeTask(unit.take<TaskComponent>().task, COMPLETE);
                 return true;
             }
             // remove completed action from task
-            if (task.NextAction.status == ActionStatusEnum.COMPLETE) task.removeFirstPreAction();
+            if (task.nextAction.status == ActionStatusEnum.COMPLETE) task.removeFirstPreAction();
             return false;
         }
 
         // checks action start condition and create sub action if needed.
         private bool actionConditionOk(ref EcsEntity unit, ref TaskActionsComponent actions, int ticks) {
-            string nextActionName = actions.NextAction.name;
-            ActionConditionStatusEnum checkResult = actions.NextAction.startCondition.Invoke(); // creates sub actions
+            string nextActionName = actions.nextAction.name;
+            ActionConditionStatusEnum checkResult = actions.nextAction.startCondition.Invoke(); // creates sub actions
             if (checkResult == OK) return true; // can start performing
             if (checkResult == FAIL) {
                 log("checked start condition of [" + nextActionName + "]: FAIL");
@@ -59,7 +59,7 @@ namespace game.model.system.unit {
                 return false;
             }
             if (checkResult == NEW) { // will be checked on next tick
-                log("checked start condition of [" + nextActionName + "]: NEW: " + actions.NextAction.name);
+                log("checked start condition of [" + nextActionName + "]: NEW: " + actions.nextAction.name);
                 return ticks > 0 && actionConditionOk(ref unit, ref actions, ticks - 1); // false on 0 ticks
             }
             throw new GameException("Unhandled ActionConditionStatusEnum value: " + checkResult);
@@ -67,7 +67,7 @@ namespace game.model.system.unit {
 
         // checks if unit can reach action's target
         private void checkTargetAvailability(ref EcsEntity unit, TaskActionsComponent task, EcsEntity taskEntity) {
-            Action action = task.NextAction;
+            Action action = task.nextAction;
             string message = "";
             switch (action.target.check(unit, model)) {
                 case READY: // start performing
@@ -91,7 +91,9 @@ namespace game.model.system.unit {
             log("checked target of [" + action.name + "] for unit " + unit.name() + "." + message);
         }
 
-        private void failTask(ref EcsEntity unit) => unit.Replace(new TaskFinishedComponent { status = FAILED });
+        private void failTask(ref EcsEntity unit) {
+            model.taskContainer.removeTask(unit.take<TaskComponent>().task, FAILED);
+        }
 
         private void log(string message) {
             if(debug) Debug.Log("[UnitActionCheckingSystem]: " + message);

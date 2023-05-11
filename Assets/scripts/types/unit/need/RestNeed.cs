@@ -20,11 +20,11 @@ namespace types.unit.need {
         public const float comfortThreshold = 1 - hoursToComfort / hoursToSafety;
         public const float healthThreshold = 1 - hoursToHealth / hoursToSafety;
 
-        public override TaskPriorityEnum getPriority(float value) {
+        public override TaskPriorities getPriority(float value) {
             // if (value > comfortThreshold) return TaskPriorityEnum.NONE;
-            if (value > healthThreshold) return TaskPriorityEnum.NONE;
-            if (value > 0) return TaskPriorityEnum.HEALTH_NEEDS;
-            return TaskPriorityEnum.SAFETY;
+            if (value > healthThreshold) return TaskPriorities.NONE;
+            if (value > 0) return TaskPriorities.HEALTH_NEEDS;
+            return TaskPriorities.SAFETY;
         }
 
         public Action tryCreateAction(LocalModel model, EcsEntity unit) {
@@ -34,15 +34,15 @@ namespace types.unit.need {
             }
             Vector3Int unitPos = unit.pos();
             switch (component.restPriority) {
-                case TaskPriorityEnum.COMFORT:
-                case TaskPriorityEnum.HEALTH_NEEDS: { // select bed
+                case TaskPriorities.COMFORT:
+                case TaskPriorities.HEALTH_NEEDS: { // select bed
                     EcsEntity building = findFreeBed(model, unit);
                     if (building != EcsEntity.Null) {
                         return new SleepInBedAction(building);
                     }
                 }
                     break;
-                case TaskPriorityEnum.SAFETY: {
+                case TaskPriorities.SAFETY: {
                     Vector3Int placeToSleep = findPlaceUnderRoof(model, unit);
                     return new SleepOnGroundAction(placeToSleep);
                 }

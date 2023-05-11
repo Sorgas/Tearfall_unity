@@ -18,6 +18,9 @@ using UnityEngine;
 using util.geometry.bounds;
 
 namespace game.view.system.mouse_tool {
+    // selects entities from local map. does not generate ModelUpdateEvents.
+    // keeps selected position and entity. when tile is selected again, chooses next entity on this tile
+    // TODO add frame selection (units only)
     public class SelectionMouseTool : MouseTool {
         private Vector3Int previousPosition;
         private EcsEntity previousEntity;
@@ -107,6 +110,7 @@ namespace game.view.system.mouse_tool {
             return previousEntity;
         }
 
+        // collects all entities on a tile into list
         private List<EcsEntity> collectEntities(Vector3Int position) {
             LocalModel model = GameModel.get().currentLocalModel;
             List<EcsEntity> result = new();
@@ -126,10 +130,6 @@ namespace game.view.system.mouse_tool {
                 result.Add(plant);
             }
             return result;
-        }
-
-        private void selectEntity(EcsEntity entity) {
-
         }
     }
 }

@@ -1,59 +1,62 @@
 ﻿using System.Linq;
 using game.model.component;
 using game.model.component.task;
+using game.model.component.unit;
 using game.model.localmap;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
 using util.lang.extension;
+using static types.action.TaskStatusEnum;
 
 namespace game.model.container.task {
+    // when task is completed, this util immediately updates all linked entities
     public class TaskCompletionUtil {
         private LocalModel model;
         public EcsFilter<TaskActionsComponent, TaskFinishedComponent> filter;
         private string logMessage;
 
-        public void Run() {
-            foreach (var i in filter) {
-                ref EcsEntity task = ref filter.GetEntity(i);
-                TaskFinishedComponent component = filter.Get2(i);
-                log("[TaskCompletionSystem]: completing task " + task.Get<TaskActionsComponent>().initialAction.name);
-                detachPerformer(ref task, component);
-                detachDesignation(ref task, component);
-                detachBuilding(ref task, component);
-                detachZone(ref task);
-                unlockItems(task);
-                flushLog();
-                model.taskContainer.removeTask(task); // destroys task
-            }
+        public void complete(EcsEntity task, TaskStatusEnum status) {
+            log("[TaskCompletionUtil]: completing task " + task.Get<TaskActionsComponent>().initialAction.name);
+            detachPerformer(task);
+            detachDesignation(ref task, status);
+            detachBuilding(ref task, status);
+            detachZone(ref task);
+            unlockItems(task);
+            flushLog();
         }
 
-        // if task is canceled by deleting designation or order in workbench, 
-        // unlink unit from task and notify that task is finished
-        private void detachPerformer(ref EcsEntity task, TaskFinishedComponent component) {
-            if (task.Has<TaskPerformerComponent>()) {
-                ref EcsEntity unit = ref task.takeRef<TaskPerformerComponent>().performer;
-                unit.Replace(component);
-                unit.Del<TaskComponent>();
-                log(", performer detached");
-            }
+        // if task has performer, remove task-related components from him. 
+        private void detachPerformer(EcsEntity task) {
+            if (!task.Has<TaskPerformerComponent>()) return;
+            ref EcsEntity unit = ref task.takeRef<TaskPerformerComponent>().performer;
+            // TODO perform action cancellation (drop items)
+            unit.Del<UnitMovementPathComponent>();
+            unit.Del<UnitMovementTargetComponent>();
+            unit.Del<UnitCurrentActionComponent>();
+            unit.Del<TaskComponent>();
+            task.Del<TaskPerformerComponent>();
         }
 
-        // detaches designation from 
-        private void detachDesignation(ref EcsEntity task, TaskFinishedComponent component) {
-            if (task.Has<TaskDesignationComponent>()) {
-                ref EcsEntity designation = ref task.takeRef<TaskDesignationComponent>().designation;
-                designation.Replace(component);
+        // detaches designation from
+        private void detachDesignation(ref EcsEntity task, TaskStatusEnum status) {
+            if (!task.Has<TaskDesignationComponent>()) return;
+            EcsEntity designation = task.take<TaskDesignationComponent>().designation;
+            if (status == FAILED) {
+                // designation without TaskComponent will recreate task, see DesignationTaskCreationSystem
                 designation.Del<TaskComponent>();
-                log(", designation detached");
+            } else {
+                // complete or canceled tasks should remove designation
+                model.designationContainer.removeDesignation(designation.pos());
             }
+            task.Del<TaskDesignationComponent>();
         }
 
         // notify building that task was completed by unit
-        private void detachBuilding(ref EcsEntity task, TaskFinishedComponent component) {
-            if (component.status == TaskStatusEnum.COMPLETE && task.Has<TaskBuildingComponent>()) {
+        private void detachBuilding(ref EcsEntity task, TaskStatusEnum status) {
+            if (status == COMPLETE && task.Has<TaskBuildingComponent>()) {
                 ref EcsEntity building = ref task.takeRef<TaskBuildingComponent>().building;
-                building.Replace(component);
+                building.Replace(new TaskFinishedComponent { status = status });
                 building.Del<TaskComponent>();
                 log(", building detached");
             }

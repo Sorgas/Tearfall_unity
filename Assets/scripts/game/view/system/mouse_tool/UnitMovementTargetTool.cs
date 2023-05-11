@@ -19,17 +19,17 @@ namespace game.view.system.mouse_tool {
         }
 
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {
-            if (!bounds.isSingleTile()) {
-                Debug.LogError("unit movement target is not single tile !!!");
+            if (!bounds.isSingleTile()) { Debug.LogError("unit movement target is not single tile !!!");
             } 
             Vector3Int target = bounds.getStart();
-            if (GameModel.get().currentLocalModel.localMap.passageMap.getPassage(target) != PassageTypes.PASSABLE.VALUE) {
-                return;
-            }
-            if (unit.Has<TaskComponent>()) {
-                unit.Replace(new TaskFinishedComponent { status = TaskStatusEnum.FAILED });
-            }
-            unit.Replace(new UnitNextTaskComponent { action = new MoveAction(bounds.getStart()) });
+            addUpdateEvent(model => {
+                if (model.localMap.passageMap.getPassage(target) == PassageTypes.PASSABLE.VALUE) {
+                    if (unit.Has<TaskComponent>()) {
+                        unit.Replace(new TaskFinishedComponent { status = TaskStatusEnum.FAILED });
+                    }
+                    unit.Replace(new UnitNextTaskComponent { action = new MoveAction(bounds.getStart()) });
+                }
+            });
         }
 
         public override void updateSprite() {

@@ -7,6 +7,7 @@ using game.model.component.task.action;
 using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.zone;
 using game.model.container;
+using game.model.container.task;
 using game.model.util;
 using Leopotam.Ecs;
 using types;
@@ -110,7 +111,7 @@ namespace game.model.system.zone {
         }
 
         private EcsEntity createTask(Action action, EcsEntity zone, string taskType) {
-            EcsEntity task = generator.createTask(action, TaskPriorityEnum.JOB, model.createEntity(), model);
+            EcsEntity task = generator.createTask(action, TaskPriorities.JOB, model.createEntity(), model);
             task.Replace(new TaskZoneComponent { zone = zone, taskType = taskType });
             zone.take<ZoneTrackingComponent>().totalTasks.Add(task);
             model.taskContainer.addOpenTask(task);

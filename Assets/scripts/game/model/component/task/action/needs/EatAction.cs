@@ -27,7 +27,7 @@ namespace game.model.component.task.action.needs {
                 }
 
                 // units will eat without table on highest priority
-                if (performer.take<UnitNeedComponent>().hungerPriority != TaskPriorityEnum.SAFETY) {
+                if (performer.take<UnitNeedComponent>().hungerPriority != TaskPriorities.SAFETY) {
                     EcsEntity chair = findChairWithTable();
                     if (chair != EcsEntity.Null) {
                         lockEntity(chair);

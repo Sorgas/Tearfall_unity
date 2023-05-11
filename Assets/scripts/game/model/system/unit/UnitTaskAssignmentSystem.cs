@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using game.model.component;
 using game.model.component.task;
 using game.model.component.task.action;
@@ -8,7 +9,19 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.system.unit {
-    // finds and assigns appropriate tasks to units
+    /**
+     * Find and assigns tasks for units without tasks.
+     * 
+     * When searching task for unit:
+     * For unit's jobs in priority descending order:
+     *      Tasks of these jobs and with available targets are taken from container.
+     *      For task priorities in descending order:
+     *          Select tasks of current priority
+     *          For tasks by ascending of distance to target
+     *              Check task conditions with creating sub actions
+     *              If success, assign task to unit
+     *              If fail, add timeout component to task, return to container.
+     */
     public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
         public EcsFilter<UnitComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter; // units without tasks
         private readonly UnitNeedActionCreator needActionCreator = new();
@@ -20,9 +33,11 @@ namespace game.model.system.unit {
                 if (task != EcsEntity.Null) assignTask(ref unit, task);
             }
         }
- 
+
         private EcsEntity tryCreateTask(EcsEntity unit) {
             if (unit.Has<UnitNextTaskComponent>()) return createNextTask(unit);
+            // TODO compare max priority of needs and tasks before lookup in container
+
             EcsEntity jobTask = getTaskFromContainer(unit);
             EcsEntity needTask = needActionCreator.selectAndCreateAction(model, unit);
             EcsEntity task = priority(jobTask) > priority(needTask) ? jobTask : needTask;
@@ -35,10 +50,20 @@ namespace game.model.system.unit {
                 .createTask(unit.take<UnitNextTaskComponent>().action, model.createEntity(), model);
         }
 
-        // TODO add jobs priorities
         private EcsEntity getTaskFromContainer(EcsEntity unit) {
+            // get tasks in prioritized order 
+            // in loop check tasks by creating sub-actions
+            // if ok, assign task
+            // if failed, add timeout to task and move to delayed tasks map
+            
+            
+
             UnitJobsComponent jobs = unit.take<UnitJobsComponent>();
-            return model.taskContainer.findTask(jobs.enabledJobs, unit.pos());
+            for (int i = TaskPriorities.range.min; i <= TaskPriorities.range.max; i++) {
+                List<string> jobsList = jobs.getByPriority(i);
+                return model.taskContainer.findTask(jobsList, unit.pos());
+
+            }
         }
 
         private EcsEntity createIdleTask(EcsEntity unit) {
@@ -59,8 +84,8 @@ namespace game.model.system.unit {
             model.taskContainer.claimTask(task, unit);
         }
 
-        private TaskPriorityEnum priority(EcsEntity task) {
-            return task.IsNull() ? TaskPriorityEnum.NONE : task.take<TaskActionsComponent>().priority;
+        private TaskPriorities priority(EcsEntity task) {
+            return task.IsNull() ? TaskPriorities.NONE : task.take<TaskActionsComponent>().priority;
         }
     }
 }

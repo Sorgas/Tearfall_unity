@@ -8,7 +8,7 @@ namespace types {
         W = 3
     }
 
-    public class OrientationUtil {
+    public static class OrientationUtil {
         public static Orientations getNext(Orientations orientation) {
             switch (orientation) {
                 case Orientations.N: return Orientations.E;
@@ -20,6 +20,7 @@ namespace types {
             }
         }
 
+        // E, W are horizontal, N, S are vertical
         public static bool isHorizontal(Orientations orientation) {
             return orientation == Orientations.E || orientation == Orientations.W;
         }

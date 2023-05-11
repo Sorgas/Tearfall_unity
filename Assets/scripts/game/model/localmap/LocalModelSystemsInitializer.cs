@@ -23,11 +23,11 @@ namespace game.model.localmap {
             addSystem(model, new TaskAssignmentHandlingSystem()); // performs additional actions for just assigned tasks
             addSystem(model, new UnitPathfindingSystem()); // find paths to action targets
             addSystem(model, new UnitTaskCompletionSystem()); // handle unit with completed tasks
-            addSystem(model, new TaskCompletionSystem()); // handle completed tasks
+            // addSystem(model, new TaskCompletionSystem()); // handle completed tasks
 
             addSystem(model, new UnitNeedSystem());
             addSystem(model, new UnitWearNeedSystem());
-            addSystem(model, new DesignationCompletionSystem()); // handle designation with completed tasks
+            // addSystem(model, new DesignationCompletionSystem()); // handle designation with completed tasks
             addSystem(model, new DesignationTaskCreationSystem()); // create tasks for designations
             addSystem(model, new TileUpdateSystem()); // dispatches entities updates to other update systems
             addSystem(model, new WorkbenchOrderSelectionSystem());

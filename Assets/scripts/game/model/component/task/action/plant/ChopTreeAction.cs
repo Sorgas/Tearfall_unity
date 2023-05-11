@@ -45,7 +45,7 @@ namespace game.model.component.task.action.plant {
         }
 
         private bool checkTree() {
-            return PlaceValidatorEnum.TREE_EXISTS.validate(targetPosition, model);
+            return PlaceValidators.TREE_EXISTS.validate(targetPosition, model);
         }
 
         private ActionConditionStatusEnum createActionForGettingTool() {

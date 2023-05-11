@@ -1,5 +1,4 @@
 using game.model;
-using game.model.container;
 using game.view.camera;
 using game.view.util;
 using types;
@@ -9,36 +8,25 @@ using util.geometry.bounds;
 namespace game.view.system.mouse_tool {
     public class DesignationMouseTool : MouseTool {
         public DesignationType designation;
-        private string iconPath;
 
         public DesignationMouseTool() {
             selectionType = SelectionType.AREA;
         }
 
-        public override bool updateMaterialSelector() {
-            materialSelector.close();
-            return true;
-        }
-
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {
-            bounds.iterate((x, y, z) => {
-                Vector3Int position = new(x, y, z);
-                if (designation == null) Debug.LogError("designation is null");
-                Debug.Log(designation.name);
-                if (designation == DesignationTypes.D_CLEAR) {
-                    // TODO should cancel designation
-                    GameModel.get().currentLocalModel.addUpdateEvent(new ModelUpdateEvent(model => {
+            if (designation == null) Debug.LogError("designation is null");
+            addUpdateEvent(model => {
+                bounds.iterate((x, y, z) => {
+                    Vector3Int position = new(x, y, z);
+                    if (designation == DesignationTypes.D_CLEAR) {
+                        // TODO should cancel designation
                         model.designationContainer.removeDesignation(position);
-                    }));
-                } else {
-                    if (designation.validator == null) Debug.LogError("validator is null");
-
-                    GameModel.get().currentLocalModel.addUpdateEvent(new ModelUpdateEvent(model => {
+                    } else {
                         if (designation.validator.validate(position, model)) {
                             model.designationContainer.createDesignation(position, designation);
                         }
-                    }));
-                }
+                    }
+                });
             });
         }
 

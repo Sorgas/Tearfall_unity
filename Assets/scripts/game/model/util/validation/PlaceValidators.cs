@@ -1,5 +1,5 @@
 ﻿namespace game.model.util.validation {
-    public static class PlaceValidatorEnum {
+    public static class PlaceValidators {
         // public static readonly PositionValidator SOIL_FLOOR = new FreeSoilFloorValidator();
         // public static readonly PositionValidator FARM = pos -> GameMvc.model().get(LocalMap.class).blockType.get(pos) == BlockTypeEnum.FARM.CODE
         public static readonly PositionValidator TREE_EXISTS = new TreeExistsValidator();
