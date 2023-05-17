@@ -30,6 +30,7 @@ namespace generation.localgen {
             generators.Add(new LocalBuildingGenerator(generator));
             generators.Add(new LocalUnitGenerator(generator));
             generators.Add(new LocalForestGenerator(generator));
+            generators.Add(new LocalPlantGenerator(generator));
             generators.Add(new LocalItemGenerator(generator));
             maxProgress = generators.Count - 1;
         }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using game.model.component.task;
 using game.model.localmap;
 using game.model.localmap.passage;
@@ -7,6 +6,7 @@ using Leopotam.Ecs;
 using types.action;
 using types.unit;
 using UnityEngine;
+using util;
 using util.lang.extension;
 using static types.action.ActionTargetTypeEnum;
 
@@ -15,75 +15,35 @@ namespace game.model.container.task {
     // only contains tasks with TaskJobComponent
     public class TaskContainer : LocalModelContainer {
         public readonly TaskGenerator generator = new();
-        private const bool debug = true;
         private readonly TaskCompletionUtil taskCompletionUtil = new();
-
-        private readonly Dictionary<string, Dictionary<int, HashSet<EcsEntity>>> openTasks = new(); // job name -> priority -> tasks
+        private readonly OpenTaskCollection open;
         private readonly Dictionary<EcsEntity, EcsEntity> assigned = new(); // task -> performer
-        private int openTaskCount => openTasks.Count;
+        private readonly HashSet<EcsEntity> delayedTasks = new();
         private int assignedTaskCount => assigned.Count;
+        private const bool debug = true;
 
         public TaskContainer(LocalModel model) : base(model) {
-            foreach (Job job in Jobs.all) {
-                openTasks.Add(job.name, new Dictionary<int, HashSet<EcsEntity>>());
-                for (int i = TaskPriorities.range.min; i <= TaskPriorities.range.max; i++) {
-                    openTasks[job.name].Add(i, new HashSet<EcsEntity>());
-                }
-            }
+            open = new(true);
         }
 
         // registers open task in container. Then it can be assigned with UnitTaskAssignmentSystem
-        public void addOpenTask(EcsEntity task) {
-            string jobName = getTaskJob(task);
-            int priority = task.take<TaskJobComponent>().priority;
-            if (!openTasks[jobName][priority].Contains(task)) {
-                openTasks[jobName][priority].Add(task);
-                Debug.Log("[TaskContainer] added task [" + task.name() + "], " + jobName + " " + priority);
-            } else {
-                Debug.LogError("Task " + task.name() + "already registered!");
+        public void addOpenTask(EcsEntity task) => open.add(task);
+
+        public Dictionary<int, List<EcsEntity>> getTasksByJobs(List<string> jobs) => open.get(jobs);
+
+        public void moveOpenTaskToDelayed(EcsEntity task) {
+            if (task.Has<TaskPerformerComponent>()) {
+                throw new GameException("Task with performer moved to timeout map");
             }
+            open.remove(task);
+            delayedTasks.Add(task);
+            Debug.Log("Open task " + task.name() + " moved to delayed");
         }
 
-        // finds task for unit. checks unit's job and task target. does not removes task from container
-        // TODO add priority sorting
-        public EcsEntity findTask(List<string> jobs, Vector3Int position) {
-            PassageMap passageMap = model.localMap.passageMap;
-            byte area = passageMap.area.get(position);
-            List<EcsEntity> result = new();
-            foreach (var job in jobs) {
-                Dictionary<int, HashSet<EcsEntity>> tasks = openTasks[job];
-                for (int i = TaskPriorities.range.max; i <= TaskPriorities.range.min; i--) {
-                    tasks[i]
-                        .Where(task => checkTaskTarget(task, area, passageMap))
-                        
-                    openTasks[job.name].Add(i, new HashSet<EcsEntity>());
-                }
-                if (openTasks[job].Count <= 0) continue;
-                EcsEntity task = openTasks[job]
-                    .firstOrDefault(task => checkTaskTarget(task, area, passageMap), EcsEntity.Null);
-                if (task != EcsEntity.Null) return task;
-            }
-            return EcsEntity.Null;
-        }
-
-        public List<EcsEntity> findTasks(List<string> jobs, Vector3Int position) {
-            List<EcsEntity> result = new();
-            PassageMap passageMap = model.localMap.passageMap;
-            byte area = passageMap.area.get(position);
-            foreach (var job in jobs) {
-                Dictionary<int, HashSet<EcsEntity>> tasks = openTasks[job];
-                for (int i = TaskPriorities.range.max; i <= TaskPriorities.range.min; i--) {
-                    tasks[i]
-                        .Where(task => checkTaskTarget(task, area, passageMap))
-                        
-                    openTasks[job.name].Add(i, new HashSet<EcsEntity>());
-                }
-                if (openTasks[job].Count <= 0) continue;
-                EcsEntity task = openTasks[job]
-                    .firstOrDefault(task => checkTaskTarget(task, area, passageMap), EcsEntity.Null);
-                if (task != EcsEntity.Null) return task;
-            }
-            return result;
+        public void moveDelayedTaskToOpen(EcsEntity task) {
+            delayedTasks.Remove(task);
+            open.add(task);
+            Debug.Log("Delayed task " + task.name() + " moved to open");
         }
 
         // removes and destroys task. updates linked entities
@@ -96,20 +56,18 @@ namespace game.model.container.task {
 
         // moves task from open tasks to assigned
         public void claimTask(EcsEntity task, EcsEntity performer) {
-            string job = task.take<TaskJobComponent>().job;
-            
-            openTasks[job].Remove(task);
+            open.remove(task);
             assigned.Add(task, performer);
         }
 
         private void removeTaskFromContainer(EcsEntity task) {
-            string job = getTaskJob(task);
-            if (openTasks[job].Contains(task)) {
-                openTasks[job].Remove(task);
+            TaskJobComponent component = task.take<TaskJobComponent>();
+            if (open.contains(task)) {
+                open.remove(task);
             } else if (assigned.ContainsKey(task)) {
                 assigned.Remove(task);
             } else {
-                Debug.LogErrorFormat("Deleting task {0} with job {1}, but not found in task container!", task.name(), job);
+                Debug.LogErrorFormat("[TaskContainer] Deleting task {0}, but not found in task container!", task.name());
             }
         }
 
@@ -135,14 +93,10 @@ namespace game.model.container.task {
             return false;
         }
 
-        private string getTaskJob(EcsEntity task) {
-            return task.Has<TaskJobComponent>() ? task.take<TaskJobComponent>().job : Jobs.NONE.name;
-        }
-
         private void log(string message) {
             if (debug) Debug.Log("[TaskContainer]: " + message);
         }
 
-        public string getDebugIngo() => "TaskContainer: open: " + openTaskCount + " assigned: " + assignedTaskCount + " \n";
+        public string getDebugIngo() => "TaskContainer: assigned: " + assignedTaskCount + " \n";
     }
 }

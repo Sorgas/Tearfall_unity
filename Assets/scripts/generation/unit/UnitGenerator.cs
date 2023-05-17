@@ -39,7 +39,7 @@ namespace generation.unit {
         }
 
         private void addSettlerComponents(ref EcsEntity entity) {
-            entity.Replace(new UnitJobsComponent {enabledJobs = new List<string>()});
+            entity.Replace(new UnitJobsComponent {enabledJobs = new ()});
         }
 
         private void addOptionalComponents(ref EcsEntity entity, CreatureType type) {

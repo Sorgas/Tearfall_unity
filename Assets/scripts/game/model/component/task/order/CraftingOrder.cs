@@ -16,9 +16,9 @@ namespace game.model.component.task.order {
         public int performedQuantity;
 
         public CraftingOrder(Recipe recipe) {
-            this.name = recipe.title;
+            name = recipe.title;
             this.recipe = recipe;
-            this.status = CraftingOrderStatus.WAITING;
+            status = CraftingOrderStatus.WAITING;
             targetQuantity = 1;
             performedQuantity = 0;
         }

@@ -3,10 +3,13 @@ using game.model.component;
 using game.model.component.task;
 using game.model.component.task.action;
 using game.model.component.unit;
+using game.model.localmap.passage;
 using Leopotam.Ecs;
 using types.action;
+using types.unit;
 using UnityEngine;
 using util.lang.extension;
+using static types.action.ActionTargetTypeEnum;
 
 namespace game.model.system.unit {
     /**
@@ -34,10 +37,9 @@ namespace game.model.system.unit {
             }
         }
 
+        // TODO compare max priority of needs and tasks before lookup in container
         private EcsEntity tryCreateTask(EcsEntity unit) {
             if (unit.Has<UnitNextTaskComponent>()) return createNextTask(unit);
-            // TODO compare max priority of needs and tasks before lookup in container
-
             EcsEntity jobTask = getTaskFromContainer(unit);
             EcsEntity needTask = needActionCreator.selectAndCreateAction(model, unit);
             EcsEntity task = priority(jobTask) > priority(needTask) ? jobTask : needTask;
@@ -47,23 +49,48 @@ namespace game.model.system.unit {
 
         private EcsEntity createNextTask(EcsEntity unit) {
             return model.taskContainer.generator
-                .createTask(unit.take<UnitNextTaskComponent>().action, model.createEntity(), model);
+                .createTask(unit.take<UnitNextTaskComponent>().action, Jobs.NONE, model.createEntity(), model);
         }
 
         private EcsEntity getTaskFromContainer(EcsEntity unit) {
-            // get tasks in prioritized order 
-            // in loop check tasks by creating sub-actions
-            // if ok, assign task
-            // if failed, add timeout to task and move to delayed tasks map
-            
-            
-
             UnitJobsComponent jobs = unit.take<UnitJobsComponent>();
-            for (int i = TaskPriorities.range.min; i <= TaskPriorities.range.max; i++) {
+            PassageMap passageMap = model.localMap.passageMap;
+            byte area = passageMap.area.get(unit.pos());
+            for (int i = TaskPriorities.range.max; i >= TaskPriorities.range.min; i--) {
                 List<string> jobsList = jobs.getByPriority(i);
-                return model.taskContainer.findTask(jobsList, unit.pos());
-
+                if (jobsList.Count <= 0) continue;
+                Dictionary<int, List<EcsEntity>> tasks = model.taskContainer.getTasksByJobs(jobsList);
+                for (int j = TaskPriorities.range.max; j >= TaskPriorities.range.min; j--) {
+                    foreach (EcsEntity task in tasks[i]) {
+                        if (checkTaskTarget(task, area, passageMap)) return task;
+                        model.taskContainer.moveOpenTaskToDelayed(task);
+                        task.Replace(new TaskTimeoutComponent { timeout = 100 });
+                    }
+                }
             }
+            return EcsEntity.Null;
+        }
+
+        private bool checkTaskTarget(EcsEntity task, byte performerArea, PassageMap passageMap) {
+            ActionTargetTypeEnum targetType = task.take<TaskActionsComponent>().initialAction.target.type;
+            Vector3Int target = task.take<TaskActionsComponent>().initialAction.target.pos;
+            if (target == Vector3Int.back) {
+                Debug.LogError("target position for " + task.name() + " not found ");
+                return false;
+            }
+            // target position in same area with performer
+            if (targetType == EXACT || targetType == ANY) {
+                if (passageMap.area.get(target) == performerArea) return true;
+            }
+            // target position is accessible from performer area
+            if (targetType == NEAR || targetType == ANY) {
+                NeighbourPositionStream stream = new(target, model);
+                stream = task.Has<TaskBlockOverrideComponent>()
+                    ? stream.filterConnectedToCenterWithOverrideTile(task.take<TaskBlockOverrideComponent>().blockType)
+                    : stream.filterConnectedToCenter();
+                return stream.collectAreas().Contains(performerArea);
+            }
+            return false;
         }
 
         private EcsEntity createIdleTask(EcsEntity unit) {
@@ -71,7 +98,7 @@ namespace game.model.system.unit {
             // Debug.Log("creating idle task for unit in position " + current);
             Vector3Int? position = model.localMap.util.getRandomPosition(current, 10, 4);
             return position.HasValue
-                ? model.taskContainer.generator.createTask(new MoveAction(position.Value), model.createEntity(), model)
+                ? model.taskContainer.generator.createTask(new MoveAction(position.Value), Jobs.NONE, model.createEntity(), model)
                 : EcsEntity.Null;
         }
 
@@ -84,8 +111,8 @@ namespace game.model.system.unit {
             model.taskContainer.claimTask(task, unit);
         }
 
-        private TaskPriorities priority(EcsEntity task) {
-            return task.IsNull() ? TaskPriorities.NONE : task.take<TaskActionsComponent>().priority;
+        private int priority(EcsEntity task) {
+            return task.IsNull() ? TaskPriorities.NONE : task.take<TaskJobComponent>().priority;
         }
     }
 }

@@ -31,14 +31,15 @@ namespace game.model.system.zone {
             ZoneTrackingComponent tracking = entity.take<ZoneTrackingComponent>();
             if (tracking.tilesToTask.Keys.Count > tracking.totalTasks.Count) {
                 Action action = new FarmingAction(entity);
-                EcsEntity task = createTask(action, entity, FARM_WORK);
+                int priority = entity.take<ZoneTasksComponent>().priority;
+                EcsEntity task = createTask(action, priority, entity, FARM_WORK);
                 entity.Replace(new FarmOpenTaskComponent { task = task });
                 tracking.totalTasks.Add(task);
             }
         }
 
-        private EcsEntity createTask(Action action, EcsEntity zone, string taskType) {
-            EcsEntity task = generator.createTask(action, model.createEntity(), model);
+        private EcsEntity createTask(Action action, int priority, EcsEntity zone, string taskType) {
+            EcsEntity task = generator.createTask(action, Jobs.FARMER,  model.createEntity(), model);
             task.Replace(new TaskZoneComponent { zone = zone, taskType = taskType });
             task.Replace(new TaskJobComponent { job = Jobs.FARMER.name });
             model.taskContainer.addOpenTask(task);

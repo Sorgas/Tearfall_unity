@@ -15,7 +15,7 @@ namespace types.unit.need {
         private float comfortThreshold = 1f - hoursToComfort / hoursToSafety;
         private float healthThreshold = 1f - hoursToHealth / hoursToSafety;
 
-        public override TaskPriorities getPriority(float value) {
+        public override int getPriority(float value) {
             if (value > comfortThreshold) return TaskPriorities.NONE;
             if (value > healthThreshold) return TaskPriorities.COMFORT;
             if (value > 0) return TaskPriorities.HEALTH_NEEDS;

@@ -13,6 +13,7 @@ using Leopotam.Ecs;
 using types;
 using types.action;
 using types.item.type;
+using types.unit;
 using UnityEngine;
 using util.geometry;
 using util.lang;
@@ -42,14 +43,16 @@ namespace game.model.system.zone {
         private void tryCreateStoreTask(StockpileComponent stockpile, EcsEntity entity) {
             Action action = tryCreateStoreAction(stockpile, entity.take<ZoneComponent>(), entity.take<ZoneTrackingComponent>(), entity);
             if (action == null) return; // TODO add timeout component when action not created
-            EcsEntity task = createTask(action, entity, ZoneTaskTypes.STORE_ITEM);
+            int priority = entity.take<ZoneTasksComponent>().priority;
+            EcsEntity task = createTask(action, priority, entity, ZoneTaskTypes.STORE_ITEM);
             entity.Replace(new StockpileOpenStoreTaskComponent { bringTask = task });
         }
 
         private void tryCreateRemoveTask(StockpileComponent stockpile, EcsEntity entity) {
             Action action = tryCreateRemoveAction(stockpile, entity.take<ZoneComponent>());
             if (action == null) return;
-            EcsEntity task = createTask(action, entity, ZoneTaskTypes.REMOVE_ITEM);
+            int priority = entity.take<ZoneTasksComponent>().priority;
+            EcsEntity task = createTask(action, priority, entity, ZoneTaskTypes.REMOVE_ITEM);
             entity.Replace(new StockpileOpenRemoveTaskComponent { removeTask = task });
         }
   
@@ -110,8 +113,8 @@ namespace game.model.system.zone {
             return false;
         }
 
-        private EcsEntity createTask(Action action, EcsEntity zone, string taskType) {
-            EcsEntity task = generator.createTask(action, TaskPriorities.JOB, model.createEntity(), model);
+        private EcsEntity createTask(Action action, int priority, EcsEntity zone, string taskType) {
+            EcsEntity task = generator.createTask(action, Jobs.HAULER, priority, model.createEntity(), model);
             task.Replace(new TaskZoneComponent { zone = zone, taskType = taskType });
             zone.take<ZoneTrackingComponent>().totalTasks.Add(task);
             model.taskContainer.addOpenTask(task);

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace types.unit {
+﻿namespace types.unit {
     public static class Jobs {
         public static readonly Job NONE = new("none", "none");
         public static readonly Job MINER = new("miner", "miner");
@@ -12,7 +10,7 @@ namespace types.unit {
         public static readonly Job SMITH = new("smith", "smith");
         public static readonly Job TAILOR = new("tailor", "tailor");
         public static readonly Job HAULER = new("hauler", "hauler");
-        
+
         public static readonly Job[] jobs = { MINER, WOODCUTTER, BUILDER, CARPENTER, FARMER, COOK, SMITH, TAILOR, HAULER };
         public static readonly Job[] all = { MINER, WOODCUTTER, BUILDER, CARPENTER, FARMER, COOK, SMITH, TAILOR, HAULER, NONE };
     }

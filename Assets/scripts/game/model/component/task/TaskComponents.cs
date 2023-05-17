@@ -61,4 +61,8 @@ namespace game.model.component.task {
     public struct TaskLockedItemsComponent {
         public List<EcsEntity> lockedItems;
     }
+
+    public struct TaskTimeoutComponent {
+        public int timeout;
+    }
 }

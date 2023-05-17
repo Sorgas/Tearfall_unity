@@ -4,6 +4,7 @@ using game.model.component.unit;
 using game.model.localmap;
 using Leopotam.Ecs;
 using types.action;
+using types.unit;
 using types.unit.need;
 using util.item;
 using util.lang.extension;
@@ -11,18 +12,18 @@ using static types.action.TaskPriorities;
 
 namespace game.model.system.unit {
     public class UnitNeedActionCreator {
-        private static TaskPriorities[] priorities = {SAFETY, HEALTH_NEEDS, COMFORT};
+        private static int[] priorities = {SAFETY, HEALTH_NEEDS, COMFORT};
 
         //TODO add other needs
         public EcsEntity selectAndCreateAction(LocalModel model, EcsEntity unit) {
-            foreach(TaskPriorities priority in priorities) {
+            foreach(int priority in priorities) {
                 Action action = createActionForPriority(model, unit, priority);
-                if(action != null) return model.taskContainer.generator.createTask(action, priority, model.createEntity(), model);
+                if(action != null) return model.taskContainer.generator.createTask(action, Jobs.NONE, priority, model.createEntity(), model);
             }
             return EcsEntity.Null;
         }
 
-        private Action createActionForPriority(LocalModel model, EcsEntity unit, TaskPriorities priority) {
+        private Action createActionForPriority(LocalModel model, EcsEntity unit, int priority) {
             if (priority == TaskPriorities.HEALTH_NEEDS && unit.Has<UnitCalculatedWearNeedComponent>()) {
                 UnitCalculatedWearNeedComponent wear = unit.take<UnitCalculatedWearNeedComponent>();
                 ItemSelector selector = new WearWithSlotItemSelector(wear.slotsToFill);

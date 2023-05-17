@@ -4,6 +4,7 @@ using game.model.component.task.order;
 using Leopotam.Ecs;
 using types;
 using types.building;
+using types.unit;
 using UnityEngine;
 
 namespace game.model.component.building {
@@ -21,7 +22,8 @@ namespace game.model.component.building {
     public struct WorkbenchComponent {
         public List<CraftingOrder> orders;
         public bool hasActiveOrders;
-
+        public Job job; 
+        
         public void updateFlag() {
             hasActiveOrders = orders.Count != 0 && orders.Where(order => !order.paused).Count() != 0;
         }
@@ -39,12 +41,12 @@ namespace game.model.component.building {
         public List<EcsEntity> items;
     }
 
-    // units can sleep on building with thes component. quality affects sleep speed and mood buff
+    // units can sleep on building with this component. quality affects sleep speed and mood buff
     public struct BuildingSleepFurnitureC {
         public float quality;
     }
 
-    // units can sleep on building with thes component. quality affects sleep speed and mood buff
+    // units can sit on building with this component. quality affects mood buff
     public struct BuildingSitFurnitureC {
         public float quality;
         public Orientations orientation;

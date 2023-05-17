@@ -6,6 +6,7 @@ using generation;
 using generation.unit;
 using Leopotam.Ecs;
 using types;
+using types.action;
 using types.unit;
 using UnityEngine;
 using static types.BlockTypes;
@@ -62,10 +63,11 @@ namespace game {
                 unitGenerator.generateUnit(new SettlerData {name = "settler", age = 30, type = "human"}, entity);
                 ref PositionComponent positionComponent = ref entity.Get<PositionComponent>();
                 positionComponent.position = spawnPoint;
-                entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.NONE.name);
-                entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.MINER.name);
-                entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.WOODCUTTER.name);
-                entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.BUILDER.name);
+                
+                UnitJobsComponent jobsComponent = entity.Get<UnitJobsComponent>();
+                for (var j = 0; j < Jobs.all.Length; j++) {
+                    jobsComponent.enabledJobs.Add(Jobs.all[j].name, TaskPriorities.JOB);
+                }
             }
         }
 

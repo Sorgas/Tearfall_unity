@@ -4,6 +4,7 @@ using game.model.component;
 using game.model.component.unit;
 using game.view.ui.util;
 using Leopotam.Ecs;
+using types.action;
 using types.unit;
 using UnityEngine;
 using UnityEngine.UI;
@@ -75,10 +76,11 @@ namespace game.view.ui.jobs_widget {
                 GameObject toggle = Instantiate(togglePrefab, row.transform, false);
                 toggle.transform.localPosition = new Vector3(startX + iconWidth * i, 0, 0);
                 Toggle toggleComponent = toggle.GetComponentInChildren<Toggle>();
-                toggleComponent.isOn = unit.Get<UnitJobsComponent>().enabledJobs.Contains(job.name);
+                toggleComponent.isOn = unit.Get<UnitJobsComponent>().enabledJobs.ContainsKey(job.name);
                 toggleComponent.onValueChanged.AddListener(value => {
                     if (value) {
-                        unit.Get<UnitJobsComponent>().enabledJobs.Add(job.name);
+                        // TODO replace toggle with priority widget (OnI, RW)
+                        unit.Get<UnitJobsComponent>().enabledJobs.Add(job.name, TaskPriorities.JOB);
                     } else {
                         unit.Get<UnitJobsComponent>().enabledJobs.Remove(job.name);
                     }

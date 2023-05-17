@@ -5,7 +5,7 @@ namespace types.unit.need {
 
         public WearNeed() : base() {}
 
-        public override TaskPriorities getPriority(float value) {
+        public override int getPriority(float value) {
             return TaskPriorities.HEALTH_NEEDS;
         }
         //

@@ -7,7 +7,7 @@ namespace types.unit.need {
         // public DiseaseType disease; TODO
 
         // returns priority by need value
-        public abstract TaskPriorities getPriority(float value);
+        public abstract int getPriority(float value);
 
         // public abstract int getHoursTo0();
 

@@ -105,11 +105,11 @@ namespace game.model.system.zone {
         // }
 
         // TODO add farmer job
-        private EcsEntity createTask(Action action, EcsEntity zone, string taskType) {
-            EcsEntity task = generator.createTask(action, model.createEntity(), model);
-            task.Replace(new TaskZoneComponent { zone = zone, taskType = taskType });
-            model.taskContainer.addOpenTask(task);
-            return task;
-        }
+        // private EcsEntity createTask(Action action, EcsEntity zone, string taskType) {
+        //     EcsEntity task = generator.createTask(action, model.createEntity(), model);
+        //     task.Replace(new TaskZoneComponent { zone = zone, taskType = taskType });
+        //     model.taskContainer.addOpenTask(task);
+        //     return task;
+        // }
     }
 }

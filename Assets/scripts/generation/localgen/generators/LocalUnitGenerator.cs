@@ -5,6 +5,7 @@ using game.model.localmap;
 using generation.unit;
 using Leopotam.Ecs;
 using types;
+using types.action;
 using types.unit;
 using UnityEngine;
 using util.lang.extension;
@@ -34,11 +35,10 @@ namespace generation.localgen.generators {
                     ref UnitVisualComponent visual = ref entity.takeRef<UnitVisualComponent>();
 
                     // TODO move to settlerdata
-                    entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.NONE.name);
-                    entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.MINER.name);
-                    entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.WOODCUTTER.name);
-                    entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.BUILDER.name);
-                    entity.Get<UnitJobsComponent>().enabledJobs.Add(Jobs.FARMER.name);
+                    UnitJobsComponent jobsComponent = entity.Get<UnitJobsComponent>();
+                    for (var i = 0; i < Jobs.all.Length; i++) {
+                        jobsComponent.enabledJobs.Add(Jobs.all[i].name, TaskPriorities.JOB);
+                    }
 
                     Debug.Log("unit spawned at " + spawnPoint.Value);
                 } else {

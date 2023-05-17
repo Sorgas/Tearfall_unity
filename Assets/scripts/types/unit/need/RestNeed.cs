@@ -20,7 +20,7 @@ namespace types.unit.need {
         public const float comfortThreshold = 1 - hoursToComfort / hoursToSafety;
         public const float healthThreshold = 1 - hoursToHealth / hoursToSafety;
 
-        public override TaskPriorities getPriority(float value) {
+        public override int getPriority(float value) {
             // if (value > comfortThreshold) return TaskPriorityEnum.NONE;
             if (value > healthThreshold) return TaskPriorities.NONE;
             if (value > 0) return TaskPriorities.HEALTH_NEEDS;
