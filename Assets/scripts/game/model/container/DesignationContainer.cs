@@ -20,10 +20,11 @@ namespace game.model.container {
 
         public DesignationContainer(LocalModel model) : base(model) { }
 
-        public void createDesignation(Vector3Int position, DesignationType type) {
+        public void createDesignation(Vector3Int position, DesignationType type, int priority) {
             EcsEntity entity = model.createEntity();
-            entity.Replace(new DesignationComponent { type = type });
+            entity.Replace(new DesignationComponent { type = type, priority = priority});
             addDesignation(entity, position);
+            Debug.Log("[DesignationContainer] designation created " + position);
         }
 
         public void createConstructionDesignation(Vector3Int position, ConstructionType type, string itemType, int material) {
@@ -61,12 +62,12 @@ namespace game.model.container {
         private void addDesignation(EcsEntity entity, Vector3Int position) {
             entity.Replace(new PositionComponent { position = position });
             removeDesignation(position); // replace previous designation
-            if (entity.Has<MultiPositionComponent>()) {
-                // TODO
-                //                foreach (Vector3Int position in entity.Get<MultiPositionComponent>().positions) {
-//
-//                }
-            }
+            // TODO
+            // if (entity.Has<MultiPositionComponent>()) {
+            //     foreach (Vector3Int position in entity.Get<MultiPositionComponent>().positions) {
+            //
+            //     }
+            // }
             designations[position] = entity;
         }
 
@@ -80,7 +81,7 @@ namespace game.model.container {
                 designation.Destroy();
             }
         }
-        
+
         private void removeDesignationTask(EcsEntity designation) {
             if (designation.Has<TaskComponent>()) {
                 EcsEntity task = designation.take<TaskComponent>().task;

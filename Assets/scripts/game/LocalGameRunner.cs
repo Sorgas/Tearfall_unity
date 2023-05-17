@@ -27,6 +27,7 @@ namespace game {
         public MenuWidgetHandler menuWidget;
         public ToolbarWidgetHandler toolbarWidget;
         public MaterialSelectionWidgetHandler materialSelectionWidgetHandler;
+        public PrioritySelectionWidgetHandler prioritySelectionWidgetHandler;
         public GamespeedWidgetHandler gamespeedWidgetHandler;
         public WorkbenchWindowHandler workbenchWindowHandler;
         public ItemMenuHandler itemMenuHandler;

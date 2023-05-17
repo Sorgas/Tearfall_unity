@@ -5,45 +5,46 @@ using game.model.component.task.action.plant;
 using game.model.component.task.order;
 using game.model.localmap;
 using Leopotam.Ecs;
-using types.action;
-using types.unit;
 using UnityEngine;
 using util.lang.extension;
+using static types.action.TaskPriorities;
+using static types.unit.Jobs;
 
 namespace game.model.system.task.designation {
     // creates tasks for designations without tasks. stores tasks in TaskContainer
     public class DesignationTaskCreationSystem : LocalModelUnscalableEcsSystem {
+        // TODO remove TaskFinishedComponent
         public EcsFilter<DesignationComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter;
 
         public override void Run() {
             foreach (var i in filter) {
                 EcsEntity entity = filter.GetEntity(i);
                 if (entity.Has<TaskCreationTimeoutComponent>()) continue;
+                
                 EcsEntity task = createTaskForDesignation(entity, filter.Get1(i));
-                if (task == EcsEntity.Null) continue;
-                entity.Replace(new TaskComponent { task = task });
-                task.Replace(new TaskDesignationComponent { designation = entity });
-                model.taskContainer.addOpenTask(task);
+                if (task != EcsEntity.Null) {
+                    entity.Replace(new TaskComponent { task = task });
+                    task.Replace(new TaskDesignationComponent { designation = entity });
+                    model.taskContainer.addOpenTask(task);
+                }
             }
         }
 
         private EcsEntity createTaskForDesignation(EcsEntity entity, DesignationComponent designation) {
-            if (designation.type.job.Equals(Jobs.MINER.name)) {
+            if (designation.type.job.Equals(MINER.name)) {
                 EcsEntity taskEntity = model.taskContainer.generator.createTask(
-                    new DigAction(entity.pos(), designation.type), Jobs.MINER, TaskPriorities.JOB, model.createEntity(), model);
-                taskEntity.Replace(new TaskJobComponent { job = Jobs.MINER.name });
+                    new DigAction(entity.pos(), designation.type), MINER, JOB, model.createEntity(), model);
                 taskEntity.Replace(new TaskBlockOverrideComponent { blockType = designation.type.getDiggingBlockType() });
                 Debug.Log("mining task created.");
                 return taskEntity;
             }
-            if (designation.type.job.Equals(Jobs.WOODCUTTER.name)) {
+            if (designation.type.job.Equals(WOODCUTTER.name)) {
                 EcsEntity taskEntity = model.taskContainer.generator.createTask(
-                    new ChopTreeAction(entity.pos()), Jobs.WOODCUTTER, TaskPriorities.JOB, model.createEntity(), model);
-                taskEntity.Replace(new TaskJobComponent { job = Jobs.WOODCUTTER.name });
+                    new ChopTreeAction(entity.pos()), WOODCUTTER, JOB, model.createEntity(), model);
                 Debug.Log("woodcutting task created.");
                 return taskEntity;
             }
-            if (designation.type.job.Equals(Jobs.BUILDER.name)) {
+            if (designation.type.job.Equals(BUILDER.name)) {
                 if (entity.Has<DesignationConstructionComponent>()) {
                     return createConstructionTask(entity);
                 } else {
@@ -58,8 +59,7 @@ namespace game.model.system.task.designation {
             ConstructionOrder order =
                 new(comp.type.blockType, comp.itemType, comp.material, comp.amount, entity.pos());
             EcsEntity taskEntity = model.taskContainer.generator.createTask(
-                new ConstructionAction(entity, order), Jobs.BUILDER, TaskPriorities.JOB, model.createEntity(), model);
-            taskEntity.Replace(new TaskJobComponent { job = Jobs.BUILDER.name });
+                new ConstructionAction(entity, order), BUILDER, JOB, model.createEntity(), model);
             taskEntity.Replace(new TaskBlockOverrideComponent { blockType = order.blockType });
             Debug.Log("construction task created.");
             return taskEntity;
@@ -71,8 +71,7 @@ namespace game.model.system.task.designation {
             order.type = comp.type;
             order.orientation = comp.orientation;
             EcsEntity taskEntity = model.taskContainer.generator.createTask(
-                new BuildingAction(designation, order), Jobs.BUILDER, TaskPriorities.JOB, model.createEntity(), model);
-            taskEntity.Replace(new TaskJobComponent { job = Jobs.BUILDER.name });
+                new BuildingAction(designation, order), BUILDER, JOB, model.createEntity(), model);
             Debug.Log("construction task created.");
             return taskEntity;
         }

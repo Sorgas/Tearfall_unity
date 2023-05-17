@@ -46,7 +46,7 @@ namespace game.model.container.task {
 
         public Dictionary<int, List<EcsEntity>> get(List<string> jobs) {
             Dictionary<int, List<EcsEntity>> result = new();
-            for (int i = TaskPriorities.range.max; i < TaskPriorities.range.min; i++) {
+            for (int i = TaskPriorities.range.max; i >= TaskPriorities.range.min; i--) {
                 result.Add(i, new());
                 foreach (string job in jobs) {
                     result[i].AddRange(openTasks[job][i]);

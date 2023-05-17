@@ -256,6 +256,7 @@
      <Compile Include="Assets\scripts\generation\worldgen\generators\elevation\WorldElevationGenerator.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitNeedComponentGenerator.cs" />
      <Compile Include="Assets\scripts\generation\plant\PlantGenerator.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\toolbar\PrioritySelectionWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\view\util\PrefabLoader.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\TreeExistsValidator.cs" />
      <Compile Include="Assets\scripts\util\geometry\bounds\FloatBounds2.cs" />

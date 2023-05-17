@@ -4,7 +4,6 @@ using game.model.localmap;
 using game.model.localmap.passage;
 using Leopotam.Ecs;
 using types.action;
-using types.unit;
 using UnityEngine;
 using util;
 using util.lang.extension;
@@ -50,13 +49,13 @@ namespace game.model.container.task {
         public void removeTask(EcsEntity task, TaskStatusEnum status) {
             removeTaskFromContainer(task); // removes task from container maps
             taskCompletionUtil.complete(task, status); // updates linked entities
-            task.Destroy();
             log(task.name() + " destroyed");
+            task.Destroy();
         }
 
         // moves task from open tasks to assigned
         public void claimTask(EcsEntity task, EcsEntity performer) {
-            open.remove(task);
+            if(open.contains(task)) open.remove(task);
             assigned.Add(task, performer);
         }
 

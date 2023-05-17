@@ -13,17 +13,24 @@ namespace game.view.system.mouse_tool {
             selectionType = SelectionType.AREA;
         }
 
+        public override void onSelectionInToolbar() {
+            materialSelector.close();
+            prioritySelector.open();
+            prioritySelector.init(this);
+        }
+
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {
             if (designation == null) Debug.LogError("designation is null");
             addUpdateEvent(model => {
                 bounds.iterate((x, y, z) => {
                     Vector3Int position = new(x, y, z);
+                    // Debug.Log("designation tool tile " + bounds.toString());
                     if (designation == DesignationTypes.D_CLEAR) {
                         // TODO should cancel designation
                         model.designationContainer.removeDesignation(position);
                     } else {
                         if (designation.validator.validate(position, model)) {
-                            model.designationContainer.createDesignation(position, designation);
+                            model.designationContainer.createDesignation(position, designation, priority);
                         }
                     }
                 });

@@ -1,5 +1,6 @@
 ﻿using System;
 using game.view.camera;
+using game.view.ui.toolbar;
 using Leopotam.Ecs;
 using types;
 using types.building;
@@ -9,8 +10,6 @@ using util.lang;
 using static game.view.camera.SelectionType;
 
 namespace game.view.system.mouse_tool {
-    
-    // TODO rewrite to generate ModelUpdateEvents to be consumed by ModelUpdateSystem to be run in same thread as model time updates
     public sealed class MouseToolManager : Singleton<MouseToolManager> {
         private readonly SelectionMouseTool selectionTool = new();
         private readonly DesignationMouseTool designationTool = new();
@@ -20,15 +19,16 @@ namespace game.view.system.mouse_tool {
         private readonly ZoneMouseTool zoneTool = new();
         private readonly SelectorSpriteUpdater updater = new();
         private readonly DebugTileMouseTool debugTileTool = new();
-        private MouseTool tool;
+        public MouseTool tool;
 
+        // when player finishes selecting frame to apply tool
         public void handleSelection(IntBounds3 bounds, Vector3Int start) => tool?.applyTool(bounds, start);
 
         public void mouseMoved(Vector3Int position) {
             tool?.updateSpriteColor(position); // TODO use position in tools (for performance)
             updater.updateSprite(position);
         }
-        
+
         public void reset() {
             tool?.reset();
             set(selectionTool);
@@ -39,7 +39,7 @@ namespace game.view.system.mouse_tool {
             designationTool.designation = type;
             set(designationTool);
         }
-        
+
         public void set(BuildingType buildingType) {
             buildingTool.type = buildingType;
             set(buildingTool);
@@ -59,12 +59,20 @@ namespace game.view.system.mouse_tool {
             zoneTool.set(type);
             set(zoneTool);
         }
-        
+
+        private void set(MouseTool tool) {
+            if (tool == null) tool = selectionTool;
+            this.tool = tool;
+            tool.onSelectionInToolbar(); // enough items for building or items not required
+            tool.updateSprite();
+            GameView.get().cameraAndMouseHandler.selectionHandler.state.selectionType = tool.selectionType;
+        }
+
         public void setUnitMovementTarget(EcsEntity unit) {
-            unitMovementTargetTool.unit = unit; 
+            unitMovementTargetTool.unit = unit;
             set(unitMovementTargetTool);
         }
-        
+
         // sets item type and material selection from material selector widget
         public void setItem(string typeName, int materialId) {
             if (tool is not ItemConsumingMouseTool mouseTool) {
@@ -79,14 +87,6 @@ namespace game.view.system.mouse_tool {
         public void setDebug(string blockType, string material) {
             debugTileTool.set(blockType, material);
             set(debugTileTool);
-        }
-        
-        private void set(MouseTool tool) { 
-            if (tool == null) tool = selectionTool;
-            this.tool = tool;
-            bool enoughItems = tool.updateMaterialSelector(); // enough items for building or items not required
-            tool.updateSprite();
-            GameView.get().cameraAndMouseHandler.selectionHandler.state.selectionType = tool.selectionType;
         }
     }
 }

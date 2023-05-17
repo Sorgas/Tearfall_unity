@@ -22,8 +22,10 @@ namespace game.view.system.mouse_tool {
             selectionType = SINGLE;
         }
 
-        public override bool updateMaterialSelector() {
-            return fillSelectorForVariants(type.name, type.variants);
+        public override void onSelectionInToolbar() {
+            fillSelectorForVariants(type.name, type.variants);
+            prioritySelector.open();
+            prioritySelector.init(this);
         }
 
         // TODO make buildings able to be designated in draw mode (like in OnI)

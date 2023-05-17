@@ -7,6 +7,7 @@ using UnityEngine;
 namespace game.model.component.task {
     public struct DesignationComponent {
         public DesignationType type;
+        public int priority;
     }
 
     public struct DesignationVisualComponent {

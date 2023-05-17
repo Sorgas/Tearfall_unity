@@ -41,7 +41,7 @@ namespace generation.plant {
         private PlantGrowthComponent generateGrowthComponent(PlantType type, float age) {
             if (age > type.maturityAge) throw new ArgumentException("Age cannot be more than maturity age.");
             int currentStage = type.getStageByAge(age);
-            Debug.Log("current stage " + currentStage);
+            // Debug.Log("current stage " + currentStage);
             return new PlantGrowthComponent {
                 growth = age,
                 maturityAge = type.maturityAge,

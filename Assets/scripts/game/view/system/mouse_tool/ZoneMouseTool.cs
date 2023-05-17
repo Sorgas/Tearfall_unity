@@ -28,9 +28,10 @@ namespace game.view.system.mouse_tool {
             toolType = type;
         }
 
-        public override bool updateMaterialSelector() {
+        public override void onSelectionInToolbar() {
             materialSelector.close();
-            return true;
+            prioritySelector.open();
+            prioritySelector.init(this);
         }
 
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {

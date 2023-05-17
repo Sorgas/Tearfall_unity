@@ -60,11 +60,6 @@ namespace game.view.system.mouse_tool {
 
         public override void rotate() { }
 
-        public override bool updateMaterialSelector() {
-            materialSelector.close();
-            return true;
-        }
-
         public override void updateSprite() {
             selectorGO.setToolSprite(null);
         }

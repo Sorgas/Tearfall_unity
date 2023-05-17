@@ -61,6 +61,7 @@ namespace game.model.system.unit {
                 if (jobsList.Count <= 0) continue;
                 Dictionary<int, List<EcsEntity>> tasks = model.taskContainer.getTasksByJobs(jobsList);
                 for (int j = TaskPriorities.range.max; j >= TaskPriorities.range.min; j--) {
+                    if (!tasks.ContainsKey(i)) continue;
                     foreach (EcsEntity task in tasks[i]) {
                         if (checkTaskTarget(task, area, passageMap)) return task;
                         model.taskContainer.moveOpenTaskToDelayed(task);
@@ -110,7 +111,7 @@ namespace game.model.system.unit {
             task.Replace(new TaskAssignedComponent());
             model.taskContainer.claimTask(task, unit);
         }
-
+    
         private int priority(EcsEntity task) {
             return task.IsNull() ? TaskPriorities.NONE : task.take<TaskJobComponent>().priority;
         }

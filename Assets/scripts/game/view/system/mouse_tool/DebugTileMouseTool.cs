@@ -14,16 +14,20 @@ namespace game.view.system.mouse_tool {
             this.blockType = BlockTypes.get(blockType);
             this.material = MaterialMap.get().id(material);
         }
+
         
-        public override bool updateMaterialSelector() {
+        public override void onSelectionInToolbar() {
             materialSelector.close();
-            return true;
+            prioritySelector.open();
+            prioritySelector.init(this);
         }
 
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {
             LocalModel model = GameModel.get().currentLocalModel;
-            bounds.iterate((x, y, z) => {
-                model.localMap.blockType.set(x, y, z, blockType, material);
+            addUpdateEvent(model => {
+                bounds.iterate((x, y, z) => {
+                    model.localMap.blockType.set(x, y, z, blockType, material);
+                });
             });
         }
 
