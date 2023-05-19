@@ -20,7 +20,6 @@ namespace game.model.system.task.designation {
             foreach (var i in filter) {
                 EcsEntity entity = filter.GetEntity(i);
                 if (entity.Has<TaskCreationTimeoutComponent>()) continue;
-                
                 EcsEntity task = createTaskForDesignation(entity, filter.Get1(i));
                 if (task != EcsEntity.Null) {
                     entity.Replace(new TaskComponent { task = task });
@@ -31,47 +30,47 @@ namespace game.model.system.task.designation {
         }
 
         private EcsEntity createTaskForDesignation(EcsEntity entity, DesignationComponent designation) {
+            int priority = designation.priority;
             if (designation.type.job.Equals(MINER.name)) {
-                EcsEntity taskEntity = model.taskContainer.generator.createTask(
-                    new DigAction(entity.pos(), designation.type), MINER, JOB, model.createEntity(), model);
-                taskEntity.Replace(new TaskBlockOverrideComponent { blockType = designation.type.getDiggingBlockType() });
+                Action action = new DigAction(entity.pos(), designation.type); 
+                EcsEntity task = model.taskContainer.generator.createTask(action, MINER, priority, model.createEntity(), model);
+                task.Replace(new TaskBlockOverrideComponent { blockType = designation.type.getDiggingBlockType() });
                 Debug.Log("mining task created.");
-                return taskEntity;
+                return task;
             }
             if (designation.type.job.Equals(WOODCUTTER.name)) {
-                EcsEntity taskEntity = model.taskContainer.generator.createTask(
-                    new ChopTreeAction(entity.pos()), WOODCUTTER, JOB, model.createEntity(), model);
+                Action action = new ChopTreeAction(entity.pos()); 
+                EcsEntity task = model.taskContainer.generator.createTask(action, WOODCUTTER, priority, model.createEntity(), model);
                 Debug.Log("woodcutting task created.");
-                return taskEntity;
+                return task;
             }
             if (designation.type.job.Equals(BUILDER.name)) {
                 if (entity.Has<DesignationConstructionComponent>()) {
-                    return createConstructionTask(entity);
+                    return createConstructionTask(entity, designation);
                 } else {
-                    return createBuildingTask(entity);
+                    return createBuildingTask(entity, designation);
                 }
             }
             return EcsEntity.Null;
         }
 
-        private EcsEntity createConstructionTask(EcsEntity entity) {
+        private EcsEntity createConstructionTask(EcsEntity entity, DesignationComponent designation) {
             DesignationConstructionComponent comp = entity.take<DesignationConstructionComponent>();
-            ConstructionOrder order =
-                new(comp.type.blockType, comp.itemType, comp.material, comp.amount, entity.pos());
-            EcsEntity taskEntity = model.taskContainer.generator.createTask(
-                new ConstructionAction(entity, order), BUILDER, JOB, model.createEntity(), model);
+            ConstructionOrder order = new(comp.type.blockType, comp.itemType, comp.material, comp.amount, entity.pos());
+            Action action = new ConstructionAction(entity, order);
+            EcsEntity taskEntity = model.taskContainer.generator.createTask(action, BUILDER, designation.priority, model.createEntity(), model);
             taskEntity.Replace(new TaskBlockOverrideComponent { blockType = order.blockType });
             Debug.Log("construction task created.");
             return taskEntity;
         }
 
-        private EcsEntity createBuildingTask(EcsEntity designation) {
-            DesignationBuildingComponent comp = designation.take<DesignationBuildingComponent>();
-            BuildingOrder order = new(comp.itemType, comp.material, comp.amount, designation.pos());
+        private EcsEntity createBuildingTask(EcsEntity entity, DesignationComponent designation) {
+            DesignationBuildingComponent comp = entity.take<DesignationBuildingComponent>();
+            BuildingOrder order = new(comp.itemType, comp.material, comp.amount, entity.pos());
             order.type = comp.type;
             order.orientation = comp.orientation;
-            EcsEntity taskEntity = model.taskContainer.generator.createTask(
-                new BuildingAction(designation, order), BUILDER, JOB, model.createEntity(), model);
+            Action action = new BuildingAction(entity, order);
+            EcsEntity taskEntity = model.taskContainer.generator.createTask(action, BUILDER, designation.priority, model.createEntity(), model);
             Debug.Log("construction task created.");
             return taskEntity;
         }

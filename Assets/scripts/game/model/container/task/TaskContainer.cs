@@ -14,7 +14,7 @@ namespace game.model.container.task {
     // only contains tasks with TaskJobComponent
     public class TaskContainer : LocalModelContainer {
         public readonly TaskGenerator generator = new();
-        private readonly TaskCompletionUtil taskCompletionUtil = new();
+        private readonly TaskCompletionUtil taskCompletionUtil;
         private readonly OpenTaskCollection open;
         private readonly Dictionary<EcsEntity, EcsEntity> assigned = new(); // task -> performer
         private readonly HashSet<EcsEntity> delayedTasks = new();
@@ -22,7 +22,8 @@ namespace game.model.container.task {
         private const bool debug = true;
 
         public TaskContainer(LocalModel model) : base(model) {
-            open = new(true);
+            open = new(debug);
+            taskCompletionUtil = new(model);
         }
 
         // registers open task in container. Then it can be assigned with UnitTaskAssignmentSystem
@@ -60,7 +61,6 @@ namespace game.model.container.task {
         }
 
         private void removeTaskFromContainer(EcsEntity task) {
-            TaskJobComponent component = task.take<TaskJobComponent>();
             if (open.contains(task)) {
                 open.remove(task);
             } else if (assigned.ContainsKey(task)) {
@@ -68,28 +68,6 @@ namespace game.model.container.task {
             } else {
                 Debug.LogErrorFormat("[TaskContainer] Deleting task {0}, but not found in task container!", task.name());
             }
-        }
-
-        private bool checkTaskTarget(EcsEntity task, byte performerArea, PassageMap passageMap) {
-            ActionTargetTypeEnum targetType = task.take<TaskActionsComponent>().initialAction.target.type;
-            Vector3Int target = task.take<TaskActionsComponent>().initialAction.target.pos;
-            if (target == Vector3Int.back) {
-                Debug.LogError("target position for " + task.name() + " not found ");
-                return false;
-            }
-            // target position in same area with performer
-            if (targetType == EXACT || targetType == ANY) {
-                if (passageMap.area.get(target) == performerArea) return true;
-            }
-            // target position is accessible from performer area
-            if (targetType == NEAR || targetType == ANY) {
-                NeighbourPositionStream stream = new NeighbourPositionStream(target, model);
-                stream = task.Has<TaskBlockOverrideComponent>()
-                    ? stream.filterConnectedToCenterWithOverrideTile(task.take<TaskBlockOverrideComponent>().blockType)
-                    : stream.filterConnectedToCenter();
-                return stream.collectAreas().Contains(performerArea);
-            }
-            return false;
         }
 
         private void log(string message) {

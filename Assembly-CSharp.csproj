@@ -254,9 +254,9 @@
      <Compile Include="Assets\scripts\generation\BuildingGenerator.cs" />
      <Compile Include="Assets\scripts\generation\GenerationState.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\elevation\WorldElevationGenerator.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\toolbar\PrioritySelectionWidgetHandler.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitNeedComponentGenerator.cs" />
      <Compile Include="Assets\scripts\generation\plant\PlantGenerator.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\toolbar\PrioritySelectionWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\view\util\PrefabLoader.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\TreeExistsValidator.cs" />
      <Compile Include="Assets\scripts\util\geometry\bounds\FloatBounds2.cs" />
@@ -674,6 +674,7 @@
      <None Include="Assets\resources\data\recipes\recipes.json" />
      <Folder Include="Assets\scripts\types\item\type\raw" />
      <Folder Include="Assets\scripts\util\TexturePacker\AssetPacker" />
+     <None Include="Assets\resources\data\plants\bushes.json" />
      <None Include="Assets\resources\data\materials\cloth.json" />
      <Folder Include="Assets\scripts\game\view\tilemaps" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />

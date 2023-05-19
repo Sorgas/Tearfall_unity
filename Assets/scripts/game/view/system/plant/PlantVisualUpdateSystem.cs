@@ -11,7 +11,7 @@ namespace game.view.system.plant {
     public class PlantVisualUpdateSystem : IEcsRunSystem {
         public EcsFilter<PlantVisualUpdateComponent> filter;
         private readonly Vector3 zOffset = new(0, 0, WALL_LAYER * GRID_STEP + GRID_STEP / 2f);
-        private bool debug = true;
+        private bool debug = false;
 
         public void Run() {
             foreach (int i in filter) {

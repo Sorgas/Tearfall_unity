@@ -288,7 +288,7 @@ TilemapRenderer:
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
-  m_SortOrder: 2
+  m_SortOrder: 0
   m_Mode: 1
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 2
@@ -325,7 +325,7 @@ RectTransform:
   - {fileID: 4660137095823946881}
   - {fileID: 7900008455989824346}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -359,3 +359,4 @@ MonoBehaviour:
   tilemap: {fileID: 7900008455989824344}
   tilemapRenderer: {fileID: 7900008455989824345}
   planeRenderer: {fileID: 4212094536572876441}
+  locked: 0

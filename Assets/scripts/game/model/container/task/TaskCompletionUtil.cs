@@ -13,8 +13,11 @@ namespace game.model.container.task {
     // when task is completed, this util immediately updates all linked entities
     public class TaskCompletionUtil {
         private LocalModel model;
-        public EcsFilter<TaskActionsComponent, TaskFinishedComponent> filter;
         private string logMessage;
+
+        public TaskCompletionUtil(LocalModel model) {
+            this.model = model;
+        }
 
         public void complete(EcsEntity task, TaskStatusEnum status) {
             log("[TaskCompletionUtil]: completing task " + task.Get<TaskActionsComponent>().initialAction.name);
@@ -29,7 +32,7 @@ namespace game.model.container.task {
         // if task has performer, remove task-related components from him. 
         private void detachPerformer(EcsEntity task) {
             if (!task.Has<TaskPerformerComponent>()) return;
-            ref EcsEntity unit = ref task.takeRef<TaskPerformerComponent>().performer;
+            EcsEntity unit = task.takeRef<TaskPerformerComponent>().performer;
             // TODO perform action cancellation (drop items)
             unit.Del<UnitMovementPathComponent>();
             unit.Del<UnitMovementTargetComponent>();
@@ -42,11 +45,9 @@ namespace game.model.container.task {
         private void detachDesignation(ref EcsEntity task, TaskStatusEnum status) {
             if (!task.Has<TaskDesignationComponent>()) return;
             EcsEntity designation = task.take<TaskDesignationComponent>().designation;
-            if (status == FAILED) {
-                // designation without TaskComponent will recreate task, see DesignationTaskCreationSystem
-                designation.Del<TaskComponent>();
-            } else {
-                // complete or canceled tasks should remove designation
+            designation.Del<TaskComponent>();
+            if (status != FAILED) { // designations with failed tasks will recreate tasks
+                // completed or canceled tasks should remove designation
                 model.designationContainer.removeDesignation(designation.pos());
             }
             task.Del<TaskDesignationComponent>();

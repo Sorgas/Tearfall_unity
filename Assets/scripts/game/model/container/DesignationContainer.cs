@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using game.model.component;
 using game.model.component.task;
-using game.model.container.task;
 using game.model.localmap;
 using Leopotam.Ecs;
 using types;
@@ -27,9 +26,9 @@ namespace game.model.container {
             Debug.Log("[DesignationContainer] designation created " + position);
         }
 
-        public void createConstructionDesignation(Vector3Int position, ConstructionType type, string itemType, int material) {
+        public void createConstructionDesignation(Vector3Int position, ConstructionType type, string itemType, int material, int priority) {
             EcsEntity entity = model.createEntity();
-            entity.Replace(new DesignationComponent { type = DesignationTypes.D_CONSTRUCT });
+            entity.Replace(new DesignationComponent { type = DesignationTypes.D_CONSTRUCT, priority = priority });
             string materialName = MaterialMap.get().material(material).name;
             entity.Replace(new DesignationConstructionComponent {
                 type = type, itemType = itemType, material = material, amount = 1, // TODO get amount from construction type
@@ -73,13 +72,12 @@ namespace game.model.container {
 
         // removes designation in given position. if it had task, removes it too
         public void removeDesignation(Vector3Int position) {
-            if (designations.ContainsKey(position)) {
-                EcsEntity designation = designations[position];
-                designations.Remove(designation.pos());
-                removeDesignationTask(designation);
-                removeDesignationVisual(designations[position]);
-                designation.Destroy();
-            }
+            if (!designations.ContainsKey(position)) return;
+            EcsEntity designation = designations[position];
+            removeDesignationVisual(designations[position]);
+            designations.Remove(designation.pos());
+            removeDesignationTask(designation);
+            designation.Destroy();
         }
 
         private void removeDesignationTask(EcsEntity designation) {

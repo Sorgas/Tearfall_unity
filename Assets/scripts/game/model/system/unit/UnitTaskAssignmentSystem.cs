@@ -56,13 +56,13 @@ namespace game.model.system.unit {
             UnitJobsComponent jobs = unit.take<UnitJobsComponent>();
             PassageMap passageMap = model.localMap.passageMap;
             byte area = passageMap.area.get(unit.pos());
-            for (int i = TaskPriorities.range.max; i >= TaskPriorities.range.min; i--) {
-                List<string> jobsList = jobs.getByPriority(i);
+            for (int jobPriority = TaskPriorities.range.max; jobPriority >= TaskPriorities.range.min; jobPriority--) {
+                List<string> jobsList = jobs.getByPriority(jobPriority);
                 if (jobsList.Count <= 0) continue;
                 Dictionary<int, List<EcsEntity>> tasks = model.taskContainer.getTasksByJobs(jobsList);
-                for (int j = TaskPriorities.range.max; j >= TaskPriorities.range.min; j--) {
-                    if (!tasks.ContainsKey(i)) continue;
-                    foreach (EcsEntity task in tasks[i]) {
+                for (int taskPriority = TaskPriorities.range.max; taskPriority >= TaskPriorities.range.min; taskPriority--) {
+                    if (!tasks.ContainsKey(taskPriority)) continue;
+                    foreach (EcsEntity task in tasks[taskPriority]) {
                         if (checkTaskTarget(task, area, passageMap)) return task;
                         model.taskContainer.moveOpenTaskToDelayed(task);
                         task.Replace(new TaskTimeoutComponent { timeout = 100 });

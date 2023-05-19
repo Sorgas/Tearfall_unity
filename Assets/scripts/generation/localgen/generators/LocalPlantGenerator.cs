@@ -14,9 +14,9 @@ namespace generation.localgen.generators {
         
         public override void generate() {
             map = container.map;
-            int treesNumber = config.areaSize * config.areaSize / 125 * config.forestationLevel;
-            treesNumber += Random.Range(-1, 1) * 20;
-            for (int i = 0; i < treesNumber; i++) {
+            int plantsNumber = config.areaSize * config.areaSize / 100 * config.forestationLevel;
+            plantsNumber += Random.Range(-1, 1) * 20;
+            for (int i = 0; i < plantsNumber; i++) {
                 Vector3Int treePosition = findPlaceForTree();
                 if(treePosition.x >= 0) createPlant(treePosition);
             }
@@ -48,7 +48,8 @@ namespace generation.localgen.generators {
         }
         
         private void createPlant(Vector3Int treePosition) {
-            EcsEntity entity = generator.generate("oak", container.model.createEntity()); // TODO
+            float age = Random.Range(0, 5);
+            EcsEntity entity = generator.generate("bush", age, container.model.createEntity());
             container.model.plantContainer.addPlant(entity, treePosition);
         }
 

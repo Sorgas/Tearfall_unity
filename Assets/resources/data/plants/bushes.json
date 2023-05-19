@@ -1,0 +1,11 @@
+﻿[
+  {
+    "name": "bush",
+    "title": "Bush",
+    "tileXY": [0,0],
+    "maxAge" : 60,
+    "maturityAge" : 3,
+    "tiles": 4,
+    "atlasSize" : 32
+  }
+]

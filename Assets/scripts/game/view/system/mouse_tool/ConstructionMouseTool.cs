@@ -1,5 +1,4 @@
 using game.model;
-using game.model.container;
 using game.model.util.validation;
 using game.view.tilemaps;
 using types;
@@ -7,7 +6,6 @@ using types.building;
 using UnityEngine;
 using util.geometry.bounds;
 using static game.view.camera.SelectionType;
-using DesignationContainer = game.model.container.DesignationContainer;
 
 namespace game.view.system.mouse_tool {
     public class ConstructionMouseTool : ItemConsumingMouseTool {
@@ -33,7 +31,7 @@ namespace game.view.system.mouse_tool {
             addUpdateEvent(model => {
                 bounds.iterate((x, y, z) => {
                     Vector3Int position = new(x, y, z);
-                    model.designationContainer.createConstructionDesignation(position, type, itemType, material);
+                    model.designationContainer.createConstructionDesignation(position, type, itemType, material, priority);
                 });
             });
         }
