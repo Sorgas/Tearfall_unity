@@ -21,6 +21,7 @@ namespace game.view.camera {
 
         public void init() {
             camera = GameView.get().sceneObjectsContainer.mainCamera;
+            camera.farClipPlane = GlobalSettings.cameraLayerDepth * 2 + 1;
             updateCameraBounds();
             updateCameraSpeed();
         }

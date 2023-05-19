@@ -60,7 +60,9 @@ namespace game.view.system.item {
             //                        ? spriteZOffsetForRamp
             //                        : spriteZOffset);
             component.spriteRenderer.gameObject.transform.localPosition = scenePos;
-            component.sortingGroup.sortingOrder = pos.z;
+            if (GlobalSettings.useSpriteSortingLayers) {
+                component.sortingGroup.sortingOrder = pos.z;
+            }
         }
 
         private void updateLockedIcon(EcsEntity entity, ItemVisualComponent component) {

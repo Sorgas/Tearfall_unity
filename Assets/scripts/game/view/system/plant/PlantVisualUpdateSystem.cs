@@ -56,12 +56,15 @@ namespace game.view.system.plant {
 
         private PlantVisualComponent createVisualComponent(EcsEntity entity, PlantComponent plant, int stage) {
             PlantVisualComponent visual = new();
-            Vector3 spritePosition = ViewUtil.fromModelToScene(entity.pos()) + zOffset;
+            Vector3Int position = entity.pos();
+            Vector3 spritePosition = ViewUtil.fromModelToScene(position) + zOffset;
             visual.go = PrefabLoader.create("Plant", GameView.get().sceneObjectsContainer.mapHolder);
             visual.go.transform.localPosition = spritePosition;
             visual.spriteRenderer = visual.go.GetComponent<SpriteRenderer>();
             visual.spriteRenderer.sprite = PlantTypeMap.get().spriteMap.getSprite(plant.type.name, stage);
-            visual.spriteRenderer.sortingOrder = entity.pos().z;
+            if (GlobalSettings.useSpriteSortingLayers) {
+                visual.spriteRenderer.sortingOrder = entity.pos().z;
+            }
             return visual;
         }
 

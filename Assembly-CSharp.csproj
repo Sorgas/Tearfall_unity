@@ -341,6 +341,7 @@
      <Compile Include="Assets\scripts\game\view\ui\stockpileMenu\StockpileConfigRowHandler.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\WorldGenerator.cs" />
      <Compile Include="Assets\scripts\types\unit\body\raw\BodyTemplateProcessor.cs" />
+     <Compile Include="Assets\scripts\GlobalSettings.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedSystem.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\LocalModelSystemsInitializer.cs" />
      <Compile Include="Assets\scripts\types\unit\health\GameplayStatEnum.cs" />
@@ -643,7 +644,6 @@
      <Folder Include="Assets\scripts\types\plant" />
      <Folder Include="Assets\scripts\game\view\system" />
      <Folder Include="Assets\resources\data\recipes" />
-     <Folder Include="Assets\scripts\tilesets" />
      <Folder Include="Assets\resources\data" />
      <Folder Include="Assets\resources\icons\gamespeed_widget" />
      <Folder Include="Assets\scripts\game\view\camera" />

@@ -29,14 +29,15 @@ namespace game.view.system.unit {
             if (transform.localPosition == visual.target) return;
             Vector3Int pos = unit.pos();
             float step = unit.take<UnitMovementComponent>().step;
-            
             transform.localPosition = Vector3.Lerp(visual.current, visual.target, step);
             // transform.localPosition
             // bool isOnRamp = GameModel.get().currentLocalModel.localMap.blockType.get(pos) == BlockTypes.RAMP.CODE
             //                 || unit.Has<UnitVisualOnBuildingComponent>();
             // // set mask to draw unit through z+1 toppings TODO use in movement
             // visual.handler.setMaskEnabled(isOnRamp);
-            // visual.handler.updateSpriteSorting(pos.z);
+            if (GlobalSettings.useSpriteSortingLayers) {
+                visual.handler.updateSpriteSorting(pos.z);
+            }
         }
 
         private void createSpriteGo(EcsEntity unit, ref UnitVisualComponent component) {

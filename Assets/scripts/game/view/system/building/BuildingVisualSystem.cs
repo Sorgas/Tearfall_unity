@@ -31,7 +31,9 @@ namespace game.view.system.building {
             SpriteRenderer renderer = instance.GetComponent<SpriteRenderer>();
             Sprite sprite = BuildingTilesetHolder.get().get(component.type, component.orientation);
             renderer.sprite = sprite;
-            renderer.sortingOrder = position.z;
+            if (GlobalSettings.useSpriteSortingLayers) {
+                renderer.sortingOrder = position.z;
+            }
             float scale = getScale(sprite, component.type.size[OrientationUtil.isHorizontal(component.orientation) ? 1 : 0]);
             renderer.transform.localScale = new Vector3(scale, scale, 1);
             instance.transform.localPosition = ViewUtil.fromModelToScene(position) + spriteOffset;
