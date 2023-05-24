@@ -16,7 +16,7 @@ namespace game.view.system.mouse_tool {
         public override void onSelectionInToolbar() {
             materialSelector.close();
             prioritySelector.open();
-            prioritySelector.init(this);
+            prioritySelector.setForTool(this);
         }
 
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {

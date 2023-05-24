@@ -56,7 +56,7 @@ namespace game.model.container.task {
 
         // moves task from open tasks to assigned
         public void claimTask(EcsEntity task, EcsEntity performer) {
-            if(open.contains(task)) open.remove(task);
+            if (open.contains(task)) open.remove(task);
             assigned.Add(task, performer);
         }
 
@@ -65,6 +65,8 @@ namespace game.model.container.task {
                 open.remove(task);
             } else if (assigned.ContainsKey(task)) {
                 assigned.Remove(task);
+            } else if (delayedTasks.Contains(task)) {
+                delayedTasks.Remove(task);
             } else {
                 Debug.LogErrorFormat("[TaskContainer] Deleting task {0}, but not found in task container!", task.name());
             }

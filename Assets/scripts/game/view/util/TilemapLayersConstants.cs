@@ -5,7 +5,7 @@ namespace game.view.util {
         
         public const int SUBSTRATE_WALL_LAYER = 9;
         public const int WALL_LAYER = 10;
-        public const int UNIT_LAYER = 12; // also for items, etc
+        public const int UNIT_LAYER = 10; // also for items, etc
         public const int BUILDING_LAYER = 14; // also for plants
         public const int SUBSTRATE_RAMP_LAYER = 15;
         public const int ZONE_FLOOR_LAYER = 16;

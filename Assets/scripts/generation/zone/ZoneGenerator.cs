@@ -5,6 +5,7 @@ using game.model.localmap;
 using game.model.util.validation;
 using Leopotam.Ecs;
 using types;
+using types.action;
 using UnityEngine;
 using util.geometry.bounds;
 using static types.ZoneTaskTypes;
@@ -19,7 +20,7 @@ namespace generation.zone {
             EcsEntity entity = model.createEntity();
             entity.Replace(new ZoneComponent { tiles = validTiles, type = type, number = number });
             entity.Replace(new NameComponent { name = generateName(type, number) });
-            entity.Replace(new ZoneTasksComponent { priority = 5 });
+            entity.Replace(new ZoneTasksComponent { priority = TaskPriorities.JOB });
             entity.Replace(createTrackingComponent(type));
             if (type == ZoneTypeEnum.STOCKPILE) entity.Replace(new StockpileComponent { map = new() });
             if (type == ZoneTypeEnum.FARM) entity.Replace(new FarmComponent());

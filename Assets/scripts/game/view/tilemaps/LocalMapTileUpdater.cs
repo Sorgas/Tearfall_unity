@@ -27,7 +27,6 @@ namespace game.view.tilemaps {
         private RectTransform mapHolder;
         private LocalModel model;
         private LocalMap map;
-        public int viewDepth = 5;
 
         public LocalMapTileUpdater(RectTransform mapHolder, LocalModel model) {
             this.mapHolder = mapHolder;
@@ -61,7 +60,7 @@ namespace game.view.tilemaps {
                     int id = map.substrateMap.get(position).type;
                     SubstrateType type = SubstrateTypeMap.get().get(id);
                     wallTileName += Random.Range(0, type.tilesetSize);
-                    substrateWallTile = blockTileSetHolder.substrateTiles[id][wallTileName];
+                    substrateWallTile = blockTileSetHolder.tiles[type.name][wallTileName];
                 }
             }
             if (blockType != SPACE) { // tile has floor part
@@ -72,7 +71,7 @@ namespace game.view.tilemaps {
                         int id = map.substrateMap.get(position).type;
                         SubstrateType type = SubstrateTypeMap.get().get(id);
                         floorTileName += Random.Range(0, type.tilesetSize);
-                        substrateFloorTile = blockTileSetHolder.substrateTiles[id][floorTileName];
+                        substrateFloorTile = blockTileSetHolder.tiles[type.name][floorTileName];
                     } else if (model.farmContainer.isFarm(position)) {
                         substrateFloorTile = blockTileSetHolder.getFarmTile(material);
                     }
@@ -123,7 +122,7 @@ namespace game.view.tilemaps {
                 int id = map.substrateMap.get(lowerPosition).type;
                 SubstrateType type = SubstrateTypeMap.get().get(id);
                 toppingTileName += Random.Range(0, type.tilesetSize);
-                Tile substrateTile = blockTileSetHolder.substrateTiles[id][toppingTileName];
+                Tile substrateTile = blockTileSetHolder.tiles[type.name][toppingTileName];
                 layers[z].setTile(new Vector3Int(x, y, SUBSTRATE_FLOOR_LAYER), substrateTile);
             }
         }
@@ -164,7 +163,11 @@ namespace game.view.tilemaps {
         
         public void updateLayersVisibility(int newZ) {
             for (int z = 0; z < map.bounds.maxZ; z++) {
-                layers[z].setVisible(z > (newZ - viewDepth) && z <= newZ);
+                bool visible = z > (newZ - GlobalSettings.cameraLayerDepth) && z <= newZ;
+                layers[z].setVisible(visible);
+                if (visible) {
+                    // layers[z].tilemap.color.
+                }
             }
         }
     }

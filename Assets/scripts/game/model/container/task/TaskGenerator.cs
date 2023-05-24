@@ -13,6 +13,7 @@ namespace game.model.container.task {
         public EcsEntity createTask(Action initialAction, Job job, EcsEntity entity, LocalModel model) =>
             createTask(initialAction, job, TaskPriorities.JOB, entity, model);
 
+        // creates task entity with initial action, binds task to action (action should have access to task performer and task actions).
         public EcsEntity createTask(Action initialAction, Job job, int priority, EcsEntity entity, LocalModel model) {
             entity.Replace(new TaskActionsComponent {
                 initialAction = initialAction, preActions = new List<Action>(),

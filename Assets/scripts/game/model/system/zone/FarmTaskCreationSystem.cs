@@ -1,4 +1,4 @@
-﻿using game.model.component;
+﻿ using game.model.component;
 using game.model.component.task;
 using game.model.component.task.action.plant;
 using game.model.container;
@@ -39,9 +39,8 @@ namespace game.model.system.zone {
         }
 
         private EcsEntity createTask(Action action, int priority, EcsEntity zone, string taskType) {
-            EcsEntity task = generator.createTask(action, Jobs.FARMER,  model.createEntity(), model);
+            EcsEntity task = generator.createTask(action, Jobs.FARMER, priority,  model.createEntity(), model);
             task.Replace(new TaskZoneComponent { zone = zone, taskType = taskType });
-            task.Replace(new TaskJobComponent { job = Jobs.FARMER.name });
             model.taskContainer.addOpenTask(task);
             return task;
         }

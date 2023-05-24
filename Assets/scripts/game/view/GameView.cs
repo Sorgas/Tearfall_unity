@@ -46,6 +46,7 @@ namespace game.view {
             resetCameraPosition();
             MouseToolManager.get().reset();
             sceneObjectsContainer.gamespeedWidgetHandler.updateVisual();
+            sceneObjectsContainer.prioritySelectionWidgetHandler.init();
             Debug.Log("view initialized");
         }
 

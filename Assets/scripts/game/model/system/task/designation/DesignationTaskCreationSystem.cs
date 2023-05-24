@@ -5,6 +5,7 @@ using game.model.component.task.action.plant;
 using game.model.component.task.order;
 using game.model.localmap;
 using Leopotam.Ecs;
+using types;
 using UnityEngine;
 using util.lang.extension;
 using static types.action.TaskPriorities;
@@ -31,15 +32,16 @@ namespace game.model.system.task.designation {
 
         private EcsEntity createTaskForDesignation(EcsEntity entity, DesignationComponent designation) {
             int priority = designation.priority;
+            Vector3Int position = entity.pos();
             if (designation.type.job.Equals(MINER.name)) {
-                Action action = new DigAction(entity.pos(), designation.type); 
+                Action action = new DigAction(position, designation.type); 
                 EcsEntity task = model.taskContainer.generator.createTask(action, MINER, priority, model.createEntity(), model);
                 task.Replace(new TaskBlockOverrideComponent { blockType = designation.type.getDiggingBlockType() });
                 Debug.Log("mining task created.");
                 return task;
             }
             if (designation.type.job.Equals(WOODCUTTER.name)) {
-                Action action = new ChopTreeAction(entity.pos()); 
+                Action action = new ChopTreeAction(position); 
                 EcsEntity task = model.taskContainer.generator.createTask(action, WOODCUTTER, priority, model.createEntity(), model);
                 Debug.Log("woodcutting task created.");
                 return task;
@@ -49,6 +51,12 @@ namespace game.model.system.task.designation {
                     return createConstructionTask(entity, designation);
                 } else {
                     return createBuildingTask(entity, designation);
+                }
+            }
+            if (designation.type == DesignationTypes.D_HARVEST_PLANT) {
+                EcsEntity zone = model.zoneContainer.getZone(position);
+                if (zone != EcsEntity.Null && zone.take<ZoneComponent>().type == ZoneTypes.FARM.value) {
+                    
                 }
             }
             return EcsEntity.Null;

@@ -20,6 +20,8 @@ namespace types.plant {
             return (name != null && map.ContainsKey(name)) ? map[name] : null;
         }
 
+        public ICollection<PlantType> all() => new List<PlantType>(map.Values);
+        
         private void loadAll() {
             string logMessage = "loading plants";
             map.Clear();

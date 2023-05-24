@@ -20,6 +20,7 @@ namespace types {
         public static DesignationType D_CHOP = new("chopping trees", PlaceValidators.TREE_EXISTS, NEAR, Jobs.WOODCUTTER.name, "choptrees", "choptrees"); // chop trees in th area
         public static DesignationType D_CONSTRUCT = new("construction", "builder");
         public static DesignationType D_BUILD = new("building", "builder");
+        public static DesignationType D_HARVEST_PLANT = new("harvesting plant", PlaceValidators.PLANT_HARVESTING, NEAR, Jobs.HERBALIST.name, "harvestPlants", "harvestPlants");
     }
 
     public class DesignationType {

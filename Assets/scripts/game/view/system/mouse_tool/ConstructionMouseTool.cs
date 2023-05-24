@@ -15,7 +15,7 @@ namespace game.view.system.mouse_tool {
         public override void onSelectionInToolbar() {
             fillSelectorForVariants(type.name, type.variants);
             prioritySelector.open();
-            prioritySelector.init(this);
+            prioritySelector.setForTool(this);
         }
 
         public void set(ConstructionType type) {

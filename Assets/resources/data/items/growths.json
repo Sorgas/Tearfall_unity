@@ -80,5 +80,12 @@
     "stockpileCategory": "plant",
     "stockpileMaterialTags": "organic",
     "atlasXY": [0, 0]
+}, {
+    "name": "raspberry",
+    "title": "Raspberry",
+    "description": "Raspberry",
+    "stockpileCategory": "plant",
+    "stockpileMaterialTags": "organic",
+    "atlasXY": [6, 0]
 }
 ]

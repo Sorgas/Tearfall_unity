@@ -18,7 +18,7 @@ namespace game.view.ui.toolbar {
         public Color activeColor = new(0.75f, 0.75f, 0.75f, 1);
         public Color inactiveColor = new(0.4f, 0.4f, 0.4f, 1);
 
-        public void Start() {
+        public void init() {
             buttons[0] = button1;
             buttons[1] = button2;
             buttons[2] = button3;
@@ -33,7 +33,7 @@ namespace game.view.ui.toolbar {
             }
         }
 
-        public void init(MouseTool tool) {
+        public void setForTool(MouseTool tool) {
             updateVisual(tool.priority);
         }
 
@@ -47,6 +47,7 @@ namespace game.view.ui.toolbar {
         }
 
         private void updateVisual(int priority) {
+            Debug.Log(priority);
             for (int i = 0; i < 8; i++) {
                 buttons[i].gameObject.GetComponent<Image>().color =
                     priority == i + 1 ? activeColor : inactiveColor;

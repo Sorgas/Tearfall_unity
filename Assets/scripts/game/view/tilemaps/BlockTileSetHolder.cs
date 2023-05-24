@@ -9,33 +9,34 @@ using util.lang;
 using util.lang.extension;
 
 namespace game.view.tilemaps {
-    // stores block sprites and tiles
+    // stores block sprites and tiles. Some tilesets share same texture.
     public class BlockTileSetHolder : Singleton<BlockTileSetHolder> {
-        // map of tileset -> tilecode -> tile/sprite
+        // tileset -> tilecode -> tile/sprite
         public readonly Dictionary<string, Dictionary<string, Sprite>> sprites = new();
-        // map of <material -> <tilecode -> tile>>
+        // name -> tilecode -> tile
         public readonly Dictionary<string, Dictionary<string, Tile>> tiles = new();
-        public readonly Dictionary<int, Dictionary<string, Tile>> substrateTiles = new();
+
         public readonly Dictionary<ZoneTypeEnum, Tile> zoneTiles = new();
         public readonly Dictionary<string, Tile> farmTiles = new();
         private BlockTilesetSlicer slicer = new();
         Dictionary<string, List<string>> notFound = new();
-
         private string logMessage;
+        private bool debug = false;
 
         public void loadAll() {
             logMessage = "";
-            Debug.Log("loading block tilesets");
+            log("[BlockTilesetHolder] loading block tilesets");
             // TODO try use this for all sprites and tilesets
             MaterialMap.get().all
                 .Where(material => material.tileset != null)
-                .ForEach(loadMaterialTilesetFromAtlas);
+                .ForEach(loadMaterialTilesetFromAtlas); // sets color
             loadTilesetFromAtlas("selection");
             loadTilesetFromAtlas("template");
             SubstrateTypeMap.get().all()
                 .ForEach(loadSubstrateTilesetFromAtlas);
+
             createZoneTiles();
-            flushNotFound();
+            flushLog();
             Debug.Log("[BlockTilesetHolder]" + logMessage);
         }
 
@@ -45,51 +46,41 @@ namespace game.view.tilemaps {
         }
 
         public Tile getFarmTile(string materialName) {
-            if(!farmTiles.ContainsKey(materialName)) {
+            if (!farmTiles.ContainsKey(materialName)) {
                 Sprite sprite = TextureLoader.get().getSprite("farm_tile");
                 Material_ material = MaterialMap.get().material(materialName);
                 farmTiles.Add(materialName, createTile(sprite, material.color));
             }
             return farmTiles[materialName];
         }
-        
-        // looks for sprite of material in atlas. If not present, uses template sprite.
-        private void loadMaterialTilesetFromAtlas(Material_ material) {
-            log("adding " + material.name);
-            Dictionary<string, Sprite> spritesMap = getBlockTileset(material.tileset);
-            tiles.Add(material.name, createTilesFromSprites(spritesMap, material.color));
+
+        private void loadMaterialTilesetFromAtlas(Material_ material) => loadTilesetFromAtlas(material.name, material.tileset, 1, material.color);
+
+        private void loadTilesetFromAtlas(string tileset) => loadTilesetFromAtlas(tileset, tileset, 1, Color.white);
+
+        private void loadSubstrateTilesetFromAtlas(SubstrateType type) => loadTilesetFromAtlas(type.name, type.tileset, type.tilesetSize, type.color);
+
+        private void loadTilesetFromAtlas(string tilesName, string tileset, int tilesetSize, Color color) {
+            log("adding " + tileset);
+            loadSpriteSet(tileset, tilesetSize);
+            createTilesFromSprites(tilesName, tileset, color);
         }
 
-        private void loadTilesetFromAtlas(string tilesetName) {
-            Sprite sprite = TextureLoader.get().getSprite(tilesetName);
-            Dictionary<string, Sprite> spriteMap = slicer.sliceBlockSpritesheet(sprite);
-            log("adding " + tilesetName);
-            sprites.Add(tilesetName, spriteMap);
-            tiles.Add(tilesetName, createTilesFromSprites(spriteMap, Color.white));
+        // lazy-loads tileset sprite from atlas and slices it to tile sprites
+        private void loadSpriteSet(string tileset, int tilesetSize) {
+            if (sprites.ContainsKey(tileset)) return;
+            Sprite sprite = TextureLoader.get().getSprite(tileset);
+            sprites.Add(tileset, slicer.sliceBlockSpritesheet(sprite, tilesetSize));
         }
 
-        private Dictionary<string, Tile> createTilesFromSprites(Dictionary<string, Sprite> sprites, Color color) {
+        // creates tileset and applies color
+        private void createTilesFromSprites(string tilesName, string tileset, Color color) {
             Dictionary<string, Tile> tilesMap = new();
-            foreach (string key in sprites.Keys) {
-                tilesMap.Add(key, createTile(sprites[key], color));
+            Dictionary<string, Sprite> tilesetSprites = sprites[tileset];
+            foreach (string key in tilesetSprites.Keys) {
+                tilesMap.Add(key, createTile(tilesetSprites[key], color));
             }
-            return tilesMap;
-        }
-
-        private void loadSubstrateTilesetFromAtlas(SubstrateType type) {
-            log("adding " + type.name);
-            Dictionary<string, Sprite> sprites = getBlockTileset(type.tileset, type.tilesetSize);
-            substrateTiles.Add(type.id, createTilesFromSprites(sprites, type.color));
-        }
-
-        private Dictionary<string, Sprite> getBlockTileset(string tileset) => getBlockTileset(tileset, 1);
-
-        private Dictionary<string, Sprite> getBlockTileset(string tileset, int tilesetSize) {
-            if (!sprites.ContainsKey(tileset)) {
-                Sprite sprite = TextureLoader.get().getSprite(tileset);
-                sprites.Add(tileset, slicer.sliceBlockSpritesheet(sprite, tilesetSize));
-            }
-            return sprites[tileset];
+            tiles.Add(tilesName, tilesMap);
         }
 
         private void createZoneTiles() {
@@ -99,20 +90,27 @@ namespace game.view.tilemaps {
             }
         }
 
-        private void flushNotFound() {
-            foreach (string tileset in notFound.Keys) {
-                log("tileset " + tileset + " not found for materials:" + notFound[tileset].ToString());
-            }
-            notFound.Clear();
-        }
 
+        // creates tile by applying color to sprite
         private Tile createTile(Sprite sprite, Color color) {
             Tile tile = ScriptableObject.CreateInstance<Tile>();
             tile.sprite = sprite;
             tile.color = color;
             return tile;
         }
-        
-        private void log(string message) => logMessage += message + "\n";
+
+
+        private void log(string message) {
+            if (debug) logMessage += message + "\n";
+        }
+
+        private void flushLog() {
+            if (!debug) return;
+            foreach (string tileset in notFound.Keys) {
+                log($"tileset {tileset} not found for type: {notFound[tileset]}");
+            }
+            notFound.Clear();
+            Debug.Log(logMessage);
+        }
     }
 }

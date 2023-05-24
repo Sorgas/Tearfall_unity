@@ -413,6 +413,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\plant\PlantHarvestAction.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\ArrayExtension.cs" />
      <Compile Include="Assets\scripts\game\view\system\zone\ZoneVisualSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\util\validation\HarvestablePlantValidator.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\DesignationMouseTool.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\PassageMap.cs" />
      <Compile Include="Assets\scripts\mainMenu\MainMenuButtonHandler.cs" />

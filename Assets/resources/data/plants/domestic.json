@@ -18,7 +18,7 @@
     "maxAge" : 6,
     "maturityAge" : 4,
     "destroyOnHarvest" : true,
-    "tileXY": ["0", "0"],
+    "tileXY": [0, 0],
     "tiles": 5,
     "productItemType" : "radish",
     "productCount" :  2
@@ -29,7 +29,7 @@
   "maxAge" : 8,
   "maturityAge" : 5,
   "destroyOnHarvest" : true,
-  "tileXY": ["0", "1"],
+  "tileXY": [0, 1],
   "tiles": 5,
   "productItemType" : "turnip",
   "productCount" :  2

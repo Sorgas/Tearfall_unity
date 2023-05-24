@@ -1,11 +1,10 @@
-﻿using game.model;
-using game.model.localmap;
-using types;
+﻿using types;
 using types.material;
 using UnityEngine;
 using util.geometry.bounds;
 
 namespace game.view.system.mouse_tool {
+    // tool for placing blocks on map
     public class DebugTileMouseTool : MouseTool {
         private BlockType blockType;
         private int material;
@@ -15,15 +14,12 @@ namespace game.view.system.mouse_tool {
             this.material = MaterialMap.get().id(material);
         }
 
-        
         public override void onSelectionInToolbar() {
             materialSelector.close();
-            prioritySelector.open();
-            prioritySelector.init(this);
+            prioritySelector.close();
         }
 
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {
-            LocalModel model = GameModel.get().currentLocalModel;
             addUpdateEvent(model => {
                 bounds.iterate((x, y, z) => {
                     model.localMap.blockType.set(x, y, z, blockType, material);
@@ -31,8 +27,7 @@ namespace game.view.system.mouse_tool {
             });
         }
 
-        public override void updateSprite() {
-        }
+        public override void updateSprite() { }
 
         public override void rotate() { }
 

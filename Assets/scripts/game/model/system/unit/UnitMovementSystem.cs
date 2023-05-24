@@ -13,15 +13,16 @@ namespace game.model.system.unit {
     // If path is blocked, it will be recalculated.
 
     // TODO when door is on the path, it should be opened first, then settler passes and closes door.
-    // Doors counted as 'difficult terrain' during 
-    // Add 'openness' value to door. This system should contribute to door openness(displayed visually)
+    // Doors counted as 'difficult terrain' during pathfinding
+    // Add 'openness' value to door. This system should contribute to door openness (displayed visually)
     // Animals should not be able to use doors. 
+    
     public class UnitMovementSystem : LocalModelScalableEcsSystem {
         public readonly float diagonalSpeedMod = (float)Math.Sqrt(2);
         public readonly float diagonalUpSpeedMod = (float)Math.Sqrt(2);
         public readonly float upSpeedMod = (float)Math.Sqrt(2);
 
-        EcsFilter<UnitMovementComponent, UnitMovementPathComponent> filter = null;
+        public EcsFilter<UnitMovementComponent, UnitMovementPathComponent> filter;
 
         protected override void runLogic(int ticks) {
             foreach (int i in filter) {

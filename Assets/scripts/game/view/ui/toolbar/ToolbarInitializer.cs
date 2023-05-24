@@ -26,6 +26,8 @@ namespace game.view.ui.toolbar {
 
         private void fillOrdersPanel(ToolbarPanelHandler panel) {
             widget.createToolButton(panel, "Z: Chop trees", DesignationTypes.D_CHOP, KeyCode.Z);
+            widget.createToolButton(panel, "X: Harvest plants", DesignationTypes.D_HARVEST_PLANT, KeyCode.X);
+            
             ToolbarPanelHandler diggingPanel = panel.createSubPanel("C: Digging", "toolbar/digging", KeyCode.C);
             diggingPanel.closeAction = () => MouseToolManager.get().set(DesignationTypes.D_CLEAR);
             widget.createToolButton(diggingPanel, "Z: Dig wall", DesignationTypes.D_DIG, KeyCode.Z);

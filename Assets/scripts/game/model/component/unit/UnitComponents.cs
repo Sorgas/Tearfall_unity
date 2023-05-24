@@ -16,7 +16,6 @@ namespace game.model.component.unit {
 
     // stores unit's movement properties
     public struct UnitMovementComponent {
-        // public Vector3Int position; // model position
         public float speed; // tiles per model tick
         public float step; // speed is added to this value; when reaches 1, position changed
     }

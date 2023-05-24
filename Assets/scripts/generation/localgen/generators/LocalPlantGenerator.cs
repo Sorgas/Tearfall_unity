@@ -1,8 +1,13 @@
-﻿using game.model.localmap;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using game.model.localmap;
 using generation.plant;
 using Leopotam.Ecs;
 using types;
+using types.plant;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace generation.localgen.generators {
     public class LocalPlantGenerator : LocalGenerator {
@@ -16,13 +21,19 @@ namespace generation.localgen.generators {
             map = container.map;
             int plantsNumber = config.areaSize * config.areaSize / 100 * config.forestationLevel;
             plantsNumber += Random.Range(-1, 1) * 20;
-            for (int i = 0; i < plantsNumber; i++) {
-                Vector3Int treePosition = findPlaceForTree();
-                if(treePosition.x >= 0) createPlant(treePosition);
+            Dictionary<PlantType, float> plantTypes = getPlantTypes();
+            foreach (PlantType type in plantTypes.Keys) {
+                int number = (int)Math.Round(plantsNumber * plantTypes[type]);
+                for (int i = 0; i < number; i++) {
+                    Vector3Int position = findPlaceForPlant(type);
+                    if(position.x >= 0) createPlant(position, type);
+                }
+                
             }
         }
         
-        private Vector3Int findPlaceForTree() {
+        // TODO assess plant placing requirements
+        private Vector3Int findPlaceForPlant(PlantType plantType) {
             for (int i = 0; i < maxAttempts; i++) {
                 int x = Random.Range(0, map.bounds.maxX);
                 int y = Random.Range(0, map.bounds.maxY);
@@ -47,12 +58,19 @@ namespace generation.localgen.generators {
             return container.model.plantContainer.getBlock(position) == null;
         }
         
-        private void createPlant(Vector3Int treePosition) {
-            float age = Random.Range(0, 5);
-            EcsEntity entity = generator.generate("bush", age, container.model.createEntity());
-            container.model.plantContainer.addPlant(entity, treePosition);
+        private void createPlant(Vector3Int position, PlantType type) {
+            float age = Random.Range(0, type.maxAge);
+            EcsEntity entity = generator.generate(type.name, age, container.model.createEntity());
+            container.model.plantContainer.addPlant(entity, position);
         }
 
+        // TODO make weighted plant list by local biome
+        private Dictionary<PlantType, float> getPlantTypes() {
+            return (new[] {"bush", "raspberryBush"})
+                .Select(name => PlantTypeMap.get().get(name))
+                .ToDictionary(type => type, type => 0.5f);
+        }
+        
         public override string getMessage() {
             return "generating plants...";
         }
