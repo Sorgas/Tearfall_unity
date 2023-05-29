@@ -1,4 +1,5 @@
 ﻿using game.model.component;
+using game.model.component.plant;
 using game.model.component.task;
 using game.model.component.task.action;
 using game.model.component.task.action.plant;
@@ -6,6 +7,7 @@ using game.model.component.task.order;
 using game.model.localmap;
 using Leopotam.Ecs;
 using types;
+using types.unit;
 using UnityEngine;
 using util.lang.extension;
 using static types.action.TaskPriorities;
@@ -55,8 +57,14 @@ namespace game.model.system.task.designation {
             }
             if (designation.type == DesignationTypes.D_HARVEST_PLANT) {
                 EcsEntity zone = model.zoneContainer.getZone(position);
+                Job job = HERBALIST;
                 if (zone != EcsEntity.Null && zone.take<ZoneComponent>().type == ZoneTypes.FARM.value) {
-                    
+                    job = FARMER;
+                }
+                EcsEntity plant = model.plantContainer.getPlant(position);
+                if (plant != EcsEntity.Null && plant.Has<PlantHarvestableComponent>()) {
+                    Action action = new PlantHarvestAction(plant);
+                    return model.taskContainer.generator.createTask(action, job, priority, model.createEntity(), model);
                 }
             }
             return EcsEntity.Null;

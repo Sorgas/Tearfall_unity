@@ -12,8 +12,8 @@
         public static readonly Job HAULER = new("hauler", "hauler");
         public static readonly Job HERBALIST = new("herbalist", "herbalist");
         
-        public static readonly Job[] jobs = { MINER, WOODCUTTER, BUILDER, CARPENTER, FARMER, COOK, SMITH, TAILOR, HAULER };
-        public static readonly Job[] all = { MINER, WOODCUTTER, BUILDER, CARPENTER, FARMER, COOK, SMITH, TAILOR, HAULER, NONE };
+        public static readonly Job[] jobs = { MINER, WOODCUTTER, BUILDER, CARPENTER, FARMER, COOK, SMITH, TAILOR, HAULER, HERBALIST };
+        public static readonly Job[] all = { MINER, WOODCUTTER, BUILDER, CARPENTER, FARMER, COOK, SMITH, TAILOR, HAULER, HERBALIST, NONE };
     }
 
     public class Job {

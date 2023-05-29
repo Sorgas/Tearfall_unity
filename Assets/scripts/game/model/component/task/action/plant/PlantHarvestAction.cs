@@ -30,6 +30,7 @@ namespace game.model.component.task.action.plant {
             };
 
             onFinish = () => {
+                zone = model.zoneContainer.getZone(plantPosition);
                 plant.Del<PlantHarvestableComponent>();
                 plant.Replace(new PlantHarvestedComponent());
                 if (zone != EcsEntity.Null) unlockZoneTile(zone, plantPosition);
