@@ -30,7 +30,7 @@
     "description": "Rock.",
     "stockpileCategory": "material",
     "stockpileMaterialTags": "stone",
-    "atlasXY": [3, 0],
+    "atlasXY": [0, 1],
     "color": "0xffffffff",
     "tags": ["material"]
 }, {
@@ -38,29 +38,87 @@
     "description": "Ore piece.",
     "stockpileCategory": "material",
     "stockpileMaterialTags": "ore",
-    "atlasXY": [4, 0],
+    "atlasXY": [1, 1],
+    "color": "0xffffffff"
+}, {
+    "name": "coal_rock",
+    "description": "Coal piece.",
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "ore",
+    "atlasXY": [2, 1],
+    "color": "0xffffffff"
+}, {
+    "name": "stone_block",
+    "description": "",
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "ore",
+    "atlasXY": [3, 1],
+    "color": "0xffffffff"
+}, {
+    "name": "clay",
+    "description": "Ore piece.",
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "ore",
+    "atlasXY": [4, 1],
     "color": "0xffffffff"
 }, {
     "name": "bar",
     "description": "Piece of metal, formed for further use.",
-    "atlasXY": [5, 0],
+    "atlasXY": [5, 1],
     "stockpileCategory": "material",
     "stockpileMaterialTags": "metal",
     "color": "0xffffffff",
     "tags": ["material"]
-}, {
-    "name": "cloth_roll",
-    "description": "Rolled cloth.",
+},  {
+    "name": "meat_piece",
+    "title": "Piece",
+    "components": ["food(0.3)"],
+    "stockpileCategory": "food",
+    "stockpileMaterialTags": "",
+    "tags": ["cookable"],
+    "atlasXY": [0, 2],
+    "color": "0xffffffff"
+},{
+    "name": "animal_hide",
+    "description": "",
     "stockpileCategory": "material",
-    "stockpileMaterialTags": "cloth",
-    "atlasXY": [10, 0],
+    "stockpileMaterialTags": "leather",
+    "atlasXY": [2, 2],
     "color": "0xffffffff"
 }, {
     "name": "leather_sheet",
     "description": "Large leather piece.",
     "stockpileCategory": "material",
     "stockpileMaterialTags": "leather",
-    "atlasXY": [11, 0],
+    "atlasXY": [3, 2],
+    "color": "0xffffffff"
+}, {
+    "name": "thread",
+    "description": "",
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "cloth",
+    "atlasXY": [0, 3],
+    "color": "0xffffffff"
+}, {
+    "name": "cloth_roll",
+    "description": "Rolled cloth.",
+    "stockpileCategory": "material",
+    "stockpileMaterialTags": "cloth",
+    "atlasXY": [1, 3],
+    "color": "0xffffffff"
+}, {
+    "name": "paper_sheet",
+    "description": "",
+    "stockpileCategory": "special",
+    "stockpileMaterialTags": "paper",
+    "atlasXY": [2, 3],
+    "color": "0xffffffff"
+}, {
+    "name": "book",
+    "description": "Source of knowledge.",
+    "stockpileCategory": "special",
+    "stockpileMaterialTags": "paper",
+    "atlasXY": [3, 3],
     "color": "0xffffffff"
 }, {
     "name": "brick",
@@ -108,26 +166,10 @@
     "atlasXY": [15, 0],
     "color": "0xffffffff"
 }, {
-    "name": "meat_piece",
-    "title": "Piece",
-    "components": ["food(0.3)"],
-    "stockpileCategory": "food",
-    "stockpileMaterialTags": "",
-    "tags": ["cookable"],
-    "atlasXY": [5, 0],
-    "color": "0xffffffff"
-}, {
     "name": "chain",
     "description": "Strong metal chain.",
     "stockpileCategory": "material",
     "stockpileMaterialTags": "metal",
-    "atlasXY": [15, 0],
-    "color": "0xffffffff"
-}, {
-    "name": "book",
-    "description": "Source of knowledge.",
-    "stockpileCategory": "special",
-    "stockpileMaterialTags": "paper",
     "atlasXY": [15, 0],
     "color": "0xffffffff"
 }, {

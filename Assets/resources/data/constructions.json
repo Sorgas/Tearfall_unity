@@ -1,23 +1,23 @@
 [
   {
     "name" : "wall",
-    "materials" : ["log/6", "rock/6", "plank/6"],
+    "materials" : ["log/3", "rock/3", "plank/3"],
     "blockTypeName" : "wall"
   }, {
     "name" : "floor",
-    "materials" : ["rock/3", "plank/3"],
+    "materials" : ["rock/1", "plank/1"],
     "blockTypeName" : "floor"
   }, {
     "name" : "ramp",
-    "materials" : ["log/4", "rock/4", "plank/4"],
+    "materials" : ["log/2", "rock/2", "plank/2"],
     "blockTypeName" : "ramp"
   }, {
     "name" : "stairs",
-    "materials" : ["log/4", "rock/4", "plank/4"],
+    "materials" : ["log/2", "rock/2", "plank/2"],
     "blockTypeName" : "stairs"
   }, {
     "name" : "downstairs",
-    "materials" : ["log/3", "rock/3", "plank/3"],
+    "materials" : ["log/1", "rock/1", "plank/1"],
     "blockTypeName" : "downstairs"
   }
 ]

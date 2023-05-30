@@ -1,91 +1,74 @@
 [
     {
-        "name": "generic_fruit",
-        "description": "Replace this description in plant definition.",
-        "components": ["food(15)"],
-        "stockpileCategory": "plant",
-        "stockpileMaterialTags": "organic",
-        "atlasXY": [0, 0]
-    }, 
-    {
     "name": "radish",
     "baseItem": "generic_fruit",
     "description": "Tiny bitter root-crops.",
-    "stockpileCategory": "food",
-    "stockpileMaterialTags": "organic",
     "atlasXY": [0, 0]
 }, {
     "name": "turnip",
     "baseItem": "generic_fruit",
-    "description": "Root-crop",
-    "stockpileCategory": "food",
-    "stockpileMaterialTags": "organic",
+    "description": "Juicy root vegetable.",
     "atlasXY": [1, 0]
 }, {
     "name": "pumpkin",
     "baseItem": "generic_fruit",
-    "description": "Large orange vegetable with thick walls and many seeds inside.",
-    "stockpileCategory": "food",
-    "stockpileMaterialTags": "organic",
+    "description": "Large sweet vegetable with thick walls and many seeds inside.",
     "components": ["food(100)"],
     "atlasXY": [2, 0] 
 }, {
     "name": "tomato",
     "baseItem": "generic_fruit",
     "description": "Red fruit with delicious taste.",
-    "stockpileCategory": "food",
-    "stockpileMaterialTags": "organic",
     "atlasXY": [3, 0]
-}, {
-    "name": "generic_grain",
-    "description": "Replace this description in plant definition.",
-    "stockpileCategory": "food",
-    "stockpileMaterialTags": "organic",
-    "atlasXY": [0, 1]
 }, {
     "name": "wheat",
     "baseItem": "generic_grain",
     "description": "Most common grain. Used to prepare bread or beer.",
-    "stockpileCategory": "food",
-    "stockpileMaterialTags": "organic",
     "atlasXY": [4, 0]
 }, {
     "name": "cabbage",
     "baseItem": "generic_fruit",
     "description": "",
-    "stockpileCategory": "food",
-    "stockpileMaterialTags": "organic",
     "atlasXY": [5, 0]
+}, {
+    "name": "raspberry",
+    "baseItem": "generic_fruit",
+    "title": "Raspberry",
+    "description": "Raspberry",
+    "atlasXY": [0, 1]
+}, {
+    "name": "blueberry",
+    "baseItem": "generic_fruit",
+    "title": "Blueberry",
+    "description": "Blueberry",
+    "atlasXY": [1, 1]
+}, {
+    "name": "mushroom",
+    "baseItem": "generic_fruit",
+    "description": "Mushroom",
+    "atlasXY": [2, 1]
+}, {
+    "name": "generic_fruit",
+    "description": "Replace this description in plant definition.",
+    "components": ["food(15)"],
+    "stockpileCategory": "food",
+    "atlasXY": [0, 5]
+}, {
+    "name": "generic_grain",
+    "description": "Replace this description in plant definition.",
+    "atlasXY": [1, 5]
 }, {
     "name": "generic_seed",
     "description": "Replace this description in plant definition.",
     "components": ["seed()"],
     "stockpileCategory": "seed",
     "stockpileMaterialTags": "organic",
-    "atlasXY": [0, 2]
-}, {
-    "name": "radish_seed",
-    "description": "Seed of a radish.",
-    "components": ["seed(radish)"],
-    "atlasXY": [0, 2]
+    "atlasXY": [2, 5]
 }, {
     "name": "generic_berry",
-    "description": ".",
+    "description": "Replace this description in plant definition.",
     "stockpileCategory": "food",
     "stockpileMaterialTags": "organic",
-    "atlasXY": [0, 4]
-}, {
-    "name": "mushroom",
-    "description": "",
-    "stockpileCategory": "plant",
-    "stockpileMaterialTags": "organic",
-    "atlasXY": [0, 0]
-}, {
-    "name": "raspberry",
-    "title": "Raspberry",
-    "description": "Raspberry",
-    "stockpileCategory": "plant",
-    "stockpileMaterialTags": "organic",
-    "atlasXY": [6, 0]
+    "atlasXY": [3, 5]
 }
 ]
