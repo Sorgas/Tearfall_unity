@@ -69,7 +69,7 @@ namespace types.plant {
         public int[] tileXY = new int[2];
         // [n - 1] tiles are equally spread along growth period (growthStages), last tile is shown when plant is mature
         public int tiles;
-        public string atlasName; // same as json file by default
+        public string atlasName = ""; // same as json file by default
         public int atlasSize = 64;
         
         // product

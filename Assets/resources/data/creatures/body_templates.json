@@ -108,8 +108,17 @@
         }
     ],
     "slots": [
-        ["head", "head"], ["neck", "neck"], ["hand", "hand"], ["lower arm", "lower arm"], ["body", "upper torso", "lower torso", "upper arm"],
-        ["legs", "lower torso", "upper leg"], ["foot", "foot"], ["finger", "second finger"], ["belt", "lower torso"], ["cloak", "neck"], ["backpack", "upper torso"]
+        ["head", "head"], 
+//        ["neck", "neck"], 
+        ["hand", "hand"], 
+//        ["lower arm", "lower arm"], 
+        ["body", "upper torso", "lower torso", "upper arm"],
+        ["legs", "lower torso", "upper leg"], 
+        ["foot", "foot"], 
+//        ["finger", "second finger"], 
+//        ["belt", "lower torso"], 
+//        ["cloak", "neck"], 
+//        ["backpack", "upper torso"]
     ]
 },
     {

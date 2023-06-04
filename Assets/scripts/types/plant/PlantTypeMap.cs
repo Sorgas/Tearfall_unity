@@ -32,7 +32,7 @@ namespace types.plant {
                 if (types == null) continue;
                 foreach (PlantType type in types) {
                     type.init();
-                    type.atlasName = file.name;
+                    if (type.atlasName == "") type.atlasName = file.name;
                     if (file.name.Equals("trees")) type.isTree = true;
                     map.Add(type.name, type);
                     count++;

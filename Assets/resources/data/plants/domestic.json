@@ -88,5 +88,18 @@
   "tiles": 5,
   "productItemType" : "pepper",
   "productCount" :  9
+}, {
+  "name": "flax",
+  "title": "Flax",
+  "description": "",
+  "maxAge" : 14,
+  "maturityAge" : 8,
+  "destroyOnHarvest" : true,
+  "tileXY": ["0", "0"],
+  "atlasName": "domestic2", 
+  "atlasSize": 32,
+  "tiles": 5,
+  "productItemType" : "flax",
+  "productCount" :  2
 }
 ]
