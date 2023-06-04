@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using game.view.tilemaps;
 using Leopotam.Ecs;
 using Newtonsoft.Json;
 using types.item.type.raw;
@@ -68,7 +69,7 @@ namespace types.item.type {
 
         private Sprite createSprite(string typeName) {
             ItemType type = types[typeName];
-            Sprite sprite = Resources.Load<Sprite>("tilesets/items/" + type.atlasName);
+            Sprite sprite = TextureLoader.get().getSprite(type.atlasName);
             Texture2D texture = sprite.texture;
             int x = type.atlasXY[0];
             int y = type.atlasXY[1];

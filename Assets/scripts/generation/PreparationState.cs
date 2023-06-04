@@ -14,6 +14,9 @@ namespace generation
         public string name;
         public int age;
         public string type;
+        public string sex;
+        public int headVariant;
+        public int bodyVariant;
         // todo 
     }
 

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using game.model.component;
 using game.model.component.unit;
 using Leopotam.Ecs;
@@ -18,6 +17,7 @@ namespace generation.unit {
             addOptionalComponents(ref entity, type);
             addSettlerComponents(ref entity);
         }
+        
         // TODO
         public void generateUnit(string creatureType) {
             CreatureType type = CreatureTypeMap.getType(creatureType);
@@ -27,14 +27,14 @@ namespace generation.unit {
         private void addCommonComponents(ref EcsEntity entity, SettlerData data, CreatureType type) {
             entity.Replace(new AgeComponent {age = 20})
                 .Replace(new UnitMovementComponent {speed = 0.03f, step = 0})
-                .Replace(new UnitVisualComponent()) // sprite go is created in UnitVisualSystem
+                .Replace(new UnitVisualComponent {headVariant = data.headVariant, bodyVariant = data.bodyVariant}) // sprite go is created in UnitVisualSystem
                 .Replace(nameGenerator.generate(data))
                 .Replace(new PositionComponent {position = new Vector3Int()})
                 .Replace(bodyGenerator.generate(type))
                 .Replace(new HealthComponent{overallStatus = "healthy"})
                 .Replace(new MoodComponent {status = "content"})
                 .Replace(new OwnershipComponent {wealthStatus = "poor"})
-                .Replace(new UnitComponent());
+                .Replace(new UnitComponent {type = type});
             needGenerator.generate(ref entity, type);
         }
 

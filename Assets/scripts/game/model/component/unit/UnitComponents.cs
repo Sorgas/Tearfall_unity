@@ -5,13 +5,16 @@ using game.view.util;
 using Leopotam.Ecs;
 using types;
 using types.action;
+using types.unit;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace game.model.component.unit {
 
     // entity with this is a unit
     public struct UnitComponent {
-        public int id;
+        public CreatureType type;
+        public string sex;
     }
 
     // stores unit's movement properties
@@ -34,7 +37,9 @@ namespace game.model.component.unit {
         public Vector3 speed; // sprite moving speed
         public Vector3 current; // current position
         public Vector3 target; // movement target
-        public Orientations orientation;
+        public int headVariant;
+        public int bodyVariant;
+        public SpriteOrientations orientation;
     }
 
     public struct BodyComponent {

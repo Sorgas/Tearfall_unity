@@ -1,32 +1,43 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using types.unit.body;
 using types.unit.need;
+using types.unit.race;
 
 namespace types.unit {
-    public class CreatureType {
-        public string name;
-        public string title;
-        public string description;
-        public readonly Dictionary<string, BodyPart> bodyParts = new Dictionary<string, BodyPart>();
-        public readonly Dictionary<string, List<string>> slots = new Dictionary<string, List<string>>(); // slot name to default limbs
-        public readonly List<string> desiredSlots = new List<string>();
-        public readonly List<Needs> needs = new List<Needs>();
-        public readonly List<string> aspects = new List<string>();
-        public int[] atlasXY;
-        public string color;
-        // public CombinedAppearance combinedAppearance;
-        // public readonly Dictionary<GameplayStatEnum, float> statMap = new HashMap<>();
+public class CreatureType {
+    public string name;
+    public string title;
+    public string description;
+    public readonly Dictionary<string, BodyPart> bodyParts = new();
+    public readonly Dictionary<string, List<string>> slots = new(); // slot name to default limbs
+    public readonly List<string> desiredSlots = new();
+    public readonly List<Needs> needs = new();
+    public readonly List<string> aspects = new();
 
-        public CreatureType(RawCreatureType rawType) {
-            name = rawType.name;
-            title = rawType.title;
-            description = rawType.description;
-            atlasXY = rawType.atlasXY;
-            color = rawType.color;
-            aspects.AddRange(rawType.aspects);
-            // combinedAppearance = rawType.combinedAppearance;
-        }
+    public CreatureAppearance appearance;
+    // public readonly Dictionary<GameplayStatEnum, float> statMap = new HashMap<>();
 
-        public CreatureType() {}
+    public CreatureType(RawCreatureType raw) {
+        name = raw.name;
+        title = raw.title;
+        description = raw.description;
+        aspects.AddRange(raw.aspects);
+        appearance = raw.appearance;
     }
+
+    public CreatureType() { }
+}
+
+[Serializable]
+public class RawCreatureType {
+    public string name;
+    public string title;
+    public string description;
+    public string bodyTemplate;
+    public List<string> desiredSlots = new();
+    public List<string> aspects = new();
+    public CreatureAppearance appearance;
+    public Dictionary<string, float> statMap = new();
+}
 }
