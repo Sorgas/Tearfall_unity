@@ -10,5 +10,17 @@
     "materials" : ["log/4"],
     "passage" : "impassable",
     "access" : [-1, 0]
+  }, {
+    "name" : "tailor's table",
+    "description" : "Produces clothing from cloth and leather.",
+    "tileset": "workbenches",
+    "size": [1,2],
+    "positionN" : [6,0],
+    "positionS" : [7,0],
+    "positionE" : [4,1],
+    "positionW" : [4,0],
+    "materials" : ["log/4"],
+    "passage" : "impassable",
+    "access" : [-1, 0]
   }
 ]

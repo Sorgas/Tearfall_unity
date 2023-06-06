@@ -14,22 +14,7 @@
     "title": "Metal axe",
     "itemName": "axe",
     "ingredients": ["head:bar:metal:1", "handle:log/plank:wood:1"]
-}, {
-    "name": "make_shirt",
-    "title": "Cloth shirt",
-    "itemName": "shirt",
-    "ingredients": ["shirt:roll:cloth:1"]
-}, {
-    "name": "make_pants",
-    "title": "Cloth pants",
-    "itemName": "pants",
-    "ingredients": ["pants:roll:cloth:1"]
-}, {
-    "name": "make_backpack",
-    "title": "Cloth backpack",
-    "itemName": "backpack",
-    "ingredients": ["backpack:roll:cloth:1"]
-}, {
+},  {
     "name": "make_barrel",
     "title": "Wooden barrel",
     "itemName": "barrel",

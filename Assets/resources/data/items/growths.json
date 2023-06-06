@@ -48,6 +48,12 @@
     "description": "Mushroom",
     "atlasXY": [2, 1]
 }, {
+    "name": "flax",
+    "description": "Can be processed to thread.",
+    "stockpileCategory": "plant",
+    "stockpileMaterialTags": "organic",
+    "atlasXY": [3, 1]
+}, {
     "name": "generic_fruit",
     "description": "Replace this description in plant definition.",
     "components": ["food(15)"],

@@ -1,139 +1,40 @@
 [
     {
-        "name": "pickaxe",
-        "description": "Tool for digging through rock and ore.",
-        "tool": {
-            "action": "dig", 
-            "attacks": [
-                {
-                    "attack": "hit",
-                    "baseReload": 1,
-                    "damageMod": 0.3,
-                    "damageType": "pierce",
-                    "part": "head"
-                }
-            ]
-        },
-        "requiredParts" : ["head", "handle"],
+        "name": "generic_tool",
+        "description": "Replace description",
+        "parts" : ["head", "handle"],
         "stockpileCategory": "tool",
+        "atlasXY": [0, 4]
+    },
+    {
+        "name": "pickaxe",
+        "baseItem": "generic_tool",
+        "description": "Tool for digging through rock and ore.",
+        "toolActions": ["dig"],
         "atlasXY": [0, 0]
-    }, {
-    "name": "hoe",
-    "description": "Tool for preparing soil for farming.",
-    "tool": {
-        "action": "hoe",
-        "attacks": [
-            {
-                "attack": "hit",
-                "baseReload": 1,
-                "damageMod": 0.2,
-                "damageType": "pierce",
-                "part": "head"
-            }
-        ]
-    },
-    "requiredParts" : ["head", "handle"],
-    "stockpileCategory": "tool",
-    "atlasXY": [3, 0]
-}, {
-    "name": "sickle",
-    "description": "Tool for harvesting plants.",
-    "tool": {
-        "action": "harvest_plants",
-        "attacks": [
-            {
-                "attack": "hit",
-                "baseReload": 1,
-                "damageMod": 0.1,
-                "damageType": "cut"
-            }
-        ]
-    },
-    "requiredParts" : ["head", "handle"],
-    "stockpileCategory": "tool",
-    "stockpileMaterialTags": "metal",
-    "atlasXY": [2, 0]
 }, {
     "name": "axe",
+    "baseItem": "generic_tool",
     "description": "Tool for chopping down trees.",
-    "tool": {
-        "action": "chop",
-        "attacks": [
-            {
-                "attack": "hit",
-                "baseReload": 1,
-                "damageMod": 0.8,
-                "damageType": "chop"
-            }
-        ]
-    },
-    "requiredParts" : ["head", "handle"],
-    "stockpileCategory": "tool",
-    "stockpileMaterialTags": "metal",
+    "toolActions": ["chop"],
     "atlasXY": [1, 0]
+}, {
+    "name": "sickle",
+    "baseItem": "generic_tool",
+    "description": "Tool for harvesting plants.",
+    "toolActions": ["harvest_plants"],
+    "atlasXY": [2, 0]
+}, {
+    "name": "hoe",
+    "baseItem": "generic_tool",
+    "description": "Tool for preparing soil for farming.",
+    "toolActions": ["hoe"],
+    "atlasXY": [3, 0]
 }, {
     "name": "hammer",
+    "baseItem": "generic_tool",
     "description": "Smith tool.",
-    "tool": {
-        "action": "smith",
-        "attacks": [
-            {
-                "attack": "hit",
-                "baseReload": 1,
-                "damageMod": 0.8,
-                "damageType": "blunt"
-            }
-        ]
-    },
-    "requiredParts" : ["head", "handle"],
-    "stockpileCategory": "tool",
-    "stockpileMaterialTags": "metal",
-    "atlasXY": [1, 0]
-}, {
-    "name": "Kettle",
-    "description": "Holds liquids and is used for cooking and alchemy.",
-    "tool": {
-        "action": "cook_boil",
-        "attacks": [
-            {
-                "attack": "hit",
-                "baseReload": 1,
-                "damageMod": 0.1,
-                "damageType": "blunt"
-            }
-        ]
-    },
-    "requiredParts" : ["head", "handle", "feet"],
-    "stockpileCategory": "tool",
-    "stockpileMaterialTags": "metal",
-    "atlasXY": [1, 0]
-}, {
-    "name": "pan",
-    "description": "Cooking tool.",
-    "tool": {
-        "action": "cook_fry",
-        "attacks": [
-            {
-                "attack": "hit",
-                "baseReload": 1,
-                "damageMod": 0.2,
-                "damageType": "blunt"
-            }
-        ]
-    },
-    "requiredParts" : ["head", "handle"],
-    "stockpileCategory": "tool",
-    "stockpileMaterialTags": "metal",
-    "atlasXY": [1, 0]
-}, {
-    "name": "bow_saw",
-    "description": "Used for sawing wood.",
-    "tool": {
-        "action": "saw"
-    },
-    "requiredParts" : ["head", "handle"],
-    "stockpileCategory": "tool",
-    "stockpileMaterialTags": "metal",
-    "atlasXY": [1, 0]
+    "toolActions": ["smith"],
+    "atlasXY": [4, 0]
 }
 ]

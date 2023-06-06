@@ -8,9 +8,8 @@ namespace types.item.type.raw {
         public string baseItem; // items can extends other items
         public string title; // displayable name
         public string description; // displayable description
-        public ToolItemType tool; // is set if this item could be used as tool
-        public string[] requiredParts; // defines parts of item. first one is main
-        public string[] optionalParts; // defines parts of item. first one is main
+        public string[] toolActions; // some actions require tools or get bonus from having tool equipped
+        public string[] parts; // defines parts of item. first one is main
         public string[] tags; // tags will be copied to items
 
         public string[] components; // string representation of components: NAME/[ARGUMENT[/ARGUMENT]]
@@ -19,11 +18,10 @@ namespace types.item.type.raw {
         
         // render
         public int[] atlasXY;
-        public string color;
+        public string color = "0xffffffff";
 
         public RawItemType() {
-            requiredParts = Array.Empty<string>();
-            optionalParts = Array.Empty<string>();
+            parts = Array.Empty<string>();
             tags = Array.Empty<string>();
             components = Array.Empty<string>();
             atlasXY = Array.Empty<int>();

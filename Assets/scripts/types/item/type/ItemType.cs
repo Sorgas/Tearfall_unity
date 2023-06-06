@@ -7,12 +7,11 @@ namespace types.item.type {
         public string name;                                          // id
         public string title;                                         // displayable name
         public string description;                                   // displayable description
-        public ToolItemType tool;                                    // is set if this item could be used as tool TODO replace with type aspec
+        public ToolItemType tool;                                    // is set if this item could be used as tool
         public int[] atlasXY;
         public string color;
         public HashSet<string> tags = new();
-        public List<string> requiredParts = new();
-        public List<string> optionalParts = new();
+        public List<string> parts = new();                           // if set, player will see parts when selecting materials for crafting.
         public string atlasName;
         public Dictionary<string, string[]> components = new(); // component name to array of component arguments
         public string stockpileCategory;
@@ -23,12 +22,15 @@ namespace types.item.type {
             name = raw.name;
             title = raw.title ?? raw.name;
             description = raw.description;
-            tool = raw.tool;
+            if (raw.toolActions != null && raw.toolActions.Length > 0) {
+                tool = new ToolItemType();
+                tool.action = raw.toolActions[0];
+            }
             atlasXY = raw.atlasXY;
-            if (raw.requiredParts == null || raw.requiredParts.Length == 0) {
-                requiredParts.Add(name); // single part item
+            if (raw.parts == null || raw.parts.Length == 0) {
+                parts.Add("main"); // single part item
             } else {
-                requiredParts.AddRange(raw.requiredParts);
+                parts.AddRange(raw.parts);
             }
             foreach (string rawTag in raw.tags) {
                 tags.Add(rawTag);
@@ -37,15 +39,6 @@ namespace types.item.type {
                 parseAndAddComponentDefinition(rawComponent);
             }
             extractStockpileValues(raw);
-        }
-
-        public ItemType(ItemType type, RawItemType rawType, string namePrefix) {
-            name = namePrefix + type.name;
-            title = rawType.title.Length == 0 ? name : rawType.title;
-            description = rawType.description ?? type.description;
-            tool = rawType.tool ?? type.tool;
-            atlasXY = rawType.atlasXY ?? type.atlasXY;
-            color = rawType.color ?? type.color;
         }
 
         private void parseAndAddComponentDefinition(string componentString) {

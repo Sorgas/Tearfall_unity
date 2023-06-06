@@ -477,6 +477,7 @@
      <Folder Include="Assets\TextMesh Pro\Resources\Sprite Assets" />
      <Folder Include="Assets\scripts\generation\unit" />
      <Folder Include="Assets\scripts\game\view\ui" />
+     <None Include="Assets\resources\data\recipes\tailor.json" />
      <Folder Include="Assets\scripts\game\model\component\deity" />
      <Folder Include="Assets\resources\tilesets\world_tiles" />
      <Folder Include="Assets\resources\icons\jobs" />
@@ -936,7 +937,7 @@
      <HintPath>C:\programs\unity\2021.3.25f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
      </Reference>
      <Reference Include="Newtonsoft.Json">
-     <HintPath>C:\projects\tearfall\Library\PackageCache\com.unity.nuget.newtonsoft-json@3.2.0\Runtime\Newtonsoft.Json.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\PackageCache\com.unity.nuget.newtonsoft-json@3.2.0\Runtime\Newtonsoft.Json.dll</HintPath>
      </Reference>
      <Reference Include="netstandard">
      <HintPath>C:\programs\unity\2021.3.25f1\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>
@@ -1305,100 +1306,100 @@
      <HintPath>C:\programs\unity\2021.3.25f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
      </Reference>
      <Reference Include="Unity.AI.Navigation.Updater">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.AI.Navigation.Updater.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.AI.Navigation.Updater.dll</HintPath>
      </Reference>
      <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VSCode.Editor">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.RenderPipelines.Universal.Shaders">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
      </Reference>
      <Reference Include="Unity.RenderPipelines.Universal.Runtime">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
      </Reference>
      <Reference Include="PPv2URPConverters">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\PPv2URPConverters.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\PPv2URPConverters.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TextMeshPro.Editor">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualStudio.Editor">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Timeline">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TextMeshPro">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst.Editor">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Searcher.Editor">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.2D.Sprite.Editor">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.RenderPipelines.Core.Runtime">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor.UI">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
      </Reference>
      <Reference Include="Unity.InputSystem">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Rider.Editor">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.UI">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
      </Reference>
      <Reference Include="Unity.PlasticSCM.Editor">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Mathematics">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
      </Reference>
      <Reference Include="Unity.ShaderGraph.Editor">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
      </Reference>
      <Reference Include="Leopotam.Ecs">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Leopotam.Ecs.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Leopotam.Ecs.dll</HintPath>
      </Reference>
      <Reference Include="Unity.RenderPipelines.Universal.Editor">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Timeline.Editor">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
      </Reference>
      <Reference Include="Unity.AI.Navigation">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Mathematics.Editor">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.AI.Navigation.Editor">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.RenderPipelines.Core.Editor">
-     <HintPath>C:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>
