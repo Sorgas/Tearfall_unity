@@ -106,6 +106,7 @@
      <Compile Include="Assets\scripts\generation\item\ItemGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskCompletionSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\ProgressBarHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuEquipmentInfoHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\ZoneComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\Action.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationCompletionSystem.cs" />
@@ -639,6 +640,7 @@
      <Folder Include="Assets\scripts\generation\worldgen" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
      <Folder Include="Assets\scripts\game\model\entity_selector\tool" />
+     <Folder Include="Assets\resources\prefabs\unitMenu" />
      <Folder Include="Assets\scripts\types\plant" />
      <Folder Include="Assets\scripts\game\view\system" />
      <Folder Include="Assets\resources\data\recipes" />

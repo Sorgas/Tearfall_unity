@@ -11,7 +11,7 @@ using static game.view.camera.SelectionType;
 namespace game.view.system.mouse_tool {
     // creates designations for buildings
     public class BuildingMouseTool : ItemConsumingMouseTool {
-        public BuildingType type;
+        private BuildingType type;
         private Orientations orientation;
         private Vector2Int size;
         private readonly BuildingValidator validator = new();
@@ -22,6 +22,12 @@ namespace game.view.system.mouse_tool {
             selectionType = SINGLE;
         }
 
+        public void setBuildingType(BuildingType newType) {
+            type = newType;
+            orientation = Orientations.N;
+            size = type.getSizeByOrientation(orientation);
+        }
+        
         public override void onSelectionInToolbar() {
             fillSelectorForVariants(type.name, type.variants);
             prioritySelector.open();
@@ -30,11 +36,12 @@ namespace game.view.system.mouse_tool {
 
         // TODO make buildings able to be designated in draw mode (like in OnI)
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {
-            validateBounds(bounds);
+            validateSelectionBounds(bounds);
             addUpdateEvent(model => {
                 Vector3Int position = bounds.getStart();
                 if (validator.validateArea(position, size, model)) {
-                    model.designationContainer.createBuildingDesignation(bounds.getStart(), type, orientation, itemType, material);
+                    model.designationContainer.createBuildingDesignation(bounds.getStart(), type, orientation, 
+                        itemType, material, priority);
                 } else {
                     Debug.LogErrorFormat("Position {0} for building {1} is invalid.", position, type.name);
                 }
@@ -63,10 +70,15 @@ namespace game.view.system.mouse_tool {
         }
 
         public override void rotate() {
-            orientation = OrientationUtil.getNext(orientation);
-            GameView.get().selector.changeSelectorSize(type.getSizeByOrientation(orientation));
+            updateOrientationAndSize(OrientationUtil.getNext(orientation));
+            GameView.get().selector.changeSelectorSize(size);
             updateSprite();
             updateSpriteColor(new Vector3Int());
+        }
+
+        private void updateOrientationAndSize(Orientations newOrientation) {
+            orientation = newOrientation;
+            size = type.getSizeByOrientation(orientation);
         }
         
         private int[] getRotatedAccessPoint() {
@@ -94,12 +106,12 @@ namespace game.view.system.mouse_tool {
             return result;
         }
 
-        private void validateBounds(IntBounds3 bounds) {
+        private void validateSelectionBounds(IntBounds3 bounds) {
             if (!bounds.isSingleTile()) {
-                Debug.LogWarning("building bounds not single tile !!!");
+                Debug.LogWarning("building selection bounds not single tile !!!");
             }
             if (GameView.get().selector.position != bounds.getStart()) {
-                Debug.LogWarning("building bounds not on selector position !!!");
+                Debug.LogWarning("building selection bounds not on selector position !!!");
             }
         }
     }

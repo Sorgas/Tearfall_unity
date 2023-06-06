@@ -10,12 +10,15 @@ namespace game.view.ui.unit_menu {
     public class UnitMenuHandler : WindowManagerMenu {
         public const string NAME = "unit";
         public Image portrait;
+        // tabs
         public UnitMenuGeneralInfoHandler generalInfoHandler;
         public UnitMenuHealthInfoHandler healthInfoHandler;
+        public UnitMenuEquipmentInfoHandler equipmentInfoHandler;
         private UnitMenuTab activeTab;
-
+        // buttons
         public Button generalInfoButton;
         public Button healthInfoButton;
+        public Button equipmentInfoButton;
         public List<UnitMenuTab> tabs = new();
 
         public EcsEntity unit;
@@ -32,7 +35,6 @@ namespace game.view.ui.unit_menu {
         }
 
         private void showPanel(UnitMenuTab panel) {
-            Debug.Log("showing panel " + panel);
             foreach (UnitMenuTab tab in tabs) {
                 if (tab.gameObject == panel.gameObject) {
                     tab.open();
@@ -51,8 +53,10 @@ namespace game.view.ui.unit_menu {
         private void init() {
             tabs.Add(generalInfoHandler);
             tabs.Add(healthInfoHandler);
+            tabs.Add(equipmentInfoHandler);
             generalInfoButton.onClick.AddListener(() => showPanel(generalInfoHandler));
             healthInfoButton.onClick.AddListener(() => showPanel(healthInfoHandler));
+            equipmentInfoButton.onClick.AddListener(() => showPanel(equipmentInfoHandler));
         }
     }
 

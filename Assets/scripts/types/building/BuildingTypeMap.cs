@@ -49,6 +49,7 @@ namespace types.building {
             BuildingType[] types = JsonArrayReader.readArray<BuildingType>(file.text);
             if (types == null) return;
             foreach (BuildingType type in types) {
+                type.init();
                 type.variants = type.materials.Select(materialString => new BuildingVariant(materialString)).ToArray();
                 if(type.rawComponents != null) {
                     type.components = type.rawComponents.ToList();

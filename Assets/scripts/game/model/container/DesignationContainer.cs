@@ -40,9 +40,9 @@ namespace game.model.container {
         }
 
         public void createBuildingDesignation(Vector3Int position, BuildingType type, Orientations orientation, string itemType,
-            int material) {
+            int material, int priority) {
             EcsEntity entity = model.createEntity();
-            entity.Replace(new DesignationComponent { type = DesignationTypes.D_BUILD });
+            entity.Replace(new DesignationComponent { type = DesignationTypes.D_BUILD, priority = priority});
             string materialName = MaterialMap.get().material(material).name;
             BuildingVariant variant = type.selectVariant(itemType);
             if (variant == null) Debug.LogError("no variant for " + itemType + " in " + type.name);

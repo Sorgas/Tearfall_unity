@@ -24,6 +24,7 @@ namespace game.view.system.mouse_tool {
         // when player finishes selecting frame to apply tool
         public void handleSelection(IntBounds3 bounds, Vector3Int start) => tool?.applyTool(bounds, start);
 
+        // revalidate position when mouse moved
         public void mouseMoved(Vector3Int position) {
             tool?.updateSpriteColor(position); // TODO use position in tools (for performance)
             updater.updateSprite(position);
@@ -41,7 +42,7 @@ namespace game.view.system.mouse_tool {
         }
 
         public void set(BuildingType buildingType) {
-            buildingTool.type = buildingType;
+            buildingTool.setBuildingType(buildingType);
             set(buildingTool);
         }
 
@@ -61,7 +62,6 @@ namespace game.view.system.mouse_tool {
         }
 
         private void set(MouseTool tool) {
-            if (tool == null) tool = selectionTool;
             this.tool = tool;
             tool.onSelectionInToolbar(); // enough items for building or items not required
             tool.updateSprite();
