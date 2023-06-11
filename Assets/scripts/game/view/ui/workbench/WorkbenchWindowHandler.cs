@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using game.input;
 using game.model.component;
 using game.model.component.building;
 using game.model.component.task.order;
@@ -53,13 +52,12 @@ namespace game.view.ui.workbench {
             fillOrdersList(workbench);
         }
 
-        public void createOrder(string recipeName) => createOrder(recipeName, orderLines.Count);
-
-        public void createOrder(string recipeName, int index) {
+        public void createOrder(string recipeName) {
+            int index = orderLines.Count;
             ref WorkbenchComponent workbench = ref entity.takeRef<WorkbenchComponent>();
             Debug.Log("[WorkbenchWindowHandler] creating order " + recipeName + " " + index);
             Recipe recipe = RecipeMap.get().get(recipeName);
-            CraftingOrder order = generator.generate(recipe);
+            CraftingOrder order = generator.generate(recipe, workbench);
             workbench.orders.Insert(index, order);
             workbench.hasActiveOrders = true;
             createOrderLine(index, order);

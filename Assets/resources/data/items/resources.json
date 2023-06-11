@@ -1,7 +1,7 @@
 [
 {
     "name": "log",
-    "description": "Large part of a tree.",
+    "description": "Part of a tree.",
     "components": ["fuel(1)"],
     "tags": ["material"],
     "stockpileCategory": "material",

@@ -6,6 +6,7 @@
       "campfire/roast_meal/boil_meal/boil_water/boil_drink",
       "kitchen/roast_meal/boil_meal/boil_water/boil_drink",
       "carpenter's table/make_barrel/make_bin",
+      "tailor's table/make_shirt/make_pants/make_hat/make_gloves/make_boots/make_backpack",
       "sawing_rack/saw_log",
       "smelter/melt_ore"
     ]

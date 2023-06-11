@@ -35,16 +35,17 @@ namespace game {
             GenerationState.get().preparationState.items.Add(new ItemData {material = "iron", type = "axe", quantity = 1});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "iron", type = "hoe", quantity = 1});
             // GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "pants", quantity = 1});
-             GenerationState.get().preparationState.items.Add(new ItemData {material = "marble", type = "rock", quantity = 10});
+            GenerationState.get().preparationState.items.Add(new ItemData {material = "marble", type = "rock", quantity = 10});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "granite", type = "rock", quantity = 10});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "sandstone", type = "rock", quantity = 10});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "oak", type = "log", quantity = 10});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "oak", type = "plank", quantity = 10});
+            GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "cloth_roll", quantity = 10});
             // GenerationState.get().preparationState.items.Add(new ItemData {material = "meat", type = "meat_piece", quantity = 5});
         }
 
         private void createBuildings() {
-            // GenerationState.get().localMapGenerator.buildingsToGenerate.Add("carpenter's table", "oak");
+            GenerationState.get().localMapGenerator.buildingsToGenerate.Add("tailor's table", "oak");
         }
     }
 }

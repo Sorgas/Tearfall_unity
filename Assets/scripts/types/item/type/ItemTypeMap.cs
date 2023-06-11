@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using game.view.tilemaps;
-using Leopotam.Ecs;
 using Newtonsoft.Json;
-using types.item.type.raw;
 using UnityEngine;
 using util.lang;
 
@@ -17,7 +15,6 @@ namespace types.item.type {
         private Vector2 pivot = new(0, 0);
 
         private string logMessage;
-        EcsWorld world = new();
 
         public ItemTypeMap() {
             loadItemTypes();
@@ -27,10 +24,6 @@ namespace types.item.type {
             return get().types[name];
         }
 
-        public static bool contains(string title) {
-            return get().types.ContainsKey(title);
-        }
-
         public static List<ItemType> getAll() {
             return get().types.Values.ToList();
         }
@@ -38,14 +31,13 @@ namespace types.item.type {
         private void loadItemTypes() {
             log("Loading item types");
             TextAsset[] files = Resources.LoadAll<TextAsset>("data/items");
-            RawItemTypeProcessor processor = new();
             foreach (var file in files) {
-                loadFromFile(file, processor);
+                loadFromFile(file);
             }
             Debug.Log(logMessage);
         }
 
-        private void loadFromFile(TextAsset file, RawItemTypeProcessor processor) {
+        private void loadFromFile(TextAsset file) {
             log("   Loading from " + file.name);
             List<RawItemType> raws = JsonConvert.DeserializeObject<List<RawItemType>>(file.text);
             if (raws != null) {

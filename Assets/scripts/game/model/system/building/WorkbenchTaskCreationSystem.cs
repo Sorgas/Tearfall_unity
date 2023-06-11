@@ -16,7 +16,6 @@ namespace game.model.system.building {
 
         public override void Run() {
             foreach(int i in filter) {
-                // TODO set job
                 ref WorkbenchCurrentOrderComponent component = ref filter.Get1(i);
                 ref EcsEntity entity = ref filter.GetEntity(i);
                 WorkbenchComponent workbench = entity.take<WorkbenchComponent>();

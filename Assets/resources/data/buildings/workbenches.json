@@ -1,6 +1,7 @@
 [
   {
     "name" : "carpenter's table",
+    "title" : "Carpenter's table",
     "tileset": "workbenches",
     "size": [1,2],
     "positionN" : [2,0],
@@ -9,9 +10,11 @@
     "positionW" : [0,0],
     "materials" : ["log/4"],
     "passage" : "impassable",
-    "access" : [-1, 0]
+    "access" : [-1, 0],
+    "job" : "carpenter"
   }, {
     "name" : "tailor's table",
+    "title" : "Tailor's table",
     "description" : "Produces clothing from cloth and leather.",
     "tileset": "workbenches",
     "size": [1,2],
@@ -21,6 +24,7 @@
     "positionW" : [4,0],
     "materials" : ["log/4"],
     "passage" : "impassable",
-    "access" : [-1, 0]
+    "access" : [-1, 0],
+    "job" : "tailor"
   }
 ]

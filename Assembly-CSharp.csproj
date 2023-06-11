@@ -69,7 +69,6 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\zone\ZoneAction.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationTaskCreationSystem.cs" />
      <Compile Include="Assets\scripts\types\unit\body\raw\BodyTemplateProcessor.cs" />
-     <Compile Include="Assets\scripts\types\item\type\raw\RawItemType.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\plant\PlantSeedToTileAction.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\RawRecipe.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedCompositeNavigationController.cs" />
@@ -265,7 +264,6 @@
      <Compile Include="Assets\scripts\game\view\util\HotKeySequence.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToContainerAction.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\PlaceValidators.cs" />
-     <Compile Include="Assets\scripts\types\item\type\raw\RawItemTypeProcessor.cs" />
      <Compile Include="Assets\scripts\game\view\camera\MouseMovementSystem.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\deity\WorldDeityGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\component\plant\PlantBlock.cs" />
@@ -463,7 +461,7 @@
      <Folder Include="Assets" />
      <Folder Include="Assets\resources\prefabs\materialSelector" />
      <None Include="Assets\resources\data\items\growths.json" />
-     <None Include="Assets\resources\data\recipes\carpenter.json" />
+     <None Include="Assets\resources\data\recipes\recipes_carpenter.json" />
      <Folder Include="Assets\scripts\game\view\system\building" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <Folder Include="Assets\scripts\game\model\entity_selector" />
@@ -478,7 +476,7 @@
      <Folder Include="Assets\TextMesh Pro\Resources\Sprite Assets" />
      <Folder Include="Assets\scripts\generation\unit" />
      <Folder Include="Assets\scripts\game\view\ui" />
-     <None Include="Assets\resources\data\recipes\tailor.json" />
+     <None Include="Assets\resources\data\recipes\recipes_tailor.json" />
      <Folder Include="Assets\scripts\game\model\component\deity" />
      <Folder Include="Assets\resources\tilesets\world_tiles" />
      <Folder Include="Assets\resources\icons\jobs" />
@@ -672,7 +670,6 @@
      <Folder Include="Assets\scripts\game\model\system\plant" />
      <Folder Include="Assets\scripts\game\model\component\building" />
      <None Include="Assets\resources\data\recipes\recipes.json" />
-     <Folder Include="Assets\scripts\types\item\type\raw" />
      <Folder Include="Assets\scripts\util\TexturePacker\AssetPacker" />
      <None Include="Assets\resources\data\plants\bushes.json" />
      <None Include="Assets\resources\data\materials\cloth.json" />

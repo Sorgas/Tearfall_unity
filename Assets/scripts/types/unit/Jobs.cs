@@ -14,6 +14,13 @@
         
         public static readonly Job[] jobs = { MINER, WOODCUTTER, BUILDER, CARPENTER, FARMER, COOK, SMITH, TAILOR, HAULER, HERBALIST };
         public static readonly Job[] all = { MINER, WOODCUTTER, BUILDER, CARPENTER, FARMER, COOK, SMITH, TAILOR, HAULER, HERBALIST, NONE };
+
+        public static Job getByName(string name) {
+            foreach (var job1 in all) {
+                if (job1.name == name) return job1;
+            }
+            return NONE;
+        }
     }
 
     public class Job {

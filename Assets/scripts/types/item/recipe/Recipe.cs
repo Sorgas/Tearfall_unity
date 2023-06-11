@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using util.lang.extension;
 
 namespace types.item.recipe {
     public class Recipe {
@@ -7,7 +6,7 @@ namespace types.item.recipe {
         public string title;                              // displayed name
         public string iconName;                           // if itemName is empty, icon is used in workbenches
         public string description;                        // recipe description.
-
+        
         public string newType;                            // type of crafted item
         public string newMaterial;                        // material of crafted item.
         public string newTag;                        // this tag will be added to product

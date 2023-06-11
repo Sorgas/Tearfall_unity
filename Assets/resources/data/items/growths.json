@@ -14,7 +14,7 @@
     "baseItem": "generic_fruit",
     "description": "Large sweet vegetable with thick walls and many seeds inside.",
     "components": ["food(100)"],
-    "atlasXY": [2, 0] 
+    "atlasXY": [2, 0]
 }, {
     "name": "tomato",
     "baseItem": "generic_fruit",

@@ -5,6 +5,7 @@ using game.model.component.task.order;
 using Leopotam.Ecs;
 using types;
 using types.building;
+using types.unit;
 using UnityEngine;
 
 namespace generation {
@@ -14,7 +15,7 @@ namespace generation {
             entity.Replace(new BuildingComponent { type = order.type, orientation = order.orientation });
             entity.Replace(new PositionComponent { position = order.position });
             if (order.type.category == "workbenches") {
-                entity.Replace(new WorkbenchComponent { orders = new(), hasActiveOrders = false });
+                entity.Replace(new WorkbenchComponent { orders = new(), hasActiveOrders = false, job = Jobs.getByName(order.type.job) });
                 entity.Replace(new BuildingItemContainerComponent {items = new()});
             }
             entity.Replace(createMultiPositionComponent(order.type, order.position, order.orientation));

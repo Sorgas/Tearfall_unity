@@ -6,26 +6,28 @@ using Leopotam.Ecs;
 using TMPro;
 using types.building;
 using types.item.recipe;
+using types.item.type;
 using UnityEngine;
 using UnityEngine.UI;
 using util.lang.extension;
 
 namespace game.view.ui.workbench {
+    // creates orders in workbench when list item is clicked
     public class WorkbenchRecipeListHandler : MonoBehaviour, ICloseable {
         public WorkbenchWindowHandler workbenchWindow;
 
         // fills recipes available in workbench
         public void fillFor(EcsEntity entity) {
             clear();
-            string name = entity.take<BuildingComponent>().type.name;
-            List<string> recipeNames = BuildingTypeMap.get().getRecipes(name);
+            string buildingTypeName = entity.take<BuildingComponent>().type.name;
+            List<string> recipeNames = BuildingTypeMap.get().getRecipes(buildingTypeName);
             int recipeCount = 0;
             foreach(string recipeName in recipeNames) {
                 Recipe recipe = RecipeMap.get().get(recipeName);
                 if (recipe != null) {
                     addRecipeButton(recipe, recipeCount++);
                 } else {
-                    Debug.LogError("Recipe " + recipeName + " of " + name + " not found in RecipeMap.");
+                    Debug.LogError("Recipe " + recipeName + " of " + buildingTypeName + " not found in RecipeMap.");
                 }
             }
         }
@@ -34,6 +36,13 @@ namespace game.view.ui.workbench {
             GameObject line = PrefabLoader.create("recipeLine", transform, new Vector3(0, index * -40, 0));
             line.GetComponentInChildren<TextMeshProUGUI>().text = recipe.title;
             line.GetComponent<Button>().onClick.AddListener(() => workbenchWindow.createOrder(recipe.name));
+            Sprite sprite;
+            if (recipe.newType == null) {
+                sprite = IconLoader.get(recipe.iconName);
+            } else {
+                sprite = ItemTypeMap.get().getSprite(recipe.newType);
+            }
+            line.GetComponentsInChildren<Image>()[1].sprite = sprite;
         }
 
         public void clear() {

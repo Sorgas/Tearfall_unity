@@ -3,31 +3,31 @@
   "name": "make_shirt",
   "title": "Cloth shirt",
   "itemName": "shirt",
-  "ingredients": ["shirt:roll:cloth:2"]
+  "ingredients": ["shirt:cloth_roll:cloth:2"]
 }, {
   "name": "make_pants",
   "title": "Cloth pants",
   "itemName": "pants",
-  "ingredients": ["pants:roll:cloth:2"]
+  "ingredients": ["pants:cloth_roll:cloth:2"]
 }, {
   "name": "make_hat",
   "title": "Cloth hat",
-  "itemName": "pants",
-  "ingredients": ["pants:roll:cloth:1"]
+  "itemName": "hat",
+  "ingredients": ["hat:cloth_roll:cloth:1"]
 }, {
   "name": "make_gloves",
   "title": "Cloth glovess",
-  "itemName": "pants",
-  "ingredients": ["pants:roll:cloth:1"]
+  "itemName": "glove",
+  "ingredients": ["glove:cloth_roll:cloth:1"]
 }, {
   "name": "make_boots",
   "title": "Cloth boots",
-  "itemName": "pants",
-  "ingredients": ["pants:roll:cloth:2"]
+  "itemName": "boot",
+  "ingredients": ["boot:cloth_roll:cloth:2"]
 }, {
   "name": "make_backpack",
   "title": "Cloth backpack",
   "itemName": "backpack",
-  "ingredients": ["backpack:roll:cloth:1"]
+  "ingredients": ["backpack:cloth_roll:cloth:1"]
 }
 ]

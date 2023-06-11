@@ -2,6 +2,7 @@ using game.model.component.building;
 using game.model.component.task.order;
 using Leopotam.Ecs;
 using TMPro;
+using types.item.type;
 using UnityEngine;
 using UnityEngine.UI;
 using util.lang.extension;
@@ -50,6 +51,7 @@ namespace game.view.ui.workbench {
             text.text = order.name;
             quantityInputField.text = order.targetQuantity.ToString();
             statusText.text = selectTextForStatus();
+            itemImage.sprite = ItemTypeMap.get().getSprite(order.recipe.newType);
             // TODO
         }
 

@@ -8,6 +8,7 @@ namespace types.building {
         public const string SLEEP_FURNITURE = "sleepFurniture";
 
         public string name;
+        public string title;
         public string tileset;
         public int[] size; // for N, S orientations
         public Vector2Int horizontalSize;
@@ -17,6 +18,7 @@ namespace types.building {
         public int[] positionE;
         public int[] positionW;
         public int[] access; // TODO add rawbuilding type class, use Vector2Int here
+        public string job; // for workbenches
         public string passage;
         public string category;
 
