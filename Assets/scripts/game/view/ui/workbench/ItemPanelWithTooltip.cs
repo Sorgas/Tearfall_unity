@@ -1,7 +1,5 @@
-using System;
 using System.Linq;
 using game.model.component.item;
-using Leopotam.Ecs;
 using TMPro;
 using types.item;
 using types.item.type;
@@ -9,31 +7,32 @@ using types.material;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using util.lang.extension;
 
 namespace game.view.ui.workbench {
     class ItemPanelWithTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
-        private EcsEntity item;
         public Image image;
         public TextMeshProUGUI text;
+        public TextMeshProUGUI quantityText;
 
         public GameObject tooltip;
         public TextMeshProUGUI itemName;
         public TextMeshProUGUI itemMaterial;
         public TextMeshProUGUI itemTags;
 
-        public void initFor(EcsEntity item, int amount) {
-            this.item = item;
-            ItemComponent itemComponent = item.take<ItemComponent>();
-            string typeName = itemComponent.type;
-            Material_ material = MaterialMap.get().material(itemComponent.material);
+        public void initFor(ItemComponent item, int amount) {
+            string typeName = item.type;
+            Material_ material = MaterialMap.get().material(item.material);
             image.sprite = ItemTypeMap.get().getSprite(typeName);
+            image.color = MaterialMap.get().material(item.material).color;
             text.text = material.name + " " + typeName + " " + amount;
-
+            quantityText.text = amount + "";
+            
             itemName.text = material.name + " " + typeName;
             itemMaterial.text = material.name; // TODO add description
-            itemTags.text = itemComponent.tags
-                .Select(tag => Enum.GetName(typeof(ItemTags), tag))
+            itemTags.text = item.tags
+                .Select(tag => ItemTags.findTag(tag))
+                .Where(tag => tag.displayable)
+                .Select(tag => tag.displayName)
                 .Aggregate((tag1, tag2) => tag1 + ", " + tag2);
         }
 

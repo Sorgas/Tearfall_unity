@@ -86,7 +86,7 @@ namespace game.model.container.item {
                 foreach (int material in ingredient.materials) {
                     log("searching " + itemType + " material: " + material);
                     List<EcsEntity> items = filterForCrafting(model.itemContainer.availableItemsManager.findByTypeAndMaterial(itemType, material),
-                        otherItems, position, requiredQuantity, ItemTags.NULL);
+                        otherItems, position, requiredQuantity, ItemTags.NULL.name);
                     if (items.Count > 0) return items;
                 }
             }
@@ -115,7 +115,7 @@ namespace game.model.container.item {
             IEnumerable<EcsEntity> stream = source
                 .Where(itemEntity => !itemEntity.Has<LockedComponent>())
                 .Where(itemEntity => !otherItems.Contains(itemEntity));
-            if (tag != ItemTags.NULL) {
+            if (tag != ItemTags.NULL.name) {
                 stream = stream.Where(itemEntity => itemEntity.take<ItemComponent>().tags.Contains(tag));
             }
             List<EcsEntity> items = stream.Where(itemEntity => model.localMap.passageMap.inSameArea(itemEntity.pos(), position)).ToList();

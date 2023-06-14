@@ -10,11 +10,13 @@ namespace generation.localgen {
         public LocalGenContainer localGenContainer;
 
         public Dictionary<string, string> buildingsToGenerate = new();
+        public Dictionary<string, string[]> itemsToStore = new();
 
         // generates local map data both to LocalMap and GameModel TODO: generate only to localmap
         public LocalModel generateLocalMap(string name, Vector2Int position) {
             localGenContainer = new LocalGenContainer(name);
             localGenContainer.buildingsToAdd = buildingsToGenerate;
+            localGenContainer.itemsToStore = itemsToStore;
             localGenSequence = new LocalGenSequence(this);
             return localGenSequence.run();
         }

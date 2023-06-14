@@ -1,9 +1,13 @@
+using game.model.component.building;
 using game.model.component.task.order;
 using game.model.localmap;
+using generation.item;
+using Leopotam.Ecs;
 using types;
 using types.building;
 using types.material;
 using UnityEngine;
+using util.lang.extension;
 
 namespace generation.localgen.generators {
     public class LocalBuildingGenerator : LocalGenerator {
@@ -25,9 +29,25 @@ namespace generation.localgen.generators {
             BuildingOrder order = new("log", MaterialMap.get().material(material).id, 1, position);
             order.type = type;
             order.orientation = Orientations.N;
-            container.model.buildingContainer.createBuilding(order);
+            EcsEntity building = container.model.buildingContainer.createBuilding(order);
+            storeItems(building, type.name);
         }
 
+        public void storeItems(EcsEntity building, string typeName) {
+            if (container.itemsToStore.ContainsKey(typeName)) {
+                foreach (var row in container.itemsToStore[typeName]) {
+                    string[] args = row.Split("/");
+                    ItemGenerator generator = new ItemGenerator();
+                    BuildingItemContainerComponent component = building.take<BuildingItemContainerComponent>();
+                    for (int i = 0; i < 5; i++) {
+                        EcsEntity item = generator.generateItem(args[0], args[1], container.model.createEntity());
+                        component.items.Add(item);
+                        container.model.itemContainer.stored.addItemToContainer(item, building);
+                    }
+                }
+            }
+        }
+        
         private Vector3Int getPositionForBuilding(BuildingType type) {
             LocalMap map = container.map;
             int x = map.bounds.maxX / 2;

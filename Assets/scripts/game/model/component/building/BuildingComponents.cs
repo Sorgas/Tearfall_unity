@@ -37,6 +37,7 @@ namespace game.model.component.building {
         public CraftingOrder currentOrder;
     }
 
+    // TODO use generalized ItemContainerComponent
     public struct BuildingItemContainerComponent {
         public List<EcsEntity> items;
     }

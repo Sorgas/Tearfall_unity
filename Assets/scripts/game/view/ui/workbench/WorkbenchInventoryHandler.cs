@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using game.model.component.building;
+using game.model.component.item;
 using game.view.util;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
 
 namespace game.view.ui.workbench {
+    // shows icons for items stored in workbench
+    // TODO consider using list of rows instead of square buttons
     public class WorkbenchInventoryHandler : MonoBehaviour {
         private EcsEntity entity;
         public RectTransform scrollContent;
@@ -18,21 +22,31 @@ namespace game.view.ui.workbench {
         public void initFor(EcsEntity entity) {
             this.entity = entity;
             foreach(Transform child in scrollContent) {
-                GameObject.Destroy(child.gameObject);
+                Destroy(child.gameObject);
             }
             if (entity.Has<BuildingItemContainerComponent>()) {
-                List<EcsEntity> items = entity.take<BuildingItemContainerComponent>().items;
-                for (var i = 0; i < items.Count; i++) {
-                    GameObject panel = PrefabLoader.create("itemPanelWithTooltip", scrollContent);
-                    panel.transform.localPosition = getPanelPosition(panel.GetComponent<RectTransform>(), i);
+                int count = 0;
+                Dictionary<ItemComponent, int> items = groupItems(entity.take<BuildingItemContainerComponent>().items);
+                foreach (var pair in items) {
+                    GameObject panel = PrefabLoader.create("itemIconWithTooltip", scrollContent);
+                    panel.transform.localPosition = getPanelPosition(panel.GetComponent<RectTransform>(), count);
                     ItemPanelWithTooltip tooltipHandler = panel.GetComponent<ItemPanelWithTooltip>();
-                    tooltipHandler.initFor(items[i], 1);
+                    tooltipHandler.initFor(pair.Key, pair.Value);
+                    count++;
                 }
             }
         }
 
+        // groups items by itemType and material
+        private Dictionary<ItemComponent, int> groupItems(List<EcsEntity> items) {
+            return items.Select(item => item.take<ItemComponent>())
+                .GroupBy(component => component.type + component.material)
+                .ToDictionary(grouping => grouping.First(), grouping => grouping.Count());
+        }
+        
         private Vector3 getPanelPosition(RectTransform panel, int i) {
-            int rowSize = (int)Math.Floor(scrollContent.rect.width / panel.rect.width);
+            Debug.Log(scrollContent.rect.width + " _ " + panel.rect.width);
+            int rowSize = (int)Math.Floor(scrollContent.rect.width / panel.rect.width); // how many icons fit into scroll content
             int row = i / rowSize;
             int positionInRow = i % rowSize;
             return new Vector3(positionInRow * panel.rect.width, - row * panel.rect.height, 0);

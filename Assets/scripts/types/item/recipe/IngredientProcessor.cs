@@ -25,7 +25,7 @@ namespace types.item.recipe {
                 Debug.LogError("Ingredient has empty argument.");
                 return false;
             }
-            if (!"any".Equals(args[2]) && !ItemTags.all.Contains(args[2])) {
+            if (!"any".Equals(args[2]) && !ItemTags.tags.Keys.Contains(args[2])) {
                 Debug.LogError("Ingredient " + ingredientString + " tag " + args[2] + " is invalid");
                 return false;
             }

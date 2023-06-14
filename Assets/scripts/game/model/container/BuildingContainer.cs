@@ -21,11 +21,11 @@ namespace game.model.container {
             util = new(model, this);
         }
 
-        public bool createBuilding(BuildingOrder order) {
+        public EcsEntity createBuilding(BuildingOrder order) {
             IntBounds3 buildingBounds = createBuildingBounds(order);
             if (!validatePosition(buildingBounds)) {
                 Debug.LogError("building site is occupied");
-                return false;
+                return EcsEntity.Null;
             }
             EcsEntity building = generator.generateByOrder(order, model.createEntity());
 
@@ -38,7 +38,7 @@ namespace game.model.container {
                 });
             }
             Debug.Log("[BuildingContainer] building " + building.name() + " created in " + building.pos());
-            return true;
+            return building;
         }
 
         // public bool createBuilding(BuidingType type, Vector3Int position, Orientations orientation, int material) {

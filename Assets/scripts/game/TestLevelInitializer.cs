@@ -46,6 +46,8 @@ namespace game {
 
         private void createBuildings() {
             GenerationState.get().localMapGenerator.buildingsToGenerate.Add("tailor's table", "oak");
+            GenerationState.get().localMapGenerator.itemsToStore.Add("tailor's table",
+             new [] {"cloth_roll/silk", "cloth_roll/linen", "cloth_roll/wool", "cloth_roll/cotton"});
         }
     }
 }

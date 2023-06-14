@@ -19,7 +19,8 @@ namespace generation.localgen {
 
         // to generate
         public Dictionary<string, string> buildingsToAdd = new(); // buiding type to material
-
+        public Dictionary<string, string[]> itemsToStore = new();
+        
         public LocalGenContainer(string name) {
             mapName = name;
             LocalGenConfig config = GenerationState.get().localMapGenerator.localGenConfig;
