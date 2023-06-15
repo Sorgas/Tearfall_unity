@@ -21,7 +21,7 @@ namespace game.model.component.task.action.needs {
             startCondition = () => {
                 if (!item.Has<ItemFoodComponent>()) return FAIL; // item is not food
 
-                if (!equipment().items.Contains(item) && equipment().hauledItem != item) {
+                if (!equipment.items.Contains(item) && equipment.hauledItem != item) {
                     log("food item not in equipment");
                     return addPreAction(new ObtainItemAction(item)); // find item
                 }
@@ -52,8 +52,8 @@ namespace game.model.component.task.action.needs {
                 component.hungerPriority = Needs.hunger.getPriority(component.hunger);
                 log("eaten: " + component.hunger + " " + component.hungerPriority);
                 model.itemContainer.equipped.removeItemFromUnit(item, performer);
-                if(equipment().hauledItem == item) equipment().hauledItem = EcsEntity.Null;
-                equipment().items.Remove(item);
+                if(equipment.hauledItem == item) equipment.hauledItem = EcsEntity.Null;
+                equipment.items.Remove(item);
                 item.Destroy();
             };
         }

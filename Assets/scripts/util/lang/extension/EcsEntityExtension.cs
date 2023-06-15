@@ -18,7 +18,7 @@ namespace util.lang.extension {
             }
             throw new EcsException("Entity does not have component " + typeof(T).Name);
         }
-        
+
         public static T take<T>(this EcsEntity entity) where T : struct {
             if (entity.Has<T>()) {
                 return entity.Get<T>();

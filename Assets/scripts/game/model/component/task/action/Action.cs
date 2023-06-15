@@ -8,7 +8,7 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.component.task.action {
-    /**
+/**
 * Action of a unit. All units behaviour except moving are defined in actions. Actions are parts of {@link Task}.
 * During performing unit adds certain amount of 'work' to an action. Skills, health and other conditions may influence unit's work speed.
 * <p>
@@ -31,16 +31,15 @@ namespace game.model.component.task.action {
         public EcsEntity task; // set when action is added to task
         public ActionTarget target;
         public ActionStatusEnum status = ActionStatusEnum.OPEN;
-        
-        public LocalModel model => task.take<TaskActionsComponent>().model;
-        public EcsEntity performer => task.take<TaskPerformerComponent>().performer;
-        public ref EcsEntity performerRef => ref task.takeRef<TaskPerformerComponent>().performer;
+
+        protected LocalModel model => task.take<TaskActionsComponent>().model;
+        protected ref EcsEntity performer => ref task.takeRef<TaskPerformerComponent>().performer;
         
         // checked before starting performing and before starting moving, can create sub actions, can lock items
         public Func<ActionConditionStatusEnum> startCondition = () => ActionConditionStatusEnum.FAIL; // prevent starting empty action
 
         protected System.Action onStart = () => { }; // performed on phase start
-        protected Action<EcsEntity, float> progressConsumer; // performs logic TODO consider removing all arguments except delta
+        protected Action<float> progressConsumer; // performs logic TODO consider removing all arguments except delta
         protected Func<Boolean> finishCondition; // when reached, action ends
         protected System.Action onFinish = () => { }; // performed on phase finish
 
@@ -55,16 +54,16 @@ namespace game.model.component.task.action {
 
         protected Action() {
             finishCondition = () => progress >= maxProgress;
-            progressConsumer = (unit, delta) => progress += delta; // performs logic
+            progressConsumer = delta => progress += delta; // performs logic
         }
 
         // Performs action logic. Changes status.
-        public void perform(EcsEntity unit, int ticks) {
+        public void perform(int ticks) {
             if (status == ActionStatusEnum.OPEN) { // first execution of perform()
                 status = ActionStatusEnum.ACTIVE;
                 onStart.Invoke();
             }
-            progressConsumer.Invoke(unit, speed * ticks);
+            progressConsumer.Invoke(speed * ticks);
             if (finishCondition.Invoke()) { // last execution of perform()
                 onFinish.Invoke();
                 status = ActionStatusEnum.COMPLETE;
@@ -82,7 +81,7 @@ namespace game.model.component.task.action {
         protected void lockZoneTile(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.lockZoneTile(zone, tile, task);
         protected void unlockZoneTile(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.unlockZoneTile(zone, tile, task);
         protected bool itemCanBeLocked(EcsEntity item) => ActionLockingUtility.itemCanBeLocked(item, task);
-        public bool tileCanBeLocked(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.tileCanBeLocked(zone, tile, task);
+        protected bool tileCanBeLocked(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.tileCanBeLocked(zone, tile, task);
         
         protected void log(string message) => Debug.Log("[" + name + "]: " + message);
     }

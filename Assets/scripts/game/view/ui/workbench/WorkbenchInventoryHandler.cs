@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using game.model.component.building;
+using game.model.component;
 using game.model.component.item;
 using game.view.util;
 using Leopotam.Ecs;
@@ -24,9 +24,9 @@ namespace game.view.ui.workbench {
             foreach(Transform child in scrollContent) {
                 Destroy(child.gameObject);
             }
-            if (entity.Has<BuildingItemContainerComponent>()) {
+            if (entity.Has<ItemContainerComponent>()) {
                 int count = 0;
-                Dictionary<ItemComponent, int> items = groupItems(entity.take<BuildingItemContainerComponent>().items);
+                Dictionary<ItemComponent, int> items = groupItems(entity.take<ItemContainerComponent>().items);
                 foreach (var pair in items) {
                     GameObject panel = PrefabLoader.create("itemIconWithTooltip", scrollContent);
                     panel.transform.localPosition = getPanelPosition(panel.GetComponent<RectTransform>(), count);

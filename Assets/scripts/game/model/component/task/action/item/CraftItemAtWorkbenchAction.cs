@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using game.model.component.building;
 using game.model.component.item;
 using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
@@ -63,7 +62,7 @@ class CraftItemAtWorkbenchAction : ItemCraftingAction {
 
     // checks that item is in WB
     private bool checkBringingItems() {
-        BuildingItemContainerComponent component = workbench.take<BuildingItemContainerComponent>();
+        ItemContainerComponent component = workbench.take<ItemContainerComponent>();
         List<EcsEntity> notInWbItems =
             order.allIngredientItems().Where(item => !component.items.Contains(item)).ToList();
         notInWbItems.ForEach(item => addPreAction(new PutItemToContainerAction(workbench, item))); // create action
@@ -73,7 +72,6 @@ class CraftItemAtWorkbenchAction : ItemCraftingAction {
     private void storeProduct(EcsEntity item) {
         //TODO put product into WB's bound container
         log("putting item " + item.name() + " to " + workbench.name());
-        workbench.takeRef<BuildingItemContainerComponent>().items.Add(item);
         container.stored.addItemToContainer(item, workbench);
     }
 
@@ -86,10 +84,8 @@ class CraftItemAtWorkbenchAction : ItemCraftingAction {
     }
 
     private void destroyIngredients() {
-        ref BuildingItemContainerComponent containerComponent = ref workbench.takeRef<BuildingItemContainerComponent>();
         foreach (EcsEntity item in order.allIngredientItems()) {
             container.stored.removeItemFromContainer(item);
-            containerComponent.items.Remove(item);
             item.Destroy();
         }
     }

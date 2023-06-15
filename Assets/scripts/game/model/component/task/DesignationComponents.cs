@@ -34,8 +34,4 @@ namespace game.model.component.task {
         
         public string materialVariant; // for visual only
     }
-    
-    public struct DesignationItemContainerComponent {
-        public List<EcsEntity> items;
-    }
 }

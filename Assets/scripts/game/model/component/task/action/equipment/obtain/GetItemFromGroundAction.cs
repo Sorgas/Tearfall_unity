@@ -24,7 +24,7 @@ namespace game.model.component.task.action.equipment.obtain {
             startCondition = () => {
                 if (!validate()) return FAIL;
                 lockEntity(item);
-                UnitEquipmentComponent equipment = this.equipment();
+                UnitEquipmentComponent equipment = this.equipment;
                 if (equipment.hauledItem != EcsEntity.Null) {
                     return addPreAction(new PutItemToPositionAction(equipment.hauledItem, performer.pos()));
                 }
@@ -33,7 +33,7 @@ namespace game.model.component.task.action.equipment.obtain {
 
             onFinish = () => { // add item to unit
                 model.itemContainer.transition.fromGroundToUnit(item, performer);
-                equipment().hauledItem = item;
+                equipment.hauledItem = item;
             };
         }
 

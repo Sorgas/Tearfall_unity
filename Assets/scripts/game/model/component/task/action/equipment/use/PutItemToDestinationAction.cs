@@ -16,7 +16,7 @@ namespace game.model.component.task.action.equipment.use {
             name = "put item to destination";
             startCondition = () => {
                 if (!validate()) return FAIL;
-                if (equipment().hauledItem != item) return addPreAction(new ObtainItemAction(item));
+                if (equipment.hauledItem != item) return addPreAction(new ObtainItemAction(item));
                 lockEntity(item);
                 return OK; // performer has item
             };

@@ -24,7 +24,7 @@ namespace game.model.component.task.action.needs {
                 performer.take<UnitVisualComponent>().handler.rotate(OrientationUtil.getRandom());
             };
         
-            progressConsumer = (unit, delta) => {
+            progressConsumer = delta => {
                 EcsEntity performer = this.performer;
                 ref UnitNeedComponent component = ref performer.takeRef<UnitNeedComponent>();
                 component.rest -= delta; // decrease fatigue

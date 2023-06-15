@@ -2,6 +2,7 @@
 using game.model.component.unit;
 using game.model.container.item;
 using Leopotam.Ecs;
+using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.component.task.action {
@@ -12,13 +13,18 @@ namespace game.model.component.task.action {
     */
     public abstract class EquipmentAction : Action {
         protected ItemContainer container => task.take<TaskActionsComponent>().model.itemContainer;
+        protected ref UnitEquipmentComponent equipment => ref performer.takeRef<UnitEquipmentComponent>();
 
         protected EquipmentAction(ActionTarget target) : base(target) {
-            name = "item action";
+            name = "equipment action";
         }
-        
-        protected ref UnitEquipmentComponent equipment() {
-            return ref (performerRef.takeRef<UnitEquipmentComponent>());
+
+        protected bool validate() {
+            if (!performer.Has<UnitEquipmentComponent>()) {
+                Debug.LogWarning("unit " + performer + " has no UnitEquipmentComponent.");
+                return false;
+            }
+            return true;
         }
     }
 }

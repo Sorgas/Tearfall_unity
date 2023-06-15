@@ -34,7 +34,7 @@ namespace game.model.container {
                 type = type, itemType = itemType, material = material, amount = 1, // TODO get amount from construction type
                 materialVariant = MaterialMap.variateValue(materialName, itemType)
             });
-            entity.Replace(new DesignationItemContainerComponent { items = new List<EcsEntity>() });
+            entity.Replace(new ItemContainerComponent { items = new List<EcsEntity>() });
             addDesignation(entity, position);
             Debug.Log("Construction designation created " + position);
         }
@@ -53,7 +53,7 @@ namespace game.model.container {
             if (!type.isSingleTile()) {
                 entity.Replace(createMultiPositionComponent(type, orientation, position));
             }
-            entity.Replace(new DesignationItemContainerComponent { items = new List<EcsEntity>() });
+            entity.Replace(new ItemContainerComponent { items = new List<EcsEntity>() });
             addDesignation(entity, position);
             Debug.Log("Construction designation created " + position);
         }

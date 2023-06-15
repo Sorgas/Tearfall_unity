@@ -17,8 +17,8 @@ namespace game.model.component.task.action.equipment.use {
             name = "equip tool action";
             onFinish = () => {
                 prepareSlotForEquippingTool();
-                equipment().grabSlots.Values.First(slot => slot.isGrabFree()).grabbedItem = item;
-                equipment().hauledItem = EcsEntity.Null;
+                equipment.grabSlots.Values.First(slot => slot.isGrabFree()).grabbedItem = item;
+                equipment.hauledItem = EcsEntity.Null;
                 Debug.Log(item.Get<ItemComponent>().type + " equipped as tool");
                 //TODO select one or more hands to maintain main/off hand logic
             };
@@ -27,12 +27,12 @@ namespace game.model.component.task.action.equipment.use {
         // ensures there are no tools in grab slots and at least one slot is empty
         private void prepareSlotForEquippingTool() {
             // remove all other tools and drop to map
-            foreach (var grabEquipmentSlot in equipment().grabSlots.Values.Where(slot => slot.isToolGrabbed())) {
+            foreach (var grabEquipmentSlot in equipment.grabSlots.Values.Where(slot => slot.isToolGrabbed())) {
                 dropGrabbedItemFromSlot(grabEquipmentSlot);
             }
             // remove items from one slot, if all are occupied by items
-            if (equipment().grabSlots.Values.All(slot => !slot.isGrabFree())) {
-                dropGrabbedItemFromSlot(equipment().grabSlots.Values.First());
+            if (equipment.grabSlots.Values.All(slot => !slot.isGrabFree())) {
+                dropGrabbedItemFromSlot(equipment.grabSlots.Values.First());
             }
         }
 
@@ -47,7 +47,7 @@ namespace game.model.component.task.action.equipment.use {
             return base.validate()
                    // TODO validate that item is tool
                    // && item.type.tool != null
-                   && equipment().grabSlots.Count > 0;
+                   && equipment.grabSlots.Count > 0;
         }
     }
 }

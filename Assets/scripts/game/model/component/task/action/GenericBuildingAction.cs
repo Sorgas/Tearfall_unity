@@ -54,7 +54,7 @@ namespace game.model.component.task.action {
 
         // items for building should be brought into designation container. creates action to bring if possible
         private ActionConditionStatusEnum checkItemsInContainer() {
-            DesignationItemContainerComponent container = designation.take<DesignationItemContainerComponent>();
+            ItemContainerComponent container = designation.take<ItemContainerComponent>();
             int requiredItems = order.amount - container.items.Count;
             if (requiredItems == 0) return OK;
             List<EcsEntity> foundItems = model.itemContainer.availableItemsManager
@@ -62,7 +62,7 @@ namespace game.model.component.task.action {
             if (foundItems.Count != requiredItems) return FAIL;
             lockEntities(foundItems);
             foreach (EcsEntity item in foundItems) {
-                addPreAction(new PutItemToDesignationContainer(designation, item));
+                addPreAction(new PutItemToContainerAction(designation, item));
             }
             return NEW;
         }
@@ -84,11 +84,12 @@ namespace game.model.component.task.action {
             return actionsAdded;
         }
 
+        // drops item from designation container to ground
         private ActionConditionStatusEnum failAction(string message) {
             log("failing action " + message);
-            ref DesignationItemContainerComponent container = ref designation.takeRef<DesignationItemContainerComponent>();
+            ref ItemContainerComponent container = ref designation.takeRef<ItemContainerComponent>();
             foreach (EcsEntity item in container.items) {
-                model.itemContainer.onMap.putItemToMap(item, order.position);
+                model.itemContainer.transition.fromContainerToGround(item, designation, order.position);
             }
             container.items.Clear();
             return FAIL;
@@ -138,7 +139,8 @@ namespace game.model.component.task.action {
         }
 
         protected void consumeItems() {
-            foreach (EcsEntity item in designation.take<DesignationItemContainerComponent>().items) {
+            foreach (EcsEntity item in designation.take<ItemContainerComponent>().items) {
+                model.itemContainer.stored.removeItemFromContainer(item);
                 item.Destroy();
             }
         }

@@ -16,7 +16,7 @@ namespace game.model.system.unit {
                 UnitCurrentActionComponent component = filter.Get1(i);
                 Action action = component.action;
                 // Debug.Log("[UnitActionPerformingSystem]: performing action " + action.name);
-                action.perform(unit, ticks);
+                action.perform(ticks);
                 // Debug.Log("[UnitActionPerformingSystem]: task components count: " + action.task.GetComponentsCount());
                 if (action.status == ActionStatusEnum.COMPLETE) {
                     Debug.Log("[UnitActionPerformingSystem]: action " + action.name + " complete");

@@ -9,7 +9,7 @@ namespace game.model.component.task.action.equipment.obtain {
         public ObtainItemAction(EcsEntity item) : base(new SelfActionTarget(), item) {
             name = "obtain item action";
             startCondition = () => {
-                if (equipment().hauledItem == item) return ActionConditionStatusEnum.OK;
+                if (equipment.hauledItem == item) return ActionConditionStatusEnum.OK;
                 
                 // TODO take item from own equipment
                 // if(item.Has<ItemHeldComponent>() && item.take<ItemHeldComponent>().holder == performer) return addPreAction() TODO 

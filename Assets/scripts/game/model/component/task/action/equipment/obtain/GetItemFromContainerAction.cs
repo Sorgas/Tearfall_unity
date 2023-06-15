@@ -1,4 +1,3 @@
-using game.model.component.building;
 using game.model.component.item;
 using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
@@ -6,7 +5,7 @@ using Leopotam.Ecs;
 using types.action;
 using util.lang.extension;
 
-// Action for taking item from container. Locks item. Item should not be locked or be locked to same task
+// Action for taking item from container. Locks item. Item should not be locked to another task
 namespace game.model.component.task.action.equipment.obtain {
     public class GetItemFromContainerAction : ItemAction {
 
@@ -19,14 +18,14 @@ namespace game.model.component.task.action.equipment.obtain {
                 if (!validate()) return ActionConditionStatusEnum.FAIL;
                 // setItemLocked(item, true);
                 // drop current item
-                if (equipment().hauledItem != null)
-                    return addPreAction(new PutItemToPositionAction(equipment().hauledItem, performer.pos()));
+                if (equipment.hauledItem != null)
+                    return addPreAction(new PutItemToPositionAction(equipment.hauledItem, performer.pos()));
                 return ActionConditionStatusEnum.OK;
             };
 
             onFinish = () => {
                 container.transition.fromContainerToUnit(item, containerEntity, performer);
-                equipment().hauledItem = item;
+                equipment.hauledItem = item;
                 log(item + " got from container");
             };
         }
@@ -35,11 +34,10 @@ namespace game.model.component.task.action.equipment.obtain {
         // Adds validation of container existence, content and reachability.
         protected bool validate() {
             EcsEntity containerEntity = item.take<ItemContainedComponent>().container;
-            BuildingItemContainerComponent containerComponent = containerEntity.take<BuildingItemContainerComponent>();
-            if (item.Has<LockedComponent>()) return false;
+            ItemContainerComponent containerComponent = containerEntity.take<ItemContainerComponent>();
             return base.validate()
                    && containerComponent.items.Contains(item)
-                // && model.localMap.passageMap.inSameArea(this.containerEntity.position, item.position);
+                && model.localMap.passageMap.inSameArea(containerEntity.pos(), performer.pos());
                 ;
         }
     }

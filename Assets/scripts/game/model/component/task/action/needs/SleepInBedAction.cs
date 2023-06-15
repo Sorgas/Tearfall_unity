@@ -31,8 +31,7 @@ namespace game.model.component.task.action.needs {
                 performer.Replace(new UnitVisualOnBuildingComponent());
             };
         
-            progressConsumer = (unit, delta) => {
-                EcsEntity performer = this.performer;
+            progressConsumer = delta => {
                 ref UnitNeedComponent component = ref performer.takeRef<UnitNeedComponent>();
                 component.rest += delta; // decrease fatigue
             };

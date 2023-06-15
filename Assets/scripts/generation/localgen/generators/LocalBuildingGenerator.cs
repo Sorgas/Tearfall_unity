@@ -1,3 +1,4 @@
+using game.model.component;
 using game.model.component.building;
 using game.model.component.task.order;
 using game.model.localmap;
@@ -38,7 +39,7 @@ namespace generation.localgen.generators {
                 foreach (var row in container.itemsToStore[typeName]) {
                     string[] args = row.Split("/");
                     ItemGenerator generator = new ItemGenerator();
-                    BuildingItemContainerComponent component = building.take<BuildingItemContainerComponent>();
+                    ItemContainerComponent component = building.take<ItemContainerComponent>();
                     for (int i = 0; i < 5; i++) {
                         EcsEntity item = generator.generateItem(args[0], args[1], container.model.createEntity());
                         component.items.Add(item);

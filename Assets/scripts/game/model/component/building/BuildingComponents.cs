@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using game.model.component.task.order;
-using Leopotam.Ecs;
 using types;
 using types.building;
 using types.unit;
@@ -35,11 +34,6 @@ namespace game.model.component.building {
 
     public struct WorkbenchCurrentOrderComponent {
         public CraftingOrder currentOrder;
-    }
-
-    // TODO use generalized ItemContainerComponent
-    public struct BuildingItemContainerComponent {
-        public List<EcsEntity> items;
     }
 
     // units can sleep on building with this component. quality affects sleep speed and mood buff
