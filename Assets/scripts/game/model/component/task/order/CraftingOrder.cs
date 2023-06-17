@@ -32,7 +32,7 @@ namespace game.model.component.task.order {
             // from ingredient
             public string key; // ingredient key from recipe (item part, 'main' or 'consumed')
             public List<string> itemTypes = new(); // configured from ui, all items should be of same type from this list
-            public List<int> materials = new(); // configured from ui. all items should be of same material from this list
+            public HashSet<int> materials = new(); // configured from ui. all items should be of same material from this list. -1 for any
             
             public List<EcsEntity> items = new(); // selected before performing
         }

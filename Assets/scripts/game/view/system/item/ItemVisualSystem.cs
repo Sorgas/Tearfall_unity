@@ -4,6 +4,7 @@ using game.model.component.item;
 using game.view.util;
 using Leopotam.Ecs;
 using types.item.type;
+using types.material;
 using UnityEngine;
 using UnityEngine.Rendering;
 using util.lang.extension;
@@ -45,6 +46,7 @@ namespace game.view.system.item {
             visual.go = go;
             visual.spriteRenderer = go.GetComponent<SpriteRenderer>();
             visual.spriteRenderer.sprite = sprite;
+            visual.spriteRenderer.color = MaterialMap.get().material(item.material).color;
             visual.iconGo = go.transform.GetChild(0).gameObject;
             visual.iconRenderer = visual.iconGo.GetComponent<SpriteRenderer>();
             visual.sortingGroup = go.GetComponent<SortingGroup>();

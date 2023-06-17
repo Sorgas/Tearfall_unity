@@ -4,6 +4,7 @@ using game.model.component.task.order;
 using types.item.recipe;
 using types.material;
 using UnityEngine;
+using util.lang.extension;
 using static game.model.component.task.order.CraftingOrder;
 
 namespace generation.item {
@@ -23,12 +24,12 @@ class CraftingOrderGenerator {
         order.key = ingredient.key;
         order.itemTypes.AddRange(ingredient.itemTypes);
         if (ingredient.tag != null) {
-            order.materials.AddRange(
-                MaterialMap.get().getByTag(ingredient.tag).Select(material => material.id).ToList());
+            MaterialMap.get().getByTag(ingredient.tag)
+            .Select(material => material.id)
+            .ForEach(materialId => order.materials.Add(materialId));
         } else {
             Debug.LogError("No tag for ingredient " + ingredient.key);
         }
-
         return order;
     }
 }

@@ -23,7 +23,7 @@ namespace game.view.util {
         }
         
         public static GameObject create(string name, Transform parent, Vector3 localPosition) {
-            GameObject prefab = Object.Instantiate<GameObject>(get(name), localPosition, Quaternion.identity, parent);
+            GameObject prefab = Object.Instantiate(get(name), localPosition, Quaternion.identity, parent);
             prefab.transform.localPosition = localPosition;
             return prefab;
         }
@@ -52,6 +52,7 @@ namespace game.view.util {
             // workbench
             paths.Add("craftingOrderLine", "prefabs/workbenchMenu/CraftingOrderLine");
             paths.Add("itemIconWithTooltip", "prefabs/workbenchMenu/ItemIconWithTooltip"); // TODO use for other inventory windows
+            paths.Add("MaterialSelectionButton", "prefabs/workbenchMenu/MaterialSelectionButton");
             paths.Add("recipeLine", "prefabs/workbenchMenu/RecipeLine");
             paths.Add("itemButtonWithMaterialList", "prefabs/materialSelector/ItemButtonWithMaterialList");
             paths.Add("materialRow", "prefabs/materialSelector/MaterialRow");

@@ -40,7 +40,7 @@ namespace game {
             GenerationState.get().preparationState.items.Add(new ItemData {material = "sandstone", type = "rock", quantity = 10});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "oak", type = "log", quantity = 10});
             GenerationState.get().preparationState.items.Add(new ItemData {material = "oak", type = "plank", quantity = 10});
-            GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "cloth_roll", quantity = 10});
+            GenerationState.get().preparationState.items.Add(new ItemData {material = "silk", type = "cloth_roll", quantity = 10});
             // GenerationState.get().preparationState.items.Add(new ItemData {material = "meat", type = "meat_piece", quantity = 5});
         }
 

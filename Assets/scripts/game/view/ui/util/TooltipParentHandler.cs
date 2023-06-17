@@ -8,12 +8,13 @@ public class TooltipParentHandler : MonoBehaviour, IPointerEnterHandler, IPointe
     public List<GameObject> tooltips = new();
     public bool mouseInParent;
     public bool mouseInTooltip;
-
+    private bool debug = true;
+    
     public void Start() {
         tooltips.ForEach(tooltip => {
             tooltip.SetActive(false);
             TooltipHandler tooltipHandler = tooltip.AddComponent<TooltipHandler>();
-            tooltipHandler.parent = this;
+            tooltipHandler.setParent(this);
         });
     }
 
@@ -22,9 +23,13 @@ public class TooltipParentHandler : MonoBehaviour, IPointerEnterHandler, IPointe
         checkTooltipClosing();
     }
 
-    public void OnPointerEnter(PointerEventData eventData) => mouseInParent = true;
+    public void OnPointerEnter(PointerEventData eventData) {
+        log("in tooltipParent");
+        mouseInParent = true;
+    }
 
     public void OnPointerExit(PointerEventData eventData) {
+        log("out tooltipParent");
         mouseInParent = false;
         checkTooltipClosing();
     }
@@ -34,5 +39,9 @@ public class TooltipParentHandler : MonoBehaviour, IPointerEnterHandler, IPointe
     }
 
     private void enableTooltips(bool value) => tooltips.ForEach(tooltip => tooltip.SetActive(value));
+    
+    private void log(string message) {
+        if(debug) Debug.Log(message);
+    }
 }
 }

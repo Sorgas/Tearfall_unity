@@ -11,6 +11,7 @@ namespace types.item.recipe {
             if (!validateIngredient(ingredientString)) return null;
             string[] args = ingredientString.Split(":");
             List<string> itemTypes = new(args[1].Split("/"));
+            // List<string> materialArgs = new(args[2].Split("/")); // can container material name or tag
             return new Ingredient(args[0], itemTypes, args[2], int.Parse(args[3]));
         }
 

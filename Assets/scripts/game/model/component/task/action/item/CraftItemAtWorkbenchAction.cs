@@ -75,11 +75,9 @@ class CraftItemAtWorkbenchAction : ItemCraftingAction {
         container.stored.addItemToContainer(item, workbench);
     }
 
+    // in recipe definition, first ingredient will give material for result item
     private int selectMaterialForItem() {
-        IngredientOrder ingredientOrder = order.ingredients.Count == 1
-            ? order.ingredients[0]
-            : order.ingredients.Where(ingredientOrder => ingredientOrder.key == "main").First();
-        EcsEntity firstItemOfMainIngredient = ingredientOrder.items[0];
+        EcsEntity firstItemOfMainIngredient = order.ingredients[0].items[0];
         return firstItemOfMainIngredient.take<ItemComponent>().material;
     }
 

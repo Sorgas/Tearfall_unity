@@ -75,7 +75,7 @@ public class UnitGoHandler : MonoBehaviour {
             bodySprite.transform.localPosition = spritePos;
             headSprite.transform.localPosition = spritePos + (front ? spritePosFront : spritePosBack);
         }
-        Debug.Log("new orientation " + orientation);
+        // Debug.Log("new orientation " + orientation);
     }
 
     // Standing straight orientation is N

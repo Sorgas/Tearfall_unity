@@ -14,8 +14,8 @@ namespace game.view.ui {
         public static readonly Color paperRed = new Color(0.678f, 0.337f, 0.325f);
         public static readonly Color paperGreen = new Color(0.302f, 0.549f, 0.310f);
         
-        public static readonly Color BUTTON_NORMAL = new Color(137f / 255, 137f / 255, 137f / 255, 1);
-        public static readonly Color BUTTON_HIGHLIGHTED = new Color(183f / 255, 183f / 255, 183f / 255, 1);
+        public static readonly Color BUTTON_NORMAL = new(0.4f, 0.4f, 0.4f, 1);
+        public static readonly Color BUTTON_HIGHLIGHTED = new(0.75f, 0.75f, 0.75f, 1);
         public static readonly Color BUTTON_PRESSED  = new Color(226f / 255, 209f / 255, 152f / 255, 1);
         public static readonly Color BUTTON_SELECTED = new Color(1, 1, 1, 1);
         public static readonly Color BUTTON_DISABLED = new Color(1, 1, 1, 1);

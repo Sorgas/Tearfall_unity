@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace game.view.ui.material_selector {
+    // TODO replace with TooltipHandler. Use TooltipParentHandler instead of MaterialButtonHandler
     public class MaterialTooltipHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ICloseable {
         public MaterialButtonHandler buttonHandler;
 

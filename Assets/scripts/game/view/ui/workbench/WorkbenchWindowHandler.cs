@@ -25,7 +25,7 @@ namespace game.view.ui.workbench {
         public WorkbenchInventoryHandler inventory;
         public Button showInventoryButton;
 
-        private List<OrderLineHandler> orderLines = new();
+        private List<CraftingOrderLineHandler> orderLines = new();
         private CraftingOrderGenerator generator = new();
         public EcsEntity entity;
 
@@ -67,8 +67,8 @@ namespace game.view.ui.workbench {
         public void createOrderLine(int index, CraftingOrder order) {
             ref WorkbenchComponent workbench = ref entity.takeRef<WorkbenchComponent>();
             GameObject line = PrefabLoader.create("craftingOrderLine", orderList.transform, new Vector3(0, (index) * -120, 0));
-            line.GetComponent<OrderLineHandler>().init(order, this);
-            orderLines.Insert(index, line.GetComponent<OrderLineHandler>());
+            line.GetComponent<CraftingOrderLineHandler>().init(order, this);
+            orderLines.Insert(index, line.GetComponent<CraftingOrderLineHandler>());
             for (var i = index + 1; i < orderLines.Count; i++) {
                 moveOrderLine(orderLines[i].gameObject, false);
             }
@@ -110,7 +110,7 @@ namespace game.view.ui.workbench {
             orderLines.Clear();
             foreach (Transform child in orderList.transform) {
                 if (child.gameObject != noOrdersText.gameObject) {
-                    GameObject.Destroy(child.gameObject);
+                    // Destroy(child.gameObject);
                 }
             }
             for (var i = 0; i < workbench.orders.Count; i++) {
@@ -128,7 +128,7 @@ namespace game.view.ui.workbench {
         private void swapOrderLines(int index1, int index2) {
             float order1Y = orderLines[index1].transform.localPosition.y;
             float order2Y = orderLines[index2].transform.localPosition.y;
-            OrderLineHandler buffer = orderLines[index1];
+            CraftingOrderLineHandler buffer = orderLines[index1];
             orderLines[index1] = orderLines[index2];
             orderLines[index2] = buffer;
             orderLines[index1].transform.localPosition = new Vector3(0, order1Y, 0);
