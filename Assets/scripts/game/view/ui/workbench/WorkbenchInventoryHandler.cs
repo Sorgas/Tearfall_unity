@@ -45,7 +45,6 @@ namespace game.view.ui.workbench {
         }
         
         private Vector3 getPanelPosition(RectTransform panel, int i) {
-            Debug.Log(scrollContent.rect.width + " _ " + panel.rect.width);
             int rowSize = (int)Math.Floor(scrollContent.rect.width / panel.rect.width); // how many icons fit into scroll content
             int row = i / rowSize;
             int positionInRow = i % rowSize;

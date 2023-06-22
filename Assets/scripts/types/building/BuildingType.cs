@@ -45,5 +45,37 @@ namespace types.building {
         }
 
         public Vector2Int getSizeByOrientation(Orientations orientation) => OrientationUtil.isHorizontal(orientation) ? horizontalSize : verticalSize;
+
+        public Vector3Int getAccessByPositionAndOrientation(Vector3Int position, Orientations orientation) {
+            Vector2Int offset = getAccessOffsetByRotation(orientation);
+            position.x += offset.x;
+            position.y += offset.y;
+            return position;
+        }
+
+        public Vector2Int getAccessOffsetByRotation(Orientations orientation) {
+            Vector2Int offset = new Vector2Int();
+            switch (orientation) {
+                case Orientations.N:
+                    offset.x = access[0];
+                    offset.y = access[1];
+                    break;
+                case Orientations.E:
+                    offset.x =  access[1];
+                    offset.y =  size[0] - 1 - access[0];
+                    break;
+                case Orientations.S:
+                    offset.x =  size[0] - 1 - access[0];
+                    offset.y =  size[1] - 1 - access[1];
+                    break;
+                case Orientations.W:
+                    offset.x =  size[1] - 1 - access[1];
+                    offset.y =  access[0];
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            return offset;
+        }
     }
 }

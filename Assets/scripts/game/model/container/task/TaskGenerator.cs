@@ -19,7 +19,7 @@ namespace game.model.container.task {
                 initialAction = initialAction, preActions = new List<Action>(),
                 model = model
             });
-            entity.Replace(new TaskLockedItemsComponent { lockedItems = new() });
+            entity.Replace(new TaskLockedEntitiesComponent { entities = new() });
             entity.Replace(new NameComponent { name = initialAction.name });
             entity.Replace(new TaskJobComponent { job = job.name, priority = priority });
             initialAction.task = entity;

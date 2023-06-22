@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Leopotam.Ecs;
-using types.item;
 using UnityEngine;
 using UnityEngine.Rendering;
 

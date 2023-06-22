@@ -119,6 +119,7 @@ namespace game.view.ui.workbench {
         }
 
         private int getOrderIndex(CraftingOrder order) {
+            Debug.Log(orderLines.Count);
             for (int i = 0; i < orderLines.Count; i++) {
                 if (orderLines[i].order == order) return i;
             }

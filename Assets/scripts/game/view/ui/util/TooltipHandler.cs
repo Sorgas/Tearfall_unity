@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 namespace game.view.ui.util {
     public class TooltipHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
         private TooltipParentHandler parent;
-        private bool debug = true;
+        private bool debug = false;
         
         public void OnPointerEnter(PointerEventData eventData) {
             log("in tooltip");

@@ -20,8 +20,7 @@ class CraftingOrderGenerator {
     }
 
     private IngredientOrder createIngredientOrder(Ingredient ingredient) {
-        IngredientOrder order = new();
-        order.key = ingredient.key;
+        IngredientOrder order = new(ingredient);
         order.itemTypes.AddRange(ingredient.itemTypes);
         if (ingredient.tag != null) {
             MaterialMap.get().getByTag(ingredient.tag)

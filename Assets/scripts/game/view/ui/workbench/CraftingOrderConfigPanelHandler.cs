@@ -29,7 +29,7 @@ public class CraftingOrderConfigPanelHandler : MonoBehaviour {
         destroyButtons();
         foreach (IngredientOrder ingredientOrder in order.ingredients) {
             buttons.Add(ingredientOrder, new Dictionary<string, Dictionary<int, GameObject>>());
-            Ingredient ingredient = order.recipe.ingredients[ingredientOrder.key];
+            Ingredient ingredient = ingredientOrder.ingredient;
             foreach (string itemTypeName in ingredientOrder.itemTypes) {
                 buttons[ingredientOrder].Add(itemTypeName, new Dictionary<int, GameObject>());
                 ItemType itemType = ItemTypeMap.getItemType(itemTypeName);

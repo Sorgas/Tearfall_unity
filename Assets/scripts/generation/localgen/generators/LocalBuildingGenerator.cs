@@ -42,7 +42,7 @@ namespace generation.localgen.generators {
                     ItemContainerComponent component = building.take<ItemContainerComponent>();
                     for (int i = 0; i < 5; i++) {
                         EcsEntity item = generator.generateItem(args[0], args[1], container.model.createEntity());
-                        component.items.Add(item);
+                        // component.items.Add(item);
                         container.model.itemContainer.stored.addItemToContainer(item, building);
                     }
                 }

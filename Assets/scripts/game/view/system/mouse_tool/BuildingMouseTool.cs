@@ -53,8 +53,8 @@ namespace game.view.system.mouse_tool {
             selectorGO.setBuildingSprite(BuildingTilesetHolder.get().get(type, orientation),
                 type.size[OrientationUtil.isHorizontal(orientation) ? 1 : 0]);
             if (type.access != null) {
-                int[] rotatedAccessPoint = getRotatedAccessPoint();
-                selectorGO.setAccessPoint(rotatedAccessPoint[0], rotatedAccessPoint[1], "building_access_point");
+                Vector2Int offset = type.getAccessOffsetByRotation(orientation);
+                selectorGO.setAccessPoint(offset.x, offset.y, "building_access_point");
             }
         }
 
@@ -79,31 +79,6 @@ namespace game.view.system.mouse_tool {
         private void updateOrientationAndSize(Orientations newOrientation) {
             orientation = newOrientation;
             size = type.getSizeByOrientation(orientation);
-        }
-        
-        private int[] getRotatedAccessPoint() {
-            int[] result = new int[2];
-            switch (orientation) {
-                case Orientations.N:
-                    result[0] = type.access[0];
-                    result[1] = type.access[1];
-                    break;
-                case Orientations.E:
-                    result[0] = type.access[1];
-                    result[1] = type.size[0] - 1 - type.access[0];
-                    break;
-                case Orientations.S:
-                    result[0] = type.size[0] - 1 - type.access[0];
-                    result[1] = type.size[1] - 1 - type.access[1];
-                    break;
-                case Orientations.W:
-                    result[0] = type.size[1] - 1 - type.access[1];
-                    result[1] = type.access[0];
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            return result;
         }
 
         private void validateSelectionBounds(IntBounds3 bounds) {

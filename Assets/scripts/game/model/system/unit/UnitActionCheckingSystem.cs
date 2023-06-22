@@ -50,6 +50,7 @@ namespace game.model.system.unit {
 
         // checks action start condition and create sub action if needed.
         private bool actionConditionOk(ref EcsEntity unit, ref TaskActionsComponent actions, int ticks) {
+            Debug.Log("checking action start condition");
             string nextActionName = actions.nextAction.name;
             ActionConditionStatusEnum checkResult = actions.nextAction.startCondition.Invoke(); // creates sub actions
             if (checkResult == OK) return true; // can start performing

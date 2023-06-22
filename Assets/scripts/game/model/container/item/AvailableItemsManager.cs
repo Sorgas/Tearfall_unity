@@ -11,6 +11,7 @@ namespace game.model.container.item {
     // stores items by types and materials for faster searching
     // updated by calls from onMapItemsManager and ContainedItemsManager
     // does not consider locked items
+    // does not split items by passage areas
     public class AvailableItemsManager {
         private readonly MultiValueDictionary<string, EcsEntity> byType = new(); // itemType -> entities
         private readonly Dictionary<string, MultiValueDictionary<int, EcsEntity>> byTypeAndMaterial = new(); // itemType -> material -> entities
@@ -22,6 +23,7 @@ namespace game.model.container.item {
             byType.add(item.type, entity);
             if (!byTypeAndMaterial.ContainsKey(item.type)) byTypeAndMaterial.Add(item.type, new MultiValueDictionary<int, EcsEntity>());
             byTypeAndMaterial[item.type].add(item.material, entity);
+            // TODO if item is container, add contained items too
             // log(item.type + " added as available");
         }
 
@@ -29,8 +31,10 @@ namespace game.model.container.item {
             ItemComponent item = entity.take<ItemComponent>();
             byType.remove(item.type, entity);
             byTypeAndMaterial[item.type].remove(item.material, entity);
+            // TODO if item is container, remove contained items too
         }
 
+        // returns map of items of given type, grouped by material
         public MultiValueDictionary<int, EcsEntity> findByType(string type) {
             if (!byTypeAndMaterial.ContainsKey(type)) return emptyMap.clone();
             return byTypeAndMaterial[type].clone();

@@ -8,7 +8,7 @@ public class TooltipParentHandler : MonoBehaviour, IPointerEnterHandler, IPointe
     public List<GameObject> tooltips = new();
     public bool mouseInParent;
     public bool mouseInTooltip;
-    private bool debug = true;
+    private bool debug = false;
     
     public void Start() {
         tooltips.ForEach(tooltip => {

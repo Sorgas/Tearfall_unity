@@ -4,7 +4,6 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.container.item {
-
     // all item transitions in item container should be made through this class
     // unit's actions are mandatory to use this.
     public class ItemTransitionUtil : ItemContainerPart {

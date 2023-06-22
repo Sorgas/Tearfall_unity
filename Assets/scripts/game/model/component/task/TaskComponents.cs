@@ -58,8 +58,8 @@ namespace game.model.component.task {
     }
 
     // stores items locked for task. See ItemLockedComponent
-    public struct TaskLockedItemsComponent {
-        public List<EcsEntity> lockedItems;
+    public struct TaskLockedEntitiesComponent {
+        public List<EcsEntity> entities;
     }
 
     public struct TaskTimeoutComponent {

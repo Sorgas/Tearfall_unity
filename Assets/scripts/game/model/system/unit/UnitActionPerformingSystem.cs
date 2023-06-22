@@ -12,15 +12,11 @@ namespace game.model.system.unit {
 
         protected override void runLogic(int ticks) {
             foreach (int i in filter) {
-                ref EcsEntity unit = ref filter.GetEntity(i);
-                UnitCurrentActionComponent component = filter.Get1(i);
-                Action action = component.action;
-                // Debug.Log("[UnitActionPerformingSystem]: performing action " + action.name);
+                EcsEntity unit = filter.GetEntity(i);
+                Action action = filter.Get1(i).action;
                 action.perform(ticks);
-                // Debug.Log("[UnitActionPerformingSystem]: task components count: " + action.task.GetComponentsCount());
                 if (action.status == ActionStatusEnum.COMPLETE) {
                     Debug.Log("[UnitActionPerformingSystem]: action " + action.name + " complete");
-                    // Debug.Log("[UnitActionPerformingSystem]: components count: " + unit.GetComponentsCount());
                     unit.Del<UnitCurrentActionComponent>();
                 }
             }

@@ -93,12 +93,12 @@ namespace game.model.system.task {
 
         // unlock all items locked by task
         private void unlockItems(EcsEntity task) {
-            if (task.Has<TaskLockedItemsComponent>()) {
-                TaskLockedItemsComponent lockedComponent = task.take<TaskLockedItemsComponent>();
-                foreach (EcsEntity item in lockedComponent.lockedItems) {
+            if (task.Has<TaskLockedEntitiesComponent>()) {
+                TaskLockedEntitiesComponent lockedComponent = task.take<TaskLockedEntitiesComponent>();
+                foreach (EcsEntity item in lockedComponent.entities) {
                     if (item.IsAlive()) item.Del<LockedComponent>();
                 }
-                log(", unlocked " + lockedComponent.lockedItems.Count + " items");
+                log(", unlocked " + lockedComponent.entities.Count + " items");
             }
         }
 

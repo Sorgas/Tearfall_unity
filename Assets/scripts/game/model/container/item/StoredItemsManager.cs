@@ -1,30 +1,37 @@
-using System.Collections.Generic;
 using game.model.component;
+using game.model.component.item;
+using game.model.localmap;
 using Leopotam.Ecs;
 using util.lang.extension;
 
 namespace game.model.container.item {
     // stores references from items to containers they are stored in
     // should be the only place where items transferred in or from container.
-    public class StoredItemsManager {
-        private Dictionary<EcsEntity, EcsEntity> storedItems = new(); // item to container
+    // should be the only place where ItemContainedComponent and ItemContainerComponent are modified.
+    public class StoredItemsManager : ItemContainerPart {
+        // commented, because map duplicates capability of ItemContainedComponent
+        // private Dictionary<EcsEntity, EcsEntity> storedItems = new(); // item to container
 
+        public StoredItemsManager(LocalModel model, ItemContainer container) : base(model, container) { }
+        
         public bool isStored(EcsEntity item) {
-            return storedItems.ContainsKey(item);
+            return item.Has<ItemContainedComponent>();
+            // return storedItems.ContainsKey(item);
         }
-
-        public EcsEntity getContainerOfItem(EcsEntity item) {
-            return storedItems[item];
-        }
-
-        public void addItemToContainer(EcsEntity item, EcsEntity container) {
-            container.take<ItemContainerComponent>().items.Add(item);
-            storedItems.Add(item, container);
+        
+        public void addItemToContainer(EcsEntity item, EcsEntity containerEntity) {
+            container.availableItemsManager.add(item);
+            containerEntity.take<ItemContainerComponent>().items.Add(item);
+            item.Replace(new ItemContainedComponent { container = containerEntity });
+            // storedItems.Add(item, containerEntity);
         }
 
         public void removeItemFromContainer(EcsEntity item) {
-            storedItems[item].take<ItemContainerComponent>().items.Remove(item);
-            storedItems.Remove(item);
+            container.availableItemsManager.remove(item);
+            item.take<ItemContainedComponent>().container.take<ItemContainerComponent>().items.Remove(item);
+            item.Del<ItemContainedComponent>();
+            // storedItems[item].take<ItemContainerComponent>().items.Remove(item);
+            // storedItems.Remove(item);
         }
     }
 }

@@ -7,6 +7,7 @@ using game.model.component.task.order;
 using generation.item;
 using Leopotam.Ecs;
 using types.action;
+using UnityEngine;
 using util.lang.extension;
 using static game.model.component.task.order.CraftingOrder;
 
@@ -83,6 +84,7 @@ class CraftItemAtWorkbenchAction : ItemCraftingAction {
 
     private void destroyIngredients() {
         foreach (EcsEntity item in order.allIngredientItems()) {
+            // Debug.Log("removing " + item.name() + " item from workbench");
             container.stored.removeItemFromContainer(item);
             item.Destroy();
         }

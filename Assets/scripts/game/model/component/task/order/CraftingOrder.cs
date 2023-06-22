@@ -30,11 +30,15 @@ namespace game.model.component.task.order {
         // stores selected item types and materials for crafting
         public class IngredientOrder {
             // from ingredient
-            public string key; // ingredient key from recipe (item part, 'main' or 'consumed')
-            public List<string> itemTypes = new(); // configured from ui, all items should be of same type from this list
-            public HashSet<int> materials = new(); // configured from ui. all items should be of same material from this list. -1 for any
+            public readonly Ingredient ingredient;
+            public readonly List<string> itemTypes = new(); // configured from ui, all items should be of same type from this list
+            public readonly HashSet<int> materials = new(); // configured from ui. all items should be of same material from this list. -1 for any
             
-            public List<EcsEntity> items = new(); // selected before performing
+            public readonly List<EcsEntity> items = new(); // selected before performing
+
+            public IngredientOrder(Ingredient ingredient) {
+                this.ingredient = ingredient;
+            }
         }
 
         public enum CraftingOrderStatus {

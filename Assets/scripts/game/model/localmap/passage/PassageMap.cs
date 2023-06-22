@@ -96,8 +96,8 @@ namespace game.model.localmap.passage {
             return false;
         }
 
-        public bool tileIsAccessibleFromArea(Vector3Int target, Vector3Int source) =>
-            tileIsAccessibleFromArea(target.x, target.y, target.z, area.get(source));
+        public bool tileIsAccessibleFromArea(Vector3Int target, Vector3Int from) =>
+            tileIsAccessibleFromArea(target.x, target.y, target.z, area.get(from));
 
         public bool hasPathBetweenNeighbours(Vector3Int from, Vector3Int to)
             => hasPathBetweenNeighbours(@from.x, @from.y, @from.z, to.x, to.y, to.z);
