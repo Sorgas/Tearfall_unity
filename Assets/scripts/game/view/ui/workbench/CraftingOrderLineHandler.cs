@@ -37,13 +37,7 @@ public class CraftingOrderLineHandler : MonoBehaviour {
     public void Start() {
         pauseButton.onClick.AddListener(() => togglePaused());
         repeatButton.onClick.AddListener(() => toggleRepeated());
-        configureButton.onClick.AddListener(() => {
-            if (configurePanel.gameObject.activeSelf) {
-                closeConfigureMenu();
-            } else {
-                showConfigureMenu();
-            }
-        });
+        configureButton.onClick.AddListener(toggleConfigureMenu);
         upButton.onClick.AddListener(() => move(true));
         downButton.onClick.AddListener(() => move(false));
         cancelButton.onClick.AddListener(() => cancel());
@@ -75,16 +69,6 @@ public class CraftingOrderLineHandler : MonoBehaviour {
         // TODO update view
     }
 
-    public void showConfigureMenu() {
-        configurePanel.gameObject.SetActive(true);
-        configurePanel.fillFor(order);
-        configureButton.GetComponent<Image>().color = UiColorsEnum.BUTTON_CHOSEN;
-    }
-
-    public void closeConfigureMenu() {
-        configurePanel.gameObject.SetActive(false);
-        configureButton.GetComponent<Image>().color = UiColorsEnum.BUTTON_NORMAL;
-    }
 
     public void move(bool up) {
         workbenchWindow.moveOrder(order, up);
@@ -96,24 +80,35 @@ public class CraftingOrderLineHandler : MonoBehaviour {
         workbenchWindow.removeOrder(order);
     }
 
+    private void toggleConfigureMenu() {
+        if (configurePanel.gameObject.activeSelf) {
+            closeConfigureMenu();
+        } else {
+            showConfigureMenu();
+        }
+    }
+    
+    public void showConfigureMenu() {
+        configurePanel.gameObject.SetActive(true);
+        configurePanel.fillFor(order);
+        configureButton.GetComponent<Image>().color = UiColorsEnum.BUTTON_CHOSEN;
+    }
+
+    public void closeConfigureMenu() {
+        configurePanel.gameObject.SetActive(false);
+        configureButton.GetComponent<Image>().color = UiColorsEnum.BUTTON_NORMAL;
+    }
+    
     private void changeQuantity(int delta) { }
 
     private string selectTextForStatus() {
-        switch (order.status) {
-            case CraftingOrderStatus.PERFORMING: {
-                return "A";
-            }
-            case CraftingOrderStatus.WAITING: {
-                return "W";
-            }
-            case CraftingOrderStatus.PAUSED: {
-                return "P";
-            }
-            case CraftingOrderStatus.PAUSED_PROBLEM: {
-                return "PP";
-            }
-        }
-        return "E";
+        return order.status switch {
+            CraftingOrderStatus.PERFORMING => "A", // means 'active'
+            CraftingOrderStatus.WAITING => "W",
+            CraftingOrderStatus.PAUSED => "P",
+            CraftingOrderStatus.PAUSED_PROBLEM => "PP",
+            _ => "E"
+        };
     }
 }
 }

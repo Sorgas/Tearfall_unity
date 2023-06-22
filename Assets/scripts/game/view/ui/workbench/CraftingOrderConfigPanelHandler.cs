@@ -7,7 +7,6 @@ using types.item.recipe;
 using types.item.type;
 using types.material;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using util.lang.extension;
 using static game.model.component.task.order.CraftingOrder;
@@ -20,8 +19,9 @@ public class CraftingOrderConfigPanelHandler : MonoBehaviour {
     // ingredientOrder -> itemType -> material/any
     private Dictionary<IngredientOrder, Dictionary<string, Dictionary<int, GameObject>>> buttons = new();
     public CraftingOrderLineHandler parent;
-    private const int ButtonWidth = 150;
+    private const int ButtonWidth = 200;
     private const int ButtonHeight = 40;
+    public int buttonPadding = 5;
 
     public void fillFor(CraftingOrder order) {
         int columnIndex = 0;
@@ -42,12 +42,16 @@ public class CraftingOrderConfigPanelHandler : MonoBehaviour {
             }
             if (maxHeight < ingredient.allowedMaterials.Count + 1) maxHeight = ingredient.allowedMaterials.Count + 1;
         }
-        GetComponent<RectTransform>().sizeDelta = new Vector2(ButtonWidth * columnIndex, ButtonHeight * maxHeight);
+        GetComponent<RectTransform>().sizeDelta = new Vector2(
+            ButtonWidth * columnIndex + buttonPadding * (columnIndex + 1), 
+            ButtonHeight * maxHeight + buttonPadding * (maxHeight + 1));
     }
 
     private void createButton(int x, int y, IngredientOrder ingredientOrder, ItemType itemType, int materialId) {
         GameObject button = PrefabLoader.create("MaterialSelectionButton", gameObject.transform,
-            new Vector3(x * ButtonWidth, y * ButtonHeight, 0));
+            new Vector3(
+                buttonPadding + x * (ButtonWidth + buttonPadding),
+                buttonPadding + y * (ButtonHeight + buttonPadding), 0));
         Image iconImage = button.GetComponentsInChildren<Image>()[1];
         iconImage.sprite = ItemTypeMap.get().getSprite(itemType.name); // item sprite
         TextMeshProUGUI text = button.GetComponentInChildren<TextMeshProUGUI>();
