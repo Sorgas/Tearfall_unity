@@ -128,7 +128,6 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\BuildingAction.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\RecipeMap.cs" />
      <Compile Include="Assets\scripts\game\input\WidgetManager.cs" />
-     <Compile Include="Assets\scripts\types\material\RawMaterial.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\BuildingMouseTool.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\MbWindow.cs" />
      <Compile Include="Assets\scripts\game\view\ui\jobs_widget\UnitJobRow.cs" />

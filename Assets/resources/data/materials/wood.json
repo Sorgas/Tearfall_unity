@@ -5,7 +5,8 @@
   "description": "Heavy and sturdy wood.", 
   "tags": ["wood"],
   "density": "0.8",
-  "reactions": {
+    "workAmountModifier" : 20,
+    "reactions": {
     "burn": ["3600"]
   },
   "value": "10",
@@ -16,6 +17,7 @@
   "name": "maple",
   "tags": ["wood"],
   "density": "0.8",
+  "workAmountModifier" : 5,
   "reactions": {
     "burn": ["3600"]
   },
@@ -27,6 +29,7 @@
   "name": "chestnut",
   "tags": ["wood"],
   "density": "0.8",
+  "workAmountModifier" : 10,
   "reactions": {
     "burn": ["3600"]
   },
@@ -60,6 +63,7 @@
   "name": "birch",
   "tags": ["wood"],
   "density": "0.8",
+  "workAmountModifier" : 10,
   "reactions": {
     "burn": ["3600"]
   },

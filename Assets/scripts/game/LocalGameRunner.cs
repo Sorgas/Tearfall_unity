@@ -44,17 +44,17 @@ namespace game {
         // TODO make world and local generation independent from gamemodel singleton
         // when scene is loaded, inits game model and view
         public void Start() {
-            Stopwatch stopwatch = new();
+            // Stopwatch stopwatch = new();
             Debug.unityLogger.logEnabled = true;
-            System.DateTime.Now.ToString();
-            stopwatch.Start();
+            // System.DateTime.Now.ToString();
+            // stopwatch.Start();
             resolveWorld();
-            long generationTime = stopwatch.ElapsedMilliseconds;
+            // long generationTime = stopwatch.ElapsedMilliseconds;
             GameModel.get().init(defaultModelName);
-            long modelInitTime = stopwatch.ElapsedMilliseconds - generationTime;
+            // long modelInitTime = stopwatch.ElapsedMilliseconds - generationTime;
             GameView.get().init(this, GameModel.get().currentLocalModel);
-            stopwatch.Stop();
-            long viewInitTime = stopwatch.ElapsedMilliseconds - modelInitTime;
+            // stopwatch.Stop();
+            // long viewInitTime = stopwatch.ElapsedMilliseconds - modelInitTime;
             started = true;
             InvokeRepeating("updateModel", 0.2f, GameModelUpdateController.UPDATE_TICK_DELTA);
             Debug.unityLogger.logEnabled = true;

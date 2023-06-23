@@ -15,7 +15,6 @@ namespace game.model.system.plant {
                 ref PlantProductGrowthComponent component = ref filter.Get1(i);
                 component.growth += updates * TIME_DELTA * getConditionsFactor(entity.pos());
                 if (component.growth > component.growthEnd) {
-                    
                     entity.Del<PlantProductGrowthComponent>();
                     PlantType type = entity.take<PlantComponent>().type;
                     if (type.productKeepTime > 0) {

@@ -7,9 +7,8 @@ using game.model.component.task.order;
 using generation.item;
 using Leopotam.Ecs;
 using types.action;
-using UnityEngine;
+using types.material;
 using util.lang.extension;
-using static game.model.component.task.order.CraftingOrder;
 
 namespace game.model.component.task.action.item {
 /**
@@ -41,16 +40,9 @@ class CraftItemAtWorkbenchAction : ItemCraftingAction {
 
         onStart = () => {
             log("start");
-            // maxProgress = itemOrder.recipe.workAmount * (1 + getMaterialWorkAmountMultiplier());
-            // float performanceBonus = Optional.ofNullable(task.performer.get(HealthAspect.class))
-            //         .map(aspect -> aspect.stats.get("performance"l))
-            //         .orElse(0f);
-            // float skillBonus = Optional.ofNullable(SkillMap.getSkill(this.skill))
-            //         .map(skill -> Optional.ofNullable(task.performer.get(JobSkillAspect.class))
-            //                 .map(aspect -> aspect.skills.get(this.skill).level())
-            //                 .map(level -> level * skill.speed)
-            //                 .orElse(0f)).orElse(0f);
-            // speed = 1 + performanceBonus + skillBonus;
+            maxProgress = getWorkAmount();
+            speed = getSpeed();
+
         };
 
         // Creates item, consumes ingredients. Product item is put to Workbench.
@@ -84,10 +76,33 @@ class CraftItemAtWorkbenchAction : ItemCraftingAction {
 
     private void destroyIngredients() {
         foreach (EcsEntity item in order.allIngredientItems()) {
-            // Debug.Log("removing " + item.name() + " item from workbench");
             container.stored.removeItemFromContainer(item);
             item.Destroy();
         }
+    }
+
+    private float getWorkAmount() {
+        int totalModifier = 0;
+        foreach (var ingredient in order.ingredients) {
+            foreach (var item in ingredient.items) {
+                totalModifier += MaterialMap.get().material(item.take<ItemComponent>().material).workAmountModifier;
+            }
+        }
+        return order.recipe.workAmount * (1 + totalModifier / 100f);
+    }
+
+    private float getSpeed() {
+        // TODO use performer skill level, use workbench bonuses(lighting, tool rack), use performer health condition(work slowly when tired). 
+        // float performanceBonus = Optional.ofNullable(task.performer.get(HealthAspect.class))
+        //         .map(aspect -> aspect.stats.get("performance"l))
+        //         .orElse(0f);
+        // float skillBonus = Optional.ofNullable(SkillMap.getSkill(this.skill))
+        //         .map(skill -> Optional.ofNullable(task.performer.get(JobSkillAspect.class))
+        //                 .map(aspect -> aspect.skills.get(this.skill).level())
+        //                 .map(level -> level * skill.speed)
+        //                 .orElse(0f)).orElse(0f);
+        // speed = 1 + performanceBonus + skillBonus;
+        return 1f;
     }
 }
 }

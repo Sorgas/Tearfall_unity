@@ -12,6 +12,7 @@
         "name": "silk",
         "tags": ["cloth"],
         "density": 200,
+        "workAmountModifier" : 10,
         "value": 10,
         "atlasY": 0,
         "color": "d5b6e0ff"
@@ -28,6 +29,7 @@
         "name": "cotton",
         "tags": ["cloth"],
         "density": 200,
+        "workAmountModifier" : 5,
         "value": 10,
         "atlasY": 0,
         "color": "ffffffff"
