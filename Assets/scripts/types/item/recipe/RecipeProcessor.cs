@@ -5,7 +5,7 @@ namespace types.item.recipe {
         private IngredientProcessor ingredientProcessor = new IngredientProcessor();
 
         public Recipe processRawRecipe(RawRecipe rawRecipe) {
-            Debug.Log("Processing recipe " + rawRecipe.name);
+            // Debug.Log("Processing recipe " + rawRecipe.name);
             Recipe recipe = new Recipe(rawRecipe);
             foreach(string ingredientString in rawRecipe.ingredients) {
                 if(ingredientProcessor.validateIngredient(ingredientString)) {

@@ -1250,6 +1250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 6837158766516467291}
+  buttonPadding: 5
 --- !u!114 &6126040982052757425
 MonoBehaviour:
   m_ObjectHideFlags: 0

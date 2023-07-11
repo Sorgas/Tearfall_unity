@@ -11,10 +11,10 @@ namespace game.model.component.task.order {
         public CraftingOrderStatus status;
         public List<IngredientOrder> ingredients = new();
         public bool repeated;
-        public bool paused;
         public int targetQuantity;
         public int performedQuantity;
-
+        public bool updated; // to updating order line when order updated from model.
+        
         public CraftingOrder(Recipe recipe) {
             name = recipe.title;
             this.recipe = recipe;
@@ -23,9 +23,7 @@ namespace game.model.component.task.order {
             performedQuantity = 0;
         }
 
-        public List<EcsEntity> allIngredientItems() {
-            return ingredients.SelectMany(ingredient => ingredient.items).ToList();
-        }
+        public List<EcsEntity> allIngredientItems() => ingredients.SelectMany(ingredient => ingredient.items).ToList();
 
         // stores selected item types and materials for crafting
         public class IngredientOrder {
@@ -34,7 +32,7 @@ namespace game.model.component.task.order {
             public readonly List<string> itemTypes = new(); // configured from ui, all items should be of same type from this list
             public readonly HashSet<int> materials = new(); // configured from ui. all items should be of same material from this list. -1 for any
             
-            public readonly List<EcsEntity> items = new(); // selected before performing
+            public readonly List<EcsEntity> items = new(); // selected before performing, cleared after performing
 
             public IngredientOrder(Ingredient ingredient) {
                 this.ingredient = ingredient;
@@ -42,10 +40,10 @@ namespace game.model.component.task.order {
         }
 
         public enum CraftingOrderStatus {
-            PERFORMING, // A
-            WAITING, // W
-            PAUSED, // P
-            PAUSED_PROBLEM
+            PERFORMING, // A, order has task
+            WAITING, // W, order has no task
+            PAUSED, // P, order paused by player
+            // PAUSED_PROBLEM // PP, order paused by failed task (similar to PAUSED)
         }
     }
 }

@@ -23,6 +23,7 @@ namespace game.model.component {
         public EcsEntity task;
     }
 
+    // TODO remove, replace with instant task completion, see TaskCompletionUtil
     public struct TaskFinishedComponent {
         public TaskStatusEnum status;
         public string reason; // TODO no-materials, combat, 
@@ -34,9 +35,6 @@ namespace game.model.component {
     public struct TaskCreationTimeoutComponent {
         public int value;
     }
-
-    // indicates when entity is changed 
-    public struct UiUpdateComponent { }
 
     // units can own items and buildings.
     public struct OwnedComponent {
@@ -67,7 +65,19 @@ namespace game.model.component {
         public HashSet<Vector3Int> tiles;
     }
 
+// entity with this can contain items. Content should be updated only via StoredItemsManager
 public struct ItemContainerComponent {
     public List<EcsEntity> items;
+    public bool updated; // to track content changes from ui
+
+    public void addItem(EcsEntity item) {
+        items.Add(item);
+        updated = true;
+    }
+
+    public void removeItem(EcsEntity item) {
+        items.Remove(item);
+        updated = true;
+    }
 }
 }

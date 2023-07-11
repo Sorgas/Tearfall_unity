@@ -1,12 +1,17 @@
+using game.model;
+using game.model.component;
 using game.model.component.building;
 using game.model.component.task.order;
+using game.model.container;
 using Leopotam.Ecs;
 using TMPro;
+using types.action;
 using types.item.type;
 using UnityEngine;
 using UnityEngine.UI;
 using util.lang.extension;
-using static game.model.component.task.order.CraftingOrder;
+using static game.model.component.task.order.CraftingOrder.CraftingOrderStatus;
+using static game.view.ui.UiColorsEnum;
 
 namespace game.view.ui.workbench {
 public class CraftingOrderLineHandler : MonoBehaviour {
@@ -19,7 +24,7 @@ public class CraftingOrderLineHandler : MonoBehaviour {
     public Button duplicateButton;
 
     public TextMeshProUGUI text;
-    public Image statusIcon;
+    public Image statusIcon; // TODO use this instead of statusText
     public TextMeshProUGUI statusText;
     public Image itemImage;
     public CraftingOrderConfigPanelHandler configurePanel;
@@ -35,49 +40,60 @@ public class CraftingOrderLineHandler : MonoBehaviour {
     // private CraftingOrder order;
 
     public void Start() {
-        pauseButton.onClick.AddListener(() => togglePaused());
-        repeatButton.onClick.AddListener(() => toggleRepeated());
+        pauseButton.onClick.AddListener(togglePaused);
+        repeatButton.onClick.AddListener(toggleRepeated);
         configureButton.onClick.AddListener(toggleConfigureMenu);
-        upButton.onClick.AddListener(() => move(true));
-        downButton.onClick.AddListener(() => move(false));
-        cancelButton.onClick.AddListener(() => cancel());
-        duplicateButton.onClick.AddListener(() => copy());
+        upButton.onClick.AddListener(() => workbenchWindow.moveOrder(order, true));
+        downButton.onClick.AddListener(() => workbenchWindow.moveOrder(order, false));
+        cancelButton.onClick.AddListener(() => workbenchWindow.removeOrder(order));
+        duplicateButton.onClick.AddListener(() => workbenchWindow.duplicateOrder(order));
         plusButton.onClick.AddListener(() => changeQuantity(1));
         minusButton.onClick.AddListener(() => changeQuantity(-1));
         closeConfigureMenu();
     }
 
-    public void init(CraftingOrder order, WorkbenchWindowHandler window) {
+    // order can be updated from game model, changes should be visible in ui
+    public void Update() {
+        if (!order.updated) return;
+        Debug.Log("updating order line visual");
+        updateVisual();
+        order.updated = false;
+    }
+
+    public void init(CraftingOrder order, EcsEntity workbench, WorkbenchWindowHandler window) {
         this.order = order;
         workbenchWindow = window;
+        this.workbench = workbench;
         text.text = order.name;
-        quantityInputField.text = order.targetQuantity.ToString();
-        statusText.text = selectTextForStatus();
         itemImage.sprite = ItemTypeMap.get().getSprite(order.recipe.newType);
-        // TODO
+        updateVisual();
     }
 
-    public void toggleRepeated() {
+    private void updateVisual() {
+        updateQuantityText();
+        updateStatusText();
+        updatePausedVisual();
+    }
+
+    private void toggleRepeated() {
         order.repeated = !order.repeated;
-        // TODO update view
+        repeatButton.GetComponent<Image>().color = order.repeated ? BUTTON_CHOSEN : BUTTON_NORMAL;
     }
 
-    public void togglePaused() {
-        order.paused = !order.paused;
-        if (!order.paused) workbench.takeRef<WorkbenchComponent>().hasActiveOrders = true;
-        ;
-        // TODO update view
-    }
-
-
-    public void move(bool up) {
-        workbenchWindow.moveOrder(order, up);
-    }
-
-    public void copy() { }
-
-    public void cancel() {
-        workbenchWindow.removeOrder(order);
+    private void togglePaused() {
+        order.status = order.status == PAUSED ? WAITING : PAUSED;
+        pauseButton.GetComponent<Image>().color = order.status == PAUSED ? BUTTON_NORMAL : BUTTON_CHOSEN;
+        Debug.Log("pausing order");
+        if (order.status == PAUSED) {
+            if (workbench.Has<TaskComponent>()) {
+                Debug.Log("has task");
+                GameModel.get().currentLocalModel.addUpdateEvent(new ModelUpdateEvent(model => {
+                    model.taskContainer.removeTask(workbench.take<TaskComponent>().task, TaskStatusEnum.CANCELED);
+                }));
+            }
+        } else {
+            workbench.takeRef<WorkbenchComponent>().hasActiveOrders = true;
+        }
     }
 
     private void toggleConfigureMenu() {
@@ -87,26 +103,42 @@ public class CraftingOrderLineHandler : MonoBehaviour {
             showConfigureMenu();
         }
     }
-    
-    public void showConfigureMenu() {
+
+    private void showConfigureMenu() {
         configurePanel.gameObject.SetActive(true);
         configurePanel.fillFor(order);
-        configureButton.GetComponent<Image>().color = UiColorsEnum.BUTTON_CHOSEN;
+        configureButton.GetComponent<Image>().color = BUTTON_CHOSEN;
     }
 
-    public void closeConfigureMenu() {
+    private void closeConfigureMenu() {
         configurePanel.gameObject.SetActive(false);
-        configureButton.GetComponent<Image>().color = UiColorsEnum.BUTTON_NORMAL;
+        configureButton.GetComponent<Image>().color = BUTTON_NORMAL;
     }
-    
-    private void changeQuantity(int delta) { }
+
+    private void changeQuantity(int delta) {
+        order.targetQuantity += delta;
+        updateQuantityText();
+    }
+
+    private void updateQuantityText() {
+        quantityInputField.text = order.performedQuantity + "/" + order.targetQuantity;
+    }
+
+    private void updateStatusText() {
+        statusText.text = selectTextForStatus();
+    }
+
+    private void updatePausedVisual() {
+        pauseButton.GetComponent<Image>().color = order.status == PAUSED ? BUTTON_CHOSEN : BUTTON_NORMAL;
+        gameObject.GetComponent<Image>().color = order.status == PAUSED ? background : backgroundHighlight;
+    }
 
     private string selectTextForStatus() {
         return order.status switch {
-            CraftingOrderStatus.PERFORMING => "A", // means 'active'
-            CraftingOrderStatus.WAITING => "W",
-            CraftingOrderStatus.PAUSED => "P",
-            CraftingOrderStatus.PAUSED_PROBLEM => "PP",
+            PERFORMING => "A", // means 'active'
+            WAITING => "W",
+            PAUSED => "P",
+            // CraftingOrderStatus.PAUSED_PROBLEM => "PP",
             _ => "E"
         };
     }

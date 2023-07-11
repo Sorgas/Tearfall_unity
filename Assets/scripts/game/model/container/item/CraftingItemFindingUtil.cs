@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using game.model.component;
@@ -9,14 +10,55 @@ using MoreLinq;
 using UnityEngine;
 using util.lang;
 using util.lang.extension;
+using static game.model.component.task.order.CraftingOrder;
 
 namespace game.model.container.item {
 public class CraftingItemFindingUtil : ItemContainerPart {
     // TODO rewrite stockpile method to use item selectors. selector should be stored in stockpile component and updated from stockpile config menu.
     public CraftingItemFindingUtil(LocalModel model, ItemContainer container) : base(model, container) { }
 
-    // finds items for crafting
-    public IList<EcsEntity> findForIngredientOrder(CraftingOrder.IngredientOrder ingredientOrder, CraftingOrder order, Vector3Int position) {
+    public bool findItemsForOrder(CraftingOrder order, Vector3Int position) => findItemsForOrder(order, position, item => { });
+
+    // validates ingredient orders in order. 
+    // clear invalid ingredients.
+    // finds items for invalid ingredients
+    // returns true if items for all ingredients found
+    // returns false if cannot find items for at least one ingredient
+    public bool findItemsForOrder(CraftingOrder order, Vector3Int position, Action<EcsEntity> unlockAction) {
+        List<IngredientOrder> invalidIngredients = order.ingredients
+            .Where(ingredient => !ingredientOrderValid(ingredient, position)).ToList();
+        // log("invalid ingredients count: " + invalidIngredients.Count);
+        foreach (var ingredientOrder in invalidIngredients) {
+            ingredientOrder.items.ForEach(unlockAction);
+            ingredientOrder.items.Clear();
+        }
+        foreach (var ingredientOrder in invalidIngredients) {
+            List<EcsEntity> items = findItemsForIngredient(ingredientOrder, order, position);
+            if (items == null || items.Count != ingredientOrder.ingredient.quantity) return false;
+            ingredientOrder.items.AddRange(items);
+        }
+        return true;
+    }
+
+    // ingredient order is valid if
+    //      it has correct number of items selected
+    //      all items have correct item type
+    //      all items have same and allowed material
+    //      all items are reachable from reference position
+    private bool ingredientOrderValid(IngredientOrder ingredientOrder, Vector3Int position) {
+        if (ingredientOrder.items.Count != ingredientOrder.ingredient.quantity) return false;
+        int material = ingredientOrder.items[0].take<ItemComponent>().material;
+        bool itemsOk = ingredientOrder.items
+            .Select(item => item.take<ItemComponent>())
+            .All(component => component.material == material 
+                              && ingredientOrder.materials.Contains(component.material) 
+                              && ingredientOrder.itemTypes.Contains(component.type));
+        if (!itemsOk) return false;
+        return ingredientOrder.items.All(item => model.itemContainer.itemAccessibleFromPosition(item, position));
+    }
+
+    // finds items for ingredient order, add them into ingredient order
+    private List<EcsEntity> findItemsForIngredient(IngredientOrder ingredientOrder, CraftingOrder order, Vector3Int position) {
         // log("searching items for ingredient " + ingredient.key + " of order " + order.name);
         List<EcsEntity> otherItems = order.allIngredientItems(); // items selected in other ingredients should not be selected
         List<List<EcsEntity>> itemLists = ingredientOrder.materials.Count == 0 // get groups of suitable items
@@ -30,7 +72,7 @@ public class CraftingItemFindingUtil : ItemContainerPart {
     }
 
     // finds groups of items suitable for ingredient order which has tag
-    private List<List<EcsEntity>> findItemsForIngredientWithTag(CraftingOrder.IngredientOrder ingredientOrder) {
+    private List<List<EcsEntity>> findItemsForIngredientWithTag(IngredientOrder ingredientOrder) {
         string tag = ingredientOrder.ingredient.tag;
         List<List<EcsEntity>> result = new();
         foreach (string itemType in ingredientOrder.itemTypes) {
@@ -43,7 +85,7 @@ public class CraftingItemFindingUtil : ItemContainerPart {
     }
 
     // finds groups of items suitable for ingredient order which has material list
-    private List<List<EcsEntity>> findItemsForIngredientByMaterial(CraftingOrder.IngredientOrder ingredientOrder) {
+    private List<List<EcsEntity>> findItemsForIngredientByMaterial(IngredientOrder ingredientOrder) {
         List<List<EcsEntity>> result = new();
         foreach (string itemType in ingredientOrder.itemTypes) {
             foreach (int material in ingredientOrder.materials) {
@@ -61,7 +103,7 @@ public class CraftingItemFindingUtil : ItemContainerPart {
             .Where(itemEntity => !prohibitedItems.Contains(itemEntity)) // not in block list
             .ToList();
         if (items.Count < requiredQuantity) return null;
-            // map to position
+        // map to position
         Dictionary<EcsEntity, Vector3Int> itemsToPosition = items.ToDictionary(item => item, container.getItemAccessPosition);
         List<EcsEntity> localItems = itemsToPosition // filter accessible
             .Where(pair => model.itemContainer.itemAccessibleFromPosition(pair.Key, position))
@@ -91,24 +133,10 @@ public class CraftingItemFindingUtil : ItemContainerPart {
         return groups.MinBy(group => group.totalDistance);
     }
 
-    private EcsEntity selectNearest(List<EcsEntity> items, Vector3Int position) {
-        float minDistance = -1;
-        EcsEntity result = EcsEntity.Null;
-        foreach (EcsEntity item in items) {
-            float distance = fastDistance(item, position);
-            if (distance == 0) return item;
-            if (distance < minDistance || minDistance < 0) {
-                result = item;
-                minDistance = distance;
-            }
-        }
-        return result;
-    }
-
     private float fastDistance(EcsEntity item, Vector3Int position) {
         return (container.getItemAccessPosition(item) - position).sqrMagnitude;
     }
-    
+
     private void log(string message) => Debug.Log("[ItemFindingUtil]: " + message);
 
     private class ItemGroup {

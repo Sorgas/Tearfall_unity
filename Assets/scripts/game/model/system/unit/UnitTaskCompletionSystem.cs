@@ -1,11 +1,8 @@
 ﻿using game.model.component;
-using game.model.component.task;
 using game.model.component.unit;
-using game.model.localmap;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
-using util.lang.extension;
 
 namespace game.model.system.unit {
     // When unit fails or completes task, it gets UnitTaskFinishedComponent. see UnitActionCheckingSystem.
@@ -27,6 +24,5 @@ namespace game.model.system.unit {
         
         private void detachTaskFromUnit(ref EcsEntity unit, TaskStatusEnum status) {
         }
-
     }
 }

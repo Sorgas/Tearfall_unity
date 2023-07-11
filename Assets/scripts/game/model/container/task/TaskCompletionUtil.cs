@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using game.model.component;
 using game.model.component.task;
+using game.model.component.task.order;
 using game.model.component.unit;
 using game.model.localmap;
 using Leopotam.Ecs;
@@ -55,12 +56,20 @@ namespace game.model.container.task {
 
         // notify building that task was completed by unit
         private void detachBuilding(ref EcsEntity task, TaskStatusEnum status) {
-            if (status == COMPLETE && task.Has<TaskBuildingComponent>()) {
-                ref EcsEntity building = ref task.takeRef<TaskBuildingComponent>().building;
-                building.Replace(new TaskFinishedComponent { status = status });
-                building.Del<TaskComponent>();
-                log(", building detached");
+            if (!task.Has<TaskBuildingComponent>()) return;
+            if (task.Has<TaskCraftingOrderComponent>()) {
+                CraftingOrder order = task.take<TaskCraftingOrderComponent>().order;
+                foreach (var ingredientOrder in order.ingredients) {
+                    ingredientOrder.items.Clear();
+                }
+                if (status == COMPLETE) { // task complete, increment order
+                    order.performedQuantity++;
+                    log(", order quantity increased");
+                    order.updated = true;
+                }
             }
+            task.take<TaskBuildingComponent>().building.Del<TaskComponent>();
+            log(", building detached");
         }
 
         // on any status task is removed from zone components 

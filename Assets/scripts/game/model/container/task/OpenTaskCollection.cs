@@ -56,7 +56,7 @@ namespace game.model.container.task {
         }
 
         public bool contains(EcsEntity task) {
-            TaskJobComponent component = task.take<TaskJobComponent>();
+            TaskJobComponent component = task.take<TaskJobComponent>(); // TODO 
             string job = component.job;
             int priority = component.priority;
             return openTasks[job][priority].Contains(task);

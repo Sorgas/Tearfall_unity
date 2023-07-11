@@ -73,8 +73,6 @@
      <Compile Include="Assets\scripts\types\item\recipe\RawRecipe.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedCompositeNavigationController.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToPositionAction.cs" />
-     <Compile Include="Assets\scripts\game\model\system\building\WorkbenchOrderSelectionSystem.cs" />
-     <Compile Include="Assets\scripts\game\view\system\building\WorkbenchWindowUpdateSystem.cs" />
      <Compile Include="Assets\OptionsMenuButtonHandler.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\ListExtensions.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EcsEntityExtension.cs" />

@@ -2,6 +2,7 @@ using game.model.component;
 using game.model.component.item;
 using game.model.localmap;
 using Leopotam.Ecs;
+using UnityEditor.Searcher;
 using util.lang.extension;
 
 namespace game.model.container.item {
@@ -21,14 +22,15 @@ namespace game.model.container.item {
         
         public void addItemToContainer(EcsEntity item, EcsEntity containerEntity) {
             container.availableItemsManager.add(item);
-            containerEntity.take<ItemContainerComponent>().items.Add(item);
+            ref ItemContainerComponent containerComponent = ref containerEntity.takeRef<ItemContainerComponent>();
+            containerComponent.addItem(item);
             item.Replace(new ItemContainedComponent { container = containerEntity });
-            // storedItems.Add(item, containerEntity);
         }
 
         public void removeItemFromContainer(EcsEntity item) {
             container.availableItemsManager.remove(item);
-            item.take<ItemContainedComponent>().container.take<ItemContainerComponent>().items.Remove(item);
+            ref ItemContainerComponent containerComponent = ref item.takeRef<ItemContainedComponent>().container.takeRef<ItemContainerComponent>();
+            containerComponent.removeItem(item);
             item.Del<ItemContainedComponent>();
             // storedItems[item].take<ItemContainerComponent>().items.Remove(item);
             // storedItems.Remove(item);

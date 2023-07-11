@@ -79,6 +79,7 @@ namespace game.model.component.task.action {
         protected void lockEntities(List<EcsEntity> entities) => ActionLockingUtility.lockEntities(entities, task);
         protected void unlockEntities(List<EcsEntity> entities) => ActionLockingUtility.unlockEntities(entities, task);
         protected void lockEntity(EcsEntity item) => ActionLockingUtility.lockEntity(item, task);
+        protected void unlockEntity(EcsEntity item) => ActionLockingUtility.unlockEntity(item, task);
         protected void lockZoneTile(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.lockZoneTile(zone, tile, task);
         protected void unlockZoneTile(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.unlockZoneTile(zone, tile, task);
         protected bool itemCanBeLocked(EcsEntity item) => ActionLockingUtility.entityCanBeLocked(item, task);

@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using game.model;
 using game.model.component;
 using game.model.component.building;
+using game.model.component.task;
 using game.model.component.task.order;
+using game.model.container;
 using game.view.ui.util;
 using game.view.util;
 using generation.item;
@@ -25,9 +28,9 @@ namespace game.view.ui.workbench {
         public WorkbenchInventoryHandler inventory;
         public Button showInventoryButton;
 
-        private List<CraftingOrderLineHandler> orderLines = new();
         private CraftingOrderGenerator generator = new();
-        public EcsEntity entity;
+        private List<CraftingOrderLineHandler> orderLines = new();
+        private EcsEntity entity; // workbench
 
         public void Start() {
             addOrderButton.onClick.AddListener(() => recipeListHandler.gameObject.SetActive(!recipeListHandler.gameObject.activeSelf));
@@ -37,25 +40,42 @@ namespace game.view.ui.workbench {
         // fill wb with recipes and orders
         public void init(EcsEntity entity) {
             this.entity = entity;
-            WorkbenchComponent workbench = entity.take<WorkbenchComponent>();
-            workbenchNameText.text = entity.take<BuildingComponent>().type.name;
-            fillOrdersList(workbench);
-            recipeListHandler.gameObject.SetActive(false);
+            workbenchNameText.text = entity.name();
+            refillOrderList(entity.take<WorkbenchComponent>());
+            recipeListHandler.gameObject.SetActive(false); // apply tooltip logic
             recipeListHandler.fillFor(entity);
             inventory.hide();
             inventory.initFor(entity);
         }
 
-        // refills order list 
-        public void updateState() {
+        public void Update() {
+            ref WorkbenchComponent workbench = ref entity.takeRef<WorkbenchComponent>();
+            if (!workbench.updated) return;
+            Debug.Log("updating order list");
+            updateLinesOrder();
+            workbench.updated = false;
+        }
+        
+        // find index of order for each order line and moves line. 
+        // if order not present in wb removes its line.
+        public void updateLinesOrder() {
+            // List<CraftingOrder> orders = entity.take<WorkbenchComponent>().orders;
+            // foreach (var line in orderLines) {
+            //     if (orders.Contains(line.order)) {
+            //         int index = orders.IndexOf(line.order);
+            //         line.transform.localPosition =  new Vector3(0, index * -120, 0);
+            //     } else {
+            //         Destroy(line.gameObject);
+            //     }
+            // }
             WorkbenchComponent workbench = entity.take<WorkbenchComponent>();
-            fillOrdersList(workbench);
+            refillOrderList(workbench);
         }
 
         public void createOrder(string recipeName) {
             int index = orderLines.Count;
             ref WorkbenchComponent workbench = ref entity.takeRef<WorkbenchComponent>();
-            Debug.Log("[WorkbenchWindowHandler] creating order " + recipeName + " " + index);
+            // Debug.Log("[WorkbenchWindowHandler] creating order " + recipeName + " " + index);
             Recipe recipe = RecipeMap.get().get(recipeName);
             CraftingOrder order = generator.generate(recipe, workbench);
             workbench.orders.Insert(index, order);
@@ -63,11 +83,16 @@ namespace game.view.ui.workbench {
             createOrderLine(index, order);
         }
 
+        public void duplicateOrder(CraftingOrder order) {
+            ref WorkbenchComponent workbench = ref entity.takeRef<WorkbenchComponent>();
+            int index = workbench.orders.IndexOf(order);
+            createOrderLine(index + 1, order);
+        }
+
         // creates ui line for order, inserts it at index. moves all following order lines lower.
         public void createOrderLine(int index, CraftingOrder order) {
-            ref WorkbenchComponent workbench = ref entity.takeRef<WorkbenchComponent>();
             GameObject line = PrefabLoader.create("craftingOrderLine", orderList.transform, new Vector3(0, (index) * -120, 0));
-            line.GetComponent<CraftingOrderLineHandler>().init(order, this);
+            line.GetComponent<CraftingOrderLineHandler>().init(order, entity, this);
             orderLines.Insert(index, line.GetComponent<CraftingOrderLineHandler>());
             for (var i = index + 1; i < orderLines.Count; i++) {
                 moveOrderLine(orderLines[i].gameObject, false);
@@ -76,21 +101,34 @@ namespace game.view.ui.workbench {
 
         public void removeOrder(CraftingOrder order) => removeOrder(getOrderIndex(order));
 
+        // removes order, cancels its task if present
         public void removeOrder(int index) {
+            // remove order line
+            // move other lines
+            // remove order from workbench
+            
+            // if was current
+            // cancel task of canceled order
+            // remove current order componentfrom workbench
+
             ref WorkbenchComponent workbench = ref entity.takeRef<WorkbenchComponent>();
             CraftingOrder order = workbench.orders[index];
             Debug.Log("[WorkbenchWindowHandler] removing order " + order.name + " " + index);
-            GameObject.Destroy(orderLines[index].gameObject);
+            Destroy(orderLines[index].gameObject);
             orderLines.RemoveAt(index);
             workbench.orders.RemoveAt(index);
-            workbench.updateFlag();
-            for (var i = index; i < orderLines.Count; i++) {
+            workbench.update();
+            for (var i = index; i < orderLines.Count; i++) { // move other order lines up
                 moveOrderLine(orderLines[i].gameObject, true);
             }
-            // if current order is deleted, WB marked with finished task
-            if (entity.Has<TaskComponent>() && entity.Has<WorkbenchCurrentOrderComponent>()
-                                            && entity.take<WorkbenchCurrentOrderComponent>().currentOrder == order) {
-                entity.Replace(new TaskFinishedComponent { status = TaskStatusEnum.CANCELED });
+            // if current order is deleted, its task is removed
+            if (entity.Has<TaskComponent>()) {
+                
+                EcsEntity task = entity.take<TaskComponent>().task;
+                if (task.take<TaskCraftingOrderComponent>().order == order) {
+                    GameModel.get().currentLocalModel.addUpdateEvent(
+                        new ModelUpdateEvent(model => model.taskContainer.removeTask(task, TaskStatusEnum.CANCELED)));
+                }
             }
         }
 
@@ -106,13 +144,11 @@ namespace game.view.ui.workbench {
             }
         }
 
-        private void fillOrdersList(WorkbenchComponent workbench) {
-            orderLines.Clear();
-            foreach (Transform child in orderList.transform) {
-                if (child.gameObject != noOrdersText.gameObject) {
-                    // Destroy(child.gameObject);
-                }
+        private void refillOrderList(WorkbenchComponent workbench) {
+            foreach (var line in orderLines) {
+                Destroy(line.gameObject);
             }
+            orderLines.Clear();
             for (var i = 0; i < workbench.orders.Count; i++) {
                 createOrderLine(i, workbench.orders[i]);
             }
@@ -147,7 +183,7 @@ namespace game.view.ui.workbench {
             localPosition.y += up ? 120 : -120;
             obj.transform.localPosition = localPosition;
         }
-    
+
         public override string getName() => "workbench";
     }
 }

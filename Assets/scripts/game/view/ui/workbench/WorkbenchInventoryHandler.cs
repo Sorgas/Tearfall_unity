@@ -21,9 +21,24 @@ namespace game.view.ui.workbench {
 
         public void initFor(EcsEntity entity) {
             this.entity = entity;
+            clear();
+            redraw();
+        }
+
+        // TODO update each item icon separately, to preserve tooltips
+        public void Update() {
+            if (!entity.take<ItemContainerComponent>().updated) return;
+            clear();
+            redraw();
+        }
+
+        private void clear() {
             foreach(Transform child in scrollContent) {
                 Destroy(child.gameObject);
             }
+        }
+        
+        private void redraw() {
             if (entity.Has<ItemContainerComponent>()) {
                 int count = 0;
                 Dictionary<ItemComponent, int> items = groupItems(entity.take<ItemContainerComponent>().items);
@@ -36,7 +51,7 @@ namespace game.view.ui.workbench {
                 }
             }
         }
-
+        
         // groups items by itemType and material
         private Dictionary<ItemComponent, int> groupItems(List<EcsEntity> items) {
             return items.Select(item => item.take<ItemComponent>())

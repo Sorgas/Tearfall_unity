@@ -5,6 +5,7 @@ using types;
 using types.building;
 using types.unit;
 using UnityEngine;
+using static game.model.component.task.order.CraftingOrder.CraftingOrderStatus;
 
 namespace game.model.component.building {
 
@@ -21,19 +22,14 @@ namespace game.model.component.building {
     public struct WorkbenchComponent {
         public List<CraftingOrder> orders;
         public bool hasActiveOrders;
-        public Job job; 
+        public bool updated;
+        public Job job;
+        public int priority;
+        public bool orderListChanged; // used to change list of orders from model, and redraw it in ui
         
-        public void updateFlag() {
-            hasActiveOrders = orders.Count != 0 && orders.Where(order => !order.paused).Count() != 0;
+        public void update() {
+            hasActiveOrders = orders.Count != 0 && orders.Count(order => order.status != PAUSED) != 0;
         }
-    }
-
-    // // if WB has orders, this component is present
-    // public struct WorkbenchOrdersComponent {
-    // }
-
-    public struct WorkbenchCurrentOrderComponent {
-        public CraftingOrder currentOrder;
     }
 
     // units can sleep on building with this component. quality affects sleep speed and mood buff

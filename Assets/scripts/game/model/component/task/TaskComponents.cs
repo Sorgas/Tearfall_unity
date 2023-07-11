@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using game.model.component.task.action;
+using game.model.component.task.order;
 using game.model.localmap;
 using Leopotam.Ecs;
 using types;
@@ -65,4 +66,8 @@ namespace game.model.component.task {
     public struct TaskTimeoutComponent {
         public int timeout;
     }
+
+public struct TaskCraftingOrderComponent {
+    public CraftingOrder order;
+}
 }

@@ -12,25 +12,25 @@ namespace game.model.system.task.designation {
     // removes task from failed designations to be reopened later
     // TODO make instant and called from container
     public class DesignationCompletionSystem : LocalModelUnscalableEcsSystem {
-        public EcsFilter<DesignationComponent, TaskFinishedComponent> filter;
+        // public EcsFilter<DesignationComponent, TaskFinishedComponent> filter;
 
         public override void Run() {
-            foreach (var i in filter) {
-                ref EcsEntity designation = ref filter.GetEntity(i);
-                TaskFinishedComponent taskFinishedComponent = filter.Get2(i);
-                Debug.Log("[DesignationCompletionSystem]: completing designation " + designation.take<DesignationComponent>().type.name + " " + designation.pos());
-
-                detachTask(designation, taskFinishedComponent); // detach task and designation from each other
-
-                // remove designation entity, failed will recreate task
-                TaskStatusEnum status = taskFinishedComponent.status;
-                if (status == CANCELED || status == COMPLETE) {
-                    Debug.Log("[DesignationCompletionSystem]: deleting designation " + designation.take<DesignationComponent>().type.name + " " + designation.pos());
-                    // model.designationContainer.destroyDesignation(designation);
-                } else if (status == FAILED) {
-                    designation.Replace(new TaskCreationTimeoutComponent { value = 50 });
-                }
-            }
+            // foreach (var i in filter) {
+            //     ref EcsEntity designation = ref filter.GetEntity(i);
+            //     TaskFinishedComponent taskFinishedComponent = filter.Get2(i);
+            //     Debug.Log("[DesignationCompletionSystem]: completing designation " + designation.take<DesignationComponent>().type.name + " " + designation.pos());
+            //
+            //     detachTask(designation, taskFinishedComponent); // detach task and designation from each other
+            //
+            //     // remove designation entity, failed will recreate task
+            //     TaskStatusEnum status = taskFinishedComponent.status;
+            //     if (status == CANCELED || status == COMPLETE) {
+            //         Debug.Log("[DesignationCompletionSystem]: deleting designation " + designation.take<DesignationComponent>().type.name + " " + designation.pos());
+            //         // model.designationContainer.destroyDesignation(designation);
+            //     } else if (status == FAILED) {
+            //         designation.Replace(new TaskCreationTimeoutComponent { value = 50 });
+            //     }
+            // }
         }
 
         private void detachTask(EcsEntity designation, TaskFinishedComponent taskFinishedComponent) {
