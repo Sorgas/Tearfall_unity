@@ -8,7 +8,7 @@ namespace mainMenu.worldmap {
     public class WorldmapController : MonoBehaviour {
         // external objects
         public RectTransform mask;
-        public RectTransform image;
+        public RectTransform image; // square imabe
         public TileBase[] tileBases;
         public Text cellDetailsText;
 
@@ -19,20 +19,22 @@ namespace mainMenu.worldmap {
 
         public int worldSize;
         private int tileSize = 32;
-        private ScrollableCameraController controller;
+        private WorldmapCameraController controller;
         private WorldmapPointerController pointerController;
         private WorldMap worldMap;
-        private IntVector2 cacheVector = new IntVector2();
-
+        private IntVector2 cacheVector = new();
+        public PlayerControls playerControls;
+        
         public void drawWorld(WorldMap worldMap) {
             clear();
             this.worldMap = worldMap;
             worldSize = worldMap.size;
             pointer.gameObject.SetActive(true);
             Vector3 bounds = new Vector3(worldSize * tileSize, worldSize * tileSize, 0);
-
+            playerControls = new();
+            playerControls.Enable();
             pointerController = new WorldmapPointerController(worldSize, pointer);
-            controller = new ScrollableCameraController(mask.rect, image, _camera, worldSize, pointerController);
+            controller = new WorldmapCameraController(this);
             
             Vector3Int cachePosition = new Vector3Int();
             for (int x = 0; x < worldSize; x++) {
@@ -50,7 +52,7 @@ namespace mainMenu.worldmap {
         }
 
         private void Update() {
-            if (controller != null) controller.handleInput();
+            if (controller != null) controller.update();
             if (pointerController != null) {
                 pointerController.update();
                 if (pointerController.pointerMoved) {

@@ -2,8 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace mainMenu
-{
+namespace mainMenu {
 public class ButtonData {
     public string name;
     public KeyCode hotKey;
@@ -14,7 +13,7 @@ public class ButtonData {
         this.name = name;
     }
 
-    public ButtonData(Button button, KeyCode hotKey,    Action action) : this(hotKey, action) {
+    public ButtonData(Button button, KeyCode hotKey, Action action) : this(hotKey, action) {
         this.button = button;
     }
 

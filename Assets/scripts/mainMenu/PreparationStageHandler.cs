@@ -3,14 +3,14 @@ using generation;
 using UnityEngine;
 
 namespace mainMenu {
-    public class PreparationButtonHandler : ButtonHandler {
+    public class PreparationStageHandler : StageHandler {
         public GameObject worldGenStage;
         public GameObject localGenStage;
 
-        protected override void initButtons() {
-            buttons = new List<ButtonData> {
-                new ButtonData("StartGameButton", KeyCode.E, startGame),
-                new ButtonData("BackButton", KeyCode.Q, back),
+        protected override List<ButtonData> getButtonsData() {
+            return new List<ButtonData> {
+                new("StartGameButton", KeyCode.E, startGame),
+                new("BackButton", KeyCode.Q, back),
             };
         }
 
