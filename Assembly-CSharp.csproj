@@ -48,7 +48,7 @@
      <Compile Include="Assets\scripts\types\item\type\ItemTypeMap.cs" />
      <Compile Include="Assets\scripts\game\model\component\plant\PlantComponents.cs" />
      <Compile Include="Assets\scripts\types\plant\PlantTypeMap.cs" />
-     <Compile Include="Assets\scripts\mainMenu\WorldGenButtonHandler.cs" />
+     <Compile Include="Assets\scripts\mainMenu\WorldGenStageHandler.cs" />
      <Compile Include="Assets\scripts\types\unit\CreatureTypeProcessor.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalRampFloorPlacer.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\RectanglePacking\RectanglePacker.cs" />
@@ -73,7 +73,7 @@
      <Compile Include="Assets\scripts\types\item\recipe\RawRecipe.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedCompositeNavigationController.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToPositionAction.cs" />
-     <Compile Include="Assets\OptionsMenuButtonHandler.cs" />
+     <Compile Include="Assets\scripts\mainMenu\OptionsMenuButtonHandler.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\ListExtensions.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EcsEntityExtension.cs" />
      <Compile Include="Assets\scripts\generation\plant\PlantGenerator.cs" />
@@ -114,7 +114,7 @@
      <Compile Include="Assets\scripts\types\item\recipe\Ingredient.cs" />
      <Compile Include="Assets\scripts\types\action\ActionTargetTypeEnum.cs" />
      <Compile Include="Assets\scripts\util\geometry\ValueRangeInt.cs" />
-     <Compile Include="Assets\scripts\mainMenu\PreparationButtonHandler.cs" />
+     <Compile Include="Assets\scripts\mainMenu\PreparationStageHandler.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\ArrayExtension.cs" />
      <Compile Include="Assets\scripts\types\plant\PlantBlockTypeEnum.cs" />
      <Compile Include="Assets\scripts\types\deity\DeityAspectEnum.cs" />
@@ -169,6 +169,7 @@
      <Compile Include="Assets\scripts\types\plant\PlantSpriteMap.cs" />
      <Compile Include="Assets\scripts\game\model\system\ModelUpdateSystem.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\RampUtil.cs" />
+     <Compile Include="Assets\scripts\mainMenu\MainMenuInitializer.cs" />
      <Compile Include="Assets\scripts\game\model\UnitContainer.cs" />
      <Compile Include="Assets\scripts\types\unit\Skill.cs" />
      <Compile Include="Assets\scripts\game\view\ui\menu_widget\MenuWidgetHandler.cs" />
@@ -202,7 +203,7 @@
      <Compile Include="Assets\scripts\util\geometry\IntVector3.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\UnitNeedComponents.cs" />
      <Compile Include="Assets\scripts\game\model\WorldModel.cs" />
-     <Compile Include="Assets\scripts\mainMenu\ButtonHandler.cs" />
+     <Compile Include="Assets\scripts\mainMenu\StageHandler.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalStoneLayersGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantGrowthSystem.cs" />
      <Compile Include="Assets\scripts\types\material\Material.cs" />
@@ -223,7 +224,6 @@
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalBuildingGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\container\AbstractContainer.cs" />
      <Compile Include="Assets\scripts\game\model\WorldMap.cs" />
-     <Compile Include="Assets\scripts\mainMenu\worldmap\TilesHolder.cs" />
      <Compile Include="Assets\scripts\types\item\type\ItemType.cs" />
      <Compile Include="Assets\scripts\generation\item\CraftingOrderGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantProductGrowthSystem.cs" />
@@ -251,7 +251,7 @@
      <Compile Include="Assets\scripts\util\input\DelayedKeyController.cs" />
      <Compile Include="Assets\scripts\types\unit\CreatureSpriteMap.cs" />
      <Compile Include="Assets\scripts\game\view\camera\SelectionState.cs" />
-     <Compile Include="Assets\scripts\mainMenu\worldmap\ScrollableCameraController.cs" />
+     <Compile Include="Assets\scripts\mainMenu\worldmap\WorldmapCameraController.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\plant\FarmHoeingAction.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarInitializer.cs" />
@@ -398,6 +398,7 @@
      <Compile Include="Assets\scripts\util\geometry\bounds\IntBounds3.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\BuildingTilesetHolder.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\StoredItemsManager.cs" />
+     <Compile Include="Assets\scripts\mainMenu\LocationSelectionStageHandler.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenSequence.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\ActionPart.cs" />
      <Compile Include="Assets\scripts\types\building\BuildingTypeMap.cs" />
@@ -444,7 +445,7 @@
      <Compile Include="Assets\scripts\game\view\with_entity_selector\CameraWithEsMovementSystem.cs" />
      <Compile Include="Assets\scripts\types\plant\raw\RawPlantLifeStage.cs" />
      <Compile Include="Assets\scripts\game\input\GameInputManager.cs" />
-     <Compile Include="Assets\scripts\mainMenu\MainMenuButtonHandler.cs" />
+     <Compile Include="Assets\scripts\mainMenu\MainMenuStageHandler.cs" />
      <Compile Include="Assets\scripts\mainMenu\ButtonData.cs" />
      <Compile Include="Assets\scripts\game\model\container\task\TaskCompletionUtil.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromContainerAction.cs" />
@@ -452,7 +453,7 @@
      <Compile Include="Assets\scripts\game\view\ui\gamespeed_widget\GamespeedWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\StepOffAction.cs" />
      <Compile Include="Assets\scripts\game\view\ui\stockpileMenu\StockpileConfigRowHandler.cs" />
-     <Compile Include="Assets\resources\ui_prefabs\SliderWithLabel\SliderLabelUpdater.cs" />
+     <Compile Include="Assets\scripts\mainMenu\ui\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
      <Folder Include="Assets" />
@@ -574,7 +575,6 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <Folder Include="Assets\scripts\types\unit\need" />
-     <Folder Include="Assets\resources\ui_prefabs\SliderWithLabel" />
      <Folder Include="Assets\resources\data\plants" />
      <Folder Include="Assets\scripts\game\model\component\task\action\equipment" />
      <Folder Include="Assets\scripts\game\model\task" />
@@ -612,6 +612,7 @@
      <Folder Include="Assets\resources\icons\items" />
      <Folder Include="Assets\scripts\game\model\component\task\order" />
      <Folder Include="Assets\scripts\game\model\container" />
+     <Folder Include="Assets\resources\prefabs\mainMenu" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
      <Folder Include="Assets\Scenes\MainMenu" />
      <None Include="Assets\resources\data\items\tools.json" />
@@ -655,6 +656,7 @@
      <Folder Include="Assets\resources\prefabs\menuWidget" />
      <Folder Include="Assets\scripts\game\model\component\task\action\equipment\obtain" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+     <Folder Include="Assets\scripts\mainMenu\ui" />
      <Folder Include="Assets\scripts\game\model\component" />
      <Folder Include="Assets\scripts\game\input" />
      <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />

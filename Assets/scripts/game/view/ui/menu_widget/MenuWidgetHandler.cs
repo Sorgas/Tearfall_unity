@@ -6,8 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace game.view.ui.menu_widget {
-    
-    // create buttons in side menu widget
+// create buttons in side menu widget
     public class MenuWidgetHandler : MonoBehaviour, IHotKeyAcceptor {
         public RectTransform buttonPrefab;
         private readonly Dictionary<KeyCode, Button> hotKeys = new Dictionary<KeyCode, Button>();
