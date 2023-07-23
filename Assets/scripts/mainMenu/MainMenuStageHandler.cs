@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
+using mainMenu.location_selection_stage;
 using UnityEngine;
 
 namespace mainMenu {
 // handler to be attached to parent object of button group
 public class MainMenuStageHandler : StageHandler {
-    public GameObject worldGenStage;
-    public GameObject optionsStage;
-    public GameObject gameLoadStage;
-
+    public WorldGenStageHandler worldGenStage; 
+    public OptionsStageHandler optionsStage; // TODO 
+    public StageHandler gameLoadStage; // TODO 
+    public LocationSelectionStageHandler locationSelectStage;
+    
     protected override List<ButtonData> getButtonsData() {
         return new List<ButtonData> {
             new("ContinueGameButton", KeyCode.C, toPreviousGame),

@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace mainMenu {
     public class PreparationStageHandler : StageHandler {
-        public GameObject worldGenStage;
-        public GameObject localGenStage;
+        public WorldGenStageHandler worldGenStage;
+        public LocalGenerationHandler localGenStage;
 
         protected override List<ButtonData> getButtonsData() {
             return new List<ButtonData> {
@@ -31,7 +31,8 @@ namespace mainMenu {
                 settler.age = 30;
                 GenerationState.get().preparationState.settlers.Add(settler);
             }
-            switchTo(localGenStage);
+            gameObject.SetActive(false);
+            localGenStage.gameObject.SetActive(true);
         }
 
         private void back() {

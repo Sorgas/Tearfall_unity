@@ -8,7 +8,7 @@ namespace util.lang {
         public static T get() {
             if (instance == null) {
                 lock (lockObject) {
-                    Debug.Log("[Singleton]: creating instance of " + typeof(T).Name);
+                    // Debug.Log("[Singleton]: creating instance of " + typeof(T).Name);
                     instance = new T();
                     instance.init();
                 }

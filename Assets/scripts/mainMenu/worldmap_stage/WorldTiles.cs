@@ -1,4 +1,4 @@
-﻿namespace mainMenu.worldmap {
+﻿namespace mainMenu.worldmap_stage {
 public enum WorldTiles {
     FIELD,
     FOREST,

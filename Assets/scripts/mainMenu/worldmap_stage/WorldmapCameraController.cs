@@ -1,10 +1,10 @@
 ﻿using System;
+using mainMenu.worldmap_stage;
 using UnityEngine;
 using util.geometry;
 using util.geometry.bounds;
 
 namespace mainMenu.worldmap {
-// TODO WASD - move camera, update hint text, don't move pointer
 public class WorldmapCameraController {
     public Camera camera;
     public int worldSize;
@@ -23,7 +23,7 @@ public class WorldmapCameraController {
     public WorldmapCameraController(WorldmapController worldmapController) {
         camera = worldmapController._camera;
         playerControls = worldmapController.playerControls;
-        worldSize = worldmapController.worldSize;
+        worldSize = worldmapController.worldMap.size;
         viewportSize = worldmapController.mask.rect;
         updateCameraBounds();
         camera.orthographicSize = defaultCameraZoom;
@@ -36,6 +36,10 @@ public class WorldmapCameraController {
         ensureCameraBounds();
     }
 
+    public void setCameraToCenter() {
+        camera.transform.localPosition = new Vector3(worldSize / 2f, worldSize / 2f, -2);
+    }
+
     private void updateCameraPosition() {
         Vector2 vector = playerControls.Player.CameraMove.ReadValue<Vector2>();
         speed.x += vector.x;
@@ -44,17 +48,6 @@ public class WorldmapCameraController {
         if (speedValue > cameraMaxSpeed) {
             speed *= cameraMaxSpeed / speedValue;
         }
-        Debug.Log(speed.magnitude);
-        // Vector3 position = camera.transform.localPosition;
-        // if (speed.x != 0) {
-        //     if (position.x - cameraBounds.minX < -speed.x) speed.x = cameraBounds.minX - position.x;
-        //     if (cameraBounds.maxX - position.x < speed.x) speed.x = cameraBounds.maxX - position.x;
-        // }
-        // if (speed.y != 0) {
-        //     if (position.y - cameraBounds.minY < -speed.y) speed.y = cameraBounds.minY - position.y;
-        //     if (cameraBounds.maxY - position.y < speed.y) speed.y = cameraBounds.maxY - position.y;
-        // }
-
         camera.transform.Translate(speed, Space.Self);
         speed.x *= 0.5f;
         speed.y *= 0.5f;
@@ -82,10 +75,6 @@ public class WorldmapCameraController {
         float hiddenTiles = (1f - viewportSize.height / viewportSize.width) * cameraH;
         cameraBounds.minY -= hiddenTiles;
         cameraBounds.maxY += hiddenTiles;
-
-        // effectiveCameraSize.set(-cameraH, hiddenTiles - cameraH, cameraH - 1, cameraH - hiddenTiles - 1);
-        // Debug.Log(effectiveCameraSize);
-        // cameraDistanceRange.max = worldSize / 2 + padding + hiddenTiles;
     }
 
     private void ensureCameraBounds() {

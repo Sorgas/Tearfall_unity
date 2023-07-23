@@ -2,22 +2,25 @@
 using System.Collections.Generic;
 using game.model;
 using generation;
-using mainMenu.worldmap;
+using mainMenu.location_selection_stage;
+using mainMenu.worldmap_stage;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = System.Random;
 using Slider = UnityEngine.UI.Slider;
 
 namespace mainMenu {
+// TODO add world config popup with more options
 public class WorldGenStageHandler : StageHandler {
+    // controls
     public InputField seedField;
     public Slider sizeSlider;
     public Slider deityCountSlider;
     public Slider civCountSlider;
-    public WorldmapController worldmapController;
 
-    public GameObject mainMenuStage;
-    public GameObject locationSelectionStage;
+    public WorldmapController worldmapController;
+    public MainMenuStageHandler mainMenuStage; // previous
+    public LocationSelectionStageHandler locationSelectionStage; // next
     private GameObject continueButton;
 
     protected override List<ButtonData> getButtonsData() {
@@ -34,15 +37,32 @@ public class WorldGenStageHandler : StageHandler {
         continueButton = buttons["ContinueButton"].gameObject;
     }
 
+    public new void Update() {
+        base.Update();
+    }
+
+    public void init() {
+        worldmapController.drawWorld(GameModel.get().world.worldModel.worldMap);
+        worldmapController.setCameraToCenter();
+        worldmapController.enablePointer();
+        continueButton.gameObject.SetActive(true);
+    }
+    
     // invoked several times
-    public void createWorld() {
+    // TODO add ui spinner for world generation
+    private void createWorld() {
         int seed = Convert.ToInt32(seedField.text);
         int size = (int)sizeSlider.value * 100;
         GenerationState.get().worldGenConfig.seed = seed;
         GenerationState.get().worldGenConfig.size = size;
+        // TODO add other parameters
         GenerationState.get().generateWorld();
-        worldmapController.drawWorld(GameModel.get().world.worldModel.worldMap);
-        continueButton.gameObject.SetActive(true);
+        init();
+    }
+
+    private void resetState() {
+        worldmapController.clear();
+        continueButton.gameObject.SetActive(false);
     }
 
     private void backToMainMenu() {
@@ -50,13 +70,9 @@ public class WorldGenStageHandler : StageHandler {
         resetState();
     }
 
-    private void resetState() {
-        worldmapController.clear();
-        continueButton.gameObject.SetActive(false);
-    }
-    
     private void toPositionSelection() {
         switchTo(locationSelectionStage);
+        locationSelectionStage.init();
     }
 }
 }

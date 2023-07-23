@@ -2,8 +2,8 @@
 using UnityEngine;
 
 namespace mainMenu {
-public class OptionsMenuButtonHandler : StageHandler {
-    public GameObject mainMenuStage;
+public class OptionsStageHandler : StageHandler {
+    public MainMenuStageHandler mainMenuStage;
 
     protected override List<ButtonData> getButtonsData() {
         return new List<ButtonData> {

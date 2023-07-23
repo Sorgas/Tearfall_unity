@@ -26,17 +26,17 @@ public abstract class StageHandler : MonoBehaviour {
         }
     }
 
-    void Update() {
+    public void Update() {
         foreach (KeyCode key in hotkeyMap.Keys) {
             if (Input.GetKeyDown(key)) hotkeyMap[key].action.Invoke();
         }
     }
 
     // disables this GO and enables given GO
-    protected void switchTo(GameObject value) {
+    protected void switchTo(StageHandler value) {
         if (value == null) return;
         gameObject.SetActive(false);
-        value.SetActive(true);
+        value.gameObject.SetActive(true);
     }
 }
 }
