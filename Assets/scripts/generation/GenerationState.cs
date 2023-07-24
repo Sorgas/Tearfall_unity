@@ -20,6 +20,7 @@ namespace generation {
             worldGenContainer = new WorldGenContainer();
             worldGenSequence = new WorldGenSequence();
             worldGenSequence.run();
+            world.name = worldGenContainer.worldName;
             WorldMap worldMap = worldGenContainer.createWorldMap();
             world.worldModel.worldMap = worldMap;
             GameModel.get().world = world; // first instantiating on GameModel

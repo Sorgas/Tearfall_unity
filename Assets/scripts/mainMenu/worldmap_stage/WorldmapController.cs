@@ -1,5 +1,6 @@
 ﻿using game.model;
 using mainMenu.worldmap;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -10,7 +11,8 @@ public class WorldmapController : MonoBehaviour {
     // external objects
     public RectTransform mask;
     public Button mapPanel;
-    public TileBase[] tileBases;
+    public TileBase[] tileBases; // TODO replace with actual world tiles
+    public TextMeshProUGUI nameText;
 
     // prefab components
     public Transform pointer;
@@ -22,28 +24,26 @@ public class WorldmapController : MonoBehaviour {
     public bool locationChanged;
 
     private int tileSize = 32;
-    private WorldmapCameraController cameraController;
-    private WorldmapPointerController pointerController;
+    private WorldmapCameraController cameraController = new();
+    private WorldmapPointerController pointerController= new();
     public WorldMap worldMap;
     public PlayerControls playerControls;
 
-    public void Start() {
+    private void Update() {
+        cameraController?.update();
+        pointerController?.update();
+    }
+
+    public void setWorldMap(WorldMap newWorldMap) {
+        clear();
         playerControls = new();
         playerControls.Enable();
-    }
-
-    private void Update() {
-        if (cameraController != null) cameraController.update();
-        if (pointerController != null) pointerController.update();
-    }
-
-    public void drawWorld(WorldMap worldMap2) {
-        clear();
-        worldMap = worldMap2;
-        int worldSize = worldMap2.size;
-        pointerController = new WorldmapPointerController(this);
-        cameraController = new WorldmapCameraController(this);
-
+        pointerController.init(this);
+        cameraController.init(this);
+        worldMap = newWorldMap;
+        pointerController.setWorldMap(worldMap);
+        cameraController.setWorldMap(worldMap);
+        int worldSize = newWorldMap.size;
         Vector3Int cachePosition = new Vector3Int();
         for (int x = 0; x < worldSize; x++) {
             for (int y = 0; y < worldSize; y++) {
@@ -53,6 +53,10 @@ public class WorldmapController : MonoBehaviour {
         }
     }
 
+    public void setWorldName(string name) {
+        nameText.text = name;
+    }
+    
     public void enablePointer() {
         pointer.gameObject.SetActive(true);
     }

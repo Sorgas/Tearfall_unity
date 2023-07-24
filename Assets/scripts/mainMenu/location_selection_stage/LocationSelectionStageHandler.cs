@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using game.model;
+using generation;
 using mainMenu.worldmap_stage;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using util.geometry;
 
 namespace mainMenu.location_selection_stage {
 // allow player to select position in the world 
@@ -12,10 +12,11 @@ namespace mainMenu.location_selection_stage {
 // when player clicks over world map, selects position, TODO generates local map, shows image of local map 
 public class LocationSelectionStageHandler : StageHandler {
     public WorldmapController worldmapController;
-    public Image localMapImage; 
+    public Image localMapImage;
     public TextMeshProUGUI text;
     public WorldGenStageHandler worldGenStage;
     public PreparationStageHandler preparationStage;
+    public Button continueButton;
 
     protected override List<ButtonData> getButtonsData() {
         return new List<ButtonData> {
@@ -26,9 +27,7 @@ public class LocationSelectionStageHandler : StageHandler {
 
     public new void Start() {
         base.Start();
-        // continueButton = buttons["ContinueButton"].gameObject;
-        // EventSystem.current.SetSelectedGameObject(null, null);
-        // worldmapController.
+        continueButton.gameObject.SetActive(false); // disabled, until player clicks on worldmap
     }
 
     public void Update() {
@@ -39,32 +38,37 @@ public class LocationSelectionStageHandler : StageHandler {
         if (worldmapController.locationChanged) {
             // TODO regenerate local map
             worldmapController.locationChanged = false;
+            Vector3 locationPosition = worldmapController.getLocationPosition();
+            PreparationState.get().location = new Vector2Int((int)locationPosition.x, (int)locationPosition.y);
+            // TODO draw local map to image
+            continueButton.gameObject.SetActive(true); // TODO validate location (not sea, not mountain)
         }
     }
-    
+
     public void init() {
-        worldmapController.drawWorld(GameModel.get().world.worldModel.worldMap);
+        worldmapController.setWorldMap(GameModel.get().world.worldModel.worldMap);
         worldmapController.enablePointer();
         worldmapController.enableLocationSelector();
         worldmapController.setCameraToCenter();
         // TODO generate local map, generate image from local map.
     }
-    
+
     private void updateText() {
         WorldMap worldMap = GameModel.get().world.worldModel.worldMap;
-        IntVector2 cacheVector = new();
-        cacheVector.set(worldmapController.getPointerPosition());
+        Vector3 pointerPosition = worldmapController.getPointerPosition();
+        Vector2Int cacheVector = new((int)pointerPosition.x, (int)pointerPosition.y);
         text.text = cacheVector + " " + worldMap.elevation[cacheVector.x, cacheVector.y];
     }
-    
+
     private void backToWorldgen() {
         switchTo(worldGenStage);
-        worldGenStage.init();
+        worldGenStage.initWorldMapController();
         worldmapController.clear();
     }
-    
+
     private void toPreparationStage() {
         switchTo(preparationStage);
+        worldmapController.gameObject.SetActive(false);
     }
 }
 }

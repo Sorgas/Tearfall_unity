@@ -456,6 +456,8 @@
      <Compile Include="Assets\scripts\mainMenu\ui\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
+     <Compile Include="Assets\scripts\generation\AbstractNameGenerator.cs" />
+     <Compile Include="Assets\scripts\generation\worldgen\generators\WorldNameGenerator.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\resources\prefabs\materialSelector" />
      <None Include="Assets\resources\data\items\growths.json" />

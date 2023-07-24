@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using game.model;
+using UnityEngine;
 using util.geometry.bounds;
 using Vector3 = UnityEngine.Vector3;
 
@@ -16,28 +17,32 @@ public class WorldmapPointerController {
     private Camera worldCamera;
     private WorldmapController controller;
 
-    public WorldmapPointerController(WorldmapController controller) {
+    public void init(WorldmapController controller) {
         this.controller = controller;
         pointer = controller.pointer;
         locationSelector = controller.locationSelector;
         playerControls = controller.playerControls;
         worldViewport = controller.mask;
         worldCamera = controller._camera;
-        int worldSize = controller.worldMap.size;
-        bounds = new IntBounds2(0, 0, worldSize - 1, worldSize - 1);
         controller.mapPanel.onClick.AddListener(handleClick);
     }
-
+    
     public void update() {
+        if (bounds == null) return; 
         Vector2 mousePosition = playerControls.UI.Point.ReadValue<Vector2>();
         Vector3Int worldPosition = getWorldPositionByScreenPosition(mousePosition);
         Vector3 pointerPosition = bounds.putInto(worldPosition);
         if (pointer.localPosition != pointerPosition) {
             pointer.localPosition = pointerPosition;
-            controller.locationChanged = true;
+            controller.pointerMoved = true;
         }
     }
 
+    public void setWorldMap(WorldMap worldMap) {
+        int worldSize = worldMap.size;
+        bounds = new IntBounds2(0, 0, worldSize - 1, worldSize - 1);
+    }
+    
     private Vector3Int getWorldPositionByScreenPosition(Vector2 screenPos) {
         Vector2 viewportPosition; // canvas units
         RectTransformUtility.ScreenPointToLocalPointInRectangle(worldViewport, screenPos, null, out viewportPosition);
@@ -51,7 +56,6 @@ public class WorldmapPointerController {
     }
     
     private void handleClick() {
-        Debug.Log("clicked");
         if (!locationSelector.gameObject.activeSelf) return;
         locationSelector.localPosition = pointer.localPosition;
         controller.locationChanged = true;

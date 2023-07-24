@@ -1,10 +1,12 @@
 ﻿using game.model;
+using generation.worldgen.generators;
 using generation.worldgen.generators.elevation;
 
 namespace generation.worldgen {
     public class WorldGenSequence {
-        
-        private WorldElevationGenerator elevationGenerator;
+
+        private WorldNameGenerator nameGenerator = new();
+        private WorldElevationGenerator elevationGenerator = new();
         // private OceanFiller oceanFiller;
         // private TemperatureGenerator temperatureGenerator;
         // private RainfallGenerator rainfallGenerator;
@@ -17,22 +19,8 @@ namespace generation.worldgen {
         // private BiomeGenerator biomeGenerator;
         // private CelestialBodiesGenerator celestialBodiesGenerator;
 
-        public WorldGenSequence() {
-            elevationGenerator = new WorldElevationGenerator();
-            // oceanFiller = new WorldOceanFiller();
-            // riverGenerator = new RiverGenerator();
-            // brookGenerator = new BrookGenerator();
-            // temperatureGenerator = new TemperatureGenerator();
-            // rainfallGenerator = new RainfallGenerator();
-            // erosionGenerator = new ErosionGenerator();
-            // elevationModifier = new ElevationModifier();
-            // lakeGenerator = new LakeGenerator();
-            // drainageGenerator = new DrainageGenerator();
-            // biomeGenerator = new BiomeGenerator();
-            // celestialBodiesGenerator = new CelestialBodiesGenerator();
-        }
-
         public void run() {
+            nameGenerator.generate();
             elevationGenerator.generate(); // generates elevation [0, 1]
             // celestialBodiesGenerator.execute(container); 
             // container.fillMap();

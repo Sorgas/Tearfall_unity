@@ -1,4 +1,5 @@
 ﻿using System;
+using game.model;
 using mainMenu.worldmap_stage;
 using UnityEngine;
 using util.geometry;
@@ -20,20 +21,23 @@ public class WorldmapCameraController {
     private const float defaultCameraZoom = 20;
     private const float cameraRelativeMaxSpeed = 0.05f; // relative to camera size
 
-    public WorldmapCameraController(WorldmapController worldmapController) {
-        camera = worldmapController._camera;
-        playerControls = worldmapController.playerControls;
-        worldSize = worldmapController.worldMap.size;
-        viewportSize = worldmapController.mask.rect;
-        updateCameraBounds();
+    public void init(WorldmapController controller) {
+        camera = controller._camera;
+        playerControls = controller.playerControls;
+        viewportSize = controller.mask.rect;
         camera.orthographicSize = defaultCameraZoom;
         setCameraMaxSpeed();
     }
-
+    
     public void update() {
-        zoomMinimap(Input.GetAxis("Mouse ScrollWheel"));
+        zoomMinimap(playerControls.UI.ScrollWheel.ReadValue<Vector2>().y);
         updateCameraPosition();
         ensureCameraBounds();
+    }
+
+    public void setWorldMap(WorldMap worldMap) {
+        worldSize = worldMap.size;
+        updateCameraBounds();
     }
 
     public void setCameraToCenter() {
@@ -92,7 +96,7 @@ public class WorldmapCameraController {
     private void zoomMinimap(float delta) {
         if (delta == 0) return;
         float oldZoom = camera.orthographicSize;
-        camera.orthographicSize = cameraSizeRange.clamp(oldZoom + delta * 2);
+        camera.orthographicSize = cameraSizeRange.clamp(oldZoom + delta / 120);
         setCameraMaxSpeed();
         if (Math.Abs(oldZoom - camera.orthographicSize) > 0.01f) updateCameraBounds();
     }

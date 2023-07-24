@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 
 namespace generation.unit {
-class UnitNameGenerator {
+class UnitNameGenerator : AbstractNameGenerator {
     private NamesDescriptor names;
 
     public UnitNameGenerator() {

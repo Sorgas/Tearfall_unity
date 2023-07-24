@@ -4,6 +4,7 @@ using util.geometry;
 
 namespace generation.worldgen {
     public class WorldGenContainer {
+        public string worldName;
         public float[,] elevation;
         public float[,] drainage;
         public float[,] summerTemperature;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using util.lang;
 
 namespace generation
@@ -7,6 +8,7 @@ namespace generation
     public class PreparationState : Singleton<PreparationState>{
         public List<SettlerData> settlers = new();
         public List<ItemData> items = new();
+        public Vector2Int location;
     }
 
     // Descriptor for settler. Used to generate unit when game starts.

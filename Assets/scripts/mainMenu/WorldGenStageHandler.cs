@@ -41,8 +41,10 @@ public class WorldGenStageHandler : StageHandler {
         base.Update();
     }
 
-    public void init() {
-        worldmapController.drawWorld(GameModel.get().world.worldModel.worldMap);
+    public void initWorldMapController() {
+        worldmapController.gameObject.SetActive(true);
+        worldmapController.setWorldMap(GameModel.get().world.worldModel.worldMap);
+        worldmapController.setWorldName(GameModel.get().world.name);
         worldmapController.setCameraToCenter();
         worldmapController.enablePointer();
         continueButton.gameObject.SetActive(true);
@@ -57,7 +59,7 @@ public class WorldGenStageHandler : StageHandler {
         GenerationState.get().worldGenConfig.size = size;
         // TODO add other parameters
         GenerationState.get().generateWorld();
-        init();
+        initWorldMapController();
     }
 
     private void resetState() {
