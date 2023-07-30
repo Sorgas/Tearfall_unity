@@ -4,7 +4,8 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace types.unit.body.raw {
-    public class BodyTemplateProcessor {
+// generates body template for creature types
+public class BodyTemplateProcessor {
         private static string LEFT_PREFIX = "left ";
         private static string RIGHT_PREFIX = "right ";
         private bool debugMode = false;
@@ -32,9 +33,7 @@ namespace types.unit.body.raw {
             return template;
         }
 
-        /**
-         * Multiplies limbs if they are mirrored.
-         */
+        // Multiplies limbs if they are mirrored.
         private Dictionary<string, RawBodyPart> doubleMirroredParts(Dictionary<string, RawBodyPart> map) {
             Dictionary<string, RawBodyPart> newMap = new Dictionary<string, RawBodyPart>();
             foreach (RawBodyPart part in map.Values) {
@@ -59,9 +58,7 @@ namespace types.unit.body.raw {
             return newPart;
         }
 
-        /**
-         * Creates body parts and links the between each other.
-         */
+        // Creates body parts and links the between each other.
         private void fillBodyParts(Dictionary<string, RawBodyPart> rawPartsMap, BodyTemplate bodyTemplate) {
             foreach (RawBodyPart rawPart in rawPartsMap.Values) { // create limbs
                 bodyTemplate.body.Add(rawPart.name, new BodyPart(rawPart));
@@ -72,10 +69,8 @@ namespace types.unit.body.raw {
             }
         }
 
-        /**
-         * Observes limbs tree and copies mirroring flags from limbs to their children.
-         * There should be only one flag on the path from root to leaf limb.
-         */
+        // Observes limbs tree and copies mirroring flags from limbs to their children.
+        // There should be only one flag on the path from root to leaf limb.
         private void updateLimbsMirroringFlags(Dictionary<string, RawBodyPart> map) {
             map.Values
                 .Where(rawBodyPart => !rawBodyPart.mirrored)

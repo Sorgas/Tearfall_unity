@@ -10,22 +10,22 @@ namespace generation.unit {
         public UnitEquipmentComponent generate(CreatureType type) {
             var component = new UnitEquipmentComponent();
             component.slots = new Dictionary<string, EquipmentSlot>();
+            component.grabSlots = new Dictionary<string, GrabEquipmentSlot>();
             foreach (var pair in type.slots) {
-                EquipmentSlot slot = isGrabSlot(pair.Key, type)
-                    ? new GrabEquipmentSlot(pair.Key, pair.Value)
-                    : new EquipmentSlot(pair.Key, pair.Value);
+                EquipmentSlot slot;
+                if (isGrabSlot(pair.Key, type)) {
+                    slot = new GrabEquipmentSlot(pair.Key, pair.Value);
+                    component.grabSlots.Add(pair.Key, (GrabEquipmentSlot)slot);
+                } else {
+                    slot = new EquipmentSlot(pair.Key, pair.Value);
+                }
                 component.slots.Add(pair.Key, slot);
             }
-            component.grabSlots = new Dictionary<string, GrabEquipmentSlot>();
             component.items = new HashSet<EcsEntity>();
-            fillSlots(ref component);
             return component;
         }
 
-        private void fillSlots(ref UnitEquipmentComponent component) {
-            component.grabSlots.Add("left", new GrabEquipmentSlot("left", new List<string>()));
-        }
-
+        // slot can grab items if any limb of it has "grab" tag
         private bool isGrabSlot(string slot, CreatureType type) {
             return type.slots[slot]
                 .Select(slotLimb => type.bodyParts[slotLimb].tags)

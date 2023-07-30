@@ -16,7 +16,7 @@ namespace types.unit {
             CreatureType type = new CreatureType(raw);
             // Debug.Log("processing creature type  " + type.name);
 
-            if (!typeMap.templates.ContainsKey(raw.bodyTemplate)) {
+            if (!typeMap.bodyTemplates.ContainsKey(raw.bodyTemplate)) {
                 Debug.LogWarning("Creature " + type.name + " has invalid body template " + raw.bodyTemplate);
                 return null;
             }
@@ -31,7 +31,7 @@ namespace types.unit {
             //         Logger.LOADING.logError("Invalid stat name " + statName + " in creature type " + raw.name);
             //     }
             // }
-            BodyTemplate template = typeMap.templates[raw.bodyTemplate];
+            BodyTemplate template = typeMap.bodyTemplates[raw.bodyTemplate];
             foreach (var part in template.body.Values) {
                 type.bodyParts.Add(part.name, part.clone());
             }

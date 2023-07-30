@@ -5,6 +5,7 @@ using game.view.system.mouse_tool;
 using game.view.util;
 using Leopotam.Ecs;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 using util.lang.extension;
 
@@ -26,7 +27,7 @@ namespace game.view.ui.unit_menu {
     
         public override void initFor(EcsEntity unit) {
             UnitComponent unitComponent = unit.take<UnitComponent>();
-            nameNicknameProfessionText.text = unit.name(); // TODO nickname, profession
+            nameNicknameProfessionText.text = unit.name(); // TODO add nickname, profession
             ageText.text = "Age: " + unit.take<AgeComponent>().age;
             healthMoodWealthText.text = unit.take<HealthComponent>().overallStatus + ", "
                                                                                    + unit.take<MoodComponent>().status + ", "
@@ -39,6 +40,7 @@ namespace game.view.ui.unit_menu {
             });
         }
 
+        // shows images of tools in hands or empty-hand icon
         private void showTools(EcsEntity unit) {
             UnitEquipmentComponent equipment = unit.take<UnitEquipmentComponent>();
             string leftSlot = findSlotName(equipment.grabSlots.Keys, "left");
@@ -61,9 +63,13 @@ namespace game.view.ui.unit_menu {
         }
 
         private void showSlot(EcsEntity item, Image image, TextMeshProUGUI text) {
-            if (item == EcsEntity.Null) return;
-            image.sprite = ItemVisualUtil.resolveItemSprite(item);
-            text.text = item.name();
+            if (item == EcsEntity.Null) {
+                image.sprite = IconLoader.get().getSprite("unit_window/empty_hand");
+                text.text = "none";
+            } else {
+                image.sprite = ItemVisualUtil.resolveItemSprite(item);
+                text.text = item.name();
+            }
         }
 
         private string findSlotName(IEnumerable<string> names, string substring) {

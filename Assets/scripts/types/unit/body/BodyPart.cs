@@ -6,10 +6,10 @@ namespace types.unit.body {
         //determine wear items, that can be equipped (slot name = side + type)
         public string name; //
         public BodyPart root; // each body part points to one it`s connected to
-        public readonly List<string> layers = new List<string>(); // tissue layers
-        public readonly List<string> externalOrgans = new List<string>();
-        public readonly List<string> internalOrgans = new List<string>();
-        public readonly List<string> tags = new List<string>();
+        public readonly List<string> layers = new(); // tissue layers
+        public readonly List<string> externalOrgans = new();
+        public readonly List<string> internalOrgans = new();
+        public readonly List<string> tags = new();
 
         public BodyPart(RawBodyPart rawBodyPart) {
             name = rawBodyPart.name;

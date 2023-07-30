@@ -11,7 +11,7 @@ namespace types.unit {
     // stores types of creatures loaded from jsons
     public class CreatureTypeMap : Singleton<CreatureTypeMap>{
         public readonly Dictionary<string, CreatureType> creatureTypes = new();
-        public readonly Dictionary<string, BodyTemplate> templates = new();
+        public readonly Dictionary<string, BodyTemplate> bodyTemplates = new();
 
         public CreatureTypeMap() {
             loadTemplates();
@@ -23,7 +23,10 @@ namespace types.unit {
             TextAsset file = Resources.Load<TextAsset>("data/creatures/body_templates");
             BodyTemplateProcessor templateProcessor = new();
             RawBodyTemplate[] rawTemplates = JsonConvert.DeserializeObject<RawBodyTemplate[]>(file.text);
-            rawTemplates.Select(template => templateProcessor.process(template)).ToList().ForEach(template => templates.Add(template.name, template));
+            rawTemplates
+                .Select(template => templateProcessor.process(template))
+                .ToList()
+                .ForEach(template => bodyTemplates.Add(template.name, template));
         }
 
         private void loadCreatures() {

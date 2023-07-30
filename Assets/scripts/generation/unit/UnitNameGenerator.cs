@@ -4,11 +4,15 @@ using UnityEngine;
 
 namespace generation.unit {
 class UnitNameGenerator : AbstractNameGenerator {
-    private NamesDescriptor names;
-
-    public UnitNameGenerator() {
-        TextAsset file = Resources.Load<TextAsset>("data/creatures/body_templates");
-        names = JsonConvert.DeserializeObject<NamesDescriptor>(file.text);
+    private NamesDescriptor namesDescriptor_;
+    private NamesDescriptor namesDescriptor {
+        get {
+            if (namesDescriptor_== null) {
+                TextAsset file = Resources.Load<TextAsset>("data/nameGenerators/units");
+                namesDescriptor_= JsonConvert.DeserializeObject<NamesDescriptor>(file.text);
+            }
+            return namesDescriptor_;
+        }
     }
 
     public NameComponent generate(bool male) {
@@ -20,9 +24,10 @@ class UnitNameGenerator : AbstractNameGenerator {
     }
 
     public string generateName(bool male) {
-        return getRandomFromArray(male ? names.male : names.female) + getRandomFromArray(names.second);
+        
+        return getRandomFromArray(male ? namesDescriptor.male : namesDescriptor.female) + " " + getRandomFromArray(namesDescriptor.second);
     }
-    
+
     private string getRandomFromArray(string[] array) {
         return array[Random.Range(0, array.Length)];
     }
