@@ -6,12 +6,10 @@ namespace game.model.component.unit {
     // stores values of unit's needs. values are [0..1]f, more means satisfied.
     public struct UnitNeedComponent {
         public float hunger;
-        public int hungerPriority;
-
         public float thirst;
-        public int thirstPriority;
-        
         public float rest;
+        public int hungerPriority;
+        public int thirstPriority;
         public int restPriority;
     }
 

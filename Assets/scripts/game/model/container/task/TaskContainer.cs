@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using game.model.component.task;
 using game.model.localmap;
-using game.model.localmap.passage;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
 using util;
 using util.lang.extension;
-using static types.action.ActionTargetTypeEnum;
 
 namespace game.model.container.task {
     // contains all shared tasks for settlers. Personal tasks like eating or resting are not handled
@@ -31,16 +29,18 @@ namespace game.model.container.task {
 
         public Dictionary<int, List<EcsEntity>> getTasksByJobs(List<string> jobs) => open.get(jobs);
 
-        public void moveOpenTaskToDelayed(EcsEntity task) {
+        public void moveOpenTaskToDelayed(EcsEntity task, int timeout) {
             if (task.Has<TaskPerformerComponent>()) {
                 throw new GameException("Task with performer moved to timeout map");
             }
             open.remove(task);
             delayedTasks.Add(task);
+            task.Replace(new TaskTimeoutComponent { timeout = timeout });
             Debug.Log("Open task " + task.name() + " moved to delayed");
         }
 
         public void moveDelayedTaskToOpen(EcsEntity task) {
+            task.Del<TaskTimeoutComponent>();
             delayedTasks.Remove(task);
             open.add(task);
             Debug.Log("Delayed task " + task.name() + " moved to open");

@@ -26,7 +26,7 @@ namespace game.model.system.unit {
      *              If fail, add timeout component to task, return to container.
      */
     public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
-        public EcsFilter<UnitComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter; // units without tasks
+        public EcsFilter<UnitComponent>.Exclude<TaskComponent, TaskTimeoutComponent> filter; // units without tasks
         private readonly UnitNeedActionCreator needActionCreator = new();
 
         public override void Run() {
@@ -52,6 +52,7 @@ namespace game.model.system.unit {
                 .createTask(unit.take<UnitNextTaskComponent>().action, Jobs.NONE, model.createEntity(), model);
         }
 
+        // 
         private EcsEntity getTaskFromContainer(EcsEntity unit) {
             UnitJobsComponent jobs = unit.take<UnitJobsComponent>();
             PassageMap passageMap = model.localMap.passageMap;
@@ -64,8 +65,7 @@ namespace game.model.system.unit {
                     if (!tasks.ContainsKey(taskPriority)) continue;
                     foreach (EcsEntity task in tasks[taskPriority]) {
                         if (checkTaskTarget(task, area, passageMap)) return task;
-                        model.taskContainer.moveOpenTaskToDelayed(task);
-                        task.Replace(new TaskTimeoutComponent { timeout = 100 });
+                        model.taskContainer.moveOpenTaskToDelayed(task, 100);
                     }
                 }
             }

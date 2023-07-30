@@ -12,8 +12,8 @@ using util.lang;
 using util.lang.extension;
 using static game.model.component.task.order.CraftingOrder;
 
-namespace game.model.container.item {
-public class CraftingItemFindingUtil : ItemContainerPart {
+namespace game.model.container.item.finding {
+public class CraftingItemFindingUtil : AbstractItemFindingUtil {
     // TODO rewrite stockpile method to use item selectors. selector should be stored in stockpile component and updated from stockpile config menu.
     public CraftingItemFindingUtil(LocalModel model, ItemContainer container) : base(model, container) { }
 
@@ -131,10 +131,6 @@ public class CraftingItemFindingUtil : ItemContainerPart {
         if (groups.Count == 0) return null;
         if (groups.Count == 1) return groups[0];
         return groups.MinBy(group => group.totalDistance);
-    }
-
-    private float fastDistance(EcsEntity item, Vector3Int position) {
-        return (container.getItemAccessPosition(item) - position).sqrMagnitude;
     }
 
     private void log(string message) => Debug.Log("[ItemFindingUtil]: " + message);

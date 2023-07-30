@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using game.model.component;
 using game.model.component.item;
-using game.model.component.plant;
 using game.model.localmap;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -15,9 +15,12 @@ namespace game.model.util {
         private const string SOIL_TAG = "soil";
 
         // TODO add task parameter and check locking by other tasks
-        public static Vector3Int findFreeStockpileTile(ZoneComponent zone, StockpileComponent stockpile, LocalModel model) {
-            foreach (Vector3Int tile in zone.tiles) {
-                if (!model.itemContainer.onMap.itemsOnMap.ContainsKey(tile)) return tile;
+        public static Vector3Int findFreeStockpileTile(EcsEntity zone, EcsEntity task, LocalModel model) {
+            ZoneComponent zoneComponent = zone.take<ZoneComponent>();
+            StockpileComponent stockpile = zone.take<StockpileComponent>();
+            foreach (Vector3Int tile in zoneComponent.tiles) {
+                if (!tileCanBeLocked(zone, tile, task)) continue; // tile locked to another task
+                if (!model.itemContainer.onMap.itemsOnMap.ContainsKey(tile)) return tile; // no items on tile
                 bool hasStoredItem = model.itemContainer.onMap.itemsOnMap[tile]
                     .Select(item => item.take<ItemComponent>())
                     .Any(item => stockpile.map.ContainsKey(item.type) && stockpile.map[item.type].Contains(item.material));
@@ -100,6 +103,28 @@ namespace game.model.util {
         public static bool allItemsNotAllowedInStockpile(StockpileComponent stockpile, List<EcsEntity> items) {
             return items.Select(item => item.take<ItemComponent>())
                 .All(item => !itemAllowedInStockpile(stockpile, item));
+        }
+
+        public static bool tileCanBeLocked(EcsEntity zone, Vector3Int tile, EcsEntity task) {
+            ZoneTrackingComponent tracking = zone.take<ZoneTrackingComponent>();
+            return !tracking.locked.ContainsKey(tile) || tracking.locked[tile] == task;
+        }
+        
+        public static void lockZoneTile(EcsEntity zone, Vector3Int tile, EcsEntity task) {
+            ZoneTrackingComponent tracking = zone.take<ZoneTrackingComponent>();
+            if (!ZoneUtils.tileCanBeLocked(zone, tile, task)) {
+                if (tracking.locked[tile] != task) throw new ArgumentException("Cannot lock tile. Tile locked to another task");
+                // already locked to this task
+            } else {
+                if (!tracking.locked.ContainsKey(tile)) tracking.locked.Add(tile, task);
+            }
+        }
+
+        public static void unlockZoneTile(EcsEntity zone, Vector3Int tile, EcsEntity task) {
+            ZoneTrackingComponent tracking = zone.take<ZoneTrackingComponent>();
+            if (!tracking.locked.ContainsKey(tile)) return; // already unlocked
+            if (tracking.locked[tile] != task) throw new ArgumentException("Cannot unlock tile. Tile locked to another task");
+            tracking.locked.Remove(tile);
         }
     }
 }

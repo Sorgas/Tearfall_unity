@@ -17,7 +17,7 @@ namespace game.model.system.task.designation {
     // creates tasks for designations without tasks. stores tasks in TaskContainer
     public class DesignationTaskCreationSystem : LocalModelUnscalableEcsSystem {
         // TODO remove TaskFinishedComponent
-        public EcsFilter<DesignationComponent>.Exclude<TaskComponent, TaskFinishedComponent> filter;
+        public EcsFilter<DesignationComponent>.Exclude<TaskComponent> filter;
 
         public override void Run() {
             foreach (var i in filter) {

@@ -78,6 +78,7 @@ namespace game.model.container {
             designations.Remove(designation.pos());
             removeDesignationTask(designation);
             designation.Destroy();
+            Debug.Log("Designation removed " + position);
         }
 
         private void removeDesignationTask(EcsEntity designation) {

@@ -27,6 +27,7 @@ namespace game.model.system.unit {
             }
         }
 
+        // rolls needs values from 1 to 0
         private void rollNeeds(ref UnitNeedComponent component, int updates) {
             component.hunger -= hungerTick * updates;
             if(component.hunger < 0) component.hunger = 0;

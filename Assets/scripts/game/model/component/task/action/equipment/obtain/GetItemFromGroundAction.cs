@@ -39,7 +39,7 @@ namespace game.model.component.task.action.equipment.obtain {
 
         protected new bool validate() {
             LocalMap map = model.localMap;
-            if(!itemCanBeLocked(item) || !item.hasPos()) return false;
+            if(!entityCanBeLocked(item) || !item.hasPos()) return false;
             Vector3Int itemPosition = item.pos();
             return base.validate()
                    && container.onMap.itemsOnMap.ContainsKey(itemPosition)

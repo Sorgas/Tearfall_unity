@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using game.model.util;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
@@ -26,34 +27,11 @@ namespace game.model.component.task.action {
             entity.Del<LockedComponent>();
             task.Get<TaskLockedEntitiesComponent>().entities.Remove(new EcsEntity()); // can create component
         }
-        
-        public static void lockZoneTile(EcsEntity zone, Vector3Int tile, EcsEntity task) {
-            ZoneTrackingComponent tracking = zone.take<ZoneTrackingComponent>();
-            if (!tileCanBeLocked(zone, tile, task)) {
-                if (tracking.locked[tile] != task) throw new ArgumentException("Cannot lock tile. Tile locked to another task");
-                // already locked to this task
-            } else {
-                if (!tracking.locked.ContainsKey(tile)) tracking.locked.Add(tile, task);
-            }
-        }
 
         public static bool entityCanBeLocked(EcsEntity entity, EcsEntity task) => 
             !entity.Has<LockedComponent>() || entity.take<LockedComponent>().task == task;
 
         public static bool entityCanBeUnlocked(EcsEntity entity, EcsEntity task) => 
             !entity.Has<LockedComponent>() || entity.take<LockedComponent>().task == task;
-
-        public static void unlockZoneTile(EcsEntity zone, Vector3Int tile, EcsEntity task) {
-            ZoneTrackingComponent tracking = zone.take<ZoneTrackingComponent>();
-            if (!tracking.locked.ContainsKey(tile)) return; // already unlocked
-            if (tracking.locked[tile] != task) throw new ArgumentException("Cannot unlock tile. Tile locked to another task");
-            tracking.locked.Remove(tile);
-        }
-
-        // tile is not locked or already locked to given task
-        public static bool tileCanBeLocked(EcsEntity zone, Vector3Int tile, EcsEntity task) {
-            ZoneTrackingComponent tracking = zone.take<ZoneTrackingComponent>();
-            return !tracking.locked.ContainsKey(tile) || tracking.locked[tile] == task;
-        }
     }
 }

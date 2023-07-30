@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using game.model.component.task.action.target;
 using game.model.localmap;
+using game.model.util;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
@@ -80,10 +81,10 @@ namespace game.model.component.task.action {
         protected void unlockEntities(List<EcsEntity> entities) => ActionLockingUtility.unlockEntities(entities, task);
         protected void lockEntity(EcsEntity item) => ActionLockingUtility.lockEntity(item, task);
         protected void unlockEntity(EcsEntity item) => ActionLockingUtility.unlockEntity(item, task);
-        protected void lockZoneTile(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.lockZoneTile(zone, tile, task);
-        protected void unlockZoneTile(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.unlockZoneTile(zone, tile, task);
-        protected bool itemCanBeLocked(EcsEntity item) => ActionLockingUtility.entityCanBeLocked(item, task);
-        protected bool tileCanBeLocked(EcsEntity zone, Vector3Int tile) => ActionLockingUtility.tileCanBeLocked(zone, tile, task);
+        protected bool entityCanBeLocked(EcsEntity item) => ActionLockingUtility.entityCanBeLocked(item, task);
+        protected bool tileCanBeLocked(EcsEntity zone, Vector3Int tile) => ZoneUtils.tileCanBeLocked(zone, tile, task);
+        protected void lockZoneTile(EcsEntity zone, Vector3Int tile) => ZoneUtils.lockZoneTile(zone, tile, task);
+        protected void unlockZoneTile(EcsEntity zone, Vector3Int tile) => ZoneUtils.unlockZoneTile(zone, tile, task);
         
         protected void log(string message) => Debug.Log("[" + name + "]: " + message);
     }

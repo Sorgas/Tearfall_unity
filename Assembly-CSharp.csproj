@@ -42,7 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\scripts\game\model\task\plant\FarmingAction.cs" />
-     <Compile Include="Assets\scripts\game\model\container\item\CraftingItemFindingUtil.cs" />
+     <Compile Include="Assets\scripts\game\model\container\item\finding\CraftingItemFindingUtil.cs" />
      <Compile Include="Assets\scripts\util\lang\Singleton.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\SubstrateMap.cs" />
      <Compile Include="Assets\scripts\types\item\type\ItemTypeMap.cs" />
@@ -101,12 +101,10 @@
      <Compile Include="Assets\scripts\generation\localgen\LocalGenContainer.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\Recipe.cs" />
      <Compile Include="Assets\scripts\generation\item\ItemGenerator.cs" />
-     <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskCompletionSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\ProgressBarHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuEquipmentInfoHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\ZoneComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\Action.cs" />
-     <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationCompletionSystem.cs" />
      <Compile Include="Assets\scripts\game\model\container\BuildingFindingUtil.cs" />
      <Compile Include="Assets\scripts\mainMenu\LocalGenerationHandler.cs" />
      <Compile Include="Assets\scripts\game\model\container\task\OpenTaskCollection.cs" />
@@ -211,7 +209,7 @@
      <Compile Include="Assets\scripts\game\input\MouseInputSystem.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskAssignmentSystem.cs" />
      <Compile Include="Assets\scripts\game\view\util\TilemapLayersConstants.cs" />
-     <Compile Include="Assets\scripts\game\model\container\item\ItemFindingUtil.cs" />
+     <Compile Include="Assets\scripts\game\model\container\item\finding\ItemFindingUtil.cs" />
      <Compile Include="Assets\scripts\game\view\ui\generation\CharacterMenuLineHandler.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\WorldNameGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\ui\workbench\CraftingOrderLineHandler.cs" />
@@ -324,7 +322,6 @@
      <Compile Include="Assets\scripts\game\model\GameModel.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\order\BuildingOrder.cs" />
      <Compile Include="Assets\scripts\game\model\system\GameTime.cs" />
-     <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedCalculationSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ItemActionTarget.cs" />
      <Compile Include="Assets\scripts\game\view\system\unit\UnitActionProgressVisualSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuHealthInfoHandler.cs" />
@@ -339,7 +336,6 @@
      <Compile Include="Assets\scripts\game\model\localmap\LocalMapUtil.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\PassageUpdater.cs" />
      <Compile Include="Assets\scripts\types\action\ActionConditionStatusEnum.cs" />
-     <Compile Include="Assets\scripts\game\model\system\task\TaskCompletionSystem.cs" />
      <Compile Include="Assets\scripts\mainMenu\preparation\UnitDetailsHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\generation\DifficultySelectorHandler.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\WorldGenerator.cs" />
@@ -428,12 +424,10 @@
      <Compile Include="Assets\scripts\generation\localgen\LocalGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\TaskCreationTimeoutSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\FarmDebugInfoHandler.cs" />
-     <Compile Include="Assets\scripts\game\model\system\building\WorkbenchTaskCompletionSystem.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntRange.cs" />
      <Compile Include="Assets\scripts\types\item\ItemTags.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\GameObjectExtension.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\AStar.cs" />
-     <Compile Include="Assets\scripts\game\model\system\plant\PlantUpdateSystem.cs" />
      <Compile Include="Assets\scripts\types\building\ConstructionTypeMap.cs" />
      <Compile Include="Assets\scripts\game\model\system\zone\StockpileTaskCreationSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\deity\DeityComponents.cs" />
@@ -462,6 +456,8 @@
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitSkillsInfoHandler.cs" />
+     <Compile Include="Assets\scripts\game\model\system\task\TaskTimeoutSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\container\item\finding\AbstractItemFindingUtil.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\resources\icons\unit_window" />
      <Folder Include="Assets\resources\prefabs\materialSelector" />
@@ -554,6 +550,7 @@
      <Folder Include="Assets\resources\prefabs\workbenchMenu" />
      <Folder Include="Assets\resources\icons\mousetool" />
      <Folder Include="Assets\scripts\game\view\with_entity_selector" />
+     <Folder Include="Assets\scripts\game\model\container\item\finding" />
      <Folder Include="Assets\scripts\game\view\system\zone" />
      <Folder Include="Assets\resources\data\buildings" />
      <Folder Include="Assets\scripts\game\model\system\task\designation" />

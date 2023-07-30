@@ -8,6 +8,7 @@ using types;
 using types.action;
 using UnityEngine;
 using util.geometry.bounds;
+using util.lang.extension;
 
 namespace game.view.system.mouse_tool {
     public class UnitMovementTargetTool : MouseTool {
@@ -20,7 +21,8 @@ namespace game.view.system.mouse_tool {
             addUpdateEvent(model => {
                 if (model.localMap.passageMap.getPassage(target) == PassageTypes.PASSABLE.VALUE) {
                     if (unit.Has<TaskComponent>()) {
-                        unit.Replace(new TaskFinishedComponent { status = TaskStatusEnum.FAILED });
+                        GameModel.get().currentLocalModel.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED);
+                        // unit.Replace(new TaskFinishedComponent { status = TaskStatusEnum.FAILED });
                     }
                     unit.Replace(new UnitNextTaskComponent { action = new MoveAction(bounds.getStart()) });
                 }

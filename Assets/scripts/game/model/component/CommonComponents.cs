@@ -23,12 +23,6 @@ namespace game.model.component {
         public EcsEntity task;
     }
 
-    // TODO remove, replace with instant task completion, see TaskCompletionUtil
-    public struct TaskFinishedComponent {
-        public TaskStatusEnum status;
-        public string reason; // TODO no-materials, combat, 
-    }
-
     // shows that entity is ready to be deleted
     public struct RemovedComponent { }
 

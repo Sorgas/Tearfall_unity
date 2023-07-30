@@ -37,7 +37,7 @@ namespace game.model.component.task.action.zone {
         }
         
         private bool findFreeTile() {
-            targetTile = ZoneUtils.findFreeStockpileTile(zone.take<ZoneComponent>(), zone.take<StockpileComponent>(), model);
+            targetTile = ZoneUtils.findFreeStockpileTile(zone, task, model);
             if (targetTile != Vector3Int.back) actionTarget.tile = targetTile; 
             return targetTile != Vector3Int.back;
         }

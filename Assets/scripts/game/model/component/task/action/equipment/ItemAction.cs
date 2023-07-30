@@ -20,7 +20,7 @@ namespace game.model.component.task.action.equipment {
 
         protected bool validate() {
             if (!base.validate()) return false;
-            if (!itemCanBeLocked(item)) {
+            if (!entityCanBeLocked(item)) {
                 Debug.LogWarning("item " + item + " locked to another task.");
                 return false;
             }

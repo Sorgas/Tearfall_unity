@@ -57,7 +57,7 @@ namespace game.model.container {
             freeNumbers.Add(component.number);
             ZoneTrackingComponent tracking = zone.take<ZoneTrackingComponent>();
             foreach (EcsEntity task in tracking.totalTasks) {
-                cancelZoneTask(task, "zone deleted");
+                model.taskContainer.removeTask(task, TaskStatusEnum.CANCELED);
                 log("deleted zone task canceled " + task.name());
             }
             zone.Destroy();
@@ -85,8 +85,8 @@ namespace game.model.container {
             zones.Remove(tile); // remove tile zone from container
             zone.tiles.Remove(tile); // remove tile from zone
             if (tracking.locked.ContainsKey(tile)) {
-                cancelZoneTask(tracking.locked[tile], "tile removed from zone"); // cancel task of this tile
-                log("zone locked task canceled " + tile);
+                model.taskContainer.removeTask(tracking.locked[tile], TaskStatusEnum.CANCELED);
+                log("tile " + tile + " removed from zone, zone locked task canceled");
             }
             tracking.locked.Remove(tile); // remove tile locking
             tracking.tilesToTask.Remove(tile); // remove tile job
@@ -111,11 +111,6 @@ namespace game.model.container {
                 if (zones.ContainsKey(position)) set.Add(zones[position]);
             });
             return set;
-        }
-
-        private void cancelZoneTask(EcsEntity task, string reason) {
-            task.Replace(new TaskFinishedComponent { status = TaskStatusEnum.CANCELED, reason = reason });
-            // task.Del<TaskZoneComponent>();
         }
 
         private int getFreeNumber() {

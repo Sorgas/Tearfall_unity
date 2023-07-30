@@ -12,6 +12,10 @@ namespace game.model.component.building {
     public struct BuildingComponent {
         public BuildingType type;
         public Orientations orientation;
+
+        public Vector3Int getAccessPosition(Vector3Int pos) {
+            return type.getAccessByPositionAndOrientation(pos, orientation);
+        }
     }
 
     public struct BuildingVisualComponent {

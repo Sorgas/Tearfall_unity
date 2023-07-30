@@ -2,6 +2,7 @@
 using game.model.component;
 using game.model.component.building;
 using game.model.component.item;
+using game.model.container.item.finding;
 using game.model.localmap;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -50,7 +51,7 @@ public class ItemContainer : LocalModelUpdateContainer {
                 return building.type.getAccessByPositionAndOrientation(container.pos(), building.orientation);
             }
         }
-        throw new ArgumentException("Unsupported item placement detected");
+        throw new ArgumentException("Unsupported item placement detected: " + item.name());
     }
 
     // public void removeItem(EcsEntity item) {

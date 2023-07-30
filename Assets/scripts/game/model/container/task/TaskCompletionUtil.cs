@@ -23,7 +23,7 @@ namespace game.model.container.task {
         public void complete(EcsEntity task, TaskStatusEnum status) {
             log("[TaskCompletionUtil]: completing task " + task.Get<TaskActionsComponent>().initialAction.name);
             detachPerformer(task);
-            detachDesignation(ref task, status);
+            detachDesignation(ref task, status); // can remove designation
             detachBuilding(ref task, status);
             detachZone(ref task);
             unlockItems(task);

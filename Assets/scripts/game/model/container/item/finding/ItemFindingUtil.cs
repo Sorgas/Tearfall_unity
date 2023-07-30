@@ -11,8 +11,8 @@ using util.item;
 using util.lang;
 using util.lang.extension;
 
-namespace game.model.container.item {
-    public class ItemFindingUtil : ItemContainerPart {
+namespace game.model.container.item.finding {
+    public class ItemFindingUtil : AbstractItemFindingUtil {
         // TODO rewrite stockpile method to use item
         // selectors. selector should be stored in stockpile component and updated from stockpile config menu.
         public ItemFindingUtil(LocalModel model, ItemContainer container) : base(model, container) { }
@@ -24,7 +24,7 @@ namespace game.model.container.item {
             // TODO add items in containers
             return container.availableItemsManager.getAll()
                 .Where(item => !item.Has<LockedComponent>())
-                .Where(item => map.passageMap.inSameArea(pos, getItemPosition(item)))
+                .Where(item => map.passageMap.inSameArea(pos, container.getItemAccessPosition(item)))
                 .Where(selector.checkItem)
                 .DefaultIfEmpty(EcsEntity.Null)
                 .Aggregate((cur, item) => cur == EcsEntity.Null || (fastDistance(item, pos) < fastDistance(cur, pos))
@@ -62,7 +62,7 @@ namespace game.model.container.item {
         public EcsEntity findForStockpile(StockpileComponent stockpile, List<Vector3Int> zonePositions, Vector3Int position) {
             List<EcsEntity> list = container.availableItemsManager.getAll()
                 .Where(item => !item.Has<LockedComponent>()) // item not locked by another task
-                .Where(item => !zonePositions.Contains(getItemPosition(item))) // item not in stockpile already
+                .Where(item => !zonePositions.Contains(container.getItemAccessPosition(item))) // item not in stockpile already
                 .Where(item => ZoneUtils.itemAllowedInStockpile(stockpile, item.take<ItemComponent>())) // item allowed for stockpile
                 .ToList();
             return list.Count == 0 ? EcsEntity.Null : selectNearest(list, position);
@@ -81,13 +81,7 @@ namespace game.model.container.item {
             }
             return result;
         }
-
-        private Vector3Int getItemPosition(EcsEntity item) {
-            return item.Has<ItemContainedComponent>() ? item.take<ItemContainedComponent>().container.pos() : item.pos();
-        }
         
-        private float fastDistance(EcsEntity item, Vector3Int position) => (item.pos() - position).sqrMagnitude;
-
         private void log(string message) => Debug.Log("[ItemFindingUtil]: " + message);
     }
 }

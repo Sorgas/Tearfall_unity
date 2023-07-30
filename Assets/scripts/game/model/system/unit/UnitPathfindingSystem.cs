@@ -31,9 +31,7 @@ namespace game.model.system.unit {
                     return;
                 }
             }
-            unit.Replace(new TaskFinishedComponent { status = TaskStatusEnum.FAILED });
-            unit.Del<UnitMovementTargetComponent>();
+            model.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED); // resets unit for new task
         }
-
     }
 }
