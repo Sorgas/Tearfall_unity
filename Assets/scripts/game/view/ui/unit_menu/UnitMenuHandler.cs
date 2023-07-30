@@ -14,12 +14,14 @@ namespace game.view.ui.unit_menu {
         public UnitMenuGeneralInfoHandler generalInfoHandler;
         public UnitMenuHealthInfoHandler healthInfoHandler;
         public UnitMenuEquipmentInfoHandler equipmentInfoHandler;
+        public UnitSkillsInfoHandler skillsInfoHandler;
         private UnitMenuTab activeTab;
         // buttons
         public Button generalInfoButton;
         public Button healthInfoButton;
         public Button equipmentInfoButton;
-        public List<UnitMenuTab> tabs = new();
+        public Button skillsInfoButton;
+        private List<UnitMenuTab> tabs = new();
 
         public EcsEntity unit;
         private bool inited = false;
@@ -54,9 +56,11 @@ namespace game.view.ui.unit_menu {
             tabs.Add(generalInfoHandler);
             tabs.Add(healthInfoHandler);
             tabs.Add(equipmentInfoHandler);
+            tabs.Add(skillsInfoHandler);
             generalInfoButton.onClick.AddListener(() => showPanel(generalInfoHandler));
             healthInfoButton.onClick.AddListener(() => showPanel(healthInfoHandler));
             equipmentInfoButton.onClick.AddListener(() => showPanel(equipmentInfoHandler));
+            skillsInfoButton.onClick.AddListener(() => showPanel(skillsInfoHandler));
         }
     }
 

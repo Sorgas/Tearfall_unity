@@ -461,7 +461,9 @@
      <Compile Include="Assets\scripts\mainMenu\ui\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitSkillsInfoHandler.cs" />
      <Folder Include="Assets" />
+     <Folder Include="Assets\resources\icons\unit_window" />
      <Folder Include="Assets\resources\prefabs\materialSelector" />
      <None Include="Assets\resources\data\items\growths.json" />
      <None Include="Assets\resources\data\recipes\recipes_carpenter.json" />
@@ -688,6 +690,7 @@
      <None Include="Assets\resources\data\creatures\skills.json" />
      <Folder Include="Assets\scripts\game\view\util" />
      <Folder Include="Assets\resources" />
+     <Folder Include="Assets\resources\icons\attributes" />
      <Folder Include="Assets\scripts\game\view\ui\util" />
      <None Include="Assets\resources\data\nameGenerators\units.json" />
      <None Include="Assets\TextMesh Pro\Sprites\EmojiOne.json" />

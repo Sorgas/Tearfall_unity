@@ -94,4 +94,13 @@ namespace game.model.component.unit {
     public struct UnitNextTaskComponent {
         public Action action;
     }
+
+public struct UnitAttributesComponent {
+    public int strength;
+    public int agility;
+    public int endurance;
+    public int intelligence;
+    public int will;
+    public int charisma;
+}
 }

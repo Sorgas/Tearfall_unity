@@ -27,11 +27,12 @@ class UnitGenerator {
 
     private void addCommonComponents(ref EcsEntity entity, SettlerData data, CreatureType type) {
         entity
+            .Replace(nameGenerator.generate(data))
             .Replace(new UnitMovementComponent { speed = 0.03f, step = 0 })
             .Replace(new UnitVisualComponent { headVariant = data.headVariant, bodyVariant = data.bodyVariant }) // sprite go is created in UnitVisualSystem
-            .Replace(nameGenerator.generate(data))
             .Replace(new PositionComponent { position = new Vector3Int() })
             .Replace(bodyGenerator.generate(type))
+            .Replace(createAttributesComponent(data.statsData))
             .Replace(new HealthComponent { overallStatus = "healthy" })
             .Replace(new MoodComponent { status = "content" })
             .Replace(new OwnershipComponent { wealthStatus = "poor" })
@@ -48,6 +49,17 @@ class UnitGenerator {
         if (type.aspects.Contains("equipment")) {
             entity.Replace(equipmentGenerator.generate(type));
         }
+    }
+
+    private UnitAttributesComponent createAttributesComponent(StatsData data) {
+        return new UnitAttributesComponent {
+            strength = data.strength,
+            agility = data.agility,
+            endurance = data.endurance,
+            intelligence = data.intelligence,
+            will = data.spirit,
+            charisma = data.charisma
+        };
     }
 }
 }
