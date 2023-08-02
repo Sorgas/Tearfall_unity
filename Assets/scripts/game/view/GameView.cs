@@ -20,7 +20,7 @@ using util.lang;
 namespace game.view {
     // component for binding GameModel and GameObjects in scene. 
     public class GameView : Singleton<GameView> {
-        public LocalGameRunner sceneObjectsContainer;
+        public LocalGameRunner runner;
         public CameraAndMouseHandler cameraAndMouseHandler;
         public LocalMapTileUpdater tileUpdater;
         private EcsSystems systems; // systems for updating scene
@@ -28,13 +28,13 @@ namespace game.view {
 
         public EntitySelector selector;
 
-        public void init(LocalGameRunner sceneObjectsContainer, LocalModel model) {
+        public void init(LocalGameRunner runner, LocalModel model) {
             Debug.Log("initializing view");
-            this.sceneObjectsContainer = sceneObjectsContainer;
+            this.runner = runner;
             initEcs(GameModel.get().currentLocalModel.ecsWorld);
-            tileUpdater = new LocalMapTileUpdater(sceneObjectsContainer.mapHolder, model);
+            tileUpdater = new LocalMapTileUpdater(runner.sceneElementsReferences.mapHolder, model);
             PlayerControls playerControls = new();
-            cameraAndMouseHandler = new CameraAndMouseHandler(sceneObjectsContainer, playerControls);
+            cameraAndMouseHandler = new CameraAndMouseHandler(runner, playerControls);
             KeyInputSystem.get().playerControls = playerControls;
             cameraAndMouseHandler.init();
             selector = new();
@@ -45,8 +45,8 @@ namespace game.view {
             tileUpdater.flush();
             resetCameraPosition();
             MouseToolManager.get().reset();
-            sceneObjectsContainer.gamespeedWidgetHandler.updateVisual();
-            sceneObjectsContainer.prioritySelectionWidgetHandler.init();
+            runner.sceneElementsReferences.gamespeedWidgetHandler.updateVisual();
+            runner.sceneElementsReferences.prioritySelectionWidgetHandler.init();
             Debug.Log("view initialized");
         }
 
@@ -54,7 +54,7 @@ namespace game.view {
             KeyInputSystem.get().update();
             cameraAndMouseHandler?.update();
             systems?.Run();
-            sceneObjectsContainer.modelDebugInfoPanel.text += GameModel.get().currentLocalModel.getDebugInfo();
+            runner.sceneElementsReferences.modelDebugInfoPanel.text += GameModel.get().currentLocalModel.getDebugInfo();
         }
 
         private void initEcs(EcsWorld ecsWorld) {
@@ -74,18 +74,18 @@ namespace game.view {
 
         private void initWindowManager() {
             KeyInputSystem system = KeyInputSystem.get();
-            system.windowManager.addWindow(sceneObjectsContainer.jobsWindow);
-            system.windowManager.addWindow(sceneObjectsContainer.workbenchWindowHandler);
-            system.windowManager.addWindow(sceneObjectsContainer.itemMenuHandler);
-            system.windowManager.addWindow(sceneObjectsContainer.unitMenuHandler);
-            system.windowManager.addWindow(sceneObjectsContainer.stockpileMenuHandler);
-            system.windowManager.addWindow(sceneObjectsContainer.farmMenuHandler);
-            system.windowManager.addWindow(sceneObjectsContainer.plantMenuHandler);
+            system.windowManager.addWindow(runner.sceneElementsReferences.jobsWindow);
+            system.windowManager.addWindow(runner.sceneElementsReferences.workbenchWindowHandler);
+            system.windowManager.addWindow(runner.sceneElementsReferences.itemMenuHandler);
+            system.windowManager.addWindow(runner.sceneElementsReferences.unitMenuHandler);
+            system.windowManager.addWindow(runner.sceneElementsReferences.stockpileMenuHandler);
+            system.windowManager.addWindow(runner.sceneElementsReferences.farmMenuHandler);
+            system.windowManager.addWindow(runner.sceneElementsReferences.plantMenuHandler);
             system.windowManager.closeAll();
             
-            system.widgetManager.addWidget(sceneObjectsContainer.gamespeedWidgetHandler);
-            system.widgetManager.addWidget(sceneObjectsContainer.menuWidget);
-            system.widgetManager.addWidget(sceneObjectsContainer.toolbarWidget);
+            system.widgetManager.addWidget(runner.sceneElementsReferences.gamespeedWidgetHandler);
+            system.widgetManager.addWidget(runner.sceneElementsReferences.menuWidget);
+            system.widgetManager.addWidget(runner.sceneElementsReferences.toolbarWidget);
             
         }
 

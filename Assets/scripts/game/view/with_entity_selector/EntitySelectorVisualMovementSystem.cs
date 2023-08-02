@@ -23,8 +23,8 @@ namespace game.view.with_entity_selector {
         Vector3Int cacheVector = new Vector3Int();
     
         public EntitySelectorVisualMovementSystem(LocalGameRunner runner) {
-            text = runner.debugInfoPanel;
-            selectorSprite = runner.selector;
+            text = runner.sceneElementsReferences.modelDebugInfoPanel;
+            selectorSprite = runner.sceneElementsReferences.selector;
             map = GameModel.get().currentLocalModel.localMap;
         }
 

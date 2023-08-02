@@ -20,24 +20,7 @@ namespace game {
     // Contains links to common scene objects
     // TODO rename
     public class LocalGameRunner : MonoBehaviour {
-        public RectTransform mapHolder;
-        public Camera mainCamera;
-        public RectTransform selector;
-        public JobsWindowHandler jobsWindow;
-        public MenuWidgetHandler menuWidget;
-        public ToolbarWidgetHandler toolbarWidget;
-        public MaterialSelectionWidgetHandler materialSelectionWidgetHandler;
-        public PrioritySelectionWidgetHandler prioritySelectionWidgetHandler;
-        public GamespeedWidgetHandler gamespeedWidgetHandler;
-        public WorkbenchWindowHandler workbenchWindowHandler;
-        public ItemMenuHandler itemMenuHandler;
-        public UnitMenuHandler unitMenuHandler;
-        public StockpileMenuHandler stockpileMenuHandler;
-        public FarmMenuHandler farmMenuHandler;
-        public PlantMenuHandler plantMenuHandler;
-        public Text debugInfoPanel;
-        public Text modelDebugInfoPanel;
-
+        public SceneElementsReferences sceneElementsReferences;
         private bool started = false;
         private string defaultModelName = "main";
         

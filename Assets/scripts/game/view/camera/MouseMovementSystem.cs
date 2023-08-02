@@ -19,8 +19,8 @@ namespace game.view.camera {
         private readonly Text debugLabelText;
 
         public MouseMovementSystem(LocalGameRunner initializer) {
-            debugLabelText = initializer.debugInfoPanel;
-            selectorSprite = initializer.selector;
+            debugLabelText = initializer.sceneElementsReferences.modelDebugInfoPanel;
+            selectorSprite = initializer.sceneElementsReferences.selector;
             map = GameModel.get().currentLocalModel.localMap;
         }
 

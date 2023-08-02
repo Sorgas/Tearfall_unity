@@ -57,8 +57,8 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTargetStatusEnum.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap_stage\WorldmapPointerController.cs" />
      <Compile Include="Assets\scripts\util\item\FoodItemSelector.cs" />
-     <Compile Include="Assets\scripts\game\view\tilemaps\BlockTilesetSlicer.cs" />
      <Compile Include="Assets\scripts\game\model\component\building\BuildingComponents.cs" />
+     <Compile Include="Assets\scripts\game\view\tilemaps\BlockTilesetSlicer.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuTab.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\ItemAction.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\TooltipHandler.cs" />
@@ -88,8 +88,8 @@
      <Compile Include="Assets\scripts\game\model\localmap\update\TileUpdateUtil.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitActionPerformingSystem.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalForestGenerator.cs" />
-     <Compile Include="Assets\scripts\game\model\system\unit\UnitMovementSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\PositionActionTarget.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitMovementSystem.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\BlockTypeMap.cs" />
      <Compile Include="Assets\scripts\types\Orientations.cs" />
      <Compile Include="Assets\scripts\game\view\ui\stockpileMenu\StockpileConfiguration.cs" />
@@ -129,13 +129,14 @@
      <Compile Include="Assets\scripts\game\view\ui\jobs_widget\UnitJobRow.cs" />
      <Compile Include="Assets\scripts\types\unit\need\WearNeed.cs" />
      <Compile Include="Assets\scripts\game\model\util\ZoneUtils.cs" />
-     <Compile Include="Assets\scripts\generation\unit\UnitGenerator.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\PassageUtil.cs" />
+     <Compile Include="Assets\scripts\generation\unit\UnitGenerator.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitBodyComponentGenerator.cs" />
      <Compile Include="Assets\scripts\types\unit\CreatureAttributesEnum.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\plant\PlantHarvestAction.cs" />
      <Compile Include="Assets\scripts\types\action\SkillMap.cs" />
      <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarPanelHandler.cs" />
+     <Compile Include="Assets\scripts\game\model\container\item\finding\AbstractItemFindingUtil.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\GenericBuildingAction.cs" />
      <Compile Include="Assets\scripts\types\material\MaterialMap.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitEquipmentComponentGenerator.cs" />
@@ -146,8 +147,8 @@
      <Compile Include="Assets\scripts\game\view\camera\SelectionHandler.cs" />
      <Compile Include="Assets\scripts\game\model\system\util\TileUpdateSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarWidgetHandler.cs" />
-     <Compile Include="Assets\scripts\generation\worldgen\generators\deity\DeityAspects.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\AssetPacker\AssetPacker.cs" />
+     <Compile Include="Assets\scripts\generation\worldgen\generators\deity\DeityAspects.cs" />
      <Compile Include="Assets\scripts\game\view\ui\FarmMenuHandler.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenSequence.cs" />
      <Compile Include="Assets\scripts\generation\item\DiggingProductGenerator.cs" />
@@ -164,8 +165,8 @@
      <Compile Include="Assets\scripts\game\model\GamemodelUpdateController.cs" />
      <Compile Include="Assets\scripts\util\UtilByteArrayWithCounter.cs" />
      <Compile Include="Assets\scripts\types\building\ConstructionType.cs" />
-     <Compile Include="Assets\scripts\types\plant\SubstrateType.cs" />
      <Compile Include="Assets\scripts\types\plant\PlantSpriteMap.cs" />
+     <Compile Include="Assets\scripts\types\plant\SubstrateType.cs" />
      <Compile Include="Assets\scripts\game\model\system\ModelUpdateSystem.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\RampUtil.cs" />
      <Compile Include="Assets\scripts\mainMenu\MainMenuInitializer.cs" />
@@ -180,8 +181,8 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepOnGroundAction.cs" />
      <Compile Include="Assets\scripts\game\LocalGameRunner.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\ZoneMouseTool.cs" />
-     <Compile Include="Assets\scripts\game\model\localmap\passage\PassageMap.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitNameGenerator.cs" />
+     <Compile Include="Assets\scripts\game\model\localmap\passage\PassageMap.cs" />
      <Compile Include="Assets\scripts\util\lang\Optional.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\SubstrateGrowingSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\item\CraftItemAtWorkbenchAction.cs" />
@@ -199,6 +200,7 @@
      <Compile Include="Assets\scripts\game\TestLevelInitializer.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToDestinationAction.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\ItemTransitionUtil.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitSkillsInfoHandler.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntVector3.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\UnitNeedComponents.cs" />
      <Compile Include="Assets\scripts\game\model\WorldModel.cs" />
@@ -274,15 +276,15 @@
      <Compile Include="Assets\scripts\types\action\TaskPriorities.cs" />
      <Compile Include="Assets\scripts\game\view\ui\workbench\WorkbenchInventoryHandler.cs" />
      <Compile Include="Assets\scripts\game\model\system\building\WorkbenchTaskCreationSystem.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\target\ZoneActionTarget.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenConfig.cs" />
      <Compile Include="Assets\scripts\game\view\system\item\ItemVisualSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\target\ZoneActionTarget.cs" />
      <Compile Include="Assets\scripts\game\model\container\task\TaskGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\plant\ChopTreeAction.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\DictionaryExtention.cs" />
      <Compile Include="Assets\scripts\generation\PreparationState.cs" />
-     <Compile Include="Assets\scripts\game\view\system\unit\UnitMenuUpdateSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\material_selector\MaterialRowHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\system\unit\UnitMenuUpdateSystem.cs" />
      <Compile Include="Assets\scripts\game\view\util\ItemVisualUtil.cs" />
      <Compile Include="Assets\scripts\game\view\system\plant\PlantVisualUpdateSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuGeneralInfoHandler.cs" />
@@ -297,8 +299,8 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\EatAction.cs" />
      <Compile Include="Assets\scripts\game\model\entity_selector\EntitySelectorSystem.cs" />
      <Compile Include="Assets\scripts\game\model\container\BuildingContainer.cs" />
-     <Compile Include="Assets\scripts\game\view\util\LocalMapLayerHandler.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\PathFinishCondition.cs" />
+     <Compile Include="Assets\scripts\game\view\util\LocalMapLayerHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\DesignationComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\PlantActionTarget.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\order\CraftingOrder.cs" />
@@ -323,8 +325,8 @@
      <Compile Include="Assets\scripts\game\model\component\task\order\BuildingOrder.cs" />
      <Compile Include="Assets\scripts\game\model\system\GameTime.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ItemActionTarget.cs" />
-     <Compile Include="Assets\scripts\game\view\system\unit\UnitActionProgressVisualSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuHealthInfoHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\system\unit\UnitActionProgressVisualSystem.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\IEnumerableExtensions.cs" />
      <Compile Include="Assets\input\PlayerControls.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalElevationGenerator.cs" />
@@ -408,8 +410,9 @@
      <Compile Include="Assets\scripts\game\view\ui\toolbar\MaterialSelectionWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\BuildingActionTarget.cs" />
      <Compile Include="Assets\scripts\game\view\ui\stockpileMenu\StockpileConfigMenuHandler.cs" />
-     <Compile Include="Assets\scripts\util\geometry\IntVector2.cs" />
+     <Compile Include="Assets\scripts\game\model\system\task\TaskTimeoutSystem.cs" />
      <Compile Include="Assets\scripts\types\unit\need\Need.cs" />
+     <Compile Include="Assets\scripts\util\geometry\IntVector2.cs" />
      <Compile Include="Assets\scripts\game\model\container\task\TaskContainer.cs" />
      <Compile Include="Assets\scripts\game\model\system\zone\FarmTaskCreationSystem.cs" />
      <Compile Include="Assets\scripts\generation\zone\StockpileInitializer.cs" />
@@ -417,8 +420,8 @@
      <Compile Include="Assets\scripts\game\model\localmap\LocalModel.cs" />
      <Compile Include="Assets\scripts\generation\BuildingGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedActionCreator.cs" />
-     <Compile Include="Assets\scripts\game\view\tilemaps\BlockTileSetHolder.cs" />
      <Compile Include="Assets\scripts\game\view\util\UnitGoHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\tilemaps\BlockTileSetHolder.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitWearNeedSystem.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\NeighbourPositionStream.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenerator.cs" />
@@ -455,9 +458,7 @@
      <Compile Include="Assets\scripts\mainMenu\ui\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitSkillsInfoHandler.cs" />
-     <Compile Include="Assets\scripts\game\model\system\task\TaskTimeoutSystem.cs" />
-     <Compile Include="Assets\scripts\game\model\container\item\finding\AbstractItemFindingUtil.cs" />
+     <Compile Include="Assets\scripts\game\view\SceneElementsReferences.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\resources\icons\unit_window" />
      <Folder Include="Assets\resources\prefabs\materialSelector" />
@@ -467,7 +468,9 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <Folder Include="Assets\scripts\game\model\entity_selector" />
      <Folder Include="Assets\scripts\generation\name" />
+     <Folder Include="Assets\SharpUI\Textures" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+     <Folder Include="Assets\SharpUI\Textures\Potions" />
      <Folder Include="Assets\TextMesh Pro\Sprites" />
      <Folder Include="Assets\scripts\game\view\system\plant" />
      <None Include="Assets\resources\data\materials\metal.json" />
@@ -491,16 +494,20 @@
      <Folder Include="Assets\resources\icons\ui" />
      <Folder Include="Assets\scripts\types\item\recipe" />
      <Folder Include="Assets\scripts\generation\item" />
+     <Folder Include="Assets\SharpUI\Prefabs\UI\Button" />
      <None Include="Assets\resources\data\items\resources.json" />
      <Folder Include="Assets\scripts\util\input" />
      <Folder Include="Assets\resources\tilesets\plants\trees" />
      <Folder Include="Assets\scripts\game\model\component\task\action\target" />
      <Folder Include="Assets\scripts\game\model\component\item" />
+     <Folder Include="Assets\SharpUI\Prefabs\UI\Progress" />
      <Folder Include="Assets\scripts\util" />
      <Folder Include="Assets\scripts\mainMenu\location_selection_stage" />
      <Folder Include="Assets\scripts\game\model\component\task\action\needs" />
      <Folder Include="Assets\scripts\game\model\system" />
+     <Folder Include="Assets\SharpUI\Prefabs\UI\Dialog" />
      <Folder Include="Assets\shaders" />
+     <Folder Include="Assets\SharpUI\Prefabs\UI\List" />
      <Folder Include="Assets\resources\prefabs\stockpileMenu" />
      <Folder Include="Assets\TextMesh Pro\Resources\Fonts &amp; Materials" />
      <Folder Include="Assets\scripts\game\model\component\task\action\combat" />
@@ -524,6 +531,7 @@
      <Folder Include="Assets\scripts\game\view\ui\stockpileMenu" />
      <Folder Include="Assets\resources\data\creatures" />
      <Folder Include="Assets\resources\ui_prefabs" />
+     <Folder Include="Assets\SharpUI" />
      <Folder Include="Assets\scripts\util\TexturePacker" />
      <Folder Include="Assets\scripts\game\model\localmap\update" />
      <Folder Include="Assets\scripts\game\view\ui\generation" />
@@ -560,6 +568,7 @@
      <Folder Include="Assets\Materials" />
      <None Include="Assets\resources\data\plants\domestic.json" />
      <Folder Include="Assets\scripts\mainMenu\worldmap_stage" />
+     <Folder Include="Assets\SharpUI\Prefabs" />
      <Folder Include="Assets\resources\prefabs\jobsmenu" />
      <None Include="Assets\resources\data\materials\organic.json" />
      <None Include="Assets\resources\data\lists.json" />
@@ -577,6 +586,7 @@
      <Folder Include="Assets\scripts\game\model\system\util" />
      <None Include="Assets\resources\data\creatures\jobs.json" />
      <Folder Include="Assets\scripts\types\building" />
+     <Folder Include="Assets\SharpUI\Prefabs\UI\Input" />
      <Folder Include="Assets\texture" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
@@ -652,10 +662,13 @@
      <Folder Include="Assets\scripts\game\view\camera" />
      <Folder Include="Assets\scripts\types\material" />
      <Folder Include="Assets\scripts\types\unit\race" />
+     <None Include="Assets\DefaultUiStyles.uss" />
      <Folder Include="Assets\scripts\game\view\ui\menu_widget" />
      <None Include="Assets\resources\data\items\wear.json" />
      <None Include="Assets\resources\data\plants\trees.json" />
      <Folder Include="Assets\resources\ui" />
+     <Folder Include="Assets\SharpUI\Textures\misc" />
+     <Folder Include="Assets\SharpUI\Prefabs\UI\SkillTree" />
      <Folder Include="Assets\scripts\util\lang" />
      <Folder Include="Assets\scripts\mainMenu" />
      <Folder Include="Assets\scripts\game\model\component\task\action\plant" />
@@ -678,9 +691,11 @@
      <None Include="Assets\resources\data\recipes\recipes.json" />
      <Folder Include="Assets\scripts\util\TexturePacker\AssetPacker" />
      <None Include="Assets\resources\data\plants\bushes.json" />
+     <Folder Include="Assets\SharpUI\Prefabs\UI" />
      <None Include="Assets\resources\data\materials\cloth.json" />
      <Folder Include="Assets\scripts\game\view\tilemaps" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+     <None Include="Assets\resources\BillingMode.json" />
      <Folder Include="Assets\resources\data\deity" />
      <Folder Include="Assets\scripts\game\view\ui\jobs_widget" />
      <Folder Include="Assets\input" />
@@ -942,6 +957,18 @@
      </Reference>
      <Reference Include="UnityEditor.UnityConnectModule">
      <HintPath>C:\programs\unity\2021.3.25f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
+     </Reference>
+     <Reference Include="ReportGeneratorMerged">
+     <HintPath>D:\projects\tearfall\Library\PackageCache\com.unity.testtools.codecoverage@1.2.3\lib\ReportGenerator\ReportGeneratorMerged.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Analytics.StandardEvents">
+     <HintPath>D:\projects\tearfall\Library\PackageCache\com.unity.analytics@3.6.12\AnalyticsStandardEvents\Unity.Analytics.StandardEvents.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Analytics.Editor">
+     <HintPath>D:\projects\tearfall\Library\PackageCache\com.unity.analytics@3.6.12\Unity.Analytics.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Analytics.Tracker">
+     <HintPath>D:\projects\tearfall\Library\PackageCache\com.unity.analytics@3.6.12\Unity.Analytics.Tracker.dll</HintPath>
      </Reference>
      <Reference Include="Newtonsoft.Json">
      <HintPath>D:\projects\tearfall\Library\PackageCache\com.unity.nuget.newtonsoft-json@3.2.0\Runtime\Newtonsoft.Json.dll</HintPath>
@@ -1315,8 +1342,11 @@
      <Reference Include="System.Xml.Serialization">
      <HintPath>C:\programs\unity\2021.3.25f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.AI.Navigation.Updater">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.AI.Navigation.Updater.dll</HintPath>
+     <Reference Include="Unity.Recorder.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Recorder.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Purchasing.Common">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Purchasing.Common.dll</HintPath>
      </Reference>
      <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
@@ -1327,35 +1357,26 @@
      <Reference Include="Unity.RenderPipelines.Universal.Shaders">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
-     </Reference>
-     <Reference Include="PPv2URPConverters">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\PPv2URPConverters.dll</HintPath>
+     <Reference Include="UnityEngine.Purchasing">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEngine.Purchasing.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TextMeshPro.Editor">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.VisualStudio.Editor">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
+     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Timeline">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
+     <Reference Include="UnityEngine.Purchasing.SecurityStub">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEngine.Purchasing.SecurityStub.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.TextMeshPro">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Burst.Editor">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
+     <Reference Include="UnityEngine.Advertisements">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEngine.Advertisements.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Searcher.Editor">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.2D.Sprite.Editor">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Core.Runtime">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor.UI">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
@@ -1369,17 +1390,83 @@
      <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
      </Reference>
+     <Reference Include="Analytics">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Analytics.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.SpatialTracking">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
+     </Reference>
      <Reference Include="UnityEngine.UI">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Analytics.DataPrivacy">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Analytics.DataPrivacy.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.ShaderGraph.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.Purchasing.Codeless">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEngine.Purchasing.Codeless.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.AI.Navigation">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Mathematics.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.AI.Navigation.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Recorder">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Recorder.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.AI.Navigation.Updater">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.AI.Navigation.Updater.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.2D.Tilemap.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Recorder.Base">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Recorder.Base.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+     </Reference>
+     <Reference Include="PPv2URPConverters">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\PPv2URPConverters.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualStudio.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Timeline">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.TextMeshPro">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Burst.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.2D.Sprite.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Core.Runtime">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
      </Reference>
      <Reference Include="Unity.PlasticSCM.Editor">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Services.Core">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Services.Core.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.Mathematics">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.ShaderGraph.Editor">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
+     <Reference Include="Unity.Services.Core.Analytics">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Services.Core.Analytics.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
@@ -1390,8 +1477,14 @@
      <Reference Include="Unity.RenderPipelines.Universal.Editor">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+     <Reference Include="UnityEngine.Purchasing.SecurityCore">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEngine.Purchasing.SecurityCore.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.XR.LegacyInputHelpers">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Services.Core.Environments">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Services.Core.Environments.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Timeline.Editor">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
@@ -1399,14 +1492,23 @@
      <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.AI.Navigation">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
+     <Reference Include="UnityEngine.Purchasing.Stores">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEngine.Purchasing.Stores.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Mathematics.Editor">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.AI.Navigation.Editor">
-     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
+     <Reference Include="UnityEditor.Purchasing">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEditor.Purchasing.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.SpatialTracking">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEditor.SpatialTracking.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.TestTools.CodeCoverage.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.Advertisements.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\UnityEngine.Advertisements.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.RenderPipelines.Core.Editor">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>

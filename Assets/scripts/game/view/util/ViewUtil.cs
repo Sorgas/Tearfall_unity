@@ -26,12 +26,12 @@ namespace game.view.util {
         }
 
         public static Vector3 fromScreenToScene(Vector3 pos, GameView view) {
-            Vector3 worldPosition = view.sceneObjectsContainer.mainCamera.ScreenToWorldPoint(pos);
-            return view.sceneObjectsContainer.mapHolder.InverseTransformPoint(worldPosition); // position relative to mapHolder
+            Vector3 worldPosition = view.runner.sceneElementsReferences.mainCamera.ScreenToWorldPoint(pos);
+            return view.runner.sceneElementsReferences.mapHolder.InverseTransformPoint(worldPosition); // position relative to mapHolder
         }
 
         public static Vector3 fromScreenToSceneGlobal(Vector3 pos, GameView view) {
-            return view.sceneObjectsContainer.mainCamera.ScreenToWorldPoint(pos);
+            return view.runner.sceneElementsReferences.mainCamera.ScreenToWorldPoint(pos);
         }
 
         public static Vector3 fromModelToSceneForUnit(Vector3Int position, LocalModel model) {

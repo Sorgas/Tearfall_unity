@@ -27,7 +27,7 @@ namespace game.view.system.building {
         }
 
         private GameObject createSpriteGo(BuildingComponent component, Vector3Int position) {
-            GameObject instance = PrefabLoader.create("Building", GameView.get().sceneObjectsContainer.mapHolder);
+            GameObject instance = PrefabLoader.create("Building", GameView.get().runner.sceneElementsReferences.mapHolder);
             SpriteRenderer renderer = instance.GetComponent<SpriteRenderer>();
             Sprite sprite = BuildingTilesetHolder.get().get(component.type, component.orientation);
             renderer.sprite = sprite;

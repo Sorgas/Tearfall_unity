@@ -19,9 +19,9 @@ namespace game.view.system.mouse_tool {
         public int priority = TaskPriorities.JOB;
         
         protected MouseTool() {
-            materialSelector = GameView.get().sceneObjectsContainer.materialSelectionWidgetHandler;
-            prioritySelector = GameView.get().sceneObjectsContainer.prioritySelectionWidgetHandler;
-            selectorGO = GameView.get().sceneObjectsContainer.selector.GetComponent<SelectorHandler>();
+            materialSelector = GameView.get().runner.sceneElementsReferences.materialSelectionWidgetHandler;
+            prioritySelector = GameView.get().runner.sceneElementsReferences.prioritySelectionWidgetHandler;
+            selectorGO = GameView.get().runner.sceneElementsReferences.selector.GetComponent<SelectorHandler>();
         }
 
         // called when tool is selected in MouseToolManager
