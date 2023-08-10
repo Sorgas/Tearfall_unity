@@ -5,7 +5,7 @@ using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
 using util.lang.extension;
-using static types.action.ActionConditionStatusEnum;
+using static types.action.ActionCheckingEnum;
 
 namespace game.model.component.task.action.zone {
     // TODO add containers usage
@@ -43,7 +43,7 @@ namespace game.model.component.task.action.zone {
         }
 
         private bool findItem() {
-            targetItem = model.itemContainer.util.findForStockpile(zone.take<StockpileComponent>(), zone.take<ZoneComponent>().tiles, targetTile);
+            targetItem = model.itemContainer.findingUtil.findForStockpile(zone.take<StockpileComponent>(), zone.take<ZoneComponent>().tiles, targetTile);
             return targetItem != EcsEntity.Null;
         }
     }

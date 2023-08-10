@@ -1,13 +1,15 @@
-﻿using game.model.component.task.action.target;
+﻿using game.model.component;
+using game.model.component.task.action;
+using game.model.component.task.action.target;
 using generation.plant;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
 using util.item;
 using util.lang.extension;
-using static types.action.ActionConditionStatusEnum;
+using static types.action.ActionCheckingEnum;
 
-namespace game.model.component.task.action.plant {
+namespace game.model.action.plant {
     // action for planting single tile. created from FarmPlantingAction. 
     // looks for seed item, grabs whole stack of seeds, plants seed.
     // Remaining seeds will be planted from another actions.

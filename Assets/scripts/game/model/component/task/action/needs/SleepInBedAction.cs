@@ -18,8 +18,8 @@ namespace game.model.component.task.action.needs {
             startCondition = () => {
                 if (model.buildingContainer.getBuilding(bed.pos()) == bed 
                     && bed.Has<BuildingSleepFurnitureC>())
-                    return ActionConditionStatusEnum.OK;
-                return ActionConditionStatusEnum.FAIL;
+                    return ActionCheckingEnum.OK;
+                return ActionCheckingEnum.FAIL;
             };
         
             // TODO disable vision, decrease hearing
@@ -31,7 +31,7 @@ namespace game.model.component.task.action.needs {
                 performer.Replace(new UnitVisualOnBuildingComponent());
             };
         
-            progressConsumer = delta => {
+            ticksConsumer = delta => {
                 ref UnitNeedComponent component = ref performer.takeRef<UnitNeedComponent>();
                 component.rest += delta; // decrease fatigue
             };

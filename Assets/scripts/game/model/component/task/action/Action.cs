@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using game.model.component.task.action.target;
 using game.model.localmap;
+using game.model.system.unit;
 using game.model.util;
 using Leopotam.Ecs;
 using types.action;
@@ -37,12 +38,13 @@ namespace game.model.component.task.action {
         protected ref EcsEntity performer => ref task.takeRef<TaskPerformerComponent>().performer;
         
         // checked before starting performing and before starting moving, can create sub actions, can lock items
-        public Func<ActionConditionStatusEnum> startCondition = () => ActionConditionStatusEnum.FAIL; // prevent starting empty action
+        public Func<EcsEntity, ActionCheckingEnum> assignmentCondition; // checks assignment for unit
+        public Func<ActionCheckingEnum> startCondition;
 
-        protected System.Action onStart = () => { }; // performed on phase start
-        protected Action<float> progressConsumer; // performs logic TODO consider removing all arguments except delta
-        protected Func<Boolean> finishCondition; // when reached, action ends
-        protected System.Action onFinish = () => { }; // performed on phase finish
+        public System.Action onStart = () => { }; // performed on phase start
+        public Action<float> ticksConsumer; // performs logic based on elapsed ticks
+        public Func<Boolean> finishCondition; // when reached, action ends
+        public System.Action onFinish = () => { }; // performed on phase finish
 
         // should be set before performing. action is instant by default
         protected float speed = 1;
@@ -51,30 +53,19 @@ namespace game.model.component.task.action {
 
         protected Action(ActionTarget target) : this() {
             this.target = target;
+            assignmentCondition = (unit) => throw new NotImplementedException($"assignment condition for action {name} not implemented."); // prevent assigning unimplemented action
+            startCondition = () => throw new NotImplementedException($"start condition for action {name} not implemented."); // prevent assigning unimplemented action
         }
 
         protected Action() {
             finishCondition = () => progress >= maxProgress;
-            progressConsumer = delta => progress += delta; // performs logic
+            ticksConsumer = delta => progress += delta; // performs logic
         }
 
-        // Performs action logic. Changes status.
-        public void perform(int ticks) {
-            if (status == ActionStatusEnum.OPEN) { // first execution of perform()
-                status = ActionStatusEnum.ACTIVE;
-                onStart.Invoke();
-            }
-            progressConsumer.Invoke(speed * ticks);
-            if (finishCondition.Invoke()) { // last execution of perform()
-                onFinish.Invoke();
-                status = ActionStatusEnum.COMPLETE;
-            }
-        }
-
-        public ActionConditionStatusEnum addPreAction(Action action) {
+        public ActionCheckingEnum addPreAction(Action action) {
             task.take<TaskActionsComponent>().addFirstPreAction(action);
             action.task = task;
-            return ActionConditionStatusEnum.NEW;
+            return ActionCheckingEnum.NEW;
         }
         
         protected void lockEntities(List<EcsEntity> entities) => ActionLockingUtility.lockEntities(entities, task);

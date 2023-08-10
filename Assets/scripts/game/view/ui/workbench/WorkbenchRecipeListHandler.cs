@@ -33,7 +33,7 @@ namespace game.view.ui.workbench {
         }
 
         public void addRecipeButton(Recipe recipe, int index) {
-            GameObject line = PrefabLoader.create("recipeLine", transform, new Vector3(0, index * -40, 0));
+            GameObject line = PrefabLoader.create("recipeLine", transform, new Vector3(5, (index * -35) - 5, 0));
             line.GetComponentInChildren<TextMeshProUGUI>().text = recipe.title;
             line.GetComponent<Button>().onClick.AddListener(() => workbenchWindow.createOrder(recipe.name));
             Sprite sprite;

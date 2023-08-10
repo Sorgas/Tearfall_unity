@@ -7,7 +7,7 @@ using util.lang.extension;
 
 namespace game.model.component.task.action {
     /**
-    * Abstract action, which performs manipulations with items.
+    * Abstract action, which performs manipulations with items. Has access to item container and performer's equipment.
     * 
     * @author Alexander on 22.06.2020.
     */

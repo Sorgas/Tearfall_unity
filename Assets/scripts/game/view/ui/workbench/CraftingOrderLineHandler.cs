@@ -15,13 +15,13 @@ using static game.view.ui.UiColorsEnum;
 
 namespace game.view.ui.workbench {
 public class CraftingOrderLineHandler : MonoBehaviour {
-    public Button pauseButton;
-    public Button repeatButton;
-    public Button configureButton;
-    public Button upButton;
-    public Button downButton;
-    public Button cancelButton;
-    public Button duplicateButton;
+    public SquareIconButtonHandler pauseButton;
+    public SquareIconButtonHandler repeatButton;
+    public SquareIconButtonHandler configureButton;
+    public SquareIconButtonHandler upButton;
+    public SquareIconButtonHandler downButton;
+    public SquareIconButtonHandler cancelButton;
+    public SquareIconButtonHandler duplicateButton;
 
     public TextMeshProUGUI text;
     public Image statusIcon; // TODO use this instead of statusText
@@ -30,8 +30,8 @@ public class CraftingOrderLineHandler : MonoBehaviour {
     public CraftingOrderConfigPanelHandler configurePanel;
 
     // quantity
-    public Button plusButton;
-    public Button minusButton;
+    public SquareIconButtonHandler plusButton;
+    public SquareIconButtonHandler minusButton;
     public TMP_InputField quantityInputField;
 
     private EcsEntity workbench;
@@ -40,15 +40,15 @@ public class CraftingOrderLineHandler : MonoBehaviour {
     // private CraftingOrder order;
 
     public void Start() {
-        pauseButton.onClick.AddListener(togglePaused);
-        repeatButton.onClick.AddListener(toggleRepeated);
-        configureButton.onClick.AddListener(toggleConfigureMenu);
-        upButton.onClick.AddListener(() => workbenchWindow.moveOrder(order, true));
-        downButton.onClick.AddListener(() => workbenchWindow.moveOrder(order, false));
-        cancelButton.onClick.AddListener(() => workbenchWindow.removeOrder(order));
-        duplicateButton.onClick.AddListener(() => workbenchWindow.duplicateOrder(order));
-        plusButton.onClick.AddListener(() => changeQuantity(1));
-        minusButton.onClick.AddListener(() => changeQuantity(-1));
+        pauseButton.addListener(togglePaused);
+        repeatButton.addListener(toggleRepeated);
+        configureButton.addListener(toggleConfigureMenu);
+        upButton.addListener(() => workbenchWindow.moveOrder(order, true));
+        downButton.addListener(() => workbenchWindow.moveOrder(order, false));
+        cancelButton.addListener(() => workbenchWindow.removeOrder(order));
+        duplicateButton.addListener(() => workbenchWindow.duplicateOrder(order));
+        plusButton.addListener(() => changeQuantity(1));
+        minusButton.addListener(() => changeQuantity(-1));
         closeConfigureMenu();
     }
 
@@ -107,12 +107,12 @@ public class CraftingOrderLineHandler : MonoBehaviour {
     private void showConfigureMenu() {
         configurePanel.gameObject.SetActive(true);
         configurePanel.fillFor(order);
-        configureButton.GetComponent<Image>().color = BUTTON_CHOSEN;
+        configureButton.setColor(BUTTON_CHOSEN);
     }
 
     private void closeConfigureMenu() {
         configurePanel.gameObject.SetActive(false);
-        configureButton.GetComponent<Image>().color = BUTTON_NORMAL;
+        configureButton.setColor(BUTTON_NORMAL);
     }
 
     private void changeQuantity(int delta) {
@@ -129,7 +129,7 @@ public class CraftingOrderLineHandler : MonoBehaviour {
     }
 
     private void updatePausedVisual() {
-        pauseButton.GetComponent<Image>().color = order.status == PAUSED ? BUTTON_CHOSEN : BUTTON_NORMAL;
+        pauseButton.setColor(order.status == PAUSED ? BUTTON_CHOSEN : BUTTON_NORMAL);
         gameObject.GetComponent<Image>().color = order.status == PAUSED ? background : backgroundHighlight;
     }
 

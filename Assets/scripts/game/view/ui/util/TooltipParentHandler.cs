@@ -1,45 +1,57 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using MoreLinq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using util.lang.extension;
 using Image = UnityEngine.UI.Image;
 
 namespace game.view.ui.util {
-// can open tooltip. tracks mouse, and closes tooltip if mouse leaves this object or tooltip.
 public class TooltipParentHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
     public List<GameObject> tooltips = new();
-    public GameObject openingButton; 
-    public bool mouseInParent;
-    public bool mouseInTooltip;
+    
+    private List<TooltipHandler> handlers = new();
     private bool debug = false;
     
     public void Start() {
         tooltips.ForEach(tooltip => {
             tooltip.SetActive(false);
-            TooltipHandler tooltipHandler = tooltip.AddComponent<TooltipHandler>();
-            tooltipHandler.setParent(this);
+            TooltipHandler handler = tooltip.AddComponent<TooltipHandler>();
+            handler.setParent(this);
+            handlers.Add(handler);
         });
     }
 
     public void mouseExitedTooltip() {
-        mouseInTooltip = false;
         checkTooltipClosing();
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
         log("in tooltipParent");
-        mouseInParent = true;
+        handlers.ForEach(handler => handler.show());
     }
 
     public void OnPointerExit(PointerEventData eventData) {
         log("out tooltipParent");
-        mouseInParent = false;
         checkTooltipClosing();
     }
 
+    // closes all active tooltips not hovered by mouse
     private void checkTooltipClosing() {
-        if (!mouseInParent && !mouseInTooltip) {
-            tooltips.ForEach(tooltip => tooltip.SetActive(false));;
-            if(openingButton != null) openingButton.GetComponent<Image>().color = UiColorsEnum.BUTTON_NORMAL;
+        PointerEventData eventData = new(EventSystem.current) { position = Input.mousePosition };
+        List<RaycastResult> results = new();
+        EventSystem.current.RaycastAll(eventData, results);
+        List<GameObject> raycastedObjects = results
+            .Where(result => result.gameObject.hasComponent<TooltipHandler>())
+            .Select(result => result.gameObject)
+            .Where(go => tooltips.Contains(go))
+            .ToList();
+        foreach (var handler in handlers) {
+            if (raycastedObjects.Contains(handler.gameObject)) {
+                handler.show();
+            } else {
+                handler.hide();
+            }
         }
     }
 

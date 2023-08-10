@@ -14,12 +14,26 @@ public class UnitActionPerformingSystem : LocalModelScalableEcsSystem {
         foreach (int i in filter) {
             EcsEntity unit = filter.GetEntity(i);
             Action action = filter.Get1(i).action;
-            action.perform(ticks);
+            if (action.status == ActionStatusEnum.OPEN) { // first execution of perform()
+                action.status = ActionStatusEnum.ACTIVE;
+                action.onStart.Invoke();
+            }
+            action.ticksConsumer.Invoke(ticks);
+            if (action.finishCondition.Invoke()) { // last execution of perform()
+                action.onFinish.Invoke();
+                action.status = ActionStatusEnum.COMPLETE;
+            }
             if (action.status == ActionStatusEnum.COMPLETE) {
                 Debug.Log("[UnitActionPerformingSystem]: action " + action.name + " complete");
                 unit.Del<UnitCurrentActionComponent>();
             }
         }
     }
+}
+
+public enum ActionStatusEnum {
+    OPEN, // action not started
+    ACTIVE,
+    COMPLETE
 }
 }

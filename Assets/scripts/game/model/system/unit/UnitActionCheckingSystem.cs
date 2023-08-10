@@ -7,7 +7,7 @@ using types.action;
 using UnityEngine;
 using util;
 using util.lang.extension;
-using static types.action.ActionConditionStatusEnum;
+using static types.action.ActionCheckingEnum;
 using static types.action.TaskStatusEnum;
 using static game.model.component.task.action.target.ActionTargetStatusEnum;
 
@@ -50,9 +50,8 @@ namespace game.model.system.unit {
 
         // checks action start condition and create sub action if needed.
         private bool actionConditionOk(ref EcsEntity unit, ref TaskActionsComponent actions, int ticks) {
-            Debug.Log("checking action start condition");
             string nextActionName = actions.nextAction.name;
-            ActionConditionStatusEnum checkResult = actions.nextAction.startCondition.Invoke(); // creates sub actions
+            ActionCheckingEnum checkResult = actions.nextAction.startCondition.Invoke(); // creates sub actions
             if (checkResult == OK) return true; // can start performing
             if (checkResult == FAIL) {
                 log("checked start condition of [" + nextActionName + "]: FAIL");

@@ -8,7 +8,7 @@ using types.action;
 using types.unit.need;
 using UnityEngine;
 using util.lang.extension;
-using static types.action.ActionConditionStatusEnum;
+using static types.action.ActionCheckingEnum;
 
 namespace game.model.component.task.action.needs {
     public class EatAction : ItemAction {

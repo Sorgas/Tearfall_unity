@@ -6,10 +6,10 @@ using UnityEngine.UI;
 namespace game.view.ui.util {
     public class ProgressBarHandler : MonoBehaviour {
         public TextMeshProUGUI text;
-        public Image maskImage;
+        public Image barImage;
 
         public void setValue(float value) {
-            maskImage.fillAmount = value;
+            barImage.fillAmount = value;
             text.text = String.Format("{0:P0}", value);
         }
     }

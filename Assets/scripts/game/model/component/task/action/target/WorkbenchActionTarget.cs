@@ -5,18 +5,13 @@ using types.building;
 using UnityEngine;
 using util.lang.extension;
 
-// target for performing actions in workbenches
+// targets to access position of workbench
 namespace game.model.component.task.action.target {
-    class WorkbenchActionTarget : EntityActionTarget {
-        private Vector3Int accessPosition;
-
-        public WorkbenchActionTarget(EcsEntity entity) : base(entity, ActionTargetTypeEnum.EXACT) {
-            accessPosition = entity.pos();
-            BuildingType type = entity.take<BuildingComponent>().type; 
-            accessPosition.x += type.access[0];
-            accessPosition.y += type.access[1];
-        }
-
-        public override Vector3Int pos => accessPosition;
+class WorkbenchActionTarget : EntityActionTarget {
+    public WorkbenchActionTarget(EcsEntity entity) : base(entity, ActionTargetTypeEnum.EXACT) {
+        pos = entity.take<BuildingComponent>().getAccessPosition(entity.pos());
     }
+
+    public override Vector3Int pos { get; }
+}
 }

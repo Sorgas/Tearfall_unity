@@ -11,8 +11,8 @@ using UnityEngine;
 using util.lang.extension;
 using static game.model.component.task.order.CraftingOrder.CraftingOrderStatus;
 
-// creates task for workbench.
 namespace game.model.system.building {
+// creates task for workbench.
 public class WorkbenchTaskCreationSystem : LocalModelUnscalableEcsSystem {
     public EcsFilter<WorkbenchComponent>.Exclude<TaskComponent> filter;
     private const bool debug = true;
@@ -83,9 +83,7 @@ public class WorkbenchTaskCreationSystem : LocalModelUnscalableEcsSystem {
     }
 
     private bool checkOrderTaskCreation(CraftingOrder order, Vector3Int position) {
-        bool itemsFound = model.itemContainer.craftingUtil.findItemsForOrder(order, position);
-        order.ingredients.ForEach(ingredientOrder => ingredientOrder.items.Clear());
-        return itemsFound;
+        return model.itemContainer.craftingUtil.checkItemsForOrder(order, position);
     }
     
     // finds first order with enough items to create task and creates task

@@ -1,4 +1,5 @@
 ﻿using game.model.component.plant;
+using game.model.component.task.action;
 using game.model.component.task.action.target;
 using generation.item;
 using Leopotam.Ecs;
@@ -6,7 +7,7 @@ using types.action;
 using UnityEngine;
 using util.lang.extension;
 
-namespace game.model.component.task.action.plant {
+namespace game.model.action.plant {
     // harvests product items from harvestable plant.
     // locks and unlocks zone tile if plant is within zone.
     // drops items to ground
@@ -23,10 +24,10 @@ namespace game.model.component.task.action.plant {
 
             startCondition = () => {
                 zone = model.zoneContainer.getZone(plantPosition);
-                if (!plant.IsAlive()) return ActionConditionStatusEnum.FAIL;
-                if (!plant.Has<PlantHarvestableComponent>()) return ActionConditionStatusEnum.FAIL;
+                if (!plant.IsAlive()) return ActionCheckingEnum.FAIL;
+                if (!plant.Has<PlantHarvestableComponent>()) return ActionCheckingEnum.FAIL;
                 if (zone != EcsEntity.Null) lockZoneTile(zone, plantPosition);
-                return ActionConditionStatusEnum.OK;
+                return ActionCheckingEnum.OK;
             };
 
             onFinish = () => {

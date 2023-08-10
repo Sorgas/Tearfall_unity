@@ -51,7 +51,7 @@ namespace game.view.util {
             
             // workbench
             paths.Add("craftingOrderLine", "prefabs/workbenchMenu/CraftingOrderLine");
-            paths.Add("itemIconWithTooltip", "prefabs/workbenchMenu/ItemIconWithTooltip"); // TODO use for other inventory windows
+            paths.Add("itemButtonWithTooltip", "prefabs/ItemButtonWithTooltip"); // TODO use for other inventory windows
             paths.Add("MaterialSelectionButton", "prefabs/workbenchMenu/MaterialSelectionButton");
             paths.Add("recipeLine", "prefabs/workbenchMenu/RecipeLine");
             paths.Add("itemButtonWithMaterialList", "prefabs/materialSelector/ItemButtonWithMaterialList");

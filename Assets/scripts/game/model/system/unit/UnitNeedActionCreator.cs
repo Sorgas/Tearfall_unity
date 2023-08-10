@@ -27,7 +27,7 @@ namespace game.model.system.unit {
             if (priority == TaskPriorities.HEALTH_NEEDS && unit.Has<UnitCalculatedWearNeedComponent>()) {
                 UnitCalculatedWearNeedComponent wear = unit.take<UnitCalculatedWearNeedComponent>();
                 ItemSelector selector = new WearWithSlotItemSelector(wear.slotsToFill);
-                EcsEntity item = model.itemContainer.util.findFreeReachableItemBySelector(selector, unit.pos()); // TODO select best item?
+                EcsEntity item = model.itemContainer.findingUtil.findNearestItemBySelector(selector, unit.pos()); // TODO select best item?
                 if (!item.IsNull()) {
                     return new EquipWearItemAction(item);
                 }

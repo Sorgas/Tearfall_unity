@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using game.model.component;
@@ -14,130 +13,167 @@ using static game.model.component.task.order.CraftingOrder;
 
 namespace game.model.container.item.finding {
 public class CraftingItemFindingUtil : AbstractItemFindingUtil {
-    // TODO rewrite stockpile method to use item selectors. selector should be stored in stockpile component and updated from stockpile config menu.
-    public CraftingItemFindingUtil(LocalModel model, ItemContainer container) : base(model, container) { }
+    private readonly SimpleCraftingCheckingUtil simpleUtil;
 
-    public bool findItemsForOrder(CraftingOrder order, Vector3Int position) => findItemsForOrder(order, position, item => { });
+    public CraftingItemFindingUtil(LocalModel model, ItemContainer container) : base(model, container) {
+        simpleUtil = new SimpleCraftingCheckingUtil { model = model };
+    }
 
-    // validates ingredient orders in order. 
-    // clear invalid ingredients.
-    // finds items for invalid ingredients
-    // returns true if items for all ingredients found
-    // returns false if cannot find items for at least one ingredient
-    public bool findItemsForOrder(CraftingOrder order, Vector3Int position, Action<EcsEntity> unlockAction) {
-        List<IngredientOrder> invalidIngredients = order.ingredients
-            .Where(ingredient => !ingredientOrderValid(ingredient, position)).ToList();
-        // log("invalid ingredients count: " + invalidIngredients.Count);
-        foreach (var ingredientOrder in invalidIngredients) {
-            ingredientOrder.items.ForEach(unlockAction);
-            ingredientOrder.items.Clear();
-        }
-        foreach (var ingredientOrder in invalidIngredients) {
-            List<EcsEntity> items = findItemsForIngredient(ingredientOrder, order, position);
+    public List<IngredientOrder> findInvalidIngredientOrders(CraftingOrder order, Vector3Int position) {
+        return order.ingredients.Where(ingredient => !ingredientOrderValid(ingredient, position)).ToList();
+    }
+
+    public bool checkItemsForOrder(CraftingOrder order, Vector3Int position) {
+        List<EcsEntity> foundItems = new();
+        foreach (var ingredientOrder in order.ingredients) {
+            List<EcsEntity> items = findItemsForIngredient(ingredientOrder, position, foundItems);
             if (items == null || items.Count != ingredientOrder.ingredient.quantity) return false;
-            ingredientOrder.items.AddRange(items);
+            foundItems.AddRange(items);
         }
         return true;
     }
 
     // ingredient order is valid if
     //      it has correct number of items selected
-    //      all items have correct item type
-    //      all items have same and allowed material
+    //      all items have allowed type and material
+    //      all items have same type and material
     //      all items are reachable from reference position
-    private bool ingredientOrderValid(IngredientOrder ingredientOrder, Vector3Int position) {
-        if (ingredientOrder.items.Count != ingredientOrder.ingredient.quantity) return false;
-        int material = ingredientOrder.items[0].take<ItemComponent>().material;
-        bool itemsOk = ingredientOrder.items
-            .Select(item => item.take<ItemComponent>())
-            .All(component => component.material == material 
-                              && ingredientOrder.materials.Contains(component.material) 
-                              && ingredientOrder.itemTypes.Contains(component.type));
-        if (!itemsOk) return false;
-        return ingredientOrder.items.All(item => model.itemContainer.itemAccessibleFromPosition(item, position));
+    private bool ingredientOrderValid(IngredientOrder order, Vector3Int position) {
+        if (order.items.Count != order.ingredient.quantity) return false;
+        ItemComponent firstItem = order.items[0].take<ItemComponent>();
+        if (!order.materials.Contains(firstItem.material) || !order.itemTypes.Contains(firstItem.type)) return false;
+        foreach (var item in order.items) {
+            ItemComponent itemComponent = item.take<ItemComponent>();
+            if (itemComponent.material != firstItem.material || itemComponent.type != firstItem.type) return false;
+        }
+        return order.items.All(item => model.itemContainer.itemAccessibleFromPosition(item, position));
     }
 
-    // finds items for ingredient order, add them into ingredient order
-    private List<EcsEntity> findItemsForIngredient(IngredientOrder ingredientOrder, CraftingOrder order, Vector3Int position) {
-        // log("searching items for ingredient " + ingredient.key + " of order " + order.name);
-        List<EcsEntity> otherItems = order.allIngredientItems(); // items selected in other ingredients should not be selected
-        List<List<EcsEntity>> itemLists = ingredientOrder.materials.Count == 0 // get groups of suitable items
+    public List<EcsEntity> findItemsForIngredient(IngredientOrder ingredientOrder, CraftingOrder order, Vector3Int position) {
+        return findItemsForIngredient(ingredientOrder, position, order.allIngredientItems());
+    }
+
+    private List<EcsEntity> findItemsForIngredient(IngredientOrder ingredientOrder, Vector3Int position, List<EcsEntity> blockedItems) {
+        List<ItemGroup> groups = ingredientOrder.materials.Count == 0 // get groups of suitable items
             ? findItemsForIngredientWithTag(ingredientOrder)
             : findItemsForIngredientByMaterial(ingredientOrder);
-        List<ItemGroup> groups = itemLists
-            .Select(list => filterForCrafting(list, otherItems, position, ingredientOrder.ingredient.quantity))
+        groups = groups
+            .Select(group => filterForCrafting(group, blockedItems, position, ingredientOrder.ingredient.quantity))
             .Where(group => group != null)
             .ToList();
         return selectNearestGroup(groups)?.items;
     }
 
     // finds groups of items suitable for ingredient order which has tag
-    private List<List<EcsEntity>> findItemsForIngredientWithTag(IngredientOrder ingredientOrder) {
+    private List<ItemGroup> findItemsForIngredientWithTag(IngredientOrder ingredientOrder) {
         string tag = ingredientOrder.ingredient.tag;
-        List<List<EcsEntity>> result = new();
+        List<ItemGroup> result = new();
         foreach (string itemType in ingredientOrder.itemTypes) {
             MultiValueDictionary<int, EcsEntity> itemsOfType = model.itemContainer.availableItemsManager.findByType(itemType); // material -> items
             foreach (KeyValuePair<int, List<EcsEntity>> entry in itemsOfType) { // for each material
-                result.Add(entry.Value.Where(item => item.take<ItemComponent>().tags.Contains(tag)).ToList()); // filter by tag
+                IEnumerable<EcsEntity> items = entry.Value.Where(item => item.take<ItemComponent>().tags.Contains(tag)); // filter by tag
+                result.Add(new ItemGroup(items));
             }
         }
         return result;
     }
 
     // finds groups of items suitable for ingredient order which has material list
-    private List<List<EcsEntity>> findItemsForIngredientByMaterial(IngredientOrder ingredientOrder) {
-        List<List<EcsEntity>> result = new();
+    private List<ItemGroup> findItemsForIngredientByMaterial(IngredientOrder ingredientOrder) {
+        List<ItemGroup> result = new();
         foreach (string itemType in ingredientOrder.itemTypes) {
             foreach (int material in ingredientOrder.materials) {
-                result.Add(model.itemContainer.availableItemsManager.findByTypeAndMaterial(itemType, material));
+                IEnumerable<EcsEntity> items = model.itemContainer.availableItemsManager.findByTypeAndMaterial(itemType, material);
+                result.Add(new ItemGroup(items));
             }
         }
         return result;
     }
 
     // items for crafting should be not locked, be in same area with performer, and not already selected for order
-    private ItemGroup filterForCrafting(IList<EcsEntity> items, List<EcsEntity> prohibitedItems, Vector3Int position, int requiredQuantity) {
-        if (items.Count < requiredQuantity) return null;
-        items = items
+    private ItemGroup filterForCrafting(ItemGroup group, List<EcsEntity> prohibitedItems, Vector3Int position, int requiredQuantity) {
+        if (group.items.Count < requiredQuantity) return null;
+        group.items = group.items
             .Where(itemEntity => !itemEntity.Has<LockedComponent>()) // not locked for any task
             .Where(itemEntity => !prohibitedItems.Contains(itemEntity)) // not in block list
             .ToList();
-        if (items.Count < requiredQuantity) return null;
-        // map to position
-        Dictionary<EcsEntity, Vector3Int> itemsToPosition = items.ToDictionary(item => item, container.getItemAccessPosition);
-        List<EcsEntity> localItems = itemsToPosition // filter accessible
+        if (group.items.Count < requiredQuantity) return null;
+        group.items = group.items.ToDictionary(item => item, container.getItemAccessPosition) // filter accessible
             .Where(pair => model.itemContainer.itemAccessibleFromPosition(pair.Key, position))
             .Select(pair => pair.Key).ToList();
-        if (localItems.Count < requiredQuantity) return null;
-        return selectNNearest(localItems, requiredQuantity, position);
+        if (group.items.Count < requiredQuantity) return null;
+        return selectNNearest(group, requiredQuantity, position);
     }
 
-    private ItemGroup selectNNearest(List<EcsEntity> items, int quantity, Vector3Int position) {
-        // TODO use no-sorting solution
-        ItemGroup group = new ItemGroup();
-        List<KeyValuePair<EcsEntity, float>> pairs = items
+    // TODO use no-sorting solution
+    // removes from item group all items except nearest [quantity] items
+    private ItemGroup selectNNearest(ItemGroup group, int quantity, Vector3Int position) {
+        List<KeyValuePair<EcsEntity, float>> pairs = group.items
             .Select(item => new KeyValuePair<EcsEntity, float>(item, fastDistance(item, position)))
             .PartialSortBy(quantity, pair => pair.Value).ToList();
+        group.items.Clear();
         MoreEnumerable.ForEach(pairs, pair => {
             group.items.Add(pair.Key);
             group.totalDistance += pair.Value;
         });
-        if (group.items.Count > quantity) Debug.LogError("wrong number of items taken.");
+        if (group.items.Count != quantity) Debug.LogError("wrong number of items taken.");
         return group;
     }
 
     private ItemGroup selectNearestGroup(List<ItemGroup> groups) {
-        log("selecting nearest from " + groups.Count + " groups");
         if (groups.Count == 0) return null;
         if (groups.Count == 1) return groups[0];
         return groups.MinBy(group => group.totalDistance);
     }
 
-    private void log(string message) => Debug.Log("[ItemFindingUtil]: " + message);
-
     private class ItemGroup {
         public List<EcsEntity> items = new();
-        public float totalDistance = 0;
+        public float totalDistance = -1;
+
+        public ItemGroup(IEnumerable<EcsEntity> items) {
+            this.items.AddRange(items);
+        }
+    }
+
+    private class SimpleCraftingCheckingUtil {
+        public LocalModel model;
+
+        // simplified check 
+        public bool checkItemsForOrder(CraftingOrder order) {
+            foreach (var ingredientOrder in order.ingredients) {
+                if (!checkItemsForIngredient(ingredientOrder)) return false;
+            }
+            return true;
+        }
+
+        // checks that there are available items for ingredient
+        private bool checkItemsForIngredient(IngredientOrder ingredientOrder) {
+            return ingredientOrder.materials.Count == 0 // get groups of suitable items
+                ? checkItemsForIngredientWithTag(ingredientOrder)
+                : checkItemsForIngredientByMaterial(ingredientOrder);
+        }
+
+        private bool checkItemsForIngredientWithTag(IngredientOrder ingredientOrder) {
+            string tag = ingredientOrder.ingredient.tag;
+            foreach (string itemType in ingredientOrder.itemTypes) {
+                MultiValueDictionary<int, EcsEntity> itemsOfType = model.itemContainer.availableItemsManager.findByType(itemType); // material -> items
+                foreach (KeyValuePair<int, List<EcsEntity>> entry in itemsOfType) { // for each material
+                    IEnumerable<EcsEntity> items = entry.Value.Where(item => item.take<ItemComponent>().tags.Contains(tag)); // filter by tag
+                    if (items.Count() >= ingredientOrder.ingredient.quantity) return true;
+                }
+            }
+            return false;
+        }
+
+        private bool checkItemsForIngredientByMaterial(IngredientOrder ingredientOrder) {
+            foreach (string itemType in ingredientOrder.itemTypes) {
+                foreach (int material in ingredientOrder.materials) {
+                    IEnumerable<EcsEntity> items = model.itemContainer.availableItemsManager.findByTypeAndMaterial(itemType, material);
+                    if (items.Count() >= ingredientOrder.ingredient.quantity) return true;
+                }
+            }
+            return false;
+        }
     }
 }
 }

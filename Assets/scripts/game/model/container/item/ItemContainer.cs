@@ -17,21 +17,20 @@ public class ItemContainer : LocalModelUpdateContainer {
     public readonly StoredItemsManager stored;
 
     public readonly AvailableItemsManager availableItemsManager = new();
-    public readonly ItemFindingUtil util;
+    public readonly ItemFindingUtil findingUtil;
     public readonly CraftingItemFindingUtil craftingUtil;
     public readonly ItemTransitionUtil transition;
 
     public ItemContainer(LocalModel model) : base(model) {
         onMap = new(model, this);
-        util = new(model, this);
+        findingUtil = new(model, this);
         craftingUtil = new(model, this);
         transition = new(model, this);
         stored = new(model, this);
     }
 
-    // checks that items's position is accessible from 'position'
+    // checks that item's position is accessible from 'position'
     public bool itemAccessibleFromPosition(EcsEntity item, Vector3Int position) {
-        // TODO handle equipped items, handle items stored in equipped containers
         Vector3Int targetPosition = getItemAccessPosition(item);
         return model.localMap.passageMap.tileIsAccessibleFromArea(targetPosition, position);
     }

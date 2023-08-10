@@ -22,7 +22,7 @@ namespace game.view.ui.toolbar {
             // variant -> materialId -> items
             // TODO add building name text to UI
             Dictionary<BuildingVariant, MultiValueDictionary<int, EcsEntity>> items =
-                GameModel.get().currentLocalModel.itemContainer.util.findForBuildingVariants(variants);
+                GameModel.get().currentLocalModel.itemContainer.findingUtil.findForBuildingVariants(variants);
             MaterialButtonHandler buttonToSelect = null;
             for (int i = 0; i < variants.Length; i++) {
                 GameObject button = 

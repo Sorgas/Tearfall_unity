@@ -24,7 +24,7 @@ namespace types.unit.need {
 
         public Action tryCreateAction(LocalModel model, EcsEntity unit) {
             // Debug.Log("trying to create eat action");
-            EcsEntity item = model.itemContainer.util.findFoodItem(unit.pos());
+            EcsEntity item = model.itemContainer.findingUtil.findFoodItem(unit.pos());
             if (item == EcsEntity.Null) return null;
             Debug.Log(item.GetInternalId());
             return new EatAction(item);

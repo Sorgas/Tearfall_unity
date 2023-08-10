@@ -15,7 +15,7 @@ namespace game.model.component.task.action.needs {
         private float fatigue;
     
         public SleepOnGroundAction(Vector3Int position) : base(new PositionActionTarget(position, ActionTargetTypeEnum.EXACT)) {
-            startCondition = () => ActionConditionStatusEnum.OK;
+            startCondition = () => ActionCheckingEnum.OK;
 
             // TODO disable vision decrease hearing
             onStart = () => {
@@ -24,7 +24,7 @@ namespace game.model.component.task.action.needs {
                 performer.take<UnitVisualComponent>().handler.rotate(OrientationUtil.getRandom());
             };
         
-            progressConsumer = delta => {
+            ticksConsumer = delta => {
                 EcsEntity performer = this.performer;
                 ref UnitNeedComponent component = ref performer.takeRef<UnitNeedComponent>();
                 component.rest -= delta; // decrease fatigue

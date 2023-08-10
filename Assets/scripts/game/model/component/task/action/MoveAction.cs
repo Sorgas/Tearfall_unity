@@ -16,11 +16,11 @@ namespace game.model.component.task.action {
                     Vector3Int currentPosition = performer.pos();
                     Debug.Log("checking in same area");
                     if (model.localMap.passageMap.inSameArea(currentPosition, targetPosition)) {
-                        return ActionConditionStatusEnum.OK;
+                        return ActionCheckingEnum.OK;
                     }
                 }
                 Debug.LogWarning("Creature cannot move to " + targetPosition);
-                return ActionConditionStatusEnum.FAIL;
+                return ActionCheckingEnum.FAIL;
             };
             finishCondition = () => true;
         }

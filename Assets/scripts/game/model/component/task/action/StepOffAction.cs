@@ -23,7 +23,7 @@ namespace game.model.component.task.action {
 
         private void handleFoundPosition(Vector3Int targetPos) {
             if (targetPos.z != -1) {
-                startCondition = () => ActionConditionStatusEnum.OK;
+                startCondition = () => ActionCheckingEnum.OK;
                 target = new PositionActionTarget(targetPos, ActionTargetTypeEnum.EXACT);
             } else {
                 Debug.LogError("stepOff position not found"); // TODO handle

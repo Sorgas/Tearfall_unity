@@ -15,12 +15,12 @@ public class GetItemFromContainerAction : ItemAction {
         maxProgress = 50;
 
         startCondition = () => {
-            if (!validate()) return ActionConditionStatusEnum.FAIL;
+            if (!validate()) return ActionCheckingEnum.FAIL;
             // setItemLocked(item, true);
             // drop current item
             if (equipment.hauledItem != EcsEntity.Null)
                 return addPreAction(new PutItemToPositionAction(equipment.hauledItem, performer.pos()));
-            return ActionConditionStatusEnum.OK;
+            return ActionCheckingEnum.OK;
         };
 
         onFinish = () => {

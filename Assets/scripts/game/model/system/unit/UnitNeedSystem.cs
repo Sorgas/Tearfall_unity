@@ -11,7 +11,6 @@ namespace game.model.system.unit {
         private readonly float restTick;
         private readonly float hungerTick;
         private EcsFilter<UnitNeedComponent> filter;
-        private int counter;
 
         public UnitNeedSystem() : base(interval) {
             restTick = 1f / RestNeed.hoursToSafety / GameTime.ticksPerHour * interval;

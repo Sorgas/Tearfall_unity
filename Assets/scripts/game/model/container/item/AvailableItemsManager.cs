@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using game.model.component.item;
 using Leopotam.Ecs;
+using types.item.type;
 using UnityEngine;
 using util.lang;
 using util.lang.extension;

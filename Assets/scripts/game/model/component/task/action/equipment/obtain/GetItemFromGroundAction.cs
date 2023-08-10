@@ -5,7 +5,7 @@ using game.model.localmap;
 using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
-using static types.action.ActionConditionStatusEnum;
+using static types.action.ActionCheckingEnum;
 
 namespace game.model.component.task.action.equipment.obtain {
     /**

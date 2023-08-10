@@ -43,10 +43,10 @@ namespace game.view.ui.workbench {
                 int count = 0;
                 Dictionary<ItemComponent, int> items = groupItems(entity.take<ItemContainerComponent>().items);
                 foreach (var pair in items) {
-                    GameObject panel = PrefabLoader.create("itemIconWithTooltip", scrollContent);
+                    GameObject panel = PrefabLoader.create("itemButtonWithTooltip", scrollContent);
                     panel.transform.localPosition = getPanelPosition(panel.GetComponent<RectTransform>(), count);
-                    ItemPanelWithTooltip tooltipHandler = panel.GetComponent<ItemPanelWithTooltip>();
-                    tooltipHandler.initFor(pair.Key, pair.Value);
+                    ItemButtonWithTooltipHandler tooltipHandlerHandler = panel.GetComponent<ItemButtonWithTooltipHandler>();
+                    tooltipHandlerHandler.initFor(pair.Key, pair.Value);
                     count++;
                 }
             }

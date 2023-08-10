@@ -1,65 +1,105 @@
 using System.Collections.Generic;
 using System.Linq;
+using game.model.component.building;
 using game.model.component.item;
 using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
 using game.model.component.task.order;
 using generation.item;
 using Leopotam.Ecs;
-using types.action;
 using types.material;
+using UnityEngine;
 using util.lang.extension;
+using static types.action.ActionCheckingEnum;
 
 namespace game.model.component.task.action.item {
 /**
 * Action for crafting item by item order on workbench. Ingredient items will be brought to WB.
-* WB should have {@link WorkbenchAspect} and {@link ItemContainerAspect}.
-* Crafting speed is influenced by unit's performance (see {@link stonering.entity.unit.aspects.health.HealthAspect}), and skill.
+* WB should have WorkbenchComponent and ItemContainerComponent.
+* TODO Crafting speed is influenced by unit's performance (see {@link stonering.entity.unit.aspects.health.HealthAspect}), and skill.
 * TODO add intermediate 'unfinished' item like in RW.
 *
 * @author Alexander on 06.01.2019.
 */
-class CraftItemAtWorkbenchAction : ItemCraftingAction {
-    private EcsEntity workbench;
+class CraftItemAtWorkbenchAction : EquipmentAction {
+    private readonly CraftingOrder order;
+    private readonly EcsEntity workbench;
     private string skill;
 
     // unit will stand near wb while performing task
-    public CraftItemAtWorkbenchAction(CraftingOrder order, EcsEntity workbench) : base(order,
-        new WorkbenchActionTarget(workbench)) {
+    public CraftItemAtWorkbenchAction(CraftingOrder order, EcsEntity workbench) : base(new WorkbenchActionTarget(workbench)) {
+        this.order = order;
         this.workbench = workbench;
         name = "crafting " + order.name + " action";
 
+        assignmentCondition = (unit) => OK; // order was checked before task creation
+        
         //TODO check ingredients and fuel availability before bringing something to workbench.
-        //TODO add usage of items in nearby containers.
         startCondition = () => {
-            if (!checkOrderItems()) return ActionConditionStatusEnum.FAIL; // check/find items for order
+            if (!validateOrder()) return FAIL; // check/find items for order
             order.ingredients.ForEach(ingredientOrder => lockEntities(ingredientOrder.items));
-            if (checkBringingItems()) return ActionConditionStatusEnum.NEW; // bring ingredient items
-            return ActionConditionStatusEnum.OK;
+            if (checkBringingItems()) return NEW; // bring ingredient items
+            return OK;
         };
 
         onStart = () => {
-            log("start");
             maxProgress = getWorkAmount();
             speed = getSpeed();
-
         };
 
         // Creates item, consumes ingredients. Product item is put to Workbench.
         onFinish = () => {
             EcsEntity result = new ItemGenerator().generateItem(order.recipe.newType, selectMaterialForItem(), model.createEntity());
-            destroyIngredients();
+            foreach (EcsEntity item in order.allIngredientItems()) {
+                container.stored.removeItemFromContainer(item);
+                item.Destroy();
+            }
             storeProduct(result);
         };
     }
+    
+    private bool validateOrder() {
+        bool valid = validateOrderItems();
+        if (valid) {
+            order.allIngredientItems().ForEach(lockEntity);
+        } else {
+            order.ingredients.ForEach(ingOrder => {
+                unlockEntities(ingOrder.items);
+                ingOrder.items.Clear();
+            });
+        }
+        return valid;
+    }
+    
+    // checks if all ingredient orders are valid (have correct quantity, types and materials of selected items)
+    // clears invalid ingredient orders and unlocks items
+    // finds new items for cleared ingredient orders
+    // returns true if items for all ingredients found
+    private bool validateOrderItems() {
+        List<CraftingOrder.IngredientOrder> invalidOrders = container.craftingUtil.findInvalidIngredientOrders(order, target.pos);
+        foreach (var ingredientOrder in invalidOrders) {
+            ingredientOrder.items.ForEach(unlockEntity);
+            ingredientOrder.items.Clear();
+        }
+        foreach (var ingredientOrder in invalidOrders) {
+            List<EcsEntity> items = container.craftingUtil.findItemsForIngredient(ingredientOrder, order, target.pos);
+            if (items == null || items.Count != ingredientOrder.ingredient.quantity) return false;
+            ingredientOrder.items.AddRange(items);
+        }
+        return true; // items found for all ingredients
+    }
 
-    // checks that item is in WB
+    // if some items not stored in WB, creates bringing sub-actions and returns true.
     private bool checkBringingItems() {
-        ItemContainerComponent component = workbench.take<ItemContainerComponent>();
-        List<EcsEntity> notInWbItems =
-            order.allIngredientItems().Where(item => !component.items.Contains(item)).ToList();
-        notInWbItems.ForEach(item => addPreAction(new PutItemToContainerAction(workbench, item))); // create action
-        return notInWbItems.Count != 0;
+        ItemContainerComponent containerComponent = workbench.take<ItemContainerComponent>();
+        bool actionCreated = false;
+        order.allIngredientItems()
+            .Where(item => !containerComponent.items.Contains(item))
+            .ForEach(item => {
+                addPreAction(new PutItemToContainerAction(workbench, item));
+                actionCreated = true;
+            });
+        return actionCreated;
     }
 
     private void storeProduct(EcsEntity item) {
@@ -72,13 +112,6 @@ class CraftItemAtWorkbenchAction : ItemCraftingAction {
     private int selectMaterialForItem() {
         EcsEntity firstItemOfMainIngredient = order.ingredients[0].items[0];
         return firstItemOfMainIngredient.take<ItemComponent>().material;
-    }
-
-    private void destroyIngredients() {
-        foreach (EcsEntity item in order.allIngredientItems()) {
-            container.stored.removeItemFromContainer(item);
-            item.Destroy();
-        }
     }
 
     private float getWorkAmount() {

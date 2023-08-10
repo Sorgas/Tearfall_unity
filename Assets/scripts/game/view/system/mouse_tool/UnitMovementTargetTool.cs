@@ -6,6 +6,7 @@ using game.view.util;
 using Leopotam.Ecs;
 using types;
 using types.action;
+using types.unit;
 using UnityEngine;
 using util.geometry.bounds;
 using util.lang.extension;
@@ -24,6 +25,7 @@ namespace game.view.system.mouse_tool {
                         GameModel.get().currentLocalModel.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED);
                         // unit.Replace(new TaskFinishedComponent { status = TaskStatusEnum.FAILED });
                     }
+                    EcsEntity task = model.taskContainer.generator.createTask(new MoveAction(bounds.getStart()), Jobs.NONE, model.createEntity(), model);
                     unit.Replace(new UnitNextTaskComponent { action = new MoveAction(bounds.getStart()) });
                 }
             });

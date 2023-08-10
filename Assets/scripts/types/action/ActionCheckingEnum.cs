@@ -6,7 +6,7 @@ namespace types.action {
      *
      * @author Alexander on 30.12.2019.
      */
-    public enum ActionConditionStatusEnum {
+    public enum ActionCheckingEnum {
         OK, // if checked successfully.
         NEW, // if new sub action created and added to task.
         FAIL // if unable perform action or create sub action.

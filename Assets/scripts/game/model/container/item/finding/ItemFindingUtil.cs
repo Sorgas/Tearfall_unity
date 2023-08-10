@@ -17,19 +17,24 @@ namespace game.model.container.item.finding {
         // selectors. selector should be stored in stockpile component and updated from stockpile config menu.
         public ItemFindingUtil(LocalModel model, ItemContainer container) : base(model, container) { }
 
-        // returns item matching itemSelector and available from position
-        public EcsEntity findFreeReachableItemBySelector(ItemSelector selector, Vector3Int pos) {
-            LocalMap map = model.localMap;
-            // get items and positions
-            // TODO add items in containers
+        public EcsEntity findItemBySelector(ItemSelector selector, Vector3Int pos) {
             return container.availableItemsManager.getAll()
                 .Where(item => !item.Has<LockedComponent>())
-                .Where(item => map.passageMap.inSameArea(pos, container.getItemAccessPosition(item)))
                 .Where(selector.checkItem)
-                .DefaultIfEmpty(EcsEntity.Null)
-                .Aggregate((cur, item) => cur == EcsEntity.Null || (fastDistance(item, pos) < fastDistance(cur, pos))
-                    ? item
-                    : cur); // select nearest
+                .firstOrDefault(item => model.localMap.passageMap.inSameArea(pos, container.getItemAccessPosition(item)), EcsEntity.Null); // select nearest
+        }
+        
+        // returns nearest item matching itemSelector, available from position and not locked to task
+        public EcsEntity findNearestItemBySelector(ItemSelector selector, Vector3Int pos) {
+            return container.availableItemsManager.getAll()
+                .Where(item => !item.Has<LockedComponent>())
+                .Where(selector.checkItem)
+                .ToDictionary(item => item, item => container.getItemAccessPosition(item))
+                .Where(pair => model.localMap.passageMap.inSameArea(pos, pair.Value))
+                .DefaultIfEmpty()
+                .Aggregate((cur, item) =>
+                    cur.Key == EcsEntity.Null || (fastDistance(item.Value, pos) < fastDistance(cur.Value, pos)) ? item : cur)
+                .Key; // select nearest
         }
 
         // returns variant -> materialId -> list of items 

@@ -11,7 +11,7 @@ using types.action;
 using UnityEngine;
 using util.geometry.bounds;
 using util.lang.extension;
-using static types.action.ActionConditionStatusEnum;
+using static types.action.ActionCheckingEnum;
 
 namespace game.model.component.task.action {
     // base action for building constructions and buildings.
@@ -38,7 +38,7 @@ namespace game.model.component.task.action {
                         return failAction("no offsitePosition found");
                     }
                 }
-                ActionConditionStatusEnum status = checkItemsInContainer();
+                ActionCheckingEnum status = checkItemsInContainer();
                 if (status == NEW) return NEW;
                 if (status == FAIL) return failAction("items not found");
                 if (checkClearingSite(bounds)) return NEW;
@@ -53,7 +53,7 @@ namespace game.model.component.task.action {
         }
 
         // items for building should be brought into designation container. creates action to bring if possible
-        private ActionConditionStatusEnum checkItemsInContainer() {
+        private ActionCheckingEnum checkItemsInContainer() {
             ItemContainerComponent container = designation.take<ItemContainerComponent>();
             int requiredItems = order.amount - container.items.Count;
             if (requiredItems == 0) return OK;
@@ -85,7 +85,7 @@ namespace game.model.component.task.action {
         }
 
         // drops item from designation container to ground
-        private ActionConditionStatusEnum failAction(string message) {
+        private ActionCheckingEnum failAction(string message) {
             log("failing action " + message);
             ref ItemContainerComponent container = ref designation.takeRef<ItemContainerComponent>();
             foreach (EcsEntity item in container.items) {

@@ -6,34 +6,23 @@ using UnityEditor.Searcher;
 using util.lang.extension;
 
 namespace game.model.container.item {
-    // stores references from items to containers they are stored in
-    // should be the only place where items transferred in or from container.
-    // should be the only place where ItemContainedComponent and ItemContainerComponent are modified.
-    public class StoredItemsManager : ItemContainerPart {
-        // commented, because map duplicates capability of ItemContainedComponent
-        // private Dictionary<EcsEntity, EcsEntity> storedItems = new(); // item to container
+// should be the only place where items transferred in or from container.
+// should be the only place where ItemContainedComponent and ItemContainerComponent are modified.
+public class StoredItemsManager : ItemContainerPart {
+    public StoredItemsManager(LocalModel model, ItemContainer container) : base(model, container) { }
 
-        public StoredItemsManager(LocalModel model, ItemContainer container) : base(model, container) { }
-        
-        public bool isStored(EcsEntity item) {
-            return item.Has<ItemContainedComponent>();
-            // return storedItems.ContainsKey(item);
-        }
-        
-        public void addItemToContainer(EcsEntity item, EcsEntity containerEntity) {
-            container.availableItemsManager.add(item);
-            ref ItemContainerComponent containerComponent = ref containerEntity.takeRef<ItemContainerComponent>();
-            containerComponent.addItem(item);
-            item.Replace(new ItemContainedComponent { container = containerEntity });
-        }
-
-        public void removeItemFromContainer(EcsEntity item) {
-            container.availableItemsManager.remove(item);
-            ref ItemContainerComponent containerComponent = ref item.takeRef<ItemContainedComponent>().container.takeRef<ItemContainerComponent>();
-            containerComponent.removeItem(item);
-            item.Del<ItemContainedComponent>();
-            // storedItems[item].take<ItemContainerComponent>().items.Remove(item);
-            // storedItems.Remove(item);
-        }
+    public void addItemToContainer(EcsEntity item, EcsEntity containerEntity) {
+        container.availableItemsManager.add(item);
+        ref ItemContainerComponent containerComponent = ref containerEntity.takeRef<ItemContainerComponent>();
+        containerComponent.addItem(item);
+        item.Replace(new ItemContainedComponent { container = containerEntity });
     }
+
+    public void removeItemFromContainer(EcsEntity item) {
+        container.availableItemsManager.remove(item);
+        ref ItemContainerComponent containerComponent = ref item.takeRef<ItemContainedComponent>().container.takeRef<ItemContainerComponent>();
+        containerComponent.removeItem(item);
+        item.Del<ItemContainedComponent>();
+    }
+}
 }
