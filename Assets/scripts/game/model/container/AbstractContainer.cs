@@ -2,13 +2,15 @@
 using game.model.localmap;
 using Leopotam.Ecs;
 using UnityEngine;
+using util.lang;
 using util.lang.extension;
 
 namespace game.model.container {
     // model-aware component
     public abstract class LocalModelContainer {
         protected readonly LocalModel model;
-
+        protected readonly ToggleableLogger logger = new ("LocalModelContainer");
+        
         protected LocalModelContainer(LocalModel model) => this.model = model;
     }
 
@@ -17,7 +19,6 @@ namespace game.model.container {
         protected EcsEntity updateEntity;
 
         protected LocalModelUpdateContainer(LocalModel model) : base(model) {
-            Debug.Log("creating localModelUpdateComponent");
             updateEntity = model.createEntity();
             updateEntity.Replace(new TileUpdateComponent { tiles = new() });
             updateEntity.Replace(new TileVisualUpdateComponent { tiles = new() });

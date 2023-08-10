@@ -14,8 +14,8 @@ namespace generation.localgen {
         public int localElevation;
         public float[,] heightsMap;
         public float[] monthlyTemperatures = new float[12];
-        public List<IntVector3> waterSources = new List<IntVector3>();
-        public List<IntVector3> waterTiles = new List<IntVector3>();
+        public List<IntVector3> waterSources = new();
+        public List<IntVector3> waterTiles = new();
 
         // to generate
         public Dictionary<string, string> buildingsToAdd = new(); // buiding type to material
@@ -27,7 +27,7 @@ namespace generation.localgen {
             heightsMap = new float[config.areaSize, config.areaSize];
             World world = GameModel.get().world;
             localElevation = (int) (world.worldModel.worldMap.elevation[config.location.x, config.location.y] * config.localElevationMultiplier);
-            Debug.Log("localGenContainer: area size " + config.areaSize + " localElevation: " + localElevation);
+            Debug.Log("[LocalGenContainer]: area size " + config.areaSize + " localElevation: " + localElevation);
             model = new LocalModel();
             model.localMap = new LocalMap(config.areaSize, config.areaSize, localElevation + config.airLayersAboveGround, model);
             map = model.localMap;

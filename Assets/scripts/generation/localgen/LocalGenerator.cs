@@ -6,11 +6,12 @@ namespace generation.localgen {
         protected LocalMapGenerator localMapGenerator;
         protected LocalGenContainer container;
         protected LocalGenConfig config;
-        protected IntBounds2 bounds = new IntBounds2();
+        protected IntBounds2 bounds = new();
+        protected string name = "LocalGenerator";
         protected bool debug = false;
         
         protected LocalGenerator(LocalMapGenerator generator) {
-            this.localMapGenerator = generator; 
+            localMapGenerator = generator; 
             container = generator.localGenContainer;
             config = generator.localGenConfig;
             bounds.set(0, 0, config.areaSize - 1, config.areaSize - 1);
@@ -21,7 +22,7 @@ namespace generation.localgen {
         public abstract string getMessage();
 
         protected void log(string message) {
-            if(debug) Debug.Log(message);
+            if(debug) Debug.Log($"[{name}]: {message}");
         }
     }
 }

@@ -10,6 +10,7 @@ using types.plant;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using util.geometry;
+using util.lang;
 using util.lang.extension;
 using static types.BlockTypes;
 using static game.view.util.TilemapLayersConstants;
@@ -27,7 +28,8 @@ namespace game.view.tilemaps {
         private RectTransform mapHolder;
         private LocalModel model;
         private LocalMap map;
-
+        private ToggleableLogger logger = new("LocalMapTileUpdater");
+        
         public LocalMapTileUpdater(RectTransform mapHolder, LocalModel model) {
             this.mapHolder = mapHolder;
             this.model = model;
@@ -38,7 +40,7 @@ namespace game.view.tilemaps {
         }
 
         public void flush() {
-            Debug.Log("flushing localMap tiles");
+            logger.log("flushing localMap tiles");
             createLayers();
             layers.ForEach(layer => layer.setLock());
             map.bounds.iterate(position => updateTile(position, false)); // no need to update ramps on whole map update

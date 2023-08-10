@@ -16,7 +16,9 @@ namespace generation.localgen.generators {
         private int spawnSearchMaxAttempts = 100;
         private UnitGenerator unitGenerator = new();
 
-        public LocalUnitGenerator(LocalMapGenerator generator) : base(generator) { }
+        public LocalUnitGenerator(LocalMapGenerator generator) : base(generator) {
+            name = "LocalUnitGenerator";
+        }
 
         public override void generate() {
             map = container.map;
@@ -40,7 +42,7 @@ namespace generation.localgen.generators {
                         jobsComponent.enabledJobs.Add(Jobs.all[i].name, TaskPriorities.JOB);
                     }
 
-                    Debug.Log("unit spawned at " + spawnPoint.Value);
+                    log("unit spawned at " + spawnPoint.Value);
                 } else {
                     Debug.LogWarning("position to spawn unit not found");
                 }

@@ -13,7 +13,7 @@ namespace generation.unit {
                 UnitWearNeedComponent wear = new UnitWearNeedComponent();
                 wear.desiredSlots = new List<string>(type.desiredSlots);
                 entity.Replace(wear);
-                Debug.Log("[UnitGenerator] UnitWearNeedComponent added to unit");
+                // Debug.Log("[UnitGenerator] UnitWearNeedComponent added to unit");
             }
         }
     }

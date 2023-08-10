@@ -12,17 +12,16 @@ namespace game.model.localmap.passage {
     public class PassageUpdater : LocalModelContainer {
         private LocalMap map;
         private PassageMap passage;
-        private bool debug = true;
-        private string logMessage;
 
         public PassageUpdater(LocalModel model, LocalMap localMap, PassageMap passageMap) : base(model) {
             map = localMap;
             passage = passageMap;
+            logger.name = "PassageUpdater";
         }
 
         // Called when local map passage is updated. If cell becomes non-passable, it may split area into two.
         public void update(int x, int y, int z) {
-            log("updating passage in " + x + " " + y + " " + z);
+            logger.log("updating passage in " + x + " " + y + " " + z);
             Vector3Int center = new(x, y, z);
             Passage passing = passage.calculateTilePassage(center);
             passage.passage.set(center, passing.VALUE);
@@ -38,8 +37,7 @@ namespace game.model.localmap.passage {
                 }
                 splitAreas(center);
             }
-            Debug.Log(logMessage);
-            logMessage = "";
+            logger.flushLog();
         }
 
         private void mergeAreasAroundCenter(Vector3Int center) {
@@ -63,7 +61,7 @@ namespace game.model.localmap.passage {
                 .Where(pair => areas.Contains(pair.Key))
                 .Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
             areas.Remove(largestArea);
-            log("merging areas " + areas + " to area " + largestArea);
+            logger.log("merging areas " + areas + " to area " + largestArea);
             for (int x = 0; x < map.bounds.maxX; x++) {
                 for (int y = 0; y < map.bounds.maxY; y++) {
                     for (int z = 0; z < map.bounds.maxZ; z++) {
@@ -84,7 +82,7 @@ namespace game.model.localmap.passage {
          */
         private void splitAreas(Vector3Int center) {
             Dictionary<byte, List<Vector3Int>> areas = new NeighbourPositionStream(center, model).filterByPassage(PASSABLE).groupByAreas();
-            log("Splitting areas around " + center + " in positions " + areas);
+            logger.log("Splitting areas around " + center + " in positions " + areas);
             foreach (byte areaValue in areas.Keys) {
                 List<Vector3Int> posList = areas[areaValue];
                 if (posList.Count < 2) continue; // single tile area
@@ -142,10 +140,6 @@ namespace game.model.localmap.passage {
                 if (!passage.area.sizes.Keys.Contains(i))
                     return i;
             return 0;
-        }
-
-        private void log(string message) {
-            logMessage += message + "\n";
         }
     }
 }

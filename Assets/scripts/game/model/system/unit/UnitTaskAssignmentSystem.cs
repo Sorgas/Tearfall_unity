@@ -29,6 +29,11 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
     public EcsFilter<UnitComponent>.Exclude<TaskComponent, TaskTimeoutComponent> filter; // units without tasks
     private readonly UnitNeedActionCreator needActionCreator = new();
 
+    public UnitTaskAssignmentSystem() {
+        name = "UnitTaskAssignmentSystem";
+        debug = true;
+    }
+
     public override void Run() {
         foreach (int i in filter) {
             ref EcsEntity unit = ref filter.GetEntity(i);
@@ -39,6 +44,7 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
 
     // TODO compare max priority of needs and tasks before lookup in container
     private EcsEntity tryCreateTask(EcsEntity unit) {
+        log("Looking for task for " + unit.name());
         if (unit.Has<UnitNextTaskComponent>()) return createNextTask(unit);
         EcsEntity jobTask = getTaskFromContainer(unit);
         EcsEntity needTask = needActionCreator.selectAndCreateAction(model, unit);
@@ -78,7 +84,7 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
         ActionTargetTypeEnum targetType = task.take<TaskActionsComponent>().initialAction.target.type;
         Vector3Int target = task.take<TaskActionsComponent>().initialAction.target.pos;
         if (target == Vector3Int.back) {
-            Debug.LogError("target position for " + task.name() + " not found ");
+            logError("target position for " + task.name() + " not found ");
             return false;
         }
         // target position in same area with performer
@@ -107,7 +113,7 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
 
     // bind unit and task entities
     private void assignTask(ref EcsEntity unit, EcsEntity task) {
-        Debug.Log("[UnitTaskAssignmentSystem] assigning task [" + task.name() + "] to " + unit.name());
+        log("[UnitTaskAssignmentSystem] assigning task [" + task.name() + "] to " + unit.name());
         unit.Replace(new TaskComponent { task = task });
         task.Replace(new TaskPerformerComponent { performer = unit });
         task.Replace(new TaskAssignedComponent());

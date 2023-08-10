@@ -8,7 +8,9 @@ namespace types.plant {
     public class PlantTypeMap : Singleton<PlantTypeMap> {
         private Dictionary<string, PlantType> map = new();
         public readonly PlantSpriteMap spriteMap = new();
-
+        private bool debug = false;
+        private string logMessage = "";
+        
         public PlantTypeMap() {
             loadAll();
             foreach (PlantType plantType in map.Values) {
@@ -23,7 +25,7 @@ namespace types.plant {
         public ICollection<PlantType> all() => new List<PlantType>(map.Values);
         
         private void loadAll() {
-            string logMessage = "loading plants";
+            log("loading plants");
             map.Clear();
             TextAsset[] files = Resources.LoadAll<TextAsset>("data/plants");
             foreach (TextAsset file in files) {
@@ -37,9 +39,13 @@ namespace types.plant {
                     map.Add(type.name, type);
                     count++;
                 }
-                logMessage += "loaded " + count + " from " + file.name + "\n";
+                log("loaded " + count + " from " + file.name);
             }
-            Debug.Log(logMessage);
+            if(debug) Debug.Log(logMessage);
+        }
+
+        private void log(string message) {
+            if(debug) logMessage += $"{message} \n";
         }
     }
 }

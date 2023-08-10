@@ -37,7 +37,6 @@ namespace game.view.tilemaps {
 
             createZoneTiles();
             flushLog();
-            Debug.Log("[BlockTilesetHolder]" + logMessage);
         }
 
         public Sprite getSprite(string material, string tilecode) {

@@ -29,7 +29,7 @@ public class BodyTemplateProcessor {
             mirrorSlots(template, rawTemplate, rawPartMap);
             log("    processed slots " + template.slots.Count);
             
-            Debug.Log(logMessage);
+            if(debugMode) Debug.Log(logMessage);
             return template;
         }
 
@@ -122,7 +122,7 @@ public class BodyTemplateProcessor {
         }
 
         private void log(string message) {
-            logMessage += message + "\n";
+            if(debugMode) logMessage += message + "\n";
         }
     }
 }

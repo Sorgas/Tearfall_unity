@@ -12,14 +12,15 @@ namespace types.unit {
     public class CreatureTypeMap : Singleton<CreatureTypeMap>{
         public readonly Dictionary<string, CreatureType> creatureTypes = new();
         public readonly Dictionary<string, BodyTemplate> bodyTemplates = new();
-
+        private readonly bool debug = false;
+        
         public CreatureTypeMap() {
             loadTemplates();
             loadCreatures();
         }
         
         private void loadTemplates() {
-            Debug.Log("loading body templates");
+            log("loading body templates");
             TextAsset file = Resources.Load<TextAsset>("data/creatures/body_templates");
             BodyTemplateProcessor templateProcessor = new();
             RawBodyTemplate[] rawTemplates = JsonConvert.DeserializeObject<RawBodyTemplate[]>(file.text);
@@ -30,7 +31,7 @@ namespace types.unit {
         }
 
         private void loadCreatures() {
-            Debug.Log("loading creature types");
+            log("loading creature types");
             TextAsset file = Resources.Load<TextAsset>("data/creatures/creatures");
             CreatureTypeProcessor typeProcessor = new(this);
             List<RawCreatureType> types = JsonConvert.DeserializeObject<List<RawCreatureType>>(file.text);
@@ -39,6 +40,10 @@ namespace types.unit {
     
         public static CreatureType getType(String specimen) {
             return get().creatureTypes[specimen];
+        }
+
+        private void log(string message) {
+            if(debug) Debug.Log($"[CreatureTypeMap]: {message}");
         }
     }
 }

@@ -10,7 +10,8 @@ class UnitGenerator {
     private UnitBodyComponentGenerator bodyGenerator = new();
     private UnitNameGenerator nameGenerator = new();
     private UnitNeedComponentGenerator needGenerator = new();
-
+    private bool debug = false;
+    
     // generates units from settler data on game start or migration
     public void generateUnit(SettlerData data, EcsEntity entity) {
         CreatureType type = CreatureTypeMap.getType(data.type);

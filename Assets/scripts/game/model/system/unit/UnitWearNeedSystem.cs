@@ -10,7 +10,9 @@ namespace game.model.system.unit {
     public class UnitWearNeedSystem : LocalModelIntervalEcsSystem {
         private EcsFilter<UnitWearNeedComponent>.Exclude<UnitCalculatedWearNeedComponent> filter;
 
-        public UnitWearNeedSystem() : base(100) { }
+        public UnitWearNeedSystem() : base(100) {
+            name = "UnitWearNeedSystem";
+        }
 
         protected override void runIntervalLogic(int updates) {
             foreach (var i in filter) {
@@ -20,9 +22,9 @@ namespace game.model.system.unit {
                     List<string> slots = findSlots(ref wearNeed, ref unit);
                     if (slots.Count > 0) {
                         unit.Replace(new UnitCalculatedWearNeedComponent { slotsToFill = slots });
-                        Debug.Log("wear need added");
+                        log($"wear need added for {unit.name()}");
                     } else {
-                        Debug.Log("all slots filled");
+                        log("all slots filled");
                     }
                     wearNeed.valid = true; // wear need added
                 }

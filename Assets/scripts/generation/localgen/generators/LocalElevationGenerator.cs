@@ -10,7 +10,7 @@ namespace generation.localgen.generators {
 
         // TODO take in account elevation of surrounding tiles
         public override void generate() {
-            Debug.Log("generating elevation");
+            Debug.Log("[LocalElevationGenerator]: generating elevation");
             Vector2Int location = config.location;
             bounds.set(0, 0, config.areaSize - 1, config.areaSize - 1);
             // GenerationState.get().world.worldMap.biome;
@@ -48,7 +48,7 @@ namespace generation.localgen.generators {
                 if(min > current) min = current;
                 if(max < current) max = current;
             });
-            Debug.Log("elevation generated, min: " + min + ", max: " + max);
+            // Debug.Log("elevation generated, min: " + min + ", max: " + max);
         }
 
         public override string getMessage() {

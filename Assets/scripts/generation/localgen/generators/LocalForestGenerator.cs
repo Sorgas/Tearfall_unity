@@ -13,10 +13,12 @@ namespace generation.localgen.generators {
         private LocalMap map;
         private PlantGenerator generator = new();
 
-        public LocalForestGenerator(LocalMapGenerator generator) : base(generator) {}
+        public LocalForestGenerator(LocalMapGenerator generator) : base(generator) {
+            name = "LocalForestGenerator";
+        }
 
         public override void generate() {
-            Debug.Log("generating trees");
+            log("generating trees");
             map = container.map;
             int treesNumber = config.areaSize * config.areaSize / 125 * config.forestationLevel;
             treesNumber += Random.Range(-1, 1) * 20;

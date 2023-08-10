@@ -23,6 +23,8 @@ public class CraftingItemFindingUtil : AbstractItemFindingUtil {
         return order.ingredients.Where(ingredient => !ingredientOrderValid(ingredient, position)).ToList();
     }
 
+    // finds items for all ingredient orders, does not save them to order,
+    // items already saved in order not taken into account 
     public bool checkItemsForOrder(CraftingOrder order, Vector3Int position) {
         List<EcsEntity> foundItems = new();
         foreach (var ingredientOrder in order.ingredients) {

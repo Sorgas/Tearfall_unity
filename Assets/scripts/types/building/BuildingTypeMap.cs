@@ -11,7 +11,8 @@ namespace types.building {
         private const string RECIPE_LISTS_PATH = "data/lists";
         private Dictionary<string, BuildingType> map = new();
         private Dictionary<string, List<string>> recipeListMap = new();
-
+        private bool debug = false;
+        
         public BuildingTypeMap() {
             loadLists();
             loadFiles();
@@ -62,7 +63,7 @@ namespace types.building {
         }
 
         private void log(string message) {
-            Debug.Log("[BuildingTypeMap]: " + message);
+            if(debug) Debug.Log("[BuildingTypeMap]: " + message);
         }
     }
 

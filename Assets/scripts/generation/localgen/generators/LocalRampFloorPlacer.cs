@@ -12,7 +12,7 @@ namespace generation.localgen.generators {
         public LocalRampFloorPlacer(LocalMapGenerator generator) : base(generator) { }
 
         public override void generate() {
-            Debug.Log("placing ramps");
+            Debug.Log("[LocalRampFloorPlacer]: placing ramps");
             localMap = container.map;
             fillRamps();
             fillFloors();

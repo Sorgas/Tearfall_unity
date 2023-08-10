@@ -12,13 +12,17 @@ namespace generation.worldgen.generators.elevation {
         private float xOffset;
         private float yOffset;
 
+        public WorldElevationGenerator() {
+            name = "WorldElevationGenerator";
+        }
+
         public override void generate() {
             xOffset = Random.value * 10000;
             yOffset = Random.value * 10000;
             size = config.size;
             elevation = new float[size, size];
             bounds = new IntBounds2(0, 0, size - 1, size - 1);
-            Debug.Log("generating world elevation");
+            log("generating world elevation");
             addElevation(5, 0.5f, 0.005f, 0.7f);
             addElevation(6, 0.5f, 0.015f, 0.2f);
             addElevation(7, 0.5f, 0.03f, 0.1f);

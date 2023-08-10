@@ -11,20 +11,20 @@ namespace types.material {
     // gneiss block wall - wall of square blocks (variant). 
     public class MaterialVariantGenerator {
         private MaterialMap map;
-
+        
         public  MaterialVariantGenerator(MaterialMap map) {
             this.map = map;
         }
 
         public void createVariants() {
-            Debug.Log("creating material variants");
+            // Debug.Log("creating material variants");
             int count = 0;
             count += createVariantByTag("stone", "rock", 1000);
             count += createVariantByTag("stone", "block", 2000);
             count += createVariantByTag("wood", "log", 1000);
             count += createVariantByTag("wood", "plank", 2000);
             // TODO metal bar
-            Debug.Log("created " + count);
+            // Debug.Log("created " + count);
         }
 
         private int createVariantByTag(string tag, string itemTypeName, int idMod) {

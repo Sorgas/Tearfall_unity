@@ -24,7 +24,6 @@ class UnitNameGenerator : AbstractNameGenerator {
     }
 
     public string generateName(bool male) {
-        
         return getRandomFromArray(male ? namesDescriptor.male : namesDescriptor.female) + " " + getRandomFromArray(namesDescriptor.second);
     }
 

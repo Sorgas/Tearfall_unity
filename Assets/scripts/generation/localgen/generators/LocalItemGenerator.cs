@@ -10,10 +10,12 @@ namespace generation.localgen.generators {
         private LocalMap map;
         private ItemGenerator generator = new();
 
-        public LocalItemGenerator(LocalMapGenerator generator) : base(generator) { }
+        public LocalItemGenerator(LocalMapGenerator generator) : base(generator) {
+            name = "LocalItemGenerator";
+        }
 
         public override void generate() {
-            Debug.Log("generating local items");
+            log("generating local items");
             map = container.map;
             spawnItems(GenerationState.get().preparationState.items);
         }

@@ -16,7 +16,8 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
     private Vector2 pivot = new(0, 0);
 
     private string logMessage;
-
+    private bool debug = false;
+    
     public ItemTypeMap() {
         loadItemTypes();
     }
@@ -35,7 +36,7 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
         foreach (var file in files) {
             loadFromFile(file);
         }
-        Debug.Log(logMessage);
+        if(debug) Debug.Log(logMessage);
     }
 
     private void loadFromFile(TextAsset file) {
@@ -76,7 +77,7 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
     }
 
     private void log(string message) {
-        logMessage += message + "\n";
+        if(debug) logMessage += message + "\n";
     }
 }
 }

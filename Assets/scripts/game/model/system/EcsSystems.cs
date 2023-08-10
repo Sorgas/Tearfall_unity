@@ -1,5 +1,6 @@
 using game.model.localmap;
 using Leopotam.Ecs;
+using UnityEngine;
 
 namespace game.model.system {
     // EcsSystem that have link to LocalMapModel for operating on entities
@@ -13,7 +14,6 @@ namespace game.model.system {
     
     // can emulate faster game speed by multiplying changes to number of emulated ticks
     public abstract class LocalModelScalableEcsSystem : LocalModelUnscalableEcsSystem {
-
         // gets more ticks on high gamespeed
         protected abstract void runLogic(int ticks);
 
@@ -46,5 +46,28 @@ namespace game.model.system {
     // just to make Run() virtual
     public class MyEcsRunSystem : IEcsRunSystem {
         public virtual void Run() { }
+        protected bool debug = false;
+        protected string name = "DefaultSystem";
+        protected string logMessage = "";
+
+        protected void log(string message) {
+            if(debug) Debug.Log($"[{name}]: {message}");
+        }
+
+        protected void logWarn(string message) {
+            Debug.LogWarning($"[{name}]: {message}");
+        }
+    
+        protected void logError(string message) {
+            Debug.LogError($"[{name}]: {message}");
+        }
+    
+        protected void logAdd(string message) {
+            if(debug) logMessage += $"{message} \n";
+        }
+    
+        protected void flushLog() {
+            if(debug) Debug.Log(logMessage);
+        }
     }
 }

@@ -6,13 +6,15 @@ using util.lang;
 namespace types.plant {
     public class SubstrateTypeMap : Singleton<SubstrateTypeMap> {
         private Dictionary<int, SubstrateType> map = new();
-
+        private string logMessage;
+        private bool debug = false;
+        
         public SubstrateTypeMap() {
             loadAll();
         }
 
         private void loadAll() {
-            string logMessage = "loading substrates";
+            log("[SubstrateTypeMap]: loading substrates");
             map.Clear();
             TextAsset[] files = Resources.LoadAll<TextAsset>("data/substrates");
             foreach (TextAsset file in files) {
@@ -24,13 +26,17 @@ namespace types.plant {
                     map.Add(type.id, type);
                     count++;
                 }
-                logMessage += "loaded " + count + " from " + file.name + "\n";
+                log("    loaded " + count + " from " + file.name);
             }
-            Debug.Log(logMessage);
+            if(debug) Debug.Log(logMessage);
         }
 
         public SubstrateType get(int id) => map[id];
 
         public IEnumerable<SubstrateType> all() => map.Values;
+
+        private void log(string message) {
+            if(debug) logMessage += message + "\n";
+        }
     }
 }

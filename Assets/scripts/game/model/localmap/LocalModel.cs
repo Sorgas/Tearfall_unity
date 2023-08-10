@@ -5,6 +5,7 @@ using game.model.container.task;
 using game.model.localmap.update;
 using Leopotam.Ecs;
 using UnityEngine;
+using UnityEngine.Purchasing;
 
 namespace game.model.localmap { // contains LocalMap and ECS world for its entities
     public class LocalModel {
@@ -26,9 +27,10 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public readonly TileUpdateUtil updateUtil;
 
         private readonly List<ModelUpdateEvent> modelUpdateEventQueue = new();
-
+        private readonly bool debug = false;
+        
         public LocalModel() {
-            Debug.Log("creating EcsWorld");
+            log("creating EcsWorld");
             designationContainer = new(this);
             taskContainer = new(this);
             itemContainer = new(this);
@@ -47,16 +49,16 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         }
 
         public void init() {
-            Debug.Log("initializing local model");
+            log("initializing local model");
             new LocalModelSystemsInitializer().init(this);
             localMap.init();
-            Debug.Log("local model initialized");
+            log("local model initialized");
         }
 
         //TODO move ecs world to global game model. (as units should travel between regions)
         public EcsEntity createEntity() {
             EcsEntity entity = ecsWorld.NewEntity();
-            // Debug.Log("created entity: " + entity.GetInternalId());
+            // log("created entity: " + entity.GetInternalId());
             return entity;
         }
 
@@ -76,5 +78,9 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         }
 
         public string getDebugInfo() => taskContainer.getDebugIngo();
+
+        private void log(string message) {
+            if(debug) Debug.Log($"[LocalModel]: {message}");
+        }
     }
 } 

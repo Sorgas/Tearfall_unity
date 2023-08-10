@@ -7,6 +7,7 @@ namespace types.item.recipe {
 public class RecipeMap : Singleton<RecipeMap> {
     private Dictionary<string, Recipe> map = new();
     private string logMessage;
+    private bool debug = false;
     private RecipeProcessor processor = new();
 
     public RecipeMap() {
@@ -16,7 +17,7 @@ public class RecipeMap : Singleton<RecipeMap> {
     public Recipe get(string recipeName) => map.ContainsKey(recipeName) ? map[recipeName] : null;
 
     private void loadFiles() {
-        Debug.Log("loading recipes");
+        log("loading recipes");
         map.Clear();
         TextAsset[] files = Resources.LoadAll<TextAsset>("data/recipes/");
         // TextAsset file = Resources.Load<TextAsset>("data/recipes/recipes");
@@ -32,12 +33,13 @@ public class RecipeMap : Singleton<RecipeMap> {
                     }
                 }
             }
-            Debug.Log("loaded " + raws.Count + " from " + file.name);
+            log("loaded " + raws.Count + " from " + file.name);
         }
+        if(debug) Debug.Log(logMessage);
     }
 
     private void log(string message) {
-        logMessage += message + "\n";
+        if(debug) logMessage += message + "\n";
     }
 }
 }

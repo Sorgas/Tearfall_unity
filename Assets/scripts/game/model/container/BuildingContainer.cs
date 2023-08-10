@@ -16,7 +16,8 @@ namespace game.model.container {
         public Dictionary<Vector3Int, EcsEntity> buildings = new(); // links position to buildings. one tile can have only one building
         public BuildingFindingUtil util;
         private BuildingGenerator generator = new();
-
+        private bool debug = false;
+        
         public BuildingContainer(LocalModel model) : base(model) {
             util = new(model, this);
         }
@@ -37,14 +38,9 @@ namespace game.model.container {
                     model.localMap.passageMap.updater.update(x, y, z);
                 });
             }
-            Debug.Log("[BuildingContainer] building " + building.name() + " created in " + building.pos());
+            log("building " + building.name() + " created in " + building.pos());
             return building;
         }
-
-        // public bool createBuilding(BuidingType type, Vector3Int position, Orientations orientation, int material) {
-        //     EcsEntity building = generator.
-        //     return true;            
-        // }
 
         private bool validatePosition(IntBounds3 bounds) {
             LocalMap map = model.localMap;
@@ -67,6 +63,10 @@ namespace game.model.container {
             int ySize = order.type.size[flip ? 0 : 1];
             return new IntBounds3(order.position.x, order.position.y, order.position.z,
                 order.position.x + xSize - 1, order.position.y + ySize - 1, order.position.z);
+        }
+
+        private void log(string message) {
+            if(debug) Debug.Log($"[BuildingContainer]: {message}");
         }
     }
 }

@@ -17,11 +17,11 @@ namespace generation.localgen.generators {
         public LocalBuildingGenerator(LocalMapGenerator generator) : base(generator) {}
 
         public override void generate() {
-            Debug.Log("generating buildings ");
+            Debug.Log("[LocalBuildingGenerator]: generating buildings ");
             foreach (var entry in container.buildingsToAdd) {
                 BuildingType type = BuildingTypeMap.get(entry.Key);
                 Vector3Int position = getPositionForBuilding(type);
-                Debug.Log("position for " + type.name + " found: " + position);
+                // Debug.Log("position for " + type.name + " found: " + position);
                 if(position.z >= 0) createBuilding(type, position, entry.Value);
             }
         }
