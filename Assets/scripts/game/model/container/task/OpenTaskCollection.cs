@@ -12,7 +12,7 @@ namespace game.model.container.task {
 
     // wrapper class for open tasks. handles storing tasks by jobs and priorities
     public class OpenTaskCollection {
-        private readonly Dictionary<string, Dictionary<int, HashSet<EcsEntity>>> openTasks = new(); // job name -> priority -> tasks
+        private readonly Dictionary<string, Dictionary<int, HashSet<EcsEntity>>> openTasks = new(); // job -> priority -> tasks
         private readonly bool debug;
         
         public OpenTaskCollection(bool debug) {
@@ -44,12 +44,13 @@ namespace game.model.container.task {
             openTasks[job][priority].Remove(task);
         }
 
+        
         public Dictionary<int, List<EcsEntity>> get(List<string> jobs) {
             Dictionary<int, List<EcsEntity>> result = new();
-            for (int i = TaskPriorities.range.max; i >= TaskPriorities.range.min; i--) {
-                result.Add(i, new());
+            for (int priority = TaskPriorities.range.max; priority >= TaskPriorities.range.min; priority--) {
+                result.Add(priority, new());
                 foreach (string job in jobs) {
-                    result[i].AddRange(openTasks[job][i]);
+                    result[priority].AddRange(openTasks[job][priority]);
                 }
             }
             return result;

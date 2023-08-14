@@ -29,6 +29,10 @@ namespace util.geometry {
                    result.y > -2 && result.y < 2 &&
                    result.z > -2 && result.z < 2;
         }
+        
+        public static float fastDistance(this Vector3Int vector, Vector3Int value) {
+            return (vector - value).sqrMagnitude;
+        }
     }
 
     // position
@@ -96,6 +100,8 @@ namespace util.geometry {
         public int fastDistance(IntVector3 p) {
             return Math.Abs(x - p.x) + Math.Abs(y - p.y) + Math.Abs(z - p.z);
         }
+        
+        
 
         public bool isNeighbour(IntVector3 intVector3) {
             IntVector3 result = sub(this, intVector3);
