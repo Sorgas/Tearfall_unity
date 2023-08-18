@@ -1,7 +1,6 @@
-﻿using types.action;
-
-namespace types.unit.need {
+﻿namespace types.unit.need {
     // defines need thresholds, priorities, penalties, task creation
+    // need is value from 1 to 0, 1 means satisfied, 0 means 
     public abstract class Need {
         // public readonly string moodEffectKey;
         // public DiseaseType disease; TODO

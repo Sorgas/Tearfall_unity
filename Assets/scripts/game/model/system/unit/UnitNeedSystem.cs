@@ -5,9 +5,8 @@ using types.unit.need;
 namespace game.model.system.unit {
     // rolls needs counters in NeedsComponent (hunger, thirst, rest)
     // updates needs priorities
-    // if priority changes, task delay is reset
     public class UnitNeedSystem : LocalModelIntervalEcsSystem {
-        public const int interval = GameTime.ticksPerMinute * 5; // every 5 in-game minutes
+        private const int interval = GameTime.ticksPerMinute * 5; // every 5 in-game minutes
         private readonly float restTick;
         private readonly float hungerTick;
         private EcsFilter<UnitNeedComponent> filter;

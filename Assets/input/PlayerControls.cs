@@ -14,8 +14,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
-using UnityEngine.XR;
-using InputDevice = UnityEngine.XR.InputDevice;
 
 public partial class @PlayerControls: IInputActionCollection2, IDisposable
 {
@@ -685,7 +683,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         set => asset.bindingMask = value;
     }
 
-    public ReadOnlyArray<UnityEngine.InputSystem.InputDevice>? devices
+    public ReadOnlyArray<InputDevice>? devices
     {
         get => asset.devices;
         set => asset.devices = value;

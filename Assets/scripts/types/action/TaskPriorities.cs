@@ -10,8 +10,9 @@ namespace types.action {
         public const int HEALTH_NEEDS = 7; // will stop job for satisfying need
         public const int TASK_MAX_PRIORITY = 8;
         public const int SAFETY = 9; // avoiding health harm (heavy need level, enemies)
-        public static readonly IntRange playerRange = new IntRange(TASK_MAX_PRIORITY, TASK_MIN_PRIORITY); // priorities available to player
-        public static readonly IntRange range = new IntRange(SAFETY, TASK_MIN_PRIORITY); // priorities available to player
+        
+        public static readonly IntRange playerRange = new(TASK_MAX_PRIORITY, TASK_MIN_PRIORITY); // priorities available to player for setting to settler job or tasks.
+        public static readonly IntRange range = new(SAFETY, TASK_MIN_PRIORITY); // priorities available to player
 
         private TaskPriorities() { }
     }

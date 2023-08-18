@@ -44,7 +44,7 @@ namespace game.model.container.task {
             openTasks[job][priority].Remove(task);
         }
 
-        
+        // returns map of (priority -> tasks)
         public Dictionary<int, List<EcsEntity>> get(List<string> jobs) {
             Dictionary<int, List<EcsEntity>> result = new();
             for (int priority = TaskPriorities.range.max; priority >= TaskPriorities.range.min; priority--) {

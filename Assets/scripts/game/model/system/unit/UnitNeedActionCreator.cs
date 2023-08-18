@@ -11,11 +11,15 @@ using util.lang.extension;
 using static types.action.TaskPriorities;
 
 namespace game.model.system.unit {
+    // checks all needs of unit in priority order. Returns performable action for of most prioritized need
     public class UnitNeedActionCreator {
         private static int[] priorities = {SAFETY, HEALTH_NEEDS, COMFORT};
 
         //TODO add other needs
         public EcsEntity selectAndCreateAction(LocalModel model, EcsEntity unit) {
+            for (int priority = range.max; priority >= range.min; priority--) {
+                
+            }
             foreach(int priority in priorities) {
                 Action action = createActionForPriority(model, unit, priority);
                 if(action != null) return model.taskContainer.generator.createTask(action, Jobs.NONE, priority, model.createEntity(), model);
@@ -24,7 +28,7 @@ namespace game.model.system.unit {
         }
 
         private Action createActionForPriority(LocalModel model, EcsEntity unit, int priority) {
-            if (priority == TaskPriorities.HEALTH_NEEDS && unit.Has<UnitCalculatedWearNeedComponent>()) {
+            if (priority == HEALTH_NEEDS && unit.Has<UnitCalculatedWearNeedComponent>()) {
                 UnitCalculatedWearNeedComponent wear = unit.take<UnitCalculatedWearNeedComponent>();
                 ItemSelector selector = new WearWithSlotItemSelector(wear.slotsToFill);
                 EcsEntity item = model.itemContainer.findingUtil.findNearestItemBySelector(selector, unit.pos()); // TODO select best item?
