@@ -41,7 +41,7 @@ namespace generation.item {
 
         public EcsEntity generatePlantProduct(PlantBlock block, EcsEntity entity) {
             if (block.blockType == PlantBlockTypeEnum.TRUNK.code) {
-                return generateItem("log", "wood", entity);
+                return generateItem("log", MaterialMap.get().material(block.material).name, entity);
             }
             return EcsEntity.Null;
         }

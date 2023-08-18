@@ -6,6 +6,7 @@ using util.lang.extension;
 using static types.action.ActionCheckingEnum;
 
 namespace game.model.component.task.action {
+// action that requires performer to have tool.
 public abstract class ToolAction : EquipmentAction {
     protected readonly string toolAction;
     protected readonly ToolWithActionItemSelector toolSelector;
