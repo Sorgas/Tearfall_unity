@@ -11,6 +11,7 @@ using game.view.system.plant;
 using game.view.system.unit;
 using game.view.system.zone;
 using game.view.tilemaps;
+using game.view.util;
 using Leopotam.Ecs;
 using types;
 using UnityEngine;
@@ -54,7 +55,7 @@ namespace game.view {
             KeyInputSystem.get().update();
             cameraAndMouseHandler?.update();
             systems?.Run();
-            runner.sceneElementsReferences.modelDebugInfoPanel.text += GameModel.get().currentLocalModel.getDebugInfo();
+            // runner.sceneElementsReferences.modelDebugInfoPanel.text += GameModel.get().currentLocalModel.getDebugInfo();
         }
 
         private void initEcs(EcsWorld ecsWorld) {
@@ -82,11 +83,10 @@ namespace game.view {
             system.windowManager.addWindow(runner.sceneElementsReferences.farmMenuHandler);
             system.windowManager.addWindow(runner.sceneElementsReferences.plantMenuHandler);
             system.windowManager.closeAll();
-            
+
             system.widgetManager.addWidget(runner.sceneElementsReferences.gamespeedWidgetHandler);
             system.widgetManager.addWidget(runner.sceneElementsReferences.menuWidget);
             system.widgetManager.addWidget(runner.sceneElementsReferences.toolbarWidget);
-            
         }
 
         private void resetCameraPosition() {
