@@ -450,6 +450,7 @@
      <Compile Include="Assets\scripts\game\input\GameInputManager.cs" />
      <Compile Include="Assets\scripts\mainMenu\MainMenuStageHandler.cs" />
      <Compile Include="Assets\scripts\mainMenu\ButtonData.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\TaskAssignmentDescriptor.cs" />
      <Compile Include="Assets\scripts\game\model\container\task\TaskCompletionUtil.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromContainerAction.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />

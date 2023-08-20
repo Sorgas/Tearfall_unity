@@ -1,6 +1,8 @@
 using game.model.component.task.action;
 using game.model.component.task.action.needs;
+using game.model.component.unit;
 using game.model.localmap;
+using game.model.system.unit;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
@@ -22,12 +24,21 @@ namespace types.unit.need {
             return TaskPriorities.SAFETY;
         }
 
-        public Action tryCreateAction(LocalModel model, EcsEntity unit) {
-            // Debug.Log("trying to create eat action");
+        public override Action tryCreateAction(LocalModel model, EcsEntity unit) {
             EcsEntity item = model.itemContainer.findingUtil.findFoodItem(unit.pos());
             if (item == EcsEntity.Null) return null;
-            Debug.Log(item.GetInternalId());
             return new EatAction(item);
+        }
+        
+        // TODO add eating of raw food when starving, select best food item available
+        public override TaskAssignmentDescriptor createDescriptor(LocalModel model, EcsEntity unit) {
+            int hungerPriority = unit.take<UnitNeedComponent>().hungerPriority;
+            if (hungerPriority != TaskPriorities.NONE) {
+                EcsEntity item = model.itemContainer.findingUtil.findFoodItem(unit.pos());
+                if (item != EcsEntity.Null)
+                    return new TaskAssignmentDescriptor(item, model.itemContainer.getItemAccessPosition(item), "eat", unit, hungerPriority);
+            }
+            return null;
         }
     }
 }

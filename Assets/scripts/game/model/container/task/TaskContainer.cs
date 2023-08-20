@@ -5,6 +5,7 @@ using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
 using util;
+using util.lang;
 using util.lang.extension;
 
 namespace game.model.container.task {
@@ -27,7 +28,8 @@ namespace game.model.container.task {
         // registers open task in container. Then it can be assigned with UnitTaskAssignmentSystem
         public void addOpenTask(EcsEntity task) => open.add(task);
 
-        public Dictionary<int, List<EcsEntity>> getTasksByJobs(List<string> jobs) => open.get(jobs);
+        // tasks with priority lower than minPriority are ignored
+        public MultiValueDictionary<int, EcsEntity> getTasksByJobs(List<string> jobs, int minPriority) => open.get(jobs, minPriority);
 
         public void moveOpenTaskToDelayed(EcsEntity task, int timeout) {
             if (task.Has<TaskPerformerComponent>()) {

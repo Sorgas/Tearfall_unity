@@ -15,11 +15,16 @@ namespace util.lang {
             this[key].Add(value);
         }
 
+        public void addRange(K key, ICollection<V> values) {
+            if (!ContainsKey(key)) Add(key, new List<V>());
+            this[key].AddRange(values);
+        }
+        
         public void remove(K key, V value) {
             this[key].Remove(value);
             if (this[key].Count == 0) Remove(key);
         }
-
+ 
         public List<V> get(K key) {
             if (!ContainsKey(key)) return new List<V>();
             return this[key];

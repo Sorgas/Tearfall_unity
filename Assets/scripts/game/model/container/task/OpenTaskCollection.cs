@@ -6,6 +6,7 @@ using types.unit;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using util;
+using util.lang;
 using util.lang.extension;
 
 namespace game.model.container.task {
@@ -45,12 +46,11 @@ namespace game.model.container.task {
         }
 
         // returns map of (priority -> tasks)
-        public Dictionary<int, List<EcsEntity>> get(List<string> jobs) {
-            Dictionary<int, List<EcsEntity>> result = new();
-            for (int priority = TaskPriorities.range.max; priority >= TaskPriorities.range.min; priority--) {
-                result.Add(priority, new());
+        public MultiValueDictionary<int, EcsEntity> get(List<string> jobs, int minPriority) {
+            MultiValueDictionary<int, EcsEntity> result = new();
+            for (int priority = TaskPriorities.range.max; priority >= minPriority; priority--) {
                 foreach (string job in jobs) {
-                    result[priority].AddRange(openTasks[job][priority]);
+                    result.addRange(priority, openTasks[job][priority]);
                 }
             }
             return result;
