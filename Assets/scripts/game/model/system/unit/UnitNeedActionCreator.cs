@@ -51,9 +51,8 @@ public class UnitNeedActionCreator {
         return null;
     }
 
-    public TaskAssignmentDescriptor getMaxPriorityPerformableNeedAction(LocalModel model, EcsEntity unit) {
-        List<TaskAssignmentDescriptor> list = new();
-
+    public UnitTaskAssignment getMaxPriorityPerformableNeedAction(LocalModel model, EcsEntity unit) {
+        List<UnitTaskAssignment> list = new();
         list.Add(Needs.wear.createDescriptor(model, unit));
         list.Add(Needs.rest.createDescriptor(model, unit));
         list.Add(Needs.hunger.createDescriptor(model, unit));

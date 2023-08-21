@@ -15,7 +15,7 @@ namespace types.unit.need {
 
         public abstract Action tryCreateAction(LocalModel model, EcsEntity unit);
 
-        public abstract TaskAssignmentDescriptor createDescriptor(LocalModel model, EcsEntity unit);
+        public abstract UnitTaskAssignment createDescriptor(LocalModel model, EcsEntity unit);
 
         // public abstract int getHoursTo0();
 

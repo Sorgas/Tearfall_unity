@@ -31,12 +31,12 @@ namespace types.unit.need {
         }
         
         // TODO add eating of raw food when starving, select best food item available
-        public override TaskAssignmentDescriptor createDescriptor(LocalModel model, EcsEntity unit) {
+        public override UnitTaskAssignment createDescriptor(LocalModel model, EcsEntity unit) {
             int hungerPriority = unit.take<UnitNeedComponent>().hungerPriority;
             if (hungerPriority != TaskPriorities.NONE) {
                 EcsEntity item = model.itemContainer.findingUtil.findFoodItem(unit.pos());
                 if (item != EcsEntity.Null)
-                    return new TaskAssignmentDescriptor(item, model.itemContainer.getItemAccessPosition(item), "eat", unit, hungerPriority);
+                    return new UnitTaskAssignment(item, model.itemContainer.getItemAccessPosition(item), "eat", unit, hungerPriority);
             }
             return null;
         }

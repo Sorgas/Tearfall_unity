@@ -19,7 +19,7 @@ using static types.action.TaskPriorities;
 namespace game.model.system.unit {
 /**
  * 1. find tasks for all units (without assignment)
- *      2. if multiple units selected one task, keep only nearest unit, drop others
+ *      2. if multiple units selected one task, keep only nearest unit, drop others (tasks for others will be selected on next tick)
  *      3. assign tasks to remaining units (should be 1-to-1)
  * 4. repeat 1 for units without tasks
  */
@@ -28,69 +28,62 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
     private readonly UnitNeedActionCreator needActionCreator = new();
     private readonly int maxPriority = range.max;
     private readonly int minPriority = range.min;
+    private readonly MultiValueDictionary<TaskTargetDescriptor, TaskPerformerDescriptor> assignments = new();
 
     public UnitTaskAssignmentSystem() {
         name = "UnitTaskAssignmentSystem";
-        debug = true;
     }
 
     public override void Run() {
-        List<EcsEntity> remainingUnits = new();
+        assignments.Clear();
         foreach (int i in filter) {
-            remainingUnits.Add(filter.GetEntity(i));
-        }
-        
-        while (remainingUnits.Count > 0) {
-            MultiValueDictionary<TaskTargetDescriptor, TaskPerformerDescriptor> assignments = new();
-            MoreEnumerable.ForEach();
-            remainingUnits
-                .Select(findTaskForUnit)
-                .Where(assignment => assignment != null)
-                .MoreEnumerable.ForEach(assignment => assignments.add(assignment.target, assignment.performer));
-            if (assignments.Count == 0) return;
-            foreach ((TaskTargetDescriptor target, List<TaskPerformerDescriptor> units) in assignments) {
-                TaskPerformerDescriptor performer = units.Count > 0
-                    ? selectUnitForTask(target, units)
-                    : units[0];
-                assignTask(performer.unit, target);
-                remainingUnits.Remove(performer.unit);
+            UnitTaskAssignment assignment = findTaskForUnit(filter.GetEntity(i));
+            if (assignment != null) {
+                assignments.add(assignment.target, assignment.performer);
             }
         }
-    }
-
-    private TaskAssignmentDescriptor findTaskForUnit(EcsEntity unit) {
-        if (unit.Has<UnitNextTaskComponent>()) return createNextTask(unit);
-        TaskAssignmentDescriptor needDescriptor = needActionCreator.getMaxPriorityPerformableNeedAction(model, unit);
-        int needPriority = needDescriptor?.performer.priority ?? NONE;
-        EcsEntity jobTask = getTaskFromContainer(unit, needPriority);
-        if (jobTask != EcsEntity.Null) { // more prioritized job task exists
-            Vector3Int target = jobTask.take<TaskActionsComponent>().initialAction.target.pos;
-            return new TaskAssignmentDescriptor(jobTask, target, "task", unit, jobTask.take<TaskJobComponent>().priority);
+        foreach ((TaskTargetDescriptor target, List<TaskPerformerDescriptor> performers) in assignments) {
+            TaskPerformerDescriptor performer = performers.Count > 0
+                ? selectUnitForTask(target, performers)
+                : performers[0];
+            assignTask(performer, target);
         }
-        return null;
-        // return createIdleTask(unit);
     }
 
-    private TaskAssignmentDescriptor createNextTask(EcsEntity unit) {
+    private UnitTaskAssignment findTaskForUnit(EcsEntity unit) {
+        if (unit.Has<UnitNextTaskComponent>()) return createNextTask(unit);
+        UnitTaskAssignment needAssignment = needActionCreator.getMaxPriorityPerformableNeedAction(model, unit);
+        int needPriority = needAssignment?.performer.priority ?? NONE;
+        EcsEntity jobTask = getTaskFromContainer(unit, needPriority + 1);
+        if (jobTask != EcsEntity.Null) { // more prioritized job task exists
+            Vector3Int position = jobTask.take<TaskActionsComponent>().initialAction.target.pos;
+            return new UnitTaskAssignment(jobTask, position, "task", unit, jobTask.take<TaskJobComponent>().priority);
+        }
+        if (needAssignment != null) return needAssignment;
+        // return createIdleTask(unit);
+        return null;
+    }
+
+    private UnitTaskAssignment createNextTask(EcsEntity unit) {
         Action action = unit.take<UnitNextTaskComponent>().action;
         unit.Del<UnitNextTaskComponent>();
         EcsEntity task = model.taskContainer.generator
             .createTask(action, Jobs.NONE, model.createEntity(), model);
-        return new TaskAssignmentDescriptor(task, action.target.pos, "task", unit, JOB);
+        return new UnitTaskAssignment(task, action.target.pos, "task", unit, JOB);
     }
 
     // selection order: priority of unit's job, priority of task, task target proximity
-    // if task priority is lower than given need priority, task will be ignored
-    private EcsEntity getTaskFromContainer(EcsEntity unit, int needPriority) {
+    // if task priority is lower than given priority, task will be ignored
+    private EcsEntity getTaskFromContainer(EcsEntity unit, int minTaskPriority) {
         UnitJobsComponent jobs = unit.take<UnitJobsComponent>();
         Vector3Int position = unit.pos();
         byte area = model.localMap.passageMap.area.get(position);
-        for (int jobPriority = maxPriority; jobPriority >= minPriority; jobPriority--) {
+        for (int jobPriority = maxPriority; jobPriority >= minPriority; jobPriority--) { // by unit's jobs in priority order
             List<string> jobsList = jobs.getByPriority(jobPriority);
             if (jobsList.Count <= 0) continue;
-            Dictionary<int, List<EcsEntity>> tasks = model.taskContainer.getTasksByJobs(jobsList, needPriority + 1); // priority -> tasks
+            Dictionary<int, List<EcsEntity>> tasks = model.taskContainer.getTasksByJobs(jobsList, minTaskPriority); // priority -> tasks
             if (tasks.Count == 0) continue;
-            for (int taskPriority = maxPriority; taskPriority >= needPriority + 1; taskPriority--) {
+            for (int taskPriority = maxPriority; taskPriority >= minTaskPriority; taskPriority--) { // by tasks of jobs in priority order
                 if (!tasks.ContainsKey(taskPriority)) continue;
                 List<EcsEntity> tasksOfPriority = tasks[taskPriority];
                 while (tasksOfPriority.Count > 0) {
@@ -141,20 +134,20 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
     }
 
     private TaskPerformerDescriptor selectUnitForTask(TaskTargetDescriptor target, List<TaskPerformerDescriptor> units) {
-        int maxPriority = units.Max(performer => performer.priority);
+        int priority = units.Max(performer => performer.priority);
         return units
-            .Where(performer => performer.priority == maxPriority)
+            .Where(performer => performer.priority == priority)
             .MinBy(performer => performer.unit.pos().fastDistance(target.targetPosition));
     }
 
     // bind unit and task entities
-    private void assignTask(EcsEntity unit, TaskTargetDescriptor target) {
-        // log("[UnitTaskAssignmentSystem] assigning task [" + task.name() + "] to " + unit.name());
-        EcsEntity task = target.createTask();
-        unit.Replace(new TaskComponent { task = task });
-        task.Replace(new TaskPerformerComponent { performer = unit });
+    private void assignTask(TaskPerformerDescriptor performer, TaskTargetDescriptor target) {
+        EcsEntity task = target.createTask(performer, model);
+        log($"[UnitTaskAssignmentSystem] assigning task [{task.name()}] to {performer.unit.name()}");
+        performer.unit.Replace(new TaskComponent { task = task });
+        task.Replace(new TaskPerformerComponent { performer = performer.unit });
         task.Replace(new TaskAssignedComponent());
-        model.taskContainer.claimTask(task, unit);
+        model.taskContainer.claimTask(task, performer.unit);
     }
 
     private EcsEntity selectNearestTask(Vector3Int position, List<EcsEntity> tasks) {
@@ -162,5 +155,4 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
             .MinBy(task => position.fastDistance(task.take<TaskActionsComponent>().initialAction.target.pos));
     }
 }
-
 }

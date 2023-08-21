@@ -20,7 +20,8 @@ namespace game.model.component.task.action.needs {
             name = "eat action";
             startCondition = () => {
                 if (!item.Has<ItemFoodComponent>()) return FAIL; // item is not food
-
+                
+                lockEntity(item);
                 if (!equipment.items.Contains(item) && equipment.hauledItem != item) {
                     log("food item not in equipment");
                     return addPreAction(new ObtainItemAction(item)); // find item

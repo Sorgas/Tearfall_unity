@@ -12,7 +12,6 @@ namespace game.model.component.task.action.equipment.obtain {
                 if (equipment.hauledItem == item) return ActionCheckingEnum.OK;
                 
                 // TODO take item from own equipment
-                // if(item.Has<ItemHeldComponent>() && item.take<ItemHeldComponent>().holder == performer) return addPreAction() TODO 
                 if(item.Has<ItemContainedComponent>()) return addPreAction(new GetItemFromContainerAction(item)); 
                 if(item.Has<PositionComponent>()) return addPreAction(new GetItemFromGroundAction(item)); // pickup from ground
                 return ActionCheckingEnum.FAIL; // item is not registered in container or equipped on another unit

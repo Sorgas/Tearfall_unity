@@ -24,13 +24,13 @@ public class WearNeed : Need {
         if (item != EcsEntity.Null) return new EquipWearItemAction(item);
         return null;
     }
-    public override TaskAssignmentDescriptor createDescriptor(LocalModel model, EcsEntity unit) {
+    public override UnitTaskAssignment createDescriptor(LocalModel model, EcsEntity unit) {
         if (!unit.Has<UnitCalculatedWearNeedComponent>()) return null;
         UnitCalculatedWearNeedComponent wear = unit.take<UnitCalculatedWearNeedComponent>();
         ItemSelector selector = new WearWithSlotItemSelector(wear.slotsToFill);
         EcsEntity item = model.itemContainer.findingUtil.findNearestItemBySelector(selector, unit.pos()); // TODO select best item?
         if (item != EcsEntity.Null) 
-            return new TaskAssignmentDescriptor(item, model.itemContainer.getItemAccessPosition(item), "wear", unit, TaskPriorities.HEALTH_NEEDS);
+            return new UnitTaskAssignment(item, model.itemContainer.getItemAccessPosition(item), "wear", unit, TaskPriorities.HEALTH_NEEDS);
         return null;
     }
 

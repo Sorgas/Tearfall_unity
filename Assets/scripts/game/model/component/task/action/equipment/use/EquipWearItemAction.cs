@@ -7,6 +7,8 @@ using util.lang.extension;
 namespace game.model.component.task.action.equipment.use {
     public class EquipWearItemAction : PutItemToDestinationAction {
         public EquipWearItemAction(EcsEntity targetItem) : base(new SelfActionTarget(), targetItem) {
+            name = $"equip {targetItem.name()}";
+            
             onFinish = () => {
                 ItemWearComponent wear = targetItem.takeRef<ItemWearComponent>();
                 EquipmentSlot targetSlot = equipment.slots[wear.slot];

@@ -51,11 +51,11 @@ public class RestNeed : Need {
         return null;
     }
 
-    public override TaskAssignmentDescriptor createDescriptor(LocalModel model, EcsEntity unit) {
+    public override UnitTaskAssignment createDescriptor(LocalModel model, EcsEntity unit) {
         UnitNeedComponent component = unit.take<UnitNeedComponent>();
         if (component.restPriority == TaskPriorities.NONE) return null;
         if (component.rest <= 0) {
-            return new TaskAssignmentDescriptor(EcsEntity.Null, unit.pos(), "sleep_ground", unit, component.restPriority);
+            return new UnitTaskAssignment(EcsEntity.Null, unit.pos(), "sleep_ground", unit, component.restPriority);
         }
         Vector3Int unitPos = unit.pos();
         switch (component.restPriority) {
@@ -63,13 +63,13 @@ public class RestNeed : Need {
             case TaskPriorities.HEALTH_NEEDS: { // select bed
                 EcsEntity building = findFreeBed(model, unit);
                 if (building != EcsEntity.Null) {
-                    return new TaskAssignmentDescriptor(building, building.pos(), "sleep", unit, component.restPriority);
+                    return new UnitTaskAssignment(building, building.pos(), "sleep", unit, component.restPriority);
                 }
             }
                 break;
             case TaskPriorities.SAFETY: {
                 Vector3Int placeToSleep = findPlaceUnderRoof(model, unit);
-                return new TaskAssignmentDescriptor(EcsEntity.Null, placeToSleep, "sleep_ground", unit, component.restPriority);
+                return new UnitTaskAssignment(EcsEntity.Null, placeToSleep, "sleep_ground", unit, component.restPriority);
             }
         }
         return null;
