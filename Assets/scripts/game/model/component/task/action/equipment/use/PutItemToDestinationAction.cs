@@ -1,7 +1,6 @@
 ﻿using game.model.component.task.action.equipment.obtain;
 using game.model.component.task.action.target;
 using Leopotam.Ecs;
-using UnityEngine;
 using util.lang.extension;
 using static types.action.ActionCheckingEnum;
 
@@ -12,11 +11,10 @@ namespace game.model.component.task.action.equipment.use {
     *
     * @author Alexander on 12.04.2020
     */
-    public class PutItemToDestinationAction : ItemAction {
+    public abstract class PutItemToDestinationAction : ItemAction {
 
         protected PutItemToDestinationAction(ActionTarget target, EcsEntity item) : base(target, item) {
             name = $"put {item.name()} to destination";
-            
             startCondition = () => {
                 if (!validate()) return FAIL;
                 lockEntity(item);

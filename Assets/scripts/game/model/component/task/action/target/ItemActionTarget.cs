@@ -1,4 +1,5 @@
-﻿using game.model.component.unit;
+﻿using System.Collections.Generic;
+using game.model.component.unit;
 using game.model.localmap;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -14,6 +15,10 @@ namespace game.model.component.task.action.target {
 
         public ItemActionTarget(EcsEntity item) : base(item, EXACT) {
             this.item = item;
+        }
+
+        public override List<Vector3Int> getPositions(LocalModel model) {
+            throw new System.NotImplementedException();
         }
         
         public new ActionTargetStatusEnum check(EcsEntity performer, LocalModel model) {

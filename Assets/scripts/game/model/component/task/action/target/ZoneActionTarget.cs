@@ -1,4 +1,6 @@
-﻿using Leopotam.Ecs;
+﻿using System.Collections.Generic;
+using game.model.localmap;
+using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
 using util.lang.extension;
@@ -10,6 +12,10 @@ namespace game.model.component.task.action.target {
         private readonly EcsEntity zone;
         public Vector3Int tile = Vector3Int.back; // can be set after creation
         public override Vector3Int pos => tile == Vector3Int.back ? zone.take<ZoneComponent>().tiles[0] : tile;
+        
+        public override List<Vector3Int> getPositions(LocalModel model) {
+            throw new System.NotImplementedException();
+        }
 
         public ZoneActionTarget(EcsEntity zone, ActionTargetTypeEnum type) : base(type) {
             this.zone = zone;

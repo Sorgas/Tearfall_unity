@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using game.model.component.task.action.target;
 using game.model.localmap;
 using types.action;
 using UnityEngine;
@@ -25,6 +26,10 @@ namespace util.pathfinding {
             return path;
         }
 
+        public List<Vector3Int> makeShortestPath(Vector3Int start, ActionTarget target, LocalMap map) {
+            
+        }
+        
         public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, LocalMap map) =>
             makeShortestPath(start, target, ActionTargetTypeEnum.EXACT, map);
 

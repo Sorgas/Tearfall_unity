@@ -1,4 +1,6 @@
 
+using System.Collections.Generic;
+using game.model.localmap;
 using types.action;
 using UnityEngine;
 
@@ -11,5 +13,8 @@ namespace game.model.component.task.action.target {
         }
 
         public override Vector3Int pos { get; }
+        public override List<Vector3Int> getPositions(LocalModel model) {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace game.model.component.task.action {
             this.order = order;
             name = "generic building action";
             bounds = getBuildingBounds(order);
-            target = new BuildingActionTarget(designation.pos());
+            target = new BuildingConstructionActionTarget(designation.pos());
 
             startCondition = () => {
                 if (!offSitePositionOk) {
@@ -114,7 +114,7 @@ namespace game.model.component.task.action {
                 if (!map.inMap(x1, y1, z1) || !passageMap.hasPathBetweenNeighbours(x1, y1, z1, x2, y2, z2)) return false;
                 offSitePosition = new Vector3Int(x1, y1, z1);
                 offSitePositionOk = true;
-                target = new BuildingActionTarget(offSitePosition);
+                target = new BuildingConstructionActionTarget(offSitePosition);
                 return true;
             }
             // try on same z levels

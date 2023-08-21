@@ -7,7 +7,7 @@ using static types.action.ActionCheckingEnum;
 namespace game.model.action.plant {
     public class PlantRemoveAction : Action {
         private EcsEntity entity;
-        public PlantRemoveAction(EcsEntity plant) : base(new EntityActionTarget(plant, ActionTargetTypeEnum.ANY)) {
+        public PlantRemoveAction(EcsEntity plant) : base(new PlantActionTarget(plant, ActionTargetTypeEnum.ANY)) {
             entity = plant;
             maxProgress = 50;
             startCondition = () => {

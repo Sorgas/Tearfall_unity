@@ -4,10 +4,10 @@ using UnityEngine;
 namespace util.geometry {
     // provides collections for neighbours
     static class PositionUtil {
-        public static List<Vector3Int> fourNeighbour;
-        public static List<Vector3Int> allNeighbour; // 8 on same level except center
-        public static List<Vector3Int> waterflow;
-        public static List<Vector3Int> all = new();
+        public static readonly List<Vector3Int> fourNeighbour;
+        public static readonly List<Vector3Int> allNeighbour; // 8 on same level except center
+        public static readonly List<Vector3Int> waterflow;
+        public static readonly List<Vector3Int> all = new(); // 26 tiles around center
 
         static PositionUtil() {
             // four orthogonally adjacent
@@ -28,7 +28,7 @@ namespace util.geometry {
             // upper and lower
             waterflow.Add(new Vector3Int(0, 0, -1));
             waterflow.Add(new Vector3Int(0, 0, 1));
-
+            
             for (int z = -1; z <= 1; z++) {
                 for (int y = -1; y <= 1; y++) {
                     for (int x = -1; x <= 1; x++) {

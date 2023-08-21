@@ -5,7 +5,7 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.component.task.action.target {
-public class EntityActionTarget : ActionTarget {
+public abstract class EntityActionTarget : ActionTarget {
     protected EcsEntity entity;
 
     public EntityActionTarget(EcsEntity entity, ActionTargetTypeEnum placement) : base(placement) {

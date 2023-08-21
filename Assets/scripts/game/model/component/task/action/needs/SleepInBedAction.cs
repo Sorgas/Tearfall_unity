@@ -14,7 +14,7 @@ namespace game.model.component.task.action.needs {
         private const float baseSleepSpeed = RestNeed.hoursToHealth / RestNeed.hoursToSafety / 8 / GameTime.ticksPerHour;
         private float initialRest;
 
-        public SleepInBedAction(EcsEntity bed) : base(new EntityActionTarget(bed, ActionTargetTypeEnum.EXACT)) {
+        public SleepInBedAction(EcsEntity bed) : base(new BuildingActionTarget(bed, ActionTargetTypeEnum.EXACT)) {
             startCondition = () => {
                 if (model.buildingContainer.getBuilding(bed.pos()) == bed 
                     && bed.Has<BuildingSleepFurnitureC>())

@@ -47,35 +47,17 @@ namespace types.building {
         public Vector2Int getSizeByOrientation(Orientations orientation) => OrientationUtil.isHorizontal(orientation) ? horizontalSize : verticalSize;
 
         public Vector3Int getAccessByPositionAndOrientation(Vector3Int position, Orientations orientation) {
-            Vector2Int offset = getAccessOffsetByRotation(orientation);
-            position.x += offset.x;
-            position.y += offset.y;
-            return position;
+            return position + getAccessOffsetByRotation(orientation);
         }
 
-        public Vector2Int getAccessOffsetByRotation(Orientations orientation) {
-            Vector2Int offset = new Vector2Int();
-            switch (orientation) {
-                case Orientations.N:
-                    offset.x = access[0];
-                    offset.y = access[1];
-                    break;
-                case Orientations.E:
-                    offset.x =  access[1];
-                    offset.y =  size[0] - 1 - access[0];
-                    break;
-                case Orientations.S:
-                    offset.x =  size[0] - 1 - access[0];
-                    offset.y =  size[1] - 1 - access[1];
-                    break;
-                case Orientations.W:
-                    offset.x =  size[1] - 1 - access[1];
-                    offset.y =  access[0];
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            return offset;
+        public Vector3Int getAccessOffsetByRotation(Orientations orientation) {
+            return orientation switch {
+                Orientations.N => new Vector3Int(access[0], access[1], 0),
+                Orientations.E => new Vector3Int(access[1], size[0] - 1 - access[0], 0),
+                Orientations.S => new Vector3Int(size[0] - 1 - access[0], size[1] - 1 - access[1], 0),
+                Orientations.W => new Vector3Int(size[1] - 1 - access[1], access[0], 0),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
     }
 }

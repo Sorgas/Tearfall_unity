@@ -1,4 +1,6 @@
-﻿using game.model.util;
+﻿using System.Collections.Generic;
+using game.model.localmap;
+using game.model.util;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
@@ -19,6 +21,9 @@ namespace game.model.component.task.action.target {
                 if (position == Vector3Int.back) lookupFreeTile();
                 return position;
             }
+        }
+        public override List<Vector3Int> getPositions(LocalModel model) {
+            throw new System.NotImplementedException();
         }
 
         public Vector3Int lookupFreeTile() {

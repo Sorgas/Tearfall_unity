@@ -1,6 +1,10 @@
-﻿using game.model.component.task.action.target;
+﻿using game.model.component.building;
+using game.model.component.item;
+using game.model.component.task.action.target;
 using Leopotam.Ecs;
+using types.action;
 using UnityEngine;
+using util;
 
 namespace game.model.component.task.action.equipment {
     /**
@@ -25,6 +29,12 @@ namespace game.model.component.task.action.equipment {
                 return false;
             }
             return true;
+        }
+        
+        protected static ActionTarget resolveItemContainerTarget(EcsEntity entity) {
+            if (entity.Has<BuildingComponent>()) return new BuildingActionTarget(entity, ActionTargetTypeEnum.NEAR);
+            if (entity.Has<ItemComponent>()) return new ItemActionTarget(entity);
+            throw new GameException("unsupported item container type");
         }
     }
 }

@@ -53,7 +53,7 @@ namespace game.view.system.mouse_tool {
             selectorGO.setBuildingSprite(BuildingTilesetHolder.get().get(type, orientation),
                 type.size[OrientationUtil.isHorizontal(orientation) ? 1 : 0]);
             if (type.access != null) {
-                Vector2Int offset = type.getAccessOffsetByRotation(orientation);
+                Vector3Int offset = type.getAccessOffsetByRotation(orientation);
                 selectorGO.setAccessPoint(offset.x, offset.y, "building_access_point");
             }
         }

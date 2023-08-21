@@ -1,8 +1,8 @@
-﻿using game.model.localmap;
+﻿using System.Collections.Generic;
+using game.model.localmap;
 using Leopotam.Ecs;
 using types.action;
 using UnityEngine;
-using util.geometry;
 
 namespace game.model.component.task.action.target {
     /**
@@ -18,6 +18,9 @@ namespace game.model.component.task.action.target {
 
         public override Vector3Int pos => Vector3Int.back;
 
+        public override List<Vector3Int> getPositions(LocalModel model) {
+            throw new System.NotImplementedException();
+        }
         public override ActionTargetStatusEnum check(EcsEntity performer, LocalModel model) {
             return ActionTargetStatusEnum.READY;
         }

@@ -1,47 +1,38 @@
+﻿using System.Collections.Generic;
+using game.model.component.building;
+using game.model.localmap;
+using Leopotam.Ecs;
+using types;
 using types.action;
 using UnityEngine;
+using util.lang.extension;
 
 namespace game.model.component.task.action.target {
-    // action target for building buildings
-    public class BuildingActionTarget : ActionTarget {
-        public readonly Vector3Int center;
-        public Vector3Int builderPosition;
-
-        public BuildingActionTarget(Vector3Int position) : base(ActionTargetTypeEnum.EXACT) {
-            center = position;
-        }
-
-        public override Vector3Int pos => center;
-        // return builderPosition != null ? builderPosition : center;
-        // /**
-        //  * Finds appropriate position for builder to build from and bring materials.
-        //  * TODO find nearest position.
-        //  */
-        // public bool findPositionForBuilder(BuildingOrder order, Vector3Int currentBuilderPosition) {
-        //     UtilByteArray area = GameModel.localMap.passageMap.area;
-        //     if (order.blueprint.construction) {
-        //         BlockType blockType = BlockTypes.get(order.blueprint.building);
-        //         builderPosition = new NeighbourPositionStream(order.position) // position near target tile
-        //             .filterInArea(area.get(currentBuilderPosition))
-        //             .filterByAccessibilityWithFutureTile(blockType)
-        //             .stream.findFirst().orElse(null);
-        //     } else {
-        //         BuildingType type = BuildingTypeMap.getBuilding(order.blueprint.building);
-        //         Int2dBounds bounds = new Int2dBounds(order.position, RotationUtil.orientSize(type.size, order.orientation));
-        //         bounds.extend(1);
-        //         int builderArea = area.get(currentBuilderPosition);
-        //         builderPosition = bounds.collectBorders().stream() // near position with same area
-        //             .map(vector -> new IntVector3(vector.x, vector.y, order.position.z))
-        //             .filter(position -> area.get(position) == builderArea)
-        //             .findFirst().orElse(null);
-        //     }
-        //     if (builderPosition != null) type = EXACT;
-        //     return builderPosition != null;
-        // }
-        //
-        // public void reset() {
-        //     builderPosition = null;
-        //     type = NEAR;
-        // }
+// points to tiles adjacent to building
+public class BuildingActionTarget : EntityActionTarget {
+    private List<Vector3Int> adjacentPositions = new(); // not filtered by tile passage
+    
+    public BuildingActionTarget(EcsEntity entity, ActionTargetTypeEnum placement) : base(entity, placement) {
+        calculateAdjacentPositions();
+        multitile = entity.take<BuildingComponent>().type.getSizeByOrientation(Orientations.N) != Vector2Int.one;
     }
+    
+    public override List<Vector3Int> getPositions(LocalModel model) {
+        return adjacentPositions;
+    }
+
+    private void calculateAdjacentPositions() {
+        BuildingComponent building = entity.take<BuildingComponent>();
+        Vector2Int size = building.type.getSizeByOrientation(building.orientation);
+        Vector3Int position = entity.pos();
+        for (int x = -1; x <= size.x; x++) {
+            adjacentPositions.Add(new Vector3Int(x, -1, 0) + position);
+            adjacentPositions.Add(new Vector3Int(x, size.y, 0) + position);
+        }
+        for (int y = 0; y < size.x; y++) {
+            adjacentPositions.Add(new Vector3Int(-1, y, 0) + position);
+            adjacentPositions.Add(new Vector3Int(size.x, y, 0) + position);
+        }
+    }
+}
 }
