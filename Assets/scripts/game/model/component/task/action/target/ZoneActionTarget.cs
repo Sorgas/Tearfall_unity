@@ -6,19 +6,28 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.component.task.action.target {
-    // action target for zones. Should be updated during action checking.
-    // Before this returns tile of zone just for checking reachability
-    public class ZoneActionTarget : ActionTarget {
+    // action target for zones.
+    // Should be updated during action checking. Before this, returns tile of zone just for checking reachability
+    public class ZoneActionTarget : DynamicActionTarget {
         private readonly EcsEntity zone;
-        public Vector3Int tile = Vector3Int.back; // can be set after creation
-        public override Vector3Int pos => tile == Vector3Int.back ? zone.take<ZoneComponent>().tiles[0] : tile;
-        
-        public override List<Vector3Int> getPositions(LocalModel model) {
-            throw new System.NotImplementedException();
-        }
+        public Vector3Int tile = Vector3Int.back; // should be set by action during conditions checking
+        public override Vector3Int pos => getPosition();
+        public override List<Vector3Int> positions => getPositions();
 
         public ZoneActionTarget(EcsEntity zone, ActionTargetTypeEnum type) : base(type) {
             this.zone = zone;
+        }
+        
+        private Vector3Int getPosition() {
+            return tile != Vector3Int.back ? tile : zone.take<ZoneComponent>().tiles[0];
+        }
+
+        private List<Vector3Int> getPositions() {
+            return zone.take<ZoneComponent>().tiles;
+        }
+        
+        public override List<Vector3Int> getAcceptablePositions(LocalModel model) {
+            return zone.take<ZoneComponent>().tiles;
         }
     }
 }

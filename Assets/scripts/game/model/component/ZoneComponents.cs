@@ -60,7 +60,7 @@ namespace game.model.component {
         public bool hasFreeTile; // TODO use this field for optimising checks on hauling tasks
     }
 
-    // stores tiles which should be targeted by tesks
+    // stores tiles which should be targeted by tasks
     public struct ZoneTrackingComponent {
         // TODO deprecated, use tilesToTask and totalTasks
         public Dictionary<Vector3Int, EcsEntity> locked; // tile -> task (locks tiles to tasks to ensure only one task can be performed on a tile)

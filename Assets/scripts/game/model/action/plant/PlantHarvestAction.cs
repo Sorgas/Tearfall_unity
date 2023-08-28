@@ -22,6 +22,8 @@ namespace game.model.action.plant {
             plantPosition = plant.pos();
             name = "harvest plant " + plantPosition;
 
+            assignmentCondition = (unit) => ActionCheckingEnum.OK;
+            
             startCondition = () => {
                 zone = model.zoneContainer.getZone(plantPosition);
                 if (!plant.IsAlive()) return ActionCheckingEnum.FAIL;

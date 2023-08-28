@@ -13,6 +13,8 @@ namespace types.building {
         public int[] size; // for N, S orientations
         public Vector2Int horizontalSize;
         public Vector2Int verticalSize;
+        public Vector3Int horizontalSize3;
+        public Vector3Int verticalSize3;
         public int[] positionN;
         public int[] positionS;
         public int[] positionE;
@@ -31,6 +33,8 @@ namespace types.building {
         public void init() {
             horizontalSize = new Vector2Int(size[1], size[0]);
             verticalSize = new Vector2Int(size[0], size[1]);
+            horizontalSize3 = new Vector3Int(size[1], size[0], 0);
+            verticalSize3 = new Vector3Int(size[0], size[1], 0);
         }
         
         public bool isSingleTile() => size[0] == 1 && size[1] == 1;
@@ -45,6 +49,7 @@ namespace types.building {
         }
 
         public Vector2Int getSizeByOrientation(Orientations orientation) => OrientationUtil.isHorizontal(orientation) ? horizontalSize : verticalSize;
+        public Vector3Int getSize3ByOrientation(Orientations orientation) => OrientationUtil.isHorizontal(orientation) ? horizontalSize3 : verticalSize3;
 
         public Vector3Int getAccessByPositionAndOrientation(Vector3Int position, Orientations orientation) {
             return position + getAccessOffsetByRotation(orientation);

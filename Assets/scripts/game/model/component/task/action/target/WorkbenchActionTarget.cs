@@ -8,15 +8,23 @@ using util.lang.extension;
 
 namespace game.model.component.task.action.target {
 // targets to access position of workbench
-class WorkbenchActionTarget : EntityActionTarget {
-    public WorkbenchActionTarget(EcsEntity entity) : base(entity, ActionTargetTypeEnum.EXACT) {
-        pos = entity.take<BuildingComponent>().getAccessPosition(entity.pos());
+class WorkbenchActionTarget : StaticActionTarget {
+    private EcsEntity workbench;
+    public WorkbenchActionTarget(EcsEntity entity) : base(ActionTargetTypeEnum.EXACT) {
+        workbench = entity;
+        init();
     }
 
-    public override Vector3Int pos { get; }
+    protected override Vector3Int calculatePosition() {
+        return workbench.take<BuildingComponent>().getAccessPosition(workbench.pos());
+    }
     
-    public override List<Vector3Int> getPositions(LocalModel model) {
-        throw new System.NotImplementedException();
+    protected override List<Vector3Int> calculatePositions() {
+        return emptyList;
+    }
+
+    public override List<Vector3Int> getAcceptablePositions(LocalModel model) {
+        return new List<Vector3Int> { pos };
     }
 }
 }

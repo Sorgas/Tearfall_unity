@@ -26,7 +26,7 @@ public class FarmingAction : ToolAction {
             ZoneTrackingComponent tracking = zone.take<ZoneTrackingComponent>();
             Vector3Int performerPosition = performer.pos();
             List<Vector3Int> tiles = tracking.tilesToTask.Keys
-                .OrderBy(tile => (tile - performerPosition).sqrMagnitude)
+                .OrderBy(tile => tile == performerPosition ? 3 : (tile - performerPosition).sqrMagnitude)
                 .ToList();
             CachedVariable<bool> hoeAvailability = createHoeAvailability();
             foreach (Vector3Int tile in tiles) {

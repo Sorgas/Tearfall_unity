@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using game.model.component.building;
 using game.model.localmap;
 using Leopotam.Ecs;
@@ -8,31 +9,40 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.component.task.action.target {
-// points to tiles adjacent to building
-public class BuildingActionTarget : EntityActionTarget {
-    private List<Vector3Int> adjacentPositions = new(); // not filtered by tile passage
-    
-    public BuildingActionTarget(EcsEntity entity, ActionTargetTypeEnum placement) : base(entity, placement) {
-        calculateAdjacentPositions();
-        multitile = entity.take<BuildingComponent>().type.getSizeByOrientation(Orientations.N) != Vector2Int.one;
+// targets building entity. Used for getting items from building.
+// allows interacting with building from same and lower z-levels, but not from above.
+public class BuildingActionTarget : StaticActionTarget {
+    private EcsEntity building;
+    public readonly List<Vector3Int> selfPositions = new();
+
+    public BuildingActionTarget(EcsEntity entity, ActionTargetTypeEnum placement) : base(placement) {
+        building = entity;
+        init();
     }
     
-    public override List<Vector3Int> getPositions(LocalModel model) {
-        return adjacentPositions;
+    protected override Vector3Int calculatePosition() {
+        return building.pos();
     }
 
-    private void calculateAdjacentPositions() {
-        BuildingComponent building = entity.take<BuildingComponent>();
-        Vector2Int size = building.type.getSizeByOrientation(building.orientation);
-        Vector3Int position = entity.pos();
-        for (int x = -1; x <= size.x; x++) {
-            adjacentPositions.Add(new Vector3Int(x, -1, 0) + position);
-            adjacentPositions.Add(new Vector3Int(x, size.y, 0) + position);
-        }
-        for (int y = 0; y < size.x; y++) {
-            adjacentPositions.Add(new Vector3Int(-1, y, 0) + position);
-            adjacentPositions.Add(new Vector3Int(size.x, y, 0) + position);
-        }
+    // positions around building on the same z-level 
+    protected override List<Vector3Int> calculatePositions() {
+        BuildingComponent component = building.take<BuildingComponent>();
+        component.bounds.iterate(position => selfPositions.Add(position));
+        return component.bounds.getExternalBorders(true);
+    }
+
+    // protected override List<Vector3Int> calculateLowerPositions() {
+    //     return positions.Select(position => position + Vector3Int.back).ToList();
+    // }
+
+    public override List<Vector3Int> getAcceptablePositions(LocalModel model) {
+        List<Vector3Int> result = new();
+        positions
+            .Where(position => model.localMap.inMap(position))
+            .Where(position => model.localMap.passageMap.getPassage(position) == PassageTypes.PASSABLE.VALUE)
+            .ForEach(position => result.Add(position));
+        result.AddRange(positions);
+        return result;
     }
 }
 }

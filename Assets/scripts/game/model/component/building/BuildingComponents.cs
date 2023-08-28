@@ -5,6 +5,7 @@ using types;
 using types.building;
 using types.unit;
 using UnityEngine;
+using util.geometry.bounds;
 using static game.model.component.task.order.CraftingOrder.CraftingOrderStatus;
 
 namespace game.model.component.building {
@@ -12,7 +13,8 @@ namespace game.model.component.building {
     public struct BuildingComponent {
         public BuildingType type;
         public Orientations orientation;
-
+        public IntBounds3 bounds;
+        
         public Vector3Int getAccessPosition(Vector3Int pos) {
             return type.getAccessByPositionAndOrientation(pos, orientation);
         }

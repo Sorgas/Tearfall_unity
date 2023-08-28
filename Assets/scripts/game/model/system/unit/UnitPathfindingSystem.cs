@@ -24,8 +24,9 @@ namespace game.model.system.unit {
         }
 
         private void findPath(UnitMovementTargetComponent target, ref EcsEntity unit) {
-            if (model.localMap.passageMap.tileIsAccessibleFromArea(target.target, unit.pos())) {
-                List<Vector3Int> path = AStar.get().makeShortestPath(unit.pos(), target.target, target.targetType, model.localMap);
+            List<Vector3Int> positions = target.target.getAcceptablePositions(model);
+            if (positions.Count > 0) {
+                List<Vector3Int> path = AStar.get().makeShortestPath(unit.pos(), target.target, model);
                 if (path != null) {
                     unit.Replace(new UnitMovementPathComponent { path = path });
                     return;

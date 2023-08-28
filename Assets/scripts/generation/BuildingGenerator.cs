@@ -8,12 +8,15 @@ using types.action;
 using types.building;
 using types.unit;
 using UnityEngine;
+using util.geometry.bounds;
 
 namespace generation {
     public class BuildingGenerator {
 
         public EcsEntity generateByOrder(BuildingOrder order, EcsEntity entity) {
-            entity.Replace(new BuildingComponent { type = order.type, orientation = order.orientation });
+            entity.Replace(new BuildingComponent { type = order.type, orientation = order.orientation,
+                bounds = createBounds(order.position, order.type.getSizeByOrientation(order.orientation))
+            });
             entity.Replace(new PositionComponent { position = order.position });
             if (order.type.category == "workbenches") {
                 entity.Replace(new WorkbenchComponent { orders = new(), job = Jobs.getByName(order.type.job), priority = TaskPriorities.JOB });
@@ -38,6 +41,10 @@ namespace generation {
                 }
             }
             return component;
+        }
+
+        private IntBounds3 createBounds(Vector3Int position, Vector2Int size) {
+            return new IntBounds3(position.x, position.y, position.z, position.x + size.x, position.y + size.y, position.z);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using game.model.component;
 using game.model.component.task;
 using game.model.component.task.action;
+using game.model.component.task.action.target;
 using game.model.component.unit;
 using game.model.localmap.passage;
 using Leopotam.Ecs;
@@ -103,25 +104,29 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
     // checks that task target is accessible from area
     private bool checkTaskTarget(EcsEntity task, byte performerArea) {
         PassageMap passageMap = model.localMap.passageMap;
+        ActionTarget actionTarget = task.take<TaskActionsComponent>().initialAction.target;
         ActionTargetTypeEnum targetType = task.take<TaskActionsComponent>().initialAction.target.type;
         Vector3Int target = task.take<TaskActionsComponent>().initialAction.target.pos;
         if (target == Vector3Int.back) {
             logError("target position for " + task.name() + " not found ");
             return false;
         }
+        return actionTarget.getAcceptablePositions(model)
+            .Select(position => model.localMap.passageMap.area.get(position))
+            .Any(area => area == performerArea);
         // target position in same area with performer
-        if (targetType == EXACT || targetType == ANY) {
-            if (passageMap.area.get(target) == performerArea) return true;
-        }
-        // target position is accessible from performer area
-        if (targetType == NEAR || targetType == ANY) {
-            NeighbourPositionStream stream = new(target, model);
-            stream = task.Has<TaskBlockOverrideComponent>()
-                ? stream.filterConnectedToCenterWithOverrideTile(task.take<TaskBlockOverrideComponent>().blockType)
-                : stream.filterConnectedToCenter();
-            return stream.collectAreas().Contains(performerArea);
-        }
-        return false;
+        // if (targetType == EXACT || targetType == ANY) {
+        //     if (passageMap.area.get(target) == performerArea) return true;
+        // }
+        // // target position is accessible from performer area
+        // if (targetType == NEAR || targetType == ANY) {
+        //     NeighbourPositionStream stream = new(target, model);
+        //     stream = task.Has<TaskBlockOverrideComponent>()
+        //         ? stream.filterConnectedToCenterWithOverrideTile(task.take<TaskBlockOverrideComponent>().blockType)
+        //         : stream.filterConnectedToCenter();
+        //     return stream.collectAreas().Contains(performerArea);
+        // }
+        // return false;
     }
 
     private EcsEntity createIdleTask(EcsEntity unit) {

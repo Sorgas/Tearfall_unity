@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using game.model.component.task.action;
+using game.model.component.task.action.target;
 using game.view.util;
 using Leopotam.Ecs;
 using types;
@@ -24,8 +25,7 @@ namespace game.model.component.unit {
     }
 
     public struct UnitMovementTargetComponent {
-        public Vector3Int target;
-        public ActionTargetTypeEnum targetType; // near/exact/any
+        public ActionTarget target;
     }
 
     public struct UnitMovementPathComponent {

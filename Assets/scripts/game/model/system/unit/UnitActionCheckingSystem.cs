@@ -81,7 +81,7 @@ namespace game.model.system.unit {
                         break;
                     }
                     message += " move to " + target.Value;
-                    unit.Replace(new UnitMovementTargetComponent { target = target.Value, targetType = action.target.type });
+                    unit.Replace(new UnitMovementTargetComponent { target = action.target });
                     break;
                 case STEP_OFF:
                     message += " step off";

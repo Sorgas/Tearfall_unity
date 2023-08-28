@@ -18,7 +18,7 @@ namespace game.model.component.task.action {
 public class DigAction : ToolAction {
     private readonly DesignationType type;
 
-    public DigAction(Vector3Int position, DesignationType type) : base("dig", new PositionActionTarget(position, type.targetType)) {
+    public DigAction(Vector3Int position, DesignationType type) : base("dig", new DiggingActionTarget(position, type.getDiggingBlockType())) {
         name = "dig action";
         this.type = type;
 

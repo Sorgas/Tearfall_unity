@@ -53,6 +53,7 @@ namespace game.model.component.task.action {
 
         protected Action(ActionTarget target) : this() {
             this.target = target;
+            target.init();
             assignmentCondition = (unit) => throw new NotImplementedException($"assignment condition for action {name} not implemented."); // prevent assigning unimplemented action
             startCondition = () => throw new NotImplementedException($"start condition for action {name} not implemented."); // prevent assigning unimplemented action
         }
@@ -76,7 +77,6 @@ namespace game.model.component.task.action {
         protected bool tileCanBeLocked(EcsEntity zone, Vector3Int tile) => ZoneUtils.tileCanBeLocked(zone, tile, task);
         protected void lockZoneTile(EcsEntity zone, Vector3Int tile) => ZoneUtils.lockZoneTile(zone, tile, task);
         protected void unlockZoneTile(EcsEntity zone, Vector3Int tile) => ZoneUtils.unlockZoneTile(zone, tile, task);
-        
-        protected void log(string message) => Debug.Log("[" + name + "]: " + message);
+        protected void log(string message) => Debug.Log($"[{name}]: {message}");
     }
 }

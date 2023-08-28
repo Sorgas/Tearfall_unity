@@ -14,7 +14,6 @@ namespace game.model.util {
     public class ZoneUtils {
         private const string SOIL_TAG = "soil";
 
-        // TODO add task parameter and check locking by other tasks
         public static Vector3Int findFreeStockpileTile(EcsEntity zone, EcsEntity task, LocalModel model) {
             ZoneComponent zoneComponent = zone.take<ZoneComponent>();
             StockpileComponent stockpile = zone.take<StockpileComponent>();
@@ -52,7 +51,7 @@ namespace game.model.util {
                 .firstOrDefault(Vector3Int.back);
         }
 
-        private static IEnumerable<Vector3Int> findUnhoedTiles(EcsEntity entity, LocalModel model) {
+        public static IEnumerable<Vector3Int> findUnhoedTiles(EcsEntity entity, LocalModel model) {
             var zone = entity.take<ZoneComponent>();
             var tracking = entity.take<ZoneTrackingComponent>();
             return zone.tiles

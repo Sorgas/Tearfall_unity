@@ -13,17 +13,15 @@ using static types.action.ActionCheckingEnum;
 
 namespace game.model.component.task.action.plant {
 public class ChopTreeAction : ToolAction {
-    private Vector3Int targetPosition;
 
-    public ChopTreeAction(Vector3Int position) : base("chop", new PositionActionTarget(position, ActionTargetTypeEnum.NEAR)) {
+    public ChopTreeAction(EcsEntity tree) : base("chop", new PlantActionTarget(tree, ActionTargetTypeEnum.NEAR)) {
         name = "chop tree action";
-        targetPosition = position;
 
         // Checks that tree exists on target position, fails if it doesn't.
         // Checks that performer has chopping tool, creates equipping action if needed.
         startCondition = () => {
             log("Checking " + this);
-            if (!checkTree()) return FAIL; // tile still valid
+            if (!validate()) return FAIL; // tree exists
             if (!performer.Has<UnitEquipmentComponent>()) return FAIL;
             if (!equipment.toolWithActionEquipped(toolAction))
                 return createActionForGettingTool(); // find tool
@@ -31,8 +29,9 @@ public class ChopTreeAction : ToolAction {
         };
 
         onFinish = () => {
+            Vector3Int targetPosition = target.pos;
             log("tree chopping finished at " + targetPosition + " by " + performer.name());
-            if (!checkTree()) return;
+            if (!validate()) return; // tree can die during chopping
             ItemGenerator generator = new();
             EcsEntity item = model.createEntity();
             PlantContainer container = model.plantContainer;
@@ -43,16 +42,16 @@ public class ChopTreeAction : ToolAction {
         };
     }
 
-    private bool checkTree() {
-        return PlaceValidators.TREE_EXISTS.validate(targetPosition, model);
-    }
-
     private ActionCheckingEnum createActionForGettingTool() {
         log("No tool equipped by performer for chopTreeAction");
         EcsEntity item = model.itemContainer.findingUtil.findNearestItemBySelector(toolSelector, performer.pos());
         if (item == EcsEntity.Null) return FAIL;
         lockEntity(item);
         return addPreAction(new EquipToolItemAction(item));
+    }
+
+    protected override bool validate() {
+        return PlaceValidators.TREE_EXISTS.validate(target.pos, model);
     }
 }
 }

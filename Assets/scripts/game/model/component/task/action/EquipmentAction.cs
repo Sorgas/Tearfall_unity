@@ -19,9 +19,9 @@ namespace game.model.component.task.action {
             name = "equipment action";
         }
 
-        protected bool validate() {
+        protected virtual bool validate() {
             if (!performer.Has<UnitEquipmentComponent>()) {
-                Debug.LogWarning("unit " + performer + " has no UnitEquipmentComponent.");
+                Debug.LogWarning($"unit {performer} has no UnitEquipmentComponent.");
                 return false;
             }
             return true;

@@ -7,15 +7,16 @@ using util.lang.extension;
 // Action for taking item from container. Locks item. Item should not be locked to another task
 namespace game.model.component.task.action.equipment.obtain {
 public class GetItemFromContainerAction : ItemAction {
+    private EcsEntity containerEntity;
+    
     public GetItemFromContainerAction(EcsEntity item) : base(resolveItemContainerTarget(item.take<ItemContainedComponent>().container), item) {
         name = $"get {item.name()} from container";
-        EcsEntity containerEntity = item.take<ItemContainedComponent>().container;
+        containerEntity = item.take<ItemContainedComponent>().container;
         maxProgress = 50;
 
         startCondition = () => {
             if (!validate()) return ActionCheckingEnum.FAIL;
-            // setItemLocked(item, true);
-            // drop current item
+            lockEntity(item);
             if (equipment.hauledItem != EcsEntity.Null)
                 return addPreAction(new PutItemToPositionAction(equipment.hauledItem, performer.pos()));
             return ActionCheckingEnum.OK;
@@ -24,16 +25,14 @@ public class GetItemFromContainerAction : ItemAction {
         onFinish = () => {
             container.transition.fromContainerToUnit(item, containerEntity, performer);
             equipment.hauledItem = item;
-            log(item + " got from container");
+            log($"{item} got from container");
         };
     }
 
-    // Adds validation of container existence, content and reachability.
+    // Adds validation of container existence, cont ent and reachability.
     private new bool validate() {
-        EcsEntity containerEntity = item.take<ItemContainedComponent>().container;
-        ItemContainerComponent containerComponent = containerEntity.take<ItemContainerComponent>(); ;
         return base.validate()
-               && containerComponent.items.Contains(item)
+               && containerEntity.take<ItemContainerComponent>().items.Contains(item)
                && model.localMap.passageMap.inSameArea(model.itemContainer.getItemAccessPosition(item), performer.pos());
     }
 }

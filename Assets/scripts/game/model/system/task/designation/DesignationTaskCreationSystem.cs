@@ -6,6 +6,7 @@ using game.model.component.task.action;
 using game.model.component.task.action.plant;
 using game.model.component.task.order;
 using game.model.localmap;
+using game.model.util.validation;
 using Leopotam.Ecs;
 using types;
 using types.unit;
@@ -44,10 +45,13 @@ namespace game.model.system.task.designation {
                 return task;
             }
             if (designation.type.job.Equals(WOODCUTTER.name)) {
-                Action action = new ChopTreeAction(position); 
-                EcsEntity task = model.taskContainer.generator.createTask(action, WOODCUTTER, priority, model.createEntity(), model);
-                Debug.Log("woodcutting task created.");
-                return task;
+                if (PlaceValidators.TREE_EXISTS.validate(position, model)) {
+                    EcsEntity tree = model.plantContainer.getPlant(position);
+                    Action action = new ChopTreeAction(tree); 
+                    EcsEntity task = model.taskContainer.generator.createTask(action, WOODCUTTER, priority, model.createEntity(), model);
+                    Debug.Log("woodcutting task created.");
+                    return task;
+                }
             }
             if (designation.type.job.Equals(BUILDER.name)) {
                 if (entity.Has<DesignationConstructionComponent>()) {

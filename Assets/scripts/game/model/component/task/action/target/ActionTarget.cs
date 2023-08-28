@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using game.model.localmap;
 using Leopotam.Ecs;
@@ -12,30 +11,37 @@ using static game.model.component.task.action.target.ActionTargetStatusEnum;
 
 namespace game.model.component.task.action.target {
 public abstract class ActionTarget {
-    public ActionTargetTypeEnum type;
-    public bool multitile = false;
-    
-    // should return current action target position or Vector3Int.back
-    public abstract Vector3Int pos { get; }
+    protected ActionTargetTypeEnum targetType;
+    public ActionTargetTypeEnum type => targetType;
+    protected readonly List<Vector3Int> emptyList = new();
 
-    // should return all valid exact positions (around center for NEAR)
-    public virtual List<Vector3Int> positions => throw new NotImplementedException();
+    // should return current action target position or Vector3Int.back
+    public virtual Vector3Int pos => Vector3Int.back;
+
+    // should return all valid exact positions on same z-level (around center for NEAR). on pathfinding they are filtered to PASSABLE
+    public virtual List<Vector3Int> positions => emptyList;
+
+    // should return all valid exact positions 1 z-level lower. on pathfinding, they are filtered to RAMP only
+    public virtual List<Vector3Int> lowerPositions => emptyList;
+
+    // should return all valid exact positions 1 z-level higher. on pathfinding, they are filtered to RAMP only
+    public virtual List<Vector3Int> upperPositions => emptyList;
+
 
     protected ActionTarget(ActionTargetTypeEnum type) {
-        this.type = type;
+        targetType = type;
     }
 
-    public abstract List<Vector3Int> getPositions(LocalModel model);
+    public abstract void init();
 
     /**
      * Checks if task performer has reached task target. Does not check target availability (map area).
      * Returns fail if checked from out of map.
      */
     public virtual ActionTargetStatusEnum check(EcsEntity performer, LocalModel model) {
-        Vector3Int performerPosition = performer.pos();
         Vector3Int? target = pos;
         if (target == Vector3Int.back) return READY; // target without position 
-        int distance = getDistance(performerPosition, target.Value, model);
+        int distance = getDistance(performer.pos(), target.Value, model);
         if (distance > 1) return WAIT; // target not yet reached
         switch (type) {
             case ActionTargetTypeEnum.EXACT:
@@ -47,6 +53,9 @@ public abstract class ActionTarget {
         }
         throw new GameException("Unhandled ActionTargetType value: " + type);
     }
+
+    // should filter all positions by passability
+    public abstract List<Vector3Int> getAcceptablePositions(LocalModel model);
 
     private int getDistance(Vector3Int current, Vector3Int target, LocalModel model) {
         if (current == target) return 0;

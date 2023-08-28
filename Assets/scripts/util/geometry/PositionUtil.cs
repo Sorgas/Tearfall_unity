@@ -6,6 +6,7 @@ namespace util.geometry {
     static class PositionUtil {
         public static readonly List<Vector3Int> fourNeighbour;
         public static readonly List<Vector3Int> allNeighbour; // 8 on same level except center
+        public static readonly List<Vector3Int> allNeighbourWithCenter;
         public static readonly List<Vector3Int> waterflow;
         public static readonly List<Vector3Int> all = new(); // 26 tiles around center
 
@@ -24,6 +25,9 @@ namespace util.geometry {
             allNeighbour.Add(new Vector3Int(-1, 1, 0));
             allNeighbour.Add(new Vector3Int(-1, -1, 0));
 
+            allNeighbourWithCenter = new List<Vector3Int>(allNeighbour);
+            allNeighbourWithCenter.Add(Vector3Int.zero);
+            
             waterflow = new List<Vector3Int>(allNeighbour);
             // upper and lower
             waterflow.Add(new Vector3Int(0, 0, -1));

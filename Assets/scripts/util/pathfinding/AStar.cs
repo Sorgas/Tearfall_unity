@@ -13,31 +13,36 @@ namespace util.pathfinding {
     // TODO add 'difficult terrain',
     // TODO add doors(passable, counted with special weight), if door is locked by player, it becomes impassable
     public class AStar : Singleton<AStar> {
-        private LocalMap localMap; // TODO make stateless
         private bool debug = false;
+        private LocalMap localMap;
 
-        public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, ActionTargetTypeEnum targetType, LocalMap map) {
-            localMap = map;
+        public List<Vector3Int> makeShortestPath(Vector3Int start, ActionTarget target, LocalModel model) {
+            localMap = model.localMap;
+            Node initialNode = new(start, null, getH(target.pos, start), 0);
+            PathFinishCondition finishCondition = new(target, model);
+            string message = "[AStar]: finding path " + start + " -> " + target + finishCondition.getMessage();
+            List<Vector3Int> path = search(initialNode, finishCondition);
+            logResult(path, message);
+            return path;
+        }
+        
+        public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, ActionTargetTypeEnum targetType, LocalModel model) {
+            localMap = model.localMap;
             Node initialNode = new(start, null, getH(target, start), 0);
-            PathFinishCondition finishCondition = new(target, targetType, localMap);
+            PathFinishCondition finishCondition = new(target, targetType, model);
             string message = "[AStar]: finding path " + start + " -> " + target + finishCondition.getMessage();
             List<Vector3Int> path = search(initialNode, finishCondition, target, targetType);
             logResult(path, message);
             return path;
         }
 
-        public List<Vector3Int> makeShortestPath(Vector3Int start, ActionTarget target, LocalMap map) {
-            
-        }
-        
-        public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, LocalMap map) =>
-            makeShortestPath(start, target, ActionTargetTypeEnum.EXACT, map);
-
         public bool pathExists(Vector3Int start, Vector3Int target, LocalMap map) {
             localMap = map;
             Node initialNode = new(start, null, getH(target, start), 0);
             return pathExists(initialNode, target);
         }
+
+        private List<Vector3Int> search(Node initialNode, PathFinishCondition finishCondition) => search(initialNode, finishCondition, finishCondition.main, finishCondition.targetType);
 
         /**
          * @param targetType  see {@link ActionTarget}
