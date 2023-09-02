@@ -6,9 +6,9 @@ namespace game.model.component.task.action.target {
 // points to immovable target, have precalculated values
 public abstract class StaticActionTarget : ActionTarget {
     public override Vector3Int pos => staticPosition;
-    public override List<Vector3Int> positions => staticPositions;
-    public override List<Vector3Int> lowerPositions => staticLowerPositions;
-    public override List<Vector3Int> upperPositions => staticUpperPositions;
+    protected override List<Vector3Int> positions => staticPositions;
+    protected override List<Vector3Int> lowerPositions => staticLowerPositions;
+    protected override List<Vector3Int> upperPositions => staticUpperPositions;
     // precalculated values
     private Vector3Int staticPosition;
     private List<Vector3Int> staticPositions;

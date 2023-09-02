@@ -18,7 +18,7 @@ public class FarmTileHoeingAction : ToolAction {
     private const string TOOL_ACTION_NAME = "hoe";
     private EcsEntity zone;
 
-    public FarmTileHoeingAction(Vector3Int tile, EcsEntity zone) : base(TOOL_ACTION_NAME, new FarmHoeingActionTarget(tile)) {
+    public FarmTileHoeingAction(Vector3Int tile, EcsEntity zone) : base(TOOL_ACTION_NAME, new FarmTileHoeingActionTarget(tile)) {
         name = "tile hoeing action";
         this.zone = zone;
         maxProgress = 100;

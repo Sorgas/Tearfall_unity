@@ -160,7 +160,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\EquipToolItemAction.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\AssetPacker\TextureAsset.cs" />
      <Compile Include="Assets\scripts\game\model\action\plant\PlantRemoveAction.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\target\FarmHoeingActionTarget.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\target\FarmTileHoeingActionTarget.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantHarvestSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\ObtainItemAction.cs" />
      <Compile Include="Assets\scripts\game\view\system\zone\TileUpdateVisualSystem.cs" />

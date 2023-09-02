@@ -12,7 +12,7 @@ namespace game.model.component.task.action.target {
         private readonly EcsEntity zone;
         public Vector3Int tile = Vector3Int.back; // should be set by action during conditions checking
         public override Vector3Int pos => getPosition();
-        public override List<Vector3Int> positions => getPositions();
+        protected override List<Vector3Int> positions => getPositions();
 
         public ZoneActionTarget(EcsEntity zone, ActionTargetTypeEnum type) : base(type) {
             this.zone = zone;

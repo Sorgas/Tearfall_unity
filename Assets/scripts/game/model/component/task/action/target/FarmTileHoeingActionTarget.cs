@@ -7,11 +7,11 @@ using UnityEngine;
 using util.geometry;
 
 namespace game.model.component.task.action.target {
-// finds unhoed tile 
-public class FarmHoeingActionTarget : StaticActionTarget {
+// finds unhoed tile. Tile is interactable from adjacent tiles on same z-level
+public class FarmTileHoeingActionTarget : StaticActionTarget {
     private Vector3Int tile;
 
-    public FarmHoeingActionTarget(Vector3Int tile) : base(ActionTargetTypeEnum.NEAR) {
+    public FarmTileHoeingActionTarget(Vector3Int tile) : base(ActionTargetTypeEnum.NEAR) {
         this.tile = tile;
     }
     
@@ -23,16 +23,6 @@ public class FarmHoeingActionTarget : StaticActionTarget {
             .ToList();
     }
 
-    // public Vector3Int lookupFreeTile() {
-    //     position = ZoneUtils.findUnhoedTile(zone, GameModel.get().currentLocalModel);
-    //     return position;
-    // }
-    //
-    // public Vector3Int lookupFreeNearestTile(Vector3Int pos) {
-    //     position = ZoneUtils.findNearestUnhoedTile(zone, pos, GameModel.get().currentLocalModel);
-    //     return position;
-    // }
-    
     public override List<Vector3Int> getAcceptablePositions(LocalModel model) {
         return positions
             .Where(position => model.localMap.inMap(position))

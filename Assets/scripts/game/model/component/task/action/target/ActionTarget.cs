@@ -19,13 +19,13 @@ public abstract class ActionTarget {
     public virtual Vector3Int pos => Vector3Int.back;
 
     // should return all valid exact positions on same z-level (around center for NEAR). on pathfinding they are filtered to PASSABLE
-    public virtual List<Vector3Int> positions => emptyList;
+    protected virtual List<Vector3Int> positions => emptyList;
 
     // should return all valid exact positions 1 z-level lower. on pathfinding, they are filtered to RAMP only
-    public virtual List<Vector3Int> lowerPositions => emptyList;
+    protected virtual List<Vector3Int> lowerPositions => emptyList;
 
     // should return all valid exact positions 1 z-level higher. on pathfinding, they are filtered to RAMP only
-    public virtual List<Vector3Int> upperPositions => emptyList;
+    protected virtual List<Vector3Int> upperPositions => emptyList;
 
 
     protected ActionTarget(ActionTargetTypeEnum type) {
