@@ -11,7 +11,7 @@ namespace game.model.component.task.action.equipment.use {
             
             onFinish = () => {
                 ItemWearComponent wear = targetItem.takeRef<ItemWearComponent>();
-                EquipmentSlot targetSlot = equipment.slots[wear.slot];
+                WearEquipmentSlot targetSlot = equipment.slots[wear.slot];
 
                 // TODO wrap with layer condition
 

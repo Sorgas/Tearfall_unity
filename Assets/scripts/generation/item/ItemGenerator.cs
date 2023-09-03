@@ -55,7 +55,6 @@ namespace generation.item {
             if (type.components.ContainsKey("wear")) {
                 string[] args = type.components["wear"];
                 item.Replace(new ItemWearComponent { slot = args[0], layer = args[1] });
-                // Debug.Log("wear component added to item");
             }
             if(type.components.ContainsKey("food")) {
                 string[] args = type.components["food"];

@@ -11,6 +11,7 @@ public class CreatureType {
     public string description;
     public readonly Dictionary<string, BodyPart> bodyParts = new();
     public readonly Dictionary<string, List<string>> slots = new(); // slot name to default limbs
+    public readonly Dictionary<string, List<string>> grabSlots = new(); // slot name to default limbs
     public readonly List<string> desiredSlots = new();
     public readonly List<Needs> needs = new();
     public readonly List<string> aspects = new();

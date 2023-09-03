@@ -6,7 +6,7 @@ namespace types.unit.body.raw {
     public class RawBodyPart {
         public string name; // id
         public string root; // points to limb current limb is attached to
-        public bool mirrored; // bi for left and right, quadro for front left, rear right, etc todo
+        public bool mirrored;
         public string[] layers;
         public string[] internalOrgans;
         public string[] externalOrgans;

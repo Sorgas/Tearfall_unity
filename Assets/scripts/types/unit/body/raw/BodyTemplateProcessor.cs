@@ -8,7 +8,7 @@ namespace types.unit.body.raw {
 public class BodyTemplateProcessor {
         private static string LEFT_PREFIX = "left ";
         private static string RIGHT_PREFIX = "right ";
-        private bool debugMode = false;
+        private bool debugMode = true;
         private string logMessage;
 
         public BodyTemplate process(RawBodyTemplate rawTemplate) {
@@ -81,7 +81,8 @@ public class BodyTemplateProcessor {
                         limb = map[limb.root]; // go to next limb
                     }
                     return false;
-                }).ToList().ForEach(rawBodyPart => rawBodyPart.mirrored = true);
+                })
+                .ForEach(rawBodyPart => rawBodyPart.mirrored = true);
         }
 
         /**
@@ -91,10 +92,10 @@ public class BodyTemplateProcessor {
          * Also mirrors desired slots.
          */
         private void mirrorSlots(BodyTemplate template, RawBodyTemplate rawTemplate, Dictionary<string, RawBodyPart> rawPartMap) {
-            foreach (string[] slot in rawTemplate.slots) {
-                string slotName = slot[0];
-                List<string> slotLimbs = slot.subList(1);
-                if (containsOnlyMirroredLimbs(slotLimbs, rawPartMap)) { // create two slots (names are prefixed)
+            foreach (SlotDefinition slot in rawTemplate.slots) {
+                string slotName = slot.name;
+                List<string> slotLimbs = slot.limbs.ToList();
+                if (slot.canMirror && containsOnlyMirroredLimbs(slotLimbs, rawPartMap)) { // create two slots (names are prefixed)
                     log("        slot " + slotName + " gets mirroring");
                     template.slots.Add(LEFT_PREFIX + slotName, slotLimbs.Select(s => LEFT_PREFIX + s).ToList());
                     template.slots.Add(RIGHT_PREFIX + slotName, slotLimbs.Select(s => RIGHT_PREFIX + s).ToList());
@@ -110,6 +111,20 @@ public class BodyTemplateProcessor {
                     if (rawTemplate.desiredSlots.Contains(slotName)) {
                         template.desiredSlots.Add(slotName);
                     }
+                }
+            }
+            foreach (SlotDefinition slot in rawTemplate.grabSlots) {
+                string slotName = slot.name;
+                List<string> slotLimbs = slot.limbs.ToList();
+                if (slot.canMirror && containsOnlyMirroredLimbs(slotLimbs, rawPartMap)) { // create two slots (names are prefixed)
+                    log("        grab slot " + slotName + " gets mirroring");
+                    template.grabSlots.Add(LEFT_PREFIX + slotName, slotLimbs.Select(s => LEFT_PREFIX + s).ToList());
+                    template.grabSlots.Add(RIGHT_PREFIX + slotName, slotLimbs.Select(s => RIGHT_PREFIX + s).ToList());
+                } else { // some  limbs are single, so mirrored limbs are duplicated within same slot
+                    slotLimbs = slotLimbs // copy some limbs with prefixes
+                        .SelectMany(s => rawPartMap[s].mirrored ? new[] { LEFT_PREFIX + s, RIGHT_PREFIX + s } : new[] { s })
+                        .ToList();
+                    template.grabSlots.Add(slotName, slotLimbs);
                 }
             }
         }

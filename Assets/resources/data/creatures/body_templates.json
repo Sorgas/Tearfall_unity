@@ -108,17 +108,20 @@
         }
     ],
     "slots": [
-        ["head", "head"], 
-//        ["neck", "neck"], 
-        ["hand", "hand"], 
+        {"name": "head", "limbs": ["head"]},
+        {"name": "hands", "limbs": ["hand"], "canMirror" :  false},
+        {"name": "body", "limbs": ["upper torso", "lower torso", "upper arm"]},
+        {"name": "legs", "limbs": [ "lower torso", "upper leg"]},
+        {"name": "feet", "limbs": ["foot"], "canMirror" :  false}
+// TODO ?        ["neck", "neck"], 
 //        ["lower arm", "lower arm"], 
-        ["body", "upper torso", "lower torso", "upper arm"],
-        ["legs", "lower torso", "upper leg"], 
-        ["foot", "foot"], 
 //        ["finger", "second finger"], 
 //        ["belt", "lower torso"], 
 //        ["cloak", "neck"], 
 //        ["backpack", "upper torso"]
+    ],
+    "grabSlots": [
+        {"name": "hand", "limbs": ["hand"]}
     ]
 },
     {

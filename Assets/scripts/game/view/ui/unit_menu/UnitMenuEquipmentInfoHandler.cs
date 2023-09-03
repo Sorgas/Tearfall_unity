@@ -1,19 +1,32 @@
+using System.Collections.Generic;
 using game.model.component.unit;
-using game.view.ui.util;
 using Leopotam.Ecs;
-using TMPro;
 using util.lang.extension;
 
 namespace game.view.ui.unit_menu {
     public class UnitMenuEquipmentInfoHandler : UnitMenuTab {
-        public TextMeshProUGUI statusText;
-        public ProgressBarHandler sleepNeed;
-        public ProgressBarHandler hunger;
-        public ProgressBarHandler thirst;
-    
-        // TODO lists for injures
+        public EquipmentSlotHandler headSlot;
+        public EquipmentSlotHandler bodySlot;
+        public EquipmentSlotHandler handsSlot;
+        public EquipmentSlotHandler legsSlot;
+        public EquipmentSlotHandler feetSlot;
+        public EquipmentSlotHandler rightHandSlot;
+        public EquipmentSlotHandler leftHandSlot;
+        private Dictionary<string, EquipmentSlotHandler> slotToViewMap = new();
+
+        public UnitMenuEquipmentInfoHandler() {
+            slotToViewMap.Add("head", headSlot);
+            slotToViewMap.Add("right hand", headSlot);
+            slotToViewMap.Add("left hand", headSlot);
+            slotToViewMap.Add("body", headSlot);
+            slotToViewMap.Add("legs", headSlot);
+            slotToViewMap.Add("feet", headSlot);
+        }
 
         public override void initFor(EcsEntity unit) {
+            UnitEquipmentComponent equipment = unit.take<UnitEquipmentComponent>();
+            // equipment.slots[].item;
+
             // HealthComponent component = unit.take<HealthComponent>();
             // UnitNeedComponent needs = unit.take<UnitNeedComponent>();
             // statusText.text = component.overallStatus;

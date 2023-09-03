@@ -20,8 +20,8 @@ using static types.action.TaskPriorities;
 namespace game.model.system.unit {
 /**
  * 1. find tasks for all units (without assignment)
- *      2. if multiple units selected one task, keep only nearest unit, drop others (tasks for others will be selected on next tick)
- *      3. assign tasks to remaining units (should be 1-to-1)
+ * 2. if multiple units selected one task, keep only nearest unit, drop others (tasks for others will be selected on next tick)
+ * 3. assign tasks to remaining units (should be 1-to-1)
  * 4. repeat 1 for units without tasks
  */
 public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {

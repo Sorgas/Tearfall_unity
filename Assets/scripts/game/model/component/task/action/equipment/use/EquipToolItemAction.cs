@@ -17,7 +17,7 @@ namespace game.model.component.task.action.equipment.use {
             name = "equip tool action";
             onFinish = () => {
                 prepareSlotForEquippingTool();
-                equipment.grabSlots.Values.First(slot => slot.isGrabFree()).grabbedItem = item;
+                equipment.grabSlots.Values.First(slot => slot.isGrabFree()).item = item;
                 equipment.hauledItem = EcsEntity.Null;
                 Debug.Log(item.Get<ItemComponent>().type + " equipped as tool");
                 //TODO select one or more hands to maintain main/off hand logic
@@ -38,8 +38,8 @@ namespace game.model.component.task.action.equipment.use {
 
         // drops item from grab slot to ground and clears slot
         private void dropGrabbedItemFromSlot(GrabEquipmentSlot slot) {
-            EcsEntity droppedItem = slot.grabbedItem;
-            slot.grabbedItem = EcsEntity.Null;
+            EcsEntity droppedItem = slot.item;
+            slot.item = EcsEntity.Null;
             container.transition.fromUnitToGround(droppedItem, performer);
         }
 

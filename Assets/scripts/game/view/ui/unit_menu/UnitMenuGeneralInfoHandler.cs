@@ -46,11 +46,11 @@ namespace game.view.ui.unit_menu {
             string leftSlot = findSlotName(equipment.grabSlots.Keys, "left");
             string rightSlot = findSlotName(equipment.grabSlots.Keys, "right");
             if(leftSlot != null && rightSlot != null && leftSlot != rightSlot) {
-                showSlot(equipment.grabSlots[rightSlot].grabbedItem, slotHandler1, toolText1);
-                showSlot(equipment.grabSlots[leftSlot].grabbedItem, slotHandler2, toolText2);
+                showSlot(equipment.grabSlots[rightSlot].item, slotHandler1, toolText1);
+                showSlot(equipment.grabSlots[leftSlot].item, slotHandler2, toolText2);
             } else {
-                List<EcsEntity> items = equipment.grabSlots.Values.Where(slot => slot.grabbedItem != EcsEntity.Null)
-                    .Select(slot => slot.grabbedItem).Take(2).ToList();
+                List<EcsEntity> items = equipment.grabSlots.Values.Where(slot => slot.item != EcsEntity.Null)
+                    .Select(slot => slot.item).Take(2).ToList();
                 if(items.Count >= 1) showSlot(items[0], slotHandler1, toolText1);
                 if(items.Count >= 2) showSlot(items[1], slotHandler2, toolText2);
             }

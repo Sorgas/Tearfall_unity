@@ -2,6 +2,7 @@
 using System.Linq;
 using game.model.component.unit;
 using Leopotam.Ecs;
+using MoreLinq;
 using types.unit;
 
 namespace generation.unit {
@@ -9,18 +10,10 @@ namespace generation.unit {
 
         public UnitEquipmentComponent generate(CreatureType type) {
             var component = new UnitEquipmentComponent();
-            component.slots = new Dictionary<string, EquipmentSlot>();
-            component.grabSlots = new Dictionary<string, GrabEquipmentSlot>();
-            foreach (var pair in type.slots) {
-                EquipmentSlot slot;
-                if (isGrabSlot(pair.Key, type)) {
-                    slot = new GrabEquipmentSlot(pair.Key, pair.Value);
-                    component.grabSlots.Add(pair.Key, (GrabEquipmentSlot)slot);
-                } else {
-                    slot = new EquipmentSlot(pair.Key, pair.Value);
-                }
-                component.slots.Add(pair.Key, slot);
-            }
+            component.slots = type.slots
+                .ToDictionary(pair => pair.Key, pair => new WearEquipmentSlot(pair.Key, pair.Value));
+            component.grabSlots = type.grabSlots
+                .ToDictionary(pair => pair.Key, pair => new GrabEquipmentSlot(pair.Key, pair.Value));
             component.items = new HashSet<EcsEntity>();
             return component;
         }

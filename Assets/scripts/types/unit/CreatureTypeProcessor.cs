@@ -17,7 +17,7 @@ namespace types.unit {
             // Debug.Log("processing creature type  " + type.name);
 
             if (!typeMap.bodyTemplates.ContainsKey(raw.bodyTemplate)) {
-                Debug.LogWarning("Creature " + type.name + " has invalid body template " + raw.bodyTemplate);
+                Debug.LogWarning($"Creature {type.name} has invalid body template {raw.bodyTemplate}");
                 return null;
             }
 
@@ -37,6 +37,9 @@ namespace types.unit {
             }
             foreach (var slot in template.slots) {
                 type.slots.Add(slot.Key, new List<string>(slot.Value));
+            }
+            foreach (var slot in template.grabSlots) {
+                type.grabSlots.Add(slot.Key, new List<string>(slot.Value));
             }
             type.desiredSlots.AddRange(template.desiredSlots);
             if (raw.desiredSlots.Count > 0) {

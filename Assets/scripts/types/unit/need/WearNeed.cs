@@ -9,13 +9,14 @@ using util.item;
 using util.lang.extension;
 
 namespace types.unit.need {
+// need for wearing clothes. creates action for equipping wear items first for desired slots with high priority, and then to other slots with medium priority
 public class WearNeed : Need {
 
-    public WearNeed() : base() { }
-
     public override int getPriority(float value) {
+        // TODO health needs if desired slots are empty, JOB for other slots
         return TaskPriorities.HEALTH_NEEDS;
     }
+    
     public override Action tryCreateAction(LocalModel model, EcsEntity unit) {
         if (!unit.Has<UnitCalculatedWearNeedComponent>()) return null;
         UnitCalculatedWearNeedComponent wear = unit.take<UnitCalculatedWearNeedComponent>();
@@ -24,6 +25,7 @@ public class WearNeed : Need {
         if (item != EcsEntity.Null) return new EquipWearItemAction(item);
         return null;
     }
+    
     public override UnitTaskAssignment createDescriptor(LocalModel model, EcsEntity unit) {
         if (!unit.Has<UnitCalculatedWearNeedComponent>()) return null;
         UnitCalculatedWearNeedComponent wear = unit.take<UnitCalculatedWearNeedComponent>();
@@ -33,19 +35,5 @@ public class WearNeed : Need {
             return new UnitTaskAssignment(item, model.itemContainer.getItemAccessPosition(item), "wear", unit, TaskPriorities.HEALTH_NEEDS);
         return null;
     }
-
-
-    //
-    // public override boolean isSatisfied(CanvasScaler.Unit unit) {
-    //     throw new System.NotImplementedException();
-    // }
-    //
-    // public override Task tryCreateTask(CanvasScaler.Unit unit) {
-    //     throw new System.NotImplementedException();
-    // }
-    //
-    // public override MoodEffect getMoodPenalty(CanvasScaler.Unit unit, NeedState state) {
-    //     throw new System.NotImplementedException();
-    // }
 }
 }
