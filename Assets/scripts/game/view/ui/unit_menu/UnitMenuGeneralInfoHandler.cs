@@ -63,11 +63,10 @@ namespace game.view.ui.unit_menu {
         }
 
         private void showSlot(EcsEntity item, EquipmentSlotHandler slotHandler, TextMeshProUGUI text) {
+            slotHandler.showSlot(item, "hand");
             if (item == EcsEntity.Null) {
-                slotHandler.showEmpty("hand");
                 text.text = "none";
             } else {
-                slotHandler.showItem(item, 1);
                 text.text = item.name();
             }
         }

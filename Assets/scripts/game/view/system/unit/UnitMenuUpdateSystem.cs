@@ -5,19 +5,14 @@ using game.view.ui.unit_menu;
 using Leopotam.Ecs;
 
 namespace game.view.system.unit {
-    public class UnitMenuUpdateSystem : IEcsRunSystem {
-        public EcsFilter<UnitVisualComponent> filter;
+// TODO make menus to be updated only on changes in the entity
+public class UnitMenuUpdateSystem : IEcsRunSystem {
 
-        public void Run() {
-            if (WindowManager.get().activeWindowName != UnitMenuHandler.NAME) return;
+    public void Run() {
+        if (WindowManager.get().activeWindowName == UnitMenuHandler.NAME) {
             UnitMenuHandler menu = (UnitMenuHandler)WindowManager.get().activeWindow;
-            foreach (int i in filter) {
-                EcsEntity unit = filter.GetEntity(i);
-                if (menu.unit == unit) {
-                    menu.updateFor(unit);
-                    return;
-                }
-            }
+            menu.updateFor(menu.unit);
         }
     }
+}
 }

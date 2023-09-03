@@ -7,6 +7,8 @@ using util.lang.extension;
 using Image = UnityEngine.UI.Image;
 
 namespace game.view.ui.util {
+// handles tooltip objects linked to this object
+// tooltips should be adjacent to current object
 public class TooltipParentHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
     public List<GameObject> tooltips = new();
     

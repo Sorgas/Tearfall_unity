@@ -12,6 +12,7 @@ using UnityEngine.UI;
 
 namespace game.view.ui.workbench {
 // inits button for item. shows and hides tooltip on mouse hover    
+// TODO make tooltips to be related to mouse pointer
 public class ItemButtonWithTooltipHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
     // button
     public Image background;
@@ -19,6 +20,7 @@ public class ItemButtonWithTooltipHandler : MonoBehaviour, IPointerEnterHandler,
     public TextMeshProUGUI quantityText;
 
     // tooltip
+    public bool tooltipEnabled;
     public RectTransform tooltip;
     public TextMeshProUGUI title;
     public TextMeshProUGUI text;
@@ -30,16 +32,24 @@ public class ItemButtonWithTooltipHandler : MonoBehaviour, IPointerEnterHandler,
         List<RaycastResult> results = new();
         EventSystem.current.RaycastAll(eventData, results);
         bool isOverButton = results.Count(result => result.gameObject == background.gameObject) > 0;
-        tooltip.gameObject.SetActive(isOverButton);
+        tooltip.gameObject.SetActive(tooltipEnabled && isOverButton);
+    }
+    
+    public void initFor(ItemComponent item) {
+        showItem(item);
+        quantityText.text = "";
     }
     
     public void initFor(ItemComponent item, int amount) {
+        showItem(item);
+        quantityText.text = amount + "";
+    }
+
+    private void showItem(ItemComponent item) {
         string typeName = item.type;
         Material_ material = MaterialMap.get().material(item.material);
         image.sprite = ItemTypeMap.get().getSprite(typeName);
         image.color = MaterialMap.get().material(item.material).color;
-        quantityText.text = amount + "";
-
         // TODO add item stats
         title.text = material.name + " " + typeName;
         text.text = item.tags // TODO add item description as main text
@@ -53,7 +63,7 @@ public class ItemButtonWithTooltipHandler : MonoBehaviour, IPointerEnterHandler,
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
-        tooltip.gameObject.SetActive(true);
+        tooltip.gameObject.SetActive(tooltipEnabled);
     }
 
     public void OnPointerExit(PointerEventData eventData) {
