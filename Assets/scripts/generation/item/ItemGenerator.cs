@@ -12,6 +12,7 @@ using UnityEngine;
 using util.lang.extension;
 
 namespace generation.item {
+    // should be the only place item entities are populated
     public class ItemGenerator {
         
         public EcsEntity generateItem(string typeName, int material, EcsEntity entity) =>
@@ -51,6 +52,7 @@ namespace generation.item {
             return generateItem(type.productItemType, type.productMaterial, entity);
         }
 
+        // adds optional item components not all items should have
         private void addComponentsFromType(ItemType type, ref EcsEntity item) {
             if (type.components.ContainsKey("wear")) {
                 string[] args = type.components["wear"];

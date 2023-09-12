@@ -5,9 +5,7 @@ using game.model.component.task.action.target;
 using game.view.util;
 using Leopotam.Ecs;
 using types;
-using types.action;
 using types.unit;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace game.model.component.unit {
@@ -53,6 +51,8 @@ namespace game.model.component.unit {
 
     public struct MoodComponent {
         public string status;
+        public int value;
+        public List<UnitMoodModifier> modifiers;
     }
 
     public struct UnitJobsComponent {
@@ -102,5 +102,11 @@ public struct UnitAttributesComponent {
     public int intelligence;
     public int will;
     public int charisma;
+}
+
+public struct UnitMoodModifier {
+    public string name;
+    public int value;
+    public int remainingTime; // hours
 }
 }

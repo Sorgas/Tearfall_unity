@@ -10,12 +10,6 @@ namespace util.lang.extension {
             }
         }
 
-        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action) {
-            foreach (var e in source) {
-                action(e);
-            }
-        }
-        
         public static Dictionary<K, V> ToDictionary<K, V, T>(this IEnumerable<T> source, Func<T, K> keyMapper, Func<T, V> valueMapper, Func<V, V, V> valueCombiner) {
             Dictionary<K, V> dictionary = new();
             foreach(var element in source) {

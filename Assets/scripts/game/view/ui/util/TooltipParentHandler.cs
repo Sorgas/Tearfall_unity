@@ -3,62 +3,72 @@ using System.Linq;
 using MoreLinq;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using util.lang.extension;
-using Image = UnityEngine.UI.Image;
 
 namespace game.view.ui.util {
-// handles tooltip objects linked to this object
+// handles tooltip objects linked to this object. On init, adds TooltipHandler component to tooltip objects
 // tooltips should be adjacent to current object
 public class TooltipParentHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
-    public List<GameObject> tooltips = new();
-    
-    private List<TooltipHandler> handlers = new();
+    public List<GameObject> tooltips = new(); // to be filled from editor
+    private Dictionary<GameObject, bool> tooltipMap = new(); // tooltip -> enabled, contains only populated tooltips
+    private bool inited;
     private bool debug = false;
-    
+
     public void Start() {
-        tooltips.ForEach(tooltip => {
-            tooltip.SetActive(false);
+        tooltips.ForEach(tooltip => addTooltipObject(tooltip, true));
+        if (mouseOverTooltipParent()) showEnabledTooltips();
+    }
+
+    public void addTooltipObject(GameObject tooltip, bool enabled) {
+        if (!tooltipMap.ContainsKey(tooltip)) {
+            tooltipMap.Add(tooltip, enabled); // enabled by default
             TooltipHandler handler = tooltip.AddComponent<TooltipHandler>();
             handler.setParent(this);
-            handlers.Add(handler);
-        });
+        }
+        tooltipMap[tooltip] = enabled; // enablement can change
+        if (!enabled) tooltip.GetComponent<TooltipHandler>().hide();
     }
 
-    public void mouseExitedTooltip() {
-        checkTooltipClosing();
+    // called from tooltips
+    public void mouseExitedTooltip(TooltipHandler handler) {
+        closeUnhoveredTooltips();
     }
 
+    // show enabled tooltips
     public void OnPointerEnter(PointerEventData eventData) {
         log("in tooltipParent");
-        handlers.ForEach(handler => handler.show());
+        showEnabledTooltips();
     }
 
     public void OnPointerExit(PointerEventData eventData) {
         log("out tooltipParent");
-        checkTooltipClosing();
+        closeUnhoveredTooltips();
+    }
+
+    private void showEnabledTooltips() {
+        tooltipMap
+            .Where(pair => pair.Value)
+            .ForEach(pair => pair.Key.GetComponent<TooltipHandler>().show());
     }
 
     // closes all active tooltips not hovered by mouse
-    private void checkTooltipClosing() {
+    private void closeUnhoveredTooltips() {
+        List<GameObject> raycastedObjects = raycastOnMouse();
+        tooltipMap
+            .Where(pair => !raycastedObjects.Contains(pair.Key) || !pair.Value) // not hovered or disabled
+            .ForEach(pair => pair.Key.GetComponent<TooltipHandler>().hide());
+    }
+
+    private bool mouseOverTooltipParent() => raycastOnMouse().Count(go => go == gameObject) > 0;
+
+    private List<GameObject> raycastOnMouse() {
         PointerEventData eventData = new(EventSystem.current) { position = Input.mousePosition };
         List<RaycastResult> results = new();
         EventSystem.current.RaycastAll(eventData, results);
-        List<GameObject> raycastedObjects = results
-            .Where(result => result.gameObject.hasComponent<TooltipHandler>())
-            .Select(result => result.gameObject)
-            .Where(go => tooltips.Contains(go))
-            .ToList();
-        foreach (var handler in handlers) {
-            if (raycastedObjects.Contains(handler.gameObject)) {
-                handler.show();
-            } else {
-                handler.hide();
-            }
-        }
+        return results.Select(result => result.gameObject).ToList();
     }
 
     private void log(string message) {
-        if(debug) Debug.Log(message);
+        if (debug) Debug.Log(message);
     }
 }
 }

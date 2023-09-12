@@ -17,7 +17,7 @@ namespace game.model.component.task.action {
     // base action for building constructions and buildings.
     // defines bringing items to designation, removing other items from designation position, consuming items.
     // TODO add place and offsiteposition after start validation
-    public class GenericBuildingAction : Action {
+    public abstract class GenericBuildingAction : Action {
         protected EcsEntity designation;
         protected readonly GenericBuildingOrder order;
         private Vector3Int offSitePosition; // used to remove items and performer out of site

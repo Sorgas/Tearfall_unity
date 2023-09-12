@@ -12,7 +12,7 @@ public class TooltipHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerExit(PointerEventData eventData) {
         log("out tooltip");
-        parent.mouseExitedTooltip();
+        parent.mouseExitedTooltip(this);
     }
 
     public void show() {

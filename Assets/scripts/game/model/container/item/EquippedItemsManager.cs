@@ -11,13 +11,11 @@ namespace game.model.container.item {
     * To equip some wear item or do any other manipulation with equipment, unit should has at least one grab slot free.
     * Unit hauls items in grab slots.
     * TODO add item requirements (1/2 hands)
-    * TODO add layers
     *
     * @author Alexander on 06.02.2020.
     */
     public class EquippedItemsManager {
-        // item to unit mapping
-        public Dictionary<EcsEntity, EcsEntity> equippedItems = new();
+        public Dictionary<EcsEntity, EcsEntity> equippedItems = new(); // item -> unit
         
         // registers item as equipped by unit
         public void addItemToUnit(EcsEntity item, EcsEntity unit) {

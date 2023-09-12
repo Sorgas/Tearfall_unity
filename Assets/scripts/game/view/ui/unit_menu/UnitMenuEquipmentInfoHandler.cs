@@ -11,8 +11,8 @@ public class UnitMenuEquipmentInfoHandler : UnitMenuTab {
     public EquipmentSlotHandler handsSlot;
     public EquipmentSlotHandler legsSlot;
     public EquipmentSlotHandler feetSlot;
-    public EquipmentSlotHandler rightHandSlot;
-    public EquipmentSlotHandler leftHandSlot;
+    public EquipmentSlotItemIconHandler rightHandSlot;
+    public EquipmentSlotItemIconHandler leftHandSlot;
 
     public override void initFor(EcsEntity unit) {
         UnitEquipmentComponent equipment = unit.take<UnitEquipmentComponent>();
@@ -28,14 +28,19 @@ public class UnitMenuEquipmentInfoHandler : UnitMenuTab {
 
     private void fillSlot(EquipmentSlotHandler handler, string name, UnitEquipmentComponent equipment) {
         if (equipment.slots.ContainsKey(name)) {
-            handler.showSlot(equipment.slots[name].item, "none");
+            handler.showSlot(equipment.slots[name]);
         }
     }
     
-    private void fillGrabSlot(EquipmentSlotHandler handler, string name, UnitEquipmentComponent equipment) {
+    private void fillGrabSlot(EquipmentSlotItemIconHandler handler, string name, UnitEquipmentComponent equipment) {
         if (equipment.grabSlots.ContainsKey(name)) {
-            handler.showSlot(equipment.grabSlots[name].item, "hand");
+            handler.initFor(equipment.grabSlots[name].item, -1);
         }
+    }
+
+    // immediately drops items from unit
+    private void handleDropItemButton() {
+        
     }
 }
 }

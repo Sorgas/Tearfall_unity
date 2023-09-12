@@ -22,7 +22,8 @@ namespace game.model.component.task.action.equipment {
             this.item = item;
         }
 
-        protected bool validate() {
+        // validates that item not used by other tasks
+        public override bool validate() {
             if (!base.validate()) return false;
             if (!entityCanBeLocked(item)) {
                 Debug.LogWarning("item " + item + " locked to another task.");

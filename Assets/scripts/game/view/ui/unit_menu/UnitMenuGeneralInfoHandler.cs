@@ -2,77 +2,74 @@ using System.Collections.Generic;
 using System.Linq;
 using game.model.component.unit;
 using game.view.system.mouse_tool;
-using game.view.util;
 using Leopotam.Ecs;
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
 using util.lang.extension;
 
 namespace game.view.ui.unit_menu {
-    public class UnitMenuGeneralInfoHandler : UnitMenuTab {
-        public TextMeshProUGUI nameNicknameProfessionText;
-        public TextMeshProUGUI ageText;
-        public TextMeshProUGUI healthMoodWealthText;
-    
-        public EquipmentSlotHandler slotHandler1;
-        public TextMeshProUGUI toolText1;
-    
-        public EquipmentSlotHandler slotHandler2;
-        public TextMeshProUGUI toolText2;
-    
-        public Image activityImage;
-        public TextMeshProUGUI activityText;
-        public Button moveToButton;
-    
-        public override void initFor(EcsEntity unit) {
-            UnitComponent unitComponent = unit.take<UnitComponent>();
-            nameNicknameProfessionText.text = unit.name(); // TODO add nickname, profession
-            ageText.text = "Age: " + unit.take<AgeComponent>().age;
-            healthMoodWealthText.text = unit.take<HealthComponent>().overallStatus + ", "
-                                                                                   + unit.take<MoodComponent>().status + ", "
-                                                                                   + unit.take<OwnershipComponent>().wealthStatus;
-            showTools(unit);
-            showActivity(unit);
-            // TODO if unit is player-controlled
-            moveToButton.onClick.AddListener(() => {
-                MouseToolManager.get().setUnitMovementTarget(unit);
-            });
-        }
+public class UnitMenuGeneralInfoHandler : UnitMenuTab {
+    public TextMeshProUGUI nameNicknameProfessionText;
+    public TextMeshProUGUI ageText;
+    public TextMeshProUGUI healthMoodWealthText;
 
-        // shows images of tools in hands or empty-hand icon
-        private void showTools(EcsEntity unit) {
-            UnitEquipmentComponent equipment = unit.take<UnitEquipmentComponent>();
-            string leftSlot = findSlotName(equipment.grabSlots.Keys, "left");
-            string rightSlot = findSlotName(equipment.grabSlots.Keys, "right");
-            if(leftSlot != null && rightSlot != null && leftSlot != rightSlot) {
-                showSlot(equipment.grabSlots[rightSlot].item, slotHandler1, toolText1);
-                showSlot(equipment.grabSlots[leftSlot].item, slotHandler2, toolText2);
-            } else {
-                List<EcsEntity> items = equipment.grabSlots.Values.Where(slot => slot.item != EcsEntity.Null)
-                    .Select(slot => slot.item).Take(2).ToList();
-                if(items.Count >= 1) showSlot(items[0], slotHandler1, toolText1);
-                if(items.Count >= 2) showSlot(items[1], slotHandler2, toolText2);
-            }
-        }
+    public EquipmentSlotItemIconHandler slotHandler1;
+    public TextMeshProUGUI toolText1;
 
-        private void showActivity(EcsEntity unit) {
-            if (!unit.Has<UnitCurrentActionComponent>()) return;
-            // TODO activity image.
-            activityText.text = unit.take<UnitCurrentActionComponent>().action.name;
-        }
+    public EquipmentSlotItemIconHandler slotHandler2;
+    public TextMeshProUGUI toolText2;
 
-        private void showSlot(EcsEntity item, EquipmentSlotHandler slotHandler, TextMeshProUGUI text) {
-            slotHandler.showSlot(item, "hand");
-            if (item == EcsEntity.Null) {
-                text.text = "none";
-            } else {
-                text.text = item.name();
-            }
-        }
+    public Image activityImage;
+    public TextMeshProUGUI activityText;
+    public Button moveToButton;
 
-        private string findSlotName(IEnumerable<string> names, string substring) {
-            return names.Where(name => name.Contains(substring)).FirstOrDefault();
+    public override void initFor(EcsEntity unit) {
+        UnitComponent unitComponent = unit.take<UnitComponent>();
+        nameNicknameProfessionText.text = unit.name(); // TODO add nickname, profession
+        ageText.text = "Age: " + unit.take<AgeComponent>().age;
+        healthMoodWealthText.text =
+            unit.take<HealthComponent>().overallStatus + ", " +
+            unit.take<MoodComponent>().status + ", " + 
+            unit.take<OwnershipComponent>().wealthStatus;
+        showTools(unit);
+        showActivity(unit);
+        // TODO if unit is player-controlled
+        moveToButton.onClick.AddListener(() => { MouseToolManager.get().setUnitMovementTarget(unit); });
+    }
+
+    // shows images of tools in hands or empty-hand icon
+    private void showTools(EcsEntity unit) {
+        UnitEquipmentComponent equipment = unit.take<UnitEquipmentComponent>();
+        string leftSlot = findSlotName(equipment.grabSlots.Keys, "left");
+        string rightSlot = findSlotName(equipment.grabSlots.Keys, "right");
+        if (leftSlot != null && rightSlot != null && leftSlot != rightSlot) {
+            showSlot(equipment.grabSlots[rightSlot].item, slotHandler1, toolText1);
+            showSlot(equipment.grabSlots[leftSlot].item, slotHandler2, toolText2);
+        } else {
+            List<EcsEntity> items = equipment.grabSlots.Values.Where(slot => slot.item != EcsEntity.Null)
+                .Select(slot => slot.item).Take(2).ToList();
+            if (items.Count >= 1) showSlot(items[0], slotHandler1, toolText1);
+            if (items.Count >= 2) showSlot(items[1], slotHandler2, toolText2);
         }
     }
+
+    private void showActivity(EcsEntity unit) {
+        if (!unit.Has<UnitCurrentActionComponent>()) return;
+        // TODO activity image.
+        activityText.text = unit.take<UnitCurrentActionComponent>().action.name;
+    }
+
+    private void showSlot(EcsEntity item, EquipmentSlotItemIconHandler slotHandler, TextMeshProUGUI text) {
+        slotHandler.initFor(item, -1);
+        if (item == EcsEntity.Null) {
+            text.text = "none";
+        } else {
+            text.text = item.name();
+        }
+    }
+
+    private string findSlotName(IEnumerable<string> names, string substring) {
+        return names.Where(name => name.Contains(substring)).FirstOrDefault();
+    }
+}
 }

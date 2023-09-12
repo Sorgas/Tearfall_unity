@@ -1,7 +1,7 @@
 [
 {
     "name": "log",
-    "description": "Part of a tree.",
+    "description": "",
     "components": ["fuel(1)"],
     "tags": ["material"],
     "stockpileCategory": "material",
@@ -10,7 +10,7 @@
     "color": "0xffffffff"
 }, {
     "name": "branch",
-    "description": "Small part of a tree.",
+    "description": "",
     "components": ["fuel(1)"],
     "stockpileCategory": "material",
     "stockpileMaterialTags": "wood",
@@ -79,7 +79,7 @@
     "atlasXY": [0, 2],
     "color": "0xffffffff"
 },{
-    "name": "animal_hide",
+    "name": "small_animal_hide",
     "description": "",
     "stockpileCategory": "material",
     "stockpileMaterialTags": "leather",

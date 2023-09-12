@@ -8,21 +8,18 @@ using util.lang.extension;
 using static types.action.ActionCheckingEnum;
 
 namespace game.model.component.task.action.zone {
-    // TODO add containers usage
+    // TODO add containers usage (store solid items to bins and barrels, grains to sacks)
     // when assigned, searches item that can be brought to stockpile, locks item and tile, then creates put to position action.
-    // Brings only one item
-    public class StoreItemToStockpileAction : Action {
+    // Brings only one item and then ends
+    public class StoreItemToStockpileAction : ZoneAction {
         private readonly ZoneActionTarget actionTarget;
-        private readonly EcsEntity zone;
         private Vector3Int targetTile = Vector3Int.back;
         private EcsEntity targetItem = EcsEntity.Null;
         private bool putActionCreated = false; // to check that put action will be created only once
         
-        // TODO use zone as target
-        public StoreItemToStockpileAction(EcsEntity zone) : base(new ZoneActionTarget(zone, ActionTargetTypeEnum.ANY)) {
+        public StoreItemToStockpileAction(EcsEntity zone) : base(zone, ActionTargetTypeEnum.ANY) {
             name = "haul item to " + zone.name();
             actionTarget = (ZoneActionTarget)target;
-            this.zone = zone;
             startCondition = () => {
                 if (targetTile == Vector3Int.back && !findFreeTile()) return FAIL;
                 if (targetItem == EcsEntity.Null && !findItem()) return FAIL;
@@ -46,5 +43,7 @@ namespace game.model.component.task.action.zone {
             targetItem = model.itemContainer.findingUtil.findForStockpile(zone.take<StockpileComponent>(), zone.take<ZoneComponent>().tiles, targetTile);
             return targetItem != EcsEntity.Null;
         }
+
+        public override bool validate() => true;
     }
 }

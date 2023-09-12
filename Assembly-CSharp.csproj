@@ -250,6 +250,7 @@
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\DesignationMouseTool.cs" />
      <Compile Include="Assets\scripts\game\view\ui\debug_tools\DebugToolsPanelHandler.cs" />
      <Compile Include="Assets\scripts\GlobalSettings.cs" />
+     <Compile Include="Assets\scripts\game\model\util\EquipmentSlotUtil.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\TaskComponents.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitVisualGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\ActionLockingUtility.cs" />
@@ -390,7 +391,7 @@
      <Compile Include="Assets\scripts\types\unit\need\RestNeed.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\WindowManagerMenu.cs" />
      <Compile Include="Assets\scripts\generation\zone\ZoneGenerator.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\unit_menu\EquipmentSlotHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\unit_menu\EquipmentSlotItemIconHandler.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\AvailableItemsManager.cs" />
      <Compile Include="Assets\scripts\game\model\container\PlantContainer.cs" />
      <Compile Include="Assets\scripts\game\view\ui\SelectorHandler.cs" />
@@ -453,8 +454,10 @@
      <Compile Include="Assets\scripts\types\plant\raw\RawPlantLifeStage.cs" />
      <Compile Include="Assets\scripts\game\input\GameInputManager.cs" />
      <Compile Include="Assets\scripts\mainMenu\MainMenuStageHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\SoundButton.cs" />
      <Compile Include="Assets\scripts\mainMenu\ButtonData.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskAssignment.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\unit_menu\EquipmentSlotHandler.cs" />
      <Compile Include="Assets\scripts\game\model\container\task\TaskCompletionUtil.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromContainerAction.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />
@@ -475,6 +478,7 @@
      <Folder Include="Assets\SharpUI\Textures" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <Folder Include="Assets\TextMesh Pro\Sprites" />
+     <Folder Include="Assets\UI_Buttons_Pack2" />
      <Folder Include="Assets\scripts\game\view\system\plant" />
      <None Include="Assets\resources\data\materials\metal.json" />
      <Folder Include="Assets\resources\icons\designation" />
@@ -500,6 +504,7 @@
      <Folder Include="Assets\SharpUI\Prefabs\UI\Button" />
      <None Include="Assets\resources\data\items\resources.json" />
      <Folder Include="Assets\scripts\util\input" />
+     <Folder Include="Assets\Shapeforms Audio Free Sound Effects\Arcane Activations Preview" />
      <Folder Include="Assets\resources\tilesets\plants\trees" />
      <Folder Include="Assets\scripts\game\model\component\task\action\target" />
      <Folder Include="Assets\scripts\game\model\component\item" />
@@ -542,6 +547,7 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <Folder Include="Assets\scripts\types\action" />
      <Folder Include="Assets\resources\tilesets\plants" />
+     <Folder Include="Assets\Shapeforms Audio Free Sound Effects\Arcane Activations Preview\AUDIO" />
      <Folder Include="Assets\scripts\generation\worldgen\generators\temperature" />
      <Folder Include="Assets\TextMesh Pro" />
      <Folder Include="Assets\scripts\game\model\component\task\action\zone" />
@@ -557,6 +563,7 @@
      <Folder Include="Assets\resources\data\materials" />
      <Folder Include="Assets\scripts\game\view\ui\toolbar" />
      <Folder Include="Assets\scripts\game\model\component\task\action" />
+     <Folder Include="Assets\FC User Interface SFX [Lite]\SFX" />
      <Folder Include="Assets\scripts\game\model\component\task\action\item" />
      <Folder Include="Assets\scripts\game\model\component\task\action\equipment\use" />
      <Folder Include="Assets\resources\prefabs\workbenchMenu" />
@@ -595,6 +602,7 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <Folder Include="Assets\scripts\types\unit\need" />
+     <Folder Include="Assets\Shapeforms Audio Free Sound Effects\Type Preview" />
      <Folder Include="Assets\resources\data\plants" />
      <Folder Include="Assets\scripts\game\model\component\task\action\equipment" />
      <Folder Include="Assets\scripts\game\model\action" />
@@ -631,6 +639,7 @@
      <None Include="Assets\resources\data\materials\stone.json" />
      <Folder Include="Assets\resources\icons\items" />
      <Folder Include="Assets\scripts\game\model\component\task\order" />
+     <Folder Include="Assets\FC User Interface SFX [Lite]" />
      <Folder Include="Assets\scripts\game\model\container" />
      <Folder Include="Assets\resources\prefabs\mainMenu" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
@@ -646,6 +655,7 @@
      <Folder Include="Assets\scripts\generation\worldgen\generators\elevation" />
      <None Include="Assets\resources\data\constructions.json" />
      <Folder Include="Assets\Scenes\LocalWorld\LocalWorldScene" />
+     <Folder Include="Assets\Shapeforms Audio Free Sound Effects\Type Preview\AUDIO" />
      <Folder Include="Assets\scripts\game\model\system\building" />
      <Folder Include="Assets\scripts\game\model\action\plant" />
      <Folder Include="Assets\resources\tilesets\items" />
@@ -671,6 +681,7 @@
      <None Include="Assets\resources\data\items\wear.json" />
      <None Include="Assets\resources\data\plants\trees.json" />
      <Folder Include="Assets\resources\ui" />
+     <Folder Include="Assets\Shapeforms Audio Free Sound Effects" />
      <Folder Include="Assets\SharpUI\Prefabs\UI\SkillTree" />
      <Folder Include="Assets\scripts\util\lang" />
      <Folder Include="Assets\scripts\mainMenu" />
@@ -692,6 +703,7 @@
      <Folder Include="Assets\scripts\game\model\system\plant" />
      <Folder Include="Assets\scripts\game\model\component\building" />
      <None Include="Assets\resources\data\recipes\recipes.json" />
+     <Folder Include="Assets\sound" />
      <Folder Include="Assets\scripts\util\TexturePacker\AssetPacker" />
      <None Include="Assets\resources\data\plants\bushes.json" />
      <Folder Include="Assets\SharpUI\Prefabs\UI" />

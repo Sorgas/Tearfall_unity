@@ -68,7 +68,9 @@ namespace game.model.component.task.action {
             action.task = task;
             return ActionCheckingEnum.NEW;
         }
-        
+
+        // should return false only if fail reason is unfixable by sub actions and action should be failed
+        public virtual bool validate() => true;
         protected void lockEntities(List<EcsEntity> entities) => ActionLockingUtility.lockEntities(entities, task);
         protected void unlockEntities(List<EcsEntity> entities) => ActionLockingUtility.unlockEntities(entities, task);
         protected void lockEntity(EcsEntity item) => ActionLockingUtility.lockEntity(item, task);

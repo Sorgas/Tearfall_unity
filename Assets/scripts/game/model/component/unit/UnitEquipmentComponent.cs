@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using game.model.component.item;
 using Leopotam.Ecs;
+using util;
+using util.lang.extension;
 
 namespace game.model.component.unit {
 // contains slots for wearable and holdable items (clothes and tools)
 public struct UnitEquipmentComponent {
     public Dictionary<string, WearEquipmentSlot> slots; // all slots of a creature (for wear)
     public Dictionary<string, GrabEquipmentSlot> grabSlots; // slots for tools (subset of all slots)
+    public readonly Dictionary<string, List<EcsEntity>> coverageItems;
+    // TODO add coverage map with protection values
     public HashSet<EcsEntity> items; // items in worn containers and in hands
     public bool desiredSlotsFilled;
     public EcsEntity hauledItem;
@@ -57,7 +61,9 @@ public abstract class AbstractEquipmentSlot {
 
 // for wearing items like clothes and armor
 public class WearEquipmentSlot : AbstractEquipmentSlot {
-    public EcsEntity item = EcsEntity.Null; //TODO mvp single item, add layers
+    public EcsEntity item = EcsEntity.Null; // wear item
+    public EcsEntity armorItem = EcsEntity.Null;
+    public EcsEntity overItem = EcsEntity.Null;
     
     public WearEquipmentSlot(string name, List<string> limbs) : base(name, limbs) { }
 }

@@ -20,13 +20,13 @@
 }, {
   "name": "make_gloves",
   "title": "Cloth glovess",
-  "itemName": "glove",
+  "itemName": "gloves",
   "ingredients": ["glove:cloth_roll:cloth:1"],
   "workAmount": 300
 }, {
   "name": "make_boots",
   "title": "Cloth boots",
-  "itemName": "boot",
+  "itemName": "boots",
   "ingredients": ["boot:cloth_roll:cloth:2"],
   "workAmount": 300
 }, {

@@ -2,19 +2,23 @@ using game.model.component.building;
 using game.model.component.task.action.target;
 using game.model.component.unit;
 using game.model.system;
+using game.view.ui.debug_tools;
 using Leopotam.Ecs;
 using types;
 using types.action;
 using types.unit.need;
+using UnityEngine;
 using util.lang.extension;
 
 // when units have medium values of rest need, they will do this action
 namespace game.model.component.task.action.needs {
     public class SleepInBedAction : Action {
+        private EcsEntity bed;
         private const float baseSleepSpeed = RestNeed.hoursToHealth / RestNeed.hoursToSafety / 8 / GameTime.ticksPerHour;
         private float initialRest;
 
         public SleepInBedAction(EcsEntity bed) : base(new BuildingActionTarget(bed, ActionTargetTypeEnum.EXACT)) {
+            this.bed = bed;
             startCondition = () => {
                 if (model.buildingContainer.getBuilding(bed.pos()) == bed 
                     && bed.Has<BuildingSleepFurnitureC>())
@@ -50,6 +54,14 @@ namespace game.model.component.task.action.needs {
         private float countRestSpeed(EcsEntity bed) {
             QualityEnum bedQuality = bed.Has<QualityComponent>() ? bed.take<QualityComponent>().quality : QualityEnum.AWFUL;
             return baseSleepSpeed * Needs.rest.getSleepSpeedByBedQuality(bedQuality);
+        }
+
+        public override bool validate() {
+            if (!bed.Has<BuildingSleepFurnitureC>()) {
+                Debug.LogWarning($"{name}: target building is not bed");
+                return false;
+            }
+            return true;
         }
     }
 }

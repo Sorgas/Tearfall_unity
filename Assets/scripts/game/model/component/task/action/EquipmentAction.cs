@@ -19,7 +19,8 @@ namespace game.model.component.task.action {
             name = "equipment action";
         }
 
-        protected virtual bool validate() {
+        // validates that unit has equipment
+        public override bool validate() {
             if (!performer.Has<UnitEquipmentComponent>()) {
                 Debug.LogWarning($"unit {performer} has no UnitEquipmentComponent.");
                 return false;

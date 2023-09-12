@@ -39,5 +39,7 @@ namespace game.model.component.task.action.needs {
                 performer.take<UnitVisualComponent>().handler.rotate(Orientations.N);
             };
         }
+        
+        public override bool validate() => true;
     }
 }

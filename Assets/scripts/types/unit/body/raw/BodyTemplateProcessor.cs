@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MoreLinq;
 using UnityEngine;
 using util.lang.extension;
 
@@ -82,7 +83,8 @@ public class BodyTemplateProcessor {
                     }
                     return false;
                 })
-                .ForEach(rawBodyPart => rawBodyPart.mirrored = true);
+                .ForEach
+                    (rawBodyPart => rawBodyPart.mirrored = true);
         }
 
         /**

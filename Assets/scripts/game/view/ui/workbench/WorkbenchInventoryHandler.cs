@@ -41,7 +41,7 @@ namespace game.view.ui.workbench {
         private void redraw() {
             if (entity.Has<ItemContainerComponent>()) {
                 int count = 0;
-                Dictionary<ItemComponent, int> items = groupItems(entity.take<ItemContainerComponent>().items);
+                Dictionary<EcsEntity, int> items = groupItems(entity.take<ItemContainerComponent>().items);
                 foreach (var pair in items) {
                     GameObject panel = PrefabLoader.create("itemButtonWithTooltip", scrollContent);
                     panel.transform.localPosition = getPanelPosition(panel.GetComponent<RectTransform>(), count);
@@ -53,9 +53,12 @@ namespace game.view.ui.workbench {
         }
         
         // groups items by itemType and material
-        private Dictionary<ItemComponent, int> groupItems(List<EcsEntity> items) {
-            return items.Select(item => item.take<ItemComponent>())
-                .GroupBy(component => component.type + component.material)
+        private Dictionary<EcsEntity, int> groupItems(List<EcsEntity> items) {
+            return items
+                .GroupBy(item => {
+                    ItemComponent component = item.take<ItemComponent>();
+                    return component.type + component.material;
+                })
                 .ToDictionary(grouping => grouping.First(), grouping => grouping.Count());
         }
         

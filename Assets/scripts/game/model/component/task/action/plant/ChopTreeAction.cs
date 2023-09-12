@@ -50,7 +50,7 @@ public class ChopTreeAction : ToolAction {
         return addPreAction(new EquipToolItemAction(item));
     }
 
-    protected override bool validate() {
+    public override bool validate() {
         return PlaceValidators.TREE_EXISTS.validate(target.pos, model);
     }
 }

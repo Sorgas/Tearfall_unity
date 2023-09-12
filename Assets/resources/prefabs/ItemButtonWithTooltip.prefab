@@ -726,6 +726,7 @@ GameObject:
   - component: {fileID: 7546658128980730965}
   - component: {fileID: 8758836454838868528}
   - component: {fileID: 905015390449669587}
+  - component: {fileID: 8023365746670653948}
   m_Layer: 5
   m_Name: ItemButtonWithTooltip
   m_TagString: Untagged
@@ -773,9 +774,10 @@ MonoBehaviour:
   background: {fileID: 1518155794101631779}
   image: {fileID: 2309979456032781979}
   quantityText: {fileID: 5261926551931364212}
+  tooltipEnabled: 0
   tooltip: {fileID: 8299351746296545541}
-  title: {fileID: 6430647014740016191}
-  text: {fileID: 5742934013630292742}
+  tooltipTitle: {fileID: 6430647014740016191}
+  tooltipText: {fileID: 5742934013630292742}
 --- !u!222 &8758836454838868528
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -840,3 +842,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8023365746670653948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8445689332976692909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f07b206dae241dda244298540bad89c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltips: []

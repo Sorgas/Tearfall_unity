@@ -13,7 +13,7 @@ public class ItemType {
     public HashSet<string> tags = new();
     // public List<string> parts = new(); // if set, player will see parts when selecting materials for crafting. // TODO post MVP
     // components
-    public Dictionary<string, string[]> components = new(); // component name to array of component arguments TODO refactor
+    public Dictionary<string, string[]> components = new(); // component name to array of component arguments
     public ToolItemType tool; // is set if this item could be used as tool
     // storage
     public string stockpileCategory;

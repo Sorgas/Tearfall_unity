@@ -53,7 +53,7 @@ public class FarmTileHoeingAction : ToolAction {
     }
     
     // validates that tile is not hoed already
-    protected override bool validate() {
+    public override bool validate() {
         return base.validate()
                && zone.IsAlive()
                && zone.take<ZoneComponent>().tiles.Contains(target.pos)
