@@ -11,7 +11,7 @@ namespace generation.unit {
             entity.Replace(component);
             if (type.desiredSlots.Count > 0) {
                 UnitWearNeedComponent wear = new UnitWearNeedComponent();
-                wear.desiredSlots = new List<string>(type.desiredSlots);
+                wear.desiredSlots = new List<string>(type.desiredSlots); // TODO use female slots
                 entity.Replace(wear);
                 // Debug.Log("[UnitGenerator] UnitWearNeedComponent added to unit");
             }

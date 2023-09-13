@@ -22,8 +22,8 @@
     "atlasXY": [2, 0]
 }, {
     "name": "gloves",
-    "description": "Wear for hand.",
-    "components": ["value(0)", "wear(hand,wear)"],
+    "description": "Wear for hands.",
+    "components": ["value(0)", "wear(hands,wear)"],
     "stockpileCategory": "wear",
     "stockpileMaterialTags": "cloth,leather",
     "atlasXY": [4, 0]

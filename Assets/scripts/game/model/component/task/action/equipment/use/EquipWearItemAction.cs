@@ -13,7 +13,7 @@ namespace game.model.component.task.action.equipment.use {
 public class EquipWearItemAction : PutItemToDestinationAction {
     public EquipWearItemAction(EcsEntity targetItem) : base(new SelfActionTarget(), targetItem) {
         name = $"equip {targetItem.name()}";
-        
+
         startCondition = () => {
             if (!validate()) return FAIL;
             lockEntity(item);
@@ -59,11 +59,8 @@ public class EquipWearItemAction : PutItemToDestinationAction {
         }
     }
 
-    private void updateWearNeed() {
-        if (performer.Has<UnitWearNeedComponent>()) {
-            performer.takeRef<UnitWearNeedComponent>().valid = false;
-        }
-    }
+    // drops component, so it can be recalculated 
+    private void updateWearNeed() => performer.Del<UnitCalculatedWearNeedComponent>();
 
     private void addItemToSlot() {
         ItemWearComponent wear = item.takeRef<ItemWearComponent>();

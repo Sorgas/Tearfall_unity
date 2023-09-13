@@ -4,6 +4,7 @@
         "title" : "Human",
         "description": "",
         "bodyTemplate": "humanoid",
+        "femaleDesiredSlots" : ["body"],
         "aspects" : ["equipment", "jobs"],
         "appearance" : {
             "atlas": "human",

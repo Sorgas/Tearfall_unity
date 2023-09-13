@@ -42,9 +42,8 @@ namespace types.unit {
                 type.grabSlots.Add(slot.Key, new List<string>(slot.Value));
             }
             type.desiredSlots.AddRange(template.desiredSlots);
-            if (raw.desiredSlots.Count > 0) {
-                type.desiredSlots.AddRange(raw.desiredSlots);
-            }
+            type.desiredSlots.AddRange(raw.desiredSlots);
+            type.femaleDesiredSlots.AddRange(raw.femaleDesiredSlots);
             // type.needs.AddRange(defaultNeeds);
             return type;
         }

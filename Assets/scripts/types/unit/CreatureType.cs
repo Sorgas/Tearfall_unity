@@ -13,6 +13,7 @@ public class CreatureType {
     public readonly Dictionary<string, List<string>> slots = new(); // slot name to default limbs
     public readonly Dictionary<string, List<string>> grabSlots = new(); // slot name to default limbs
     public readonly List<string> desiredSlots = new();
+    public readonly List<string> femaleDesiredSlots = new();
     public readonly List<Needs> needs = new();
     public readonly List<string> aspects = new();
 
@@ -37,6 +38,7 @@ public class RawCreatureType {
     public string description;
     public string bodyTemplate;
     public List<string> desiredSlots = new();
+    public List<string> femaleDesiredSlots = new();
     public List<string> aspects = new();
     public CreatureAppearance appearance;
     public Dictionary<string, float> statMap = new();

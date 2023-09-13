@@ -30,7 +30,7 @@ public class UnitNeedActionCreator {
     private Action createActionForPriority(LocalModel model, EcsEntity unit, int priority) {
         if (priority == HEALTH_NEEDS && unit.Has<UnitCalculatedWearNeedComponent>()) {
             UnitCalculatedWearNeedComponent wear = unit.take<UnitCalculatedWearNeedComponent>();
-            ItemSelector selector = new WearWithSlotItemSelector(wear.slotsToFill);
+            ItemSelector selector = new WearWithSlotItemSelector(wear.desiredSlotsToFill);
             EcsEntity item = model.itemContainer.findingUtil.findNearestItemBySelector(selector, unit.pos()); // TODO select best item?
             if (item != EcsEntity.Null) {
                 return new EquipWearItemAction(item);
