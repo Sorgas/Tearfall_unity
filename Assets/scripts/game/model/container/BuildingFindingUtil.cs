@@ -20,8 +20,7 @@ namespace game.model.container {
                 .Where(building => building.Has<BuildingSitFurnitureC>())
                 .Where(building => !building.Has<LockedComponent>())
                 .Where(chair => model.localMap.passageMap.inSameArea(position, chair.pos()))
-                .Where(chair => tableExistsInFrontOfChair(chair))
-                .FirstOrDefault();
+                .FirstOrDefault(chair => tableExistsInFrontOfChair(chair));
         }
 
         private bool tableExistsInFrontOfChair(EcsEntity chair) {

@@ -18,5 +18,14 @@
     "positionE" : [4,0],
     "positionW" : [4,0],
     "materials" : ["log/2"]
+  }, {
+    "name" : "table",
+    "tileset": "furniture",
+    "size": [1,2],
+    "positionN" : [7,0],
+    "positionS" : [7,0],
+    "positionE" : [5,0],
+    "positionW" : [5,0],
+    "materials" : ["log/4"]
   }
 ]
