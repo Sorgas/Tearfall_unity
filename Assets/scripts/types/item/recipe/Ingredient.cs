@@ -10,7 +10,7 @@ namespace types.item.recipe {
         public string key;                              // item/building part name, 'consumed', 'main'
         public List<string> itemTypes;                  // acceptable item types
         public string tag;                              // acceptable item tag
-        // public List<string> materials;                  // acceptable materials TODO allow defining specific materials
+        // public List<string> materials;               // acceptable materials TODO allow defining specific materials
         public int quantity;                            // number of items
 
         public List<int> allowedMaterials = new();   // -1 for any

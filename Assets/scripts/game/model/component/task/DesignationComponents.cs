@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Leopotam.Ecs;
-using types;
+﻿using types;
 using types.building;
 using UnityEngine;
 
@@ -24,6 +22,7 @@ namespace game.model.component.task {
         public string materialVariant; // for visual only
     }
 
+    // can be multi-tile
     public struct DesignationBuildingComponent {
         public BuildingType type;
         public Orientations orientation;

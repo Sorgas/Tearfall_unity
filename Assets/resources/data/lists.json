@@ -4,7 +4,7 @@
       "forge/make_pickaxe/make_axe/make_sickle/make_bow_saw",
       "tailor_shop/make_shirt/make_pants/make_backpack",
       "campfire/roast_meal/boil_meal/boil_water/boil_drink",
-      "kitchen/roast_meal/boil_meal/boil_water/boil_drink",
+      "kitchen/cook_simple_meal/cook_medium_meal/cook_noble_meal",
       "carpenter's table/make_barrel/make_bin",
       "tailor's table/make_shirt/make_pants/make_hat/make_gloves/make_boots/make_backpack",
       "sawing_rack/saw_log",

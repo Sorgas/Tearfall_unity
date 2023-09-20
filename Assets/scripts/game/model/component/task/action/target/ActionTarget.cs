@@ -11,11 +11,12 @@ using static game.model.component.task.action.target.ActionTargetStatusEnum;
 
 namespace game.model.component.task.action.target {
 public abstract class ActionTarget {
-    protected ActionTargetTypeEnum targetType;
+    protected readonly ActionTargetTypeEnum targetType;
     public ActionTargetTypeEnum type => targetType;
     protected readonly List<Vector3Int> emptyList = new();
 
     // should return current action target position or Vector3Int.back
+    // used to calculate proximity to target
     public virtual Vector3Int pos => Vector3Int.back;
 
     // should return all valid exact positions on same z-level (around center for NEAR). on pathfinding they are filtered to PASSABLE
@@ -54,7 +55,7 @@ public abstract class ActionTarget {
         throw new GameException("Unhandled ActionTargetType value: " + type);
     }
 
-    // should filter all positions by passability
+    // should filter all positions by passage
     public abstract List<Vector3Int> getAcceptablePositions(LocalModel model);
 
     private int getDistance(Vector3Int current, Vector3Int target, LocalModel model) {

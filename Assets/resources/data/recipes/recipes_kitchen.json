@@ -1,0 +1,23 @@
+[
+  {
+    "name": "cook_simple_meal",
+    "title": "Simple meal",
+    "itemName": "simple_meal",
+    "ingredients": ["meal:any:cookable:1"],
+    "workAmount": 200
+  }, {
+    "name": "cook_medium_meal",
+    "title": "Meal",
+    "itemName": "meal",
+    "ingredients": ["meal:any:cookable:1", "consumed:any:cookable:1"],
+    "uniqueIngredients": true,
+    "workAmount": 250
+  }, {
+    "name": "cook_noble_meal",
+    "title": "Noble meal",
+    "itemName": "noble_meal",
+    "ingredients": ["meal:any:cookable:1", "consumed:any:cookable:1", "consumed2:any:cookable:1"],
+    "uniqueIngredients": true,
+    "workAmount": 300
+  }
+]

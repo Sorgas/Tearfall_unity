@@ -1,6 +1,5 @@
 using game.model.component.task.order;
 using game.model.container;
-using game.model.system.plant;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -8,7 +7,8 @@ namespace game.model.component.task.action {
     public class BuildingAction : GenericBuildingAction {
 
         public BuildingAction(EcsEntity designation, BuildingOrder order) : base(designation, order) {
-            name = "building action";
+            name = $"{order.type.title} building action";
+            
             onFinish = () => {
                 model.buildingContainer.createBuilding(order);
                 PlantContainer container = model.plantContainer;

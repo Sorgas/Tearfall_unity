@@ -11,7 +11,8 @@ namespace types.item.recipe {
         public string newMaterial;                        // material of crafted item.
         public string newTag;                        // this tag will be added to product
         public string removeTag;                     // this tag will be removed from main ingredient item
-
+        public bool uniqueIngredients;                    // same itemtype, material and origin cannot be used for ingredients
+        
         public Dictionary<string, Ingredient> ingredients = new(); // all ingredients, mapped to parts, 'consumed' or 'main'
 
         public float workAmount;                          // increases crafting time
@@ -27,6 +28,7 @@ namespace types.item.recipe {
             description = raw.description;
             newTag = raw.newTag;
             removeTag = raw.removeTag;
+            uniqueIngredients = raw.uniqueIngredients;
             workAmount = raw.workAmount != 0 ? raw.workAmount : 1f;
             job = raw.job;
             skill = raw.skill;

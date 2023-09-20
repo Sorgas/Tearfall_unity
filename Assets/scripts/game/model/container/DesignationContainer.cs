@@ -50,9 +50,9 @@ namespace game.model.container {
                 type = type, orientation = orientation, itemType = itemType, material = material, amount = variant.amount, // TODO get amount from building type
                 materialVariant = MaterialMap.variateValue(materialName, itemType)
             });
-            if (!type.isSingleTile()) {
-                entity.Replace(createMultiPositionComponent(type, orientation, position));
-            }
+            // if (!type.isSingleTile()) {
+            //     entity.Replace(createMultiPositionComponent(type, orientation, position));
+            // }
             entity.Replace(new ItemContainerComponent { items = new List<EcsEntity>() });
             addDesignation(entity, position);
             Debug.Log("Construction designation created " + position);
@@ -98,14 +98,14 @@ namespace game.model.container {
             }
         }
 
-        private MultiPositionComponent createMultiPositionComponent(BuildingType type, Orientations orientation, Vector3Int position) {
-            MultiPositionComponent component = new() { positions = new List<Vector3Int>() };
-            for (int x = 0; x < type.size[0]; x++) {
-                for (int y = 0; y < type.size[1]; y++) {
-                    component.positions.Add(new Vector3Int(position.x + x, position.y + y, position.z));
-                }
-            }
-            return component;
-        }
+        // private MultiPositionComponent createMultiPositionComponent(BuildingType type, Orientations orientation, Vector3Int position) {
+        //     MultiPositionComponent component = new() { positions = new List<Vector3Int>() };
+        //     for (int x = 0; x < type.size[0]; x++) {
+        //         for (int y = 0; y < type.size[1]; y++) {
+        //             component.positions.Add(new Vector3Int(position.x + x, position.y + y, position.z));
+        //         }
+        //     }
+        //     return component;
+        // }
     }
 }

@@ -51,18 +51,15 @@ namespace game.model.component.task.action {
         public float progress = 0;
         public float maxProgress = 0;
 
-        protected Action(ActionTarget target) : this() {
+        protected Action(ActionTarget target) {
             this.target = target;
             target.init();
             assignmentCondition = (unit) => throw new NotImplementedException($"assignment condition for action {name} not implemented."); // prevent assigning unimplemented action
             startCondition = () => throw new NotImplementedException($"start condition for action {name} not implemented."); // prevent assigning unimplemented action
-        }
-
-        protected Action() {
             finishCondition = () => progress >= maxProgress;
             ticksConsumer = delta => progress += delta; // performs logic
         }
-
+        
         public ActionCheckingEnum addPreAction(Action action) {
             task.take<TaskActionsComponent>().addFirstPreAction(action);
             action.task = task;

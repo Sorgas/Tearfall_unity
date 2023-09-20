@@ -13,6 +13,7 @@ namespace game.model.component.task.action.equipment.use {
             onFinish = () => {
                 equipment.hauledItem = EcsEntity.Null;
                 model.itemContainer.transition.fromUnitToGround(item, performer, targetPosition);
+                unlockEntity(item);
             };
         }
     }

@@ -12,6 +12,7 @@ namespace types.item.recipe {
         public List<string> ingredients = new();
         public string newTag;
         public string removeTag;
+        public bool uniqueIngredients;
         public float workAmount; // increases crafting time
         public string job;
         public string skill;

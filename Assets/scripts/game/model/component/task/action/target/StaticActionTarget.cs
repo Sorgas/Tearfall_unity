@@ -5,12 +5,12 @@ using UnityEngine;
 namespace game.model.component.task.action.target {
 // points to immovable target, have precalculated values
 public abstract class StaticActionTarget : ActionTarget {
-    public override Vector3Int pos => staticPosition;
+    public override Vector3Int pos => staticPos;
     protected override List<Vector3Int> positions => staticPositions;
     protected override List<Vector3Int> lowerPositions => staticLowerPositions;
     protected override List<Vector3Int> upperPositions => staticUpperPositions;
     // precalculated values
-    private Vector3Int staticPosition;
+    private Vector3Int staticPos;
     private List<Vector3Int> staticPositions;
     private List<Vector3Int> staticLowerPositions;
     private List<Vector3Int> staticUpperPositions;
@@ -25,7 +25,8 @@ public abstract class StaticActionTarget : ActionTarget {
     protected virtual List<Vector3Int> calculateUpperPositions() => emptyList;
 
     public override void init() {
-        staticPosition = calculatePosition();
+        Debug.Log($"initing static action target {ToString()}");
+        staticPos = calculatePosition();
         staticPositions = calculatePositions();
         staticLowerPositions = calculateLowerPositions();
         staticUpperPositions = calculateUpperPositions();

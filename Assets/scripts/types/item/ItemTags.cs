@@ -19,7 +19,7 @@ public static class ItemTags {
     public static readonly ItemTag ORGANIC = new("organic"); // 
     public static readonly ItemTag FUEL = new("fuel");
     // food/corpses
-    public static readonly ItemTag COOKABLE = new("cookable"); // can be boiled or roasted
+    public static readonly ItemTag COOKABLE = new("cookable"); // can be cooked, 
     public static readonly ItemTag BREWABLE = new("brewable"); // item can be prepared into drink
     public static readonly ItemTag DRINKABLE = new("drinkable"); // TODO replace with aspect
     public static readonly ItemTag RAW = new("raw"); // raw cow meat piece

@@ -170,6 +170,7 @@ public class IntBounds3 : IntBounds2 {
         // return result;
     }
 
+    // returns all vectors in bounds
     public List<Vector3Int> toList() {
         List<Vector3Int> result = new();
         iterate(pos => result.Add(pos));

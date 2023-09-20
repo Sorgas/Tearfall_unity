@@ -26,5 +26,19 @@
     "passage" : "impassable",
     "access" : [-1, 0],
     "job" : "tailor"
+  }, {
+    "name" : "kitchen",
+    "title" : "Kitchen",
+    "description" : "Used to cook variety of meals.",
+    "tileset": "workbenches",
+    "size": [1,2],
+    "positionN" : [10,0],
+    "positionS" : [11,0],
+    "positionE" : [8,1],
+    "positionW" : [8,0],
+    "materials" : ["log/4"],
+    "passage" : "impassable",
+    "access" : [-1, 0],
+    "job" : "cook"
   }
 ]

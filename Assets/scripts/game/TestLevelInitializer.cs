@@ -37,11 +37,11 @@ public class TestLevelInitializer {
         GenerationState.get().preparationState.items.Add(new ItemData { material = "iron", type = "axe", quantity = 1 });
         GenerationState.get().preparationState.items.Add(new ItemData { material = "iron", type = "hoe", quantity = 1 });
         
-        GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "pants", quantity = 1});
-        GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "boots", quantity = 1});
-        GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "hat", quantity = 1});
-        GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "gloves", quantity = 1});
-        GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "shirt", quantity = 1});
+        // GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "pants", quantity = 1});
+        // GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "boots", quantity = 1});
+        // GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "hat", quantity = 1});
+        // GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "gloves", quantity = 1});
+        // GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "shirt", quantity = 1});
         
         GenerationState.get().preparationState.items.Add(new ItemData { material = "marble", type = "rock", quantity = 10 });
         GenerationState.get().preparationState.items.Add(new ItemData { material = "granite", type = "rock", quantity = 10 });

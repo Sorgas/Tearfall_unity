@@ -35,6 +35,7 @@ namespace game.model.component.task.action.equipment {
         protected static ActionTarget resolveItemContainerTarget(EcsEntity entity) {
             if (entity.Has<BuildingComponent>()) return new BuildingActionTarget(entity, ActionTargetTypeEnum.NEAR);
             if (entity.Has<ItemComponent>()) return new ItemActionTarget(entity);
+            if (entity.Has<DesignationComponent>()) return new DesignationActionTarget(entity);
             throw new GameException("unsupported item container type");
         }
     }

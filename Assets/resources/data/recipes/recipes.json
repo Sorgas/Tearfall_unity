@@ -15,15 +15,6 @@
     "itemName": "axe",
     "ingredients": ["main:bar:metal:1"]
 }, {
-    "name": "cook_meal",
-    "title": "Cook meal",
-    "ingredients": ["main:any:cookable:1"],
-    "newTag" : "prepared",
-    "removeTag" : "raw",
-    "iconName": "cook_meal",
-    "workAmount": "500",
-    "job": "cook"
-}, {
     "name": "boil_water",
     "title": "Boil water",
     "itemName": "liquid",

@@ -10,9 +10,9 @@ namespace game.model.component {
     }
 
     // for large objects
-    public struct MultiPositionComponent {
-        public List<Vector3Int> positions;
-    }
+    // public struct MultiPositionComponent {
+    //     public List<Vector3Int> positions;
+    // }
     
     public struct NameComponent {
         public string name;
