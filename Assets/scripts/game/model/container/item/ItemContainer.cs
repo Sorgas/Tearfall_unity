@@ -2,6 +2,7 @@
 using game.model.component;
 using game.model.component.building;
 using game.model.component.item;
+using game.model.component.task;
 using game.model.container.item.finding;
 using game.model.localmap;
 using Leopotam.Ecs;
@@ -41,7 +42,7 @@ public class ItemContainer : LocalModelUpdateContainer {
         if (item.Has<ItemContainedComponent>()) {
             EcsEntity container = item.take<ItemContainedComponent>().container;
             if (container.Has<ItemComponent>()) {
-                // containers with content cannot be contained in another container
+                // containers with content should not be contained in another container
                 return container.pos();
             }
             if (container.Has<BuildingComponent>()) {
@@ -52,38 +53,12 @@ public class ItemContainer : LocalModelUpdateContainer {
         }
         throw new ArgumentException("Unsupported item placement detected: " + item.name());
     }
-
-    // public void removeItem(EcsEntity item) {
-    //     if (!objects.contains(item)) {
-    //         Logger.ITEMS.logWarn("Removing not present item " + item.type.name);
-    //     } else {
-    //         Logger.ITEMS.logDebug("Removing item " + item.type.name);
-    //     }
-    //     if (isItemOnMap(item)) onMapItemsSystem.removeItemFromMap(item);
-    //     if (isItemInContainer(item)) containedItemsSystem.removeItemFromContainer(item);
-    //     if (isItemEquipped(item)) equippedItemsSystem.removeItemFromEquipment(item);
-    //     item.destroyed = true;
-    //     objects.remove(item);
-    // }
-    //
-    // public void removeItems(List<EcsEntity> items) {
-    //     items.forEach(this::removeItem);
-    // }
-    //
-    // public List<EcsEntity> getItemsInPosition(IntVector3 position) {
-    //     return new ArrayList<>(itemMap.getOrDefault(position, Collections.emptyList()));
-    // }
-    //
-    // public List<EcsEntity> getItemsInPosition(int x, int y, int z) {
-    //     return getItemsInPosition(cachePosition.set(x, y, z));
-    // }
-    //
 }
 
 public class ItemContainerPart : LocalModelUpdateContainer {
     protected readonly ItemContainer container;
 
-    public ItemContainerPart(LocalModel model, ItemContainer container) : base(model) {
+    protected ItemContainerPart(LocalModel model, ItemContainer container) : base(model) {
         this.container = container;
     }
 }

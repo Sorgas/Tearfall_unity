@@ -8,6 +8,8 @@ public class IntBounds3 : IntBounds2 {
     public int minZ;
     public int maxZ;
 
+    public static IntBounds3 byStartAndSize(Vector3Int start, Vector3Int size) => new IntBounds3(start, start + size + new Vector3Int(-1, -1, 0));
+
     public IntBounds3(Vector3Int pos1, Vector3Int pos2) : this(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z) { }
 
     public IntBounds3() : this(0, 0, 0, 0, 0, 0) { }

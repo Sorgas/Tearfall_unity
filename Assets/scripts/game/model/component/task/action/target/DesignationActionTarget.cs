@@ -20,7 +20,7 @@ public class DesignationActionTarget : StaticActionTarget {
         if (designation.Has<DesignationBuildingComponent>()) { // create bounds if multi-tile designation
             DesignationBuildingComponent buildingComponent = designation.take<DesignationBuildingComponent>();
             Vector3Int size = buildingComponent.type.getSize3ByOrientation(buildingComponent.orientation);
-            if (size.x > 1 || size.y > 1) bounds = new(position, position + size);
+            if (size.x > 1 || size.y > 1) bounds = IntBounds3.byStartAndSize(position, size);
         }
     }
 

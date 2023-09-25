@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace util.pathfinding {
     public class BinaryHeap {
-        private readonly Dictionary<Vector3Int, int> map = new Dictionary<Vector3Int, int>();
-        private readonly List<Node> list = new List<Node>();
+        private readonly Dictionary<Vector3Int, int> map = new();
+        private readonly List<Node> list = new();
         public int Count => list.Count;
 
         public void push(Node item) {

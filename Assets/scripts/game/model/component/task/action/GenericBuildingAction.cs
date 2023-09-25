@@ -4,11 +4,8 @@ using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
 using game.model.component.task.order;
 using game.model.container.item;
-using game.model.localmap;
-using game.model.localmap.passage;
 using Leopotam.Ecs;
 using MoreLinq;
-using types;
 using types.action;
 using UnityEngine;
 using util.geometry.bounds;
@@ -22,38 +19,46 @@ namespace game.model.component.task.action {
 public abstract class GenericBuildingAction : Action {
     protected EcsEntity designation;
     protected readonly GenericBuildingOrder order;
-    private IntBounds3 bounds;
-    public bool offSitePositionOk = false;
-
+    protected IntBounds3 bounds; // should be precalculated in subclasses
+    
     protected GenericBuildingAction(EcsEntity designation, GenericBuildingOrder order) : base(new BuildingConstructionActionTarget(order)) {
         this.designation = designation;
         this.order = order;
         name = "generic building action";
-        bounds = getBuildingBounds(order);
 
         assignmentCondition = (unit) => OK;
 
         startCondition = () => {
-            ActionCheckingEnum status = checkItemsInContainer();
-            if (status == NEW) return NEW;
-            if (status == FAIL) return failAction("items not found");
+            if (!checkItemsInOrder()) return FAIL;
+            ActionCheckingEnum itemsInContainer = checkItemsInContainer();
+            if (itemsInContainer == NEW) return NEW;
+            if (itemsInContainer == FAIL) return failAction("items not found");
             return checkClearingSite(bounds);
         };
     }
 
-    // items for building should be brought into designation container. Creates actions to bring if possible
+    // checks if order has correct amount of correct and available items. If not, clears current items and finds new ones. 
+    private bool checkItemsInOrder() {
+        if (!model.itemContainer.craftingUtil.buildingOrderValid(order, designation, designation.pos())) {
+            unlockEntities(order.items);
+            order.items.Clear();
+            List<EcsEntity> items = model.itemContainer.craftingUtil.findItemsForBuildingOrder(order, designation.pos());
+            if (items == null || items.Count < order.amount) return false; // cannot find new items
+            lockEntities(items);
+            order.items.AddRange(items);
+        }
+        return true;
+    }
+
+    // checks that items listed in order are stored inside designation container. Creates actions to bring if needed.
     private ActionCheckingEnum checkItemsInContainer() {
         ItemContainerComponent container = designation.take<ItemContainerComponent>();
-        int requiredItems = order.amount - container.items.Count;
-        if (requiredItems == 0) return OK;
-        List<EcsEntity> foundItems = model.itemContainer.availableItemsManager
-            .findNearest(order.itemType, order.material, requiredItems, designation.pos());
-        if (foundItems.Count != requiredItems) return FAIL;
-        lockEntities(foundItems);
-        foreach (EcsEntity item in foundItems) {
-            addPreAction(new PutItemToContainerAction(designation, item));
+        foreach (var item in order.items) {
+            if (!container.items.Contains(item)) {
+                return addPreAction(new PutItemToContainerAction(designation, item));
+            }
         }
-        return NEW;
+        return OK;
     }
 
     // finds item that can be removed from construction site and not locked to other task.
@@ -63,7 +68,7 @@ public abstract class GenericBuildingAction : Action {
         foreach (var position in bounds.toList()) {
             List<EcsEntity> itemsOnTile = container.onMap.itemsOnMap.get(position);
             if (itemsOnTile.Count > 0) {
-                Vector3Int offSitePosition = findPositionToPutItem(position);
+                Vector3Int offSitePosition = findNearestOutsidePosition(position);
                 foreach (EcsEntity item in itemsOnTile) {
                     if (entityCanBeLocked(item)) { // ignores items locked by other tasks
                         if (offSitePosition == Vector3Int.back) return FAIL; // no position to remove
@@ -79,37 +84,35 @@ public abstract class GenericBuildingAction : Action {
     // drops item from designation container to ground
     private ActionCheckingEnum failAction(string message) {
         log("failing action " + message);
-        ref ItemContainerComponent container = ref designation.takeRef<ItemContainerComponent>();
-        foreach (EcsEntity item in container.items) {
-            model.itemContainer.transition.fromContainerToGround(item, designation, order.position);
-        }
+        dropFromDesignation(order.position);
         return FAIL;
     }
 
-    private IntBounds3 getBuildingBounds(GenericBuildingOrder order) {
-        Vector3Int offset = new(); // no offset for constructions (they are single-tile)
-        if (order is BuildingOrder) {
-            BuildingOrder buildingOrder = (BuildingOrder)order;
-            bool horizontal = OrientationUtil.isHorizontal(buildingOrder.orientation);
-            offset = new(buildingOrder.type.size[horizontal ? 1 : 0] - 1, buildingOrder.type.size[horizontal ? 0 : 1] - 1);
-        }
-        return new IntBounds3(order.position, order.position + offset);
-    }
-
-    private Vector3Int findPositionToPutItem(Vector3Int itemPosition) {
+    // finds non construction site position nearest to given position 
+    private Vector3Int findNearestOutsidePosition(Vector3Int referencePosition) {
         List<Vector3Int> acceptablePositions = target.getAcceptablePositions(model);
         if (acceptablePositions.Count == 0) return Vector3Int.back; // not found
         int performerArea = model.localMap.passageMap.area.get(performer.pos());
         return acceptablePositions
             .Where(position => model.localMap.passageMap.area.get(position) == performerArea)
-            .MinBy(position => (position - itemPosition).sqrMagnitude);
+            .MinBy(position => (position - referencePosition).sqrMagnitude);
     }
 
+    // destroys items of order stored in designation container. Items that do not belong to order are dropped at performer's position
     protected void consumeItems() {
-        foreach (EcsEntity item in designation.take<ItemContainerComponent>().items.ToList()) {
-            model.itemContainer.stored.removeItemFromContainer(item);
-            item.Destroy();
+        foreach (var orderItem in order.items) {
+            model.itemContainer.transition.destroyItem(orderItem);
+        }
+        dropFromDesignation(performer.pos());
+    }
+
+    // moves all items from designation item container to given position on map 
+    private void dropFromDesignation(Vector3Int targetPosition) {
+        foreach (var item in getDesignationContainer().items.ToList()) {
+            model.itemContainer.transition.fromContainerToGround(item, designation, targetPosition);
         }
     }
+
+    protected ref ItemContainerComponent getDesignationContainer() => ref designation.takeRef<ItemContainerComponent>();
 }
 }

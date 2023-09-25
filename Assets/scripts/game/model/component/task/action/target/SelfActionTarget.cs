@@ -18,9 +18,7 @@ public class SelfActionTarget : ActionTarget {
 
     public override void init() { }
 
-    public override ActionTargetStatusEnum check(EcsEntity performer, LocalModel model) {
-        return ActionTargetStatusEnum.READY;
-    }
+    public override bool check(EcsEntity performer, LocalModel model) => true;
 
     public override List<Vector3Int> getAcceptablePositions(LocalModel model) {
         throw new System.NotImplementedException();

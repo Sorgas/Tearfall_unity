@@ -26,5 +26,12 @@ namespace game.model.container.item {
         public void removeItemFromUnit(EcsEntity item, EcsEntity unit) {
             equippedItems.Remove(item);
         }
+        
+        // unregisters item as equipped by unit
+        public void removeItemFromUnit(EcsEntity item) {
+            equippedItems.Remove(item);
+        }
+
+        public bool itemEquipped(EcsEntity item) => equippedItems.ContainsKey(item);
     }
 }

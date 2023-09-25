@@ -51,6 +51,26 @@ public class CraftingItemFindingUtil : AbstractItemFindingUtil {
         return order.items.All(item => model.itemContainer.itemAccessibleFromPosition(item, position));
     }
 
+    public bool buildingOrderValid(GenericBuildingOrder order, EcsEntity designation, Vector3Int position) {
+        if (order.items.Count != order.amount) return false;
+        ItemComponent firstItem = order.items[0].take<ItemComponent>();
+        if (order.material != firstItem.material || order.itemType != firstItem.type) return false;
+        foreach (var item in order.items) {
+            ItemComponent itemComponent = item.take<ItemComponent>();
+            if (itemComponent.material != firstItem.material || itemComponent.type != firstItem.type) return false;
+        }
+        return order.items.All(item => (item.Has<ItemContainedComponent>() && item.take<ItemContainedComponent>().container.Equals(designation))
+                                       || model.itemContainer.itemAccessibleFromPosition(item, position));
+    }
+
+    // finds items for order. Order items should be empty
+    public List<EcsEntity> findItemsForBuildingOrder(GenericBuildingOrder order, Vector3Int position) {
+        IEnumerable<EcsEntity> items = model.itemContainer.availableItemsManager.findByTypeAndMaterial(order.itemType, order.material);
+        ItemGroup group = new(items);
+        group = filterForCrafting(group, new List<EcsEntity>(), position, order.amount);
+        return group.items;
+    }
+
     public List<EcsEntity> findItemsForIngredient(IngredientOrder ingredientOrder, CraftingOrder order, Vector3Int position) {
         return findItemsForIngredient(ingredientOrder, position, order.allIngredientItems());
     }

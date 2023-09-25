@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using game.model.component.building;
 using game.model.component.item;
 using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
@@ -9,7 +8,6 @@ using generation.item;
 using Leopotam.Ecs;
 using MoreLinq;
 using types.material;
-using UnityEngine;
 using util.lang.extension;
 using static types.action.ActionCheckingEnum;
 
@@ -35,7 +33,6 @@ class CraftItemAtWorkbenchAction : EquipmentAction {
 
         assignmentCondition = (unit) => OK; // order was checked before task creation
         
-        //TODO check ingredients and fuel availability before bringing something to workbench.
         startCondition = () => {
             if (!validateOrder()) return FAIL; // check/find items for order
             order.ingredients.ForEach(ingredientOrder => lockEntities(ingredientOrder.items));

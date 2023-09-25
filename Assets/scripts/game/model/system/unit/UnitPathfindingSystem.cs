@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using game.model.component;
 using game.model.component.unit;
 using game.model.localmap;
 using game.view.util;
 using Leopotam.Ecs;
+using MoreLinq;
 using types.action;
 using UnityEngine;
 using util.lang.extension;
@@ -24,9 +26,15 @@ namespace game.model.system.unit {
         }
 
         private void findPath(UnitMovementTargetComponent target, ref EcsEntity unit) {
-            List<Vector3Int> positions = target.target.getAcceptablePositions(model);
+            Vector3Int unitPosition = unit.pos();
+            List<Vector3Int> positions = target.target.getAcceptablePositions(model)
+                .Where(position => model.localMap.passageMap.inSameArea(unitPosition, position))
+                .ToList();
+            Debug.Log("acceptable positions" + positions.Select(pos => pos.ToString()).Aggregate((s1, s2) => $"{s1} {s2}"));
             if (positions.Count > 0) {
-                List<Vector3Int> path = AStar.get().makeShortestPath(unit.pos(), target.target, model);
+                Vector3Int targetPosition = positions.MinBy(position => (unitPosition - position).sqrMagnitude);
+                List<Vector3Int> path = AStar.get().makeShortestPath(unit.pos(), targetPosition, model);
+                // List<Vector3Int> path = AStar.get().makeShortestPath(unit.pos(), targetPosition, ActionTargetTypeEnum.EXACT, model);
                 if (path != null) {
                     unit.Replace(new UnitMovementPathComponent { path = path });
                     return;

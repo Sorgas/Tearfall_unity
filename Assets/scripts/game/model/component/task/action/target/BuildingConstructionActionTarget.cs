@@ -15,11 +15,11 @@ public class BuildingConstructionActionTarget : StaticActionTarget {
     public readonly Vector3Int center;
     private readonly IntBounds3 bounds;
 
-    public BuildingConstructionActionTarget(Vector3Int position) : base(NEAR) {
-        Debug.Log("creating building construction action target for position");
-        center = position;
-        bounds = new IntBounds3(center, center);
-    }
+    // public BuildingConstructionActionTarget(Vector3Int position) : base(NEAR) {
+    //     Debug.Log("creating building construction action target for position");
+    //     center = position;
+    //     bounds = new IntBounds3(center, center);
+    // }
 
     public BuildingConstructionActionTarget(GenericBuildingOrder order) : base(NEAR) {
         Debug.Log("creating building construction action target for order");

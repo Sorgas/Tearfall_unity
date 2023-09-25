@@ -2,6 +2,7 @@
 using System.Linq;
 using game.model.component;
 using game.model.component.item;
+using game.model.component.task.order;
 using game.model.localmap;
 using game.model.util;
 using Leopotam.Ecs;
@@ -23,7 +24,7 @@ namespace game.model.container.item.finding {
                 .Where(selector.checkItem)
                 .firstOrDefault(item => model.localMap.passageMap.inSameArea(pos, container.getItemAccessPosition(item)), EcsEntity.Null); // select nearest
         }
-        
+
         // returns nearest item matching itemSelector, available from position and not locked to task
         public EcsEntity findNearestItemBySelector(ItemSelector selector, Vector3Int pos) {
             return container.availableItemsManager.getAll()

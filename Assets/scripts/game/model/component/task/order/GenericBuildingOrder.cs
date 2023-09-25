@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Leopotam.Ecs;
 using UnityEngine;
 
 namespace game.model.component.task.order {
@@ -9,7 +11,8 @@ namespace game.model.component.task.order {
         public readonly int material;
         public readonly int amount;
         public readonly Vector3Int position;
-
+        public readonly List<EcsEntity> items = new();
+        
         public GenericBuildingOrder(string itemType, int material, int amount, Vector3Int position) {
             this.itemType = itemType;
             this.material = material;

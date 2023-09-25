@@ -5,7 +5,7 @@ namespace util.pathfinding {
     public readonly struct Node : IEquatable<Node>, IComparable<Node> {
         public readonly Vector3Int position;
         public readonly Vector3Int? parent; // points to parent
-        public readonly int pathLength;
+        public readonly int pathLength; // parent.pathLength + 1
         public readonly float cost;
 
         public Node(Vector3Int position, Vector3Int? parent, float heuristic, int pathLength) {
@@ -15,8 +15,7 @@ namespace util.pathfinding {
             cost = pathLength + heuristic;
         }
 
-        public Node(Vector3Int position, float heuristic) : this(position, null, heuristic, 0) {
-        }
+        public Node(Vector3Int position, float heuristic) : this(position, null, heuristic, 0) { }
 
         public static bool operator >(Node node, Node node2) => node.position != node2.position && node.cost > node2.cost;
 

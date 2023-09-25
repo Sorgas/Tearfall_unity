@@ -32,10 +32,6 @@ public class BuildingActionTarget : StaticActionTarget {
         return component.bounds.getExternalBorders(true);
     }
 
-    // protected override List<Vector3Int> calculateLowerPositions() {
-    //     return positions.Select(position => position + Vector3Int.back).ToList();
-    // }
-
     public override List<Vector3Int> getAcceptablePositions(LocalModel model) {
         List<Vector3Int> result = new();
         positions

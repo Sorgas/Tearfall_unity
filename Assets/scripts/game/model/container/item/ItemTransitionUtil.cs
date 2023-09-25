@@ -1,6 +1,8 @@
+using game.model.component.item;
 using game.model.localmap;
 using Leopotam.Ecs;
 using UnityEngine;
+using util;
 using util.lang.extension;
 
 namespace game.model.container.item {
@@ -14,9 +16,9 @@ namespace game.model.container.item {
             container.onMap.putItemToMap(item, position);
         }
 
-        public void fromUnitToContainer(EcsEntity item, EcsEntity unit, EcsEntity container) {
-            this.container.equipped.removeItemFromUnit(item, unit);
-            this.container.stored.addItemToContainer(item, container);
+        public void fromUnitToContainer(EcsEntity item, EcsEntity unit, EcsEntity containerEntity) {
+            container.equipped.removeItemFromUnit(item, unit);
+            container.stored.addItemToContainer(item, containerEntity);
         }
 
         public void fromGroundToUnit(EcsEntity item, EcsEntity unit) {
@@ -24,16 +26,30 @@ namespace game.model.container.item {
             container.equipped.addItemToUnit(item, unit);
         }
 
-        public void fromContainerToGround(EcsEntity item, EcsEntity container, Vector3Int position) {
-            this.container.stored.removeItemFromContainer(item);
-            this.container.onMap.putItemToMap(item, position);
+        public void fromContainerToGround(EcsEntity item, EcsEntity containerEntity, Vector3Int position) {
+            container.stored.removeItemFromContainer(item);
+            container.onMap.putItemToMap(item, position);
         }
 
-        public void fromContainerToUnit(EcsEntity item, EcsEntity container, EcsEntity unit) {
-            this.container.stored.removeItemFromContainer(item);
-            this.container.equipped.addItemToUnit(item, unit);
+        public void fromContainerToUnit(EcsEntity item, EcsEntity containerEntity, EcsEntity unit) {
+            container.stored.removeItemFromContainer(item);
+            container.equipped.addItemToUnit(item, unit);
         }
 
+        // should be the only place where item entities are destroyed
+        public void destroyItem(EcsEntity item) {
+            if (item.hasPos()) {
+                container.onMap.takeItemFromMap(item);
+            } else if (item.Has<ItemContainedComponent>()) {
+                container.stored.removeItemFromContainer(item);
+            } else if (container.equipped.itemEquipped(item)) {
+                container.equipped.removeItemFromUnit(item);
+            } else {
+                throw new GameException("invalid item placement detected");
+            }
+            item.Destroy();
+        }
+        
         public void fromUnitToGround(EcsEntity item, EcsEntity unit) => fromUnitToGround(item, unit, unit.pos());
     }
 }

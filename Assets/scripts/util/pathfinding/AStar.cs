@@ -13,25 +13,14 @@ namespace util.pathfinding {
     // TODO add 'difficult terrain',
     // TODO add doors(passable, counted with special weight), if door is locked by player, it becomes impassable
     public class AStar : Singleton<AStar> {
-        private bool debug = false;
+        private bool debug = true;
         private LocalMap localMap;
-
-        public List<Vector3Int> makeShortestPath(Vector3Int start, ActionTarget target, LocalModel model) {
-            localMap = model.localMap;
-            Node initialNode = new(start, null, getH(target.pos, start), 0);
-            PathFinishCondition finishCondition = new(target, model);
-            string message = "[AStar]: finding path " + start + " -> " + target + finishCondition.getMessage();
-            List<Vector3Int> path = search(initialNode, finishCondition);
-            logResult(path, message);
-            return path;
-        }
         
-        public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, ActionTargetTypeEnum targetType, LocalModel model) {
+        public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, LocalModel model) {
             localMap = model.localMap;
             Node initialNode = new(start, null, getH(target, start), 0);
-            PathFinishCondition finishCondition = new(target, targetType, model);
-            string message = "[AStar]: finding path " + start + " -> " + target + finishCondition.getMessage();
-            List<Vector3Int> path = search(initialNode, finishCondition, target, targetType);
+            string message = "[AStar]: finding path " + start + " -> " + target;
+            List<Vector3Int> path = search(initialNode, target);
             logResult(path, message);
             return path;
         }
@@ -41,14 +30,8 @@ namespace util.pathfinding {
             Node initialNode = new(start, null, getH(target, start), 0);
             return pathExists(initialNode, target);
         }
-
-        private List<Vector3Int> search(Node initialNode, PathFinishCondition finishCondition) => search(initialNode, finishCondition, finishCondition.main, finishCondition.targetType);
-
-        /**
-         * @param targetType  see {@link ActionTarget}
-         * @return goal node to restore path from
-         */
-        private List<Vector3Int> search(Node initialNode, PathFinishCondition finishCondition, Vector3Int target, ActionTargetTypeEnum targetType) {
+        
+        private List<Vector3Int> search(Node initialNode, Vector3Int target) {
             var openSet = new BinaryHeap();
             var closedSet = new HashSet<Vector3Int>();
             var fetchedNodes = new Dictionary<Vector3Int, Vector3Int?>();
@@ -58,11 +41,11 @@ namespace util.pathfinding {
                 if (!openSet.tryPop(out var currentNode)) {
                     return null; // get node from open set or return not found
                 }
-                if (finishCondition.check(currentNode.position)) {
+                if (target == currentNode.position) {
                     return getPath(currentNode, fetchedNodes); //check if path is complete
                 }
-                var vectors = getSuccessors(currentNode.position, closedSet);
-                var pathLength = currentNode.pathLength + 1;
+                List<Vector3Int> vectors = getSuccessors(currentNode.position, closedSet);
+                int pathLength = currentNode.pathLength + 1;
                 vectors.ForEach(vector => { // iterate passable near positions
                     openSet.tryGet(vector, out var oldNode);
                     if (oldNode == null || oldNode.Value.pathLength > pathLength) // if successor node is newly found, or has shorter path
@@ -122,6 +105,9 @@ namespace util.pathfinding {
             if (path == null) {
                 Debug.LogWarning(message + ". No path");
             } else {
+                string points = path.Select(pos => pos.ToString())
+                    .Aggregate((s1, s2) => $"{s1} {s2}");
+                Debug.Log(points);
                 Debug.Log(message + ". Length " + (path.Count - 1));
             }
         }

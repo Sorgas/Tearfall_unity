@@ -68,27 +68,17 @@ namespace game.model.system.unit {
         // checks if unit can reach action's target
         private void checkTargetAvailability(ref EcsEntity unit, TaskActionsComponent task, EcsEntity taskEntity) {
             Action action = task.nextAction;
-            string message = "";
-            switch (action.target.check(unit, model)) {
-                case READY: // start performing
-                    message += " ready";
-                    unit.Replace(new UnitCurrentActionComponent { action = action });
-                    break;
-                case WAIT: // start movement
-                    Vector3Int? target = action.target.pos;
-                    if (target == Vector3Int.back) {
-                        Debug.LogError("action [" + action.name + "] has no target position.");
-                        break;
-                    }
-                    message += " move to " + target.Value;
-                    unit.Replace(new UnitMovementTargetComponent { target = action.target });
-                    break;
-                case STEP_OFF:
-                    message += " step off";
-                    action.addPreAction(new StepOffAction(unit.pos(), model));
-                    break;
+            if (action.target.check(unit, model)) {
+                unit.Replace(new UnitCurrentActionComponent { action = action });
+                log($"checked target of [{action.name}] for unit {unit.name()}: ready");
+            } else {
+                Vector3Int? target = action.target.pos;
+                if (target == Vector3Int.back) {
+                    Debug.LogError("action [" + action.name + "] has no target position.");
+                }
+                unit.Replace(new UnitMovementTargetComponent { target = action.target });
+                log($"checked target of [{action.name}] for unit {unit.name()}: move");
             }
-            log("checked target of [" + action.name + "] for unit " + unit.name() + "." + message);
         }
 
         private void failTask(ref EcsEntity unit) {
