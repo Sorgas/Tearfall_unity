@@ -44,7 +44,7 @@ namespace game.model.action.plant {
         // items created here, because quantity depends on performer's skill
         private void createItems() {
             ItemGenerator generator = new();
-            for (int i = 0; i < plant.take<PlantComponent>().type.productCount; i++) {
+            for (int i = 0; i < plant.take<PlantComponent>().type.product.productCount; i++) {
                 EcsEntity item = generator.generatePlantProduct(plant, model.createEntity());
                 model.itemContainer.onMap.putItemToMap(item, plantPosition);
             }

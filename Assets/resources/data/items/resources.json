@@ -69,16 +69,7 @@
     "stockpileMaterialTags": "metal",
     "color": "0xffffffff",
     "tags": ["material"]
-},  {
-    "name": "meat_piece",
-    "title": "Piece",
-    "components": ["food(0.3)"],
-    "stockpileCategory": "food",
-    "stockpileMaterialTags": "",
-    "tags": ["cookable"],
-    "atlasXY": [0, 2],
-    "color": "0xffffffff"
-},{
+}, {
     "name": "small_animal_hide",
     "description": "",
     "stockpileCategory": "material",
@@ -147,14 +138,6 @@
     "description": "Lights the way.",
     "stockpileCategory": "special",
     "stockpileMaterialTags": "wood",
-    "atlasXY": [15, 0],
-    "color": "0xffffffff"
-}, {
-    "name": "meal",
-    "description": "Edible meal",
-    "components": ["food()"],
-    "stockpileCategory": "food",
-    "stockpileMaterialTags": "",
     "atlasXY": [15, 0],
     "color": "0xffffffff"
 }, {

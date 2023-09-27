@@ -15,8 +15,8 @@ namespace types.plant {
             Texture2D texture = sprite.texture;
             int x = type.tileXY[0];
             int y = type.tileXY[1];
-            Sprite[] spriteArray = new Sprite[type.tiles];
-            for (int i = 0; i < type.tiles; i++) {
+            Sprite[] spriteArray = new Sprite[type.tileCount];
+            for (int i = 0; i < type.tileCount; i++) {
                 Rect rect = new((x + i) * width, texture.height - (y + 1) * height, width, height);
                 spriteArray[i] = Sprite.Create(texture, rect, pivot, width);
             }

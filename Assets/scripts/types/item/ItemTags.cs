@@ -19,7 +19,8 @@ public static class ItemTags {
     public static readonly ItemTag ORGANIC = new("organic"); // 
     public static readonly ItemTag FUEL = new("fuel");
     // food/corpses
-    public static readonly ItemTag COOKABLE = new("cookable"); // can be cooked, 
+    public static readonly ItemTag COOKABLE = new("cookable"); // can be cooked (meat)
+    public static readonly ItemTag COOKABLE2 = new("cookable2"); // can be added to meal as secondary ingredient (pepper) 
     public static readonly ItemTag BREWABLE = new("brewable"); // item can be prepared into drink
     public static readonly ItemTag DRINKABLE = new("drinkable"); // TODO replace with aspect
     public static readonly ItemTag RAW = new("raw"); // raw cow meat piece
@@ -34,7 +35,7 @@ public static class ItemTags {
 
     public static readonly List<ItemTag> all = new(new[] {
         STONE_IGNEOUS, STONE_METAMORFIC, STONE_SEDIMENTARY, SOIL, STONE, METAL, WOOD, CLOTH, MEAT,
-        ORE, ORGANIC, FUEL, COOKABLE, BREWABLE, DRINKABLE, RAW, SPOILED, CORPSE, SAPIENT, PREPARED,
+        ORE, ORGANIC, FUEL, COOKABLE, COOKABLE2, BREWABLE, DRINKABLE, RAW, SPOILED, CORPSE, SAPIENT, PREPARED,
         SEED_PRODUCE, WATER, MATERIAL
     });
 

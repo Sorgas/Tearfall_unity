@@ -7,9 +7,11 @@
     "maturityAge" : 0.1,
     "destroyOnHarvest" : true,
     "tileXY": ["0", "0"],
-    "tiles": 5,
-    "productItemType" : "radish",
-    "productCount" :  2
+    "tileCount": 5,
+    "product" : {
+      "productItemType" : "radish",
+      "productCount" :  2
+    }
   }, 
   {
     "name": "radish",
@@ -19,9 +21,11 @@
     "maturityAge" : 4,
     "destroyOnHarvest" : true,
     "tileXY": [0, 0],
-    "tiles": 5,
-    "productItemType" : "radish",
-    "productCount" :  2
+    "tileCount": 5,
+    "product" : {
+      "productItemType" : "radish",
+      "productCount" :  2
+    }
   }, {
   "name": "turnip",
   "title": "Turnip",
@@ -30,9 +34,11 @@
   "maturityAge" : 5,
   "destroyOnHarvest" : true,
   "tileXY": [0, 1],
-  "tiles": 5,
-  "productItemType" : "turnip",
-  "productCount" :  2
+  "tileCount": 5,
+  "product" : {
+    "productItemType" : "turnip",
+    "productCount" :  2
+  }
 }, {
   "name": "wheat",
   "title": "Wheat",
@@ -41,9 +47,11 @@
   "maturityAge" : 10,
   "destroyOnHarvest" : true,
   "tileXY": ["0", "2"],
-  "tiles": 5,
-  "productItemType" : "wheat",
-  "productCount" :  4
+  "tileCount": 5,
+  "product" : {
+    "productItemType" : "wheat",
+    "productCount" :  4
+  }
 }, {
   "name": "cabbage",
   "title": "Cabbage",
@@ -52,9 +60,11 @@
   "maturityAge" : 15,
   "destroyOnHarvest" : true,
   "tileXY": ["0", "3"],
-  "tiles": 5,
-  "productItemType" : "cabbage",
-  "productCount" :  8
+  "tileCount": 5,
+  "product" : {
+    "productItemType" : "cabbage",
+    "productCount" :  8
+  }
 }, {
   "name": "pumpkin",
   "title": "Pumpkin",
@@ -63,9 +73,11 @@
   "maturityAge" : 20,
   "destroyOnHarvest" : true,
   "tileXY": ["0", "4"],
-  "tiles": 5,
-  "productItemType" : "pumpkin",
-  "productCount" :  12
+  "tileCount": 5,
+  "product" : {
+    "productItemType" : "pumpkin",
+    "productCount" :  12
+  }
 }, {
   "name": "tomato",
   "title": "Tomato",
@@ -74,9 +86,11 @@
   "maturityAge" : 14,
   "destroyOnHarvest" : true,
   "tileXY": ["0", "5"],
-  "tiles": 5,
-  "productItemType" : "tomato",
-  "productCount" :  5
+  "tileCount": 5,
+  "product" : {
+    "productItemType" : "tomato",
+    "productCount" :  5
+  }
 }, {
   "name": "pepper",
   "title": "Pepper",
@@ -85,9 +99,11 @@
   "maturityAge" : 12,
   "destroyOnHarvest" : true,
   "tileXY": ["0", "6"],
-  "tiles": 5,
-  "productItemType" : "pepper",
-  "productCount" :  9
+  "tileCount": 5,
+  "product" : {
+    "productItemType" : "pepper",
+    "productCount" :  9
+  }
 }, {
   "name": "flax",
   "title": "Flax",
@@ -96,10 +112,12 @@
   "maturityAge" : 8,
   "destroyOnHarvest" : true,
   "tileXY": ["0", "0"],
-  "atlasName": "domestic2", 
+  "atlasName": "domestic2",
   "atlasSize": 32,
-  "tiles": 5,
-  "productItemType" : "flax",
-  "productCount" :  2
+  "tileCount": 5,
+  "product" : {
+    "productItemType" : "flax",
+    "productCount" :  2
+  }
 }
 ]

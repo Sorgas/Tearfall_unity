@@ -57,6 +57,8 @@ namespace game.model.container {
             return buildings.ContainsKey(position) ? buildings[position] : EcsEntity.Null;
         }
 
+        public bool hasBuilding(Vector3Int position) => buildings.ContainsKey(position);
+
         private IntBounds3 createBuildingBounds(BuildingOrder order) {
             bool flip = order.orientation == Orientations.E || order.orientation == Orientations.W;
             int xSize = order.type.size[flip ? 1 : 0];

@@ -69,7 +69,7 @@ namespace generation.plant {
             if (age < type.maturityAge) { // plant is still growing
                 entity.Replace(generateGrowthComponent(type, age));
             }
-            if (type.productItemType == null) return;
+            if (type.product == null) return;
             if (age < type.productGrowthStartAbsolute) { // plant not yet grows products
                 entity.Replace(new PlantProductGrowthWaitingComponent { productGrowthStartAbsolute = type.productGrowthStartAbsolute });
                 return;

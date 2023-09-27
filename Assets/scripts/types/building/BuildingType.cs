@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using util.geometry.bounds;
 
 namespace types.building {
     [Serializable]
@@ -50,6 +51,7 @@ namespace types.building {
 
         public Vector2Int getSizeByOrientation(Orientations orientation) => OrientationUtil.isHorizontal(orientation) ? horizontalSize : verticalSize;
         public Vector3Int getSize3ByOrientation(Orientations orientation) => OrientationUtil.isHorizontal(orientation) ? horizontalSize3 : verticalSize3;
+        public IntBounds3 getBounds(Vector3Int position, Orientations orientation) => IntBounds3.byStartAndSize(position, getSize3ByOrientation(orientation));
 
         public Vector3Int getAccessByPositionAndOrientation(Vector3Int position, Orientations orientation) {
             return position + getAccessOffsetByRotation(orientation);

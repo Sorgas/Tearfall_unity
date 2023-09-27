@@ -66,7 +66,7 @@ namespace game.view.ui {
             if (farmComponent.plant != null) {
                 PlantType type = PlantTypeMap.get().get(farmComponent.plant);
                 selectedPlantName.text = type.title;
-                string product = type.productItemType;
+                string product = type.product.productItemType;
                 if (product != null) {
                     selectedPlantIcon.sprite = ItemTypeMap.get().getSprite(product);
                 }
@@ -117,7 +117,7 @@ namespace game.view.ui {
         }
 
         private Sprite createSprite(PlantType type) {
-            return ItemTypeMap.get().getSprite(type.productItemType);
+            return ItemTypeMap.get().getSprite(type.product.productItemType);
         }
 
         private void selectPlant(string plant) {

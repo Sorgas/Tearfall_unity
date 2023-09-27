@@ -22,7 +22,7 @@ namespace generation.localgen.generators {
 
         // TODO use different settings for different biomes
         private void createElevation() {
-            addElevation(5, 0.5f, 0.05f, 1f);
+            addElevation(5, 0.5f, 0.05f, 0.5f);
             // addElevation(6, 0.5f, 0.015f, 2f);
             // addElevation(7, 0.5f, 0.03f, 1f);
         }

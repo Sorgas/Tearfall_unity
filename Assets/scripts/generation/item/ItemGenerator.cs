@@ -49,7 +49,7 @@ namespace generation.item {
 
         public EcsEntity generatePlantProduct(EcsEntity plant, EcsEntity entity) {
             PlantType type = plant.take<PlantComponent>().type;
-            return generateItem(type.productItemType, type.productMaterial, entity);
+            return generateItem(type.product.productItemType, type.product.productMaterial, entity);
         }
 
         // adds optional item components not all items should have

@@ -31,12 +31,6 @@
     "description": "",
     "atlasXY": [5, 0]
 }, {
-    "name": "raspberry",
-    "baseItem": "generic_fruit",
-    "title": "Raspberry",
-    "description": "Raspberry",
-    "atlasXY": [0, 1]
-}, {
     "name": "blueberry",
     "baseItem": "generic_fruit",
     "title": "Blueberry",
@@ -55,6 +49,7 @@
     "atlasXY": [3, 1]
 }, {
     "name": "generic_fruit",
+    "title": "Generic Fruit",
     "description": "Replace this description in plant definition.",
     "components": ["food(15)"],
     "stockpileCategory": "food",

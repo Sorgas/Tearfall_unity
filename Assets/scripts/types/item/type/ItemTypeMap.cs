@@ -23,7 +23,11 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
     }
 
     public static ItemType getItemType(string name) {
-        return get().types[name];
+        return get().getType(name);
+    }
+
+    public ItemType getType(string name) {
+        return types.ContainsKey(name) ? types[name] : null;
     }
 
     public static List<ItemType> getAll() {

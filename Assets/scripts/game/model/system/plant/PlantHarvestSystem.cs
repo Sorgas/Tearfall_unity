@@ -8,9 +8,8 @@ using util.lang.extension;
 namespace game.model.system.plant {
     // Handles plants which are considered harvested. Restarts growth or destroys plant
     public class PlantHarvestSystem : LocalModelUnscalableEcsSystem {
-        public EcsFilter<PlantHarvestedComponent> filter;
+        public EcsFilter<PlantHarvestedComponent> filter; // event component
         private readonly PlantGenerator generator = new();
-        private bool debug = true;
         
         public override void Run() {
             foreach (int i in filter) {

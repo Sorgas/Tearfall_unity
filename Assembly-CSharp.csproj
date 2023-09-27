@@ -520,6 +520,7 @@
      <Folder Include="Assets\SharpUI\Prefabs\UI\List" />
      <Folder Include="Assets\resources\prefabs\stockpileMenu" />
      <Folder Include="Assets\TextMesh Pro\Resources\Fonts &amp; Materials" />
+     <None Include="Assets\resources\data\items\food.json" />
      <Folder Include="Assets\scripts\game\model\component\task\action\combat" />
      <None Include="Assets\resources\data\nameGenerators\world.json" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />

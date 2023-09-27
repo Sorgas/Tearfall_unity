@@ -1,0 +1,39 @@
+[
+  {
+    "name": "simple_meal",
+    "title": "Simple meal",
+    "description": "Edible meal",
+    "components": ["food()"],
+    "stockpileCategory": "food",
+    "stockpileMaterialTags": "",
+    "atlasXY": [0, 0],
+    "color": "0xffffffff"
+  }, {
+    "name": "meal",
+    "title": "Meal",
+    "description": "Edible meal",
+    "components": ["food()"],
+    "stockpileCategory": "food",
+    "stockpileMaterialTags": "",
+    "atlasXY": [0, 1],
+    "color": "0xffffffff"
+  }, {
+    "name": "noble_meal",
+    "title": "Noble meal",
+    "description": "Edible meal",
+    "components": ["food()"],
+    "stockpileCategory": "food",
+    "stockpileMaterialTags": "",
+    "atlasXY": [0, 2],
+    "color": "0xffffffff"
+  }, {
+    "name": "meat_piece",
+    "title": "Meat piece",
+    "components": ["food(0.3)"],
+    "stockpileCategory": "food",
+    "stockpileMaterialTags": "",
+    "tags": ["cookable", "cookable2"],
+    "atlasXY": [0, 3],
+    "color": "0xffffffff"
+  }
+]

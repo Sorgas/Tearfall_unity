@@ -15,7 +15,9 @@
   "maturityAge" : 3,
   "tiles": 4,
   "atlasSize" : 32,
-  "productItemType" : "raspberry",
-  "productCount" : 5
+  "product" : {
+    "productItemType" : "raspberry",
+    "productCount" : 5
+  }
 }
 ]

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using game.model.component;
 using game.model.component.building;
 using game.model.component.task.order;
@@ -8,6 +9,7 @@ using types;
 using types.building;
 using types.material;
 using UnityEngine;
+using util.geometry.bounds;
 using util.lang.extension;
 
 namespace generation.localgen.generators {
@@ -73,14 +75,13 @@ namespace generation.localgen.generators {
         }
 
         private bool validatePosition(Vector3Int position, BuildingType type) {
+            IntBounds3 bounds = type.getBounds(position, Orientations.N);
             LocalMap map = container.map;
-            if(type.access != null) {
-                if (map.blockType.getEnumValue(position.x + type.access[0], position.y + type.access[1], position.z) != BlockTypes.FLOOR) return false;
-            }
-            for (var x = 0; x < type.size[0]; x++) {
-                for (var y = 0; y < type.size[1]; y++) {
-                    if (map.blockType.getEnumValue(position.x + x, position.y + y, position.z) != BlockTypes.FLOOR) return false;
-                }
+            List<Vector3Int> positions = bounds.toList();
+            if(type.access != null) positions.Add(type.getAccessByPositionAndOrientation(position, Orientations.N));
+            foreach (Vector3Int pos in positions) {
+                if (container.model.buildingContainer.hasBuilding(pos)) return false;
+                if (map.blockType.getEnumValue(pos) != BlockTypes.FLOOR) return false;
             }
             return true;
         }
