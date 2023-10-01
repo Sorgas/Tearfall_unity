@@ -20,7 +20,11 @@ namespace game.model.system.unit {
     // TODO use IgnoreInFilter for flag components. See leoecs github page
     public class UnitActionCheckingSystem : LocalModelScalableEcsSystem {
         public EcsFilter<UnitComponent, TaskComponent>.Exclude<UnitMovementTargetComponent, UnitCurrentActionComponent> filter;
-        private bool debug = true;
+
+        public UnitActionCheckingSystem() {
+            name = "UnitActionCheckingSystem";
+            debug = true;
+        }
 
         protected override void runLogic(int ticks) {
             foreach (int i in filter) {
@@ -30,7 +34,7 @@ namespace game.model.system.unit {
                 // log("handling task " + taskComponent.task.name());
                 if (checkCompletion(ref unit, ref task)) return;
                 if (!actionConditionOk(ref unit, ref task, ticks)) return;
-                checkTargetAvailability(ref unit, task, taskComponent.task);
+                checkTargetAvailability(unit, task, taskComponent.task);
             }
         }
 
@@ -55,7 +59,7 @@ namespace game.model.system.unit {
             if (checkResult == OK) return true; // can start performing
             if (checkResult == FAIL) {
                 log("checked start condition of [" + nextActionName + "]: FAIL");
-                failTask(ref unit); // fail task by start condition
+                failTask(unit); // fail task by start condition
                 return false;
             }
             if (checkResult == NEW) { // will be checked on next tick
@@ -66,27 +70,21 @@ namespace game.model.system.unit {
         }
 
         // checks if unit can reach action's target
-        private void checkTargetAvailability(ref EcsEntity unit, TaskActionsComponent task, EcsEntity taskEntity) {
+        private void checkTargetAvailability(EcsEntity unit, TaskActionsComponent task, EcsEntity taskEntity) {
             Action action = task.nextAction;
-            if (action.target.check(unit, model)) {
+            string checkResult = action.target.check(unit, model);
+            if (checkResult.Equals("ready")) {
                 unit.Replace(new UnitCurrentActionComponent { action = action });
-                log($"checked target of [{action.name}] for unit {unit.name()}: ready");
-            } else {
-                Vector3Int? target = action.target.pos;
-                if (target == Vector3Int.back) {
-                    Debug.LogError("action [" + action.name + "] has no target position.");
-                }
+            } else if (checkResult.Equals("move")) {
                 unit.Replace(new UnitMovementTargetComponent { target = action.target });
-                log($"checked target of [{action.name}] for unit {unit.name()}: move");
-            }
+            } else if (checkResult.Equals("no positions")) {
+                failTask(unit);
+            } 
+            log($"checked target of [{action.name}] for unit {unit.name()}: {checkResult}");
         }
 
-        private void failTask(ref EcsEntity unit) {
+        private void failTask(EcsEntity unit) {
             model.taskContainer.removeTask(unit.take<TaskComponent>().task, FAILED);
-        }
-
-        private void log(string message) {
-            if(debug) Debug.Log("[UnitActionCheckingSystem]: " + message);
         }
     }
 }

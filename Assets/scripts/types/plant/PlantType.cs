@@ -59,14 +59,13 @@ namespace types.plant {
         // TODO use in hours maturity age and apply growth only when plant is lit
         public float maxAge; // in days, plant dies after this
         public float maturityAge; // in days, defines growing period
-        public float productGrowthStart = 0; // [0; 1] relative to growing period, default 0
+        public float productGrowthStart = 0; // [0; 1] relative to growing period, default 0 to start immediately
         public float productGrowthTime; // in days, defines product growing period, default maturityAge
         public float productKeepTime = -1; // in days, defines product harvestable period, default forever
 
-        // render
+        // render. [n - 1] tiles are equally spread along growth period (growthStages), last tile is for adult plant
         public int[] tileXY = new int[2];
-        // [n - 1] tiles are equally spread along growth period (growthStages), last tile is shown when plant is mature
-        public int tileCount;
+        public int tileCount = 1; // at least one tile
         public string atlasName = ""; // same as json file by default
         public int atlasSize = 64; // TODO switch to 32
         
@@ -77,14 +76,10 @@ namespace types.plant {
 
         public RawPlantProduct product;
         
-        public RawPlantType() {
-            // productGrowthStart = 0; // plant will grow products from planting
-            // productKeepTime = -1; // keep products forever
-        }
+        public RawPlantType() { }
     }
 
 public class RawPlantProduct {
-    // product
     public string productItemType; // should be present for other fields to work
     public string productMaterial = "generic_plant";
     public int productCount; // per block, scaled to plant health

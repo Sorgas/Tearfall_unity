@@ -34,8 +34,11 @@ public abstract class ActionTarget {
     public abstract void init();
     
     // checks if performer reached action target
-    public virtual bool check(EcsEntity performer, LocalModel model) => 
-        getAcceptablePositions(model).Contains(performer.pos());
+    public virtual string check(EcsEntity performer, LocalModel model) {
+        List<Vector3Int> acceptablePositions = getAcceptablePositions(model);
+        if (acceptablePositions.Count == 0) return "no positions"; // fail
+        return getAcceptablePositions(model).Contains(performer.pos()) ? "ready" : "move";
+    }
 
     // should filter all positions by passage
     public abstract List<Vector3Int> getAcceptablePositions(LocalModel model);

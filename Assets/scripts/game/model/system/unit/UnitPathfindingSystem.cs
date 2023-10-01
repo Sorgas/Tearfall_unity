@@ -30,16 +30,18 @@ namespace game.model.system.unit {
             List<Vector3Int> positions = target.target.getAcceptablePositions(model)
                 .Where(position => model.localMap.passageMap.inSameArea(unitPosition, position))
                 .ToList();
-            Debug.Log("acceptable positions" + positions.Select(pos => pos.ToString()).Aggregate((s1, s2) => $"{s1} {s2}"));
+            if (positions.Count == 0) {
+                Debug.Log("no acceptable positions found");
+            }
             if (positions.Count > 0) {
+                Debug.Log("acceptable positions" + positions.Select(pos => pos.ToString()).Aggregate((s1, s2) => $"{s1} {s2}"));
                 Vector3Int targetPosition = positions.MinBy(position => (unitPosition - position).sqrMagnitude);
                 List<Vector3Int> path = AStar.get().makeShortestPath(unit.pos(), targetPosition, model);
-                // List<Vector3Int> path = AStar.get().makeShortestPath(unit.pos(), targetPosition, ActionTargetTypeEnum.EXACT, model);
                 if (path != null) {
                     unit.Replace(new UnitMovementPathComponent { path = path });
                     return;
                 }
-            }
+            } 
             model.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED); // resets unit for new task
         }
     }

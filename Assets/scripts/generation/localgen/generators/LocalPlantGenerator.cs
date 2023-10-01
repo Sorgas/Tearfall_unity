@@ -67,8 +67,8 @@ namespace generation.localgen.generators {
         // TODO make weighted plant list by local biome
         private Dictionary<PlantType, float> getPlantTypes() {
             return (new[] {"bush", "raspberryBush"})
-                .Select(name => PlantTypeMap.get().get(name))
-                .ToDictionary(type => type, type => 0.5f);
+                .Select(typeName => PlantTypeMap.get().get(typeName))
+                .ToDictionary(type => type, _ => 0.5f);
         }
         
         public override string getMessage() {

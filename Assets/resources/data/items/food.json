@@ -35,5 +35,23 @@
     "tags": ["cookable", "cookable2"],
     "atlasXY": [0, 3],
     "color": "0xffffffff"
+  }, {
+    "name": "cheese",
+    "title": "Cheese",
+    "components": ["food(0.3)"],
+    "stockpileCategory": "food",
+    "stockpileMaterialTags": "",
+    "tags": ["cookable", "cookable2"],
+    "atlasXY": [0, 3],
+    "color": "0xffffffff"
+  }, {
+    "name": "Egg",
+    "title": "Egg",
+    "components": ["food(0.2)"],
+    "stockpileCategory": "food",
+    "stockpileMaterialTags": "",
+    "tags": ["cookable", "cookable2"],
+    "atlasXY": [0, 3],
+    "color": "0xffffffff"
   }
 ]

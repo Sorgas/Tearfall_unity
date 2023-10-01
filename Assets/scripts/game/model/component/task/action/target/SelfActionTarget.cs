@@ -18,8 +18,9 @@ public class SelfActionTarget : ActionTarget {
 
     public override void init() { }
 
-    public override bool check(EcsEntity performer, LocalModel model) => true;
+    public override string check(EcsEntity performer, LocalModel model) => "ready";
 
+    // should be never called
     public override List<Vector3Int> getAcceptablePositions(LocalModel model) {
         throw new System.NotImplementedException();
     }

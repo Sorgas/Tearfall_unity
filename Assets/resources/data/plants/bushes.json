@@ -5,7 +5,7 @@
     "tileXY": [0,0],
     "maxAge" : 60,
     "maturityAge" : 3,
-    "tiles": 3,
+    "tileCount": 4,
     "atlasSize" : 32
   }, {
   "name": "raspberryBush",
@@ -13,7 +13,7 @@
   "tileXY": [0,1],
   "maxAge" : 60,
   "maturityAge" : 3,
-  "tiles": 4,
+  "tileCount": 4,
   "atlasSize" : 32,
   "product" : {
     "productItemType" : "raspberry",

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace util.geometry.bounds {
-    
-    // inclusive bounds
+// inclusive bounds
     public class IntBounds2 {
         public int minX;
         public int minY;

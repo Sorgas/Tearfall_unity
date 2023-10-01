@@ -4,6 +4,7 @@ using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
 namespace util.geometry.bounds {
+// inclusive bounds
 public class IntBounds3 : IntBounds2 {
     public int minZ;
     public int maxZ;
@@ -142,12 +143,12 @@ public class IntBounds3 : IntBounds2 {
     public List<Vector3Int> getExternalBorders(bool sameLevel) {
         List<Vector3Int> result = new();
         for (int x = minX - 1; x <= maxX + 1; x++) {
-            result.Add(new Vector3Int(x, minY - 1, 0));
-            result.Add(new Vector3Int(x, maxY + 1, 0));
+            result.Add(new Vector3Int(x, minY - 1, minZ));
+            result.Add(new Vector3Int(x, maxY + 1, minZ));
         }
         for (int y = minY; y <= maxY; y++) {
-            result.Add(new Vector3Int(minX - 1, y, 0));
-            result.Add(new Vector3Int(maxX + 1, y, 0));
+            result.Add(new Vector3Int(minX - 1, y, minZ));
+            result.Add(new Vector3Int(maxX + 1, y, minZ));
         }
         return result;
         // var result = new List<Vector3Int>();

@@ -37,6 +37,18 @@
     "description": "Blueberry",
     "atlasXY": [1, 1]
 }, {
+    "name": "raspberry",
+    "baseItem": "generic_fruit",
+    "title": "Raspberry",
+    "description": "Raspberry",
+    "atlasXY": [0, 1]
+}, {
+    "name": "pepper",
+    "baseItem": "generic_fruit",
+    "title": "Pepper",
+    "description": "Pepper",
+    "atlasXY": [4, 1]
+}, {
     "name": "mushroom",
     "baseItem": "generic_fruit",
     "description": "Mushroom",
