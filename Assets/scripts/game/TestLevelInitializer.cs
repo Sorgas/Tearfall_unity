@@ -57,6 +57,8 @@ public class TestLevelInitializer {
         GenerationState.get().localMapGenerator.buildingsToGenerate.Add("kitchen", "oak");
         GenerationState.get().localMapGenerator.itemsToStore.Add("tailor's table",
             new[] { "cloth_roll/silk", "cloth_roll/linen", "cloth_roll/wool", "cloth_roll/cotton" });
+        GenerationState.get().localMapGenerator.itemsToStore.Add("kitchen",
+            new[] { "meat_piece/meat", "turnip/generic_plant", "pumpkin/generic_plant", "pepper/generic_plant" });
     }
 }
 }

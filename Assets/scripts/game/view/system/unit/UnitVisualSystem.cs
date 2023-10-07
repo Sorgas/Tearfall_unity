@@ -23,8 +23,10 @@ public class UnitVisualSystem : IEcsRunSystem {
     }
 
     private void update(EcsEntity unit, ref UnitVisualComponent visual) {
+        
         Transform transform = visual.handler.gameObject.transform;
         if (transform.localPosition == visual.target) return;
+        
         UnitMovementComponent movement = unit.take<UnitMovementComponent>();
         float step = movement.step;
         transform.localPosition = Vector3.Lerp(visual.current, visual.target, step);
@@ -33,11 +35,12 @@ public class UnitVisualSystem : IEcsRunSystem {
         //                 || unit.Has<UnitVisualOnBuildingComponent>();
         // // set mask to draw unit through z+1 toppings TODO use in movement
         // visual.handler.setMaskEnabled(isOnRamp);
-        if (GlobalSettings.useSpriteSortingLayers) {
+        if (GlobalSettings.USE_SPRITE_SORTING_LAYERS) {
             Vector3Int pos = unit.pos();
             visual.handler.updateSpriteSorting(pos.z);
         }
         visual.handler.setOrientation(visual.orientation);
+        
     }
 
     private void createSpriteGo(EcsEntity unit, ref UnitVisualComponent component) {

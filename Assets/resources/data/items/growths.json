@@ -47,6 +47,7 @@
     "baseItem": "generic_fruit",
     "title": "Pepper",
     "description": "Pepper",
+    "tags": ["cookable2"],
     "atlasXY": [4, 1]
 }, {
     "name": "mushroom",
@@ -64,6 +65,7 @@
     "title": "Generic Fruit",
     "description": "Replace this description in plant definition.",
     "components": ["food(15)"],
+    "tags": ["cookable", "cookable2"],
     "stockpileCategory": "food",
     "atlasXY": [0, 5]
 }, {

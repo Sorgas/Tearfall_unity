@@ -19,22 +19,23 @@ namespace game.model.component.unit {
     // stores unit's movement properties
     public struct UnitMovementComponent {
         public float speed; // tiles per model tick
-        public float step; // speed is added to this value; when reaches 1, position changed
+        public float step; // speed is added to this value; when reaches 1, position changes
     }
 
+    // present when action checked, but path is not yet found
     public struct UnitMovementTargetComponent {
         public ActionTarget target;
     }
 
+    // present after finding path
     public struct UnitMovementPathComponent {
         public List<Vector3Int> path;
     }
 
     public struct UnitVisualComponent {
         public UnitGoHandler handler;
-        public Vector3 speed; // sprite moving speed
-        public Vector3 current; // current position
-        public Vector3 target; // movement target
+        public Vector3 current; // scene space, current position
+        public Vector3 target; // scene space, movement target (next tile in path)
         public int headVariant;
         public int bodyVariant;
         public SpriteOrientations orientation;

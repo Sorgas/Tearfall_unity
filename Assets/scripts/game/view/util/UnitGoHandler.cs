@@ -30,6 +30,7 @@ public class UnitGoHandler : MonoBehaviour {
 
     public void updateSpriteSorting(int value) {
         headSprite.sortingOrder = value;
+        bodySprite.sortingOrder = value;
         background.sortingOrder = value;
         progressBar.sortingOrder = value;
         mask.frontSortingOrder = value + 2;

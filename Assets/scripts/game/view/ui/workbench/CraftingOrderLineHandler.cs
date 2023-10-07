@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using game.model;
 using game.model.component;
 using game.model.component.building;
@@ -69,20 +70,21 @@ public class CraftingOrderLineHandler : MonoBehaviour {
         updateVisual();
     }
 
-    private void updateVisual() {
-        updateQuantityText();
+    public void updateVisual() {
+        updateQuantityVisual();
         updateStatusText();
         updatePausedVisual();
+        updateMoveArrows();
     }
 
     private void toggleRepeated() {
         order.repeated = !order.repeated;
-        repeatButton.GetComponent<Image>().color = order.repeated ? BUTTON_CHOSEN : BUTTON_NORMAL;
+        repeatButton.GetComponent<SquareIconButtonHandler>().setColor(order.repeated ? BUTTON_CHOSEN : BUTTON_NORMAL);
     }
 
     private void togglePaused() {
         order.status = order.status == PAUSED ? WAITING : PAUSED;
-        pauseButton.GetComponent<Image>().color = order.status == PAUSED ? BUTTON_NORMAL : BUTTON_CHOSEN;
+        pauseButton.GetComponent<SquareIconButtonHandler>().setColor(order.status == PAUSED ? BUTTON_NORMAL : BUTTON_CHOSEN);
         Debug.Log("pausing order");
         if (order.status == PAUSED) {
             if (workbench.Has<TaskComponent>()) {
@@ -115,13 +117,18 @@ public class CraftingOrderLineHandler : MonoBehaviour {
         configureButton.setColor(BUTTON_NORMAL);
     }
 
+    // order modification should not interfere with order handling in WorkbenchTaskCreationSystem
     private void changeQuantity(int delta) {
-        order.targetQuantity += delta;
-        updateQuantityText();
+        GameModel.get().currentLocalModel.addUpdateEvent(new ModelUpdateEvent(model => {
+            order.targetQuantity += delta;
+            updateQuantityVisual();
+        }));
     }
 
-    private void updateQuantityText() {
+    private void updateQuantityVisual() {
         quantityInputField.text = order.performedQuantity + "/" + order.targetQuantity;
+        minusButton.gameObject.SetActive(order.targetQuantity > 1);
+        plusButton.gameObject.SetActive(order.targetQuantity < 100);
     }
 
     private void updateStatusText() {
@@ -133,6 +140,13 @@ public class CraftingOrderLineHandler : MonoBehaviour {
         gameObject.GetComponent<Image>().color = order.status == PAUSED ? background : backgroundHighlight;
     }
 
+    private void updateMoveArrows() {
+        List<CraftingOrder> orders = workbench.take<WorkbenchComponent>().orders;
+        int currentIndex = orders.IndexOf(order);
+        upButton.gameObject.SetActive(currentIndex > 0);
+        downButton.gameObject.SetActive(currentIndex < orders.Count - 1);
+    }
+    
     private string selectTextForStatus() {
         return order.status switch {
             PERFORMING => "A", // means 'active'

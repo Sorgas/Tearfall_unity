@@ -14,7 +14,6 @@ using util.lang;
 using util.lang.extension;
 using static types.BlockTypes;
 using static game.view.util.TilemapLayersConstants;
-using Debug = UnityEngine.Debug;
 
 // stores tilemaps of layers in array
 // changes unity tilemaps to be consistent with local map in game model
@@ -29,6 +28,7 @@ namespace game.view.tilemaps {
         private LocalModel model;
         private LocalMap map;
         private ToggleableLogger logger = new("LocalMapTileUpdater");
+        private bool substratesEnabled = true;
         
         public LocalMapTileUpdater(RectTransform mapHolder, LocalModel model) {
             this.mapHolder = mapHolder;
@@ -85,9 +85,10 @@ namespace game.view.tilemaps {
             layerHandler.setTile(new Vector3Int(x, y, FLOOR_LAYER), floorTile);
             layerHandler.setTile(new Vector3Int(x, y, WALL_LAYER), wallTile);
             layerHandler.setTile(new Vector3Int(x, y, ZONE_FLOOR_LAYER), getZoneTile(position));
-            layerHandler.setTile(new Vector3Int(x, y, SUBSTRATE_FLOOR_LAYER), substrateFloorTile);
-            layerHandler.setTile(new Vector3Int(x, y, SUBSTRATE_WALL_LAYER), substrateWallTile);
-
+            if (substratesEnabled) {
+                layerHandler.setTile(new Vector3Int(x, y, SUBSTRATE_FLOOR_LAYER), substrateFloorTile);
+                layerHandler.setTile(new Vector3Int(x, y, SUBSTRATE_WALL_LAYER), substrateWallTile);
+            }
             if (blockType == SPACE) setToppingForSpace(x, y, z);
 
             // if tile above is space, topping should be updated
@@ -104,7 +105,7 @@ namespace game.view.tilemaps {
                     Quaternion.identity, transform);
                 layer.name = "local map layer " + i;
                 layers.Add(layer.transform.GetComponentInChildren<LocalMapLayerHandler>());
-                if (GlobalSettings.useSpriteSortingLayers) {
+                if (GlobalSettings.USE_SPRITE_SORTING_LAYERS) {
                     layers[i].tilemap.GetComponent<TilemapRenderer>().sortingOrder = i;
                     layers[i].planeRenderer.sortingOrder = i;
                 }
@@ -120,7 +121,7 @@ namespace game.view.tilemaps {
             string toppingTileName = rampUtil.selectRampPrefix(x, y, z - 1) + "F";
             layers[z].setTile(new Vector3Int(x, y, FLOOR_LAYER), blockTileSetHolder.tiles[material][toppingTileName]);
             Vector3Int lowerPosition = new(x, y, z - 1);
-            if (map.substrateMap.has(lowerPosition)) {
+            if (substratesEnabled && map.substrateMap.has(lowerPosition)) {
                 int id = map.substrateMap.get(lowerPosition).type;
                 SubstrateType type = SubstrateTypeMap.get().get(id);
                 toppingTileName += Random.Range(0, type.tilesetSize);

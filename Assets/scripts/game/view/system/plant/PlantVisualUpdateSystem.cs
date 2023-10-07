@@ -62,7 +62,7 @@ namespace game.view.system.plant {
             visual.go.transform.localPosition = spritePosition;
             visual.spriteRenderer = visual.go.GetComponent<SpriteRenderer>();
             visual.spriteRenderer.sprite = PlantTypeMap.get().spriteMap.getSprite(plant.type.name, stage);
-            if (GlobalSettings.useSpriteSortingLayers) {
+            if (GlobalSettings.USE_SPRITE_SORTING_LAYERS) {
                 visual.spriteRenderer.sortingOrder = entity.pos().z;
             }
             return visual;

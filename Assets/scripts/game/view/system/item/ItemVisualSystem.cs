@@ -62,7 +62,7 @@ namespace game.view.system.item {
             //                        ? spriteZOffsetForRamp
             //                        : spriteZOffset);
             component.spriteRenderer.gameObject.transform.localPosition = scenePos;
-            if (GlobalSettings.useSpriteSortingLayers) {
+            if (GlobalSettings.USE_SPRITE_SORTING_LAYERS) {
                 component.sortingGroup.sortingOrder = pos.z;
             }
         }

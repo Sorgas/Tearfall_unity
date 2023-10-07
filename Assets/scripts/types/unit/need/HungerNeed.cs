@@ -2,6 +2,7 @@ using game.model.component.task.action;
 using game.model.component.task.action.needs;
 using game.model.component.unit;
 using game.model.localmap;
+using game.model.system;
 using game.model.system.unit;
 using Leopotam.Ecs;
 using types.action;
@@ -10,10 +11,13 @@ using util.lang.extension;
 
 namespace types.unit.need {
     public class HungerNeed : Need {
+        // from full satisfaction
         public const float hoursToComfort = 8f;
         public const float hoursToHealth = 12f;
-        public const float hoursToSafety = 24f;
+        public const float hoursToSafety = 24f; // from 1 to 0
+        public const float perTickChange = 1f / hoursToSafety / GameTime.ticksPerHour;
 
+        // need values of priority change
         private float comfortThreshold = 1f - hoursToComfort / hoursToSafety;
         private float healthThreshold = 1f - hoursToHealth / hoursToSafety;
 

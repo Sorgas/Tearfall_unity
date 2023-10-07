@@ -16,7 +16,6 @@ namespace game.model.system.unit {
 // Doors counted as 'difficult terrain' during pathfinding
 // Add 'openness' value to door. This system should contribute to door openness (displayed visually)
 // Animals should not be able to use doors. 
-
 public class UnitMovementSystem : LocalModelScalableEcsSystem {
     public readonly float diagonalSpeedMod = (float)Math.Sqrt(2);
     public readonly float diagonalUpSpeedMod = (float)Math.Sqrt(2);

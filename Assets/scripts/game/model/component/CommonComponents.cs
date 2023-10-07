@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Leopotam.Ecs;
 using types;
-using types.action;
 using UnityEngine;
 
 namespace game.model.component {
@@ -58,6 +57,10 @@ namespace game.model.component {
     public struct TileVisualUpdateComponent {
         public HashSet<Vector3Int> tiles;
     }
+
+public struct PriorityComponent {
+    public int priority;
+}
 
 // entity with this can contain items. Content should be updated only via StoredItemsManager
 public struct ItemContainerComponent {

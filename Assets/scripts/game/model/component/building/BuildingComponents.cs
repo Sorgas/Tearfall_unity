@@ -27,11 +27,9 @@ namespace game.model.component.building {
     // indicates that building is a workbench
     public struct WorkbenchComponent {
         public List<CraftingOrder> orders;
-        public bool hasActiveOrders;
-        public bool updated;
+        public bool hasActiveOrders; // 
+        public bool updatedFromModel;
         public Job job;
-        public int priority;
-        public bool orderListChanged; // used to change list of orders from model, and redraw it in ui
         
         public void update() {
             hasActiveOrders = orders.Count != 0 && orders.Count(order => order.status != PAUSED) != 0;

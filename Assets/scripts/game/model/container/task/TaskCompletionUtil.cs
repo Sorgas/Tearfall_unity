@@ -63,9 +63,10 @@ namespace game.model.container.task {
                     ingredientOrder.items.Clear();
                 }
                 if (status == COMPLETE) { // task complete, increment order
+                    order.status = CraftingOrder.CraftingOrderStatus.WAITING;
                     order.performedQuantity++;
-                    log(", order quantity increased");
                     order.updated = true;
+                    log(", order quantity increased");
                 }
             }
             task.take<TaskBuildingComponent>().building.Del<TaskComponent>();

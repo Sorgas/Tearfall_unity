@@ -10,9 +10,12 @@ using static game.model.component.task.order.CraftingOrder;
 
 namespace generation.item {
 class CraftingOrderGenerator {
+
+    public CraftingOrder generate(string recipeName) => generate(RecipeMap.get().get(recipeName));
+
     // TODO use material preferences from workbench to fill materials in order
     // creates default crafting order by recipe. Order can be configured from workbench ui
-    public CraftingOrder generate(Recipe recipe, WorkbenchComponent workbench) {
+    public CraftingOrder generate(Recipe recipe) {
         CraftingOrder order = new(recipe);
         foreach (Ingredient ingredient in recipe.ingredients.Values) {
             order.ingredients.Add(createIngredientOrder(ingredient));

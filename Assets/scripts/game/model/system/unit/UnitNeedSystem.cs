@@ -1,6 +1,7 @@
 ﻿using game.model.component.unit;
 using Leopotam.Ecs;
 using types.unit.need;
+using UnityEngine;
 
 namespace game.model.system.unit {
     // rolls needs counters in NeedsComponent (hunger, thirst, rest)
@@ -13,7 +14,7 @@ namespace game.model.system.unit {
 
         public UnitNeedSystem() : base(interval) {
             restTick = 1f / RestNeed.hoursToSafety / GameTime.ticksPerHour * interval;
-            hungerTick = 1f / HungerNeed.hoursToSafety / GameTime.ticksPerHour * interval;
+            hungerTick = HungerNeed.perTickChange * interval;
         }
         
         protected override void runIntervalLogic(int updates) {

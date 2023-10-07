@@ -47,7 +47,6 @@ namespace game.view.ui.toolbar {
         }
 
         private void updateVisual(int priority) {
-            Debug.Log(priority);
             for (int i = 0; i < 8; i++) {
                 buttons[i].gameObject.GetComponent<Image>().color =
                     priority == i + 1 ? activeColor : inactiveColor;

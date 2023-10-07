@@ -36,6 +36,7 @@ namespace generation.localgen.generators {
             storeItems(building, type.name);
         }
 
+        // creates 5 of each provided in generation container
         public void storeItems(EcsEntity building, string typeName) {
             if (container.itemsToStore.ContainsKey(typeName)) {
                 foreach (var row in container.itemsToStore[typeName]) {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using types.unit;
 
 namespace types.item.recipe {
     public class Recipe {
@@ -16,7 +17,7 @@ namespace types.item.recipe {
         public Dictionary<string, Ingredient> ingredients = new(); // all ingredients, mapped to parts, 'consumed' or 'main'
 
         public float workAmount;                          // increases crafting time
-        public string job;                                // if null, no job requirement applied
+        public string job;
         public string skill;                              // if set, crafting gets bonus and gives experience in that skill
 
         public Recipe(RawRecipe raw) {

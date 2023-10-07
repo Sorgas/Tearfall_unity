@@ -75,6 +75,7 @@ public class CraftingItemFindingUtil : AbstractItemFindingUtil {
         return findItemsForIngredient(ingredientOrder, position, order.allIngredientItems());
     }
 
+    // finds items for ingredient order accessible from position
     private List<EcsEntity> findItemsForIngredient(IngredientOrder ingredientOrder, Vector3Int position, List<EcsEntity> blockedItems) {
         List<ItemGroup> groups = ingredientOrder.materials.Count == 0 // get groups of suitable items
             ? findItemsForIngredientWithTag(ingredientOrder)
