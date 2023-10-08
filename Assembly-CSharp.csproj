@@ -192,6 +192,7 @@
      <Compile Include="Assets\scripts\util\lang\Optional.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\SubstrateGrowingSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\item\CraftItemAtWorkbenchAction.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\InfoTooltipTrigger.cs" />
      <Compile Include="Assets\scripts\types\unit\need\Needs.cs" />
      <Compile Include="Assets\scripts\game\model\container\FarmContainer.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromGroundAction.cs" />
@@ -322,6 +323,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\target\SelfActionTarget.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\RecipeProcessor.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\zone\StoreItemToStockpileAction.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\InfoTooltipData.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\AssetPacker\TextureToPack.cs" />
      <Compile Include="Assets\scripts\game\view\util\ViewUtil.cs" />
      <Compile Include="Assets\scripts\game\model\GameModel.cs" />
@@ -355,6 +357,7 @@
      <Compile Include="Assets\scripts\util\input\DelayedLayersController.cs" />
      <Compile Include="Assets\scripts\game\view\ui\workbench\CraftingOrderConfigPanelHandler.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\update\ZoneUpdateUtil.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\InfoTooltipHandler.cs" />
      <Compile Include="Assets\scripts\types\unit\need\NeedTypeEnum.cs" />
      <Compile Include="Assets\scripts\game\view\ui\debug_tools\DebugToolsHandler.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantAgeSystem.cs" />
@@ -373,6 +376,7 @@
      <Compile Include="Assets\scripts\types\PassageTypes.cs" />
      <Compile Include="Assets\scripts\game\model\component\CommonComponents.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\TaskAssignmentHandlingSystem.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\InfoTooltipGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\ui\jobs_widget\JobsWindowHandler.cs" />
      <Compile Include="Assets\scripts\generation\plant\TreeGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\ConstructionAction.cs" />
@@ -460,6 +464,7 @@
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskAssignment.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\EquipmentSlotHandler.cs" />
      <Compile Include="Assets\scripts\game\model\container\task\TaskCompletionUtil.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\ItemTooltipHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromContainerAction.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />
      <Compile Include="Assets\scripts\game\view\ui\gamespeed_widget\GamespeedWidgetHandler.cs" />
@@ -534,6 +539,7 @@
      <None Include="Assets\resources\data\creatures\creatures.json" />
      <None Include="Assets\resources\data\buildings\workbenches.json" />
      <Folder Include="Assets\scripts\game\view" />
+     <Folder Include="Assets\resources\prefabs\infoTooltips" />
      <Folder Include="Assets\resources\icons" />
      <Folder Include="Assets\scripts\util\lang\extension" />
      <Folder Include="Assets\scripts\generation\localgen" />
@@ -696,6 +702,7 @@
      <Folder Include="Assets\scripts\mainMenu\ui" />
      <Folder Include="Assets\scripts\game\model\component" />
      <Folder Include="Assets\scripts\game\input" />
+     <Folder Include="Assets\scripts\game\view\ui\tooltip" />
      <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
      <Folder Include="Assets\scripts\types\item\type" />
      <Folder Include="Assets\scripts\util\geometry" />

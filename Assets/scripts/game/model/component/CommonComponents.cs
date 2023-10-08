@@ -76,5 +76,7 @@ public struct ItemContainerComponent {
         items.Remove(item);
         updated = true;
     }
+
+    public void setUpdated(bool value) => updated = value;
 }
 }

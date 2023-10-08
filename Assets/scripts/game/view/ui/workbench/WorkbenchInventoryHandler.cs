@@ -10,7 +10,6 @@ using util.lang.extension;
 
 namespace game.view.ui.workbench {
     // shows icons for items stored in workbench
-    // TODO consider using list of rows instead of square buttons
     public class WorkbenchInventoryHandler : MonoBehaviour {
         private EcsEntity entity;
         public RectTransform scrollContent;
@@ -25,11 +24,11 @@ namespace game.view.ui.workbench {
             redraw();
         }
 
-        // TODO update each item icon separately, to preserve tooltips
         public void Update() {
             if (!entity.take<ItemContainerComponent>().updated) return;
             clear();
             redraw();
+            entity.takeRef<ItemContainerComponent>().setUpdated(false);
         }
 
         private void clear() {

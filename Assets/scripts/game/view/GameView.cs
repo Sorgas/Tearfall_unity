@@ -11,6 +11,9 @@ using game.view.system.plant;
 using game.view.system.unit;
 using game.view.system.zone;
 using game.view.tilemaps;
+using game.view.ui;
+using game.view.ui.tooltip;
+using game.view.ui.util;
 using game.view.util;
 using Leopotam.Ecs;
 using types;
@@ -28,7 +31,8 @@ namespace game.view {
         public readonly IntBounds2 screenBounds = new(Screen.width, Screen.height);
 
         public EntitySelector selector;
-
+        public InfoTooltipHandler tooltipHandler;
+        
         public void init(LocalGameRunner runner, LocalModel model) {
             Debug.Log("initializing view");
             this.runner = runner;
@@ -48,6 +52,7 @@ namespace game.view {
             MouseToolManager.get().reset();
             runner.sceneElementsReferences.gamespeedWidgetHandler.updateVisual();
             runner.sceneElementsReferences.prioritySelectionWidgetHandler.init();
+            tooltipHandler = runner.sceneElementsReferences.infoTooltipHandler;
             Debug.Log("view initialized");
         }
 

@@ -15,9 +15,8 @@ using Debug = UnityEngine.Debug;
 
 namespace game {
     // Entry point from Unity scene to game logic. Creates GameModel and GameView when local map scene is loaded. 
-    // Calls update() for game model
+    // Calls update() for game view
     // Generates local map if none is generated (for testing)
-    // Contains links to common scene objects
     // TODO rename
     public class LocalGameRunner : MonoBehaviour {
         public SceneElementsReferences sceneElementsReferences;

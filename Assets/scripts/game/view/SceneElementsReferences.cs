@@ -4,7 +4,9 @@ using game.view.ui.jobs_widget;
 using game.view.ui.menu_widget;
 using game.view.ui.stockpileMenu;
 using game.view.ui.toolbar;
+using game.view.ui.tooltip;
 using game.view.ui.unit_menu;
+using game.view.ui.util;
 using game.view.ui.workbench;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,5 +29,6 @@ public class SceneElementsReferences : MonoBehaviour {
     public FarmMenuHandler farmMenuHandler;
     public PlantMenuHandler plantMenuHandler;
     public Text modelDebugInfoPanel;
+    public InfoTooltipHandler infoTooltipHandler;
 }
 }

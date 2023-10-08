@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using game.model.component.item;
+using game.view.ui.tooltip;
 using game.view.ui.util;
 using Leopotam.Ecs;
 using TMPro;
@@ -14,7 +15,7 @@ using util.lang.extension;
 namespace game.view.ui.workbench {
 // Displays item icon. On mouse hover, can show tooltip.
 // TODO make tooltips to be related to mouse pointer
-[RequireComponent(typeof(TooltipParentHandler))]
+[RequireComponent(typeof(InfoTooltipTrigger))]
 public class ItemButtonWithTooltipHandler : MonoBehaviour {
     // button
     public Image background;
@@ -27,11 +28,21 @@ public class ItemButtonWithTooltipHandler : MonoBehaviour {
     public TextMeshProUGUI tooltipTitle;
     public TextMeshProUGUI tooltipText;
 
+    public void Update() {
+        Debug.Log("update");
+    }
+    
     public virtual void initFor(EcsEntity item, int amount = -1) {
         bool haveItem = item != EcsEntity.Null;
-        if (haveItem) showItem(item.take<ItemComponent>(), amount);
         image.gameObject.SetActive(haveItem);
-        gameObject.GetComponent<TooltipParentHandler>().addTooltipObject(tooltip.gameObject, haveItem);
+        Debug.Log("initing item button " + haveItem);
+        if (haveItem) {
+            showItem(item.take<ItemComponent>(), amount);
+            InfoTooltipTrigger trigger = gameObject.GetComponent<InfoTooltipTrigger>();
+            trigger.setToolTipData(new InfoTooltipData(item, "item"));
+            trigger.parent = gameObject.GetComponent<RectTransform>();
+            trigger.isRoot = true;
+        }
     }
 
     // sets icon, fills tooltip, sets quantity text
