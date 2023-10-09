@@ -28,9 +28,9 @@ public class ItemButtonWithTooltipHandler : MonoBehaviour {
     public TextMeshProUGUI tooltipTitle;
     public TextMeshProUGUI tooltipText;
 
-    public void Update() {
-        Debug.Log("update");
-    }
+    // public void Update() {
+    //     Debug.Log("update");
+    // }
     
     public virtual void initFor(EcsEntity item, int amount = -1) {
         bool haveItem = item != EcsEntity.Null;

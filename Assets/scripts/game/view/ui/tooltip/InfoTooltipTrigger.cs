@@ -10,28 +10,23 @@ public class InfoTooltipTrigger : MonoBehaviour {
     private InfoTooltipData data;
 
     public void Awake() {
-        self = gameObject.GetComponent<RectTransform>();
+        self = gameObject.GetComponent<RectTransform>( );
     }
     
     public void Update() {
-        Debug.Log("trigger update");
-        // if (isRoot) 
-            update();
+        if (isRoot) update();
     }
 
     // custom update, called from root tooltip trigger
     public void update() {
         if (tooltip != null) {
-            Debug.Log("updating tooltip");
-            tooltip.update(); // can close tooltip
+            tooltip.update(); // updates tooltip chain and can close tooltip
         }
         if (tooltip == null) {
             Vector3 localPosition = self.InverseTransformPoint(Input.mousePosition);
-            Debug.Log("localPosition " + localPosition);
             if (self.rect.Contains(localPosition)) {
-                Debug.Log("mouse in trigger");
                 tooltip = InfoTooltipGenerator.get().generate(data);
-                tooltip.transform.parent = parent; 
+                tooltip.transform.SetParent(parent, false);
                 tooltip.gameObject.transform.localPosition = localPosition;
             }
         }

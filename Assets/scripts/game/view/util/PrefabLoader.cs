@@ -64,7 +64,7 @@ namespace game.view.util {
             // paths.Add("materialRow", "prefabs/materialSelector/MaterialRow");
             
             // tooltips
-            paths.Add("itemTooltip", "prefabs/infoTooltip/ItemTooltip");
+            paths.Add("itemTooltip", "prefabs/infoTooltips/ItemTooltip");
         }
     }
 }
