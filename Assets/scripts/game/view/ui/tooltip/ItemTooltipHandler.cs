@@ -4,6 +4,7 @@ using TMPro;
 using util.lang.extension;
 
 namespace game.view.ui.tooltip {
+// special handler for tooltips of items
 public class ItemTooltipHandler : InfoTooltipHandler {
     private EcsEntity item;
     public TextMeshProUGUI titleText;
@@ -12,7 +13,7 @@ public class ItemTooltipHandler : InfoTooltipHandler {
     public void init(EcsEntity item) {
         this.item = item;
         titleText.text = item.name();
-        string text = "";
+        string text = "Tags: ";
         foreach (var itemTag in item.take<ItemComponent>().tags) {
             text += itemTag + " ";
         }

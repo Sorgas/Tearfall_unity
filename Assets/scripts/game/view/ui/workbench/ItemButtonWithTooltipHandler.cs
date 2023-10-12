@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using game.model.component.item;
 using game.view.ui.tooltip;
-using game.view.ui.util;
 using Leopotam.Ecs;
 using TMPro;
 using types.item;
@@ -28,21 +27,20 @@ public class ItemButtonWithTooltipHandler : MonoBehaviour {
     public TextMeshProUGUI tooltipTitle;
     public TextMeshProUGUI tooltipText;
 
-    // public void Update() {
-    //     Debug.Log("update");
-    // }
-    
     public virtual void initFor(EcsEntity item, int amount = -1) {
         bool haveItem = item != EcsEntity.Null;
         image.gameObject.SetActive(haveItem);
         Debug.Log("initing item button " + haveItem);
         if (haveItem) {
             showItem(item.take<ItemComponent>(), amount);
-            InfoTooltipTrigger trigger = gameObject.GetComponent<InfoTooltipTrigger>();
-            trigger.setToolTipData(new InfoTooltipData(item, "item"));
-            trigger.parent = gameObject.GetComponent<RectTransform>();
-            trigger.isRoot = true;
+            initTooltipTrigger(item);
         }
+    }
+
+    private void initTooltipTrigger(EcsEntity item) {
+        InfoTooltipTrigger trigger = gameObject.GetComponent<InfoTooltipTrigger>();
+        trigger.setToolTipData(new InfoTooltipData(item, "item"));
+        trigger.isRoot = true;
     }
 
     // sets icon, fills tooltip, sets quantity text

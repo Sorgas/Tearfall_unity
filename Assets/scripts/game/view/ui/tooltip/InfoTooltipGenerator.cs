@@ -3,6 +3,7 @@ using UnityEngine;
 using util.lang;
 
 namespace game.view.ui.tooltip {
+// selects tooltip prefab,
 // creates info tooltips
 public class InfoTooltipGenerator : Singleton<InfoTooltipGenerator> {
 
@@ -14,6 +15,11 @@ public class InfoTooltipGenerator : Singleton<InfoTooltipGenerator> {
                 return tooltip.GetComponent<InfoTooltipHandler>();
             }
         }
+        if (data.type == "dummy") {
+            GameObject tooltip = PrefabLoader.create("dummyTooltip");
+            return tooltip.GetComponent<InfoTooltipHandler>();
+        }
+        
         return null;
     }
 }

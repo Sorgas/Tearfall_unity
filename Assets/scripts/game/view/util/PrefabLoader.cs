@@ -65,6 +65,7 @@ namespace game.view.util {
             
             // tooltips
             paths.Add("itemTooltip", "prefabs/infoTooltips/ItemTooltip");
+            paths.Add("dummyTooltip", "prefabs/infoTooltips/DummyTooltip");
         }
     }
 }

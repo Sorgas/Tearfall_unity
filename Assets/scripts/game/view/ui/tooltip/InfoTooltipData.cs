@@ -11,5 +11,9 @@ public class InfoTooltipData {
         this.entity = entity;
         this.entityType = entityType;
     }
+
+    public InfoTooltipData(string type) {
+        this.type = type;
+    }
 }
 }

@@ -318,6 +318,7 @@
      <Compile Include="Assets\scripts\util\GameLogger.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedConditionController.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedSystem.cs" />
+     <Compile Include="Assets\scripts\game\view\TMP_LinkTooltipTrigger.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\order\ConstructionOrder.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\RectanglePacking\SortableSize.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\SelfActionTarget.cs" />

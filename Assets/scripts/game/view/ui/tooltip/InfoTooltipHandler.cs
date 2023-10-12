@@ -1,37 +1,43 @@
 using System.Collections.Generic;
+using System.Linq;
 using Leopotam.Ecs;
 using UnityEngine;
 
 namespace game.view.ui.tooltip {
+// handler for tooltip. 
+// tooltip calls updates on all child tooltip triggers and can close itself.
 public class InfoTooltipHandler : MonoBehaviour {
+    private InfoTooltipData data;
     private EcsEntity targetEntity;
-    public List<InfoTooltipTrigger> triggers = new();
-    public InfoTooltipHandler child;
+    private List<InfoTooltipTrigger> triggers = new();
     private RectTransform self;
 
     public void Awake() {
         self = gameObject.GetComponent<RectTransform>();
+        triggers = new List<InfoTooltipTrigger>(GetComponentsInChildren<InfoTooltipTrigger>());
     }
 
+    public void init(InfoTooltipData data) {
+        this.data = data;
+    }
+    
     // custom update, called from root tooltip trigger
-    public void update() {
-        if (child != null) {
-            child.update(); // can close child
+    // keep self - should tooltip not close itself, even if mouse is outside
+    public void update(bool keepSelf) {
+        foreach (var trigger in triggers) {
+            trigger.update(); // can open tooltip or pass update further
         }
-        if (child == null) {
+        if (!hasChild()) { // no child tooltip, can close self
             Vector3 localPosition = self.InverseTransformPoint(Input.mousePosition);
-            if (self.rect.Contains(localPosition)) {
-                foreach (var trigger in triggers) {
-                    trigger.update(); // check if mouse over triggers
-                }
-            } else {
+            bool mouseInTooltip = self.rect.Contains(localPosition);
+            if (!mouseInTooltip && !keepSelf) { // mouse is outside tooltip and parent trigger
                 Destroy(gameObject);
             }
         }
     }
 
-    private void moveTooltipToMouse() {
-        gameObject.transform.localPosition = Input.mousePosition;
+    private bool hasChild() {
+        return triggers.Any(trigger => trigger.tooltip != null);
     }
 }
 }
