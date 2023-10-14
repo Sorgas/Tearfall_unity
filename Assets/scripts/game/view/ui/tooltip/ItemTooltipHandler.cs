@@ -10,14 +10,15 @@ public class ItemTooltipHandler : InfoTooltipHandler {
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI mainText;
     
-    public void init(EcsEntity item) {
-        this.item = item;
+    public override void init(InfoTooltipData data) {
+        base.init(data);
+        this.item = data.entity;
         titleText.text = item.name();
         string text = "Tags: ";
         foreach (var itemTag in item.take<ItemComponent>().tags) {
             text += itemTag + " ";
         }
-        mainText.text = text;
+        // mainText.text = text;
     }
 }
 }

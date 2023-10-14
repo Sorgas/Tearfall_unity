@@ -9,21 +9,22 @@ namespace game.view.ui.tooltip {
 public class InfoTooltipHandler : MonoBehaviour {
     private InfoTooltipData data;
     private EcsEntity targetEntity;
-    private List<InfoTooltipTrigger> triggers = new();
+    protected List<AbstractTooltipTrigger> triggers = new();
     private RectTransform self;
 
     public void Awake() {
         self = gameObject.GetComponent<RectTransform>();
-        triggers = new List<InfoTooltipTrigger>(GetComponentsInChildren<InfoTooltipTrigger>());
+        triggers = new List<AbstractTooltipTrigger>(GetComponentsInChildren<AbstractTooltipTrigger>());
     }
 
-    public void init(InfoTooltipData data) {
+    public virtual void init(InfoTooltipData data) {
         this.data = data;
     }
     
     // custom update, called from root tooltip trigger
     // keep self - should tooltip not close itself, even if mouse is outside
     public void update(bool keepSelf) {
+        Debug.Log($"udpating Tooltip, trigger count: {triggers.Count}");
         foreach (var trigger in triggers) {
             trigger.update(); // can open tooltip or pass update further
         }
