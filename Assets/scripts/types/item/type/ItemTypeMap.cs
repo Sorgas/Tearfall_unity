@@ -17,9 +17,10 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
 
     private string logMessage;
     private bool debug = false;
-    
+
     public ItemTypeMap() {
         loadItemTypes();
+        applyBaseTypes();
     }
 
     public static ItemType getItemType(string name) {
@@ -40,7 +41,7 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
         foreach (var file in files) {
             loadFromFile(file);
         }
-        if(debug) Debug.Log(logMessage);
+        if (debug) Debug.Log(logMessage);
     }
 
     private void loadFromFile(TextAsset file) {
@@ -55,9 +56,23 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
                 addToolMapping(type);
             }
         } else {
-            Debug.LogError("Can't load item types, " + file.name + " cannot be parsed");
+            Debug.LogError($"Can't load item types, {file.name} cannot be parsed");
         }
-        log("   " + raws.Count + " loaded from " + file.name);
+        log($"   {raws.Count} loaded from {file.name}");
+    }
+
+    private void applyBaseTypes() {
+        foreach (var type in types.Values) {
+            if (type.baseItem != null) {
+                ItemType baseType = getType(type.baseItem);
+                if (baseType.tags != null) {
+                    foreach (var tag in baseType.tags) {
+                        Debug.Log($"adding {tag} tag to {type.name}");
+                        type.tags.Add(tag);
+                    }
+                }
+            }
+        }
     }
 
     private void addToolMapping(ItemType type) {
@@ -81,7 +96,7 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
     }
 
     private void log(string message) {
-        if(debug) logMessage += message + "\n";
+        if (debug) logMessage += message + "\n";
     }
 }
 }

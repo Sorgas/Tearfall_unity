@@ -32,6 +32,7 @@ namespace generation.item {
                 weight = material.density * 1,
                 tags = new(tags)
             });
+            entity.take<ItemComponent>().tags.AddRange(type.tags);
             if (type.tool != null) {
                 entity.Replace(new ItemToolComponent { action = type.tool.action });
             }
@@ -60,7 +61,6 @@ namespace generation.item {
             }
             if(type.components.ContainsKey("food")) {
                 string[] args = type.components["food"];
-                Debug.Log(args[0]);
                 item.Replace(new ItemFoodComponent { nutrition = float.Parse(args[0], CultureInfo.InvariantCulture.NumberFormat)
                 // , foodQuality = int.Parse(args[1]) 
                 });

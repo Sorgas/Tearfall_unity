@@ -50,6 +50,7 @@ public class WorkbenchTaskCreationSystem : LocalModelUnscalableEcsSystem {
             } else {
                 if (order.repeated) { // reset and move to end
                     order.performedQuantity = 0;
+                    order.status = WAITING;
                     moveOrderToEnd(entity, order);
                     log($"completed repeated order {order.name} moved to end of the list");
                 } else {
@@ -91,7 +92,6 @@ public class WorkbenchTaskCreationSystem : LocalModelUnscalableEcsSystem {
         component.orders.RemoveAt(index);
         component.orders.Add(order);
         component.orders[0].updated = true;
-        order.status = WAITING;
         order.updated = true;
         component.updatedFromModel = true;
     }

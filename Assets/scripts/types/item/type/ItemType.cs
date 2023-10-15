@@ -27,6 +27,7 @@ public class ItemType {
     public ItemType(RawItemType raw) {
         name = raw.name;
         title = raw.title ?? raw.name;
+        baseItem = raw.baseItem;
         description = raw.description;
         if (raw.toolActions != null && raw.toolActions.Length > 0) {
             tool = new ToolItemType();

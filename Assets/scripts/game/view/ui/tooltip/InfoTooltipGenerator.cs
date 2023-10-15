@@ -42,7 +42,16 @@ public class InfoTooltipGenerator : Singleton<InfoTooltipGenerator> {
         textTooltipDefinitions.Add("dummyRecursive", new InfoTooltipData("toolbar/rotate", "Dummy Tooltip", 
             "This is first dummy tooltip with circular <link=\"dummyRecursive2\">link</link> to another dummy tooltip."));
         textTooltipDefinitions.Add("dummyRecursive2", new InfoTooltipData("toolbar/rotate", "Dummy Tooltip", 
-            "This is second dummy tooltip with circular <link=\"dummyRecursive2\">link</link> to another dummy tooltip."));
+            "This is second dummy tooltip with circular <link=\"dummyRecursive\">link</link> to another dummy tooltip."));
+    }
+
+    private void formatTooltipText(string text) {
+        int lb = text.IndexOf('[');
+        int rb = text.IndexOf(']');
+        int length = rb - lb + 1; // brackets included
+        string linkData = text.Substring(lb + 1, length - 2);
+        string[] args = linkData.Split(":");
+        text.Remove(lb, length);
     }
 }
 }

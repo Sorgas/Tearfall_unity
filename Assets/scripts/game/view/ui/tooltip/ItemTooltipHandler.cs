@@ -12,13 +12,13 @@ public class ItemTooltipHandler : InfoTooltipHandler {
     
     public override void init(InfoTooltipData data) {
         base.init(data);
-        this.item = data.entity;
+        item = data.entity;
         titleText.text = item.name();
         string text = "Tags: ";
         foreach (var itemTag in item.take<ItemComponent>().tags) {
             text += itemTag + " ";
         }
-        // mainText.text = text;
+        mainText.text = text;
     }
 }
 }
