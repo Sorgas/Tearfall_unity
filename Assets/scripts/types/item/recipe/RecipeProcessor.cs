@@ -10,7 +10,7 @@ namespace types.item.recipe {
             foreach(string ingredientString in rawRecipe.ingredients) {
                 if(ingredientProcessor.validateIngredient(ingredientString)) {
                     Ingredient ingredient = ingredientProcessor.parseIngredient(ingredientString);
-                    recipe.ingredients.Add(ingredient.key, ingredient);
+                    recipe.ingredients.add(ingredient.key, ingredient);
                 }
             }
             //TODO add combine recipes

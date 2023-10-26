@@ -23,13 +23,13 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
         applyBaseTypes();
     }
 
-    public static ItemType getItemType(string name) {
-        return get().getType(name);
-    }
+    public static ItemType getItemType(string name) => get().getType(name);
 
-    public ItemType getType(string name) {
-        return types.ContainsKey(name) ? types[name] : null;
-    }
+    public ItemType getType(string name) => hasType(name) ? types[name] : null;
+
+    public bool hasType(string name) => types.ContainsKey(name);
+
+    public List<ItemType> getByTags(List<string> tags) => types.Values.Where(type => type.tags.IsSupersetOf(tags)).ToList();
 
     public static List<ItemType> getAll() {
         return get().types.Values.ToList();

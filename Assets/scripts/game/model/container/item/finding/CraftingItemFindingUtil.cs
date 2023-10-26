@@ -7,7 +7,6 @@ using game.model.localmap;
 using Leopotam.Ecs;
 using MoreLinq;
 using UnityEngine;
-using util.lang;
 using util.lang.extension;
 using static game.model.component.task.order.CraftingOrder;
 
@@ -29,7 +28,7 @@ public class CraftingItemFindingUtil : AbstractItemFindingUtil {
         List<EcsEntity> foundItems = new();
         foreach (var ingredientOrder in order.ingredients) {
             List<EcsEntity> items = findItemsForIngredient(ingredientOrder, position, foundItems);
-            if (items == null || items.Count != ingredientOrder.ingredient.quantity) return false;
+            if (items == null) return false;
             foundItems.AddRange(items);
         }
         return true;
@@ -41,9 +40,9 @@ public class CraftingItemFindingUtil : AbstractItemFindingUtil {
     //      all items have same type and material
     //      all items are reachable from reference position
     private bool ingredientOrderValid(IngredientOrder order, Vector3Int position) {
-        if (order.items.Count != order.ingredient.quantity) return false;
+        if (!order.hasEnoughItems()) return false;
         ItemComponent firstItem = order.items[0].take<ItemComponent>();
-        if (!order.materials.Contains(firstItem.material) || !order.itemTypes.Contains(firstItem.type)) return false;
+        if (!order.selected.contains(firstItem.type, firstItem.material)) return false;
         foreach (var item in order.items) {
             ItemComponent itemComponent = item.take<ItemComponent>();
             if (itemComponent.material != firstItem.material || itemComponent.type != firstItem.type) return false;
@@ -77,35 +76,24 @@ public class CraftingItemFindingUtil : AbstractItemFindingUtil {
 
     // finds items for ingredient order accessible from position
     private List<EcsEntity> findItemsForIngredient(IngredientOrder ingredientOrder, Vector3Int position, List<EcsEntity> blockedItems) {
-        List<ItemGroup> groups = ingredientOrder.materials.Count == 0 // get groups of suitable items
-            ? findItemsForIngredientWithTag(ingredientOrder)
-            : findItemsForIngredientByMaterial(ingredientOrder);
+        List<ItemGroup> groups = findItemsForIngredientByMaterial(ingredientOrder);
         groups = groups
-            .Select(group => filterForCrafting(group, blockedItems, position, ingredientOrder.ingredient.quantity))
+            .Where(group => group.items.Count > 0)
+            .Select(group => {
+                string type = group.items[0].take<ItemComponent>().type;
+                int quantity = ingredientOrder.quantities[type];
+                return filterForCrafting(group, blockedItems, position, quantity);
+            })
             .Where(group => group != null)
             .ToList();
         return selectNearestGroup(groups)?.items;
     }
 
-    // finds groups of items suitable for ingredient order which has tag
-    private List<ItemGroup> findItemsForIngredientWithTag(IngredientOrder ingredientOrder) {
-        string tag = ingredientOrder.ingredient.tag;
-        List<ItemGroup> result = new();
-        foreach (string itemType in ingredientOrder.itemTypes) {
-            MultiValueDictionary<int, EcsEntity> itemsOfType = model.itemContainer.availableItemsManager.findByType(itemType); // material -> items
-            foreach (KeyValuePair<int, List<EcsEntity>> entry in itemsOfType) { // for each material
-                IEnumerable<EcsEntity> items = entry.Value.Where(item => item.take<ItemComponent>().tags.Contains(tag)); // filter by tag
-                result.Add(new ItemGroup(items));
-            }
-        }
-        return result;
-    }
-
-    // finds groups of items suitable for ingredient order which has material list
+    // finds groups of items suitable for ingredient order which has material list. Does not check item quantity
     private List<ItemGroup> findItemsForIngredientByMaterial(IngredientOrder ingredientOrder) {
         List<ItemGroup> result = new();
-        foreach (string itemType in ingredientOrder.itemTypes) {
-            foreach (int material in ingredientOrder.materials) {
+        foreach (var itemType in ingredientOrder.selected.Keys) {
+            foreach (int material in ingredientOrder.selected[itemType]) {
                 IEnumerable<EcsEntity> items = model.itemContainer.availableItemsManager.findByTypeAndMaterial(itemType, material);
                 result.Add(new ItemGroup(items));
             }
@@ -170,29 +158,13 @@ public class CraftingItemFindingUtil : AbstractItemFindingUtil {
         }
 
         // checks that there are available items for ingredient
-        private bool checkItemsForIngredient(IngredientOrder ingredientOrder) {
-            return ingredientOrder.materials.Count == 0 // get groups of suitable items
-                ? checkItemsForIngredientWithTag(ingredientOrder)
-                : checkItemsForIngredientByMaterial(ingredientOrder);
-        }
-
-        private bool checkItemsForIngredientWithTag(IngredientOrder ingredientOrder) {
-            string tag = ingredientOrder.ingredient.tag;
-            foreach (string itemType in ingredientOrder.itemTypes) {
-                MultiValueDictionary<int, EcsEntity> itemsOfType = model.itemContainer.availableItemsManager.findByType(itemType); // material -> items
-                foreach (KeyValuePair<int, List<EcsEntity>> entry in itemsOfType) { // for each material
-                    IEnumerable<EcsEntity> items = entry.Value.Where(item => item.take<ItemComponent>().tags.Contains(tag)); // filter by tag
-                    if (items.Count() >= ingredientOrder.ingredient.quantity) return true;
-                }
-            }
-            return false;
-        }
+        private bool checkItemsForIngredient(IngredientOrder ingredientOrder) => checkItemsForIngredientByMaterial(ingredientOrder);
 
         private bool checkItemsForIngredientByMaterial(IngredientOrder ingredientOrder) {
-            foreach (string itemType in ingredientOrder.itemTypes) {
-                foreach (int material in ingredientOrder.materials) {
+            foreach (string itemType in ingredientOrder.selected.Keys) {
+                foreach (int material in ingredientOrder.selected[itemType]) {
                     IEnumerable<EcsEntity> items = model.itemContainer.availableItemsManager.findByTypeAndMaterial(itemType, material);
-                    if (items.Count() >= ingredientOrder.ingredient.quantity) return true;
+                    if (items.Count() >= ingredientOrder.quantities[itemType]) return true;
                 }
             }
             return false;

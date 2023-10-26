@@ -1,5 +1,4 @@
-﻿using game.input;
-using game.model.component;
+﻿using game.model.component;
 using game.view.ui.util;
 using Leopotam.Ecs;
 using TMPro;

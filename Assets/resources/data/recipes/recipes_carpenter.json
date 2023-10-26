@@ -4,18 +4,18 @@
         "title": "Wooden barrel",
         "itemName": "barrel",
         "workAmount": 400,
-        "ingredients": ["main:log:wood:2"]
+        "ingredients": ["main:log:any/wood:2"]
     },{
         "name": "make_bin",
         "title": "Wooden bin",
         "itemName": "bin",
         "workAmount": 200,
-        "ingredients": ["main:log:wood:2"]
+        "ingredients": ["main:log:any/wood:2"]
     },{
         "name": "saw_log",
         "title": "Saw log into planks",
         "itemName": "plank",
         "workAmount": 50,
-        "ingredients": ["plank:log:wood:1"]
+        "ingredients": ["plank:log:any/wood:1"]
     }
 ]

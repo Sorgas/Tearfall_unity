@@ -13,6 +13,7 @@ using game.view.system.zone;
 using game.view.tilemaps;
 using game.view.ui;
 using game.view.ui.tooltip;
+using game.view.ui.tooltip.handler;
 using game.view.ui.util;
 using game.view.util;
 using Leopotam.Ecs;
@@ -31,7 +32,7 @@ namespace game.view {
         public readonly IntBounds2 screenBounds = new(Screen.width, Screen.height);
 
         public EntitySelector selector;
-        public InfoTooltipHandler tooltipHandler;
+        public DestroyingTooltipHandler tooltipHandler;
         
         public void init(LocalGameRunner runner, LocalModel model) {
             Debug.Log("initializing view");

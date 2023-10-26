@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using game.model.component.item;
 using Leopotam.Ecs;
 using types.item.recipe;
+using util.lang;
+using util.lang.extension;
 
 // order for crafting items in workbenches. Order is 'completed' when performed targetQuantity number of times.
 namespace game.model.component.task.order {
@@ -38,22 +41,20 @@ public class CraftingOrder {
 
     // stores selected item types and materials for crafting
     public class IngredientOrder {
-        // from ingredient
-        public readonly Ingredient ingredient;
-        public readonly List<string> itemTypes = new(); // configured from ui, all items should be of same type from this list
-        public readonly HashSet<int> materials = new(); // configured from ui. all items should be of same material from this list. -1 for any
-
+        public readonly List<Ingredient> ingredients = new(); // 'variants'
+        // configured from ui, maps allowed item types to corresponding allowed materials
+        // all selected items should have same type and material
+        public readonly MultiValueDictionary<string, int> selected = new();
+        public readonly Dictionary<string, int> quantities = new();
         public readonly List<EcsEntity> items = new(); // selected before performing, cleared after performing
 
-        public IngredientOrder(Ingredient ingredient) {
-            this.ingredient = ingredient;
-        }
+        public IngredientOrder() { }
 
         public IngredientOrder(IngredientOrder source) {
-            ingredient = source.ingredient;
-            itemTypes = new List<string>(source.itemTypes);
-            materials = new HashSet<int>(source.materials);
+            ingredients = source.ingredients;
         }
+
+        public bool hasEnoughItems() => items.Count > 0 && quantities[items[0].take<ItemComponent>().type] == items.Count;
     }
 
     public enum CraftingOrderStatus {

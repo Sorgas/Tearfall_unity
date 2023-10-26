@@ -7,7 +7,7 @@ namespace types.material {
 public class Material_ {
     public int id;
     public string name;
-    public List<string> tags;
+    public HashSet<string> tags;
     public float density;
     public int workAmountModifier = 0; // in percents
     public int value;
@@ -18,7 +18,7 @@ public class Material_ {
     public Material_(RawMaterial raw) {
         id = raw.id;
         name = raw.name;
-        tags = new List<string>(raw.tags);
+        tags = new HashSet<string>(raw.tags);
         density = raw.density;
         workAmountModifier = raw.workAmountModifier;
         value = raw.value;
@@ -29,7 +29,7 @@ public class Material_ {
     public Material_(Material_ source) {
         id = source.id;
         name = source.name;
-        tags = new List<string>(source.tags);
+        tags = new HashSet<string>(source.tags);
         density = source.density;
         value = source.value;
         tileset = source.tileset;

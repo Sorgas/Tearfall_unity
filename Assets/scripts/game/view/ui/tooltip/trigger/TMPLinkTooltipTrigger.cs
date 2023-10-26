@@ -1,12 +1,11 @@
 using TMPro;
 using UnityEngine;
 
-namespace game.view.ui.tooltip {
-
+namespace game.view.ui.tooltip.trigger {
 // Handles TMP text. Opens tooltip when link in text is hovered.
 public class TMPLinkTooltipTrigger : AbstractTooltipTrigger {
     private TextMeshProUGUI text;
-    private int currentLink = -1; 
+    private int currentLink = -1;
 
     public new void Awake() {
         base.Awake();
@@ -22,16 +21,24 @@ public class TMPLinkTooltipTrigger : AbstractTooltipTrigger {
                 Debug.Log("mouse in link " + linkIndex);
                 TMP_LinkInfo linkInfo = text.textInfo.linkInfo[linkIndex];
                 string linkId = linkInfo.GetLinkID();
-                Vector3 localPosition = self.InverseTransformPoint(Input.mousePosition);
                 tooltip = InfoTooltipGenerator.get().generateFromLink(linkId);
-                tooltip.transform.SetParent(self, false);
-                tooltip.gameObject.transform.localPosition = localPosition;
+                Vector3 localPosition = self.InverseTransformPoint(Input.mousePosition);
+                openTooltip(localPosition);
                 currentLink = linkIndex;
             }
         } else {
             tooltip.update(linkIndex == currentLink); // can close tooltip
             if (tooltip == null) currentLink = -1;
         }
+    }
+
+    public override void openTooltip(Vector3 position) {
+        tooltip.transform.SetParent(self, false);
+        tooltip.gameObject.transform.localPosition = position;
+    }
+
+    protected override bool isTooltipOpen() {
+        return tooltip != null;
     }
 }
 }

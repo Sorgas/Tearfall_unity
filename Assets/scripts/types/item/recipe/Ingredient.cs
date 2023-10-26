@@ -1,30 +1,21 @@
 using System.Collections.Generic;
-using System.Linq;
-using game.model.component.item;
-using types.material;
 
 namespace types.item.recipe {
-    // describes selection of ingredient items for crafting.
-    // Any combination of item types and materials allowed. all items should be of same type and material
-    public class Ingredient {
-        public string key;                              // item/building part name, 'consumed', 'main'
-        public List<string> itemTypes;                  // acceptable item types
-        public string tag;                              // acceptable item tag
-        // public List<string> materials;               // acceptable materials TODO allow defining specific materials
-        public int quantity;                            // number of items
+// Describes selection of ingredient items for crafting.
+// Can specify sets of item types and materials. Any combination of item type and material allowed. All items should be of same type and material
+// TODO add item tags to filter items?
+public class Ingredient {
+    public readonly string key; // item/building part name, 'consumed', 'main'
+    public readonly List<string> itemTypes; // acceptable item types, empty for any
+    public readonly List<int> materials; // acceptable materials, empty for any
+    public readonly int quantity; // number of items
+    // TODO add amount component to material items and use target amount in ingredient definition.
 
-        public List<int> allowedMaterials = new();   // -1 for any
-        
-        public Ingredient(string key, List<string> itemTypes, string tag, int quantity) {
-            this.key = key;
-            this.itemTypes = new(itemTypes);
-            this.tag = tag;
-            this.quantity = quantity;
-            allowedMaterials.AddRange(MaterialMap.get().getByTag(tag).Select(material => material.id));
-        }
-
-        public bool checkItem(ItemComponent item) {
-            return item.tags.Contains(tag) && itemTypes.Contains(item.type);
-        }
+    public Ingredient(string key, List<string> itemTypes, List<int> materials, int quantity) {
+        this.key = key;
+        this.itemTypes = itemTypes;
+        this.materials = materials;
+        this.quantity = quantity;
     }
+}
 }

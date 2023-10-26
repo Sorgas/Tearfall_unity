@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using game.view.ui.tooltip.handler;
 using game.view.util;
 using UnityEngine;
 using util.lang;
@@ -9,27 +10,27 @@ namespace game.view.ui.tooltip {
 public class InfoTooltipGenerator : Singleton<InfoTooltipGenerator> {
     private Dictionary<string, InfoTooltipData> textTooltipDefinitions;
 
-    public InfoTooltipHandler generate(InfoTooltipData data) {
+    public DestroyingTooltipHandler generate(InfoTooltipData data) {
         if (data.type == "entity") {
             if (data.entityType == "item") {
                 GameObject go = PrefabLoader.create("itemTooltip");
-                InfoTooltipHandler handler = go.GetComponent<InfoTooltipHandler>();
+                DestroyingTooltipHandler handler = go.GetComponent<DestroyingTooltipHandler>();
                 handler.init(data);
                 return handler;
             }
         }
         if (data.type == "dummy") {
             GameObject tooltip = PrefabLoader.create("dummyTooltip");
-            return tooltip.GetComponent<InfoTooltipHandler>();
+            return tooltip.GetComponent<DestroyingTooltipHandler>();
         }
         return null;
     }
 
-    public InfoTooltipHandler generateFromLink(string link) {
+    public DestroyingTooltipHandler generateFromLink(string link) {
         // TODO reformat text
         GameObject tooltip = PrefabLoader.create("textTooltip");
         tooltip.GetComponent<TextTooltipHandler>().init(getDataForTextTooltip(link));
-        return tooltip.GetComponent<InfoTooltipHandler>();
+        return tooltip.GetComponent<DestroyingTooltipHandler>();
     }
 
     private InfoTooltipData getDataForTextTooltip(string name) {

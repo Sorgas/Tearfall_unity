@@ -81,7 +81,7 @@ class CraftItemAtWorkbenchAction : EquipmentAction {
         }
         foreach (var ingredientOrder in invalidOrders) {
             List<EcsEntity> items = container.craftingUtil.findItemsForIngredient(ingredientOrder, order, target.pos);
-            if (items == null || items.Count != ingredientOrder.ingredient.quantity) return false;
+            if (items == null) return false;
             ingredientOrder.items.AddRange(items);
         }
         return true; // items found for all ingredients

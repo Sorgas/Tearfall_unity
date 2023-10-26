@@ -27,6 +27,8 @@ public class WorkbenchWindowHandler : WindowManagerMenu {
     public WorkbenchInventoryHandler inventory;
     public Button showInventoryButton;
 
+    public RectTransform orderConfigPanel;
+    
     private CraftingOrderGenerator generator = new();
     private List<CraftingOrderLineHandler> orderLines = new();
     private EcsEntity entity; // workbench

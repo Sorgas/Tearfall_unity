@@ -55,7 +55,7 @@ namespace game.model.util {
 
         private int getMaterialWorkAmountModifier(Vector3Int position, LocalModel model) {
             int material = model.localMap.blockType.getMaterial(position);
-            List<string> tags = MaterialMap.get().material(material).tags;
+            HashSet<string> tags = MaterialMap.get().material(material).tags;
             if (tags.Contains("ore")) {
                 return 150;
             } else if (tags.Contains("stone")) {

@@ -180,7 +180,7 @@
      <Compile Include="Assets\scripts\types\unit\Skill.cs" />
      <Compile Include="Assets\scripts\game\view\ui\menu_widget\MenuWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\model\container\LocalMapModelComponent.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\tooltip\TextTooltipHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\TextTooltipHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\UnitComponents.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\TextureLoader.cs" />
      <Compile Include="Assets\scripts\game\view\ui\workbench\WorkbenchWindowHandler.cs" />
@@ -193,7 +193,7 @@
      <Compile Include="Assets\scripts\util\lang\Optional.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\SubstrateGrowingSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\item\CraftItemAtWorkbenchAction.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\tooltip\InfoTooltipTrigger.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\trigger\InfoTooltipTrigger.cs" />
      <Compile Include="Assets\scripts\types\unit\need\Needs.cs" />
      <Compile Include="Assets\scripts\game\model\container\FarmContainer.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromGroundAction.cs" />
@@ -231,6 +231,7 @@
      <Compile Include="Assets\scripts\game\model\util\validation\PositionValidator.cs" />
      <Compile Include="Assets\scripts\game\view\ui\PlantMenuHandler.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\OnMapItemsManager.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\workbench\CraftingOrderConfigPanelIngredientHandler.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalBuildingGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\container\AbstractContainer.cs" />
      <Compile Include="Assets\scripts\game\model\WorldMap.cs" />
@@ -242,6 +243,7 @@
      <Compile Include="Assets\scripts\game\view\system\item\ItemVIsualRemoveSystem.cs" />
      <Compile Include="Assets\scripts\util\geometry\PositionUtil.cs" />
      <Compile Include="Assets\scripts\types\unit\CreatureTypeMap.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\HidingTooltipHandler.cs" />
      <Compile Include="Assets\scripts\util\item\ItemSelector.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\HarvestablePlantValidator.cs" />
      <Compile Include="Assets\scripts\types\ZoneTypes.cs" />
@@ -319,7 +321,7 @@
      <Compile Include="Assets\scripts\util\GameLogger.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedConditionController.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedSystem.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\tooltip\TMPLinkTooltipTrigger.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\trigger\TMPLinkTooltipTrigger.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\order\ConstructionOrder.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\RectanglePacking\SortableSize.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\SelfActionTarget.cs" />
@@ -359,7 +361,7 @@
      <Compile Include="Assets\scripts\util\input\DelayedLayersController.cs" />
      <Compile Include="Assets\scripts\game\view\ui\workbench\CraftingOrderConfigPanelHandler.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\update\ZoneUpdateUtil.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\tooltip\InfoTooltipHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\DestroyingTooltipHandler.cs" />
      <Compile Include="Assets\scripts\types\unit\need\NeedTypeEnum.cs" />
      <Compile Include="Assets\scripts\game\view\ui\debug_tools\DebugToolsHandler.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantAgeSystem.cs" />
@@ -387,6 +389,7 @@
      <Compile Include="Assets\scripts\game\model\util\validation\ConstructionValidator.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\IHotKeyAcceptor.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\LocalModelPlantSystem.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\trigger\ReusedTooltipClickTrigger.cs" />
      <Compile Include="Assets\scripts\generation\GenerationState.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\Node.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\AreaInitializer.cs" />
@@ -406,7 +409,7 @@
      <Compile Include="Assets\scripts\game\view\camera\CameraMovementSystem.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\StockpilePositionValidator.cs" />
      <Compile Include="Assets\scripts\game\view\ui\toolbar\PrioritySelectionWidgetHandler.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\tooltip\AbstractTooltipTrigger.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\trigger\AbstractTooltipTrigger.cs" />
      <Compile Include="Assets\scripts\game\view\camera\EntitySelector.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\MoveAction.cs" />
      <Compile Include="Assets\scripts\util\geometry\bounds\IntBounds3.cs" />
@@ -441,6 +444,7 @@
      <Compile Include="Assets\scripts\game\view\ui\util\FarmDebugInfoHandler.cs" />
      <Compile Include="Assets\scripts\util\geometry\IntRange.cs" />
      <Compile Include="Assets\scripts\types\item\ItemTags.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\AbstractTooltipHandler.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\GameObjectExtension.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\AStar.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskAssignmentSystem.cs" />
@@ -467,7 +471,7 @@
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskAssignment.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\EquipmentSlotHandler.cs" />
      <Compile Include="Assets\scripts\game\model\container\task\TaskCompletionUtil.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\tooltip\ItemTooltipHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\ItemTooltipHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromContainerAction.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />
      <Compile Include="Assets\scripts\game\view\ui\gamespeed_widget\GamespeedWidgetHandler.cs" />
@@ -627,6 +631,7 @@
      <None Include="Assets\resources\data\creatures\diseases.json" />
      <Folder Include="Assets\resources\tilesets\units" />
      <Folder Include="Assets\Scenes" />
+     <Folder Include="Assets\scripts\game\view\ui\tooltip\trigger" />
      <Folder Include="Assets\scripts\util\unput" />
      <Folder Include="Assets\scripts\game\model\util" />
      <Folder Include="Assets\resources\prefabs\toolbar" />
@@ -725,6 +730,7 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
      <None Include="Assets\resources\BillingMode.json" />
      <Folder Include="Assets\resources\data\deity" />
+     <Folder Include="Assets\scripts\game\view\ui\tooltip\handler" />
      <Folder Include="Assets\scripts\game\view\ui\jobs_widget" />
      <Folder Include="Assets\input" />
      <None Include="Assets\resources\data\creatures\skills.json" />

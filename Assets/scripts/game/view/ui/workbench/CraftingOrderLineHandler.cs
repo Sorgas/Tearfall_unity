@@ -107,13 +107,13 @@ public class CraftingOrderLineHandler : MonoBehaviour {
     }
 
     private void showConfigureMenu() {
-        configurePanel.gameObject.SetActive(true);
+        // configurePanel.gameObject.SetActive(true);
         configurePanel.fillFor(order);
         configureButton.setColor(BUTTON_CHOSEN);
     }
 
     private void closeConfigureMenu() {
-        configurePanel.gameObject.SetActive(false);
+        // configurePanel.gameObject.SetActive(false);
         configureButton.setColor(BUTTON_NORMAL);
     }
 

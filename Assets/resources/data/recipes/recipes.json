@@ -3,42 +3,37 @@
     "name": "make_pickaxe",
     "title": "Metal pickaxe",
     "itemName": "pickaxe",
-    "ingredients": ["main:bar:metal:1"]
+    "ingredients": ["main:bar:any/metal:1"]
 }, {
     "name": "make_sickle",
     "title": "Metal sickle",
     "itemName": "sickle",
-    "ingredients": ["main:bar:metal:1"]
+    "ingredients": ["main:bar:any/metal:1"]
 }, {
     "name": "make_axe",
     "title": "Metal axe",
     "itemName": "axe",
-    "ingredients": ["main:bar:metal:1"]
+    "ingredients": ["main:bar:any/metal:1"]
 }, {
     "name": "boil_water",
     "title": "Boil water",
     "itemName": "liquid",
-    "ingredients": ["main:any:water:1"]
-}, {
-    "name": "boil_drink",
-    "title": "Boil drink",
-    "itemName": "liquid",
-    "ingredients": ["main:any:brewable:1", "consumed:any:water:1"]
+    "ingredients": ["main:any:any/water:1"]
 }, {
     "name": "make_bow_saw",
     "title": "Make bow saw",
     "itemName": "bow_saw",
-    "ingredients": ["main:bar:metal:1"]
+    "ingredients": ["main:bar:any/metal:1"]
 }, {
     "name": "melt_ore",
     "title": "Melt ore to metal bar",
     "itemName": "bar",
     "newMaterial": "_smelt:bar",
-    "ingredients": ["main:rock:ore:1", "consumed:any:fuel:1"]
+    "ingredients": ["main:rock:any/ore:1", "consumed:any:any/fuel:1"]
 }, {
     "name": "extract_seeds",
     "title": "Get seeds from plants",
     "itemName": "seed",
-    "ingredients": ["main:any:seed_produce:1"]
+    "ingredients": ["main:any:any/seed_produce:1"]
 }
 ]
