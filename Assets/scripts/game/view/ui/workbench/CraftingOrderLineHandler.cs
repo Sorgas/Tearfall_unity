@@ -4,6 +4,8 @@ using game.model.component;
 using game.model.component.building;
 using game.model.component.task.order;
 using game.model.container;
+using game.view.ui.tooltip.handler;
+using game.view.ui.tooltip.trigger;
 using Leopotam.Ecs;
 using TMPro;
 using types.action;
@@ -43,14 +45,19 @@ public class CraftingOrderLineHandler : MonoBehaviour {
     public void Start() {
         pauseButton.addListener(togglePaused);
         repeatButton.addListener(toggleRepeated);
-        configureButton.addListener(toggleConfigureMenu);
         upButton.addListener(() => workbenchWindow.moveOrder(order, true));
         downButton.addListener(() => workbenchWindow.moveOrder(order, false));
         cancelButton.addListener(() => workbenchWindow.removeOrder(order));
         duplicateButton.addListener(() => workbenchWindow.duplicateOrder(order));
         plusButton.addListener(() => changeQuantity(1));
         minusButton.addListener(() => changeQuantity(-1));
-        closeConfigureMenu();
+        ReusedTooltipClickTrigger trigger = configureButton.GetComponent<ReusedTooltipClickTrigger>();
+        trigger.tooltip = configurePanel.GetComponent<HidingTooltipHandler>();
+        trigger.closeCallback = () => configureButton.setColor(BUTTON_NORMAL);
+        trigger.openCallback = () => {
+            configurePanel.fillFor(order);
+            configureButton.setColor(BUTTON_CHOSEN);
+        };
     }
 
     // order can be updated from game model, changes should be visible in ui
@@ -67,6 +74,7 @@ public class CraftingOrderLineHandler : MonoBehaviour {
         this.workbench = workbench;
         text.text = order.name;
         itemImage.sprite = ItemTypeMap.get().getSprite(order.recipe.newType);
+        configurePanel = window.orderConfigPanel;
         updateVisual();
     }
 
@@ -96,25 +104,6 @@ public class CraftingOrderLineHandler : MonoBehaviour {
         } else {
             workbench.takeRef<WorkbenchComponent>().hasActiveOrders = true;
         }
-    }
-
-    private void toggleConfigureMenu() {
-        if (configurePanel.gameObject.activeSelf) {
-            closeConfigureMenu();
-        } else {
-            showConfigureMenu();
-        }
-    }
-
-    private void showConfigureMenu() {
-        // configurePanel.gameObject.SetActive(true);
-        configurePanel.fillFor(order);
-        configureButton.setColor(BUTTON_CHOSEN);
-    }
-
-    private void closeConfigureMenu() {
-        // configurePanel.gameObject.SetActive(false);
-        configureButton.setColor(BUTTON_NORMAL);
     }
 
     // order modification should not interfere with order handling in WorkbenchTaskCreationSystem

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using game.model.component.item;
 using game.view.ui.tooltip;
+using game.view.ui.tooltip.trigger;
 using Leopotam.Ecs;
 using TMPro;
 using types.item;

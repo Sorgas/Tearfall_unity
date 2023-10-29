@@ -1,3 +1,5 @@
+using System;
+using game.view.ui.tooltip.handler;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +13,8 @@ public abstract class AbstractTooltipTrigger : MonoBehaviour {
     public bool fixedPosition;
     protected InfoTooltipData data; // data to be used for tooltip
     protected RectTransform self;
+    public Action openCallback; // will be invoked, when tooltip opens
+    public Action closeCallback; // will be invoked, when tooltip closes
 
     public virtual void Awake() {
         self = gameObject.GetComponent<RectTransform>();
@@ -21,10 +25,19 @@ public abstract class AbstractTooltipTrigger : MonoBehaviour {
     }
 
     // custom update, called from parent element in tooltip chain
-    public abstract void update();
+    public abstract bool update();
 
     // should open tooltip
-    public abstract void openTooltip(Vector3 position);
+    protected abstract void openTooltip(Vector3 position);
+
+    protected void openWithCallbacks(Vector3 position) {
+        openTooltip(position);
+        openCallback.Invoke();
+    }
+
+    protected void updateWithCallbacks(bool mouseInTrigger) {
+        if (!tooltip.update(mouseInTrigger)) closeCallback?.Invoke();
+    }
 
     // should check if tooltip is 
     protected abstract bool isTooltipOpen();
@@ -35,15 +48,17 @@ public abstract class AbstractTooltipTrigger : MonoBehaviour {
 // opens tooltip when trigger is hovered
 public abstract class HoveringTooltipTrigger : AbstractTooltipTrigger {
     // if tooltip is opened, passes update to it. Otherwise checks if mouse is over trigger and opens tooltip
-    public override void update() {
+    public override bool update() {
         Vector3 localPosition = self.InverseTransformPoint(Input.mousePosition);
         bool mouseInTrigger = self.rect.Contains(localPosition);
         if (isTooltipOpen()) {
-            Debug.Log("update tooltip " + mouseInTrigger);
-            tooltip.update(mouseInTrigger); // updates tooltip chain and can close tooltip
+            // updates tooltip chain and can close tooltip
+            updateWithCallbacks(mouseInTrigger);
         } else if (tooltip == null && mouseInTrigger) { // mouse in trigger, open tooltip
-            openTooltip(localPosition);
+            openWithCallbacks(localPosition);
+            return true;
         }
+        return false;
     }
 }
 
@@ -54,16 +69,19 @@ public abstract class ClickingTooltipTrigger : AbstractTooltipTrigger {
         base.Awake();
         gameObject.GetComponent<Button>().onClick.AddListener(() => {
             Vector3 localPosition = self.InverseTransformPoint(Input.mousePosition);
-            openTooltip(localPosition);
+            openWithCallbacks(localPosition);
+            openCallback?.Invoke();
         });
     }
     
-    public override void update() {
+    public override bool update() {
         if (isTooltipOpen()) {
             Vector3 localPosition = self.InverseTransformPoint(Input.mousePosition);
             bool mouseInTrigger = self.rect.Contains(localPosition);
-            tooltip.update(mouseInTrigger); // updates tooltip chain and can close tooltip
+            // updates tooltip chain and can close tooltip
+            updateWithCallbacks(mouseInTrigger);
         }
+        return false;
     }
 }
 }
