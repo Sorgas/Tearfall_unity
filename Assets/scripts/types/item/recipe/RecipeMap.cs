@@ -20,7 +20,6 @@ public class RecipeMap : Singleton<RecipeMap> {
         log("loading recipes");
         map.Clear();
         TextAsset[] files = Resources.LoadAll<TextAsset>("data/recipes/");
-        // TextAsset file = Resources.Load<TextAsset>("data/recipes/recipes");
         foreach (var file in files) {
             List<RawRecipe> raws = JsonConvert.DeserializeObject<List<RawRecipe>>(file.text);
             foreach (var raw in raws) {

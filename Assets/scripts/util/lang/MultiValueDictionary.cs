@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 namespace util.lang {
+// stores lists of values by keys. When last value is removed, the list and key is removed.
     public class MultiValueDictionary<K, V> : Dictionary<K, List<V>> {
         public MultiValueDictionary() { }
 

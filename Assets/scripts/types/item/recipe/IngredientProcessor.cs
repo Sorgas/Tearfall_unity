@@ -12,6 +12,7 @@ namespace types.item.recipe {
 // Word 'any' can be used to allow any item type or material.
 public class IngredientProcessor {
     public Ingredient parseIngredient(string ingredientString) {
+        Debug.Log(ingredientString);
         if (!validateIngredient(ingredientString)) return null;
         string[] args = ingredientString.Split(":");
         // types
@@ -32,10 +33,10 @@ public class IngredientProcessor {
             ? MaterialMap.get().all.Select(material => material.id)
             : materialArgs[0].Split(',').Select(name => MaterialMap.get().material(name).id)
         );
-        if (typeArgs.Length == 2) { // filter by tags
+        if (materialArgs.Length == 2) { // filter by tags
             string[] materialTags = materialArgs[1].Split(',');
             materials = materials.Select(material => MaterialMap.get().material(material))
-                .Where(material => material.tags.IsSupersetOf(materialTags))
+                .Where(material => material.tags. IsSupersetOf(materialTags))
                 .Select(material => material.id).ToList();
         }
         return new Ingredient(args[0], itemTypes, materials, int.Parse(args[3]));

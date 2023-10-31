@@ -107,6 +107,7 @@
      <Compile Include="Assets\scripts\game\view\SceneElementsReferences.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuEquipmentInfoHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\ZoneComponents.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\workbench\CraftingOrderConfigLine.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\Action.cs" />
      <Compile Include="Assets\scripts\game\model\container\BuildingFindingUtil.cs" />
      <Compile Include="Assets\scripts\mainMenu\LocalGenerationHandler.cs" />
