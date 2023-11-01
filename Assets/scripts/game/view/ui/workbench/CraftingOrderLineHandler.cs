@@ -126,7 +126,7 @@ public class CraftingOrderLineHandler : MonoBehaviour {
 
     private void updatePausedVisual() {
         pauseButton.setColor(order.status == PAUSED ? BUTTON_CHOSEN : BUTTON_NORMAL);
-        gameObject.GetComponent<Image>().color = order.status == PAUSED ? background : backgroundHighlight;
+        gameObject.GetComponent<Image>().color = order.status == PAUSED ? BACKGROUND : BACKGROUND_HIGHLIGHT;
     }
 
     private void updateMoveArrows() {

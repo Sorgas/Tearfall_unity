@@ -398,6 +398,7 @@
      <Compile Include="Assets\scripts\types\BlockTypes.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalItemGenerator.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\elevation\WorldElevationGenerator.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarButtonHandler.cs" />
      <Compile Include="Assets\scripts\util\input\JsonArrayReader.cs" />
      <Compile Include="Assets\scripts\types\unit\need\RestNeed.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\WindowManagerMenu.cs" />

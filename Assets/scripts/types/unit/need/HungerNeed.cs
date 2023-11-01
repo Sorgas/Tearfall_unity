@@ -18,8 +18,8 @@ namespace types.unit.need {
         public const float perTickChange = 1f / hoursToSafety / GameTime.ticksPerHour;
 
         // need values of priority change
-        private float comfortThreshold = 1f - hoursToComfort / hoursToSafety;
-        private float healthThreshold = 1f - hoursToHealth / hoursToSafety;
+        private float comfortThreshold = 1f - hoursToComfort / hoursToSafety; // 0.75 
+        private float healthThreshold = 1f - hoursToHealth / hoursToSafety; // 0.5
 
         public override int getPriority(float value) {
             if (value > comfortThreshold) return TaskPriorities.NONE;

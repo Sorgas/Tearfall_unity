@@ -28,7 +28,7 @@ public class CraftingOrderConfigLine : MonoBehaviour {
     }
 
     public void setSelected(bool value) {
-        background.color = value ? UiColorsEnum.backgroundHighlight : UiColorsEnum.background;
+        background.color = value ? UiColorsEnum.BACKGROUND_HIGHLIGHT : UiColorsEnum.BACKGROUND;
     }
 }
 }

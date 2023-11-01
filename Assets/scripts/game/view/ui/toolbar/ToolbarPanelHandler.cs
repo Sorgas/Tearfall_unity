@@ -20,14 +20,10 @@ namespace game.view.ui.toolbar {
         private ToolbarPanelHandler parentPanel;
         private int buttonCount;
 
-        private Color normalColor = Color.white;
-        private Color selectedColor = Color.yellow;
-
-
         public bool accept(KeyCode key) {
             if (activeSubpanel != null) return activeSubpanel.accept(key); // pass to subpanel
             if (children.ContainsKey(key)) {
-                ExecuteEvents.Execute(children[key].button.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
+                ExecuteEvents.Execute(children[key].handler.button.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
             }
             if (key == KeyCode.Q) close();
             return false; // not handled
@@ -36,11 +32,12 @@ namespace game.view.ui.toolbar {
         public void open() {
             gameObject.SetActive(true);
             foreach (ToolbarPanelChild child in children.Values) {
-                child.button.GetComponentInChildren<Button>().interactable = child.enableFunction.Invoke();
+                child.handler.button.GetComponentInChildren<Button>().interactable = child.enableFunction.Invoke();
             }
             if (parentPanel != null) parentPanel.activeSubpanel = this;
         }
 
+        // closes current and all subpanels recursively
         public virtual void close() {
             if (activeSubpanel != null) activeSubpanel.close();
             closeAction?.Invoke();
@@ -77,14 +74,12 @@ namespace game.view.ui.toolbar {
         private void createButton(string text, Sprite sprite, Action onClick, Func<bool> enableFunction, KeyCode key, ToolbarPanelHandler panel, bool buttonHighlight) {
             enableFunction ??= () => true;
             GameObject go = PrefabLoader.create("toolbarButton", gameObject.transform);
+            ToolbarButtonHandler handler = go.GetComponent<ToolbarButtonHandler>();
+            handler.init(text, key.ToString(), sprite, onClick);
             float buttonWidth = go.GetComponent<RectTransform>().rect.width;
             go.transform.localPosition = new Vector3(buttonWidth * buttonCount++, 0, 0);
-            Button button = go.GetComponentInChildren<Button>();
-            button.onClick.AddListener(onClick.Invoke);
-            if (buttonHighlight) button.onClick.AddListener(() => highlightButton(key));
-            go.GetComponentInChildren<TextMeshProUGUI>().text = text;
-            go.GetComponentsInChildren<Image>()[1].sprite = sprite;
-            children.Add(key, new ToolbarPanelChild(panel, button, enableFunction));
+            if (buttonHighlight) handler.button.onClick.AddListener(() => highlightButton(key));
+            children.Add(key, new ToolbarPanelChild(panel, handler, enableFunction));
         }
 
         public ToolbarPanelHandler createSubPanel(string text, string icon, KeyCode key) {
@@ -97,23 +92,21 @@ namespace game.view.ui.toolbar {
             return panel;
         }
 
+        // update highlighting of all button to make only button of key highlighted
         private void highlightButton(KeyCode key) {
             foreach (KeyValuePair<KeyCode, ToolbarPanelChild> pair in children) {
-                Button button = pair.Value.button;
-                ColorBlock block = button.GetComponent<Button>().colors;
-                block.normalColor = pair.Key == key ? selectedColor : normalColor;
-                button.GetComponent<Button>().colors = block;
+                pair.Value.handler.setHighlighted(pair.Key == key);
             }
         }
 
         private class ToolbarPanelChild {
+            public ToolbarButtonHandler handler;
             public ToolbarPanelHandler panel;
-            public Button button;
             public Func<bool> enableFunction;
 
-            public ToolbarPanelChild(ToolbarPanelHandler panel, Button button, Func<bool> enableFunction) {
+            public ToolbarPanelChild(ToolbarPanelHandler panel, ToolbarButtonHandler handler, Func<bool> enableFunction) {
                 this.panel = panel;
-                this.button = button;
+                this.handler = handler;
                 this.enableFunction = enableFunction;
             }
         }

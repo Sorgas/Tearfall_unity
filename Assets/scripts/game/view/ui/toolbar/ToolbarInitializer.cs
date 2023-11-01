@@ -36,6 +36,7 @@ namespace game.view.ui.toolbar {
             widget.createToolButton(diggingPanel, "V: Stairs", DesignationTypes.D_STAIRS, KeyCode.V);
             widget.createToolButton(diggingPanel, "B: Downstairs", DesignationTypes.D_DOWNSTAIRS, KeyCode.B);
             widget.createToolButton(diggingPanel, "N: Clear", DesignationTypes.D_CLEAR, KeyCode.N);
+            panel.createButton("Back", "toolbar/cancel", panel.close, KeyCode.Q);
             panel.closeAction = () => MouseToolManager.get().reset();
         }
 
