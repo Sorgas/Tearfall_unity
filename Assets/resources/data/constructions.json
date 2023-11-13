@@ -1,23 +1,23 @@
 [
   {
     "name" : "wall",
-    "materials" : ["log/3", "rock/3", "plank/3"],
+    "ingredients" : ["main:log:any/wood:3","main:plank:any/wood:3","main:rock:any/stone:3"],
     "blockTypeName" : "wall"
   }, {
     "name" : "floor",
-    "materials" : ["rock/1", "plank/1"],
+    "ingredients" : ["main:log:any/wood:1","main:plank:any/wood:1","main:rock:any/stone:1"],
     "blockTypeName" : "floor"
   }, {
     "name" : "ramp",
-    "materials" : ["log/2", "rock/2", "plank/2"],
+    "ingredients" : ["main:log:any/wood:2","main:plank:any/wood:2","main:rock:any/stone:2"],
     "blockTypeName" : "ramp"
   }, {
     "name" : "stairs",
-    "materials" : ["log/2", "rock/2", "plank/2"],
+    "ingredients" : ["main:log:any/wood:2","main:plank:any/wood:2","main:rock:any/stone:2"],
     "blockTypeName" : "stairs"
   }, {
     "name" : "downstairs",
-    "materials" : ["log/1", "rock/1", "plank/1"],
+    "ingredients" : ["main:log:any/wood:1","main:plank:any/wood:1","main:rock:any/stone:1"],
     "blockTypeName" : "downstairs"
   }
 ]

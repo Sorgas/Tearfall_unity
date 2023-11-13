@@ -59,7 +59,7 @@ namespace game.model.container.task {
             if (!task.Has<TaskBuildingComponent>()) return;
             if (task.Has<TaskCraftingOrderComponent>()) {
                 CraftingOrder order = task.take<TaskCraftingOrderComponent>().order;
-                foreach (var ingredientOrder in order.ingredients) {
+                foreach (var ingredientOrder in order.ingredients.Values) {
                     ingredientOrder.items.Clear();
                 }
                 if (status == COMPLETE) { // task complete, increment order

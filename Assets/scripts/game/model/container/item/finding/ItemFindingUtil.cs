@@ -37,26 +37,7 @@ namespace game.model.container.item.finding {
                     cur.Key == EcsEntity.Null || (fastDistance(item.Value, pos) < fastDistance(cur.Value, pos)) ? item : cur)
                 .Key; // select nearest
         }
-
-        // returns variant -> materialId -> list of items 
-        public Dictionary<BuildingVariant, MultiValueDictionary<int, EcsEntity>> findForBuildingVariants(BuildingVariant[] variants) {
-            Dictionary<BuildingVariant, MultiValueDictionary<int, EcsEntity>> resultMap = new();
-            foreach (BuildingVariant variant in variants) {
-                MultiValueDictionary<int, EcsEntity> map = container.availableItemsManager.findByType(variant.itemType);
-                resultMap.Add(variant, map);
-            }
-            return resultMap;
-        }
-
-        // checks if there are at least one option to build construction
-        public bool enoughForBuilding(BuildingVariant[] variants) {
-            foreach (BuildingVariant variant in variants) {
-                if (container.availableItemsManager.findByType(variant.itemType).Values
-                    .Any(items => items.Count > variant.amount)) return true;
-            }
-            return false;
-        }
-
+        
         public EcsEntity findFoodItem(Vector3Int position) {
             List<EcsEntity> list = container.availableItemsManager.getAll()
                 .Where(item => item.Has<ItemFoodComponent>())

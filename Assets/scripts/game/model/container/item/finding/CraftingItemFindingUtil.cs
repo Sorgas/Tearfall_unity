@@ -4,42 +4,48 @@ using game.model.component;
 using game.model.component.item;
 using game.model.component.task.order;
 using game.model.localmap;
+using generation.item;
 using Leopotam.Ecs;
 using MoreLinq;
+using types.item.recipe;
 using UnityEngine;
+using util.lang;
 using util.lang.extension;
-using static game.model.component.task.order.CraftingOrder;
 
 namespace game.model.container.item.finding {
 public class CraftingItemFindingUtil : AbstractItemFindingUtil {
     private readonly SimpleCraftingCheckingUtil simpleUtil;
-
+    private bool debug = true;
+    
     public CraftingItemFindingUtil(LocalModel model, ItemContainer container) : base(model, container) {
         simpleUtil = new SimpleCraftingCheckingUtil { model = model };
     }
 
-    public List<IngredientOrder> findInvalidIngredientOrders(CraftingOrder order, Vector3Int position) {
-        return order.ingredients.Where(ingredient => !ingredientOrderValid(ingredient, position)).ToList();
+    public List<IngredientOrder> findInvalidIngredientOrders(AbstractItemConsumingOrder order, Vector3Int position) => 
+        findInvalidIngredientOrders(order, position, EcsEntity.Null);
+
+    public List<IngredientOrder> findInvalidIngredientOrders(AbstractItemConsumingOrder order, Vector3Int position, EcsEntity lookupContainer) {
+        return order.ingredients.Values.Where(ingredient => !ingredientOrderValid(ingredient, position, lookupContainer)).ToList();
     }
 
     // finds items for all ingredient orders, does not save them to order,
     // items already saved in order not taken into account 
-    public bool checkItemsForOrder(CraftingOrder order, Vector3Int position) {
+    public bool checkItemsForOrder(AbstractItemConsumingOrder order, Vector3Int position) {
         List<EcsEntity> foundItems = new();
-        foreach (var ingredientOrder in order.ingredients) {
+        foreach (var ingredientOrder in order.ingredients.Values) {
             List<EcsEntity> items = findItemsForIngredient(ingredientOrder, position, foundItems);
             if (items == null) return false;
             foundItems.AddRange(items);
         }
         return true;
     }
-
+    
     // ingredient order is valid if
     //      it has correct number of items selected
     //      all items have allowed type and material
     //      all items have same type and material
     //      all items are reachable from reference position
-    private bool ingredientOrderValid(IngredientOrder order, Vector3Int position) {
+    private bool ingredientOrderValid(IngredientOrder order, Vector3Int position, EcsEntity lookupContainer) {
         if (!order.hasEnoughItems()) return false;
         ItemComponent firstItem = order.items[0].take<ItemComponent>();
         if (!order.selected.contains(firstItem.type, firstItem.material)) return false;
@@ -47,30 +53,14 @@ public class CraftingItemFindingUtil : AbstractItemFindingUtil {
             ItemComponent itemComponent = item.take<ItemComponent>();
             if (itemComponent.material != firstItem.material || itemComponent.type != firstItem.type) return false;
         }
+        if (lookupContainer != EcsEntity.Null) {
+            return order.items.All(item => (item.Has<ItemContainedComponent>() && item.take<ItemContainedComponent>().container.Equals(lookupContainer))
+                                           || model.itemContainer.itemAccessibleFromPosition(item, position));   
+        }
         return order.items.All(item => model.itemContainer.itemAccessibleFromPosition(item, position));
     }
 
-    public bool buildingOrderValid(GenericBuildingOrder order, EcsEntity designation, Vector3Int position) {
-        if (order.items.Count != order.amount) return false;
-        ItemComponent firstItem = order.items[0].take<ItemComponent>();
-        if (order.material != firstItem.material || order.itemType != firstItem.type) return false;
-        foreach (var item in order.items) {
-            ItemComponent itemComponent = item.take<ItemComponent>();
-            if (itemComponent.material != firstItem.material || itemComponent.type != firstItem.type) return false;
-        }
-        return order.items.All(item => (item.Has<ItemContainedComponent>() && item.take<ItemContainedComponent>().container.Equals(designation))
-                                       || model.itemContainer.itemAccessibleFromPosition(item, position));
-    }
-
-    // finds items for order. Order items should be empty
-    public List<EcsEntity> findItemsForBuildingOrder(GenericBuildingOrder order, Vector3Int position) {
-        IEnumerable<EcsEntity> items = model.itemContainer.availableItemsManager.findByTypeAndMaterial(order.itemType, order.material);
-        ItemGroup group = new(items);
-        group = filterForCrafting(group, new List<EcsEntity>(), position, order.amount);
-        return group.items;
-    }
-
-    public List<EcsEntity> findItemsForIngredient(IngredientOrder ingredientOrder, CraftingOrder order, Vector3Int position) {
+    public List<EcsEntity> findItemsForIngredient(IngredientOrder ingredientOrder, AbstractItemConsumingOrder order, Vector3Int position) {
         return findItemsForIngredient(ingredientOrder, position, order.allIngredientItems());
     }
 
@@ -102,6 +92,7 @@ public class CraftingItemFindingUtil : AbstractItemFindingUtil {
     }
 
     // items for crafting should be not locked, be in same area with performer, and not already selected for order
+    // Passing Vector3Int.back as position disables accessibility check
     private ItemGroup filterForCrafting(ItemGroup group, List<EcsEntity> prohibitedItems, Vector3Int position, int requiredQuantity) {
         if (group.items.Count < requiredQuantity) return null;
         group.items = group.items
@@ -109,9 +100,11 @@ public class CraftingItemFindingUtil : AbstractItemFindingUtil {
             .Where(itemEntity => !prohibitedItems.Contains(itemEntity)) // not in block list
             .ToList();
         if (group.items.Count < requiredQuantity) return null;
-        group.items = group.items.ToDictionary(item => item, container.getItemAccessPosition) // filter accessible
-            .Where(pair => model.itemContainer.itemAccessibleFromPosition(pair.Key, position))
-            .Select(pair => pair.Key).ToList();
+        if (position != Vector3Int.back) {
+            group.items = group.items.ToDictionary(item => item, container.getItemAccessPosition) // filter accessible
+                .Where(pair => model.itemContainer.itemAccessibleFromPosition(pair.Key, position))
+                .Select(pair => pair.Key).ToList();
+        }
         if (group.items.Count < requiredQuantity) return null;
         return selectNNearest(group, requiredQuantity, position);
     }
@@ -151,7 +144,7 @@ public class CraftingItemFindingUtil : AbstractItemFindingUtil {
 
         // simplified check 
         public bool checkItemsForOrder(CraftingOrder order) {
-            foreach (var ingredientOrder in order.ingredients) {
+            foreach (var ingredientOrder in order.ingredients.Values) {
                 if (!checkItemsForIngredient(ingredientOrder)) return false;
             }
             return true;
@@ -169,6 +162,10 @@ public class CraftingItemFindingUtil : AbstractItemFindingUtil {
             }
             return false;
         }
+    }
+
+    private void log(string message) {
+        if(debug) Debug.Log($"[CraftingItemFindingUtil]: {message}");
     }
 }
 }

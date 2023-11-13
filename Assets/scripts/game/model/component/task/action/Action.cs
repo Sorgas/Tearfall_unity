@@ -50,6 +50,7 @@ namespace game.model.component.task.action {
         protected float speed = 1;
         public float progress = 0;
         public float maxProgress = 0;
+        public bool debug = false;
 
         protected Action(ActionTarget target) {
             this.target = target;
@@ -77,5 +78,8 @@ namespace game.model.component.task.action {
         protected void lockZoneTile(EcsEntity zone, Vector3Int tile) => ZoneUtils.lockZoneTile(zone, tile, task);
         protected void unlockZoneTile(EcsEntity zone, Vector3Int tile) => ZoneUtils.unlockZoneTile(zone, tile, task);
         protected void log(string message) => Debug.Log($"[{name}]: {message}");
-    }
+        protected void logDebug(string message) {
+            if (debug) Debug.Log($"[{name}]: {message}");
+        }
+}
 }

@@ -8,7 +8,7 @@
     "positionS" : [3,0],
     "positionE" : [0,1],
     "positionW" : [0,0],
-    "materials" : ["log/4"],
+    "ingredients" : ["main:log:any/wood:4"],
     "passage" : "impassable",
     "access" : [-1, 0],
     "job" : "carpenter"
@@ -22,7 +22,7 @@
     "positionS" : [7,0],
     "positionE" : [4,1],
     "positionW" : [4,0],
-    "materials" : ["log/4"],
+    "ingredients" : ["main:log:any/wood:4"],
     "passage" : "impassable",
     "access" : [-1, 0],
     "job" : "tailor"
@@ -36,7 +36,7 @@
     "positionS" : [11,0],
     "positionE" : [8,1],
     "positionW" : [8,0],
-    "materials" : ["log/4"],
+    "ingredients" : ["main:log:any/wood:4"],
     "passage" : "impassable",
     "access" : [-1, 0],
     "job" : "cook"

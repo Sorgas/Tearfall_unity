@@ -142,9 +142,10 @@
      <Compile Include="Assets\scripts\game\model\action\plant\PlantHarvestAction.cs" />
      <Compile Include="Assets\scripts\types\action\SkillMap.cs" />
      <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarPanelHandler.cs" />
-     <Compile Include="Assets\scripts\game\model\container\item\finding\AbstractItemFindingUtil.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\order\IngredientOrder.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\GenericBuildingAction.cs" />
      <Compile Include="Assets\scripts\types\material\MaterialMap.cs" />
+     <Compile Include="Assets\scripts\game\model\container\item\finding\AbstractItemFindingUtil.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitEquipmentComponentGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\with_entity_selector\EntitySelectorInputSystem.cs" />
      <Compile Include="Assets\scripts\util\GameException.cs" />
@@ -195,6 +196,7 @@
      <Compile Include="Assets\scripts\game\model\system\plant\SubstrateGrowingSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\item\CraftItemAtWorkbenchAction.cs" />
      <Compile Include="Assets\scripts\game\view\ui\tooltip\trigger\InfoTooltipTrigger.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\GenericItemConsumingAction.cs" />
      <Compile Include="Assets\scripts\types\unit\need\Needs.cs" />
      <Compile Include="Assets\scripts\game\model\container\FarmContainer.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromGroundAction.cs" />
@@ -357,6 +359,7 @@
      <Compile Include="Assets\scripts\game\view\ui\material_selector\MaterialTooltipHandler.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantWaitingSystem.cs" />
      <Compile Include="Assets\scripts\types\QualityEnum.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\order\AbstractItemConsumingOrder.cs" />
      <Compile Include="Assets\scripts\util\item\SeedItemSelector.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\deity\DeityAspect.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedLayersController.cs" />

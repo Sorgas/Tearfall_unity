@@ -21,12 +21,12 @@ namespace game.view.ui.toolbar {
         public void createConstructionButton(ToolbarPanelHandler panel, string text, string iconName, ConstructionType type,
             KeyCode key) {
             panel.createButton(text, IconLoader.get("toolbar/constructions/" + iconName), () => MouseToolManager.get().set(type),
-                () => GameModel.get().currentLocalModel.itemContainer.findingUtil.enoughForBuilding(type.variants), key);
+                () => GameModel.get().currentLocalModel.itemContainer.craftingUtil.checkItemsForOrder(type.dummyOrder, Vector3Int.back), key);
         }
 
         public void createBuildingButton(ToolbarPanelHandler panel, string text, BuildingType type, KeyCode key) {
             panel.createButton(text, BuildingTilesetHolder.get().sprites[type].n, () => MouseToolManager.get().set(type),
-                () => GameModel.get().currentLocalModel.itemContainer.findingUtil.enoughForBuilding(type.variants), key);
+                () => GameModel.get().currentLocalModel.itemContainer.craftingUtil.checkItemsForOrder(type.dummyOrder, Vector3Int.back), key);
         }
 
         public void createToolButton(ToolbarPanelHandler panel, string text, string iconName, DesignationType designation,

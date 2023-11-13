@@ -67,7 +67,7 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
                 ItemType baseType = getType(type.baseItem);
                 if (baseType.tags != null) {
                     foreach (var tag in baseType.tags) {
-                        Debug.Log($"adding {tag} tag to {type.name}");
+                        log($"adding {tag} tag to {type.name}");
                         type.tags.Add(tag);
                     }
                 }

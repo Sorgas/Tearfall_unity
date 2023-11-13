@@ -1,6 +1,7 @@
 ﻿using game.model;
 using game.model.component;
 using game.model.component.task;
+using game.model.component.task.order;
 using game.view.tilemaps;
 using game.view.util;
 using Leopotam.Ecs;
@@ -53,9 +54,7 @@ namespace game.view.system.designation {
             RectTransform transform = go.GetComponent<RectTransform>();
             float width = transform.rect.width;
             float scale = width / sprite.rect.width * sprite.pixelsPerUnit;
-            if (designation.type == D_BUILD) {
-                scale *= getSpriteScale(entity, designation);
-            }
+            scale *= getSpriteScale(entity, designation);
             spriteRenderer.transform.localScale = new Vector3(scale, scale, 1);
             spriteRenderer.color = new Color(1, 1, 1, 0.5f);
             go.transform.localPosition = getSpritePosition(entity.pos(), designation);
@@ -68,14 +67,14 @@ namespace game.view.system.designation {
             }
             if (designation.type == D_CONSTRUCT) {
                 DesignationConstructionComponent construction = entity.take<DesignationConstructionComponent>();
-                BlockType blockType = BlockTypes.get(construction.type.blockTypeName);
+                BlockType blockType = BlockTypes.get(construction.order.blockType.NAME);
                 string spriteType = blockType == BlockTypes.RAMP ? "NE" : blockType.PREFIX;
-                return BlockTileSetHolder.get().getSprite(construction.materialVariant, spriteType);
+                return BlockTileSetHolder.get().getSprite("template", spriteType);
             }
             if (designation.type == D_BUILD) {
                 DesignationBuildingComponent component = entity.take<DesignationBuildingComponent>();
-                BuildingType type = component.type;
-                return BuildingTilesetHolder.get().sprites[type].getByOrientation(component.orientation);
+                BuildingType type = component.order.type;
+                return BuildingTilesetHolder.get().sprites[type].getByOrientation(component.order.orientation);
             }
             return null;
         }
@@ -89,11 +88,12 @@ namespace game.view.system.designation {
             return spritePosition;
         }
 
+        // returns width of building type adjusted to selected orientation
         private int getSpriteScale(EcsEntity entity, DesignationComponent designation) {
-            if (designation.type != D_BUILD) return 1;
-            DesignationBuildingComponent component = entity.take<DesignationBuildingComponent>();
-            bool flip = component.orientation == Orientations.E || component.orientation == Orientations.W;
-            return component.type.size[flip ? 1 : 0];
+            if (designation.type != D_BUILD) return 1; // only buildings can be multi-tiled
+            BuildingOrder order = entity.take<DesignationBuildingComponent>().order;
+            bool flip = OrientationUtil.isHorizontal(order.orientation);
+            return order.type.size[flip ? 1 : 0];
         }
     }
 }

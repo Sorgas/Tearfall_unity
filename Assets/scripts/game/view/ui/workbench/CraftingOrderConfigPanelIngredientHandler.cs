@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using game.model;
 using game.model.component.task.order;
 using game.view.util;
 using TMPro;
@@ -8,16 +9,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace game.view.ui.workbench {
-// shows 
+// panel for one ingredient of crafting order. Shows options for all variants of IngredientOrder.
 public class CraftingOrderConfigPanelIngredientHandler : MonoBehaviour {
     public TextMeshProUGUI titleText;
     public RectTransform scrollContent;
 
     private readonly Dictionary<string, CraftingOrderConfigLine> typeRows = new();
     private readonly Dictionary<string, Dictionary<int, CraftingOrderConfigLine>> materialRows = new();
-    private CraftingOrder.IngredientOrder order;
+    private IngredientOrder order;
     
-    public void fillFor(string title, CraftingOrder.IngredientOrder order) {
+    public void fillFor(string title, IngredientOrder order) {
         Debug.Log("filling ingredient panel for " + order.ingredients[0].key);
         this.order = order;
         titleText.text = title;
@@ -33,8 +34,10 @@ public class CraftingOrderConfigPanelIngredientHandler : MonoBehaviour {
                 typeRows.Add(type, typeRow);
                 materialRows.Add(type, new());
                 typeGo.GetComponent<Button>().onClick.AddListener(() => toggleType(type));
+                Dictionary<int, int> quantities = GameModel.get().currentLocalModel.itemContainer.availableItemsManager.findQuantitiesByType(type);
                 bool typeSelected = orderIngredient.materials.TrueForAll(mat => order.selected[type].Contains(mat));
-                typeRow.initType(type, typeSelected);
+                int totalQuantity = quantities.Values.Aggregate(0, (q1, q2) => q1 + q2);
+                typeRow.initType(type, totalQuantity, typeSelected);
                 counter++;
                 foreach (int material in orderIngredient.materials) {
                     GameObject materialGo = PrefabLoader.create("CraftingOrderMaterialLine", scrollContent, new Vector3(12, -30 * counter, 0));
@@ -42,7 +45,8 @@ public class CraftingOrderConfigPanelIngredientHandler : MonoBehaviour {
                     materialRows[type].Add(material, materialRow);
                     bool materialSelected = order.selected[type].Contains(material);
                     materialRow.GetComponent<Button>().onClick.AddListener(() => toggleMaterial(type, material));
-                    materialRow.initMaterial(type, material, materialSelected);
+                    int quantity = quantities.ContainsKey(material) ? quantities[material] : 0;
+                    materialRow.initMaterial(type, material, quantity, materialSelected);
                     counter++;
                 }
             }
@@ -51,6 +55,7 @@ public class CraftingOrderConfigPanelIngredientHandler : MonoBehaviour {
     }
 
     private void toggleType(string type) {
+        Debug.Log("toggling type");
         bool selected = typeSelected(type);
         typeRows[type].setSelected(!selected);
         if (selected) { // deselect all materials
@@ -67,14 +72,13 @@ public class CraftingOrderConfigPanelIngredientHandler : MonoBehaviour {
     }
 
     private void toggleMaterial(string type, int material) {
+        Debug.Log("toggling material");
         bool materialSelected = order.selected.contains(type, material);
-        if (materialSelected) {
+        if (materialSelected) { // deselect material and type
             materialRows[type][material].setSelected(false);
             order.selected.remove(type, material);
-            if (noMaterialOfTypeSelected(type)) {
-                typeRows[type].setSelected(false);
-            }
-        } else {
+            typeRows[type].setSelected(false);
+        } else { // select material and check type selection
             materialRows[type][material].setSelected(true);
             order.selected.add(type, material);
             if (typeSelected(type)) {

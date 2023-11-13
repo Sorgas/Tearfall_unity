@@ -17,5 +17,9 @@ public class Ingredient {
         this.materials = materials;
         this.quantity = quantity;
     }
+
+    public string toString() {
+        return $"Ingredient:{key}, [{string.Join(",", itemTypes)}], [{string.Join(",", materials)}], {quantity}";
+    }
 }
 }

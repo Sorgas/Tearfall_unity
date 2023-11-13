@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using game.model.component;
 using game.model.component.task;
+using game.model.component.task.order;
 using game.model.localmap;
 using Leopotam.Ecs;
 using types;
@@ -26,38 +27,28 @@ namespace game.model.container {
             Debug.Log("[DesignationContainer] designation created " + position);
         }
 
-        public void createConstructionDesignation(Vector3Int position, ConstructionType type, string itemType, int material, int priority) {
+        public void createConstructionDesignation(Vector3Int position, ConstructionOrder order, int priority) {
             EcsEntity entity = model.createEntity();
+            ConstructionOrder newOrder = new ConstructionOrder(order);
+            newOrder.position = position;
             entity.Replace(new DesignationComponent { type = DesignationTypes.D_CONSTRUCT, priority = priority });
-            string materialName = MaterialMap.get().material(material).name;
-            entity.Replace(new DesignationConstructionComponent {
-                type = type, itemType = itemType, material = material, amount = 1, // TODO get amount from construction type
-                materialVariant = MaterialMap.variateValue(materialName, itemType)
-            });
+            entity.Replace(new DesignationConstructionComponent { order = newOrder });
             entity.Replace(new ItemContainerComponent { items = new List<EcsEntity>() });
             addDesignation(entity, position);
             Debug.Log("Construction designation created " + position);
         }
-
-        public void createBuildingDesignation(Vector3Int position, BuildingType type, Orientations orientation, string itemType,
-            int material, int priority) {
+        
+        public void createBuildingDesignation(Vector3Int position, BuildingOrder order, int priority) {
             EcsEntity entity = model.createEntity();
+            BuildingOrder newOrder = new BuildingOrder(order);
+            newOrder.position = position;
             entity.Replace(new DesignationComponent { type = DesignationTypes.D_BUILD, priority = priority});
-            string materialName = MaterialMap.get().material(material).name;
-            BuildingVariant variant = type.selectVariant(itemType);
-            if (variant == null) Debug.LogError("no variant for " + itemType + " in " + type.name);
-            entity.Replace(new DesignationBuildingComponent {
-                type = type, orientation = orientation, itemType = itemType, material = material, amount = variant.amount, // TODO get amount from building type
-                materialVariant = MaterialMap.variateValue(materialName, itemType)
-            });
-            // if (!type.isSingleTile()) {
-            //     entity.Replace(createMultiPositionComponent(type, orientation, position));
-            // }
-            entity.Replace(new ItemContainerComponent { items = new List<EcsEntity>() });
+            entity.Replace(new DesignationBuildingComponent { order = newOrder });
+            entity.Replace(new ItemContainerComponent { items = new List<EcsEntity>() }); // designation will store material items before building (OnI)
             addDesignation(entity, position);
             Debug.Log("Construction designation created " + position);
         }
-
+            
         private void addDesignation(EcsEntity entity, Vector3Int position) {
             entity.Replace(new PositionComponent { position = position });
             removeDesignation(position); // replace previous designation

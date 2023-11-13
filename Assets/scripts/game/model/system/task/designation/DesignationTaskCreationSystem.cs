@@ -7,6 +7,7 @@ using game.model.component.task.action.plant;
 using game.model.component.task.order;
 using game.model.localmap;
 using game.model.util.validation;
+using generation.item;
 using Leopotam.Ecs;
 using types;
 using types.unit;
@@ -18,6 +19,7 @@ using static types.unit.Jobs;
 namespace game.model.system.task.designation {
     // creates tasks for designations without tasks. stores tasks in TaskContainer
     public class DesignationTaskCreationSystem : LocalModelUnscalableEcsSystem {
+        private CraftingOrderGenerator generator = new();
         // TODO remove TaskFinishedComponent
         public EcsFilter<DesignationComponent>.Exclude<TaskComponent> filter;
 
@@ -77,7 +79,7 @@ namespace game.model.system.task.designation {
 
         private EcsEntity createConstructionTask(EcsEntity entity, DesignationComponent designation) {
             DesignationConstructionComponent comp = entity.take<DesignationConstructionComponent>();
-            ConstructionOrder order = new(comp.type.blockType, comp.itemType, comp.material, comp.amount, entity.pos());
+            ConstructionOrder order = comp.order;
             Action action = new ConstructionAction(entity, order);
             EcsEntity taskEntity = model.taskContainer.generator.createTask(action, BUILDER, designation.priority, model.createEntity(), model);
             taskEntity.Replace(new TaskBlockOverrideComponent { blockType = order.blockType });
@@ -87,9 +89,7 @@ namespace game.model.system.task.designation {
 
         private EcsEntity createBuildingTask(EcsEntity entity, DesignationComponent designation) {
             DesignationBuildingComponent comp = entity.take<DesignationBuildingComponent>();
-            BuildingOrder order = new(comp.itemType, comp.material, comp.amount, entity.pos());
-            order.type = comp.type;
-            order.orientation = comp.orientation;
+            BuildingOrder order = comp.order;
             Action action = new BuildingAction(entity, order);
             EcsEntity taskEntity = model.taskContainer.generator.createTask(action, BUILDER, designation.priority, model.createEntity(), model);
             Debug.Log("construction task created.");

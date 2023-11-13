@@ -73,15 +73,6 @@ namespace game.view.system.mouse_tool {
             set(unitMovementTargetTool);
         }
 
-        // sets item type and material selection from material selector widget
-        public void setItem(string typeName, int materialId) {
-            if (tool is not ItemConsumingMouseTool mouseTool) {
-                throw new ArgumentException("item set to inappropriate tool in MouseToolManager.");
-            } else {
-                mouseTool.setItem(typeName, materialId);
-            }
-        }
-
         public void rotate() => tool.rotate();
 
         public void setDebug(string blockType, string material) {

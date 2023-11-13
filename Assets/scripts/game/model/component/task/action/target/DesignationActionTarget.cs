@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using game.model.component.task.order;
 using game.model.localmap;
 using Leopotam.Ecs;
 using types;
@@ -18,8 +19,8 @@ public class DesignationActionTarget : StaticActionTarget {
     public DesignationActionTarget(EcsEntity designation) : base(NEAR) {
         position = designation.pos();
         if (designation.Has<DesignationBuildingComponent>()) { // create bounds if multi-tile designation
-            DesignationBuildingComponent buildingComponent = designation.take<DesignationBuildingComponent>();
-            Vector3Int size = buildingComponent.type.getSize3ByOrientation(buildingComponent.orientation);
+            BuildingOrder order = designation.take<DesignationBuildingComponent>().order;
+            Vector3Int size = order.type.getSize3ByOrientation(order.orientation);
             if (size.x > 1 || size.y > 1) bounds = IntBounds3.byStartAndSize(position, size);
         }
     }

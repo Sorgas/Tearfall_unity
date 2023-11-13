@@ -35,6 +35,12 @@ namespace game.model.container.item {
             // TODO if item is container, remove contained items too
         }
 
+        public Dictionary<int, int> findQuantitiesByType(string type) {
+            if (!byTypeAndMaterial.ContainsKey(type)) return new Dictionary<int, int>();
+            return byTypeAndMaterial[type].ToDictionary(pair => pair.Key, pair => pair.Value.Count);
+
+        }
+        
         // returns map of items of given type, grouped by material
         public MultiValueDictionary<int, EcsEntity> findByType(string type) {
             if (!byTypeAndMaterial.ContainsKey(type)) return emptyMap.clone();

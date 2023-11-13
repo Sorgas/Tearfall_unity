@@ -24,7 +24,7 @@ namespace game.view.ui.material_selector {
             this.material = material;
             itemImage.sprite = ItemTypeMap.get().getSprite(itemType);
             text.text = MaterialMap.get().material(material).name + " " + itemType + ": " + quantity;
-            button.onClick.AddListener(select);
+            // button.onClick.AddListener(select);
         }
 
         public void updateSelected(string itemType, int material) {
@@ -36,7 +36,7 @@ namespace game.view.ui.material_selector {
         }
 
         public void select() {
-            widgetHandler.select(itemType, material);
+            // widgetHandler.select(itemType, material);
         }
     }
 }

@@ -10,25 +10,33 @@ public class CraftingOrderConfigLine : MonoBehaviour {
     public Image background;
     public Image icon;
     public TextMeshProUGUI text;
+    public TextMeshProUGUI quantityText;
     public string type;
     public int material;
 
-    public void initType(string type, bool selected) {
+    public void initType(string type, int quantity, bool selected) {
         text.text = type;
+        quantityText.text = quantity.ToString();
         setSelected(selected);
-        icon.sprite = ItemTypeMap.get().getSprite(type);
+        setIcon(type, Color.white);
     }
     
-    public void initMaterial(string type, int materialId, bool selected) {
+    public void initMaterial(string type, int materialId, int quantity, bool selected) {
         Material_ material = MaterialMap.get().material(materialId);
-        text.text = material.name + type;
+        this.material = materialId;
+        text.text = material.name + " " + type;
+        quantityText.text = quantity.ToString();
         setSelected(selected);
-        icon.sprite = ItemTypeMap.get().getSprite(type);
-        icon.color = material.color;
+        setIcon(type, material.color);
     }
 
     public void setSelected(bool value) {
         background.color = value ? UiColorsEnum.BACKGROUND_HIGHLIGHT : UiColorsEnum.BACKGROUND;
+    }
+
+    private void setIcon(string itemType, Color color) {
+        icon.sprite = ItemTypeMap.get().getSprite(itemType);
+        icon.color = color;
     }
 }
 }

@@ -29,7 +29,7 @@ namespace generation.localgen.generators {
         }
 
         public void createBuilding(BuildingType type, Vector3Int position, string material) {
-            BuildingOrder order = new("log", MaterialMap.get().material(material).id, 1, position);
+            BuildingOrder order = new(position ,type, Orientations.N);
             order.type = type;
             order.orientation = Orientations.N;
             EcsEntity building = container.model.buildingContainer.createBuilding(order);

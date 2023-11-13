@@ -16,6 +16,6 @@
         "title": "Saw log into planks",
         "itemName": "plank",
         "workAmount": 50,
-        "ingredients": ["plank:log:any/wood:1"]
+        "ingredients": ["main:log:any/wood:1"]
     }
 ]

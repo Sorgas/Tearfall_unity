@@ -22,7 +22,7 @@ public class BuildingConstructionActionTarget : StaticActionTarget {
     // }
 
     public BuildingConstructionActionTarget(GenericBuildingOrder order) : base(NEAR) {
-        Debug.Log("creating building construction action target for order");
+        Debug.Log("creating building construction action target for order " + order.position);
         center = order.position;
         if (order is BuildingOrder buildingOrder) {
             Vector2Int size = buildingOrder.type.getSizeByOrientation(buildingOrder.orientation);
@@ -51,7 +51,6 @@ public class BuildingConstructionActionTarget : StaticActionTarget {
                 .Where(position => model.localMap.inMap(position))
                 .Where(position => model.localMap.passageMap.getPassage(position) == PassageTypes.PASSABLE.VALUE)
                 .ForEach(position => result.Add(position));
-            result.AddRange(positions);
         }
         return result;
     }

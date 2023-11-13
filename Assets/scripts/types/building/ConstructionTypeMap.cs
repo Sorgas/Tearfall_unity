@@ -1,10 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
+using generation.item;
+using MoreLinq;
+using types.item.recipe;
 using UnityEngine;
 using util.input;
 using util.lang;
 
 namespace types.building {
+// Loads construction types from json file.
 public class ConstructionTypeMap : Singleton<ConstructionTypeMap> {
     private Dictionary<string, ConstructionType> map = new();
 
@@ -14,22 +18,32 @@ public class ConstructionTypeMap : Singleton<ConstructionTypeMap> {
 
     private void loadFiles() {
         map.Clear();
-        TextAsset file = Resources.Load<TextAsset>("data/constructions");
         int count = 0;
-        ConstructionType[] types = JsonArrayReader.readArray<ConstructionType>(file.text);
-        if (types == null) return;
-        foreach (ConstructionType type in types) {
-            type.variants = type.materials.Select(materialString => new BuildingVariant(materialString)).ToArray();
-            // Debug.Log(type.blockTypeName + " " + type.materials.Aggregate((material1, material2) => material1 + " " + material2) + " " + type.name);
-            type.blockType = BlockTypes.get(type.blockTypeName);
-            map.Add(type.name, type);
-            count++;
-        }
+        IngredientProcessor processor = new IngredientProcessor();
+        CraftingOrderGenerator generator = new CraftingOrderGenerator();
+        TextAsset file = Resources.Load<TextAsset>("data/constructions");
+        JsonArrayReader.readArray<RawConstructionType>(file.text)
+            ?.Select(raw => process(raw, processor, generator))
+            .ForEach(type => {
+                map.Add(type.name, type);
+                count++;
+            });
         Debug.Log("[ConstructionTypeMap]: loaded " + count + " from " + file.name);
+    }
+
+    private ConstructionType process(RawConstructionType raw, IngredientProcessor processor, CraftingOrderGenerator generator) {
+        ConstructionType type = new();
+        type.name = raw.name;
+        raw.ingredients.Select(processor.parseIngredient).ForEach(ingredient => type.ingredients.add(ingredient.key, ingredient));
+        type.blockType = BlockTypes.get(raw.blockTypeName);
+        type.dummyOrder = generator.generateConstructionOrder(type);
+        return type;
     }
 
     public static ConstructionType get(string name) {
         return get().map[name];
     }
+
+    public static bool has(string name) => get().map.ContainsKey(name);
 }
 }

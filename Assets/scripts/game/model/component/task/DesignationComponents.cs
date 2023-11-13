@@ -1,5 +1,5 @@
-﻿using types;
-using types.building;
+﻿using game.model.component.task.order;
+using types;
 using UnityEngine;
 
 namespace game.model.component.task {
@@ -13,24 +13,11 @@ namespace game.model.component.task {
     }
 
     public struct DesignationConstructionComponent {
-        public ConstructionType type;
-        // consumed items:
-        public string itemType;
-        public int material;
-        public int amount;
-        
-        public string materialVariant; // for visual only
+        public ConstructionOrder order;
     }
 
     // can be multi-tile
     public struct DesignationBuildingComponent {
-        public BuildingType type;
-        public Orientations orientation;
-        // consumed items:
-        public string itemType;
-        public int material;
-        public int amount;
-        
-        public string materialVariant; // for visual only
+        public BuildingOrder order;
     }
 }

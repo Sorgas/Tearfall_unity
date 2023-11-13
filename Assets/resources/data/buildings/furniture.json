@@ -7,7 +7,7 @@
     "positionS" : [3,0],
     "positionE" : [0,1],
     "positionW" : [0,0],
-    "materials" : ["log/4"],
+    "ingredients" : ["main:log:any/wood:4"],
     "rawComponents" : ["sleepFurniture"]
   }, {
     "name" : "stool",
@@ -17,7 +17,7 @@
     "positionS" : [4,0],
     "positionE" : [4,0],
     "positionW" : [4,0],
-    "materials" : ["log/2"]
+    "ingredients" : ["main:log:any/wood:4"]
   }, {
     "name" : "table",
     "tileset": "furniture",
@@ -26,6 +26,6 @@
     "positionS" : [7,0],
     "positionE" : [5,0],
     "positionW" : [5,0],
-    "materials" : ["log/4"]
+    "ingredients" : ["main:log:any/wood:4"]
   }
 ]

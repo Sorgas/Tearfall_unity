@@ -1,5 +1,6 @@
 using System;
 using game.model;
+using game.model.component.task.order;
 using game.model.util.validation;
 using game.view.tilemaps;
 using types;
@@ -29,7 +30,7 @@ namespace game.view.system.mouse_tool {
         }
         
         public override void onSelectionInToolbar() {
-            fillSelectorForVariants(type.name, type.variants);
+            fillSelector(type.dummyOrder);
             prioritySelector.open();
             prioritySelector.setForTool(this);
         }
@@ -40,10 +41,10 @@ namespace game.view.system.mouse_tool {
             addUpdateEvent(model => {
                 Vector3Int position = bounds.getStart();
                 if (validator.validateArea(position, size, model)) {
-                    model.designationContainer.createBuildingDesignation(bounds.getStart(), type, orientation, 
-                        itemType, material, priority);
+                    BuildingOrder order = new(type.dummyOrder);
+                    model.designationContainer.createBuildingDesignation(bounds.getStart(), order, priority);
                 } else {
-                    Debug.LogErrorFormat("Position {0} for building {1} is invalid.", position, type.name);
+                    Debug.LogError($"Position {position} for building {type.name} is invalid.");
                 }
             });
         }

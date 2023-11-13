@@ -1,10 +1,10 @@
+using game.model.component.item;
 using game.model.component.task.order;
 using game.model.container;
 using Leopotam.Ecs;
 using types;
 using types.material;
 using UnityEngine;
-using util.geometry.bounds;
 using util.lang.extension;
 
 namespace game.model.component.task.action {
@@ -18,11 +18,16 @@ public class ConstructionAction : GenericBuildingAction {
         bounds = new(order.position, order.position);
         
         onFinish = () => {
-            int material = MaterialMap.get().id(designation.take<DesignationConstructionComponent>().materialVariant);
+            EcsEntity item = order.ingredients["main"].items[0]; // all selected items should be same
+            ItemComponent itemComponent = item.take<ItemComponent>();
+            int material = itemComponent.material;
+            if (MaterialMap.get().variationRequired(itemComponent.type)) {
+                material = MaterialMap.get().getVariantFor(itemComponent.material, itemComponent.type).id;
+            }
             model.localMap.blockType.set(order.position, blockType, material); // create block
-            PlantContainer container = model.plantContainer;
-            container.removePlant(container.getPlant(order.position), true); // remove plant
-            // GameMvc.model().get(SubstrateContainer.class).remove(order.position); // remove substrates
+            PlantContainer plantContainer = model.plantContainer;
+            plantContainer.removePlant(plantContainer.getPlant(order.position), true); // remove plant
+            model.localMap.substrateMap.remove(order.position); // remove substrates
             consumeItems();
             Debug.Log(blockType.NAME + " built at " + order.position);
         };

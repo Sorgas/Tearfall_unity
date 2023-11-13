@@ -3,14 +3,21 @@ using System.Collections.Generic;
 namespace util.lang {
 // stores lists of values by keys. When last value is removed, the list and key is removed.
     public class MultiValueDictionary<K, V> : Dictionary<K, List<V>> {
+        private static MultiValueDictionary<K, V> emptyMap;
         public MultiValueDictionary() { }
 
         public MultiValueDictionary(MultiValueDictionary<K, V> source) {
             foreach (KeyValuePair<K, List<V>> pair in source) {
-                Add(pair.Key, pair.Value);
+                Add(pair.Key, new(pair.Value));
             }
         }
 
+        // TODO add immutability
+        public static MultiValueDictionary<K, V> empty() {
+            if (emptyMap == null) emptyMap = new MultiValueDictionary<K, V>();
+            return emptyMap;
+        }
+        
         public void add(K key, V value) {
             if (!ContainsKey(key)) Add(key, new List<V>());
             this[key].Add(value);

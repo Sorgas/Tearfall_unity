@@ -28,16 +28,16 @@ namespace game.view.ui.material_selector {
         private bool mouseInButton;
         public bool mouseInTooltip;
 
-        public void init(BuildingVariant variant, MultiValueDictionary<int, EcsEntity> items, MaterialSelectionWidgetHandler widgetHandler) {
-            itemType = variant.itemType;
-            itemImage.sprite = ItemTypeMap.get().getSprite(variant.itemType);
-            tooltip.close();
-            fillRows(variant, items, widgetHandler);
-            if (!items.Values.Any(list => list.Count >= variant.amount)) {
-                button.interactable = false;
-            }
-            button.onClick.AddListener(() => tooltip.open());
-        }
+        // public void init(BuildingVariant variant, MultiValueDictionary<int, EcsEntity> items, MaterialSelectionWidgetHandler widgetHandler) {
+        //     itemType = variant.itemType;
+        //     itemImage.sprite = ItemTypeMap.get().getSprite(variant.itemType);
+        //     tooltip.close();
+        //     fillRows(variant, items, widgetHandler);
+        //     if (!items.Values.Any(list => list.Count >= variant.amount)) {
+        //         button.interactable = false;
+        //     }
+        //     button.onClick.AddListener(() => tooltip.open());
+        // }
 
         public void mouseExitedTooltip() {
             mouseInTooltip = false;
@@ -74,21 +74,21 @@ namespace game.view.ui.material_selector {
         }
 
         // creates row for each material of items. 
-        private void fillRows(BuildingVariant variant, MultiValueDictionary<int, EcsEntity> items, MaterialSelectionWidgetHandler widgetHandler) {
-            RectTransform tooltipTransform = tooltip.GetComponent<RectTransform>();
-            tooltipTransform.sizeDelta = new Vector2(tooltipTransform.sizeDelta.x, 50 * items.Keys.Count);
-            int i = 0;
-            foreach (int materialId in items.Keys) {
-                GameObject row = PrefabLoader.create("materialRow", tooltip.transform, new Vector3(0, i * 50, 0));
-                MaterialRowHandler rowHandler = row.GetComponent<MaterialRowHandler>();
-                rowHandler.init(materialId, variant.itemType, items[materialId].Count, widgetHandler);
-                rows.Add(materialId, rowHandler);
-                if (items[materialId].Count < variant.amount) {
-                    rowHandler.button.interactable= false;
-                }
-                i++;
-            }
-        }
+        // private void fillRows(BuildingVariant variant, MultiValueDictionary<int, EcsEntity> items, MaterialSelectionWidgetHandler widgetHandler) {
+        //     RectTransform tooltipTransform = tooltip.GetComponent<RectTransform>();
+        //     tooltipTransform.sizeDelta = new Vector2(tooltipTransform.sizeDelta.x, 50 * items.Keys.Count);
+        //     int i = 0;
+        //     foreach (int materialId in items.Keys) {
+        //         GameObject row = PrefabLoader.create("materialRow", tooltip.transform, new Vector3(0, i * 50, 0));
+        //         MaterialRowHandler rowHandler = row.GetComponent<MaterialRowHandler>();
+        //         rowHandler.init(materialId, variant.itemType, items[materialId].Count, widgetHandler);
+        //         rows.Add(materialId, rowHandler);
+        //         if (items[materialId].Count < variant.amount) {
+        //             rowHandler.button.interactable= false;
+        //         }
+        //         i++;
+        //     }
+        // }
 
         private void checkTooltipClosing() {
             if (!mouseInButton && !mouseInTooltip) {

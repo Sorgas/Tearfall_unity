@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using game.model.component.task.order;
+using types.item.recipe;
 using UnityEngine;
 using util.geometry.bounds;
+using util.lang;
 
 namespace types.building {
     [Serializable]
@@ -25,12 +28,11 @@ namespace types.building {
         public string passage;
         public string category;
 
-        public string[] materials; // ways to build this building (raw)
-        public BuildingVariant[] variants; // ways to build this building
-        
-        public string[] rawComponents;
         public List<string> components = new(); // components that should be added to building
-
+        public MultiValueDictionary<string, Ingredient> ingredients = new();
+        
+        public BuildingOrder dummyOrder;
+        
         public void init() {
             horizontalSize = new Vector2Int(size[1], size[0]);
             verticalSize = new Vector2Int(size[0], size[1]);
@@ -39,16 +41,7 @@ namespace types.building {
         }
         
         public bool isSingleTile() => size[0] == 1 && size[1] == 1;
-
-        public BuildingVariant selectVariant(string itemType) {
-            for (var i = 0; i < variants.Length; i++) {
-                if (variants[i].itemType.Equals(itemType)) {
-                    return variants[i];
-                }
-            }
-            return null;
-        }
-
+        
         public Vector2Int getSizeByOrientation(Orientations orientation) => OrientationUtil.isHorizontal(orientation) ? horizontalSize : verticalSize;
         public Vector3Int getSize3ByOrientation(Orientations orientation) => OrientationUtil.isHorizontal(orientation) ? horizontalSize3 : verticalSize3;
         public IntBounds3 getBounds(Vector3Int position, Orientations orientation) => IntBounds3.byStartAndSize(position, getSize3ByOrientation(orientation));
@@ -67,4 +60,24 @@ namespace types.building {
             };
         }
     }
+
+public class RawBuildingType {
+    public const string SLEEP_FURNITURE = "sleepFurniture";
+
+    public string name;
+    public string title;
+    public string tileset;
+    public int[] size; // for N, S orientations
+    public int[] positionN;
+    public int[] positionS;
+    public int[] positionE;
+    public int[] positionW;
+    public string passage;
+    public int[] access; // TODO add rawbuilding type class, use Vector2Int here
+    public string job; // for workbenches
+    public string category;
+
+    public string[] components;
+    public string[] ingredients;
+}
 }
