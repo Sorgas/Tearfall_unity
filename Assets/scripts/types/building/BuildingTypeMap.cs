@@ -69,6 +69,8 @@ public class BuildingTypeMap : Singleton<BuildingTypeMap> {
         type.name = raw.name;
         type.title = raw.title;
         type.tileset = raw.tileset;
+        if (raw.tilesetSize != 0) type.tilesetSize = raw.tilesetSize;
+        if (raw.tileCount != 0) type.tileCount = raw.tileCount;
         type.size = raw.size;
         type.positionN = raw.positionN;
         type.positionS = raw.positionS;

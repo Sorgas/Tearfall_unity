@@ -11,24 +11,29 @@ namespace game.view.tilemaps {
 
         public BuildingSprites slice(BuildingType type, Sprite sprite) {
             return new BuildingSprites(
-                createSprite(type, sprite, type.positionN, false),
-                createSprite(type, sprite, type.positionS, false),
-                createSprite(type, sprite, type.positionE, true),
-                createSprite(type, sprite, type.positionW, true));
+                createSprites(type, sprite, type.positionN, false),
+                createSprites(type, sprite, type.positionS, false),
+                createSprites(type, sprite, type.positionE, true),
+                createSprites(type, sprite, type.positionW, true));
         }
 
-        private Sprite createSprite(BuildingType type, Sprite sprite, int[] position, bool flip) {
+        private Sprite[] createSprites(BuildingType type, Sprite sprite, int[] position, bool flip) {
+            Sprite[] result = new Sprite[type.tileCount];
+            int tileWidth = type.tilesetSize;
+            int tileHeight = type.tilesetSize + 24 * (type.tilesetSize / 64);
             Texture2D texture = sprite.texture;
             Rect rect = sprite.rect;
             int width = type.size[flip ? 1 : 0];
             int height = type.size[flip ? 0 : 1];
-            cacheRect.Set(
-                rect.x * texture.width + position[0] * WIDTH, 
-                rect.y * texture.height + position[1] * (FLOOR_HEIGHT + WALL_HEIGHT), 
-                width * WIDTH,
-                height * FLOOR_HEIGHT + WALL_HEIGHT);
-            Sprite tileSprite = Sprite.Create(texture, cacheRect, pivot, 64);
-            return tileSprite;
+            for (int i = 0; i < type.tileCount; i++) {
+                cacheRect.Set(
+                    rect.x * texture.width + position[0] * tileWidth + i * width * tileWidth, 
+                    rect.y * texture.height + position[1] * tileHeight, 
+                    width * tileWidth,
+                    height * tileHeight);
+                result[i] = Sprite.Create(texture, cacheRect, pivot, 64);
+            }
+            return result;
         }
     }
 }

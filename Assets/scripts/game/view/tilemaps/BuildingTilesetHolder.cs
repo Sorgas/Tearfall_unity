@@ -13,8 +13,8 @@ namespace game.view.tilemaps {
             loadAll();
         }
 
-        public Sprite get(BuildingType type, Orientations orientation) {
-            return sprites[type].getByOrientation(orientation);
+        public Sprite get(BuildingType type, Orientations orientation, int index) {
+            return sprites[type].getByOrientation(orientation, index);
         }
         
         private void loadAll() {
@@ -30,28 +30,28 @@ namespace game.view.tilemaps {
     }
 
     public class BuildingSprites {
-        public readonly Sprite n;
-        public readonly Sprite s;
-        public readonly Sprite e;
-        public readonly Sprite w;
+        public readonly Sprite[] n;
+        public readonly Sprite[] s;
+        public readonly Sprite[] e;
+        public readonly Sprite[] w;
 
-        public BuildingSprites(Sprite n, Sprite s, Sprite e, Sprite w) {
+        public BuildingSprites(Sprite[] n, Sprite[] s, Sprite[] e, Sprite[] w) {
             this.n = n;
             this.s = s;
             this.e = e;
             this.w = w;
         }
 
-        public Sprite getByOrientation(Orientations orientation) {
+        public Sprite getByOrientation(Orientations orientation, int index) {
             switch (orientation) {
                 case Orientations.N: 
-                    return n;
+                    return n[index];
                 case Orientations.E:
-                    return e;
+                    return e[index];
                 case Orientations.S:
-                    return s;
+                    return s[index];
                 case Orientations.W:
-                    return w;
+                    return w[index];
                 default:
                     throw new ArgumentOutOfRangeException(nameof(orientation), orientation, null);
             }

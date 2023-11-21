@@ -10,10 +10,13 @@ namespace types.building {
     [Serializable]
     public class BuildingType {
         public const string SLEEP_FURNITURE = "sleepFurniture";
+        public const string DOOR = "door";
 
         public string name;
         public string title;
         public string tileset;
+        public int tilesetSize = 64;
+        public int tileCount = 1; // for each orientation
         public int[] size; // for N, S orientations
         public Vector2Int horizontalSize;
         public Vector2Int verticalSize;
@@ -67,6 +70,8 @@ public class RawBuildingType {
     public string name;
     public string title;
     public string tileset;
+    public int tilesetSize;
+    public int tileCount;
     public int[] size; // for N, S orientations
     public int[] positionN;
     public int[] positionS;

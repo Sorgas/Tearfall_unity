@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using game.model.component;
 using game.model.component.building;
 using game.model.component.task.order;
 using Leopotam.Ecs;
-using types;
 using types.action;
 using types.building;
 using types.unit;
@@ -27,6 +25,9 @@ namespace generation {
             entity.Replace(new NameComponent{name = order.type.name});
             if(order.type.components.Contains(BuildingType.SLEEP_FURNITURE)) {
                 entity.Replace(new BuildingSleepFurnitureC());
+            }
+            if (order.type.components.Contains(BuildingType.DOOR)) {
+                entity.Replace(new BuildingDoorComponent {openingSpeed = 0.06f, closingSpeed = 0.04f});
             }
             return entity;
         }

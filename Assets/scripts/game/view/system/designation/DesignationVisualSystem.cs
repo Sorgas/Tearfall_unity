@@ -74,7 +74,7 @@ namespace game.view.system.designation {
             if (designation.type == D_BUILD) {
                 DesignationBuildingComponent component = entity.take<DesignationBuildingComponent>();
                 BuildingType type = component.order.type;
-                return BuildingTilesetHolder.get().sprites[type].getByOrientation(component.order.orientation);
+                return BuildingTilesetHolder.get().sprites[type].getByOrientation(component.order.orientation, 0);
             }
             return null;
         }

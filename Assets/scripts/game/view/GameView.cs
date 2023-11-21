@@ -73,6 +73,7 @@ namespace game.view {
                 .Add(new DesignationVisualSystem())
                 .Add(new PlantVisualUpdateSystem())
                 .Add(new BuildingVisualSystem())
+                .Add(new DoorVisualSystem())
                 .Add(new UnitMenuUpdateSystem())
                 .Add(new ZoneVisualSystem())
                 .Add(new TileUpdateVisualSystem())

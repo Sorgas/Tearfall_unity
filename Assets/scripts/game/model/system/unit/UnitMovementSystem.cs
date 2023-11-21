@@ -1,5 +1,6 @@
 using System;
 using game.model.component;
+using game.model.component.building;
 using game.model.component.unit;
 using game.view.util;
 using Leopotam.Ecs;
@@ -35,29 +36,33 @@ public class UnitMovementSystem : LocalModelScalableEcsSystem {
     // checks path, accumulates unit speed and makes step to next tile of path
     private void updateMovement(ref UnitMovementComponent movement, ref UnitMovementPathComponent path,
         ref EcsEntity unit, int ticks) {
-        if (!checkPath(unit, ref path, ref movement)) return;
-        movement.step += movement.speed * ticks; // accumulate speed
-        if (movement.step > 1f) {
-            movement.step -= 1f;
-            makeStep(ref path, ref unit);
+        if (pathEnded(unit, ref path, ref movement)) return;
+        Vector3Int nextPosition = path.path[0];
+        if(pathBlocked(unit, nextPosition, ref movement)) return; // cannot move
+        float effectiveSpeed = movement.speed * ticks;
+        if (handleDoors(unit.pos(), nextPosition)) {
+            movement.step += effectiveSpeed; // accumulate speed
+            if (movement.step > 1f) {
+                movement.step -= 1f;
+                makeStep(ref path, ref unit);
+            }
         }
     }
 
-    // checks if path is completed or blocked, removes related components
-    // returns true, if path continues
-    private bool checkPath(EcsEntity unit, ref UnitMovementPathComponent path, ref UnitMovementComponent movement) {
-        if (path.path.Count == 0) { // path ended
-            movement.step = 0;
-            unit.Del<UnitMovementPathComponent>();
-            unit.Del<UnitMovementTargetComponent>();
-            return false;
-        }
-        if (model.localMap.passageMap.passage.get(path.path[0]) == IMPASSABLE.VALUE) {
-            // path became blocked after finding
-            movement.step = 0;
-            unit.Del<UnitMovementPathComponent>(); // remove invalid path, will be found again on next tick
-            return false;
-        }
+    // checks if unit reached end of path and deletes path related components if it did
+    private bool pathEnded(EcsEntity unit, ref UnitMovementPathComponent path, ref UnitMovementComponent movement) {
+        if (path.path.Count != 0) return false;
+        movement.step = 0; // reset movement
+        unit.Del<UnitMovementPathComponent>();
+        unit.Del<UnitMovementTargetComponent>();
+        return true;
+    }
+    
+    // checks if path is blocked by impassable tile. 
+    private bool pathBlocked(EcsEntity unit, Vector3Int position, ref UnitMovementComponent movement) {
+        if (model.localMap.passageMap.passage.get(position) != IMPASSABLE.VALUE) return false;
+        movement.step = 0;
+        unit.Del<UnitMovementPathComponent>(); // remove invalid path, will be found again on next tick
         return true;
     }
 
@@ -71,6 +76,33 @@ public class UnitMovementSystem : LocalModelScalableEcsSystem {
         Vector3Int next = hasNextTile ? path.path[0] : current;
         updateVisual(unit, current, next);
     }
+
+    // prevents door on current tile from closing
+    // opens door on next tile
+    // prevents door on next tile from closing
+    // returns true if path not blocked by closed door
+    private bool handleDoors(Vector3Int currentPosition, Vector3Int nextPosition) {
+        EcsEntity currentDoor = model.buildingContainer.getBuilding(currentPosition);
+        if (isDoor(currentDoor)) {
+            ref BuildingDoorComponent component = ref currentDoor.takeRef<BuildingDoorComponent>();
+            component.openness = 1;
+            component.timeout = 3;
+        }
+        EcsEntity nextDoor = model.buildingContainer.getBuilding(nextPosition);
+        if (isDoor(nextDoor)) {
+            ref BuildingDoorComponent component = ref nextDoor.takeRef<BuildingDoorComponent>();
+            component.timeout = 3;
+            if (component.openness < 1) { // door is closed
+                component.openness += component.openingSpeed; // TODO add multiplication to unit's work speed
+                nextDoor.Replace(new VisualUpdatedComponent());
+                if (component.openness < 1) return false; // still closed
+                nextDoor.Replace(new BuildingDoorOpenComponent());
+            }
+        }
+        return true;
+    }
+
+    private bool isDoor(EcsEntity entity) => entity != EcsEntity.Null && entity.Has<BuildingDoorComponent>();
 
     // passes new current and target positions to visual component
     private void updateVisual(EcsEntity unit, Vector3Int current, Vector3Int next) {

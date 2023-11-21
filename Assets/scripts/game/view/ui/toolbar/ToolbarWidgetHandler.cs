@@ -25,7 +25,7 @@ namespace game.view.ui.toolbar {
         }
 
         public void createBuildingButton(ToolbarPanelHandler panel, string text, BuildingType type, KeyCode key) {
-            panel.createButton(text, BuildingTilesetHolder.get().sprites[type].n, () => MouseToolManager.get().set(type),
+            panel.createButton(text, BuildingTilesetHolder.get().get(type, Orientations.N, 0), () => MouseToolManager.get().set(type),
                 () => GameModel.get().currentLocalModel.itemContainer.craftingUtil.checkItemsForOrder(type.dummyOrder, Vector3Int.back), key);
         }
 

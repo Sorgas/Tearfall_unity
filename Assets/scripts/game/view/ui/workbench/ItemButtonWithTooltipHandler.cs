@@ -31,7 +31,7 @@ public class ItemButtonWithTooltipHandler : MonoBehaviour {
     public virtual void initFor(EcsEntity item, int amount = -1) {
         bool haveItem = item != EcsEntity.Null;
         image.gameObject.SetActive(haveItem);
-        Debug.Log("initing item button " + haveItem);
+        // Debug.Log("initing item button " + haveItem);
         if (haveItem) {
             showItem(item.take<ItemComponent>(), amount);
             initTooltipTrigger(item);

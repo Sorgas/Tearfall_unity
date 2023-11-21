@@ -48,4 +48,14 @@ namespace game.model.component.building {
     }
 
     public struct BuildingTableFurnitureC {}
+
+public struct BuildingDoorComponent {
+    public float openness;
+    public float openingSpeed;
+    public float closingSpeed;
+    public float timeout; // closing timeout
+    // public const float maxTimeout = 3;
+}
+
+public struct BuildingDoorOpenComponent { }
 }

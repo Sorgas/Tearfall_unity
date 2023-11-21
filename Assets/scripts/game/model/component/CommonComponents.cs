@@ -62,6 +62,8 @@ public struct PriorityComponent {
     public int priority;
 }
 
+public struct VisualUpdatedComponent { }
+
 // entity with this can contain items. Content should be updated only via StoredItemsManager
 public struct ItemContainerComponent {
     public List<EcsEntity> items;

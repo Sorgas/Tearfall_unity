@@ -51,7 +51,7 @@ namespace game.view.system.mouse_tool {
 
         // select sprite by type and rotation
         public override void updateSprite() {
-            selectorGO.setBuildingSprite(BuildingTilesetHolder.get().get(type, orientation),
+            selectorGO.setBuildingSprite(BuildingTilesetHolder.get().get(type, orientation, 0),
                 type.size[OrientationUtil.isHorizontal(orientation) ? 1 : 0]);
             if (type.access != null) {
                 Vector3Int offset = type.getAccessOffsetByRotation(orientation);
