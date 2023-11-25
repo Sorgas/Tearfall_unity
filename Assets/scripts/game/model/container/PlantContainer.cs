@@ -3,6 +3,7 @@ using game.model.component;
 using game.model.component.plant;
 using game.model.localmap;
 using Leopotam.Ecs;
+using types;
 using UnityEngine;
 using util.lang.extension;
 
@@ -160,24 +161,9 @@ namespace game.model.container {
         //    //TODO trees should have underground roots, and stay while enough root blocks are in the soil
         //}
 
-        //public PlantBlock getPlantBlock(Position position) {
-        //    return plantBlocks.get(position);
-        //}
-
-        //public boolean isPlantBlockExists(Position position) {
-        //    return plantBlocks.containsKey(position);
-        //}
-
-        public bool isPlantBlockPassable(Vector3Int position) {
-            return !plantBlocks.ContainsKey(position) || plantBlocks[position].isPassable();
-        }
-
-        public bool isPlantBlockPassable(int x, int y, int z) => isPlantBlockPassable(new Vector3Int(x, y, z));
-
-        //public AbstractPlant getPlantInPosition(Position position) {
-        //    return plantBlocks.containsKey(position) ? plantBlocks.get(position).plant : null;
-        //}
-
+        public bool isPlantBlockPassable(Vector3Int position) => 
+            !plantBlocks.ContainsKey(position) || plantBlocks[position].isPassable();
+        
         //public void removePlant(Position position) {
         //    Optional.ofNullable(plantBlocks.get(position))
         //            .ifPresent(block-> {

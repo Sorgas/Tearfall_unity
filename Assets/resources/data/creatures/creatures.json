@@ -5,7 +5,7 @@
         "description": "",
         "bodyTemplate": "humanoid",
         "femaleDesiredSlots" : ["body"],
-        "aspects" : ["equipment", "jobs"],
+        "components" : ["equipment", "jobs", "door_user"],
         "appearance" : {
             "atlas": "human",
             "head": [0, 4, 1],

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
 namespace util {
-    public class UtilByteArray {
+// 3d array of bytes
+public class UtilByteArray {
         protected byte[,,] array;
         Vector3Int size;
 

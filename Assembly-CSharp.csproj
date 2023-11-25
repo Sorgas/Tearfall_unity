@@ -52,6 +52,7 @@
      <Compile Include="Assets\scripts\types\unit\CreatureTypeProcessor.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalRampFloorPlacer.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\RectanglePacking\RectanglePacker.cs" />
+     <Compile Include="Assets\scripts\game\model\localmap\passage\AreaInitializerGroundImpassableDoors.cs" />
      <Compile Include="Assets\scripts\game\view\camera\SelectorSpriteUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\BuildingActionTarget.cs" />
      <Compile Include="Assets\scripts\types\unit\CreatureType.cs" />
@@ -399,7 +400,7 @@
      <Compile Include="Assets\scripts\game\view\ui\tooltip\trigger\ReusedTooltipClickTrigger.cs" />
      <Compile Include="Assets\scripts\generation\GenerationState.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\Node.cs" />
-     <Compile Include="Assets\scripts\game\model\localmap\passage\AreaInitializer.cs" />
+     <Compile Include="Assets\scripts\game\model\localmap\passage\AbstractAreaInitializer.cs" />
      <Compile Include="Assets\scripts\types\plant\SubstrateTypeMap.cs" />
      <Compile Include="Assets\scripts\types\BlockTypes.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalItemGenerator.cs" />
@@ -412,6 +413,7 @@
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\EquipmentSlotItemIconHandler.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\AvailableItemsManager.cs" />
      <Compile Include="Assets\scripts\game\model\container\PlantContainer.cs" />
+     <Compile Include="Assets\scripts\game\model\localmap\passage\AreaInitializerGroundPassableDoors.cs" />
      <Compile Include="Assets\scripts\game\view\ui\SelectorHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\EntityActionTarget.cs" />
      <Compile Include="Assets\scripts\game\view\camera\CameraMovementSystem.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using game.model.component.task.action.target;
 using game.model.localmap;
@@ -15,6 +16,10 @@ namespace util.pathfinding {
     public class AStar : Singleton<AStar> {
         private bool debug = true;
         private LocalMap localMap;
+
+        public List<Vector3Int> makeShortestPathWithoutDoors(Vector3Int start, Vector3Int target, LocalModel model) {
+            throw new NotImplementedException();
+        }
         
         public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, LocalModel model) {
             localMap = model.localMap;

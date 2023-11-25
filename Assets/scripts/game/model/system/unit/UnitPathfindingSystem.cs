@@ -16,7 +16,7 @@ namespace game.model.system.unit {
     // Can fail unit's task if path not found
     public class UnitPathfindingSystem : LocalModelUnscalableEcsSystem {
         EcsFilter<UnitComponent, UnitMovementTargetComponent>.Exclude<UnitMovementPathComponent> filter = null;
-
+        
         public override void Run() {
             foreach (int i in filter) {
                 UnitMovementTargetComponent target = filter.Get2(i);
@@ -31,10 +31,10 @@ namespace game.model.system.unit {
                 .Where(position => model.localMap.passageMap.inSameArea(unitPosition, position))
                 .ToList();
             if (positions.Count == 0) {
-                Debug.Log("no acceptable positions found");
+                log("no acceptable positions found");
             }
             if (positions.Count > 0) {
-                Debug.Log("acceptable positions" + positions.Select(pos => pos.ToString()).Aggregate((s1, s2) => $"{s1} {s2}"));
+                log("acceptable positions" + positions.Select(pos => pos.ToString()).Aggregate((s1, s2) => $"{s1} {s2}"));
                 Vector3Int targetPosition = positions.MinBy(position => (unitPosition - position).sqrMagnitude);
                 List<Vector3Int> path = AStar.get().makeShortestPath(unit.pos(), targetPosition, model);
                 if (path != null) {

@@ -15,7 +15,7 @@ public class CreatureType {
     public readonly List<string> desiredSlots = new();
     public readonly List<string> femaleDesiredSlots = new();
     public readonly List<Needs> needs = new();
-    public readonly List<string> aspects = new();
+    public readonly List<string> components = new();
 
     public CreatureAppearance appearance;
     // public readonly Dictionary<GameplayStatEnum, float> statMap = new HashMap<>();
@@ -24,7 +24,7 @@ public class CreatureType {
         name = raw.name;
         title = raw.title;
         description = raw.description;
-        aspects.AddRange(raw.aspects);
+        components.AddRange(raw.components);
         appearance = raw.appearance;
     }
 
@@ -39,7 +39,7 @@ public class RawCreatureType {
     public string bodyTemplate;
     public List<string> desiredSlots = new();
     public List<string> femaleDesiredSlots = new();
-    public List<string> aspects = new();
+    public List<string> components = new();
     public CreatureAppearance appearance;
     public Dictionary<string, float> statMap = new();
 }

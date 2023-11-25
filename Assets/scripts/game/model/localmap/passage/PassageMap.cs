@@ -2,37 +2,39 @@
 using types;
 using UnityEngine;
 using util;
-using util.pathfinding;
 using static types.BlockTypes;
 using static types.PassageTypes;
 
 namespace game.model.localmap.passage {
-    // stores isolated areas on local map to enhance pathfinding
+// Stores passage values of map tiles.
+// Stores isolated areas on local map to enhance pathfinding
+// Pathfinding will not occur, if start an target are in different areas 
     public class PassageMap : LocalModelContainer {
         private readonly LocalMap localMap;
         private readonly BlockTypeMap map;
         public readonly PassageUpdater updater;
         // public readonly PassageUtil util;
 
-        public readonly UtilByteArrayWithCounter area; // number of area
+        public UtilByteArrayWithCounter area; // standard, for walking door-users
+        public UtilByteArrayWithCounter doorBlockingArea; // area numbers counting doors as walls (e.g. for animals)
         public readonly UtilByteArray passage; // see {@link BlockTypesEnum} for passage values.
 
         public PassageMap(LocalModel model, LocalMap localMap) : base(model) {
             this.localMap = localMap;
             map = localMap.blockType;
-            area = new UtilByteArrayWithCounter(localMap.sizeVector);
             passage = new UtilByteArray(localMap.sizeVector);
             updater = new PassageUpdater(model, localMap, this);
-            // util = new PassageUtil(localMap, this);
         }
 
         // Resets values to the whole map.
         public void init() {
-            localMap.bounds.iterate((x, y, z) => passage.set(x, y, z, calculateTilePassage(x, y, z).VALUE));
-            new AreaInitializer(localMap).formPassageMap(this);
+            localMap.bounds.iterate(position => passage.set(position, calculateTilePassage(position).VALUE));
+            area = new AreaInitializerGroundPassableDoors().createAreaMap(localMap, this);
+            doorBlockingArea = new AreaInitializerGroundImpassableDoors().createAreaMap(localMap, this);
         }
 
         // checks there is a walking path between two ADJACENT tiles
+        // should be the source of truth for pathing between two tiles
         public bool hasPathBetweenNeighbours(int x1, int y1, int z1, int x2, int y2, int z2) {
             if (!localMap.inMap(x1, y1, z1) || !localMap.inMap(x2, y2, z2) ||
                 passage.get(x1, y1, z1) == IMPASSABLE.VALUE ||
@@ -102,14 +104,14 @@ namespace game.model.localmap.passage {
         public bool hasPathBetweenNeighbours(Vector3Int from, Vector3Int to)
             => hasPathBetweenNeighbours(@from.x, @from.y, @from.z, to.x, to.y, to.z);
 
-        public Passage calculateTilePassage(Vector3Int position) => calculateTilePassage(position.x, position.y, position.z);
-
-        // TODO
-        public Passage calculateTilePassage(int x, int y, int z) {
-            if (BlockTypes.get(map.get(x, y, z)).PASSAGE == IMPASSABLE) return IMPASSABLE;
-            if (!model.plantContainer.isPlantBlockPassable(x, y, z)) return IMPASSABLE;
-            if (!model.buildingContainer.isBuildingBlockPassable(x, y, z)) return IMPASSABLE;
-
+        // TODO implement other checks (water)
+        public Passage calculateTilePassage(Vector3Int position) {
+            Passage blockPassage = BlockTypes.get(map.get(position)).PASSAGE;
+            if (blockPassage == IMPASSABLE) return IMPASSABLE; // nothing can make impassable block passable
+            if (!model.plantContainer.isPlantBlockPassable(position)) return IMPASSABLE; // plant can make tile impassable
+            if (model.buildingContainer.hasBuilding(position)) { 
+                return model.buildingContainer.getBuildingBlockPassage(position);
+            }
             bool waterPassable = true;
             //model.optional(LiquidContainer.class)
             //.map(container -> container.getTile(position))

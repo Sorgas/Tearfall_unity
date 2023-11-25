@@ -23,7 +23,7 @@ class UnitGenerator {
     // TODO
     public void generateUnit(string creatureType) {
         CreatureType type = CreatureTypeMap.getType(creatureType);
-        type.aspects.Contains("equipment");
+        type.components.Contains("equipment");
     }
 
     private void addCommonComponents(ref EcsEntity entity, SettlerData data, CreatureType type) {
@@ -47,8 +47,11 @@ class UnitGenerator {
     }
 
     private void addOptionalComponents(ref EcsEntity entity, CreatureType type) {
-        if (type.aspects.Contains("equipment")) {
+        if (type.components.Contains("equipment")) {
             entity.Replace(equipmentGenerator.generate(type));
+        }
+        if (type.components.Contains("door_user")) {
+            entity.Replace(new UnitDoorUserComponent());
         }
     }
 

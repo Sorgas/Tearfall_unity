@@ -110,4 +110,6 @@ public struct UnitMoodModifier {
     public int value;
     public int remainingTime; // hours
 }
+
+public struct UnitDoorUserComponent { } // 
 }

@@ -37,6 +37,7 @@
   "positionS" : [0,0],
   "positionE" : [0,0],
   "positionW" : [0,0],
+  "passage" : "door",
   "ingredients" : ["main:log:any/wood:2", "main:plank:any/wood:2", "main:bar:any/metal:2"],
   "components" : ["door"]
 }

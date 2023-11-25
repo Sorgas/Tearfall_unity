@@ -37,6 +37,10 @@ namespace game.model.container {
                 buildingBounds.iterate((x, y, z) => {
                     model.localMap.passageMap.updater.update(x, y, z);
                 });
+            } else if (order.type.passage == "door") {
+                buildingBounds.iterate((x, y, z) => {
+                    model.localMap.passageMap.updater.update(x, y, z);
+                });
             }
             log("building " + building.name() + " created in " + building.pos());
             return building;
@@ -48,15 +52,15 @@ namespace game.model.container {
             return bounds.validate((x, y, z) => validator.validate(x, y, z, map));
         }
 
-        public bool isBuildingBlockPassable(int x, int y, int z) {
-            Vector3Int position = new(x, y, z);
-            return !buildings.ContainsKey(position) || buildings[position].take<BuildingComponent>().type.passage != "impassable";
-        }
+        public Passage getBuildingBlockPassage(Vector3Int position) => 
+            PassageTypes.get(buildings[position].take<BuildingComponent>().type.passage);
 
         public EcsEntity getBuilding(Vector3Int position) {
             return buildings.ContainsKey(position) ? buildings[position] : EcsEntity.Null;
         }
 
+        public bool hasBuilding(int x, int y, int z) => hasBuilding(new Vector3Int(x, y, z));
+        
         public bool hasBuilding(Vector3Int position) => buildings.ContainsKey(position);
 
         private IntBounds3 createBuildingBounds(BuildingOrder order) {

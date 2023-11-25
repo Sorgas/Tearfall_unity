@@ -3,7 +3,7 @@ using static types.PassageTypes;
 
 namespace types {
     public static class BlockTypes {
-        public static BlockType SPACE = new(0, IMPASSABLE, 16, true, 0, "space", null);
+        public static BlockType SPACE = new(0, FLY, 16, true, 0, "space", null);
         public static BlockType WALL = new(1, IMPASSABLE, 0, false, 3, "wall", "WALL"); // not passable
         public static BlockType FLOOR = new(2, PASSABLE, 12, true, 1, "floor", "WALLF"); // passable, liquids don't fall
         public static BlockType STAIRS = new(3, PASSABLE, 8, false, 2, "stairs", "ST"); // DF-like stairs
