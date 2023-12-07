@@ -7,13 +7,13 @@ using util.geometry.bounds;
 namespace game.model.localmap {
     // stores arrays of blocks, passage and area values
     public class LocalMap : LocalModelContainer {
-        public readonly BlockTypeMap blockType;
         public readonly PassageMap passageMap; // not saved to savegame,
+        public readonly BlockTypeMap blockType;
+        public readonly SubstrateMap substrateMap; 
+
         public readonly LocalMapUtil util;
         public readonly IntBounds3 bounds; // inclusive
         public readonly Vector3Int sizeVector; // exclusive
-        public readonly SubstrateMap substrateMap; 
-        public readonly int[,] lightMap;
 
         // public LightMap light;
         //private LocalTileMapUpdater localTileMapUpdater;              // not saved to savegame,
@@ -25,7 +25,6 @@ namespace game.model.localmap {
             util = new LocalMapUtil(this);
             passageMap = new PassageMap(model, this);
             substrateMap = new(model);
-            lightMap = new int[xSize, ySize];
         }
 
         public void init() {
@@ -36,10 +35,10 @@ namespace game.model.localmap {
             //localTileMapUpdater.flushLocalMap();
         }
         
-        public void updateTile(int x, int y, int z, bool updateRamps) {
-            if (passageMap != null) passageMap.updater.update(x, y, z);
-            if (GameView.get().tileUpdater != null ) GameView.get().tileUpdater.updateTile(x, y, z, updateRamps);
-            model.itemContainer.addPositionForUpdate(new Vector3Int(x, y, z));
+        public void updateTile(Vector3Int position, bool updateRamps) {
+            passageMap.update(position);
+            if (GameView.get().tileUpdater != null) GameView.get().tileUpdater.updateTile(position.x, position.y, position.z, updateRamps);
+            model.itemContainer.addPositionForUpdate(new Vector3Int(position.x, position.y, position.z));
         }
 
         public bool inMap(int x, int y, int z) => bounds.isIn(x, y, z);

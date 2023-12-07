@@ -2,9 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using util;
-using util.geometry;
 using util.lang.extension;
-using static types.PassageTypes;
 
 namespace game.model.localmap.passage {
 // synonym - a set of areas that are connected with each other. exists only on area inialization step
@@ -19,19 +17,17 @@ public abstract class AbstractAreaInitializer {
 
     protected abstract bool tilePassable(int x, int y, int z);
 
-    public UtilByteArrayWithCounter createAreaMap(LocalMap map, PassageMap passage) {
+    public void initArea(LocalMap map, PassageMap passage, AbstractArea area) {
         localMap = map;
         this.passage = passage;
-        UtilByteArrayWithCounter result = new(localMap.sizeVector);
         synonyms = new();
         areaMapping = new();
-        initAreaNumbers(result);
+        initAreaNumbers(area);
         log("synonyms count: " + synonyms.Count);
         processSynonyms();
         log("synonyms count: " + synonyms.Count);
-        applyMapping(result);
+        applyMapping(area);
         log("synonyms count: " + synonyms.Count);
-        return result;
     }
 
     // Assigns initial area numbers to cells, generates synonyms.
@@ -40,7 +36,7 @@ public abstract class AbstractAreaInitializer {
         localMap.bounds.iterate((x, y, z) => {
             if (tilePassable(x, y, z)) { // not wall or space
                 log(x + " " + y + " " + z + " -------------------------------------------");
-                HashSet<byte> neighbours = getNeighbours(x, y, z);
+                HashSet<byte> neighbours = getNeighbours(x, y, z, areaArray);
                 if (neighbours.Count == 0) { // cell not yet connected to any area
                     log(" set to " + (areaNum));
                     areaArray.set(x, y, z, areaNum++); // set new area number to cell
@@ -67,18 +63,13 @@ public abstract class AbstractAreaInitializer {
     private void applyMapping(UtilByteArray areaArray) {
         byte area;
         localMap.bounds.iterate((x, y, z) => {
-            area = passage.area.get(x, y, z); // unmapped value
+            area = areaArray.get(x, y, z); // unmapped value
             if (area != 0) { // passable tile
                 if (areaMapping.ContainsKey(area)) {
                     areaArray.set(x, y, z, areaMapping[area]); // set mapped value
                 }
             }
         });
-        if (debug) {
-            foreach (byte i in passage.area.sizes.Keys) {
-                log("area: " + i + ", size: " + passage.area.sizes[i]);
-            }
-        }
     }
 
     // Adds given set to synonyms. Combines synonyms, if already encountered.
@@ -101,15 +92,15 @@ public abstract class AbstractAreaInitializer {
     }
 
     // Returns area numbers of areas accessible from given position
-    private HashSet<byte> getNeighbours(int cx, int cy, int cz) {
+    private HashSet<byte> getNeighbours(int cx, int cy, int cz, UtilByteArray areaArray) {
         HashSet<byte> neighbours = new();
         if (tilePassable(cx, cy, cz)) {
             for (int x = cx - 1; x <= cx + 1; x++) {
                 for (int y = cy - 1; y <= cy + 1; y++) {
                     for (int z = cz - 1; z <= cz + 1; z++) {
-                        if (localMap.inMap(x, y, z) && passage.area.get(x, y, z) != 0) {
+                        if (localMap.inMap(x, y, z) && areaArray.get(x, y, z) != 0) {
                             if (passage.hasPathBetweenNeighbours(x, y, z, cx, cy, cz))
-                                neighbours.Add(passage.area.get(x, y, z));
+                                neighbours.Add(areaArray.get(x, y, z));
                         }
                     }
                 }

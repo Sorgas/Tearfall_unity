@@ -43,7 +43,7 @@ public class DiggingActionTarget : StaticActionTarget {
     }
 
     public override List<Vector3Int> getAcceptablePositions(LocalModel model) {
-        return new NeighbourPositionStream(center, model)
+        return new NeighbourPositionStream(center, model.localMap)
             .filterConnectedToCenterWithOverrideTile(newBlockType).stream.ToList();
     }
 }

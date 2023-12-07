@@ -4,14 +4,13 @@ using UnityEngine;
 namespace util.geometry {
     // provides collections for neighbours
     static class PositionUtil {
-        public static readonly List<Vector3Int> fourNeighbour;
+        public static readonly List<Vector3Int> fourNeighbour; // four orthogonally adjacent
         public static readonly List<Vector3Int> allNeighbour; // 8 on same level except center
-        public static readonly List<Vector3Int> allNeighbourWithCenter;
+        public static readonly List<Vector3Int> allNeighbourWithCenter; // 9 on same level
         public static readonly List<Vector3Int> waterflow;
         public static readonly List<Vector3Int> all = new(); // 26 tiles around center
 
         static PositionUtil() {
-            // four orthogonally adjacent
             fourNeighbour = new List<Vector3Int>{
                 new(1, 0, 0),
                 new(0, 1, 0),

@@ -30,18 +30,14 @@ namespace game.model.container {
             }
             EcsEntity building = generator.generateByOrder(order, model.createEntity());
 
-            buildingBounds.iterate((x, y, z) => {
-                buildings.Add(new Vector3Int(x, y, z), building);
+            buildingBounds.iterate(pos => {
+                buildings.Add(pos, building);
+                if (order.type.passage == "impassable") {
+                    model.localMap.passageMap.update(pos);
+                } else if (order.type.passage == "door") {
+                    model.localMap.passageMap.update(pos);
+                }
             });
-            if (order.type.passage == "impassable") {
-                buildingBounds.iterate((x, y, z) => {
-                    model.localMap.passageMap.updater.update(x, y, z);
-                });
-            } else if (order.type.passage == "door") {
-                buildingBounds.iterate((x, y, z) => {
-                    model.localMap.passageMap.updater.update(x, y, z);
-                });
-            }
             log("building " + building.name() + " created in " + building.pos());
             return building;
         }

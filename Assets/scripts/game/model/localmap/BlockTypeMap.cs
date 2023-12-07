@@ -22,45 +22,52 @@ namespace game.model.localmap {
             base.set(x, y, z, value);
         }
 
-        public void set(int x, int y, int z, int blockType, int material) {
+        private void set(int x, int y, int z, int blockType, int material) {
+            Vector3Int position = new Vector3Int(x, y, z);
             if (!withinBounds(x, y, z)) return;
             int currentBlockType = get(x, y, z);
             setRaw(x, y, z, blockType, material);
             // update ramps if wall changed to non-wall or otherwise
-            localMap.updateTile(x, y, z, (currentBlockType == WALL.CODE) != (blockType == WALL.CODE));
+            localMap.updateTile(position, (currentBlockType == WALL.CODE) != (blockType == WALL.CODE));
             // TODO destroy buildings if type != floor
             // TODO kill units if type == wall
-            // set floor above
+            // walls create floors in above tile
             if (blockType == WALL.CODE && withinBounds(x, y, z + 1) && get(x, y, z + 1) == SPACE.CODE) {
                 set(x, y, z + 1, FLOOR.CODE, this.material[x, y, z]);
             }
         }
+        
+        private void set(Vector3Int pos, int blockType, int material) {
+            if (!withinBounds(pos.x, pos.y, pos.z)) return;
+            int currentBlockType = get(pos.x, pos.y, pos.z);
+            setRaw(pos.x, pos.y, pos.z, blockType, material);
+            // update ramps if wall changed to non-wall or otherwise
+            localMap.updateTile(pos, (currentBlockType == WALL.CODE) != (blockType == WALL.CODE));
+            // TODO destroy buildings if type != floor
+            // TODO kill units if type == wall
+            // walls create floors in above tile
+            if (blockType == WALL.CODE && withinBounds(pos.x, pos.y, pos.z + 1) && get(pos.x, pos.y, pos.z + 1) == SPACE.CODE) {
+                set(pos.x, pos.y, pos.z + 1, FLOOR.CODE, this.material[pos.x, pos.y, pos.z]);
+            }
+        }
+        
+        public void setRaw(int x, int y, int z, int value, string newMaterial) => setRaw(x, y, z, value, MaterialMap.get().id(newMaterial));
 
-        public void setRaw(int x, int y, int z, int value) => setRaw(x, y, z, value, getMaterial(x, y, z));
-
-        public void setRaw(int x, int y, int z, int value, string material) => setRaw(x, y, z, value, MaterialMap.get().id(material));
-
-        public void set(Vector3Int position, BlockType type, int material) => set(position.x, position.y, position.z, type, material);
+        public void set(Vector3Int position, BlockType type, int newMaterial) => set(position, type.CODE, newMaterial);
         
         public void set(Vector3Int position, BlockType type) => set(position.x, position.y, position.z, type);
         
-        public new void set(int x, int y, int z, int blockType) => set(x, y, z, blockType, getMaterial(x, y, z));
-        
-        public void set(int x, int y, int z, BlockType type) => set(x, y, z, type, getMaterial(x, y, z));
+        private void set(int x, int y, int z, BlockType type) => set(x, y, z, type, getMaterial(x, y, z));
 
-        public void set(int x, int y, int z, BlockType type, int material) => set(x, y, z, type.CODE, material);
+        public void set(int x, int y, int z, BlockType type, int newMaterial) => set(x, y, z, type.CODE, newMaterial);
 
         public int getMaterial(Vector3Int pos) => getMaterial(pos.x, pos.y, pos.z);
 
-        public int getMaterial(int x, int y, int z) {
-            return withinBounds(x, y, z) ? material[x, y, z] : -1; // todo
-        }
+        public int getMaterial(int x, int y, int z) => withinBounds(x, y, z) ? material[x, y, z] : -1; // todo
 
         public BlockType getEnumValue(Vector3Int position) => getEnumValue(position.x, position.y, position.z);
 
-        public BlockType getEnumValue(int x, int y, int z) {
-            return BlockTypes.get(get(x, y, z));
-        }
+        public BlockType getEnumValue(int x, int y, int z) => BlockTypes.get(get(x, y, z));
 
         // returns code of block
         public new int get(int x, int y, int z) {

@@ -11,11 +11,10 @@ namespace game.model.localmap.passage {
     class NeighbourPositionStream {
         public IEnumerable<Vector3Int> stream;
         private Vector3Int center;
-        private LocalModel model;
         private LocalMap localMap;
         private PassageMap passageMap;
 
-        public NeighbourPositionStream(Vector3Int center, LocalModel model) : this(model) {
+        public NeighbourPositionStream(Vector3Int center, LocalMap map) : this(map) {
             this.center = center;
             HashSet<Vector3Int> neighbours = new();
             for (int x = center.x - 1; x < center.x + 2; x++) {
@@ -29,7 +28,7 @@ namespace game.model.localmap.passage {
             stream = neighbours.Where(position => localMap.inMap(position));
         }
 
-        public NeighbourPositionStream(Vector3Int center, bool orthogonal, LocalModel model) : this(model) {
+        public NeighbourPositionStream(Vector3Int center, bool orthogonal, LocalMap map) : this(map) {
             HashSet<Vector3Int> neighbours = new();
             neighbours.Add(center.add(1, 0, 0));
             neighbours.Add(center.add(-1, 0, 0));
@@ -38,9 +37,8 @@ namespace game.model.localmap.passage {
             stream = neighbours.Where(position => localMap.inMap(position));
         }
 
-        public NeighbourPositionStream(LocalModel model) {
-            this.model = model;
-            localMap = model.localMap;
+        public NeighbourPositionStream(LocalMap map) {
+            localMap = map;
             passageMap = localMap.passageMap;
         }
 

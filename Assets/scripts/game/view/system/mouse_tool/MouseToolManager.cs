@@ -18,7 +18,7 @@ namespace game.view.system.mouse_tool {
         private readonly UnitMovementTargetTool unitMovementTargetTool = new();
         private readonly ZoneMouseTool zoneTool = new();
         private readonly SelectorSpriteUpdater updater = new();
-        private readonly DebugTileMouseTool debugTileTool = new();
+        public readonly DebugTileMouseTool debugTileTool = new();
         public MouseTool tool;
 
         // when player finishes selecting frame to apply tool

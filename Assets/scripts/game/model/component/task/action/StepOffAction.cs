@@ -31,7 +31,7 @@ namespace game.model.component.task.action {
         }
 
         private Vector3Int findPositionForSingleTile(Vector3Int from, LocalModel model) {
-            List<Vector3Int> positions = new NeighbourPositionStream(from, model).filterConnectedToCenter().stream.ToList();
+            List<Vector3Int> positions = new NeighbourPositionStream(from, model.localMap).filterConnectedToCenter().stream.ToList();
             if (positions.Count > 0) {
                 Debug.Log("[StepOffAction]: prosition from " + from.ToString() + " found " + positions[0]);
                 return positions[0];
@@ -48,7 +48,7 @@ namespace game.model.component.task.action {
             int performerArea = areas.get(performerPosition);
 
             // try around performer
-            List<Vector3Int> result = new NeighbourPositionStream(performerPosition, model)
+            List<Vector3Int> result = new NeighbourPositionStream(performerPosition, model.localMap)
                 .filterConnectedToCenter().stream
                 .Where(position => !bounds.isIn(position)).ToList();
             if (result.Count != 0) {

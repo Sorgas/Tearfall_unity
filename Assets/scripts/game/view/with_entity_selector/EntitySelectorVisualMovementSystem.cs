@@ -1,6 +1,7 @@
 using game.model;
 using game.model.entity_selector;
 using game.model.localmap;
+using TMPro;
 using types.material;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +17,7 @@ namespace game.view.with_entity_selector {
         private Vector3 selectorTarget = new Vector3(0, 0, -1); // target in scene coordinates
         private Vector3 selectorSpeed = new Vector3(); // keeps sprite speed between ticks
 
-        private Text text;
+        private TextMeshProUGUI text;
         private Vector3Int selectorPositionCache;
         private LocalMap map;
 

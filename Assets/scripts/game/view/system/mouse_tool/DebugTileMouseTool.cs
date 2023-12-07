@@ -21,8 +21,8 @@ namespace game.view.system.mouse_tool {
 
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {
             addUpdateEvent(model => {
-                bounds.iterate((x, y, z) => {
-                    model.localMap.blockType.set(x, y, z, blockType, material);
+                bounds.iterate(pos => {
+                    model.localMap.blockType.set(pos, blockType, material);
                 });
             });
         }

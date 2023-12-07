@@ -1,5 +1,4 @@
 ﻿using game.model;
-using game.model.localmap;
 using generation;
 using generation.unit;
 using UnityEngine;
@@ -17,11 +16,7 @@ public class TestLevelInitializer {
         createTestSettler();
         createTestItem();
         createBuildings();
-        Vector2Int position = new(5, 5);
-        state.localMapGenerator.localGenConfig.location = position;
-        LocalModel localModel = state.localMapGenerator.generateLocalMap("main", position);
-        GameModel.get().addLocalModel("main", localModel);
-        GameModel.get().init("main");
+        state.generateLocalMap(new(5, 5), "main", new (100, 100));
     }
 
     // creates test settler as it was selected on preparation screen

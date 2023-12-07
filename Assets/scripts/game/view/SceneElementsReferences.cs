@@ -9,6 +9,7 @@ using game.view.ui.tooltip.handler;
 using game.view.ui.unit_menu;
 using game.view.ui.util;
 using game.view.ui.workbench;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,7 +30,7 @@ public class SceneElementsReferences : MonoBehaviour {
     public StockpileMenuHandler stockpileMenuHandler;
     public FarmMenuHandler farmMenuHandler;
     public PlantMenuHandler plantMenuHandler;
-    public Text modelDebugInfoPanel;
+    public TextMeshProUGUI modelDebugInfoPanel;
     public DestroyingTooltipHandler infoTooltipHandler;
 }
 }

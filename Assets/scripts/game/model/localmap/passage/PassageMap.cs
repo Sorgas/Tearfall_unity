@@ -12,25 +12,33 @@ namespace game.model.localmap.passage {
     public class PassageMap : LocalModelContainer {
         private readonly LocalMap localMap;
         private readonly BlockTypeMap map;
-        public readonly PassageUpdater updater;
+        private bool inited = false;
         // public readonly PassageUtil util;
 
-        public UtilByteArrayWithCounter area; // standard, for walking door-users
-        public UtilByteArrayWithCounter doorBlockingArea; // area numbers counting doors as walls (e.g. for animals)
+        public DefaultArea area;
+        // public UtilByteArrayWithCounter area; // standard, for walking door-users
+        public DoorBlockingArea doorBlockingArea; // area numbers counting doors as walls (e.g. for animals)
         public readonly UtilByteArray passage; // see {@link BlockTypesEnum} for passage values.
-
+        
         public PassageMap(LocalModel model, LocalMap localMap) : base(model) {
             this.localMap = localMap;
             map = localMap.blockType;
             passage = new UtilByteArray(localMap.sizeVector);
-            updater = new PassageUpdater(model, localMap, this);
         }
 
         // Resets values to the whole map.
         public void init() {
             localMap.bounds.iterate(position => passage.set(position, calculateTilePassage(position).VALUE));
-            area = new AreaInitializerGroundPassableDoors().createAreaMap(localMap, this);
-            doorBlockingArea = new AreaInitializerGroundImpassableDoors().createAreaMap(localMap, this);
+            area = new DefaultArea(localMap, this);
+            doorBlockingArea = new DoorBlockingArea(localMap, this);
+            inited = true;
+        }
+
+        public void update(Vector3Int position) {
+            if (!inited) return; 
+            passage.set(position, calculateTilePassage(position).VALUE);
+            area.updater.update(position);
+            doorBlockingArea.updater.update(position);
         }
 
         // checks there is a walking path between two ADJACENT tiles
@@ -112,19 +120,21 @@ namespace game.model.localmap.passage {
             if (model.buildingContainer.hasBuilding(position)) { 
                 return model.buildingContainer.getBuildingBlockPassage(position);
             }
-            bool waterPassable = true;
+            // bool waterPassable = true;
             //model.optional(LiquidContainer.class)
             //.map(container -> container.getTile(position))
             //.map(tile -> tile.amount <= 4).orElse(true);
-            if (!waterPassable) return IMPASSABLE;
+            // if (!waterPassable) return IMPASSABLE;
 
-            return PASSABLE;
+            return blockPassage;
         }
 
         public byte getPassage(int x, int y, int z) => passage.get(x, y, z);
 
         public byte getPassage(Vector3Int position) => getPassage(position.x, position.y, position.z);
-        
+
+        public Passage getPassageType(Vector3Int position) => PassageTypes.get(passage.get(position));
+
         public bool inSameArea(Vector3Int pos1, Vector3Int pos2) {
             return localMap.inMap(pos1) && localMap.inMap(pos2) && area.get(pos1) == area.get(pos2);
         }

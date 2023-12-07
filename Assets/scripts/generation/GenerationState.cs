@@ -1,6 +1,8 @@
 using game.model;
+using game.model.localmap;
 using generation.localgen;
 using generation.worldgen;
+using UnityEngine;
 using util.lang;
 
 namespace generation {
@@ -24,6 +26,12 @@ namespace generation {
             WorldMap worldMap = worldGenContainer.createWorldMap();
             world.worldModel.worldMap = worldMap;
             GameModel.get().world = world; // first instantiating on GameModel
+        }
+
+        public void generateLocalMap(Vector2Int position, string name, Vector3Int size) {
+            localMapGenerator.localGenConfig.location = position;
+            LocalModel localModel = localMapGenerator.generateLocalMap(name, position);
+            GameModel.get().addLocalModel(name, localModel);
         }
     }
 }

@@ -43,7 +43,7 @@ namespace game.model.localmap {
         }
 
         public Vector3Int findFreePositionNearCenter(Vector3Int center) {
-            Vector3Int position = new NeighbourPositionStream(center, model).filterByPassage(PassageTypes.PASSABLE).stream.First();
+            Vector3Int position = new NeighbourPositionStream(center, map).filterByPassage(PassageTypes.PASSABLE).stream.First();
             return position;
         }
     }

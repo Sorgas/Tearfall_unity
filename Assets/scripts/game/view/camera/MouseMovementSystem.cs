@@ -1,9 +1,9 @@
 ﻿using game.model;
 using game.model.localmap;
 using game.view.util;
+using TMPro;
 using types.material;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace game.view.camera {
     // moves selector sprite on screen, updates stat text
@@ -16,7 +16,7 @@ namespace game.view.camera {
         private Vector3 speed; // keeps sprite speed between ticks
         // for debug only TODO decompose
         private readonly LocalMap map;
-        private readonly Text debugLabelText;
+        private readonly TextMeshProUGUI debugLabelText;
 
         public MouseMovementSystem(LocalGameRunner initializer) {
             debugLabelText = initializer.sceneElementsReferences.modelDebugInfoPanel;
@@ -30,7 +30,6 @@ namespace game.view.camera {
             if (selectorSprite.localPosition == target) return;
             selectorSprite.localPosition = Vector3.SmoothDamp(selectorSprite.localPosition, target, ref speed, 0.05f); // move selector
             
-            if (cacheTarget == modelTarget) return;
             cacheTarget = modelTarget;
         }
 
@@ -49,11 +48,13 @@ namespace game.view.camera {
 
         private void updateText(Vector3Int modelPosition) {
             if (!map.inMap(modelPosition)) return;
-            debugLabelText.text = "coord: [" + modelPosition.x + ",  " + modelPosition.y + ",  " + modelPosition.z + "]" + "\n"
-                                  + "block: " + map.blockType.getEnumValue(modelPosition).NAME + " " +
-                                  MaterialMap.get().material(map.blockType.getMaterial(modelPosition)).name + "\n"
-                                  + "passage area: " + map.passageMap.area.get(modelPosition) + "\n"
-                                  + "UPS: " + GameModel.get().counter.lastUps; 
+            debugLabelText.text =
+                $"pos: [{modelPosition.x},  {modelPosition.y},  {modelPosition.z}]\n" +
+                $"block: {map.blockType.getEnumValue(modelPosition).NAME} {MaterialMap.get().material(map.blockType.getMaterial(modelPosition)).name}\n" +
+                $"passage: {map.passageMap.getPassageType(modelPosition).name}\n" +
+                $"area: {map.passageMap.area.get(modelPosition)}\n" +
+                $"area(rooms): {map.passageMap.doorBlockingArea.get(modelPosition)}\n" +
+                $"UPS: {GameModel.get().counter.lastUps}"; 
         }
     }
 }

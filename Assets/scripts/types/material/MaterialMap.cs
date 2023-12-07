@@ -12,12 +12,12 @@ public class MaterialMap : Singleton<MaterialMap> {
     private Dictionary<string, Material_> map = new();
     private Dictionary<int, Material_> idMap = new();
     private bool debug = false;
-    private MaterialVariantGenerator generator;
+    private MaterialVariantGenerator variantGenerator;
 
     public MaterialMap() {
         loadFiles();
-        generator = new MaterialVariantGenerator(this);
-        generator.createVariants();
+        variantGenerator = new MaterialVariantGenerator(this);
+        variantGenerator.createVariants();
     }
 
     private void loadFiles() {
@@ -63,13 +63,13 @@ public class MaterialMap : Singleton<MaterialMap> {
         idMap.Add(material.id, material);
     }
 
-    public bool variationRequired(string itemType) => generator.descriptors.ContainsKey(itemType);
+    public bool variationRequired(string itemType) => variantGenerator.descriptors.ContainsKey(itemType);
 
     public Material_ getVariantFor(int materialId, string itemType) {
         // TODO validate
         return material(variateValue(material(materialId).name, itemType));
     }
-    
+
     // applies wording rule to value for variation (material names and tilesets)
     public static string variateValue(string value, string itemTypeName) => MaterialVariantGenerator.variateValue(value, itemTypeName);
 
