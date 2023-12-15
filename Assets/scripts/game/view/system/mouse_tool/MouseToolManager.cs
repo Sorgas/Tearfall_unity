@@ -19,6 +19,7 @@ namespace game.view.system.mouse_tool {
         private readonly ZoneMouseTool zoneTool = new();
         private readonly SelectorSpriteUpdater updater = new();
         public readonly DebugTileMouseTool debugTileTool = new();
+        public readonly DebugDoorMouseTool debugDoorMouseTool = new();
         public MouseTool tool;
 
         // when player finishes selecting frame to apply tool
@@ -78,6 +79,11 @@ namespace game.view.system.mouse_tool {
         public void setDebug(string blockType, string material) {
             debugTileTool.set(blockType, material);
             set(debugTileTool);
+        }
+
+        public void setDebugDoor() {
+            set(debugDoorMouseTool);
+            // debugDoorMouseTool;
         }
     }
 }

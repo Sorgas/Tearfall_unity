@@ -52,8 +52,8 @@ namespace game.view.camera {
                 $"pos: [{modelPosition.x},  {modelPosition.y},  {modelPosition.z}]\n" +
                 $"block: {map.blockType.getEnumValue(modelPosition).NAME} {MaterialMap.get().material(map.blockType.getMaterial(modelPosition)).name}\n" +
                 $"passage: {map.passageMap.getPassageType(modelPosition).name}\n" +
-                $"area: {map.passageMap.area.get(modelPosition)}\n" +
-                $"area(rooms): {map.passageMap.doorBlockingArea.get(modelPosition)}\n" +
+                $"area: {map.passageMap.defaultHelper.area.get(modelPosition)}\n" +
+                // $"area(rooms): {map.passageMap..get(modelPosition)}\n" + TODO use rooms area
                 $"UPS: {GameModel.get().counter.lastUps}"; 
         }
     }

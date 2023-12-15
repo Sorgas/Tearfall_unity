@@ -86,13 +86,13 @@ namespace game.model.system.zone {
         // finds free tile or tile with not full stack of same items
         private Vector3Int findFreeCellOffZone(List<Vector3Int> tiles, EcsEntity item, List<Vector3Int> searchedTiles) {
             ItemComponent itemComponent = item.take<ItemComponent>();
-            int zoneArea = model.localMap.passageMap.area.get(tiles[0]);
+            int zoneArea = model.localMap.passageMap.defaultHelper.area.get(tiles[0]);
             List<Vector3Int> passableNeighbours =
                 tiles
                     .SelectMany(tile => PositionUtil.fourNeighbour.Select(pos => pos + tile))
                     .Distinct()
                     .Where(tile => !searchedTiles.Contains(tile))
-                    .Where(tile => model.localMap.passageMap.area.get(tile) == zoneArea).ToList();
+                    .Where(tile => model.localMap.passageMap.defaultHelper.area.get(tile) == zoneArea).ToList();
             Vector3Int freeTile = passableNeighbours
                 // .Where(tile => model.localMap.blockType.get(tile) == BlockTypes.FLOOR.CODE)
                 .firstOrDefault(tile => tileCanAcceptItem(tile, itemComponent), Vector3Int.back);

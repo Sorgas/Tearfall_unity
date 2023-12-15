@@ -33,7 +33,7 @@ public class ItemContainer : LocalModelUpdateContainer {
     // checks that item's position is accessible from 'position'
     public bool itemAccessibleFromPosition(EcsEntity item, Vector3Int position) {
         Vector3Int targetPosition = getItemAccessPosition(item);
-        return model.localMap.passageMap.tileIsAccessibleFromArea(targetPosition, position);
+        return model.localMap.passageMap.defaultHelper.tileIsAccessibleFromArea(targetPosition, position);
     }
 
     // should be never called for equipped items, items in equipped containers

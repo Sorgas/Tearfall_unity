@@ -7,5 +7,9 @@ namespace util.lang.extension {
             source.RemoveAt(index);
             return element;
         }
+
+        public static string toString<T>(this List<T> source) {
+            return "[" + string.Join(", ", source) + "]";
+        }
     }
 }

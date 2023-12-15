@@ -12,8 +12,6 @@ namespace game.model.component.task.action.target {
 public class DiggingActionTarget : StaticActionTarget {
     private Vector3Int center;
     private BlockType newBlockType;
-    
-    public DiggingActionTarget(ActionTargetTypeEnum type) : base(type) { }
 
     public DiggingActionTarget(Vector3Int position, BlockType targetBlockType) : base(ActionTargetTypeEnum.NEAR) {
         center = position;

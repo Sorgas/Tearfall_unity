@@ -2,11 +2,13 @@
 using System.Linq;
 using UnityEngine;
 using util;
+using util.geometry;
 using util.lang.extension;
 
 namespace game.model.localmap.passage {
 // synonym - a set of areas that are connected with each other. exists only on area inialization step
 public abstract class AbstractAreaInitializer {
+    private AbstractPassageHelper helper;
     protected string name = "AreaInitializer";
     private LocalMap localMap;
     protected PassageMap passage;
@@ -17,7 +19,8 @@ public abstract class AbstractAreaInitializer {
 
     protected abstract bool tilePassable(int x, int y, int z);
 
-    public void initArea(LocalMap map, PassageMap passage, AbstractArea area) {
+    public void initArea(AbstractPassageHelper helper, LocalMap map, PassageMap passage, UtilByteArray area) {
+        this.helper = helper;
         localMap = map;
         this.passage = passage;
         synonyms = new();
@@ -33,7 +36,7 @@ public abstract class AbstractAreaInitializer {
     // Assigns initial area numbers to cells, generates synonyms.
     private void initAreaNumbers(UtilByteArray areaArray) {
         byte areaNum = 1;
-        localMap.bounds.iterate((x, y, z) => {
+         localMap.bounds.iterate((x, y, z) => {
             if (tilePassable(x, y, z)) { // not wall or space
                 log(x + " " + y + " " + z + " -------------------------------------------");
                 HashSet<byte> neighbours = getNeighbours(x, y, z, areaArray);
@@ -99,7 +102,7 @@ public abstract class AbstractAreaInitializer {
                 for (int y = cy - 1; y <= cy + 1; y++) {
                     for (int z = cz - 1; z <= cz + 1; z++) {
                         if (localMap.inMap(x, y, z) && areaArray.get(x, y, z) != 0) {
-                            if (passage.hasPathBetweenNeighbours(x, y, z, cx, cy, cz))
+                            if (helper.hasPathBetweenNeighbours(x, y, z, cx, cy, cz))
                                 neighbours.Add(areaArray.get(x, y, z));
                         }
                     }

@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using game.model.component.task.action.target;
 using game.model.localmap;
-using types.action;
+using game.model.localmap.passage;
 using UnityEngine;
 using util.geometry;
-using util.lang;
+using util.lang.extension;
 
 namespace util.pathfinding {
     // TODO make not singleton
     // TODO add weights to tiles, add pathfinding weight visual overlay
     // TODO add 'difficult terrain',
     // TODO add doors(passable, counted with special weight), if door is locked by player, it becomes impassable
-    public class AStar : Singleton<AStar> {
+    public class AStar {
+        private AbstractPassageHelper helper;
         private bool debug = true;
         private LocalMap localMap;
 
-        public List<Vector3Int> makeShortestPathWithoutDoors(Vector3Int start, Vector3Int target, LocalModel model) {
-            throw new NotImplementedException();
+        public AStar(AbstractPassageHelper helper, LocalMap localMap) {
+            this.helper = helper;
+            this.localMap = localMap;
         }
         
         public List<Vector3Int> makeShortestPath(Vector3Int start, Vector3Int target, LocalModel model) {
@@ -65,12 +65,12 @@ namespace util.pathfinding {
         // counts heuristic for current vector
         private static float getH(Vector3Int target, Vector3Int current) => (target - current).magnitude;
 
-        // Gets tiles that can be stepped in from given tile.
+        // Gets tiles that can be stepped into from given tile.
         private List<Vector3Int> getSuccessors(Vector3Int center, HashSet<Vector3Int> closedSet) {
             return PositionUtil.all
                 .Select(vector => center + vector)
                 .Where(vector => !closedSet.Contains(vector))
-                .Where(vector => localMap.inMap(vector) && localMap.passageMap.hasPathBetweenNeighbours(center, vector))
+                .Where(vector => localMap.inMap(vector) && helper.hasPathBetweenNeighbours(center, vector))
                 .ToList();
         }
 
@@ -88,12 +88,18 @@ namespace util.pathfinding {
         private bool pathExists(Node initialNode, Vector3Int target) {
             BinaryHeap openSet = new();
             HashSet<Vector3Int> closedSet = new();
-
             openSet.push(initialNode);
             while (openSet.Count > 0) {
-                if (!openSet.tryPop(out Node currentNode)) return false; // no more tiles to search
-                if (target == currentNode.position) return true; // path found
+                if (!openSet.tryPop(out Node currentNode)) {
+                    Debug.Log($"checking path existence from {initialNode.position} to {target}: not found");
+                    return false; // no more tiles to search
+                }
+                if (target == currentNode.position) {
+                    Debug.Log($"checking path existence from {initialNode.position} to {target}: found");
+                    return true; // path found
+                }
                 List<Vector3Int> vectors = getSuccessors(currentNode.position, closedSet);
+                Debug.Log($"successors for tile {currentNode.position}: {vectors.toString()}");
                 int pathLength = currentNode.pathLength + 1;
                 vectors.ForEach(vector => { // iterate passable near positions
                     openSet.tryGet(vector, out Node? oldNode);
@@ -102,6 +108,7 @@ namespace util.pathfinding {
                 });
                 closedSet.Add(currentNode.position); // node processed
             }
+            Debug.Log($"checking path existence from {initialNode.position} to {target}: not found");
             return false;
         }
 

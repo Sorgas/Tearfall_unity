@@ -9,6 +9,7 @@ using UnityEngine.UI;
 namespace game.view.ui.debug_tools {
 public class DebugToolsPanelHandler : MonoBehaviour {
     public Button wallButton;
+    public Button doorButton;
     public TMP_Dropdown blockTypeDropdown;
     public TMP_Dropdown materialDropdown;
 
@@ -33,6 +34,7 @@ public class DebugToolsPanelHandler : MonoBehaviour {
         // blockTypeDropdown.onValueChanged.Invoke(0);
         materialDropdown.onValueChanged.Invoke(0);
         wallButton.onClick.AddListener(() => MouseToolManager.get().setDebug(selectedBlockType, selectedMaterial));
+        doorButton.onClick.AddListener(() => MouseToolManager.get().setDebugDoor());
     }
 
     private void setDebugTool() {

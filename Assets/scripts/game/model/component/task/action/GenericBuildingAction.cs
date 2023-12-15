@@ -64,9 +64,9 @@ public abstract class GenericBuildingAction : GenericItemConsumingAction {
     private Vector3Int findNearestOutsidePosition(Vector3Int referencePosition) {
         List<Vector3Int> acceptablePositions = target.getAcceptablePositions(model);
         if (acceptablePositions.Count == 0) return Vector3Int.back; // not found
-        int performerArea = model.localMap.passageMap.area.get(performer.pos());
+        int performerArea = model.localMap.passageMap.defaultHelper.area.get(performer.pos());
         return acceptablePositions
-            .Where(position => model.localMap.passageMap.area.get(position) == performerArea)
+            .Where(position => model.localMap.passageMap.defaultHelper.area.get(position) == performerArea)
             .MinBy(position => (position - referencePosition).sqrMagnitude);
     }
 

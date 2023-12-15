@@ -78,7 +78,7 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
     private EcsEntity getTaskFromContainer(EcsEntity unit, int minTaskPriority) {
         UnitJobsComponent jobs = unit.take<UnitJobsComponent>();
         Vector3Int position = unit.pos();
-        byte area = model.localMap.passageMap.area.get(position);
+        byte area = model.localMap.passageMap.defaultHelper.area.get(position);
         for (int jobPriority = maxPriority; jobPriority >= minPriority; jobPriority--) { // by unit's jobs in priority order
             List<string> jobsList = jobs.getByPriority(jobPriority);
             if (jobsList.Count <= 0) continue;
@@ -112,7 +112,7 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
             return false;
         }
         return actionTarget.getAcceptablePositions(model)
-            .Select(position => model.localMap.passageMap.area.get(position))
+            .Select(position => model.localMap.passageMap.defaultHelper.area.get(position))
             .Any(area => area == performerArea);
         // target position in same area with performer
         // if (targetType == EXACT || targetType == ANY) {
