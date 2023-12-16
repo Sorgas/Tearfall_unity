@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MoreLinq;
 using UnityEngine;
 using util;
 using util.geometry;
 using util.lang;
 using util.lang.extension;
-using util.pathfinding;
 
 namespace game.model.localmap.passage {
 // recalculates areas after one tile is changed
@@ -30,15 +30,6 @@ public class AreaUpdater {
         // all areas accessible from center should be merged
         if (helper.tileCanHaveArea(position.x, position.y, position.z)) { // tile became passable, areas should be merged
             mergeAreasAroundCenter(position);
-        } else {
-            // area.set(position, 0);
-            // // tile became impassable, areas may split
-            // // if under new SPACE tile is RAMP, areas may join
-            // if (position.z > 0 && map.blockType.get(position) == BlockTypes.SPACE.CODE
-            //                    && map.blockType.get(position + Vector3Int.back) == BlockTypes.RAMP.CODE) {
-            //     mergeAreasAboveRamp(position);
-            // }
-            // splitAreas(position);
         }
         splitAreas(position);
     }
@@ -50,26 +41,16 @@ public class AreaUpdater {
     // observes areas around center, sets center position to one of them or new area. Then merges areas
     private void mergeAreasAroundCenter(Vector3Int center) {
         log($"merging areas {center}");
-        HashSet<byte> areas = PositionUtil.all.Select(pos => center + pos)
-            .Where(pos => helper.tileCanHaveArea(pos.x, pos.y, pos.z))
-            .Where(pos => helper.hasPathBetweenNeighbours(pos, center))
-            .Select(pos => area.get(pos)).ToHashSet();
+        HashSet<byte> areas = Enumerable.ToHashSet(PositionUtil.all.Select(pos => center + pos)
+                .Where(pos => helper.tileCanHaveArea(pos.x, pos.y, pos.z))
+                .Where(pos => helper.hasPathBetweenNeighbours(pos, center))
+                .Select(pos => area.get(pos)));
         // log("found areas to merge: " + setToString(areas));
         // take new area number, if new tile is not connected to any area
         area.set(center, areas.Count == 0 ? getUnusedAreaNumber() : areas.First());
         mergeAreas(areas);
     }
-
-    private void mergeAreasAboveRamp(Vector3Int center) {
-        Debug.Log("merging areas above ramp " + center);
-        HashSet<byte> areas = PositionUtil.allNeighbour.Select(pos => center + pos)
-            .Where(pos => helper.tileCanHaveArea(pos.x, pos.y, pos.z))
-            .Select(pos => area.get(pos)).ToHashSet();
-        log("found areas to merge: " + setToString(areas));
-        areas.Add(area.get(center + Vector3Int.back));
-        if (areas.Count > 1) mergeAreas(areas);
-    }
-
+    
     // sets all tiles of given areas to the largest one 
     private void mergeAreas(HashSet<byte> areas) {
         if (areas.Count < 2) return;
@@ -141,7 +122,8 @@ public class AreaUpdater {
             connectedPositions.Add(first);
             for (int i = list.Count - 1; i >= 0; i--) {
                 Vector3Int pos = list[i];
-                if (helper.hasPathBetweenNeighbours(pos, first) || helper.aStar.pathExists(pos, first, map)) {
+                if ((first.isNeighbour(pos) && helper.hasPathBetweenNeighbours(pos, first)) 
+                    || helper.aStar.pathExists(pos, first, map)) {
                     connectedPositions.Add(list.removeAndGet(i));
                 }
             }
@@ -152,16 +134,17 @@ public class AreaUpdater {
 
     // Fills all tiles available from given with new area value.
     private int fill(Vector3Int start, byte value) {
+        log($"filling area from {start} with {value}");
         int counter = 0;
         HashSet<Vector3Int> openSet = new();
         for (openSet.Add(start); openSet.Count != 0; counter++) {
             Vector3Int center = openSet.First();
             openSet.Remove(center);
             area.set(center.x, center.y, center.z, value);
-            PositionUtil.allNeighbour.Select(pos => center + pos)
-                .Where(pos => area.get(pos) == value)
+            PositionUtil.all.Select(pos => center + pos)
+                .Where(pos => area.get(pos) != 0 && area.get(pos) != value)
                 .Where(pos => helper.hasPathBetweenNeighbours(pos, center))
-                .Select(pos => area.get(pos)).ToHashSet();
+                .ForEach(pos => openSet.Add(pos));
         }
         return counter;
     }
