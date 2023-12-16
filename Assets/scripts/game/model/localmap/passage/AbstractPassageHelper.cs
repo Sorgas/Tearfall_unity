@@ -8,8 +8,8 @@ namespace game.model.localmap.passage {
 public abstract class AbstractPassageHelper {
     public UtilByteArrayWithCounter area;
     public AStar aStar;
-    public AreaUpdater updater;
-    public AbstractAreaInitializer initializer;
+    private readonly AreaUpdater updater;
+    private readonly AbstractAreaInitializer initializer;
 
     protected readonly PassageMap passage;
     protected readonly LocalMap map;
@@ -21,9 +21,6 @@ public abstract class AbstractPassageHelper {
         aStar = new AStar(this, map);
         updater = new AreaUpdater(this, area, map, passage); // TODO make not abstract
         initializer = new AreaInitializerGroundPassableDoors();
-    }
-
-    public void init() {
         initializer.initArea(this, map, passage, area);
     }
 
@@ -52,9 +49,8 @@ public abstract class AbstractPassageHelper {
     public bool tileIsAccessibleFromArea(Vector3Int target, Vector3Int from) =>
         tileIsAccessibleFromArea(target.x, target.y, target.z, area.get(from));
 
+    public int getArea(Vector3Int position) => area.get(position.x, position.y, position.z);
 
-    public int getArea(int x, int y, int z) {
-        return area.get(x, y, z);
-    }
+    public void update(Vector3Int position) => updater.update(position);
 }
 }
