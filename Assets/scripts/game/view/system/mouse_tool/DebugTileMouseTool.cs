@@ -1,4 +1,5 @@
-﻿using types;
+﻿using game.view.tilemaps;
+using types;
 using types.material;
 using UnityEngine;
 using util.geometry.bounds;
@@ -27,7 +28,10 @@ namespace game.view.system.mouse_tool {
             });
         }
 
-        public override void updateSprite() { }
+        public override void updateSprite() {
+            Sprite sprite = BlockTileSetHolder.get().getSprite("template", blockType.CODE == BlockTypes.RAMP.CODE ? "C" : blockType.PREFIX);
+            selectorGO.setConstructionSprite(sprite);
+        }
 
         public override void rotate() { }
 

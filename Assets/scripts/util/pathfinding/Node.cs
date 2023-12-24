@@ -5,10 +5,10 @@ namespace util.pathfinding {
     public readonly struct Node : IEquatable<Node>, IComparable<Node> {
         public readonly Vector3Int position;
         public readonly Vector3Int? parent; // points to parent
-        public readonly int pathLength; // parent.pathLength + 1
-        public readonly float cost;
+        public readonly float pathLength; // parent.pathLength + 1
+        public readonly float cost; // path length + distance to target
 
-        public Node(Vector3Int position, Vector3Int? parent, float heuristic, int pathLength) {
+        public Node(Vector3Int position, Vector3Int? parent, float heuristic, float pathLength) {
             this.position = position;
             this.parent = parent;
             this.pathLength = pathLength;

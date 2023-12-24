@@ -1,6 +1,4 @@
-﻿using System;
-using game.view.camera;
-using game.view.ui.toolbar;
+﻿using game.view.camera;
 using Leopotam.Ecs;
 using types;
 using types.building;
@@ -22,7 +20,7 @@ namespace game.view.system.mouse_tool {
         public readonly DebugDoorMouseTool debugDoorMouseTool = new();
         public MouseTool tool;
 
-        // when player finishes selecting frame to apply tool
+        // apply tool when player finishes dragging selection frame
         public void handleSelection(IntBounds3 bounds, Vector3Int start) => tool?.applyTool(bounds, start);
 
         // revalidate position when mouse moved

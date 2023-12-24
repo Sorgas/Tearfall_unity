@@ -36,10 +36,6 @@ namespace game.input {
             }
         }
 
-        private void collectNavigationKeys() {
-            
-        }
-
         private void handlePressedKeys() {
             bool handled = false;
             foreach (var key in pressedKeys) {

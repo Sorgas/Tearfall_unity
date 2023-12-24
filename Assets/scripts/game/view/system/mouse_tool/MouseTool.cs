@@ -36,8 +36,9 @@ namespace game.view.system.mouse_tool {
             selectorGO.setToolSprite(null);
         }
 
+        // called when player presses rotate keys
         public virtual void rotate() { }
-
+        
         public abstract void updateSpriteColor(Vector3Int position);
 
         public abstract void reset();

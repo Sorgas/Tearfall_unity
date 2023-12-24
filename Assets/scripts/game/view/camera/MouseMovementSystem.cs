@@ -54,6 +54,7 @@ namespace game.view.camera {
                 $"passage: {map.passageMap.getPassageType(modelPosition).name}\n" +
                 $"area: {map.passageMap.defaultHelper.getArea(modelPosition)}\n" +
                 $"area(rooms): {map.passageMap.roomHelper.getArea(modelPosition)}\n" + 
+                $"area(fly): {map.passageMap.indoorHelper.getArea(modelPosition)}\n" + 
                 $"UPS: {GameModel.get().counter.lastUps}"; 
         }
     }

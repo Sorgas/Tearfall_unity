@@ -42,15 +42,15 @@ public class AreaUpdater {
     private void mergeAreasAroundCenter(Vector3Int center) {
         log($"merging areas {center}");
         HashSet<byte> areas = Enumerable.ToHashSet(PositionUtil.all.Select(pos => center + pos)
-                .Where(pos => helper.tileCanHaveArea(pos.x, pos.y, pos.z))
-                .Where(pos => helper.hasPathBetweenNeighbours(pos, center))
-                .Select(pos => area.get(pos)));
+            .Where(pos => helper.tileCanHaveArea(pos.x, pos.y, pos.z))
+            .Where(pos => helper.hasPathBetweenNeighbours(pos, center))
+            .Select(pos => area.get(pos)));
         // log("found areas to merge: " + setToString(areas));
         // take new area number, if new tile is not connected to any area
         area.set(center, areas.Count == 0 ? getUnusedAreaNumber() : areas.First());
         mergeAreas(areas);
     }
-    
+
     // sets all tiles of given areas to the largest one 
     private void mergeAreas(HashSet<byte> areas) {
         if (areas.Count < 2) return;
@@ -90,9 +90,9 @@ public class AreaUpdater {
         foreach (byte areaValue in areas.Keys) {
             List<Vector3Int> posList = areas[areaValue];
             if (posList.Count < 2) continue; // single tile area
-            List<HashSet<Vector3Int>> isolatedPositions = collectIsolatedPositions(posList, center);
+            List<List<Vector3Int>> isolatedPositions = collectIsolatedPositions(posList, center);
             log($"isolated areas found for area {areaValue}: {isolatedPositions.Count}");
-            foreach (HashSet<Vector3Int> set in isolatedPositions) {
+            foreach (List<Vector3Int> set in isolatedPositions) {
                 log(setToString(set));
             }
             if (isolatedPositions.Count < 2) continue; // all positions from old areas remain connected, do nothing.
@@ -101,7 +101,7 @@ public class AreaUpdater {
                 Debug.LogError("area value not counted in area size");
             }
             int oldCount = area.sizes[areaValue];
-            foreach (HashSet<Vector3Int> positions in isolatedPositions) {
+            foreach (List<Vector3Int> positions in isolatedPositions) {
                 oldCount -= fill(positions.First(), getUnusedAreaNumber()); // refill isolated area with new number
             }
             // if (area.numbers.get(areaValue).value != oldCount) Logger.PATH.logWarn("Areas sizes inconsistency after split.");
@@ -113,23 +113,42 @@ public class AreaUpdater {
 
     // Splits given list of positions into groups. Positions in one group are interconnected. Positions in different groups are isolated.
     // list - positions around center having same area
-    private List<HashSet<Vector3Int>> collectIsolatedPositions(List<Vector3Int> list, Vector3Int center) {
+    private List<List<Vector3Int>> collectIsolatedPositions(List<Vector3Int> list, Vector3Int center) {
         log($"collecting isolated positions around {center}");
-        List<HashSet<Vector3Int>> groups = new();
+        List<List<Vector3Int>> groups = new();
         while (list.Count > 0) {
-            HashSet<Vector3Int> connectedPositions = new();
             Vector3Int first = list.removeAndGet(0); // first position is connected to itself
-            connectedPositions.Add(first);
+            List<Vector3Int> connectedPositions = collectTransitiveNeighbours(list, first);
+            log($"transitive neighbours collected {connectedPositions.Count}");
             for (int i = list.Count - 1; i >= 0; i--) {
-                Vector3Int pos = list[i];
-                if ((first.isNeighbour(pos) && helper.hasPathBetweenNeighbours(pos, first)) 
-                    || helper.aStar.pathExists(pos, first, map)) {
+                if (helper.aStar.pathExistsBiDirectional(list[i], connectedPositions[0])) {
                     connectedPositions.Add(list.removeAndGet(i));
                 }
             }
             groups.Add(connectedPositions);
         }
         return groups;
+    }
+
+    // from given list collects positions which are accessible neighbours for start position, or position already collected from the list.
+    // Removes collected positions from source list.
+    private List<Vector3Int> collectTransitiveNeighbours(List<Vector3Int> list, Vector3Int start) {
+        List<Vector3Int> result = new();
+        result.Add(start);
+        bool added = true;
+        while (added && list.Count > 0) {
+            added = false;
+            for (var j = 0; j < result.Count; j++) { // forward loop, because elements added to result
+                for (int i = list.Count - 1; i >= 0; i--) { // backward loop, because elements removed from list
+                    // log($"i {i}, j {j}, list {list.Count}, result {result.Count}");
+                    if (result[j].isNeighbour(list[i]) && helper.hasPathBetweenNeighbours(list[i], result[j])) {
+                        result.Add(list.removeAndGet(i));
+                        added = true;
+                    }
+                }
+            }
+        }
+        return result;
     }
 
     // Fills all tiles available from given with new area value.
@@ -142,6 +161,7 @@ public class AreaUpdater {
             openSet.Remove(center);
             area.set(center.x, center.y, center.z, value);
             PositionUtil.all.Select(pos => center + pos)
+                .Where(pos => map.inMap(pos))
                 .Where(pos => area.get(pos) != 0 && area.get(pos) != value)
                 .Where(pos => helper.hasPathBetweenNeighbours(pos, center))
                 .ForEach(pos => openSet.Add(pos));
@@ -164,7 +184,7 @@ public class AreaUpdater {
         return string.Join(", ", set);
     }
 
-    private string setToString(HashSet<Vector3Int> set) {
+    private string setToString(List<Vector3Int> set) {
         return "([" + string.Join("], [", set) + "])";
     }
 }

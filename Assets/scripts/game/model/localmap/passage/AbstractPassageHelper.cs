@@ -1,4 +1,3 @@
-using types;
 using UnityEngine;
 using util;
 using util.pathfinding;
@@ -18,7 +17,7 @@ public abstract class AbstractPassageHelper {
         this.passage = passage;
         this.map = map;
         area = new UtilByteArrayWithCounter(map.sizeVector);
-        aStar = new AStar(this, map);
+        aStar = new AStar(this);
         updater = new AreaUpdater(this, area, map, passage); // TODO make not abstract
         initializer = new AreaInitializerGroundPassableDoors();
         initializer.initArea(this, map, passage, area);
@@ -26,13 +25,15 @@ public abstract class AbstractPassageHelper {
 
     public abstract bool tileCanHaveArea(int x, int y, int z);
 
+    // should return true if a creature can move from one tile to another, and false otherwize
+    // should check if positions are inside map and are passable.
+    // positions should be neighbours
     public abstract bool hasPathBetweenNeighbours(int x1, int y1, int z1, int x2, int y2, int z2);
 
     public bool hasPathBetweenNeighbours(Vector3Int pos1, Vector3Int pos2) =>
         hasPathBetweenNeighbours(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z);
 
     private bool tileIsAccessibleFromArea(int tx, int ty, int tz, int areaValue) {
-        // Debug.Log("checking [" + tx + ", " + ty + ", " + tz + "] available from area " + areaValue);
         if (!map.inMap(tx, ty, tz)) return false;
         if (area.get(tx, ty, tz) == areaValue) return true;
         // if passable and not in same area, then it is in different area

@@ -29,7 +29,7 @@ namespace game.view.camera {
             BlockType blockType = map.blockType.getEnumValue(position);
             if (blockType.CODE == BlockTypes.SPACE.CODE) {
                 setSprite(true, lightGrey);
-            } else if (blockType.FLAT) {
+            } else if (blockType.flat) {
                 setSprite(true, Color.white);
             } else {
                 setSprite(false, Color.white);

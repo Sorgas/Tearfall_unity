@@ -38,7 +38,7 @@ namespace game.model.system.unit {
                 Vector3Int targetPosition = positions.MinBy(position => (unitPosition - position).sqrMagnitude);
             
                 List<Vector3Int> path = 
-                    model.localMap.passageMap.defaultHelper.aStar.makeShortestPath(unit.pos(), targetPosition, model);
+                    model.localMap.passageMap.defaultHelper.aStar.makeShortestPath(unit.pos(), targetPosition);
                 if (path != null) {
                     unit.Replace(new UnitMovementPathComponent { path = path });
                     return;

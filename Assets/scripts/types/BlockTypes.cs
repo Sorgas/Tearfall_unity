@@ -34,7 +34,7 @@ namespace types {
         public readonly int CODE;
         public readonly Passage PASSAGE;
         public readonly int OPENNESS;
-        public readonly bool FLAT;
+        public readonly bool flat; // tile has wall part
         public readonly int PRODUCT;
         public readonly string NAME;
         public readonly string PREFIX;
@@ -43,7 +43,7 @@ namespace types {
             CODE = id;
             PASSAGE = passage;
             OPENNESS = openness;
-            FLAT = flat;
+            this.flat = flat;
             PRODUCT = product;
             NAME = name;
             PREFIX = prefix;

@@ -55,7 +55,7 @@ namespace game.view.tilemaps {
             BlockType blockType = get(map.blockType.get(x, y, z));
             Vector3Int position = new(x, y, z);
             Tile wallTile = null, floorTile = null, substrateFloorTile = null, substrateWallTile = null;
-            if (!blockType.FLAT) { // tile has wall part
+            if (!blockType.flat) { // tile has wall part
                 string wallTileName = blockType == RAMP ? rampUtil.selectRampPrefix(x, y, z) : blockType.PREFIX;
                 wallTile = blockTileSetHolder.tiles[material][wallTileName]; // draw wall part
                 if (map.substrateMap.has(position)) {

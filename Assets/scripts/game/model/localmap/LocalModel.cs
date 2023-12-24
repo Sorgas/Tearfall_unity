@@ -25,7 +25,8 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public readonly ZoneContainer zoneContainer;
         public readonly FarmContainer farmContainer;
         public readonly TileUpdateUtil updateUtil;
-
+        
+        
         private readonly List<ModelUpdateEvent> modelUpdateEventQueue = new();
         private readonly bool debug = false;
         
@@ -77,6 +78,11 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
             }
         }
 
+        // should be called after tile is updated by any reason(digging, construction, building, plant growth)
+        public void updateTile(Vector3Int position, bool updateRamps) {
+            
+        }
+        
         public string getDebugInfo() => taskContainer.getDebugIngo();
 
         private void log(string message) {
