@@ -5,20 +5,22 @@ using util.pathfinding;
 namespace game.model.localmap.passage {
 // provides functionality for pathfinding and passage area storing and updating
 public abstract class AbstractPassageHelper {
-    public UtilByteArrayWithCounter area;
+    protected readonly LocalModel model;
+    public UtilUshortArrayWithCounter area;
     public AStar aStar;
-    private readonly AreaUpdater updater;
+    protected readonly AreaUpdater updater;
     private readonly AbstractAreaInitializer initializer;
 
     protected readonly PassageMap passage;
     protected readonly LocalMap map;
 
-    protected AbstractPassageHelper(PassageMap passage, LocalMap map) {
+    protected AbstractPassageHelper(PassageMap passage, LocalModel model) {
         this.passage = passage;
-        this.map = map;
-        area = new UtilByteArrayWithCounter(map.sizeVector);
+        this.model = model;
+        map = model.localMap;
+        area = new UtilUshortArrayWithCounter(map.sizeVector);
         aStar = new AStar(this);
-        updater = new AreaUpdater(this, area, map, passage); // TODO make not abstract
+        updater = new AreaUpdater(this, area, map, passage);
         initializer = new AreaInitializerGroundPassableDoors();
         initializer.initArea(this, map, passage, area);
     }
@@ -50,7 +52,7 @@ public abstract class AbstractPassageHelper {
     public bool tileIsAccessibleFromArea(Vector3Int target, Vector3Int from) =>
         tileIsAccessibleFromArea(target.x, target.y, target.z, area.get(from));
 
-    public int getArea(Vector3Int position) => area.get(position.x, position.y, position.z);
+    public ushort getArea(Vector3Int position) => area.get(position.x, position.y, position.z);
 
     public void update(Vector3Int position) => updater.update(position);
 }

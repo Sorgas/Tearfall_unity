@@ -29,7 +29,6 @@ namespace game.model.container {
                 return EcsEntity.Null;
             }
             EcsEntity building = generator.generateByOrder(order, model.createEntity());
-
             buildingBounds.iterate(pos => {
                 buildings.Add(pos, building);
                 if (order.type.passage == "impassable") {
@@ -38,6 +37,7 @@ namespace game.model.container {
                     model.localMap.passageMap.update(pos);
                 }
             });
+            model.roomContainer.buildingCreated(building);
             log("building " + building.name() + " created in " + building.pos());
             return building;
         }

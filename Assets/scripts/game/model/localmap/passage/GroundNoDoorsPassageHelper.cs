@@ -2,23 +2,20 @@ using static types.BlockTypes;
 using static types.PassageTypes;
 
 namespace game.model.localmap.passage {
-// for walking units that can use doors
-public class DefaultPassageHelper : AbstractPassageHelper {
-
-    public DefaultPassageHelper(PassageMap passage, LocalModel model) : base(passage, model) {
-        
-    }
-
-    public override bool tileCanHaveArea(int x, int y, int z) {
-        return passage.getPassage(x, y, z) == PASSABLE.VALUE || passage.getPassage(x, y, z) == DOOR.VALUE;
-    }
+// helper for counting rooms. counts doors as impassable tiles
+public class GroundNoDoorsPassageHelper : AbstractPassageHelper {
+    public GroundNoDoorsPassageHelper(PassageMap passage, LocalModel model) : base(passage, model) { }
     
+    public override bool tileCanHaveArea(int x, int y, int z) {
+        return passage.getPassage(x, y, z) == PASSABLE.VALUE;
+    }
+
     public override bool hasPathBetweenNeighbours(int x1, int y1, int z1, int x2, int y2, int z2) {
         if (!map.inMap(x1, y1, z1) || !map.inMap(x2, y2, z2)) return false;
         int passageValue = passage.getPassage(x1, y1, z1);
-        if(passageValue == IMPASSABLE.VALUE || passageValue == FLY.VALUE) return false;
+        if(passageValue != PASSABLE.VALUE) return false;
         passageValue = passage.getPassage(x2, y2, z2); 
-        if(passageValue == IMPASSABLE.VALUE || passageValue == FLY.VALUE) return false;
+        if(passageValue != PASSABLE.VALUE) return false;
         if (z1 == z2) return true; // passable tiles on same level
         int type1 = map.blockType.get(x1, y1, z1);
         int type2 = map.blockType.get(x2, y2, z2);

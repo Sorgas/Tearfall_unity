@@ -13,13 +13,13 @@ public abstract class AbstractAreaInitializer {
     private LocalMap localMap;
     protected PassageMap passage;
     
-    private HashSet<HashSet<byte>> synonyms; // after initial numbers assigning, some areas will be connected. sets contain numbers of connected areas
-    private Dictionary<byte, byte> areaMapping; // synonym values to synonym min
+    private HashSet<HashSet<ushort>> synonyms; // after initial numbers assigning, some areas will be connected. sets contain numbers of connected areas
+    private Dictionary<ushort, ushort> areaMapping; // synonym values to synonym min
     private bool debug = false;
 
     protected abstract bool tilePassable(int x, int y, int z);
 
-    public void initArea(AbstractPassageHelper helper, LocalMap map, PassageMap passage, UtilByteArray area) {
+    public void initArea(AbstractPassageHelper helper, LocalMap map, PassageMap passage, UtilUshortArray area) {
         this.helper = helper;
         localMap = map;
         this.passage = passage;
@@ -34,12 +34,12 @@ public abstract class AbstractAreaInitializer {
     }
 
     // Assigns initial area numbers to cells, generates synonyms.
-    private void initAreaNumbers(UtilByteArray areaArray) {
+    private void initAreaNumbers(UtilUshortArray areaArray) {
         byte areaNum = 1;
          localMap.bounds.iterate((x, y, z) => {
             if (tilePassable(x, y, z)) { // not wall or space
                 log(x + " " + y + " " + z + " -------------------------------------------");
-                HashSet<byte> neighbours = getNeighbours(x, y, z, areaArray);
+                HashSet<ushort> neighbours = getNeighbours(x, y, z, areaArray);
                 if (neighbours.Count == 0) { // cell not yet connected to any area
                     log(" set to " + (areaNum));
                     areaArray.set(x, y, z, areaNum++); // set new area number to cell
@@ -54,17 +54,17 @@ public abstract class AbstractAreaInitializer {
 
     // Maps values from synonyms to lowest value from synonym
     private void processSynonyms() {
-        foreach (HashSet<byte> synonym in synonyms) {
+        foreach (HashSet<ushort> synonym in synonyms) {
             log("processing synonym " + synonym.Count);
-            byte min = synonym.Min(); // select minimal number from synonym
+            ushort min = synonym.Min(); // select minimal number from synonym
             synonym.ToList().ForEach(value => areaMapping.Add(value, min));
         }
     }
 
     // Sets area numbers from mapping to passage map, so only minimal values from synonyms are used.
     // Also initializes cell counter for areas.
-    private void applyMapping(UtilByteArray areaArray) {
-        byte area;
+    private void applyMapping(UtilUshortArray areaArray) {
+        ushort area;
         localMap.bounds.iterate((x, y, z) => {
             area = areaArray.get(x, y, z); // unmapped value
             if (area != 0) { // passable tile
@@ -76,17 +76,17 @@ public abstract class AbstractAreaInitializer {
     }
 
     // Adds given set to synonyms. Combines synonyms, if already encountered.
-    private void addSynonyms(HashSet<byte> neighbours) {
+    private void addSynonyms(HashSet<ushort> neighbours) {
         if (synonyms.Any(set => set.includesAll(neighbours))) return; // if new synonym is fully contained in another one, do nothing
         // synonyms, intersecting with new one
-        List<HashSet<byte>> intersecting = synonyms.Where(synonym => synonym.Intersect(neighbours).Any()).ToList();
+        List<HashSet<ushort>> intersecting = synonyms.Where(synonym => synonym.Intersect(neighbours).Any()).ToList();
         if (intersecting.Count == 0) { // just add new synonym
             synonyms.Add(neighbours);
         } else { // merge all found synonyms
             log("merging synonyms " + intersecting.Count);
             intersecting.ForEach(set => synonyms.Remove(set));
-            HashSet<byte> mergedSynonym = new();
-            foreach (HashSet<byte> set in intersecting) {
+            HashSet<ushort> mergedSynonym = new();
+            foreach (HashSet<ushort> set in intersecting) {
                 mergedSynonym.UnionWith(set);
             }
             log("merged synonyms into " + mergedSynonym);
@@ -95,8 +95,8 @@ public abstract class AbstractAreaInitializer {
     }
 
     // Returns area numbers of areas accessible from given position
-    private HashSet<byte> getNeighbours(int cx, int cy, int cz, UtilByteArray areaArray) {
-        HashSet<byte> neighbours = new();
+    private HashSet<ushort> getNeighbours(int cx, int cy, int cz, UtilUshortArray areaArray) {
+        HashSet<ushort> neighbours = new();
         if (tilePassable(cx, cy, cz)) {
             for (int x = cx - 1; x <= cx + 1; x++) {
                 for (int y = cy - 1; y <= cy + 1; y++) {

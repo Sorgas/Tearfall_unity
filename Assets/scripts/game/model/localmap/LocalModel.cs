@@ -24,6 +24,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public readonly BuildingContainer buildingContainer;
         public readonly ZoneContainer zoneContainer;
         public readonly FarmContainer farmContainer;
+        public readonly RoomContainer roomContainer;
         public readonly TileUpdateUtil updateUtil;
         
         
@@ -39,6 +40,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
             buildingContainer = new(this);
             zoneContainer = new(this);
             farmContainer = new(this);
+            roomContainer = new(this);
             updateUtil = new(this);
         }
 

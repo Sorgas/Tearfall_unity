@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MoreLinq;
 using UnityEngine;
@@ -11,13 +12,15 @@ namespace game.model.localmap.passage {
 // recalculates areas after one tile is changed
 public class AreaUpdater {
     private AbstractPassageHelper helper;
-    private readonly UtilByteArrayWithCounter area;
+    private readonly UtilUshortArrayWithCounter area;
     protected readonly LocalMap map;
     protected readonly PassageMap passage;
     protected string name = "AbstractAreaUpdater";
     public bool debug = true;
+    public Action<IEnumerable<Vector3Int>> mergingCallback; // called when areas are merged.
+    public Action<IEnumerable<Vector3Int>> splittingCallback; // called when areas are merged.
 
-    public AreaUpdater(AbstractPassageHelper helper, UtilByteArrayWithCounter area, LocalMap localMap, PassageMap passageMap) {
+    public AreaUpdater(AbstractPassageHelper helper, UtilUshortArrayWithCounter area, LocalMap localMap, PassageMap passageMap) {
         this.helper = helper;
         this.area = area;
         map = localMap;
@@ -34,28 +37,35 @@ public class AreaUpdater {
         splitAreas(position);
     }
 
-    // protected bool tileCanHaveArea(int x, int y, int z);
-    //
-    // protected bool hasPathBetweenNeighbours(Vector3Int pos1, Vector3Int pos2);
-
     // observes areas around center, sets center position to one of them or new area. Then merges areas
     private void mergeAreasAroundCenter(Vector3Int center) {
         log($"merging areas {center}");
-        HashSet<byte> areas = Enumerable.ToHashSet(PositionUtil.all.Select(pos => center + pos)
+        // find positions in different areas, connected to center
+        Dictionary<ushort, Vector3Int> positionsOfAreas = PositionUtil.all
+            .Select(pos => center + pos)
             .Where(pos => helper.tileCanHaveArea(pos.x, pos.y, pos.z))
             .Where(pos => helper.hasPathBetweenNeighbours(pos, center))
-            .Select(pos => area.get(pos)));
+            .ToDictionary(pos => helper.getArea(pos), pos => pos);
         // log("found areas to merge: " + setToString(areas));
         // take new area number, if new tile is not connected to any area
-        area.set(center, areas.Count == 0 ? getUnusedAreaNumber() : areas.First());
-        mergeAreas(areas);
+        if (positionsOfAreas.Count == 0) { // no tiles connected to center
+            area.set(center, getUnusedAreaNumber()); // assign new area to isolated tile
+            mergingCallback?.Invoke(new[] {center});
+        } else {
+            if (positionsOfAreas.Count == 1) {
+                area.set(center, positionsOfAreas.Keys.First()); // extend existing area to center tile
+            } else { // multiple areas became connected
+                mergeAreas(Enumerable.ToHashSet(positionsOfAreas.Keys));
+            }
+            mergingCallback?.Invoke(positionsOfAreas.Values);
+        }
     }
 
     // sets all tiles of given areas to the largest one 
-    private void mergeAreas(HashSet<byte> areas) {
+    private void mergeAreas(HashSet<ushort> areas) {
         if (areas.Count < 2) return;
         log($"merging areas {setToString(areas)}");
-        byte largestArea = area.sizes
+        ushort largestArea = area.sizes
             .Where(pair => areas.Contains(pair.Key))
             .Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
         areas.Remove(largestArea);
@@ -80,7 +90,7 @@ public class AreaUpdater {
      */
     private void splitAreas(Vector3Int center) {
         log("splitting areas " + center);
-        MultiValueDictionary<byte, Vector3Int> areas = new();
+        MultiValueDictionary<ushort, Vector3Int> areas = new();
         foreach (var pos in PositionUtil.all
                      .Select(pos => center + pos)
                      .Where(pos => helper.tileCanHaveArea(pos.x, pos.y, pos.z))) {
@@ -96,6 +106,7 @@ public class AreaUpdater {
                 log(setToString(set));
             }
             if (isolatedPositions.Count < 2) continue; // all positions from old areas remain connected, do nothing.
+            splittingCallback?.Invoke(isolatedPositions.Select(list => list.First()));
             isolatedPositions.RemoveAt(0);
             if (!area.sizes.ContainsKey(areaValue)) {
                 Debug.LogError("area value not counted in area size");
@@ -111,8 +122,8 @@ public class AreaUpdater {
         }
     }
 
-    // Splits given list of positions into groups. Positions in one group are interconnected. Positions in different groups are isolated.
-    // list - positions around center having same area
+    // Splits given list of positions into groups. Positions in one group are interconnected.
+    // Positions in different groups are not connected. List - positions around center having same area
     private List<List<Vector3Int>> collectIsolatedPositions(List<Vector3Int> list, Vector3Int center) {
         log($"collecting isolated positions around {center}");
         List<List<Vector3Int>> groups = new();
@@ -180,7 +191,7 @@ public class AreaUpdater {
         if (debug) Debug.Log($"[{name}]: {message}");
     }
 
-    private string setToString(HashSet<byte> set) {
+    private string setToString(HashSet<ushort> set) {
         return string.Join(", ", set);
     }
 

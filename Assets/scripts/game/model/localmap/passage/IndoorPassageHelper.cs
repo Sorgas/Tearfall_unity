@@ -3,7 +3,7 @@ using static types.PassageTypes;
 
 namespace game.model.localmap.passage {
 public class IndoorPassageHelper : AbstractPassageHelper {
-    public IndoorPassageHelper(PassageMap passage, LocalMap map) : base(passage, map) { }
+    public IndoorPassageHelper(PassageMap passage, LocalModel model) : base(passage, model) { }
 
     public override bool tileCanHaveArea(int x, int y, int z) {
         return passage.getPassage(x, y, z) == PASSABLE.VALUE || passage.getPassage(x, y, z) == FLY.VALUE;
