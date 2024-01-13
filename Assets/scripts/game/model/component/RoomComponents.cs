@@ -9,4 +9,9 @@ public struct RoomComponent {
     public EcsEntity building;
     public List<Vector3Int> positions;
 }
+
+public struct RoomVisualComponent {
+    public GameObject parent;
+    public List<GameObject> tiles;
+}
 }

@@ -1,8 +1,8 @@
 namespace game.view.util {
     // used to organize tiles and sprites inside one cell. 
     public static class TilemapLayersConstants {
-        public const int SELECTION_LAYER = 0;
-        
+        public const int SELECTION_LAYER = 0; // highest (close to camera)
+
         public const int SUBSTRATE_WALL_LAYER = 9;
         public const int WALL_LAYER = 10;
         public const int UNIT_LAYER = 10; // also for items, etc

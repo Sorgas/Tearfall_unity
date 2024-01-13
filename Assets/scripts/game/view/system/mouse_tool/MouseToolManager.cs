@@ -17,7 +17,7 @@ namespace game.view.system.mouse_tool {
         private readonly ZoneMouseTool zoneTool = new();
         private readonly SelectorSpriteUpdater updater = new();
         public readonly DebugTileMouseTool debugTileTool = new();
-        public readonly DebugDoorMouseTool debugDoorMouseTool = new();
+        public readonly DebugBuildingMouseTool debugBuildingMouseTool = new();
         public MouseTool tool;
 
         // apply tool when player finishes dragging selection frame
@@ -74,14 +74,14 @@ namespace game.view.system.mouse_tool {
 
         public void rotate() => tool.rotate();
 
-        public void setDebug(string blockType, string material) {
+        public void setDebugTileTool(string blockType, string material) {
             debugTileTool.set(blockType, material);
             set(debugTileTool);
         }
 
-        public void setDebugDoor() {
-            set(debugDoorMouseTool);
-            // debugDoorMouseTool;
+        public void setDebugBuildingTool(string type) {
+            debugBuildingMouseTool.set(type);
+            set(debugBuildingMouseTool);
         }
     }
 }

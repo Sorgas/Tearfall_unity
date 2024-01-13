@@ -58,7 +58,7 @@ namespace game.view.system.plant {
             PlantVisualComponent visual = new();
             Vector3Int position = entity.pos();
             Vector3 spritePosition = ViewUtil.fromModelToScene(position) + zOffset;
-            visual.go = PrefabLoader.create("Plant", GameView.get().runner.sceneElementsReferences.mapHolder);
+            visual.go = PrefabLoader.create("Plant", GameView.get().sceneElementsReferences.mapHolder);
             visual.go.transform.localPosition = spritePosition;
             visual.spriteRenderer = visual.go.GetComponent<SpriteRenderer>();
             visual.spriteRenderer.sprite = PlantTypeMap.get().spriteMap.getSprite(plant.type.name, stage);

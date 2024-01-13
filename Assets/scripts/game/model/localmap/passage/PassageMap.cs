@@ -17,7 +17,7 @@ namespace game.model.localmap.passage {
         public DefaultPassageHelper defaultHelper;
         public GroundNoDoorsPassageHelper groundNoDoorsHelper;
         public IndoorPassageHelper indoorHelper;
-        // public RoomPassageHelper roomHelper;
+        public RoomPassageHelper roomHelper;
         public readonly UtilByteArray passage; // see {@link BlockTypesEnum} for passage values.
         
         public PassageMap(LocalModel model, LocalMap localMap) : base(model) {
@@ -31,7 +31,7 @@ namespace game.model.localmap.passage {
             defaultHelper = new(this, model);
             groundNoDoorsHelper = new(this, model);
             indoorHelper = new(this, model);
-            // roomHelper = new(this, model);
+            roomHelper = new(this, model);
             inited = true;
         }
 
@@ -41,7 +41,7 @@ namespace game.model.localmap.passage {
             defaultHelper.update(position);
             groundNoDoorsHelper.update(position);
             indoorHelper.update(position);
-            // roomHelper.update(position);
+            roomHelper.update(position);
         }
 
         // TODO remove

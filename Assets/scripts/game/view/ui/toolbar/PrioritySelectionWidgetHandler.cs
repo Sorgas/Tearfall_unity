@@ -3,9 +3,10 @@ using game.view.ui.util;
 using UnityEngine;
 using UnityEngine.UI;
 using util;
+using util.lang;
 
 namespace game.view.ui.toolbar {
-    public class PrioritySelectionWidgetHandler : MbWindow {
+    public class PrioritySelectionWidgetHandler : MbWindow, Initable {
         public Button button1;
         public Button button2;
         public Button button3;
@@ -28,8 +29,7 @@ namespace game.view.ui.toolbar {
             buttons[6] = button7;
             buttons[7] = button8;
             for (int i = 0; i < 8; i++) {
-                int priority = i + 1;
-                buttons[i].onClick.AddListener(() => setPriority(priority));
+                buttons[i].onClick.AddListener(() => setPriority(i + 1));
             }
         }
 

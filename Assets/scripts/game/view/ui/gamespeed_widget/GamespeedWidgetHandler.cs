@@ -3,6 +3,7 @@ using game.view.ui.util;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using util.lang;
 
 // game can be paused and unpaused
 // one of 3 speeds can be selected
@@ -11,7 +12,7 @@ using UnityEngine.UI;
 // buttons call handler methods
 // handler methods update GameModel state and update buttons visual
 namespace game.view.ui.gamespeed_widget {
-    public class GamespeedWidgetHandler : MonoBehaviour, IHotKeyAcceptor {
+    public class GamespeedWidgetHandler : MonoBehaviour, IHotKeyAcceptor, Initable {
         public GameObject pauseButton;
         public GameObject speed1Button;
         public GameObject speed2Button;
@@ -25,6 +26,8 @@ namespace game.view.ui.gamespeed_widget {
             speed2Button.GetComponent<Button>().onClick.AddListener(() => setSpeed(2));
             speed3Button.GetComponent<Button>().onClick.AddListener(() => setSpeed(3));
         }
+        
+        public void init() => updateVisual();
 
         public void togglePause() {
             GameModel.get().updateController.paused = !GameModel.get().updateController.paused;
@@ -82,5 +85,6 @@ namespace game.view.ui.gamespeed_widget {
             speed2Button.GetComponent<Image>().color = inactiveColor;
             speed3Button.GetComponent<Image>().color = inactiveColor;
         }
+
     }
 }

@@ -20,7 +20,7 @@ namespace game.view.system.designation {
         private RectTransform mapHolder;
 
         public DesignationVisualSystem() {
-            mapHolder = GameView.get().runner.sceneElementsReferences.mapHolder;
+            mapHolder = GameView.get().sceneElementsReferences.mapHolder;
         }
 
         public void Run() {

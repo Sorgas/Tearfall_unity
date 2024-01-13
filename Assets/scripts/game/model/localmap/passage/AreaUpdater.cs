@@ -13,12 +13,12 @@ namespace game.model.localmap.passage {
 public class AreaUpdater {
     private AbstractPassageHelper helper;
     private readonly UtilUshortArrayWithCounter area;
-    protected readonly LocalMap map;
-    protected readonly PassageMap passage;
-    protected string name = "AbstractAreaUpdater";
-    public bool debug = true;
+    private readonly LocalMap map;
+    private readonly PassageMap passage;
+    private readonly string name = "AbstractAreaUpdater";
+    private readonly bool debug = true;
     public Action<IEnumerable<Vector3Int>> mergingCallback; // called when areas are merged.
-    public Action<IEnumerable<Vector3Int>> splittingCallback; // called when areas are merged.
+    public Action<List<Vector3Int>> splittingCallback; // called when areas are merged.
 
     public AreaUpdater(AbstractPassageHelper helper, UtilUshortArrayWithCounter area, LocalMap localMap, PassageMap passageMap) {
         this.helper = helper;
@@ -45,7 +45,7 @@ public class AreaUpdater {
             .Select(pos => center + pos)
             .Where(pos => helper.tileCanHaveArea(pos.x, pos.y, pos.z))
             .Where(pos => helper.hasPathBetweenNeighbours(pos, center))
-            .ToDictionary(pos => helper.getArea(pos), pos => pos);
+            .ToDictionary(pos => helper.getArea(pos), pos => pos, (pos1, pos2) => pos1);
         // log("found areas to merge: " + setToString(areas));
         // take new area number, if new tile is not connected to any area
         if (positionsOfAreas.Count == 0) { // no tiles connected to center
@@ -102,11 +102,8 @@ public class AreaUpdater {
             if (posList.Count < 2) continue; // single tile area
             List<List<Vector3Int>> isolatedPositions = collectIsolatedPositions(posList, center);
             log($"isolated areas found for area {areaValue}: {isolatedPositions.Count}");
-            foreach (List<Vector3Int> set in isolatedPositions) {
-                log(setToString(set));
-            }
             if (isolatedPositions.Count < 2) continue; // all positions from old areas remain connected, do nothing.
-            splittingCallback?.Invoke(isolatedPositions.Select(list => list.First()));
+            splittingCallback?.Invoke(isolatedPositions.Select(list => list.First()).ToList());
             isolatedPositions.RemoveAt(0);
             if (!area.sizes.ContainsKey(areaValue)) {
                 Debug.LogError("area value not counted in area size");

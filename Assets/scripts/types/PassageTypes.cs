@@ -7,6 +7,7 @@ public static class PassageTypes {
     public static Passage PASSABLE = new(1, "passable");
     public static Passage DOOR = new(2, "door");
     public static Passage FLY = new(3, "fly");
+    public static Passage IMPASSABLE_BUILDING = new(4, "impassable_building");
 
     private static Dictionary<int, Passage> map = new();
     private static Dictionary<string, Passage> nameMap = new();
@@ -16,10 +17,12 @@ public static class PassageTypes {
         map.Add(PASSABLE.VALUE, PASSABLE);
         map.Add(DOOR.VALUE, DOOR);
         map.Add(FLY.VALUE, FLY);
+        map.Add(IMPASSABLE_BUILDING.VALUE, IMPASSABLE_BUILDING);
         nameMap.Add(IMPASSABLE.name, IMPASSABLE);
         nameMap.Add(PASSABLE.name, PASSABLE);
         nameMap.Add(DOOR.name, DOOR);
         nameMap.Add(FLY.name, FLY);
+        nameMap.Add(IMPASSABLE_BUILDING.name, IMPASSABLE_BUILDING);
     }
 
     public static Passage get(int id) {

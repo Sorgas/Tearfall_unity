@@ -16,7 +16,7 @@ namespace game.view.camera {
         private Color lightGrey = new(0.75f, 0.75f, 0.75f);
 
         public SelectorSpriteUpdater() {
-            selector = GameView.get().runner.sceneElementsReferences.selector.GetComponent<SelectorHandler>();
+            selector = GameView.get().sceneElementsReferences.selector.GetComponent<SelectorHandler>();
             selectors = Resources.Load<Sprite>("icons/selectors");
             flatTile = Sprite.Create(selectors.texture, new Rect(0, 0, 64, 96), Vector2.zero, 64);
             wallTile = Sprite.Create(selectors.texture, new Rect(64, 0, 64, 96), Vector2.zero, 64);

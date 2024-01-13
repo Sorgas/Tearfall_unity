@@ -48,6 +48,7 @@ namespace game.view.util {
             paths.Add("Building", "prefabs/Building");
             paths.Add("Item", "prefabs/Item");
             paths.Add("Plant", "prefabs/Plant");
+            paths.Add("RoomTile", "prefabs/RoomTile");
             
             // workbench
             paths.Add("craftingOrderLine", "prefabs/workbenchMenu/CraftingOrderLine");
@@ -62,7 +63,6 @@ namespace game.view.util {
             paths.Add("materialRow", "prefabs/materialSelector/MaterialRow");
             
             // stockpile
-            
             paths.Add("StockpileCategoryRow", "prefabs/stockpileMenu/StockpileCategoryRow");
             paths.Add("WideButtonWithIcon", "prefabs/farmMenu/WideButtonWithIcon");
             // paths.Add("materialRow", "prefabs/materialSelector/MaterialRow");

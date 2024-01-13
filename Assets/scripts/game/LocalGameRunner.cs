@@ -1,16 +1,6 @@
-using System.Diagnostics;
 using game.model;
 using game.view;
-using game.view.ui;
-using game.view.ui.gamespeed_widget;
-using game.view.ui.jobs_widget;
-using game.view.ui.menu_widget;
-using game.view.ui.stockpileMenu;
-using game.view.ui.toolbar;
-using game.view.ui.unit_menu;
-using game.view.ui.workbench;
 using UnityEngine;
-using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 namespace game {
@@ -20,33 +10,21 @@ namespace game {
     // TODO rename
     public class LocalGameRunner : MonoBehaviour {
         public SceneElementsReferences sceneElementsReferences;
-        private bool started = false;
-        private string defaultModelName = "main";
-        
+        private const string defaultModelName = "main";
+
         // TODO make world and local generation independent from gamemodel singleton
         // when scene is loaded, inits game model and view
         public void Start() {
-            // Stopwatch stopwatch = new();
             Debug.unityLogger.logEnabled = true;
-            // System.DateTime.Now.ToString();
-            // stopwatch.Start();
-            resolveWorld();
-            // long generationTime = stopwatch.ElapsedMilliseconds;
-            GameModel.get().init(defaultModelName);
-            // long modelInitTime = stopwatch.ElapsedMilliseconds - generationTime;
+            Application.targetFrameRate = 60;
+            resolveWorld(); // can generate world
+            GameModel.get().init(defaultModelName); // create and init game model
             GameView.get().init(this, GameModel.get().currentLocalModel);
-            // stopwatch.Stop();
-            // long viewInitTime = stopwatch.ElapsedMilliseconds - modelInitTime;
-            started = true;
-            InvokeRepeating("updateModel", 0.2f, GameModelUpdateController.UPDATE_TICK_DELTA);
+            InvokeRepeating(nameof(updateModel), 0.2f, GameModelUpdateController.UPDATE_TICK_DELTA);
             Debug.unityLogger.logEnabled = true;
-            // Debug.Log("generation: " + generationTime + "\n model: " + modelInitTime + "\n view:" + viewInitTime);
         }
 
-        public void Update() {
-            if (!started) return;
-            GameView.get().update();
-        }
+        public void Update() => GameView.get().update();
 
         private void updateModel() => GameModel.get().update();
 

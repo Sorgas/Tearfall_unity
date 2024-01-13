@@ -1,17 +1,14 @@
 using game.view.ui;
+using game.view.ui.debug_tools;
 using game.view.ui.gamespeed_widget;
 using game.view.ui.jobs_widget;
 using game.view.ui.menu_widget;
 using game.view.ui.stockpileMenu;
 using game.view.ui.toolbar;
-using game.view.ui.tooltip;
-using game.view.ui.tooltip.handler;
 using game.view.ui.unit_menu;
-using game.view.ui.util;
 using game.view.ui.workbench;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace game.view {
 public class SceneElementsReferences : MonoBehaviour {
@@ -31,6 +28,6 @@ public class SceneElementsReferences : MonoBehaviour {
     public FarmMenuHandler farmMenuHandler;
     public PlantMenuHandler plantMenuHandler;
     public TextMeshProUGUI modelDebugInfoPanel;
-    public DestroyingTooltipHandler infoTooltipHandler;
+    public DebugToolsHandler debugToolsHandler;
 }
 }
