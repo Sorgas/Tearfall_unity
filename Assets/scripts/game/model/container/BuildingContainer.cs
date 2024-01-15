@@ -37,7 +37,7 @@ namespace game.model.container {
                     model.localMap.passageMap.update(pos);
                 }
             });
-            model.roomContainer.buildingCreated(building);
+            model.roomContainer.buildingCreated(building); // building can create room
             log("building " + building.name() + " created in " + building.pos());
             return building;
         }

@@ -13,6 +13,7 @@ namespace game.model.container {
 // stores rooms
 public class RoomContainer : LocalModelContainer {
     private readonly Dictionary<Vector3Int, EcsEntity> rooms = new();
+    private const int ROOM_SIZE_LIMIT = 400;
 
     public RoomContainer(LocalModel model) : base(model) { }
 
@@ -20,13 +21,13 @@ public class RoomContainer : LocalModelContainer {
 
     // when building is created, it can create a room of corresponding type
     public void buildingCreated(EcsEntity building) {
+        log("building created");
         BuildingComponent buildingComponent = building.take<BuildingComponent>();
+        if (buildingComponent.type.name == "door") return;
         if (rooms.ContainsKey(building.pos())) {
-            // TODO 
+            // TODO update existing room
         } else {
-            if (RoomTypes.map.ContainsKey(buildingComponent.type.name)) {
-                List<RoomType> types = RoomTypes.map[buildingComponent.type.name];
-            }
+            
         }
     }
 
@@ -48,7 +49,7 @@ public class RoomContainer : LocalModelContainer {
         Vector3Int startPosition = buildingComponent.type.access != null 
             ? buildingComponent.type.getAccessByPositionAndOrientation(roomComponent.building.pos(), buildingComponent.orientation)
             : roomComponent.building.pos();
-        List<Vector3Int> newPositions = model.localMap.passageMap.roomHelper.floodFill(startPosition);
+        HashSet<Vector3Int> newPositions = model.localMap.passageMap.roomHelper.floodFill(startPosition);
         // set new positions as main room
         foreach (var pos in newPositions) {
             addTileToRoom(pos, room);
@@ -70,7 +71,7 @@ public class RoomContainer : LocalModelContainer {
             Vector3Int startPosition = buildingComponent.type.access != null
                 ? buildingComponent.type.getAccessByPositionAndOrientation(roomComponent.building.pos(), buildingComponent.orientation)
                 : roomComponent.building.pos();
-            List<Vector3Int> newPositions = model.localMap.passageMap.roomHelper.floodFill(startPosition);
+            HashSet<Vector3Int> newPositions = model.localMap.passageMap.roomHelper.floodFill(startPosition);
             foreach (var position in roomComponent.positions) { // remove all not accessible from building
                 if (!newPositions.Contains(position)) {
                     removeTileFromRoom(position);
@@ -91,8 +92,20 @@ public class RoomContainer : LocalModelContainer {
 
     // creates new room flood-filling from given position and sets its type.
     public void createRoomFromPosition(Vector3Int position) {
-        List<Vector3Int> newPositions = model.localMap.passageMap.roomHelper.floodFill(position);
-        HashSet<EcsEntity> buildings = newPositions
+        HashSet<Vector3Int> newPositions = model.localMap.passageMap.roomHelper.floodFill(position);
+        MultiValueDictionary<string, EcsEntity> typesOfBuildings = collectBuildingsInRoom(newPositions);
+        RoomType roomType = selectRoomTypeByBuildings(typesOfBuildings);
+        if (roomType != null) {
+            EcsEntity room = model.createEntity();
+            room.Replace(new RoomComponent { building = typesOfBuildings[roomType.buildingType][0], positions = newPositions.ToList(), type = roomType.name });
+            foreach (var pos in newPositions) {
+                addTileToRoom(pos, room);
+            }
+        }
+    }
+
+    private MultiValueDictionary<string, EcsEntity> collectBuildingsInRoom(IEnumerable<Vector3Int> positions) {
+        HashSet<EcsEntity> buildings = positions
             .Select(pos => model.buildingContainer.getBuilding(pos))
             .Where(building => !building.IsNull())
             .ToHashSet();
@@ -100,14 +113,7 @@ public class RoomContainer : LocalModelContainer {
         foreach (var building in buildings) {
             typesOfBuildings.add(building.take<BuildingComponent>().type.name, building);
         }
-        RoomType roomType = selectRoomTypeByBuildings(typesOfBuildings);
-        if (roomType != null) {
-            EcsEntity room = model.createEntity();
-            room.Replace(new RoomComponent { building = typesOfBuildings[roomType.buildingType][0], positions = newPositions, type = roomType.name });
-            foreach (var pos in newPositions) {
-                addTileToRoom(pos, room);
-            }
-        }
+        return typesOfBuildings;
     }
     
     // checks if room type is still valid 

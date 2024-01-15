@@ -9,7 +9,9 @@ public class BinaryHeap {
     private readonly List<Node> list = new();
     public int count => list.Count;
 
-    public BinaryHeap(Node node) { }
+    public BinaryHeap(Node node) {
+        push(node);
+    }
 
     public void push(Node item) {
         list.Add(item);

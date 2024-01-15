@@ -50,11 +50,10 @@ public class AreaUpdater {
         // take new area number, if new tile is not connected to any area
         if (positionsOfAreas.Count == 0) { // no tiles connected to center
             area.set(center, getUnusedAreaNumber()); // assign new area to isolated tile
-            mergingCallback?.Invoke(new[] {center});
+            mergingCallback?.Invoke(new[] { center });
         } else {
-            if (positionsOfAreas.Count == 1) {
-                area.set(center, positionsOfAreas.Keys.First()); // extend existing area to center tile
-            } else { // multiple areas became connected
+            area.set(center, positionsOfAreas.Keys.First()); // extend existing area to center tile
+            if (positionsOfAreas.Count > 1) { // multiple areas became connected
                 mergeAreas(Enumerable.ToHashSet(positionsOfAreas.Keys));
             }
             mergingCallback?.Invoke(positionsOfAreas.Values);
@@ -96,25 +95,24 @@ public class AreaUpdater {
                      .Where(pos => helper.tileCanHaveArea(pos.x, pos.y, pos.z))) {
             areas.add(area.get(pos), pos);
         }
-        log($"areas found around center {areas.Count}");
         foreach (byte areaValue in areas.Keys) {
+            log($"handling area number {areaValue}: positions: {areas[areaValue].Count}");
             List<Vector3Int> posList = areas[areaValue];
             if (posList.Count < 2) continue; // single tile area
             List<List<Vector3Int>> isolatedPositions = collectIsolatedPositions(posList, center);
-            log($"isolated areas found for area {areaValue}: {isolatedPositions.Count}");
+            log($"isolated passage groups for area {areaValue}: {isolatedPositions.Count}");
             if (isolatedPositions.Count < 2) continue; // all positions from old areas remain connected, do nothing.
             splittingCallback?.Invoke(isolatedPositions.Select(list => list.First()).ToList());
             isolatedPositions.RemoveAt(0);
             if (!area.sizes.ContainsKey(areaValue)) {
                 Debug.LogError("area value not counted in area size");
             }
-            int oldCount = area.sizes[areaValue];
             foreach (List<Vector3Int> positions in isolatedPositions) {
-                oldCount -= fill(positions.First(), getUnusedAreaNumber()); // refill isolated area with new number
+                fill(positions.First(), getUnusedAreaNumber()); // refill isolated area with new number
             }
-            // if (area.numbers.get(areaValue).value != oldCount) Logger.PATH.logWarn("Areas sizes inconsistency after split.");
         }
         if (!helper.tileCanHaveArea(center.x, center.y, center.z)) {
+            log("setting current to 0");
             area.set(center, 0);
         }
     }
@@ -122,12 +120,11 @@ public class AreaUpdater {
     // Splits given list of positions into groups. Positions in one group are interconnected.
     // Positions in different groups are not connected. List - positions around center having same area
     private List<List<Vector3Int>> collectIsolatedPositions(List<Vector3Int> list, Vector3Int center) {
-        log($"collecting isolated positions around {center}");
         List<List<Vector3Int>> groups = new();
         while (list.Count > 0) {
             Vector3Int first = list.removeAndGet(0); // first position is connected to itself
             List<Vector3Int> connectedPositions = collectTransitiveNeighbours(list, first);
-            log($"transitive neighbours collected {connectedPositions.Count}");
+            // log($"transitive neighbours collected {connectedPositions.Count}");
             for (int i = list.Count - 1; i >= 0; i--) {
                 if (helper.aStar.pathExistsBiDirectional(list[i], connectedPositions[0])) {
                     connectedPositions.Add(list.removeAndGet(i));
@@ -135,6 +132,7 @@ public class AreaUpdater {
             }
             groups.Add(connectedPositions);
         }
+        // log($"positions around {center} split into {groups.Count} passage groups");
         return groups;
     }
 

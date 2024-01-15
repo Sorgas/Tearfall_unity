@@ -1,5 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
+using MoreLinq;
 using UnityEngine;
+using util.geometry;
+using util.lang.extension;
 using static types.PassageTypes;
 
 namespace game.model.localmap.passage {
@@ -19,8 +23,26 @@ public class RoomPassageHelper : AbstractPassageHelper {
         return z1 == z2; // passable tiles on same level
     }
 
-    public List<Vector3Int> floodFill(Vector3Int startPosition) {
-        return null; // TODO
+    public HashSet<Vector3Int> floodFill(Vector3Int startPosition) {
+        ushort startingArea = area.get(startPosition);
+        int size = area.sizes[startingArea];
+        if (size > 400) {
+            Debug.Log("area too big for room");
+            return null;
+        }
+        List<Vector3Int> open = new();
+        HashSet<Vector3Int> closed = new();
+        open.Add(startPosition);
+        while (open.Count > 0) {
+            Vector3Int current = open.removeAndGet(0);
+            PositionUtil.allNeighbour
+                .Select(offset => current + offset)
+                .Where(pos => area.get(pos) == startingArea)
+                .Where(pos => !closed.Contains(pos))
+                .ForEach(pos => open.Add(pos));
+            closed.Add(current);
+        }
+        return closed;
     }
 
     // see passageValue in PassageTypes

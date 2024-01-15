@@ -86,7 +86,7 @@ public class AStar {
         IEnumerable<Vector3Int> vectors = getSuccessors(currentNode.position, selfClosedSet);
         // Debug.Log($"successors for tile {currentNode.position}: {vectors.toString()}");
         foreach (var vector in vectors) {
-            if (selfClosedSet.Contains(vector)) return true;
+            if (oppositeClosedSet.Contains(vector)) return true;
         }
         float pathLength = currentNode.pathLength + 1;
         vectors.ForEach(vector => { // iterate passable near positions
@@ -94,7 +94,7 @@ public class AStar {
                 openSet.push(new Node(vector, currentNode.position, getH(target, vector), pathLength)); // add to open set
             }
         });
-        oppositeClosedSet.Add(currentNode.position); // node processed
+        selfClosedSet.Add(currentNode.position); // node processed
         return false;
     }
 
