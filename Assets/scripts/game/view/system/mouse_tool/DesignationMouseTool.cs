@@ -11,6 +11,7 @@ namespace game.view.system.mouse_tool {
 
         public DesignationMouseTool() {
             selectionType = SelectionType.AREA;
+            name = "designation mouse tool";
         }
 
         public override void onSelectionInToolbar() {

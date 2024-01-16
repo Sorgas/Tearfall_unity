@@ -15,9 +15,9 @@ namespace game.view.system.mouse_tool {
         private readonly BuildingMouseTool buildingTool = new();
         private readonly UnitMovementTargetTool unitMovementTargetTool = new();
         private readonly ZoneMouseTool zoneTool = new();
-        private readonly SelectorSpriteUpdater updater = new();
         public readonly DebugTileMouseTool debugTileTool = new();
         public readonly DebugBuildingMouseTool debugBuildingMouseTool = new();
+        private readonly SelectorSpriteUpdater updater = new();
         public MouseTool tool;
 
         // apply tool when player finishes dragging selection frame
@@ -61,6 +61,7 @@ namespace game.view.system.mouse_tool {
         }
 
         private void set(MouseTool tool) {
+            Debug.Log($"selected mouse tool: {tool.name}");
             this.tool = tool;
             tool.onSelectionInToolbar(); // enough items for building or items not required
             tool.updateSprite();

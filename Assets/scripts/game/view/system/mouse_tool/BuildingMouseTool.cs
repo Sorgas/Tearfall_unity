@@ -21,6 +21,7 @@ namespace game.view.system.mouse_tool {
 
         public BuildingMouseTool() {
             selectionType = SINGLE;
+            name = "building mouse tool";
         }
 
         public void setBuildingType(BuildingType newType) {

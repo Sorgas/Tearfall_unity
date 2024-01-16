@@ -18,7 +18,11 @@ namespace game.view.system.mouse_tool {
     public class ZoneMouseTool : MouseTool {
         public ZoneMouseToolType toolType;
         public ZoneTypeEnum zoneType; // only for CREATE toolType
-        
+
+        public ZoneMouseTool() {
+            name = "zone mouse tool";
+        }
+
         public void set(ZoneTypeEnum type) {
             toolType = ZoneMouseToolType.CREATE;
             zoneType = type;

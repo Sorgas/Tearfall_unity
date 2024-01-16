@@ -279,7 +279,6 @@
      <Compile Include="Assets\scripts\mainMenu\worldmap_stage\WorldmapCameraController.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\DefaultPassageHelper.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuHandler.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarInitializer.cs" />
      <Compile Include="Assets\scripts\types\unit\need\HungerNeed.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTarget.cs" />
      <Compile Include="Assets\scripts\game\view\util\HotKeySequence.cs" />

@@ -17,6 +17,7 @@ namespace game.view.system.mouse_tool {
         protected SelectorHandler selectorGO;
         public SelectionType selectionType = AREA; // should be reset in subclasses
         public int priority = TaskPriorities.JOB;
+        public string name = "mouse tool";
         
         protected MouseTool() {
             materialSelector = GameView.get().sceneElementsReferences.materialSelectionWidgetHandler;
@@ -32,6 +33,7 @@ namespace game.view.system.mouse_tool {
         
         public abstract void applyTool(IntBounds3 bounds, Vector3Int start);
         
+        // called when mouse changes position
         public virtual void updateSprite() {
             selectorGO.setToolSprite(null);
         }
@@ -39,6 +41,7 @@ namespace game.view.system.mouse_tool {
         // called when player presses rotate keys
         public virtual void rotate() { }
         
+        // called when mouse changes position
         public abstract void updateSpriteColor(Vector3Int position);
 
         public abstract void reset();

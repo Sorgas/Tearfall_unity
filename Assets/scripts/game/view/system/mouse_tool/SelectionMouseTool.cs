@@ -25,6 +25,10 @@ namespace game.view.system.mouse_tool {
         private Vector3Int previousPosition;
         private EcsEntity previousEntity;
 
+        public SelectionMouseTool() {
+            name = "selection mouse tool";
+        }
+
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {
             Vector3Int position = new(bounds.minX, bounds.minY, bounds.minZ);
             EcsEntity entity = getEntityForSelection(position);

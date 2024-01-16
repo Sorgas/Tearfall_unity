@@ -10,6 +10,10 @@ namespace game.view.system.mouse_tool {
         private BlockType blockType;
         private int material;
 
+        public DebugTileMouseTool() {
+            name = "debug tile mouse tool";
+        }
+
         public void set(string blockType, string material) {
             this.blockType = BlockTypes.get(blockType);
             this.material = MaterialMap.get().id(material);

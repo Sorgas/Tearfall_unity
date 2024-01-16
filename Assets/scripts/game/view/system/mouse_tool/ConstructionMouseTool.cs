@@ -14,6 +14,10 @@ public class ConstructionMouseTool : ItemConsumingMouseTool {
     public ConstructionType type;
     private ConstructionValidator validator = new();
 
+    public ConstructionMouseTool() {
+        name = "construction mouse tool";
+    }
+
     public override void onSelectionInToolbar() {
         fillSelector(type.dummyOrder); // fills selector by dummy order in ConstructionType
         prioritySelector.open();

@@ -8,7 +8,11 @@ namespace game.view.system.mouse_tool {
 // debug tool that instantly creates a building
 public class DebugBuildingMouseTool : MouseTool {
     private string buildingType;
-    
+
+    public DebugBuildingMouseTool() {
+        name = "debug building mouse tool";
+    }
+
     public override void applyTool(IntBounds3 bounds, Vector3Int start) {
         addUpdateEvent(model => {
             BuildingOrder order = new BuildingOrder(bounds.getStart(), BuildingTypeMap.get(buildingType), Orientations.N);
