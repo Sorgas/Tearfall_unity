@@ -1,4 +1,3 @@
-using System;
 using game.model;
 using game.model.component.task.order;
 using game.model.util.validation;
@@ -26,14 +25,14 @@ namespace game.view.system.mouse_tool {
 
         public void setBuildingType(BuildingType newType) {
             type = newType;
-            orientation = Orientations.N;
-            size = type.getSizeByOrientation(orientation);
+            updateOrientationAndSize(Orientations.N);
         }
         
         public override void onSelectionInToolbar() {
             fillSelector(type.dummyOrder);
             prioritySelector.open();
             prioritySelector.setForTool(this);
+            updateSprite();
         }
 
         // TODO make buildings able to be designated in draw mode (like in OnI)
@@ -50,32 +49,26 @@ namespace game.view.system.mouse_tool {
             });
         }
 
-        // select sprite by type and rotation
-        public override void updateSprite() {
-            selectorGO.setBuildingSprite(BuildingTilesetHolder.get().get(type, orientation, 0),
-                type.size[OrientationUtil.isHorizontal(orientation) ? 1 : 0]);
-            if (type.access != null) {
-                Vector3Int offset = type.getAccessOffsetByRotation(orientation);
-                selectorGO.setAccessPoint(offset.x, offset.y, "building_access_point");
-            }
-        }
-
         // validate by selector position
-        public override void updateSpriteColor(Vector3Int position) {
-            selectorGO.buildingValid(validator.validateArea(position, size, GameModel.get().currentLocalModel));
-        }
-
-        public override void reset() {
-            materialSelector.close();
-            selectorGO.setBuildingSprite(null, 1);
-            selectorGO.setAccessPoint(0, 0, null);
+        public override void onPositionChange(Vector3Int position) {
+            selectorHandler.setConstructionValid(validator.validateArea(position, size, GameModel.get().currentLocalModel));
         }
 
         public override void rotate() {
             updateOrientationAndSize(OrientationUtil.getNext(orientation));
             GameView.get().selector.changeSelectorSize(size);
             updateSprite();
-            updateSpriteColor(new Vector3Int());
+            onPositionChange(new Vector3Int());
+        }
+        
+        // select sprite by type and rotation
+        private void updateSprite() {
+            selectorHandler.setBuildingSprite(BuildingTilesetHolder.get().get(type, orientation, 0),
+                type.size[OrientationUtil.isHorizontal(orientation) ? 1 : 0]);
+            if (type.access != null) {
+                Vector3Int offset = type.getAccessOffsetByRotation(orientation);
+                selectorHandler.setAccessPoint(offset.x, offset.y, "building_access_point");
+            }
         }
 
         private void updateOrientationAndSize(Orientations newOrientation) {

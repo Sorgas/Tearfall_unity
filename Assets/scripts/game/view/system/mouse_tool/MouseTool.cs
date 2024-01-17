@@ -11,43 +11,38 @@ using util.geometry.bounds;
 using static game.view.camera.SelectionType;
 
 namespace game.view.system.mouse_tool {
-    public abstract class MouseTool {
-        protected MaterialSelectionWidgetHandler materialSelector;
-        protected PrioritySelectionWidgetHandler prioritySelector;
-        protected SelectorHandler selectorGO;
-        public SelectionType selectionType = AREA; // should be reset in subclasses
-        public int priority = TaskPriorities.JOB;
-        public string name = "mouse tool";
-        
-        protected MouseTool() {
-            materialSelector = GameView.get().sceneElementsReferences.materialSelectionWidgetHandler;
-            prioritySelector = GameView.get().sceneElementsReferences.prioritySelectionWidgetHandler;
-            selectorGO = GameView.get().sceneElementsReferences.selector.GetComponent<SelectorHandler>();
-        }
+public abstract class MouseTool {
+    protected MaterialSelectionWidgetHandler materialSelector;
+    protected PrioritySelectionWidgetHandler prioritySelector;
+    protected SelectorHandler selectorHandler;
+    public SelectionType selectionType = AREA; // should be reset in subclasses
+    public int priority = TaskPriorities.JOB;
+    public string name = "mouse tool";
 
-        // called when tool is selected in MouseToolManager
-        public virtual void onSelectionInToolbar() {
-            materialSelector.close();
-            prioritySelector.close();
-        }
-        
-        public abstract void applyTool(IntBounds3 bounds, Vector3Int start);
-        
-        // called when mouse changes position
-        public virtual void updateSprite() {
-            selectorGO.setToolSprite(null);
-        }
-
-        // called when player presses rotate keys
-        public virtual void rotate() { }
-        
-        // called when mouse changes position
-        public abstract void updateSpriteColor(Vector3Int position);
-
-        public abstract void reset();
-
-        protected void addUpdateEvent(Action<LocalModel> action) {
-            GameModel.get().currentLocalModel.addUpdateEvent(new ModelUpdateEvent(action));
-        }
+    protected MouseTool() {
+        materialSelector = GameView.get().sceneElementsReferences.materialSelectionWidgetHandler;
+        prioritySelector = GameView.get().sceneElementsReferences.prioritySelectionWidgetHandler;
+        selectorHandler = GameView.get().sceneElementsReferences.selector.GetComponent<SelectorHandler>();
     }
+
+    // called when tool is selected in MouseToolManager
+    public virtual void onSelectionInToolbar() {
+        materialSelector.close();
+        prioritySelector.close();
+        selectorHandler.clear();
+    }
+
+    // called when mouse changes position and rotation
+    public abstract void onPositionChange(Vector3Int position);
+
+    // should apply tool changes to localMap
+    public abstract void applyTool(IntBounds3 bounds, Vector3Int start);
+
+    // called when player presses rotate keys
+    public virtual void rotate() { }
+
+    protected void addUpdateEvent(Action<LocalModel> action) {
+        GameModel.get().currentLocalModel.addUpdateEvent(new ModelUpdateEvent(action));
+    }
+}
 }

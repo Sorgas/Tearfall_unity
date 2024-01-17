@@ -43,21 +43,12 @@ public class ConstructionMouseTool : ItemConsumingMouseTool {
         });
     }
 
-    public override void updateSprite() {
-        Sprite sprite = BlockTileSetHolder.get().getSprite("template", type.blockType.CODE == BlockTypes.RAMP.CODE ? "C" : type.blockType.PREFIX);
-        selectorGO.setConstructionSprite(sprite);
-    }
-
     public override void rotate() { }
 
-    public override void updateSpriteColor(Vector3Int position) {
-        selectorGO.buildingValid(validate(position));
-    }
-
-    public override void reset() {
-        materialSelector.close();
-        selectorGO.setConstructionSprite(null);
-        selectionType = AREA;
+    public override void onPositionChange(Vector3Int position) {
+        Sprite sprite = BlockTileSetHolder.get().getSprite("template", type.blockType.CODE == BlockTypes.RAMP.CODE ? "C" : type.blockType.PREFIX);
+        selectorHandler.setConstructionSprite(sprite);
+        selectorHandler.setConstructionValid(validate(position));
     }
 
     public bool validate(Vector3Int position) {

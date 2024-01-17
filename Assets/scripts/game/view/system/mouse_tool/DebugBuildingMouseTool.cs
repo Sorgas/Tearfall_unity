@@ -24,10 +24,7 @@ public class DebugBuildingMouseTool : MouseTool {
         this.buildingType = buildingType;
     }
     
-    public override void updateSpriteColor(Vector3Int position) {
-    }
-
-    public override void reset() {
+    public override void onPositionChange(Vector3Int position) {
     }
 }
 }

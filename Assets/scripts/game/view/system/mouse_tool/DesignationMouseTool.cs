@@ -15,6 +15,7 @@ namespace game.view.system.mouse_tool {
         }
 
         public override void onSelectionInToolbar() {
+            selectorHandler.setToolSprite(IconLoader.get(designation.iconName));
             materialSelector.close();
             prioritySelector.open();
             prioritySelector.setForTool(this);
@@ -38,17 +39,8 @@ namespace game.view.system.mouse_tool {
             });
         }
 
-        public override void updateSprite() {
-            selectorGO.setToolSprite(IconLoader.get(designation.iconName));
-        }
-
-        public override void updateSpriteColor(Vector3Int position) {
-            selectorGO.designationValid(validate(position));
-        }
-
-        public override void reset() {
-            materialSelector.close();
-            selectorGO.setToolSprite(null);
+        public override void onPositionChange(Vector3Int position) {
+            selectorHandler.setDesignationValid(validate(position));
         }
 
         private bool validate(Vector3Int position) {

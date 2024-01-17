@@ -27,6 +27,7 @@ namespace game.view.system.mouse_tool {
 
         public SelectionMouseTool() {
             name = "selection mouse tool";
+            selectionType = SelectionType.SINGLE;
         }
 
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {
@@ -56,19 +57,9 @@ namespace game.view.system.mouse_tool {
             }
         }
 
-        public override void reset() {
-            materialSelector.close();
-            GameView.get().cameraAndMouseHandler.selectionHandler.state.selectionType = SelectionType.AREA;
-            selectorGO.setToolSprite(null);
-        }
-
         public override void rotate() { }
 
-        public override void updateSprite() {
-            selectorGO.setToolSprite(null);
-        }
-
-        public override void updateSpriteColor(Vector3Int position) { }
+        public override void onPositionChange(Vector3Int position) { }
 
         public List<EcsEntity> raycastUnits() {
             Vector3 selectorPos = ViewUtil.fromModelToScene(GameView.get().selector.position);

@@ -21,6 +21,11 @@ namespace game.view.ui {
             additionalSprite.sortingOrder = value;
         }
 
+        public void clear() {
+            setToolSprite(null);
+            setAccessPoint(0, 0, null);
+        }
+
         public void setToolSprite(Sprite sprite) => setSpriteToRenderer(sprite, 1, toolIcon, Color.white);
 
         public void setConstructionSprite(Sprite sprite) => setSpriteToRenderer(sprite, 1, constructionIcon, transparent);
@@ -42,11 +47,11 @@ namespace game.view.ui {
             additionalSprite.color = transparent;
         }
 
-        public void buildingValid(bool value) {
+        public void setConstructionValid(bool value) {
             constructionIcon.color = value ? validTint : invalidTint;
         }
 
-        public void designationValid(bool value) {
+        public void setDesignationValid(bool value) {
             toolIcon.color = value ? validTint : warnTint;
         }
 

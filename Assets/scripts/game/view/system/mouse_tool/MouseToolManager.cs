@@ -25,15 +25,12 @@ namespace game.view.system.mouse_tool {
 
         // revalidate position when mouse moved
         public void mouseMoved(Vector3Int position) {
-            tool?.updateSpriteColor(position); // TODO use position in tools (for performance)
+            tool?.onPositionChange(position);
             updater.updateSprite(position);
         }
 
-        public void reset() {
-            tool?.reset();
-            set(selectionTool);
-            GameView.get().cameraAndMouseHandler.selectionHandler.state.selectionType = SINGLE;
-        }
+        // sets SelectionTool as current
+        public void reset() => set(selectionTool);
 
         public void set(DesignationType type) {
             designationTool.designation = type;
@@ -64,7 +61,6 @@ namespace game.view.system.mouse_tool {
             Debug.Log($"selected mouse tool: {tool.name}");
             this.tool = tool;
             tool.onSelectionInToolbar(); // enough items for building or items not required
-            tool.updateSprite();
             GameView.get().cameraAndMouseHandler.selectionHandler.state.selectionType = tool.selectionType;
         }
 

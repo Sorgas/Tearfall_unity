@@ -19,6 +19,11 @@ namespace game.view.system.mouse_tool {
             name = "unit movement target tool";
         }
 
+        public override void onSelectionInToolbar() {
+            base.onSelectionInToolbar();
+            selectorHandler.setToolSprite(IconLoader.get("mousetool/movementTarget"));
+        }
+
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {
             if (!bounds.isSingleTile()) { Debug.LogError("unit movement target is not single tile !!!");
             } 
@@ -35,20 +40,11 @@ namespace game.view.system.mouse_tool {
             });
         }
 
-        public override void updateSprite() {
-            selectorGO.setToolSprite(IconLoader.get("mousetool/movementTarget"));
-        }
-
         public override void rotate() { }
 
-        public override void updateSpriteColor(Vector3Int position) {
+        public override void onPositionChange(Vector3Int position) {
             bool passable = GameModel.get().currentLocalModel.localMap.passageMap.passage.get(position) == PassageTypes.PASSABLE.VALUE;
-            selectorGO.designationValid(passable);
-        }
-
-        public override void reset() {
-            materialSelector.close();
-            selectorGO.setToolSprite(null);
+            selectorHandler.setDesignationValid(passable);
         }
     }
 }

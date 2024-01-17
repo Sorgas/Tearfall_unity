@@ -20,8 +20,9 @@ namespace game.view.system.mouse_tool {
         }
 
         public override void onSelectionInToolbar() {
-            materialSelector.close();
-            prioritySelector.close();
+            base.onSelectionInToolbar();
+            Sprite sprite = BlockTileSetHolder.get().getSprite("template", blockType.CODE == BlockTypes.RAMP.CODE ? "C" : blockType.PREFIX);
+            selectorHandler.setConstructionSprite(sprite);
         }
 
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {
@@ -32,15 +33,8 @@ namespace game.view.system.mouse_tool {
             });
         }
 
-        public override void updateSprite() {
-            Sprite sprite = BlockTileSetHolder.get().getSprite("template", blockType.CODE == BlockTypes.RAMP.CODE ? "C" : blockType.PREFIX);
-            selectorGO.setConstructionSprite(sprite);
-        }
-
         public override void rotate() { }
 
-        public override void updateSpriteColor(Vector3Int position) { }
-
-        public override void reset() { }
+        public override void onPositionChange(Vector3Int position) { }
     }
 }

@@ -33,6 +33,7 @@ namespace game.view.system.mouse_tool {
         }
 
         public override void onSelectionInToolbar() {
+            selectorHandler.setToolSprite(IconLoader.get("mousetool/zone"));
             materialSelector.close();
             prioritySelector.open();
             prioritySelector.setForTool(this);
@@ -63,21 +64,12 @@ namespace game.view.system.mouse_tool {
                 container.addTilesToZone(zone, bounds);
             }
         }
-        
-        public override void updateSprite() {
-            selectorGO.setToolSprite(IconLoader.get("mousetool/zone"));
-        }
 
         public override void rotate() {}
 
-        public override void updateSpriteColor(Vector3Int position) {
+        public override void onPositionChange(Vector3Int position) {
             bool valid = ZoneTypes.get(zoneType).positionValidator.validate(position, GameModel.get().currentLocalModel);
-            selectorGO.designationValid(valid);
-        }
-
-        public override void reset() {
-            materialSelector.close();
-            selectorGO.setToolSprite(null);
+            selectorHandler.setDesignationValid(valid);
         }
     }
 

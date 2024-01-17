@@ -22,6 +22,7 @@ namespace game.view.camera {
             wallTile = Sprite.Create(selectors.texture, new Rect(64, 0, 64, 96), Vector2.zero, 64);
         }
 
+        // TODO move this to entitySelector updatePosition()
         public void updateSprite(Vector3Int position) {
             LocalMap map = GameModel.get().currentLocalModel.localMap;
             if (!map.inMap(position)) return;
