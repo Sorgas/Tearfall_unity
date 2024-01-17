@@ -77,7 +77,7 @@ namespace game.view.system.mouse_tool {
         }
 
         public void setDebugBuildingTool(string type) {
-            debugBuildingMouseTool.set(type);
+            debugBuildingMouseTool.setBuildingType(BuildingTypeMap.get(type));
             set(debugBuildingMouseTool);
         }
     }

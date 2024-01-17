@@ -38,10 +38,11 @@ namespace game.model.container {
             Debug.Log("Construction designation created " + position);
         }
         
-        public void createBuildingDesignation(Vector3Int position, BuildingOrder order, int priority) {
+        public void createBuildingDesignation(Vector3Int position, Orientations orientation, BuildingOrder order, int priority) {
             EcsEntity entity = model.createEntity();
             BuildingOrder newOrder = new BuildingOrder(order);
             newOrder.position = position;
+            newOrder.orientation = orientation;
             entity.Replace(new DesignationComponent { type = DesignationTypes.D_BUILD, priority = priority});
             entity.Replace(new DesignationBuildingComponent { order = newOrder });
             entity.Replace(new ItemContainerComponent { items = new List<EcsEntity>() }); // designation will store material items before building (OnI)
