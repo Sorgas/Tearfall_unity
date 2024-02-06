@@ -1,4 +1,5 @@
-﻿using game.model;
+﻿using System;
+using game.model;
 using game.model.localmap;
 using game.view.util;
 using TMPro;
@@ -28,7 +29,8 @@ namespace game.view.camera {
             // move selector towards target
             updateText(modelTarget);
             if (selectorSprite.localPosition == target) return;
-            selectorSprite.localPosition = Vector3.SmoothDamp(selectorSprite.localPosition, target, ref speed, 0.05f); // move selector
+            selectorSprite.localPosition = Vector3.SmoothDamp(selectorSprite.localPosition, target, ref speed, 0.05f,
+            float.PositiveInfinity, Time.unscaledDeltaTime); // move selector
             
             cacheTarget = modelTarget;
         }

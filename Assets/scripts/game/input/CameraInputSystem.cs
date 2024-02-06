@@ -27,7 +27,7 @@ namespace game.input {
         }
 
         public void update() {
-            float deltaTime = Time.deltaTime;
+            float deltaTime = Time.unscaledDeltaTime;
             if (GameView.get().screenBounds.isIn(Input.mousePosition)) {
                 controllers.ForEach(controller => controller.update(deltaTime));
             }

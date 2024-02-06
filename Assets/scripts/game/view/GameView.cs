@@ -2,6 +2,7 @@ using game.input;
 using game.model;
 using game.model.localmap;
 using game.view.camera;
+using game.view.system;
 using game.view.system.building;
 using game.view.system.designation;
 using game.view.system.item;
@@ -74,6 +75,7 @@ public class GameView : Singleton<GameView> {
             .Add(new UnitMenuUpdateSystem())
             .Add(new ZoneVisualSystem())
             .Add(new TileUpdateVisualSystem())
+            .Add(new RoomVisualSystem())
             .Init();
     }
 

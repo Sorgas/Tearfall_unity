@@ -28,7 +28,7 @@ namespace types.building {
         public int[] positionW;
         public int[] access; // TODO add rawbuilding type class, use Vector2Int here
         public string job; // for workbenches
-        public string passage;
+        public string passage = PassageTypes.PASSABLE.name;
         public string category;
 
         public List<string> components = new(); // components that should be added to building

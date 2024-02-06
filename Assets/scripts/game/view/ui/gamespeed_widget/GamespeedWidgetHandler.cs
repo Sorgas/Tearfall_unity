@@ -30,12 +30,11 @@ namespace game.view.ui.gamespeed_widget {
         public void init() => updateVisual();
 
         public void togglePause() {
-            GameModel.get().updateController.paused = !GameModel.get().updateController.paused;
+            GameModel.get().updateController.togglePaused();
             updateVisual();
         }
 
         public void setSpeed(int speed) {
-            GameModel.get().updateController.paused = false;
             GameModel.get().updateController.setSpeed(speed);
             updateVisual();
         }

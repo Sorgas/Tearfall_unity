@@ -16,13 +16,33 @@ public class RoomVisualSystem : IEcsRunSystem {
             List<GameObject> list = new();
             GameObject parent = new GameObject();
             parent.transform.parent = GameView.get().sceneElementsReferences.mapHolder;
+            Vector3 roomPosition = ViewUtil.fromModelToScene(room.positions.First());
+            Debug.Log(roomPosition);
             parent.transform.localPosition = ViewUtil.fromModelToScene(room.positions.First());
             entity.Replace(new RoomVisualComponent{tiles = new(), parent = parent});
             foreach (var position in room.positions) {
                 PrefabLoader.create("RoomTile", parent.transform, 
-                    parent.transform.InverseTransformPoint(ViewUtil.fromModelToScene(position)));
+                    ViewUtil.fromModelToScene(position) - roomPosition);
             }
+            Debug.Log("room visual created");
         }
+    }
+
+    private void createRoomVisualComponent(EcsEntity entity, RoomComponent room) {
+        // List<GameObject> list = new();
+        // GameObject parent = new GameObject();
+        // parent.transform.parent = GameView.get().sceneElementsReferences.mapHolder;
+        // Vector3 roomPosition = ViewUtil.fromModelToScene(room.positions.First());
+        // Debug.Log(roomPosition);
+        // parent.transform.localPosition = ViewUtil.fromModelToScene(room.positions.First());
+        // entity.Replace(new RoomVisualComponent{tiles = new(), parent = parent, tileInstance = });
+        // foreach (var position in room.positions) {
+        //     PrefabLoader.create("RoomTile", parent.transform, 
+        //         ViewUtil.fromModelToScene(position) - roomPosition);
+        //     GameView.get().tileUpdater.setRoomTile(, position);
+        // }
+        //
+        // Debug.Log("room visual created");
     }
 }
 }

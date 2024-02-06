@@ -20,13 +20,14 @@ namespace game {
             resolveWorld(); // can generate world
             GameModel.get().init(defaultModelName); // create and init game model
             GameView.get().init(this, GameModel.get().currentLocalModel);
-            InvokeRepeating(nameof(updateModel), 0.2f, GameModelUpdateController.UPDATE_TICK_DELTA);
+            // InvokeRepeating(nameof(updateModel), 0.2f, GameModelUpdateController.UPDATE_TICK_DELTA);
             Debug.unityLogger.logEnabled = true;
         }
 
-        public void Update() => GameView.get().update();
-
-        private void updateModel() => GameModel.get().update();
+        public void Update() {
+            GameView.get().update();
+            GameModel.get().update();
+        }
 
         // gets world either from worldgen/localgen, savefile, or creates test one
         private void resolveWorld() {

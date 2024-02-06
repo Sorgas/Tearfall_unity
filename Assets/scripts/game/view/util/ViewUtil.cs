@@ -9,6 +9,7 @@ public static class ViewUtil {
     private static Vector3 spriteOffset = new(0, 0.15f, UNIT_LAYER * GRID_STEP);
     private static Vector3 spriteOffsetOnRamp = new(0, 0.15f, UNIT_LAYER * GRID_STEP - GRID_STEP * 4f); // draw above walls
 
+    // to scene position relative to mapHolder
     public static Vector3 fromModelToScene(Vector3Int pos) {
         return new Vector3(pos.x, pos.y + pos.z / 2f, -pos.z * 2f); // get scene position by model
     }

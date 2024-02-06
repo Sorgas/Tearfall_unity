@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using game.model.component.task.order;
 using generation.item;
 using MoreLinq;
 using types.item.recipe;
 using UnityEngine;
 using util.input;
 using util.lang;
+using static types.PassageTypes;
 
 namespace types.building {
 // loads and stores types of buildings
@@ -78,7 +78,10 @@ public class BuildingTypeMap : Singleton<BuildingTypeMap> {
         type.positionW = raw.positionW;
         type.access = raw.access;
         type.job = raw.job;
-        type.passage = raw.passage;
+        if (raw.passage != null) {
+            type.passage = raw.passage;
+            if (type.passage.Equals(IMPASSABLE.name)) type.passage = IMPASSABLE_BUILDING.name;
+        }
         type.category = raw.category;
         if (raw.components != null) {
             type.components = new(raw.components);

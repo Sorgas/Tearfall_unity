@@ -38,8 +38,7 @@ namespace game.model.localmap {
         
         public void updateTile(Vector3Int position, bool updateRamps) {
             passageMap.update(position);
-            
-            if (GameView.get().tileUpdater != null) GameView.get().tileUpdater.updateTile(position.x, position.y, position.z, updateRamps);
+            GameView.get().tileUpdater?.updateTile(position.x, position.y, position.z, updateRamps);
             model.itemContainer.addPositionForUpdate(new Vector3Int(position.x, position.y, position.z));
         }
 

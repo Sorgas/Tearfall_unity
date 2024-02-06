@@ -84,7 +84,7 @@ namespace game.view.tilemaps {
             if (!wasLocked) layerHandler.setLock();
             layerHandler.setTile(new Vector3Int(x, y, FLOOR_LAYER), floorTile);
             layerHandler.setTile(new Vector3Int(x, y, WALL_LAYER), wallTile);
-            layerHandler.setTile(new Vector3Int(x, y, ZONE_FLOOR_LAYER), getZoneTile(position));
+            layerHandler.setTile(new Vector3Int(x, y, ZONE_LAYER), getZoneTile(position));
             if (substratesEnabled) {
                 layerHandler.setTile(new Vector3Int(x, y, SUBSTRATE_FLOOR_LAYER), substrateFloorTile);
                 layerHandler.setTile(new Vector3Int(x, y, SUBSTRATE_WALL_LAYER), substrateWallTile);
@@ -98,6 +98,11 @@ namespace game.view.tilemaps {
             if (!wasLocked) layerHandler.unlock();
         }
 
+        public void setRoomTile(Tile tile, Vector3Int position) {
+            LocalMapLayerHandler layerHandler = layers[position.z];
+            layerHandler.setTile(new Vector3Int(position.x, position.y, ROOM_LAYER), tile);
+        }
+        
         private void createLayers() {
             Transform transform = mapHolder.transform;
             for (int i = 0; i <= map.bounds.maxZ; i++) {

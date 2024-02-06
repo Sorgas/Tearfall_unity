@@ -3,6 +3,7 @@ using System.Linq;
 using game.model.component;
 using game.model.component.building;
 using game.model.localmap;
+using game.view;
 using Leopotam.Ecs;
 using types;
 using UnityEngine;
@@ -16,9 +17,7 @@ public class RoomContainer : LocalModelContainer {
     private const int ROOM_SIZE_LIMIT = 400;
 
     public RoomContainer(LocalModel model) : base(model) { }
-
-    public void createRoom() { }
-
+    
     // when building is created, it can create a room of corresponding type
     public void buildingCreated(EcsEntity building) {
         log("building created");
@@ -26,11 +25,27 @@ public class RoomContainer : LocalModelContainer {
         if (buildingComponent.type.name == "door") return;
         if (rooms.ContainsKey(building.pos())) {
             // TODO update existing room
-        } else {
-            
+        } else { // creates new room
+            log($"creating new room for {buildingComponent.type.name}");
+            RoomType roomType = selectRoomTypeByBuilding(buildingComponent.type.name);
+            if (roomType != null) {
+                createRoomFromBuilding(building, roomType);
+            }
         }
     }
 
+    private void createRoomFromBuilding(EcsEntity building, RoomType type) {
+        HashSet<Vector3Int> newPositions = model.localMap.passageMap.roomHelper.floodFill(building.pos());
+        if (newPositions != null) {
+            EcsEntity room = model.createEntity();
+            room.Replace(new RoomComponent { building = building, positions = new(), type = type.name });
+            foreach (var pos in newPositions) {
+                addTileToRoom(pos, room);
+            }
+            log("room created");
+        }
+    }
+    
     // when building destroyed, room can be deleted, or its type could change
     public void buildingDestroyed(EcsEntity building) { }
 
@@ -39,9 +54,9 @@ public class RoomContainer : LocalModelContainer {
     // given 'positions' considered interconnected
     public void roomsMerged(IEnumerable<Vector3Int> positions) {
         // collect rooms on positions
-        HashSet<EcsEntity> set = positions
-            .Where(rooms.ContainsKey)
-            .Select(pos => rooms[pos]).ToHashSet();
+        HashSet<EcsEntity> set = Enumerable.ToHashSet(positions
+                .Where(rooms.ContainsKey)
+                .Select(pos => rooms[pos]));
         if (set.Count == 0) return;
         EcsEntity room = set.First();
         RoomComponent roomComponent = room.take<RoomComponent>().building.take<RoomComponent>();
@@ -60,9 +75,9 @@ public class RoomContainer : LocalModelContainer {
     public void roomsSplit(List<Vector3Int> positions) {
         log($"splitting rooms in {positions.Select(pos => pos.ToString()).Aggregate((s1, s2) => s1 + s2)}" );
         // collect rooms on positions
-        HashSet<EcsEntity> set = positions
-            .Where(rooms.ContainsKey)
-            .Select(pos => rooms[pos]).ToHashSet();
+        HashSet<EcsEntity> set = Enumerable.ToHashSet(positions
+                .Where(rooms.ContainsKey)
+                .Select(pos => rooms[pos]));
         if (set.Count == 0) return;
         // refill rooms
         foreach (var room in set) {
@@ -105,10 +120,9 @@ public class RoomContainer : LocalModelContainer {
     }
 
     private MultiValueDictionary<string, EcsEntity> collectBuildingsInRoom(IEnumerable<Vector3Int> positions) {
-        HashSet<EcsEntity> buildings = positions
-            .Select(pos => model.buildingContainer.getBuilding(pos))
-            .Where(building => !building.IsNull())
-            .ToHashSet();
+        HashSet<EcsEntity> buildings = Enumerable.ToHashSet(positions
+                .Select(pos => model.buildingContainer.getBuilding(pos))
+                .Where(building => !building.IsNull()));
         MultiValueDictionary<string, EcsEntity> typesOfBuildings = new();
         foreach (var building in buildings) {
             typesOfBuildings.add(building.take<BuildingComponent>().type.name, building);
@@ -118,10 +132,9 @@ public class RoomContainer : LocalModelContainer {
     
     // checks if room type is still valid 
     private void revalidateRoom(EcsEntity room) {
-        HashSet<EcsEntity> buildings = room.take<RoomComponent>().positions
-            .Select(pos => model.buildingContainer.getBuilding(pos))
-            .Where(entity => !entity.IsNull())
-            .ToHashSet();
+        HashSet<EcsEntity> buildings = Enumerable.ToHashSet(room.take<RoomComponent>().positions
+                .Select(pos => model.buildingContainer.getBuilding(pos))
+                .Where(entity => !entity.IsNull()));
     }
     
     private void addTileToRoom(Vector3Int tile, EcsEntity room) {
@@ -163,6 +176,13 @@ public class RoomContainer : LocalModelContainer {
             } else {
                 return RoomTypes.bedroom;
             }
+        }
+        return null;
+    }
+
+    private RoomType selectRoomTypeByBuilding(string typeName) {
+        if (typeName.Equals("bed")) {
+            return RoomTypes.bedroom;
         }
         return null;
     }

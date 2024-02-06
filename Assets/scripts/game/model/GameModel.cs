@@ -14,7 +14,7 @@ namespace game.model {
         public LocalModel currentLocalModel;
         public readonly GameTime gameTime = new();
         public readonly EcsGlobalSharedData globalSharedData = new();
-        public GameModelUpdateController updateController;
+        public readonly GameModelUpdateController updateController = new();
         public readonly GameModelUpdateCounter counter = new();
         public readonly TechnologyContainer technologyContainer = new();
 
@@ -22,7 +22,6 @@ namespace game.model {
             Debug.Log("initializing model for " + name);
             currentLocalModel = localMapModels[name];
             currentLocalModel.init();
-            updateController = new();
             Debug.Log("model initialized");
         }
 
