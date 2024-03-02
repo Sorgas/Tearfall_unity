@@ -81,6 +81,7 @@
      <Compile Include="Assets\scripts\util\lang\extension\ListExtensions.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EcsEntityExtension.cs" />
      <Compile Include="Assets\scripts\generation\plant\PlantGenerator.cs" />
+     <Compile Include="Assets\scripts\game\view\tilemaps\RoomTilesetHolder.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\EquipWearItemAction.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\MouseToolManager.cs" />
      <Compile Include="Assets\scripts\game\model\system\EcsSystems.cs" />
@@ -653,6 +654,8 @@
      <Folder Include="Assets\scripts\generation\localgen\generators" />
      <None Include="Assets\resources\data\creatures\diseases.json" />
      <Folder Include="Assets\resources\tilesets\units" />
+     <Folder Include="Assets\resources\tilesets\rooms" />
+     <Folder Include="Assets\animations\mining" />
      <Folder Include="Assets\Scenes" />
      <Folder Include="Assets\scripts\game\view\ui\tooltip\trigger" />
      <Folder Include="Assets\scripts\util\unput" />
@@ -721,6 +724,7 @@
      <Folder Include="Assets\scripts\game\view\ui\menu_widget" />
      <None Include="Assets\resources\data\items\wear.json" />
      <None Include="Assets\resources\data\plants\trees.json" />
+     <Folder Include="Assets\animations\woodcutting" />
      <Folder Include="Assets\resources\ui" />
      <Folder Include="Assets\Shapeforms Audio Free Sound Effects" />
      <Folder Include="Assets\SharpUI\Prefabs\UI\SkillTree" />

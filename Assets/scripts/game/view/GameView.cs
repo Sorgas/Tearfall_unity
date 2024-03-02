@@ -65,7 +65,7 @@ public class GameView : Singleton<GameView> {
     private void initEcs(EcsWorld ecsWorld) {
         systems = new EcsSystems(ecsWorld);
         systems.Add(new UnitVisualSystem())
-            .Add(new UnitActionProgressBarUpdateSystem())
+            .Add(new UnitActionVisualSystem())
             .Add(new ItemVisualSystem())
             .Add(new ItemVisualRemoveSystem())
             .Add(new DesignationVisualSystem())

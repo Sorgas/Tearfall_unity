@@ -329,6 +329,7 @@ MonoBehaviour:
   progressBar: {fileID: 504292226506543717}
   actionProgressBarHolder: {fileID: 3912237581476801572}
   actionProgressBar: {fileID: 8729085833586075013}
+  actionAnimator: {fileID: 3642036921396639546}
 --- !u!58 &660581821999671516
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -547,15 +548,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -574264529, guid: ca88cdc9d9d0ca14595b80fee8280827, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &3642036921396639546
@@ -568,7 +569,7 @@ Animator:
   m_GameObject: {fileID: 4893935680031032738}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 54b6f536c7106954b8222f0f57f305ce, type: 2}
+  m_Controller: {fileID: 9100000, guid: bfcf0c05d8377784ba612bff145d83d0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

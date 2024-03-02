@@ -85,7 +85,10 @@ namespace game.model.component.unit {
     public struct UnitSleepingComponent {
     }
 
-    public struct UnitVisualProgressBarComponent : IEcsIgnoreInFilter {
+    public struct UnitAnimationComponent : IEcsIgnoreInFilter {
+        public string animationName; // name of state in animator
+        public float animationDelay;
+        public float animationDelayMax;
     }
 
     public struct UnitVisualOnBuildingComponent {

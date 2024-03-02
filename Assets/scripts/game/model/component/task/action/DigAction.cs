@@ -20,6 +20,7 @@ public class DigAction : ToolAction {
 
     public DigAction(Vector3Int position, DesignationType type) : base("dig", new DiggingActionTarget(position, type.getDiggingBlockType())) {
         name = "dig action";
+        animation = "mining";
         this.type = type;
 
         startCondition = () => {

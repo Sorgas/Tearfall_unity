@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace game.view.util {
 // TODO add status icons, thought cloud, 
-// unit sprites should look left by default
+// unit sprites should be faced left by default
 public class UnitGoHandler : MonoBehaviour {
     private static readonly Vector3 spritePos = new(0, 0, 0);
     private static readonly Vector3 spritePosFlipped = new(1, 0, 0);
@@ -28,6 +28,9 @@ public class UnitGoHandler : MonoBehaviour {
     // orientation
     private SpriteOrientations orientation;
 
+    // action animation
+    public Animator actionAnimator;
+    
     public void updateSpriteSorting(int value) {
         headSprite.sortingOrder = value;
         bodySprite.sortingOrder = value;
@@ -100,6 +103,10 @@ public class UnitGoHandler : MonoBehaviour {
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
                 break;
         }
+    }
+
+    public void setAnimation(string name) {
+        
     }
 }
 }

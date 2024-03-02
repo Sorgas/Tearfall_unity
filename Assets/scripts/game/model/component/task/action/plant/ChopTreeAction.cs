@@ -16,7 +16,8 @@ public class ChopTreeAction : ToolAction {
 
     public ChopTreeAction(EcsEntity tree) : base("chop", new PlantActionTarget(tree, ActionTargetTypeEnum.NEAR)) {
         name = "chop tree action";
-
+        animation = "woodcutting";
+        
         // Checks that tree exists on target position, fails if it doesn't.
         // Checks that performer has chopping tool, creates equipping action if needed.
         startCondition = () => {
@@ -28,6 +29,10 @@ public class ChopTreeAction : ToolAction {
             return OK; // tool already equipped
         };
 
+        onStart = () => {
+            maxProgress = 500;
+        };
+        
         onFinish = () => {
             Vector3Int targetPosition = target.pos;
             log("tree chopping finished at " + targetPosition + " by " + performer.name());

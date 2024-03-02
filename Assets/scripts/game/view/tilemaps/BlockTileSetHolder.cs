@@ -19,6 +19,7 @@ namespace game.view.tilemaps {
 
         public readonly Dictionary<ZoneTypeEnum, Tile> zoneTiles = new();
         public readonly Dictionary<string, Tile> farmTiles = new();
+        public readonly Dictionary<string, Sprite> roomSprites = new();
         private BlockTilesetSlicer slicer = new();
         Dictionary<string, List<string>> notFound = new();
         private string logMessage;
@@ -60,6 +61,10 @@ namespace game.view.tilemaps {
 
         private void loadSubstrateTilesetFromAtlas(SubstrateType type) => loadTilesetFromAtlas(type.name, type.tileset, type.tilesetSize, type.color);
 
+        private void loadRoomTiles() {
+            
+        }
+        
         private void loadTilesetFromAtlas(string tilesName, string tileset, int tilesetSize, Color color) {
             log("adding " + tileset);
             loadSpriteSet(tileset, tilesetSize);

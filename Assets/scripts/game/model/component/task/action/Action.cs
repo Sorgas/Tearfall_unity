@@ -30,6 +30,7 @@ namespace game.model.component.task.action {
 */
     public abstract class Action {
         public string name = "base action";
+        public string animation;
         public EcsEntity task; // set when action is added to task
         public ActionTarget target;
         public ActionStatusEnum status = ActionStatusEnum.OPEN;
