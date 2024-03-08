@@ -16,7 +16,7 @@ public class TestLevelInitializer {
         createTestSettler();
         createTestItem();
         createBuildings();
-        state.generateLocalMap(new(5, 5), "main", new (100, 100));
+        state.generateLocalMap(new(5, 5), "main", 100);
     }
 
     // creates test settler as it was selected on preparation screen
@@ -45,6 +45,7 @@ public class TestLevelInitializer {
         GenerationState.get().preparationState.items.Add(new ItemData { material = "oak", type = "log", quantity = 10 });
         GenerationState.get().preparationState.items.Add(new ItemData { material = "oak", type = "plank", quantity = 10 });
         GenerationState.get().preparationState.items.Add(new ItemData { material = "silk", type = "cloth_roll", quantity = 10 });
+        GenerationState.get().preparationState.items.Add(new ItemData { material = "silk", type = "simple_meal", quantity = 10 });
         // GenerationState.get().preparationState.items.Add(new ItemData {material = "meat", type = "meat_piece", quantity = 5});
     }
 

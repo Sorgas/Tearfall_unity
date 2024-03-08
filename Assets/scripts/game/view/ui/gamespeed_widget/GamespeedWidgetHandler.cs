@@ -1,4 +1,3 @@
-using game.model;
 using game.view.ui.util;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -19,71 +18,50 @@ namespace game.view.ui.gamespeed_widget {
         public GameObject speed3Button;
         public Color activeColor = new(0.75f, 0.75f, 0.75f, 1);
         public Color inactiveColor = new(0.4f, 0.4f, 0.4f, 1);
-
+        private float previousSpeed;
+        
         public void Start() {
-            pauseButton.GetComponent<Button>().onClick.AddListener(() => togglePause());
+            pauseButton.GetComponent<Button>().onClick.AddListener(togglePause);
             speed1Button.GetComponent<Button>().onClick.AddListener(() => setSpeed(1));
-            speed2Button.GetComponent<Button>().onClick.AddListener(() => setSpeed(2));
-            speed3Button.GetComponent<Button>().onClick.AddListener(() => setSpeed(3));
+            speed2Button.GetComponent<Button>().onClick.AddListener(() => setSpeed(3));
+            speed3Button.GetComponent<Button>().onClick.AddListener(() => setSpeed(6));
         }
         
         public void init() => updateVisual();
 
-        public void togglePause() {
-            GameModel.get().updateController.togglePaused();
+        private void togglePause() {
+            if (Time.timeScale != 0) {
+                previousSpeed = Time.timeScale;
+                Time.timeScale = 0;
+            } else {
+                Time.timeScale = previousSpeed;
+            }
             updateVisual();
         }
 
-        public void setSpeed(int speed) {
-            GameModel.get().updateController.setSpeed(speed);
+        private void setSpeed(int speed) {
+            Time.timeScale = speed;
             updateVisual();
         }
 
         public bool accept(KeyCode key) {
-            if (key == KeyCode.Space) {
-                ExecuteEvents.Execute(pauseButton, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
-                return true;
-            }
-            if (key == KeyCode.Keypad1 || key == KeyCode.Alpha1) {
-                ExecuteEvents.Execute(speed1Button, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
-                return true;
-            }
-            if (key == KeyCode.Keypad2 || key == KeyCode.Alpha2) {
-                ExecuteEvents.Execute(speed2Button, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
-                return true;
-            }
-            if (key == KeyCode.Keypad3 || key == KeyCode.Alpha3) {
-                ExecuteEvents.Execute(speed3Button, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
-                return true;
-            }
+            if (key == KeyCode.Space) return pressButton(pauseButton);
+            if (key == KeyCode.Keypad1 || key == KeyCode.Alpha1) return pressButton(speed1Button);
+            if (key == KeyCode.Keypad2 || key == KeyCode.Alpha2) return pressButton(speed2Button);
+            if (key == KeyCode.Keypad3 || key == KeyCode.Alpha3) return pressButton(speed3Button);
             return false;
         }
 
-        public void updateVisual() {
-            deactivateAll();
-            if (GameModel.get().updateController.paused) {
-                pauseButton.GetComponent<Image>().color = activeColor;
-            } else {
-                switch (GameModel.get().updateController.speed) {
-                    case 1:
-                        speed1Button.GetComponent<Image>().color = activeColor;
-                        break;
-                    case 2:
-                        speed2Button.GetComponent<Image>().color = activeColor;
-                        break;
-                    case 3:
-                        speed3Button.GetComponent<Image>().color = activeColor;
-                        break;
-                }
-            }
+        private bool pressButton(GameObject button) {
+            ExecuteEvents.Execute(button, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
+            return true;
         }
-
-        private void deactivateAll() {
-            pauseButton.GetComponent<Image>().color = inactiveColor;
-            speed1Button.GetComponent<Image>().color = inactiveColor;
-            speed2Button.GetComponent<Image>().color = inactiveColor;
-            speed3Button.GetComponent<Image>().color = inactiveColor;
+        
+        private void updateVisual() {
+            pauseButton.GetComponent<Image>().color = Time.timeScale == 0 ? activeColor : inactiveColor;
+            speed1Button.GetComponent<Image>().color = Time.timeScale == 1 ? activeColor : inactiveColor;
+            speed2Button.GetComponent<Image>().color = Time.timeScale == 3 ? activeColor : inactiveColor;
+            speed3Button.GetComponent<Image>().color = Time.timeScale == 6 ? activeColor : inactiveColor;
         }
-
     }
 }

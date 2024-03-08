@@ -28,8 +28,9 @@ namespace generation {
             GameModel.get().world = world; // first instantiating on GameModel
         }
 
-        public void generateLocalMap(Vector2Int position, string name, Vector3Int size) {
+        public void generateLocalMap(Vector2Int position, string name, int size) {
             localMapGenerator.localGenConfig.location = position;
+            localMapGenerator.localGenConfig.areaSize = size;
             LocalModel localModel = localMapGenerator.generateLocalMap(name, position);
             GameModel.get().addLocalModel(name, localModel);
         }
