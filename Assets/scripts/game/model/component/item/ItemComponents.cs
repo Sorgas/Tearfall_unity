@@ -12,7 +12,8 @@ public struct ItemComponent {
 
     public float weight;
     public int volume; // used for containers
-
+    public int value;
+    
     public string materialString; // for faster naming
     public bool isBuildingMaterial;
 }

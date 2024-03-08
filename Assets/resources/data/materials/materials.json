@@ -5,7 +5,6 @@
         "tags": ["air"],
         "density": "0.1",
         "reactions": {},
-        "value": "0",
         "atlasY": "-1",
         "color": "ffffffff"
     },{
@@ -20,7 +19,6 @@
     "tags": ["liquid", "water"],
     "density": "1",
     "reactions": {},
-    "value": "0",
     "atlasY": "-1",
     "color": "ffffffff"
 }, {
@@ -31,7 +29,7 @@
     "reactions": {
         "burn": ["2500"]
     },
-    "value": "0",
+    "value": "1",
     "atlasY": "-1",
     "color": "ffffffff"
 }

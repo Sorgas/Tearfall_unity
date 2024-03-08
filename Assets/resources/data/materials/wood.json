@@ -9,7 +9,7 @@
     "reactions": {
     "burn": ["3600"]
   },
-  "value": "10",
+  "value": "7",
   "atlasY": "1",
   "color": "be9964ff"
 },{
@@ -21,7 +21,7 @@
   "reactions": {
     "burn": ["3600"]
   },
-  "value": "10",
+  "value": "6",
   "atlasY": "1",
   "color": "fcecd4ff"
 },{
@@ -33,7 +33,7 @@
   "reactions": {
     "burn": ["3600"]
   },
-  "value": "10",
+  "value": "6",
   "atlasY": "1",
   "color": "c9a164ff"
 },{
@@ -44,7 +44,7 @@
   "reactions": {
     "burn": ["3600"]
   },
-  "value": "10",
+  "value": "3",
   "atlasY": "1",
   "color": "ad734bff"
 },{
@@ -55,7 +55,7 @@
   "reactions": {
     "burn": ["3600"]
   },
-  "value": "10",
+  "value": "4",
   "atlasY": "1",
   "color": "b3814eff"
 },{
@@ -67,7 +67,7 @@
   "reactions": {
     "burn": ["3600"]
   },
-  "value": "10",
+  "value": "5",
   "atlasY": "1",
   "color": "e4cda1ff"
 },{
@@ -78,7 +78,7 @@
   "reactions": {
     "burn": ["3600"]
   },
-  "value": "10",
+  "value": "3",
   "atlasY": "1",
   "color": "cea879ff"
 }

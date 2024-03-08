@@ -2,6 +2,7 @@
     {
         "name": "shirt",
         "description": "Wear for covering upper body and arms.",
+        "value": 10,
         "components": ["value(0)", "wear(body,wear)"],
         "stockpileCategory": "wear",
         "stockpileMaterialTags": "cloth",
@@ -9,6 +10,7 @@
     }, {
     "name": "pants",
     "description": "Wear for legs.",
+    "value": 10,
     "components": ["value(0)", "wear(legs,wear)"],
     "stockpileCategory": "wear",
     "stockpileMaterialTags": "cloth,leather",
@@ -16,6 +18,7 @@
 }, {
     "name": "hat",
     "description": "Wear for head.",
+    "value": 10,
     "components": ["value(0)", "wear(head,wear)"],
     "stockpileCategory": "wear",
     "stockpileMaterialTags": "cloth,leather",
@@ -23,6 +26,7 @@
 }, {
     "name": "gloves",
     "description": "Wear for hands.",
+    "value": 10,
     "components": ["value(0)", "wear(hands,wear)"],
     "stockpileCategory": "wear",
     "stockpileMaterialTags": "cloth,leather",
@@ -30,6 +34,7 @@
 }, {
     "name": "backpack",
     "description": "Sac with two straps. Allows to carry many items, keeping hands free.",
+    "value": 10,
     "components": ["value(0)", "wear(body,over)", "container(solid)"],
     "stockpileCategory": "special",
     "stockpileMaterialTags": "cloth,leather",
@@ -37,6 +42,7 @@
 }, {
     "name": "boots",
     "description": "Wear for feet.",
+    "value": 10,
     "components": ["value(0)", "wear(feet,wear)"],
     "stockpileCategory": "wear",
     "stockpileMaterialTags": "cloth,leather",

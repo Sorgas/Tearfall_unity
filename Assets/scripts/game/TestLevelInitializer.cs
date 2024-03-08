@@ -23,7 +23,8 @@ public class TestLevelInitializer {
     private void createTestSettler() {
         SettlerDataGenerator generator = new();
         GenerationState.get().preparationState.settlers.Add(generator.generate());
-        // GenerationState.get().preparationState.settlers.Add(generator.generate());
+        GenerationState.get().preparationState.settlers.Add(generator.generate());
+        GenerationState.get().preparationState.settlers.Add(generator.generate());
     }
 
     // creates test item as it was selected on preparation screen

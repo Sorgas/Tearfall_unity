@@ -515,7 +515,6 @@
      <Folder Include="Assets\SharpUI\Textures" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <Folder Include="Assets\TextMesh Pro\Sprites" />
-     <Folder Include="Assets\UI_Buttons_Pack2" />
      <Folder Include="Assets\scripts\game\view\system\plant" />
      <None Include="Assets\resources\data\materials\metal.json" />
      <Folder Include="Assets\resources\icons\designation" />
@@ -542,7 +541,6 @@
      <Folder Include="Assets\SharpUI\Prefabs\UI\Button" />
      <None Include="Assets\resources\data\items\resources.json" />
      <Folder Include="Assets\scripts\util\input" />
-     <Folder Include="Assets\Shapeforms Audio Free Sound Effects\Arcane Activations Preview" />
      <Folder Include="Assets\resources\tilesets\plants\trees" />
      <Folder Include="Assets\scripts\game\model\component\task\action\target" />
      <Folder Include="Assets\scripts\game\model\component\item" />
@@ -587,7 +585,6 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <Folder Include="Assets\scripts\types\action" />
      <Folder Include="Assets\resources\tilesets\plants" />
-     <Folder Include="Assets\Shapeforms Audio Free Sound Effects\Arcane Activations Preview\AUDIO" />
      <Folder Include="Assets\scripts\generation\worldgen\generators\temperature" />
      <Folder Include="Assets\TextMesh Pro" />
      <Folder Include="Assets\scripts\game\model\component\task\action\zone" />
@@ -603,7 +600,6 @@
      <Folder Include="Assets\resources\data\materials" />
      <Folder Include="Assets\scripts\game\view\ui\toolbar" />
      <Folder Include="Assets\scripts\game\model\component\task\action" />
-     <Folder Include="Assets\FC User Interface SFX [Lite]\SFX" />
      <Folder Include="Assets\scripts\game\model\component\task\action\item" />
      <Folder Include="Assets\scripts\game\model\component\task\action\equipment\use" />
      <Folder Include="Assets\resources\prefabs\workbenchMenu" />
@@ -642,7 +638,6 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <Folder Include="Assets\scripts\types\unit\need" />
-     <Folder Include="Assets\Shapeforms Audio Free Sound Effects\Type Preview" />
      <Folder Include="Assets\resources\data\plants" />
      <Folder Include="Assets\scripts\game\model\component\task\action\equipment" />
      <Folder Include="Assets\scripts\game\model\action" />
@@ -682,7 +677,6 @@
      <None Include="Assets\resources\data\materials\stone.json" />
      <Folder Include="Assets\resources\icons\items" />
      <Folder Include="Assets\scripts\game\model\component\task\order" />
-     <Folder Include="Assets\FC User Interface SFX [Lite]" />
      <Folder Include="Assets\scripts\game\model\container" />
      <Folder Include="Assets\resources\prefabs\mainMenu" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
@@ -699,7 +693,6 @@
      <Folder Include="Assets\scripts\generation\worldgen\generators\elevation" />
      <None Include="Assets\resources\data\constructions.json" />
      <Folder Include="Assets\Scenes\LocalWorld\LocalWorldScene" />
-     <Folder Include="Assets\Shapeforms Audio Free Sound Effects\Type Preview\AUDIO" />
      <Folder Include="Assets\scripts\game\model\system\building" />
      <Folder Include="Assets\scripts\game\model\action\plant" />
      <Folder Include="Assets\resources\tilesets\items" />
@@ -726,7 +719,6 @@
      <None Include="Assets\resources\data\plants\trees.json" />
      <Folder Include="Assets\animations\woodcutting" />
      <Folder Include="Assets\resources\ui" />
-     <Folder Include="Assets\Shapeforms Audio Free Sound Effects" />
      <Folder Include="Assets\SharpUI\Prefabs\UI\SkillTree" />
      <Folder Include="Assets\scripts\util\lang" />
      <Folder Include="Assets\scripts\mainMenu" />

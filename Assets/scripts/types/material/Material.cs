@@ -10,7 +10,7 @@ public class Material_ {
     public HashSet<string> tags;
     public float density;
     public int workAmountModifier = 0; // in percents
-    public int value;
+    public int value = 0; // multiplier for value of items
     public string tileset;
     public Color color;
     public bool isVariant;

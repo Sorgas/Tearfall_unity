@@ -11,7 +11,7 @@ public class MaterialMap : Singleton<MaterialMap> {
     public const int GENERIC_PLANT = 4;
     private Dictionary<string, Material_> map = new();
     private Dictionary<int, Material_> idMap = new();
-    private bool debug = false;
+    private bool debug = true;
     private MaterialVariantGenerator variantGenerator;
 
     public MaterialMap() {

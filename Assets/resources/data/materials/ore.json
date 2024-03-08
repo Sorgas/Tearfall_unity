@@ -8,22 +8,10 @@
             "melt": ["1223"],
             "_smelt": ["copper"]
         },
-        "value": "10",
+        "value": "5",
         "atlasY": "0",
         "color": "ffffffff"
     }, {
-        "id": 202,
-    "name": "tetrahedrite",
-    "tags": ["ore"],
-    "density": "5",
-    "reactions": {
-        "melt": ["890"],
-        "_smelt": ["copper"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
     "id": 203,
     "name": "magnetite",
     "tags": ["ore"],
@@ -32,7 +20,7 @@
         "melt": ["1867"],
         "_smelt": ["iron"]
     },
-    "value": "10",
+    "value": "3",
     "atlasY": "0",
     "color": "ffffffff"
 }, {
@@ -44,7 +32,7 @@
         "melt": ["1838"],
         "_smelt": ["iron"]
     },
-    "value": "10",
+    "value": "2",
     "atlasY": "0",
     "color": "ffffffff"
 }, {
@@ -56,55 +44,7 @@
         "melt": ["1337"],
         "_smelt": ["gold"]
     },
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
-    "id": 206,
-    "name": "galena",
-    "tags": ["ore"],
-    "density": "7.4",
-    "reactions": {
-        "melt": ["1386"],
-        "_smelt": ["copper"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
-    "id": 207,
-    "name": "sphalerite(blende)",
-    "tags": ["ore"],
-    "density": "4.1",
-    "reactions": {
-        "melt": ["1973"],
-        "_smelt": ["copper"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
-    "id": 208,
-    "name": "garnierite",
-    "tags": ["ore"],
-    "density": "2.4",
-    "reactions": {
-        "melt": ["1010"],
-        "_smelt": ["copper"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
-    "id": 209,
-    "name": "cassiterite",
-    "tags": ["ore"],
-    "density": "6.9",
-    "reactions": {
-        "melt": ["1395"],
-        "_smelt": ["copper"]
-    },
-    "value": "10",
+    "value": "30",
     "atlasY": "0",
     "color": "ffffffff"
 }, {
@@ -117,7 +57,7 @@
         "melt": ["1235"],
         "_smelt": ["silver"]
     },
-    "value": "10",
+    "value": "12",
     "atlasY": "0",
     "color": "ffffffff"
 }, {
@@ -125,7 +65,7 @@
     "name": "coal",
     "tags": ["ore", "fuel"],
     "density": "10.5",
-    "value": "10",
+    "value": "1",
     "atlasY": "0",
     "color": "ffffffff"
 }

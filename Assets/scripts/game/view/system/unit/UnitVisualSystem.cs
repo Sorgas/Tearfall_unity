@@ -23,7 +23,6 @@ public class UnitVisualSystem : IEcsRunSystem {
     }
 
     private void update(EcsEntity unit, ref UnitVisualComponent visual) {
-        
         Transform transform = visual.handler.gameObject.transform;
         if (transform.localPosition == visual.target) return;
         

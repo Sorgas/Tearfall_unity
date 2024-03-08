@@ -4,7 +4,7 @@
         "name": "meat",
         "tags": ["meat", "raw", "cookable", "organic"],
         "density": "1",
-        "value": "0",
+        "value": "3",
         "atlasY": "-1",
         "color": "ffffffff"
     }, {
@@ -15,7 +15,7 @@
     "reactions": {
         "burn": ["2500"]
     },
-    "value": "0",
+    "value": "1",
     "atlasY": "-1",
     "color": "ffffffff"
 }

@@ -3,60 +3,71 @@
     "name": "radish",
     "baseItem": "generic_fruit",
     "description": "Tiny bitter root-crops.",
+    "value": 1,
     "atlasXY": [0, 0]
 }, {
     "name": "turnip",
     "baseItem": "generic_fruit",
     "description": "Juicy root vegetable.",
+    "value": 2,
     "atlasXY": [1, 0]
 }, {
     "name": "pumpkin",
     "baseItem": "generic_fruit",
     "description": "Large sweet vegetable with thick walls and many seeds inside.",
+    "value": 4,
     "components": ["food(100)"],
     "atlasXY": [2, 0]
 }, {
     "name": "tomato",
     "baseItem": "generic_fruit",
     "description": "Red fruit with delicious taste.",
+    "value": 5,
     "atlasXY": [3, 0]
 }, {
     "name": "wheat",
     "baseItem": "generic_grain",
     "description": "Most common grain. Used to prepare bread or beer.",
+    "value": 3,
     "atlasXY": [4, 0]
 }, {
     "name": "cabbage",
     "baseItem": "generic_fruit",
     "description": "",
+    "value": 4,
     "atlasXY": [5, 0]
 }, {
     "name": "blueberry",
     "baseItem": "generic_fruit",
     "title": "Blueberry",
     "description": "Blueberry",
+    "value": 5,
     "atlasXY": [1, 1]
 }, {
     "name": "raspberry",
     "baseItem": "generic_fruit",
     "title": "Raspberry",
     "description": "Raspberry",
+    "value": 5,
     "atlasXY": [0, 1]
 }, {
     "name": "pepper",
     "baseItem": "generic_fruit",
     "title": "Pepper",
     "description": "Pepper",
+    "value": 5,
     "tags": ["cookable2"],
     "atlasXY": [4, 1]
 }, {
     "name": "mushroom",
     "baseItem": "generic_fruit",
     "description": "Mushroom",
+    "value": 3,
     "atlasXY": [2, 1]
 }, {
     "name": "flax",
     "description": "Can be processed to thread.",
+    "value": 2,
     "stockpileCategory": "plant",
     "stockpileMaterialTags": "organic",
     "atlasXY": [3, 1]

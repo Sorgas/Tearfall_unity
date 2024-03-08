@@ -2,6 +2,7 @@
   {
     "name": "barrel",
     "description": "For storing large amounts of liquids.",
+    "value": 10,
     "stockpileCategory": "container",
     "stockpileMaterialTags": "wood",
     "atlasXY": [0, 0],
@@ -9,6 +10,7 @@
   }, {
     "name": "bin",
     "description": "For storing items.",
+    "value": 10,
     "stockpileCategory": "container",
     "stockpileMaterialTags": "wood",
     "atlasXY": [1, 0],
@@ -16,6 +18,7 @@
   }, {
     "name": "bag",
     "description": "For storing grains.",
+    "value": 10,
     "stockpileCategory": "container",
     "stockpileMaterialTags": "cloth,leather",
     "atlasXY": [2, 0],
@@ -23,6 +26,7 @@
   }, {
     "name": "chest",
     "description": "For storing items.",
+    "value": 10,
     "stockpileCategory": "container",
     "stockpileMaterialTags": "wood",
     "atlasXY": [3, 0],
@@ -30,6 +34,7 @@
   }, {
     "name": "pot",
     "description": "For storing things or growing small plants.",
+    "value": 10,
     "stockpileCategory": "container",
     "stockpileMaterialTags": "clay",
     "atlasXY": [13, 0],
@@ -37,6 +42,7 @@
   }, {
     "name": "flask",
     "description": "Keeps drinks close.",
+    "value": 10,
     "stockpileCategory": "container",
     "stockpileMaterialTags": "metal,glass",
     "atlasXY": [15, 0],
@@ -44,6 +50,7 @@
   }, {
     "name": "bucket",
     "description": "Can hold liquids.",
+    "value": 10,
     "components": ["item_container(liquid/solid/grain,1)"],
     "stockpileCategory": "container",
     "stockpileMaterialTags": "wood",
@@ -52,6 +59,7 @@
   }, {
     "name": "bottle",
     "description": "Bottle for drinks.",
+    "value": 10,
     "stockpileCategory": "container",
     "stockpileMaterialTags": "glass",
     "atlasXY": [15, 0],

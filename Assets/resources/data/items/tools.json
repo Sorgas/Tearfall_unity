@@ -2,6 +2,7 @@
     {
         "name": "generic_tool",
         "description": "Replace description",
+        "value": 10,
         "stockpileCategory": "tool",
         "atlasXY": [0, 4]
     },
@@ -9,30 +10,35 @@
         "name": "pickaxe",
         "baseItem": "generic_tool",
         "description": "Tool for digging through rock and ore.",
+        "value": 10,
         "toolActions": ["dig"],
         "atlasXY": [0, 0]
 }, {
     "name": "axe",
     "baseItem": "generic_tool",
     "description": "Tool for chopping down trees.",
+    "value": 10,
     "toolActions": ["chop"],
     "atlasXY": [1, 0]
 }, {
     "name": "sickle",
     "baseItem": "generic_tool",
     "description": "Tool for harvesting plants.",
+    "value": 10,
     "toolActions": ["harvest_plants"],
     "atlasXY": [2, 0]
 }, {
     "name": "hoe",
     "baseItem": "generic_tool",
     "description": "Tool for preparing soil for farming.",
+    "value": 10,
     "toolActions": ["hoe"],
     "atlasXY": [3, 0]
 }, {
     "name": "hammer",
     "baseItem": "generic_tool",
     "description": "Smith tool.",
+    "value": 10,
     "toolActions": ["smith"],
     "atlasXY": [4, 0]
 }

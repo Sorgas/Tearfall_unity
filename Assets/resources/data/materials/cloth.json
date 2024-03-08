@@ -4,7 +4,7 @@
         "name": "linen",
         "tags": ["cloth"],
         "density": 200,
-        "value": 10,
+        "value": 3,
         "atlasY": 0,
         "color": "d4d0cdff"
     }, {
@@ -21,7 +21,7 @@
         "name": "wool",
         "tags": ["cloth"],
         "density": 200,
-        "value": 10,
+        "value": 4,
         "atlasY": 0,
         "color": "999287ff"
     }, {
@@ -30,7 +30,7 @@
         "tags": ["cloth"],
         "density": 200,
         "workAmountModifier" : 5,
-        "value": 10,
+        "value": 5,
         "atlasY": 0,
         "color": "ffffffff"
     }

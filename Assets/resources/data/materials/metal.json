@@ -7,7 +7,7 @@
         "reactions": {
             "melt": ["1538"]
         },
-        "value": "10",
+        "value": "3",
         "atlasY": "0",
         "color": "ffffffff"
     }, {
@@ -18,7 +18,7 @@
     "reactions": {
         "melt": ["1510"]
     },
-    "value": "10",
+    "value": "8",
     "atlasY": "0",
     "color": "ffffffff"
 }, {
@@ -29,7 +29,7 @@
     "reactions": {
         "melt": ["1084"]
     },
-    "value": "10",
+    "value": "4",
     "atlasY": "0",
     "color": "ffffffff"
 }, {
@@ -42,7 +42,7 @@
             "961"
         ]
     },
-    "value": "10",
+    "value": "15",
     "atlasY": "0",
     "color": "ffffffff"
 }, {
@@ -53,34 +53,35 @@
     "reactions": {
         "melt": ["1064"]
     },
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
-    "id": 306,
-    "name": "lead",
-    "tags": ["metal"],
-    "density": "11.4",
-    "reactions": {
-        "melt": [
-            "327"
-        ]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
-    "id": 307,
-    "name": "tin",
-    "tags": ["metal"],
-    "density": "7.3",
-    "reactions": {
-        "melt": [
-            "232"
-        ]
-    },
-    "value": "10",
+    "value": "40",
     "atlasY": "0",
     "color": "ffffffff"
 }
+//    {
+//    "id": 306,
+//    "name": "lead",
+//    "tags": ["metal"],
+//    "density": "11.4",
+//    "reactions": {
+//        "melt": [
+//            "327"
+//        ]
+//    },
+//    "value": "10",
+//    "atlasY": "0",
+//    "color": "ffffffff"
+//}, {
+//    "id": 307,
+//    "name": "tin",
+//    "tags": ["metal"],
+//    "density": "7.3",
+//    "reactions": {
+//        "melt": [
+//            "232"
+//        ]
+//    },
+//    "value": "10",
+//    "atlasY": "0",
+//    "color": "ffffffff"
+//}
 ]

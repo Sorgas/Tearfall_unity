@@ -9,6 +9,7 @@ public class ItemType {
     // strings
     public string title; // displayable name
     public string description; // displayable description
+    public int value; // base value of item
     
     public HashSet<string> tags = new();
     // public List<string> parts = new(); // if set, player will see parts when selecting materials for crafting. // TODO post MVP
@@ -29,6 +30,7 @@ public class ItemType {
         title = raw.title ?? raw.name;
         baseItem = raw.baseItem;
         description = raw.description;
+        value = raw.value;
         if (raw.toolActions != null && raw.toolActions.Length > 0) {
             tool = new ToolItemType();
             tool.action = raw.toolActions[0];
@@ -73,6 +75,7 @@ public class RawItemType {
     public string baseItem; // items can extends other items
     public string title; // displayable name
     public string description; // displayable description
+    public int value = 1; // default value for material items
     
     public string[] toolActions; // some actions require tools or get bonus from having tool equipped
     // public string[] parts; // defines parts of item. first one is main
