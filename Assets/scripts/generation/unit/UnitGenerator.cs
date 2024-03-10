@@ -29,7 +29,7 @@ class UnitGenerator {
     private void addCommonComponents(ref EcsEntity entity, SettlerData data, CreatureType type) {
         entity
             .Replace(nameGenerator.generate(data))
-            .Replace(new UnitMovementComponent { speed = 0.03f, step = 0 }) // TODO add stat or trait dependency
+            .Replace(new UnitMovementComponent { speed = 0.03f, currentSpeed = -1, step = 0 }) // TODO add stat or trait dependency
             .Replace(new UnitVisualComponent { headVariant = data.headVariant, bodyVariant = data.bodyVariant }) // sprite go is created in UnitVisualSystem
             .Replace(new PositionComponent { position = new Vector3Int() })
             .Replace(bodyGenerator.generate(type))

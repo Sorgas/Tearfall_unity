@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using game.model.component;
 using game.model.component.building;
 using game.model.component.unit;
@@ -19,9 +20,7 @@ namespace game.model.system.unit {
 // Animals should not be able to use doors. 
 public class UnitMovementSystem : LocalModelScalableEcsSystem {
     public readonly float diagonalSpeedMod = (float)Math.Sqrt(2);
-    public readonly float diagonalUpSpeedMod = (float)Math.Sqrt(2);
-    public readonly float upSpeedMod = (float)Math.Sqrt(2);
-
+    
     public EcsFilter<UnitMovementComponent, UnitMovementPathComponent> filter;
 
     protected override void runLogic(int ticks) {
@@ -34,47 +33,43 @@ public class UnitMovementSystem : LocalModelScalableEcsSystem {
     }
 
     // checks path, accumulates unit speed and makes step to next tile of path
-    private void updateMovement(ref UnitMovementComponent movement, ref UnitMovementPathComponent path,
-        ref EcsEntity unit, int ticks) {
-        if (pathEnded(unit, ref path, ref movement)) return;
+    private void updateMovement(ref UnitMovementComponent movement, ref UnitMovementPathComponent path, ref EcsEntity unit, int ticks) {
         Vector3Int nextPosition = path.path[0];
-        if(pathBlocked(unit, nextPosition, ref movement)) return; // cannot move
-        float effectiveSpeed = movement.speed * ticks;
+        if (pathBlocked(unit, nextPosition, ref movement)) return; // cannot move
+        if (movement.currentSpeed < 0) {
+            pathTilesChanged(unit, ref movement, unit.pos(), nextPosition);
+        }
         if (handleDoors(unit.pos(), nextPosition)) {
-            movement.step += effectiveSpeed; // accumulate speed
+            movement.step += movement.currentSpeed * ticks; // accumulate speed
             if (movement.step > 1f) {
                 movement.step -= 1f;
-                makeStep(ref path, ref unit);
+                makeStep(ref path, ref movement, ref unit);
             }
         }
     }
 
-    // checks if unit reached end of path and deletes path related components if it did
-    private bool pathEnded(EcsEntity unit, ref UnitMovementPathComponent path, ref UnitMovementComponent movement) {
-        if (path.path.Count != 0) return false;
-        movement.step = 0; // reset movement
-        unit.Del<UnitMovementPathComponent>();
-        unit.Del<UnitMovementTargetComponent>();
-        return true;
-    }
-    
     // checks if path is blocked by impassable tile. 
     private bool pathBlocked(EcsEntity unit, Vector3Int position, ref UnitMovementComponent movement) {
         if (model.localMap.passageMap.passage.get(position) != IMPASSABLE.VALUE) return false;
         movement.step = 0;
         unit.Del<UnitMovementPathComponent>(); // remove invalid path, will be found again on next tick
+        pathTilesChanged(unit, ref movement, unit.pos());
         return true;
     }
 
     // change position to next position in path
-    private void makeStep(ref UnitMovementPathComponent path, ref EcsEntity unit) {
+    private void makeStep(ref UnitMovementPathComponent path, ref UnitMovementComponent movement, ref EcsEntity unit) {
         Vector3Int current = path.path[0];
         unit.Get<PositionComponent>().position = current;
         path.path.RemoveAt(0);
-
-        bool hasNextTile = (path.path.Count > 0);
-        Vector3Int next = hasNextTile ? path.path[0] : current;
-        updateVisual(unit, current, next);
+        if (path.path.Count > 0) {
+            pathTilesChanged(unit, ref movement, current, path.path[0]);
+        } else {
+            movement.step = 0; // reset movement
+            unit.Del<UnitMovementPathComponent>();
+            unit.Del<UnitMovementTargetComponent>();
+            pathTilesChanged(unit, ref movement, unit.pos());
+        }
     }
 
     // prevents door on current tile from closing
@@ -104,12 +99,35 @@ public class UnitMovementSystem : LocalModelScalableEcsSystem {
 
     private bool isDoor(EcsEntity entity) => entity != EcsEntity.Null && entity.Has<BuildingDoorComponent>();
 
-    // passes new current and target positions to visual component
+    private void pathTilesChanged(EcsEntity unit, ref UnitMovementComponent movement, Vector3Int current) => pathTilesChanged(unit, ref movement, current, current); 
+
+    // calculates speed for reaching next tile. updates sprites orientation
+    private void pathTilesChanged(EcsEntity unit, ref UnitMovementComponent movement, Vector3Int current, Vector3Int next) {
+        updateCurrentSpeed(ref movement, current, next);
+        updateVisual(unit, current, next);
+    }
+
+    private void updateCurrentSpeed(ref UnitMovementComponent movement, Vector3Int current, Vector3Int next) {
+        if (current == next) {
+            movement.currentSpeed = -1;
+            return;
+        }
+        Vector3Int direction = next - current;
+        movement.currentSpeed = movement.speed;
+        if (direction.z != 0) {
+            if (direction.x != 0 || direction.y != 0) {
+                movement.currentSpeed /= diagonalSpeedMod;
+            }
+        } else if (direction.x != 0 && direction.y != 0) {
+            movement.currentSpeed /= diagonalSpeedMod;
+        }
+    }
+    
     private void updateVisual(EcsEntity unit, Vector3Int current, Vector3Int next) {
+        Vector3Int direction = next - current;
         ref UnitVisualComponent visual = ref unit.takeRef<UnitVisualComponent>();
         visual.current = ViewUtil.fromModelToSceneForUnit(current, model);
         visual.target = ViewUtil.fromModelToSceneForUnit(next, model);
-        Vector3Int direction = next - current;
         if (direction.x != 0 || direction.y != 0) {
             visual.orientation = getOrientation(direction);
         }

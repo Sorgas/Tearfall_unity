@@ -45,7 +45,9 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         }
 
         public void update(int ticks) {
-            scalableSystems?.Run();
+            if (ticks != 0) {
+                scalableSystems?.Run();
+            }
             for (var i = 0; i < ticks; i++) {
                 unscalableSystems?.Run();
             }

@@ -18,9 +18,7 @@ namespace types.plant {
         public PlantType() { }
         
         public void init() {
-            materialId = material != null
-                ? MaterialMap.get().id(material)
-                : MaterialMap.GENERIC_PLANT;
+            materialId = MaterialMap.get().id(material);
             countLifeStages();
             if (product != null) {
                 productGrowthStartAbsolute = maturityAge * productGrowthStart;
@@ -54,7 +52,7 @@ namespace types.plant {
         public string name;
         public string title;
         public string description;
-        public string material = "generic_plant"; // is null for substrates
+        public string material = "plant"; // is null for substrates
 
         // TODO use in hours maturity age and apply growth only when plant is lit
         public float maxAge; // in days, plant dies after this
@@ -81,7 +79,7 @@ namespace types.plant {
 
 public class RawPlantProduct {
     public string productItemType; // should be present for other fields to work
-    public string productMaterial = "generic_plant";
+    public string productMaterial = "plant";
     public int productCount; // per block, scaled to plant health
     public string productOrigin;
 }

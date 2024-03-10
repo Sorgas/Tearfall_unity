@@ -15,6 +15,7 @@ namespace game.view.ui {
         private Color warnTint = new(1, 1, 0, 0.5f);
 
         public void setCurrentZ(int value) {
+            if (!GlobalSettings.USE_SPRITE_SORTING_LAYERS) return;
             toolIcon.sortingOrder = value;
             frameIcon.sortingOrder = value;
             constructionIcon.sortingOrder = value;

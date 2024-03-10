@@ -19,6 +19,7 @@ namespace game.model.component.unit {
     // stores unit's movement properties
     public struct UnitMovementComponent {
         public float speed; // tiles per model tick
+        public float currentSpeed; // depends on movement direction
         public float step; // speed is added to this value; when reaches 1, position changes
     }
 
@@ -38,6 +39,7 @@ namespace game.model.component.unit {
         public Vector3 target; // scene space, movement target (next tile in path)
         public int headVariant;
         public int bodyVariant;
+        public Vector2Int direction;
         public SpriteOrientations orientation;
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using game.model.component;
 using game.model.component.unit;
@@ -32,14 +33,14 @@ namespace game.model.system.unit {
                 .ToList();
             if (positions.Count == 0) {
                 log("no acceptable positions found");
-            }
-            if (positions.Count > 0) {
+            } else {
                 log("acceptable positions" + positions.Select(pos => pos.ToString()).Aggregate((s1, s2) => $"{s1} {s2}"));
                 Vector3Int targetPosition = positions.MinBy(position => (unitPosition - position).sqrMagnitude);
             
                 List<Vector3Int> path = 
                     model.localMap.passageMap.defaultHelper.aStar.makeShortestPath(unit.pos(), targetPosition);
                 if (path != null) {
+                    path.RemoveAt(0);
                     unit.Replace(new UnitMovementPathComponent { path = path });
                     return;
                 }

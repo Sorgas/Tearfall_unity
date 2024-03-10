@@ -32,6 +32,7 @@ public class UnitGoHandler : MonoBehaviour {
     public Animator actionAnimator;
     
     public void updateSpriteSorting(int value) {
+        if (!GlobalSettings.USE_SPRITE_SORTING_LAYERS) return;
         headSprite.sortingOrder = value;
         bodySprite.sortingOrder = value;
         background.sortingOrder = value;
@@ -79,7 +80,8 @@ public class UnitGoHandler : MonoBehaviour {
             bodySprite.transform.localPosition = spritePos;
             headSprite.transform.localPosition = spritePos + (front ? spritePosFront : spritePosBack);
         }
-        // Debug.Log("new orientation " + orientation);
+           
+        
     }
 
     // Standing straight orientation is N

@@ -50,7 +50,9 @@ namespace game.view.system.designation {
             Sprite sprite = selectSpriteForDesignation(entity, designation);
             // sprite = Sprite.Create(sprite.texture, sprite.rect, new Vector2(0, 0));
             spriteRenderer.sprite = sprite;
-            spriteRenderer.sortingOrder = entity.pos().z;
+            if (GlobalSettings.USE_SPRITE_SORTING_LAYERS) {
+                spriteRenderer.sortingOrder = entity.pos().z;
+            }
             RectTransform transform = go.GetComponent<RectTransform>();
             float width = transform.rect.width;
             float scale = width / sprite.rect.width * sprite.pixelsPerUnit;
