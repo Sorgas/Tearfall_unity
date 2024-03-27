@@ -7,8 +7,8 @@ namespace generation.localgen {
     // generators generate final data into GameModel and intermediate data to LocalGenContainer 
     public class LocalGenSequence {
         private LocalMapGenerator generator;
-        public int progress = 0;
-        public int maxProgress = 0;
+        public int progress;
+        public int maxProgress;
         public string currentMessage;
         private List<LocalGenerator> generators = new();
 
@@ -32,10 +32,11 @@ namespace generation.localgen {
             generators.Add(new LocalForestGenerator(generator));
             generators.Add(new LocalPlantGenerator(generator));
             generators.Add(new LocalItemGenerator(generator));
-            maxProgress = generators.Count - 1;
         }
 
         public LocalModel run() {
+            progress = 0;
+            maxProgress = generators.Count;
             generators.ForEach(generator => {
                 currentMessage = generator.getMessage();
                 generator.generate();

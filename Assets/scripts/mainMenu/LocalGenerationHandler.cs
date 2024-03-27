@@ -1,25 +1,35 @@
+using System.Collections.Generic;
 using generation;
 using generation.localgen;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace mainMenu {
-    public class LocalGenerationHandler : MonoBehaviour {
-        public UnityEngine.UI.Slider slider;
-        public Text text;
-        
-        void Update() {
-            LocalGenSequence sequence = GenerationState.get().localMapGenerator.localGenSequence;
-            if(sequence == null) return;
-            float progress = sequence.progress / sequence.maxProgress;
-            slider.SetValueWithoutNotify(progress);
-            text.text = sequence.currentMessage;
-            if(progress == 1) SceneManager.LoadScene("LocalWorldScene");
-        }
+// Handler for local generation stage. Shows progress bar, messages from localGenerators and counts executed generators.
+public class LocalGenerationHandler : StageHandler {
+    public Image progressBar;
+    public TextMeshProUGUI descriptionText;
+    public TextMeshProUGUI counterText;
 
-        void OnEnable() {
-            GenerationState.get().localMapGenerator.generateLocalMap("main", new Vector2Int()); // TODO move to generation stage with progress bar
-        }
+    protected override List<ButtonData> getButtonsData() {
+        return new List<ButtonData>();
     }
+
+    // generates local map based on data saved in GenerationState
+    public void startGeneration() {
+        GenerationState.get().generateLocalMap("main");
+    }
+
+    public new void Update() {
+        LocalGenSequence sequence = GenerationState.get().localMapGenerator.localGenSequence;
+        if (sequence == null) return;
+        counterText.text = $"{sequence.progress} / {sequence.maxProgress}";
+        descriptionText.text = sequence.currentMessage;
+        float progress = (float)sequence.progress / sequence.maxProgress;
+        progressBar.rectTransform.localScale = new Vector3(progress, 0, 0);
+        if (sequence.progress == sequence.maxProgress) SceneManager.LoadScene("LocalWorldScene");
+    }
+}
 }

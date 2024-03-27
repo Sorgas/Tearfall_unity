@@ -2,7 +2,6 @@ using game.model;
 using game.model.localmap;
 using generation.localgen;
 using generation.worldgen;
-using UnityEngine;
 using util.lang;
 
 namespace generation {
@@ -12,10 +11,10 @@ namespace generation {
         public WorldGenConfig worldGenConfig = new();
         public WorldGenSequence worldGenSequence;
         public WorldGenContainer worldGenContainer;
-
+        
         public PreparationState preparationState = new(); // data from preparation screen (settlers, items, pets)
         public LocalMapGenerator localMapGenerator = new();
-
+        
         // generates WorldModel and sets it to GameModel
         public void generateWorld() {
             World world = new();
@@ -28,10 +27,10 @@ namespace generation {
             GameModel.get().world = world; // first instantiating on GameModel
         }
 
-        public void generateLocalMap(Vector2Int position, string name, int size) {
-            localMapGenerator.localGenConfig.location = position;
-            localMapGenerator.localGenConfig.areaSize = size;
-            LocalModel localModel = localMapGenerator.generateLocalMap(name, position);
+        public void generateLocalMap(string name) {
+            localMapGenerator.localGenConfig.location = preparationState.location;
+            localMapGenerator.localGenConfig.areaSize = preparationState.size;
+            LocalModel localModel = localMapGenerator.generateLocalMap(name);
             GameModel.get().addLocalModel(name, localModel);
         }
     }

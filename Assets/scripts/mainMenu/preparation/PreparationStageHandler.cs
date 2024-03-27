@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace mainMenu {
+namespace mainMenu.preparation {
     public class PreparationStageHandler : StageHandler {
         public WorldGenStageHandler worldGenStage;
         public LocalGenerationHandler localGenStage;
@@ -40,10 +40,11 @@ namespace mainMenu {
                 SettlerData settler = new SettlerData();
                 settler.name = "qwer" + i;
                 settler.age = 30;
+                settler.type = "human";
                 GenerationState.get().preparationState.settlers.Add(settler);
             }
-            gameObject.SetActive(false);
-            localGenStage.gameObject.SetActive(true);
+            switchTo(localGenStage);
+            localGenStage.startGeneration();
         }
 
         private void back() {

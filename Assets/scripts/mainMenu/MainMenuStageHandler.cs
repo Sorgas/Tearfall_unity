@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using generation;
 using mainMenu.location_selection_stage;
 using UnityEngine;
 
@@ -8,10 +9,12 @@ public class MainMenuStageHandler : StageHandler {
     public WorldGenStageHandler worldGenStage; 
     public OptionsStageHandler optionsStage; // TODO 
     public StageHandler gameLoadStage; // TODO 
+    public LocalGenerationHandler localGenStage;
     public LocationSelectionStageHandler locationSelectStage;
     
     protected override List<ButtonData> getButtonsData() {
         return new List<ButtonData> {
+            new("TestLevelButton", KeyCode.T, toTestLevel),
             new("ContinueGameButton", KeyCode.C, toPreviousGame),
             new("NewGameButton", KeyCode.E, () => switchTo(worldGenStage)),
             new("LoadGameButton", KeyCode.S, () => switchTo(gameLoadStage)),
@@ -24,6 +27,12 @@ public class MainMenuStageHandler : StageHandler {
         // todo
     }
 
+    private void toTestLevel() {
+        new GenerationStateTestInitializer().initState();
+        switchTo(localGenStage);
+        localGenStage.startGeneration();
+    }
+    
     public void quitGame() {
         Application.Quit();
     }

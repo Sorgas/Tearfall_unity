@@ -8,6 +8,7 @@ public class PreparationState : Singleton<PreparationState> {
     public List<SettlerData> settlers = new();
     public List<ItemData> items = new();
     public Vector2Int location;
+    public int size = 100;
 }
 
 // Descriptor for settler. Used to generate unit when game starts.
