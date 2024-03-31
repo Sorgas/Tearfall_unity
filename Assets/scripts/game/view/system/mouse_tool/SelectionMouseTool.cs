@@ -52,7 +52,7 @@ namespace game.view.system.mouse_tool {
             }
             if (entity.Has<UnitComponent>()) {
                 UnitMenuHandler window = (UnitMenuHandler)WindowManager.get().windows[UnitMenuHandler.NAME];
-                window.initFor(entity);
+                window.showUnit(entity);
                 WindowManager.get().showWindowByName(UnitMenuHandler.NAME, false);
             }
         }

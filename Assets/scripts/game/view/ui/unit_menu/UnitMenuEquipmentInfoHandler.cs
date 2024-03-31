@@ -14,7 +14,7 @@ public class UnitMenuEquipmentInfoHandler : UnitMenuTab {
     public EquipmentSlotItemIconHandler rightHandSlot;
     public EquipmentSlotItemIconHandler leftHandSlot;
 
-    public override void initFor(EcsEntity unit) {
+    protected override void updateView() {
         UnitEquipmentComponent equipment = unit.take<UnitEquipmentComponent>();
         fillSlot(headSlot, "head", equipment);
         fillSlot(bodySlot, "body", equipment);
@@ -23,7 +23,9 @@ public class UnitMenuEquipmentInfoHandler : UnitMenuTab {
         fillSlot(handsSlot, "hands", equipment);
         fillGrabSlot(rightHandSlot, "right hand", equipment);
         fillGrabSlot(leftHandSlot, "left hand", equipment);
-        Debug.Log("initing equipment");
+    }
+    
+    public override void showUnit(EcsEntity unit) {
     }
 
     private void fillSlot(EquipmentSlotHandler handler, string name, UnitEquipmentComponent equipment) {

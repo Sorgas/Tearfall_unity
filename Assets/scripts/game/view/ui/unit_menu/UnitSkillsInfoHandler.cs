@@ -12,7 +12,7 @@ public class UnitSkillsInfoHandler : UnitMenuTab {
     public TextMeshProUGUI willAttributeText;
     public TextMeshProUGUI charismaAttributeText;
 
-    public override void initFor(EcsEntity unit) {
+    public override void showUnit(EcsEntity unit) {
         UnitAttributesComponent attributes = unit.take<UnitAttributesComponent>();
         strengthAttributeText.text = attributes.strength.ToString();
         agilityAttributeText.text = attributes.agility.ToString();
@@ -21,5 +21,7 @@ public class UnitSkillsInfoHandler : UnitMenuTab {
         willAttributeText.text = attributes.will.ToString();
         charismaAttributeText.text = attributes.charisma.ToString();
     }
+
+    protected override void updateView() { }
 }
 }

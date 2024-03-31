@@ -4,6 +4,7 @@ using game.model.component.unit;
 using game.view.system.mouse_tool;
 using Leopotam.Ecs;
 using TMPro;
+using UnityEditor.Recorder.Input;
 using UnityEngine.UI;
 using util.lang.extension;
 
@@ -23,18 +24,23 @@ public class UnitMenuGeneralInfoHandler : UnitMenuTab {
     public TextMeshProUGUI activityText;
     public Button moveToButton;
 
-    public override void initFor(EcsEntity unit) {
-        UnitComponent unitComponent = unit.take<UnitComponent>();
-        nameNicknameProfessionText.text = unit.name(); // TODO add nickname, profession
-        ageText.text = "Age: " + unit.take<AgeComponent>().age;
+    public void Start() {
+        moveToButton.onClick.AddListener(() => { MouseToolManager.get().setUnitMovementTarget(unit); });
+    }
+
+    protected override void updateView() {
         healthMoodWealthText.text =
             unit.take<HealthComponent>().overallStatus + ", " +
             unit.take<MoodComponent>().status + ", " + 
             unit.take<OwnershipComponent>().wealthStatus;
         showTools(unit);
         showActivity(unit);
-        // TODO if unit is player-controlled
-        moveToButton.onClick.AddListener(() => { MouseToolManager.get().setUnitMovementTarget(unit); });
+    }
+
+    public override void showUnit(EcsEntity unit) {
+        base.showUnit(unit);
+        nameNicknameProfessionText.text = unit.name(); // TODO add nickname, profession
+        ageText.text = "Age: " + unit.take<AgeComponent>().age;
     }
 
     // shows images of tools in hands or empty-hand icon

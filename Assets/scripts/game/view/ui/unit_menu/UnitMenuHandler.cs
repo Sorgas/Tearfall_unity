@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using game.input;
-using game.view.system.mouse_tool;
 using game.view.ui.util;
 using Leopotam.Ecs;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace game.view.ui.unit_menu {
@@ -24,23 +21,32 @@ namespace game.view.ui.unit_menu {
         private List<UnitMenuTab> tabs = new();
 
         public EcsEntity unit;
-        private bool inited = false;
 
-        public void initFor(EcsEntity unit) {
-            if (!inited) init();
+        public void Start() {
+            tabs.Add(generalInfoHandler);
+            tabs.Add(healthInfoHandler);
+            tabs.Add(equipmentInfoHandler);
+            tabs.Add(skillsInfoHandler);
+            generalInfoButton.onClick.AddListener(() => showPanel(generalInfoHandler));
+            healthInfoButton.onClick.AddListener(() => showPanel(healthInfoHandler));
+            equipmentInfoButton.onClick.AddListener(() => showPanel(equipmentInfoHandler));
+            skillsInfoButton.onClick.AddListener(() => showPanel(skillsInfoHandler));
+        }
+
+        public void showUnit(EcsEntity unit) {
             this.unit = unit;
             showPanel(generalInfoHandler);
         }
 
         public void updateFor(EcsEntity unit) {
-            activeTab.initFor(unit);
+            activeTab.showUnit(unit);
         }
 
         private void showPanel(UnitMenuTab panel) {
             foreach (UnitMenuTab tab in tabs) {
                 if (tab.gameObject == panel.gameObject) {
+                    panel.showUnit(unit);
                     tab.open();
-                    tab.initFor(unit);
                     activeTab = tab;
                 } else {
                     tab.close();
@@ -51,20 +57,5 @@ namespace game.view.ui.unit_menu {
         public override string getName() {
             return NAME;
         }
-
-        private void init() {
-            tabs.Add(generalInfoHandler);
-            tabs.Add(healthInfoHandler);
-            tabs.Add(equipmentInfoHandler);
-            tabs.Add(skillsInfoHandler);
-            generalInfoButton.onClick.AddListener(() => showPanel(generalInfoHandler));
-            healthInfoButton.onClick.AddListener(() => showPanel(healthInfoHandler));
-            equipmentInfoButton.onClick.AddListener(() => showPanel(equipmentInfoHandler));
-            skillsInfoButton.onClick.AddListener(() => showPanel(skillsInfoHandler));
-        }
-    }
-
-    public interface IUnitMenuTab {
-        public void initFor(EcsEntity unit);
     }
 }

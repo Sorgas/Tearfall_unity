@@ -61,7 +61,7 @@ namespace game.input {
         public void showWindowForUnit(EcsEntity entity) {
             if(entity.Has<UnitComponent>()) {
                 INamed window = windows[UnitMenuHandler.NAME];
-                ((UnitMenuHandler) window).initFor(entity);
+                ((UnitMenuHandler) window).showUnit(entity);
                 showWindow(UnitMenuHandler.NAME, false);
             }
         }
