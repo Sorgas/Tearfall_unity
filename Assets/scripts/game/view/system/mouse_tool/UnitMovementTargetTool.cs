@@ -25,7 +25,8 @@ namespace game.view.system.mouse_tool {
         }
 
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {
-            if (!bounds.isSingleTile()) { Debug.LogError("unit movement target is not single tile !!!");
+            if (!bounds.isSingleTile()) { 
+                Debug.LogError("unit movement target is not single tile !!!");
             } 
             Vector3Int target = bounds.getStart();
             addUpdateEvent(model => {
@@ -34,7 +35,6 @@ namespace game.view.system.mouse_tool {
                         GameModel.get().currentLocalModel.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED);
                         // unit.Replace(new TaskFinishedComponent { status = TaskStatusEnum.FAILED });
                     }
-                    EcsEntity task = model.taskContainer.generator.createTask(new MoveAction(bounds.getStart()), Jobs.NONE, model.createEntity(), model);
                     unit.Replace(new UnitNextTaskComponent { action = new MoveAction(bounds.getStart()) });
                 }
             });

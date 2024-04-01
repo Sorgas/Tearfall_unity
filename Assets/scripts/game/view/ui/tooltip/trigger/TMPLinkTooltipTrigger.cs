@@ -14,7 +14,7 @@ public class TMPLinkTooltipTrigger : AbstractTooltipTrigger {
 
     // if tooltip is open, passes update to it. Otherwise, checks if mouse is over any link in text and opens corresponding tooltip
     public override bool update() {
-        Debug.Log("updating text trigger");
+        // Debug.Log("updating text trigger");
         int linkIndex = TMP_TextUtilities.FindIntersectingLink(text, Input.mousePosition, null);
         if (tooltip == null) { // try to open tooltip
             if (linkIndex >= 0) {

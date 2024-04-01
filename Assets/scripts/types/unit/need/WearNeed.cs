@@ -12,7 +12,7 @@ using util.item;
 using util.lang.extension;
 
 namespace types.unit.need {
-// need for wearing clothes. creates action for equipping wear items first for desired slots with high priority, and then to other slots with medium priority
+// Need for wearing clothes. creates action for equipping wear items first for desired slots with high priority, and then to other slots with medium priority
 public class WearNeed : Need {
     public override int getPriority(float value) {
         // TODO health needs if desired slots are empty, JOB for other slots

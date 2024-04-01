@@ -1,4 +1,3 @@
-using game.model;
 using generation.unit;
 using UnityEngine;
 
@@ -30,7 +29,7 @@ public class GenerationStateTestInitializer {
         GenerationState.get().preparationState.items.Add(new ItemData { material = "iron", type = "axe", quantity = 1 });
         GenerationState.get().preparationState.items.Add(new ItemData { material = "iron", type = "hoe", quantity = 1 });
         
-        // GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "pants", quantity = 1});
+        GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "pants", quantity = 1});
         // GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "boots", quantity = 1});
         // GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "hat", quantity = 1});
         // GenerationState.get().preparationState.items.Add(new ItemData {material = "cotton", type = "gloves", quantity = 1});

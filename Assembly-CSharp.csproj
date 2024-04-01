@@ -369,6 +369,7 @@
      <Compile Include="Assets\scripts\types\action\ActionCheckingEnum.cs" />
      <Compile Include="Assets\scripts\mainMenu\preparation\UnitDetailsHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\generation\DifficultySelectorHandler.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromEquipmentAction.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\WorldGenerator.cs" />
      <Compile Include="Assets\scripts\types\unit\body\BodyTemplate.cs" />
      <Compile Include="Assets\scripts\game\input\CameraAndMouseHandler.cs" />
@@ -425,7 +426,7 @@
      <Compile Include="Assets\scripts\types\unit\need\RestNeed.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\WindowManagerMenu.cs" />
      <Compile Include="Assets\scripts\generation\zone\ZoneGenerator.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\unit_menu\EquipmentSlotItemIconHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitEquipmentSlotLayerHandler.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\AvailableItemsManager.cs" />
      <Compile Include="Assets\scripts\game\model\container\PlantContainer.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\AreaInitializerGroundPassableDoors.cs" />

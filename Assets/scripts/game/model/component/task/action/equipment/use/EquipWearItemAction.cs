@@ -10,6 +10,7 @@ using static game.model.util.EquipmentSlotUtil;
 using static types.action.ActionCheckingEnum;
 
 namespace game.model.component.task.action.equipment.use {
+// Equips target item into appropriate slot
 public class EquipWearItemAction : PutItemToDestinationAction {
     public EquipWearItemAction(EcsEntity targetItem) : base(new SelfActionTarget(), targetItem) {
         name = $"equip {targetItem.name()}";

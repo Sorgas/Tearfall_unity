@@ -9,8 +9,9 @@ namespace game.model.component.task.action.equipment.obtain {
 public class GetItemFromContainerAction : ItemAction {
     private EcsEntity containerEntity;
     
-    public GetItemFromContainerAction(EcsEntity item) : base(resolveItemContainerTarget(item.take<ItemContainedComponent>().container), item) {
+    public GetItemFromContainerAction(EcsEntity item) : base(null, item) {
         name = $"get {item.name()} from container";
+        target = resolveItemContainerTarget(item.take<ItemContainedComponent>().container);
         containerEntity = item.take<ItemContainedComponent>().container;
         maxProgress = 50;
 

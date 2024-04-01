@@ -6,7 +6,7 @@ using util.lang.extension;
 using static types.action.ActionTargetTypeEnum;
 
 namespace game.model.component.task.action.target {
-// targets item lying on the ground, 
+// targets item lying on the ground
 public class ItemActionTarget : DynamicActionTarget {
     public EcsEntity item;
     public override Vector3Int pos => item.pos();

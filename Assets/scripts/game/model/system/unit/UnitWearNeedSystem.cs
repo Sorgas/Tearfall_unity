@@ -5,7 +5,7 @@ using Leopotam.Ecs;
 using util.lang.extension;
 
 namespace game.model.system.unit {
-// if unit has no UnitCalculatedWearNeedComponent, this system observes unit's equipment and creates this component.
+// If unit has no UnitCalculatedWearNeedComponent, this system observes unit's equipment and creates this component.
 // This component is then removed when any update of equipment is made
 public class UnitWearNeedSystem : LocalModelIntervalEcsSystem {
     private EcsFilter<UnitWearNeedComponent>.Exclude<UnitCalculatedWearNeedComponent> filter;

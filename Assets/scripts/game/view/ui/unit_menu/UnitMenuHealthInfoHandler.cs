@@ -20,7 +20,7 @@ public class UnitMenuHealthInfoHandler : UnitMenuTab {
     public Button thirstMinusButton;
 
     // TODO lists for injures
-
+    // TODO use ModelUpdateEvent to change need values
     public void Start() {
         restPlusButton.onClick.AddListener(() => {
             if (unit == EcsEntity.Null) return;

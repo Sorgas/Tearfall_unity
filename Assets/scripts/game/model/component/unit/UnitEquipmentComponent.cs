@@ -31,9 +31,18 @@ public struct UnitEquipmentComponent {
             .Count(tool => tool.action == action) > 0;
     }
 
-    // public Optional<EquipmentSlot> slotWithItem(Progress.Item item) {
-    //     return slotStream().filter(slot->slot.item == item).findFirst();
-    // }
+    public WearEquipmentSlot findWearSlotWithItem(EcsEntity item) {
+        return slots.Values
+            .Where(slot => slot.item == item || slot.armorItem == item || slot.overItem == item)
+            .DefaultIfEmpty(null).First();
+    }
+    
+    public GrabEquipmentSlot findGrabSlotWithItem(EcsEntity item) {
+        return grabSlots.Values
+            .Where(slot => slot.item == item)
+            .DefaultIfEmpty(null).First();
+    }
+    
     //
     // public Optional<GrabEquipmentSlot> grabSlotWithItem(Progress.Item item) {
     //     return grabSlotStream().filter(slot->slot.grabbedItem == item).findFirst();

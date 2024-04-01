@@ -14,10 +14,10 @@ public class UnitMenuGeneralInfoHandler : UnitMenuTab {
     public TextMeshProUGUI ageText;
     public TextMeshProUGUI healthMoodWealthText;
 
-    public EquipmentSlotItemIconHandler slotHandler1;
+    public UnitEquipmentSlotLayerHandler slotHandler1;
     public TextMeshProUGUI toolText1;
 
-    public EquipmentSlotItemIconHandler slotHandler2;
+    public UnitEquipmentSlotLayerHandler slotHandler2;
     public TextMeshProUGUI toolText2;
 
     public Image activityImage;
@@ -65,8 +65,8 @@ public class UnitMenuGeneralInfoHandler : UnitMenuTab {
         activityText.text = unit.take<UnitCurrentActionComponent>().action.name;
     }
 
-    private void showSlot(EcsEntity item, EquipmentSlotItemIconHandler slotHandler, TextMeshProUGUI text) {
-        slotHandler.initFor(item, -1);
+    private void showSlot(EcsEntity item, UnitEquipmentSlotLayerHandler slotHandler, TextMeshProUGUI text) {
+        slotHandler.initFor(unit, item, -1);
         if (item == EcsEntity.Null) {
             text.text = "none";
         } else {

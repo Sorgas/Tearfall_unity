@@ -4,8 +4,8 @@ using types.unit.need;
 using UnityEngine;
 
 namespace game.model.system.unit {
-    // rolls needs counters in NeedsComponent (hunger, thirst, rest)
-    // updates needs priorities
+    // Rolls needs counters in NeedsComponent (hunger, thirst, rest)
+    // Updates needs priorities
     public class UnitNeedSystem : LocalModelIntervalEcsSystem {
         private const int interval = GameTime.ticksPerMinute * 5; // every 5 in-game minutes
         private readonly float restTick;

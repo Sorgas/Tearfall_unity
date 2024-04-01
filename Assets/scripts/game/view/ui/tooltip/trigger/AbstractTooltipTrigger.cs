@@ -32,7 +32,7 @@ public abstract class AbstractTooltipTrigger : MonoBehaviour {
 
     protected void openWithCallbacks(Vector3 position) {
         openTooltip(position);
-        openCallback.Invoke();
+        openCallback?.Invoke();
     }
 
     protected void updateWithCallbacks(bool mouseInTrigger) {

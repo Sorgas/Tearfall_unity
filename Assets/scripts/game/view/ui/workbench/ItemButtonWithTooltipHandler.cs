@@ -17,6 +17,7 @@ namespace game.view.ui.workbench {
 // TODO make tooltips to be related to mouse pointer
 [RequireComponent(typeof(InfoTooltipTrigger))]
 public class ItemButtonWithTooltipHandler : MonoBehaviour {
+    protected EcsEntity item;
     // button
     public Image background;
     public Image image; // item image
@@ -28,7 +29,8 @@ public class ItemButtonWithTooltipHandler : MonoBehaviour {
     public TextMeshProUGUI tooltipTitle;
     public TextMeshProUGUI tooltipText;
 
-    public virtual void initFor(EcsEntity item, int amount = -1) {
+    public void initFor(EcsEntity item, int amount = -1) {
+        this.item = item;
         bool haveItem = item != EcsEntity.Null;
         image.gameObject.SetActive(haveItem);
         // Debug.Log("initing item button " + haveItem);
