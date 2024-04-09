@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using game.model.component.item;
 using Leopotam.Ecs;
-using util;
-using util.lang.extension;
 
 namespace game.model.component.unit {
 // contains slots for wearable and holdable items (clothes and tools)
@@ -16,13 +14,6 @@ public struct UnitEquipmentComponent {
     public HashSet<EcsEntity> items; // items in worn containers and in hands
     public bool desiredSlotsFilled;
     public EcsEntity hauledItem;
-
-    //    /**
-    // * Filters and returns slots needed to be filled to avoid nudity penalty.
-    // */
-    //    public Stream<EquipmentSlot> getEmptyDesiredSlots() {
-    //        return desiredSlots.stream().filter(equipmentSlot->equipmentSlot.item == null);
-    //    }
 
     public bool toolWithActionEquipped(String action) {
         return grabSlots.Values

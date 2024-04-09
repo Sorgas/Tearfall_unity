@@ -11,7 +11,6 @@ using game.view.system.plant;
 using game.view.system.unit;
 using game.view.system.zone;
 using game.view.tilemaps;
-using game.view.ui.tooltip.handler;
 using Leopotam.Ecs;
 using types;
 using UnityEngine;

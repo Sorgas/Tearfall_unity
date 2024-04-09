@@ -5,7 +5,6 @@ using types.building;
 using UnityEngine;
 using util.geometry.bounds;
 using util.lang;
-using static game.view.camera.SelectionType;
 
 namespace game.view.system.mouse_tool {
     public sealed class MouseToolManager : Singleton<MouseToolManager> {

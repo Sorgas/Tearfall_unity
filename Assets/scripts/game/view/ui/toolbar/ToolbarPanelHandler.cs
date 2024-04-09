@@ -12,15 +12,17 @@ namespace game.view.ui.toolbar {
 // passes input to sub-panels
 // for buttons initialisation see ToolbarWidgetHandler 
 public class ToolbarPanelHandler : MonoBehaviour, IHotKeyAcceptor, ICloseable {
-    private Action toggleAction;
+    public Action toggleAction;
     private readonly Dictionary<KeyCode, ToolbarPanelChild> children = new();
 
-    private ToolbarPanelHandler activeSubpanel;
+    protected ToolbarPanelHandler activeSubpanel;
     private ToolbarPanelHandler parentPanel;
     private int buttonCount;
     private string name = "toolbar panel";
-
+    private const bool debug = true;
+    
     public bool accept(KeyCode key) {
+        log($"handling {key} in {name}");
         if (activeSubpanel != null) return activeSubpanel.accept(key); // pass to subpanel
         if (children.ContainsKey(key)) {
             ExecuteEvents.Execute(children[key].button.button.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
@@ -37,7 +39,7 @@ public class ToolbarPanelHandler : MonoBehaviour, IHotKeyAcceptor, ICloseable {
 
     // closes current and all subpanels recursively
     public virtual void close() {
-        Debug.Log($"closing {name}");
+        log($"closing {name}");
         if (activeSubpanel != null) activeSubpanel.close();
         toggleAction?.Invoke();
         gameObject.SetActive(false);
@@ -96,7 +98,7 @@ public class ToolbarPanelHandler : MonoBehaviour, IHotKeyAcceptor, ICloseable {
     }
 
     // update highlighting of all button to make only button of key highlighted
-    private void highlightButton(KeyCode key) {
+    protected void highlightButton(KeyCode key) {
         foreach (KeyValuePair<KeyCode, ToolbarPanelChild> pair in children) {
             pair.Value.button.setHighlighted(pair.Key == key);
         }
@@ -110,6 +112,10 @@ public class ToolbarPanelHandler : MonoBehaviour, IHotKeyAcceptor, ICloseable {
             this.panel = panel;
             this.button = button;
         }
+    }
+
+    protected void log(string message) {
+        if(debug) Debug.Log($"[ToolbarPanelHandler]: {message}");
     }
 }
 }

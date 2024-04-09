@@ -11,8 +11,6 @@ using util.lang.extension;
 namespace game.view.ui.toolbar {
 // handler for toolbar's root panel
 public class ToolbarWidgetHandler : ToolbarPanelHandler, Initable {
-    private ToolbarPanelHandler openPanel;
-    private HotKeySequence hotKeySequence = new();
 
     public void init() {
         // first-level buttons with panels
@@ -28,6 +26,7 @@ public class ToolbarWidgetHandler : ToolbarPanelHandler, Initable {
         fillConstructionsPanel(constructionsPanel);
         fillBuildingsPanel(buildingsPanel);
         fillZonesPanel(zonesPanel);
+        toggleAction = MouseToolManager.get().reset;
     }
 
     private void fillOrdersPanel(ToolbarPanelHandler panel) {
@@ -48,10 +47,10 @@ public class ToolbarWidgetHandler : ToolbarPanelHandler, Initable {
 
     // creates buttons for each building category. creates subpanels with building
     private void fillBuildingsPanel(ToolbarPanelHandler panel) {
-        HotKeySequence categorySequence = new();
+        ToolbarHotKeySequence categorySequence = new();
         Dictionary<string, List<BuildingType>> categoryMap = BuildingTypeMap.get().all().toDictionaryOfLists(type => type.category);
         foreach (KeyValuePair<string, List<BuildingType>> entry in categoryMap) {
-            hotKeySequence.reset();
+            ToolbarHotKeySequence hotKeySequence = new();
             ToolbarPanelHandler subpanel = panel.createSubPanel(entry.Key, "toolbar/" + entry.Key, categorySequence.getNext(), 
                 $"toolbar {entry.Key} panel", MouseToolManager.get().reset);
             foreach (BuildingType type in entry.Value) {
@@ -101,6 +100,12 @@ public class ToolbarWidgetHandler : ToolbarPanelHandler, Initable {
         panel.createButton(text, iconName, () => MouseToolManager.get().set(zoneType), key);
     }
 
-    public override void close() { } // main toolbar cannot be closed
+    // main toolbar cannot be closed
+    public override void close() {
+        log($"closing {name}");
+        if (activeSubpanel != null) activeSubpanel.close();
+        toggleAction?.Invoke();
+        highlightButton(KeyCode.None);
+    } 
 }
 }

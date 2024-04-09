@@ -283,7 +283,7 @@
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuHandler.cs" />
      <Compile Include="Assets\scripts\types\unit\need\HungerNeed.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ActionTarget.cs" />
-     <Compile Include="Assets\scripts\game\view\util\HotKeySequence.cs" />
+     <Compile Include="Assets\scripts\game\view\util\ToolbarHotKeySequence.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToContainerAction.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\PlaceValidators.cs" />
      <Compile Include="Assets\scripts\game\view\camera\MouseMovementSystem.cs" />
