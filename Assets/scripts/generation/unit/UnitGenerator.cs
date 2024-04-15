@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using game.model.component;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using types.unit;
 using UnityEngine;
+using util.lang.extension;
 
 namespace generation.unit {
 class UnitGenerator {
@@ -10,8 +12,9 @@ class UnitGenerator {
     private UnitBodyComponentGenerator bodyGenerator = new();
     private UnitNameGenerator nameGenerator = new();
     private UnitNeedComponentGenerator needGenerator = new();
+    private UnitSkillsGenerator skillsGenerator = new();
     private bool debug = false;
-    
+
     // generates units from settler data on game start or migration
     public void generateUnit(SettlerData data, EcsEntity entity) {
         CreatureType type = CreatureTypeMap.getType(data.type);
@@ -44,6 +47,7 @@ class UnitGenerator {
 
     private void addSettlerComponents(ref EcsEntity entity) {
         entity.Replace(new UnitJobsComponent { enabledJobs = new() });
+        skillsGenerator.generate(entity);
     }
 
     private void addOptionalComponents(ref EcsEntity entity, CreatureType type) {

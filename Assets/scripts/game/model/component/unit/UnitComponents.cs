@@ -110,6 +110,14 @@ public struct UnitAttributesComponent {
     public int charisma;
 }
 
+public struct UnitSkillComponent {
+    public Dictionary<string, UnitSkill> skills;
+
+    public void addSkill(UnitSkill skill) {
+        skills.Add(skill.name, skill);
+    }
+}
+
 public struct UnitMoodModifier {
     public string name;
     public int value;
