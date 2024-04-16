@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace types.unit.skill {
 public class UnitSkills {
     public const string MINING = "mining";
@@ -33,6 +35,8 @@ public class UnitSkills {
         SCHOLARSHIP, MEDICINE, ALCHEMY, TRADING, PERFORMANCE,
         MELEE, RANGED, MAGIC, BLOCKING, DODGING
     };
+    
+    public static readonly string[][] skillPresets = { };
 
     public static readonly int[] expValues = { 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750 };
 }

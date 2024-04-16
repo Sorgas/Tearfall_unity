@@ -68,6 +68,7 @@
      <Compile Include="Assets\scripts\generation\worldgen\generators\drainage\WorldOceanFiller.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\DebugBuildingMouseTool.cs" />
      <Compile Include="Assets\scripts\game\input\KeyInputSystem.cs" />
+     <Compile Include="Assets\scripts\generation\unit\UnitSkillsGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\EquippedItemsManager.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\BuildingTilesetSlicer.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\zone\ZoneAction.cs" />
@@ -508,7 +509,6 @@
      <Compile Include="Assets\scripts\mainMenu\ui\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
-     <Compile Include="Assets\scripts\generation\unit\UnitSkillsGenerator.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\resources\icons\unit_window" />
      <Folder Include="Assets\resources\prefabs\materialSelector" />
@@ -761,7 +761,7 @@
      <Folder Include="Assets\scripts\game\view\ui\tooltip\handler" />
      <Folder Include="Assets\scripts\game\view\ui\jobs_widget" />
      <Folder Include="Assets\input" />
-     <None Include="Assets\resources\data\creatures\skills.json" />
+     <None Include="Assets\resources\data\creatures\skillPresets.json" />
      <Folder Include="Assets\scripts\game\view\util" />
      <Folder Include="Assets\resources" />
      <Folder Include="Assets\resources\icons\attributes" />
