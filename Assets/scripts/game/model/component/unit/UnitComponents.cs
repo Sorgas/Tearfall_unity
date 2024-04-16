@@ -125,4 +125,9 @@ public struct UnitMoodModifier {
 }
 
 public struct UnitDoorUserComponent { } // 
+
+public struct UnitNamesComponent {
+    public string professionName;
+    public string nickName;
+}
 }

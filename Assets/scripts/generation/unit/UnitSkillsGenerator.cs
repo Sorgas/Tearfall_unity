@@ -30,14 +30,14 @@ public class UnitSkillsGenerator {
 
     private void addSkillLevels(EcsEntity unit) {
         UnitSkillComponent component = unit.take<UnitSkillComponent>();
-        string primary = primarySkills.getRandomSkill();
+        WeightedSkill primary = primarySkills.getRandomSkill();
         int value = Random.Range(4, 9);
-        component.skills[primary].value = value;
-        
+        component.skills[primary.name].value = value;
+        unit.takeRef<UnitNamesComponent>().professionName = primary.professionName;
         for (int i = 0; i < 4; i++) {
-            string skill = secondarySkills.getRandomSkill();
+            WeightedSkill secondary = secondarySkills.getRandomSkill();
             int value2 = Random.Range(1, 3);
-            component.skills[skill].value = value2;
+            component.skills[secondary.name].value = value2;
         }
     }
     
@@ -94,25 +94,25 @@ public class UnitSkillsGenerator {
         private int totalWeight = 0;
 
         public void addSkill(string skill, string professionName, int weight) {
-            skills.Add(new WeightedSkill() { skill = skill, nickname = professionName, weight = totalWeight + weight });
+            skills.Add(new WeightedSkill() { name = skill, professionName = professionName, weight = totalWeight + weight });
             totalWeight += weight;
         }
 
-        public string getRandomSkill() {
+        public WeightedSkill getRandomSkill() {
             float rand = Random.Range(0, 1f);
             float value = rand * totalWeight;
             foreach (var weightedSkill in skills) {
                 if (value < weightedSkill.weight) {
-                    return weightedSkill.skill;
+                    return weightedSkill;
                 }
             }
-            return "";
+            return null;
         }
     }
     
     private class WeightedSkill {
-        public string skill;
-        public string nickname;
+        public string name;
+        public string professionName;
         public int weight;
     }
 }

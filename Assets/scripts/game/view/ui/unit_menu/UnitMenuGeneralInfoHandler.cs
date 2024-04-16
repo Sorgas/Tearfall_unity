@@ -4,7 +4,6 @@ using game.model.component.unit;
 using game.view.system.mouse_tool;
 using Leopotam.Ecs;
 using TMPro;
-using UnityEditor.Recorder.Input;
 using UnityEngine.UI;
 using util.lang.extension;
 
@@ -39,7 +38,7 @@ public class UnitMenuGeneralInfoHandler : UnitMenuTab {
 
     public override void showUnit(EcsEntity unit) {
         base.showUnit(unit);
-        nameNicknameProfessionText.text = unit.name(); // TODO add nickname, profession
+        displayUnitName(unit);
         ageText.text = "Age: " + unit.take<AgeComponent>().age;
     }
 
@@ -76,6 +75,20 @@ public class UnitMenuGeneralInfoHandler : UnitMenuTab {
 
     private string findSlotName(IEnumerable<string> names, string substring) {
         return names.Where(name => name.Contains(substring)).FirstOrDefault();
+    }
+
+    private void displayUnitName(EcsEntity unit) {
+        string name = unit.name();
+        if (unit.Has<UnitNamesComponent>()) {
+            UnitNamesComponent namesComponent = unit.take<UnitNamesComponent>();
+            if (namesComponent.professionName != null) {
+                name += " " + namesComponent.professionName;
+            }
+            if (namesComponent.nickName != null) {
+                name += $" '{namesComponent.nickName}'";
+            }
+        }
+        nameNicknameProfessionText.text = name;
     }
 }
 }
