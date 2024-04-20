@@ -41,8 +41,8 @@ public class UnitSkillsGenerator {
         }
     }
     
-    private void addSkill(Dictionary<string, UnitSkill> skills, string name, int value, int exp) {
-        skills.Add(name, new UnitSkill(name, value, exp));
+    private void addSkill(Dictionary<string, UnitSkill> skills, Skill skill, int value, int exp) {
+        skills.Add(skill.name, new UnitSkill(skill.name, value, exp));
     }
 
     private void addPrimarySkills() {
@@ -93,8 +93,8 @@ public class UnitSkillsGenerator {
         private List<WeightedSkill> skills = new();
         private int totalWeight = 0;
 
-        public void addSkill(string skill, string professionName, int weight) {
-            skills.Add(new WeightedSkill() { name = skill, professionName = professionName, weight = totalWeight + weight });
+        public void addSkill(Skill skill, string professionName, int weight) {
+            skills.Add(new WeightedSkill() { name = skill.name, professionName = professionName, weight = totalWeight + weight });
             totalWeight += weight;
         }
 

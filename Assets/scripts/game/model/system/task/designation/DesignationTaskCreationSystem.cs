@@ -64,7 +64,7 @@ namespace game.model.system.task.designation {
             }
             if (designation.type == DesignationTypes.D_HARVEST_PLANT) {
                 EcsEntity zone = model.zoneContainer.getZone(position);
-                Job job = HERBALIST;
+                Job job = FORAGER;
                 if (zone != EcsEntity.Null && zone.take<ZoneComponent>().type == ZoneTypes.FARM.value) {
                     job = FARMER;
                 }

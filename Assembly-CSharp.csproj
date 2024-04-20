@@ -197,6 +197,7 @@
      <Compile Include="Assets\scripts\game\view\tilemaps\TextureLoader.cs" />
      <Compile Include="Assets\scripts\game\view\ui\workbench\WorkbenchWindowHandler.cs" />
      <Compile Include="Assets\scripts\game\view\system\building\DoorVisualSystem.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\unit_menu\JobRowHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepOnGroundAction.cs" />
      <Compile Include="Assets\scripts\types\deity\DeityAspectMap.cs" />
      <Compile Include="Assets\scripts\game\LocalGameRunner.cs" />

@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using TMPro;
+using types.unit;
 using types.unit.skill;
 using UnityEngine;
 using util.lang.extension;
@@ -16,13 +18,13 @@ public class UnitSkillsInfoHandler : UnitMenuTab {
     public TextMeshProUGUI willAttributeText;
     public TextMeshProUGUI charismaAttributeText;
     public RectTransform skillsPane;
-    
-    private Dictionary<string, SkillRowHandler> skillRows = new ();
+
+    private Dictionary<string, SkillRowHandler> rows = new();
 
     public void Start() {
-        findSkillRows();
+        findRows();
     }
-    
+
     public override void showUnit(EcsEntity unit) {
         UnitAttributesComponent attributes = unit.take<UnitAttributesComponent>();
         strengthAttributeText.text = attributes.strength.ToString();
@@ -31,33 +33,35 @@ public class UnitSkillsInfoHandler : UnitMenuTab {
         intelligenceAttributeText.text = attributes.intelligence.ToString();
         willAttributeText.text = attributes.will.ToString();
         charismaAttributeText.text = attributes.charisma.ToString();
-
         setSkillValues(unit);
     }
-    
+
     protected override void updateView() {
-        setSkillValues(unit);   
+        setSkillValues(unit);
     }
 
     private void setSkillValues(EcsEntity unit) {
-        UnitSkillComponent unitSkills = unit.take<UnitSkillComponent>();
-        foreach (var skillName in UnitSkills.allSkills) {
-            if (skillRows.ContainsKey(skillName)) {
-                skillRows[skillName].set(unitSkills.skills[skillName]);
+        foreach (string rowName in rows.Keys) {
+            if(Jobs.jobMap.Keys.Contains(rowName)) {
+                rows[rowName].setForJob(unit, rowName);
+            } else if (UnitSkills.skills.Keys.Contains(rowName)) {
+                if (Jobs.jobsBySkill.ContainsKey(rowName)) {
+                    Job job = Jobs.jobsBySkill[rowName];
+                    rows[rowName].setForJob(unit, job.name);
+                } else {
+                    rows[rowName].setForSkill(unit, rowName);
+                }
+            } else {
+                Debug.LogError($"Skill or job {rowName} not found.");
             }
         }
     }
 
-    // searches skill row objects in children. objects should be named as skills
-    private void findSkillRows() {
+    // searches skill row objects in children. For jobs, objects should be named as jobs. For skills without jobs objects should be named as skills.
+    private void findRows() {
         foreach (Transform transform in skillsPane) {
             if (transform.gameObject.hasComponent<SkillRowHandler>()) {
-                string name = transform.gameObject.name.ToLower();
-                if(UnitSkills.allSkills.Contains(name)) {
-                    skillRows.Add(name, transform.gameObject.GetComponent<SkillRowHandler>());
-                } else {
-                    Debug.LogError($"[UnitSkillInfoHandler]: unknown skill row with name {transform.gameObject.name}");
-                }
+                rows.Add(transform.gameObject.name.ToLower(), transform.gameObject.GetComponent<SkillRowHandler>());
             }
         }
     }

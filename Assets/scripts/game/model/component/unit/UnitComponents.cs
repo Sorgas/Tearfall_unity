@@ -6,6 +6,7 @@ using game.view.util;
 using Leopotam.Ecs;
 using types;
 using types.unit;
+using types.unit.skill;
 using UnityEngine;
 
 namespace game.model.component.unit {
@@ -66,6 +67,14 @@ namespace game.model.component.unit {
                 .Select(pair => pair.Key).ToList();
     }
 
+public struct UnitSkillComponent {
+    public Dictionary<string, UnitSkill> skills;
+
+    public void addSkill(UnitSkill skill) {
+        skills.Add(skill.name, skill);
+    }
+}
+
     public struct OwnershipComponent {
         public string wealthStatus;
     }
@@ -108,14 +117,6 @@ public struct UnitAttributesComponent {
     public int intelligence;
     public int will;
     public int charisma;
-}
-
-public struct UnitSkillComponent {
-    public Dictionary<string, UnitSkill> skills;
-
-    public void addSkill(UnitSkill skill) {
-        skills.Add(skill.name, skill);
-    }
 }
 
 public struct UnitMoodModifier {
