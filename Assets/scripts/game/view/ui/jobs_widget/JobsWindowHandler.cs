@@ -3,8 +3,9 @@ using game.model;
 using game.model.component;
 using game.model.component.unit;
 using game.view.ui.util;
+using game.view.util;
 using Leopotam.Ecs;
-using types.action;
+using TMPro;
 using types.unit;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,10 +17,10 @@ namespace game.view.ui.jobs_widget {
 
         public RectTransform header;
         public RectTransform content;
-        private const string iconPath = "prefabs/jobsmenu/JobIcon";
-        private const string rowPath = "prefabs/jobsmenu/UnitJobRow";
-        private const string togglePath = "prefabs/jobsmenu/JobToggle";
 
+        private int colWidth = 50;
+        private int rowHeight = 30;
+        private int titleWidth = 200;
         private void Start() {
             fillIcons();
         }
@@ -37,17 +38,11 @@ namespace game.view.ui.jobs_widget {
             }
         }
 
-        // creates icons for actual JobsEnum
+        // creates jobs icons in window header
         private void fillIcons() {
-            GameObject prefab = Resources.Load<GameObject>(iconPath);
-            RectTransform textTransform = header.transform.GetComponentInChildren<Text>().gameObject.GetComponent<RectTransform>();
-            float startX = textTransform.rect.width + textTransform.localPosition.x;
-            float iconWidth = prefab.GetComponent<RectTransform>().rect.width;
             for (var i = 0; i < Jobs.jobs.Length; i++) {
-                Job job = Jobs.jobs[i];
-                GameObject icon = Instantiate(prefab, header.transform, false);
-                icon.transform.localPosition = new Vector3(startX + iconWidth * i, 0, 0);
-                Sprite sprite = Resources.Load<Sprite>("icons/jobs/" + job.iconName);
+                GameObject icon = PrefabLoader.create("JobIcon", header.transform, new Vector3(titleWidth + colWidth * i, 0, 0));
+                Sprite sprite = Resources.Load<Sprite>("icons/jobs/" + Jobs.jobs[i].iconName);
                 icon.transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().sprite = sprite;
             }
         }
@@ -55,35 +50,32 @@ namespace game.view.ui.jobs_widget {
         // creates rows for all units
         private void fillRows() {
             EcsFilter filter = GameModel.get().currentLocalModel.ecsWorld.GetFilter(typeof(EcsFilter<UnitJobsComponent>));
-            GameObject rowPrefab = Resources.Load<GameObject>(rowPath);
-            float rowHeight = rowPrefab.GetComponent<RectTransform>().rect.height;
             foreach (var i in filter) {
                 EcsEntity unit = filter.GetEntity(i);
-                GameObject row = Instantiate(rowPrefab, content.transform, false);
-                row.transform.localPosition = new Vector3(0, -rowHeight * i, 0);
-                row.GetComponentInChildren<Text>().text = getUnitName(unit);
-                createToggles(row, unit);
+                GameObject row = PrefabLoader.create("UnitJobRow", content.transform, new Vector3(0, -rowHeight * i, 0));
+                row.GetComponentInChildren<TextMeshProUGUI>().text = getUnitName(unit);
+                createButtons(row, unit);
             }
         }
 
-        private void createToggles(GameObject row, EcsEntity unit) {
-            GameObject togglePrefab = Resources.Load<GameObject>(togglePath);
-            RectTransform unitName = row.transform.GetChild(0).GetComponent<RectTransform>();
-            float startX = unitName.rect.width + unitName.localPosition.x;
-            float iconWidth = togglePrefab.GetComponent<RectTransform>().rect.width;
+        // creates buttons for all jobs
+        private void createButtons(GameObject row, EcsEntity unit) {
             for (var i = 0; i < Jobs.jobs.Length; i++) {
                 Job job = Jobs.jobs[i];
-                GameObject toggle = Instantiate(togglePrefab, row.transform, false);
-                toggle.transform.localPosition = new Vector3(startX + iconWidth * i, 0, 0);
-                Toggle toggleComponent = toggle.GetComponentInChildren<Toggle>();
-                toggleComponent.isOn = unit.Get<UnitJobsComponent>().enabledJobs.ContainsKey(job.name);
-                toggleComponent.onValueChanged.AddListener(value => {
-                    if (value) {
-                        // TODO replace toggle with priority widget (OnI, RW)
-                        unit.Get<UnitJobsComponent>().enabledJobs.Add(job.name, TaskPriorities.JOB);
-                    } else {
-                        unit.Get<UnitJobsComponent>().enabledJobs.Remove(job.name);
-                    }
+                GameObject go = PrefabLoader.create("JobPriorityButton", row.transform, new Vector3(titleWidth + colWidth * i, 0, 0));
+                Button button = go.GetComponentInChildren<Button>();
+                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
+                buttonText.text = unit.take<UnitJobsComponent>().enabledJobs[job.name].ToString();
+                button.onClick.AddListener(() => {
+                    UnitJobsComponent component = unit.take<UnitJobsComponent>();
+                    component.changePriority(job.name, true);
+                    buttonText.text = component.enabledJobs[job.name].ToString();
+                });
+                ButtonRightClickHandler rightClickHandler = go.GetComponentInChildren<ButtonRightClickHandler>();
+                rightClickHandler.onRmbClick.Add(() => {
+                    UnitJobsComponent component = unit.take<UnitJobsComponent>();
+                    component.changePriority(job.name, false);
+                    buttonText.text = component.enabledJobs[job.name].ToString();
                 });
             }
         }

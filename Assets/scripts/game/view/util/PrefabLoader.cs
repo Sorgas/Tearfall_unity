@@ -40,6 +40,10 @@ namespace game.view.util {
         }
 
         protected override void init() {
+            paths.Add("JobIcon", "prefabs/jobsmenu/JobIcon");
+            paths.Add("UnitJobRow", "prefabs/jobsmenu/UnitJobRow");
+            paths.Add("JobPriorityButton", "prefabs/jobsmenu/JobPriorityButton");
+            
             paths.Add("toolbarButton", "prefabs/toolbar/toolbarButton");
             paths.Add("materialButton", "prefabs/toolbar/materialButton");
             paths.Add("toolbarPanel", "prefabs/toolbar/toolbarPanel");

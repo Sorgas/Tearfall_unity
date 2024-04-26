@@ -79,7 +79,7 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
         UnitJobsComponent jobs = unit.take<UnitJobsComponent>();
         Vector3Int position = unit.pos();
         ushort area = model.localMap.passageMap.defaultHelper.area.get(position);
-        for (int jobPriority = maxPriority; jobPriority >= minPriority; jobPriority--) { // by unit's jobs in priority order
+        for (int jobPriority = Jobs.PRIORITIES_COUNT - 1; jobPriority >= 1; jobPriority--) { // by unit's jobs in priority order
             List<string> jobsList = jobs.getByPriority(jobPriority);
             if (jobsList.Count <= 0) continue;
             Dictionary<int, List<EcsEntity>> tasks = model.taskContainer.getTasksByJobs(jobsList, minTaskPriority); // priority -> tasks

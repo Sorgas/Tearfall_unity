@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using game.model.component.unit;
+using game.view.ui.jobs_widget;
 using Leopotam.Ecs;
 using TMPro;
 using types.unit;
@@ -26,7 +27,10 @@ public class SkillRowHandler : MonoBehaviour {
     private UnitSkill skill;
 
     public void Start() {
-        priorityButton.onClick.AddListener(changeJobPriority);
+        priorityButton.onClick.AddListener(() => changeJobPriority(true));
+        priorityButton.gameObject.GetComponent<ButtonRightClickHandler>().onRmbClick.Add(() => {
+            changeJobPriority(false);
+        });
     }
 
     public void setForJob(EcsEntity unit, string job) {
@@ -64,13 +68,9 @@ public class SkillRowHandler : MonoBehaviour {
         }
     }
 
-    private void changeJobPriority() {
-        Dictionary<string, int> jobs = unit.take<UnitJobsComponent>().enabledJobs;
-        jobs[job]++;
-        if (jobs[job] > 3) {
-            jobs[job] = 0;
-        }
-        buttonText.text = jobs[job].ToString();
+    private void changeJobPriority(bool increase) {
+        unit.take<UnitJobsComponent>().changePriority(job, increase);
+        buttonText.text = unit.take<UnitJobsComponent>().enabledJobs[job].ToString();
     }
 
     private string capitalize(string value) {

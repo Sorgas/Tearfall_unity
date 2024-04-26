@@ -9,7 +9,7 @@ public static class Jobs {
     public static readonly Job MINER = new("miner", "mining", "miner");
     public static readonly Job WOODCUTTER = new("woodcutter", "woodcutting", "woodcutter");
     public static readonly Job FARMER = new("farmer", "farming", "farmer");
-    public static readonly Job FORAGER = new("forager", "foraging", "herbalist");
+    public static readonly Job FORAGER = new("forager", "foraging", "forager");
     public static readonly Job FISHER = new("fisher", "fishing", "fisher");
     public static readonly Job HUNTER = new("hunter", "hunting", "hunter");
     // crafting
@@ -31,16 +31,18 @@ public static class Jobs {
     public static readonly Job BUILDER = new("builder", "builder");
     public static readonly Job HAULER = new("hauler", "hauler");
 
+    public static readonly int PRIORITIES_COUNT = 4; // from 0 to PRIORITIES_COUNT - 1, 0 means disabled job
+    
     // public static readonly Job ANIMAL_CARETAKER = new("animal caretaker", "animal handling", "animalCaretaker");
     // public static readonly Job BOOKMAKER = new("bookmaker", "bookmaking", "bookmaker");
 
     public static readonly Job[] jobs = {
-        MINER, MASON, WOODCUTTER, CARPENTER, SMITH, JEWELER, MECHANIC, FARMER, FORAGER, FISHER,
-        HUNTER, COOK, BREWER, TAILOR, LEATHERWORKER, TRADER, ALCHEMIST, DOCTOR, SCHOLAR, PERFORMER, BUILDER, HAULER
+        MINER, WOODCUTTER, FARMER, FORAGER, FISHER, HUNTER, CARPENTER, MASON, SMITH, MECHANIC, JEWELER, 
+        COOK, BREWER, TAILOR, LEATHERWORKER, ALCHEMIST, TRADER, DOCTOR, SCHOLAR, PERFORMER, BUILDER, HAULER
     };
     public static readonly Job[] all = {
-        NONE, MINER, MASON, WOODCUTTER, CARPENTER, SMITH, JEWELER, MECHANIC, FARMER, FORAGER, FISHER,
-        HUNTER, COOK, BREWER, TAILOR, LEATHERWORKER, TRADER, ALCHEMIST, DOCTOR, SCHOLAR, PERFORMER, BUILDER, HAULER
+        NONE, MINER, WOODCUTTER, FARMER, FORAGER, FISHER, HUNTER, CARPENTER, MASON, SMITH, MECHANIC, JEWELER, 
+        COOK, BREWER, TAILOR, LEATHERWORKER, ALCHEMIST, TRADER, DOCTOR, SCHOLAR, PERFORMER, BUILDER, HAULER
     };
     public static readonly Dictionary<string, Job> jobMap = new();
     public static readonly Dictionary<string, Job> jobsBySkill = new();

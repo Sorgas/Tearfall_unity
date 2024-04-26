@@ -50,6 +50,9 @@ public class UnitSkills {
             skills.Add(skill.name, skill);
         }
     }
+    
+    // paper 235 230 197
+    // yellow 255 225 95
 }
 
 public class Skill {

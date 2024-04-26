@@ -66,7 +66,7 @@ namespace game {
                 
                 UnitJobsComponent jobsComponent = entity.Get<UnitJobsComponent>();
                 for (var j = 0; j < Jobs.all.Length; j++) {
-                    jobsComponent.enabledJobs.Add(Jobs.all[j].name, TaskPriorities.JOB);
+                    jobsComponent.enabledJobs.Add(Jobs.all[j].name, 1);
                 }
             }
         }

@@ -4,9 +4,9 @@ using Leopotam.Ecs;
 
 namespace game.model {
     public class UnitContainer {
-        public readonly Dictionary<int, EcsEntity> playerUnits = new Dictionary<int, EcsEntity>();
-        public readonly List<EcsEntity> units = new List<EcsEntity>();
-        private readonly HashSet<int> usedIds = new HashSet<int>();
+        public readonly Dictionary<int, EcsEntity> playerUnits = new();
+        public readonly List<EcsEntity> units = new();
+        private readonly HashSet<int> usedIds = new();
 
         public void addNewPlayerUnit(EcsEntity unit) {
             playerUnits.Add(getFreeId(), unit);
