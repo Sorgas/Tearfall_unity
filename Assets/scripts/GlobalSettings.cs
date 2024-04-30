@@ -6,4 +6,6 @@
     public const float tooltipShowDelay = 0.05f;
     public const float tooltipLockDelay = 0.1f;
     
+    // gameplay
+    public static int jobAssignPolicy = 0; // 0 enable all, 1 enable with skills, 2 enable hauling, 3 disable all
 }

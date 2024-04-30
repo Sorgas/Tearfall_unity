@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using game.input;
 using game.view.ui.jobs_widget;
+using game.view.ui.jobs_window;
 using game.view.ui.util;
 using UnityEngine;
 using UnityEngine.UI;

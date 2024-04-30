@@ -1,9 +1,20 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace types.unit.skill {
 // Lists all skills of units in game. Some actions can use skill level of performer to provide bonuses.
 // Actions can give skill experience to performer.
 public class UnitSkills {
+    private const float MinR = 235;
+    private const float MaxR = 255;
+    private const float MinG = 230;
+    private const float MaxG = 255;
+    private const float MinB = 197;
+    private const float MaxB = 95;
+    
+    // paper 235 230 197
+    // yellow 255 225 95
+    
     public static readonly Skill MINING = new("mining", "miner");
     public static readonly Skill WOODCUTTING = new("woodcutting", "woodcutter");
     public static readonly Skill FARMING = new("farming", "farmer");
@@ -51,8 +62,19 @@ public class UnitSkills {
         }
     }
     
-    // paper 235 230 197
-    // yellow 255 225 95
+
+    public static Color getColor(int skillLevel, Color color) {
+
+        return new Color(
+            (MinR + (MaxR - MinR) / MAX_VALUE * skillLevel) / 255,
+            (MinG + (MaxG - MinG) / MAX_VALUE * skillLevel) / 255,
+            (MinB + (MaxB - MinB) / MAX_VALUE * skillLevel) / 255 
+        );
+        // color.r = MinR + (MaxR - MinR) / MAX_VALUE * skillLevel;
+        // color.g = MinG + (MaxG - MinG) / MAX_VALUE * skillLevel;
+        // color.b = MinB + (MaxB - MinB) / MAX_VALUE * skillLevel;
+        // return color;
+    }
 }
 
 public class Skill {

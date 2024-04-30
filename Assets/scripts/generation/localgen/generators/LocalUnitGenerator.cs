@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using game.model.component;
 using game.model.component.unit;
 using game.model.localmap;
@@ -7,8 +8,10 @@ using Leopotam.Ecs;
 using types;
 using types.action;
 using types.unit;
+using types.unit.skill;
 using UnityEngine;
 using util.lang.extension;
+using MoreEnumerable = MoreLinq.MoreEnumerable;
 
 namespace generation.localgen.generators {
     public class LocalUnitGenerator : LocalGenerator {
@@ -35,13 +38,7 @@ namespace generation.localgen.generators {
                     ref PositionComponent positionComponent = ref entity.Get<PositionComponent>();
                     positionComponent.position = spawnPoint.Value;
                     ref UnitVisualComponent visual = ref entity.takeRef<UnitVisualComponent>();
-
-                    // TODO move to settlerdata
-                    UnitJobsComponent jobsComponent = entity.Get<UnitJobsComponent>();
-                    for (var i = 0; i < Jobs.all.Length; i++) {
-                        jobsComponent.enabledJobs.Add(Jobs.all[i].name, TaskPriorities.JOB);
-                    }
-
+                    ininJobs(entity);
                     log("unit spawned at " + spawnPoint.Value);
                 } else {
                     Debug.LogWarning("position to spawn unit not found");
@@ -62,6 +59,32 @@ namespace generation.localgen.generators {
             return null;
         }
 
+        private void ininJobs(EcsEntity entity) {
+            UnitJobsComponent jobsComponent = entity.take<UnitJobsComponent>();
+            switch (GlobalSettings.jobAssignPolicy) {
+                case 0: {
+                    foreach (var job in Jobs.jobs) {
+                        jobsComponent.enabledJobs[job.name] = 2;
+                    }
+                }
+                break;
+                case 1: {
+                    IEnumerable<UnitSkill> skills = entity.take<UnitSkillComponent>().skills.Values.Where(skill => skill.value > 0 && Jobs.jobsBySkill.ContainsKey(skill.name));
+                    foreach (var unitSkill in skills) {
+                        jobsComponent.enabledJobs[Jobs.jobsBySkill[unitSkill.name].name] = 2;
+                    }
+                    jobsComponent.enabledJobs[Jobs.HAULER.name] = 2;
+                    jobsComponent.enabledJobs[Jobs.BUILDER.name] = 2;
+                }
+                break;
+                case 2: {
+                    jobsComponent.enabledJobs[Jobs.HAULER.name] = 2;
+                    jobsComponent.enabledJobs[Jobs.BUILDER.name] = 2;
+                }
+                break;
+            }
+        }
+        
         public override string getMessage() {
             return "generating units..";
         }

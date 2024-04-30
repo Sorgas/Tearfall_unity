@@ -2,6 +2,7 @@
 using game.model;
 using game.model.component;
 using game.model.component.unit;
+using game.view.ui.jobs_widget;
 using game.view.ui.util;
 using game.view.util;
 using Leopotam.Ecs;
@@ -11,8 +12,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using util.lang.extension;
 
-namespace game.view.ui.jobs_widget {
-    public class JobsWindowHandler : WindowManagerMenu {
+namespace game.view.ui.jobs_window {
+// Handles window for changing jobs for all settlers. Displays table of settlers and jobs.    
+public class JobsWindowHandler : WindowManagerMenu {
         public const string name = "jobs";
 
         public RectTransform header;
@@ -62,21 +64,9 @@ namespace game.view.ui.jobs_widget {
         private void createButtons(GameObject row, EcsEntity unit) {
             for (var i = 0; i < Jobs.jobs.Length; i++) {
                 Job job = Jobs.jobs[i];
-                GameObject go = PrefabLoader.create("JobPriorityButton", row.transform, new Vector3(titleWidth + colWidth * i, 0, 0));
-                Button button = go.GetComponentInChildren<Button>();
-                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-                buttonText.text = unit.take<UnitJobsComponent>().enabledJobs[job.name].ToString();
-                button.onClick.AddListener(() => {
-                    UnitJobsComponent component = unit.take<UnitJobsComponent>();
-                    component.changePriority(job.name, true);
-                    buttonText.text = component.enabledJobs[job.name].ToString();
-                });
-                ButtonRightClickHandler rightClickHandler = go.GetComponentInChildren<ButtonRightClickHandler>();
-                rightClickHandler.onRmbClick.Add(() => {
-                    UnitJobsComponent component = unit.take<UnitJobsComponent>();
-                    component.changePriority(job.name, false);
-                    buttonText.text = component.enabledJobs[job.name].ToString();
-                });
+                GameObject buttonGo = PrefabLoader.create("JobPriorityButton", row.transform, new Vector3(titleWidth + colWidth * i, 0, 0));
+                UnitJobButtonHandler handler = buttonGo.GetComponent<UnitJobButtonHandler>();
+                handler.setFor(unit, job.name);
             }
         }
 

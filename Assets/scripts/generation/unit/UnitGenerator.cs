@@ -46,7 +46,11 @@ class UnitGenerator {
     }
 
     private void addSettlerComponents(ref EcsEntity entity) {
-        entity.Replace(new UnitJobsComponent { enabledJobs = new() });
+        UnitJobsComponent jobsComponent = new UnitJobsComponent { enabledJobs = new() };
+        entity.Replace(jobsComponent);
+        foreach (var job in Jobs.jobs) {
+            jobsComponent.enabledJobs.Add(job.name, 0);
+        }
         entity.Replace(new UnitNamesComponent { });
         skillsGenerator.generate(entity);
     }
