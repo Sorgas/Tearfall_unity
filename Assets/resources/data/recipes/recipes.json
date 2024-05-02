@@ -3,27 +3,20 @@
     "name": "make_pickaxe",
     "title": "Metal pickaxe",
     "itemName": "pickaxe",
-    "ingredients": ["main:bar:any/metal:1"]
+    "ingredients": ["main:bar:any/metal:1"],
+    "skill": "smithing"
 }, {
     "name": "make_sickle",
     "title": "Metal sickle",
     "itemName": "sickle",
-    "ingredients": ["main:bar:any/metal:1"]
+    "ingredients": ["main:bar:any/metal:1"],
+    "skill": "smithing"
 }, {
     "name": "make_axe",
     "title": "Metal axe",
     "itemName": "axe",
-    "ingredients": ["main:bar:any/metal:1"]
-}, {
-    "name": "boil_water",
-    "title": "Boil water",
-    "itemName": "liquid",
-    "ingredients": ["main:any:any/water:1"]
-}, {
-    "name": "make_bow_saw",
-    "title": "Make bow saw",
-    "itemName": "bow_saw",
-    "ingredients": ["main:bar:any/metal:1"]
+    "ingredients": ["main:bar:any/metal:1"],
+    "skill": "smithing"
 }, {
     "name": "melt_ore",
     "title": "Melt ore to metal bar",

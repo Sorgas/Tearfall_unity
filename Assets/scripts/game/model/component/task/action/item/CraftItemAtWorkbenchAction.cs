@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
 using game.model.component.item;
-using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
 using game.model.component.task.order;
 using generation.item;
@@ -30,7 +27,8 @@ class CraftItemAtWorkbenchAction : GenericItemConsumingAction {
         this.order = order;
         this.workbench = workbench;
         name = "crafting " + order.name + " action";
-
+        usedSkill = order.recipe.skill;
+        
         assignmentCondition = (unit) => OK; // order was checked before task creation
 
         startCondition = () => {
@@ -78,18 +76,6 @@ class CraftItemAtWorkbenchAction : GenericItemConsumingAction {
         return order.recipe.workAmount * (1 + totalModifier / 100f);
     }
 
-    private float getSpeed() {
-        // TODO use performer skill level, use workbench bonuses(lighting, tool rack), use performer health condition(work slowly when tired). 
-        // float performanceBonus = Optional.ofNullable(task.performer.get(HealthAspect.class))
-        //         .map(aspect -> aspect.stats.get("performance"l))
-        //         .orElse(0f);
-        // float skillBonus = Optional.ofNullable(SkillMap.getSkill(this.skill))
-        //         .map(skill -> Optional.ofNullable(task.performer.get(JobSkillAspect.class))
-        //                 .map(aspect -> aspect.skills.get(this.skill).level())
-        //                 .map(level -> level * skill.speed)
-        //                 .orElse(0f)).orElse(0f);
-        // speed = 1 + performanceBonus + skillBonus;
-        return 1f;
-    }
+    // TODO use workbench bonuses for workspeed (lighting, tool rack),
 }
 }

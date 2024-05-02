@@ -6,10 +6,8 @@ using UnityEngine;
 using util.geometry;
 
 namespace util.pathfinding {
-// TODO make not singleton
 // TODO add weights to tiles, add pathfinding weight visual overlay
-// TODO add 'difficult terrain',
-// TODO add doors(passable, counted with special weight), if door is locked by player, it becomes impassable
+// TODO add 'difficult terrain'
 public class AStar {
     private AbstractPassageHelper helper;
     private bool debug = false;

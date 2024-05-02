@@ -13,7 +13,6 @@ namespace game.model.util {
     
         public int getWorkAmount(Vector3Int target, DesignationType type, LocalModel model) {
             BlockType currentType = model.localMap.blockType.getEnumValue(target);
-            int currentOpennes = currentType.OPENNESS;
             switch (type.name) {
                 case "dig": // 12 for wall
                     return getWorkForTileTransition(target, FLOOR, model);

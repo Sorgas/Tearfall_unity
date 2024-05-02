@@ -41,7 +41,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\scripts\game\model\action\plant\farm\FarmingAction.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\plant\farm\FarmingAction.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\finding\CraftingItemFindingUtil.cs" />
      <Compile Include="Assets\scripts\util\lang\Singleton.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\SubstrateMap.cs" />
@@ -74,7 +74,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\zone\ZoneAction.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationTaskCreationSystem.cs" />
      <Compile Include="Assets\scripts\types\unit\body\raw\BodyTemplateProcessor.cs" />
-     <Compile Include="Assets\scripts\game\model\action\plant\PlantSeedToTileAction.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\plant\PlantSeedToTileAction.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\RawRecipe.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedCompositeNavigationController.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToPositionAction.cs" />
@@ -148,8 +148,7 @@
      <Compile Include="Assets\scripts\generation\unit\UnitGenerator.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitBodyComponentGenerator.cs" />
      <Compile Include="Assets\scripts\types\unit\CreatureAttributesEnum.cs" />
-     <Compile Include="Assets\scripts\game\model\action\plant\PlantHarvestAction.cs" />
-     <Compile Include="Assets\scripts\types\action\SkillMap.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\plant\PlantHarvestAction.cs" />
      <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarPanelHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\order\IngredientOrder.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\GenericBuildingAction.cs" />
@@ -173,7 +172,7 @@
      <Compile Include="Assets\scripts\generation\item\DiggingProductGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\EquipToolItemAction.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\AssetPacker\TextureAsset.cs" />
-     <Compile Include="Assets\scripts\game\model\action\plant\PlantRemoveAction.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\plant\PlantRemoveAction.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\FarmTileHoeingActionTarget.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantHarvestSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\ObtainItemAction.cs" />
@@ -328,7 +327,6 @@
      <Compile Include="Assets\scripts\game\model\localmap\passage\RoomPassageHelper.cs" />
      <Compile Include="Assets\scripts\util\UtilUshortArray.cs" />
      <Compile Include="Assets\scripts\game\model\container\BuildingContainer.cs" />
-     <Compile Include="Assets\scripts\util\pathfinding\PathFinishCondition.cs" />
      <Compile Include="Assets\scripts\game\view\util\LocalMapLayerHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\DesignationComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\PlantActionTarget.cs" />
@@ -394,7 +392,7 @@
      <Compile Include="Assets\scripts\game\model\util\validation\TreeExistsValidator.cs" />
      <Compile Include="Assets\scripts\util\geometry\ValueRange.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\MouseTool.cs" />
-     <Compile Include="Assets\scripts\game\model\action\plant\farm\FarmTileHoeingAction.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\plant\farm\FarmTileHoeingAction.cs" />
      <Compile Include="Assets\scripts\types\unit\Jobs.cs" />
      <Compile Include="Assets\scripts\types\plant\PlantLifeStage.cs" />
      <Compile Include="Assets\scripts\util\lang\MultiValueDictionary.cs" />
@@ -447,7 +445,6 @@
      <Compile Include="Assets\scripts\game\model\container\item\StoredItemsManager.cs" />
      <Compile Include="Assets\scripts\mainMenu\location_selection_stage\LocationSelectionStageHandler.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenSequence.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\ActionPart.cs" />
      <Compile Include="Assets\scripts\types\building\BuildingTypeMap.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\UnitEquipmentComponent.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\BinaryHeap.cs" />
@@ -591,7 +588,7 @@
      <Folder Include="Assets\scripts\util\TexturePacker" />
      <Folder Include="Assets\scripts\game\model\localmap\update" />
      <Folder Include="Assets\scripts\game\view\ui\generation" />
-     <Folder Include="Assets\scripts\game\model\action\plant\farm" />
+     <Folder Include="Assets\scripts\game\model\component\task\action\plant\farm" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <Folder Include="Assets\scripts\types\action" />
      <Folder Include="Assets\resources\tilesets\plants" />
@@ -651,7 +648,6 @@
      <Folder Include="Assets\scripts\types\unit\need" />
      <Folder Include="Assets\resources\data\plants" />
      <Folder Include="Assets\scripts\game\model\component\task\action\equipment" />
-     <Folder Include="Assets\scripts\game\model\action" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
      <Folder Include="Assets\scripts\game\model\component\task" />
      <Folder Include="Assets\scripts\game\model" />
@@ -705,7 +701,6 @@
      <None Include="Assets\resources\data\constructions.json" />
      <Folder Include="Assets\Scenes\LocalWorld\LocalWorldScene" />
      <Folder Include="Assets\scripts\game\model\system\building" />
-     <Folder Include="Assets\scripts\game\model\action\plant" />
      <Folder Include="Assets\resources\tilesets\items" />
      <None Include="Assets\resources\data\items\items.json" />
      <Folder Include="Assets\resources\data\items" />

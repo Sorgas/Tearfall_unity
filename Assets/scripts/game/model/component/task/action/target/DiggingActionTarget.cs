@@ -16,6 +16,7 @@ public class DiggingActionTarget : StaticActionTarget {
     public DiggingActionTarget(Vector3Int position, BlockType targetBlockType) : base(ActionTargetTypeEnum.NEAR) {
         center = position;
         newBlockType = targetBlockType;
+        init();
     }
 
     protected override Vector3Int calculatePosition() {
@@ -28,19 +29,11 @@ public class DiggingActionTarget : StaticActionTarget {
             .ToList();
     }
 
-    protected override List<Vector3Int> calculateLowerPositions() {
-        return positions
-            .Select(position => position + Vector3Int.back)
-            .ToList();
-    }
-
-    protected override List<Vector3Int> calculateUpperPositions() {
-        return positions
-            .Select(position => position + Vector3Int.forward)
-            .ToList();
-    }
-
+    // digging has special conditions of tile accessibility
     public override List<Vector3Int> getAcceptablePositions(LocalModel model) {
+        // return positions
+        //     .Where(position => model.localMap.passageMap.hasPathBetweenNeighboursWithOverride(center, position, newBlockType))
+        //     .ToList();
         return new NeighbourPositionStream(center, model.localMap)
             .filterConnectedToCenterWithOverrideTile(newBlockType).stream.ToList();
     }

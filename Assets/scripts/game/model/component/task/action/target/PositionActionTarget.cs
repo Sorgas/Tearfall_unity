@@ -31,16 +31,14 @@ public sealed class PositionActionTarget : StaticActionTarget {
     protected override List<Vector3Int> calculateLowerPositions() {
         if (sameLevelOnly) return emptyList;
         return PositionUtil.allNeighbour
-            .Select(delta => position + delta)
-            .Select(vector => vector.add(0, 0, -1))
+            .Select(delta => position + delta + Vector3Int.back)
             .ToList();
     }
 
     protected override List<Vector3Int> calculateUpperPositions() {
         if (sameLevelOnly) return emptyList;
         return PositionUtil.allNeighbour
-            .Select(delta => position + delta)
-            .Select(vector => vector.add(0, 0, 1))
+            .Select(delta => position + delta + Vector3Int.forward)
             .ToList();
     }
 

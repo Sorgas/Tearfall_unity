@@ -7,6 +7,7 @@ using game.model.util.validation;
 using generation.item;
 using Leopotam.Ecs;
 using types.action;
+using types.unit.skill;
 using UnityEngine;
 using util.lang.extension;
 using static types.action.ActionCheckingEnum;
@@ -17,7 +18,8 @@ public class ChopTreeAction : ToolAction {
     public ChopTreeAction(EcsEntity tree) : base("chop", new PlantActionTarget(tree, ActionTargetTypeEnum.NEAR)) {
         name = "chop tree action";
         animation = "woodcutting";
-        
+        usedSkill = UnitSkills.WOODCUTTING.name;
+
         // Checks that tree exists on target position, fails if it doesn't.
         // Checks that performer has chopping tool, creates equipping action if needed.
         startCondition = () => {
@@ -31,6 +33,7 @@ public class ChopTreeAction : ToolAction {
 
         onStart = () => {
             maxProgress = 500;
+            speed = getSpeed();
         };
         
         onFinish = () => {

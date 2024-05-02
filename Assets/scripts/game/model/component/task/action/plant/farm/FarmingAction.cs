@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using game.model.component;
-using game.model.component.task.action;
 using game.model.component.task.action.target;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using types.action;
+using types.unit.skill;
 using UnityEngine;
 using util.item;
 using util.lang;
 using util.lang.extension;
 using static types.ZoneTaskTypes;
 
-namespace game.model.action.plant.farm {
+namespace game.model.component.task.action.plant.farm {
 // common action created by farms, for doing all operations on farm tiles.
 // gets nearest tile that requires action and creates sub-action for it
 public class FarmingAction : ToolAction {
@@ -21,7 +20,7 @@ public class FarmingAction : ToolAction {
     public FarmingAction(EcsEntity zone) : base("hoe", new ZoneActionTarget(zone, ActionTargetTypeEnum.ANY)) {
         name = "work on farm " + zone.name();
         this.zone = zone;
-    
+
         startCondition = () => {
             ZoneTrackingComponent tracking = zone.take<ZoneTrackingComponent>();
             Vector3Int performerPosition = performer.pos();

@@ -23,6 +23,7 @@ public class DesignationActionTarget : StaticActionTarget {
             Vector3Int size = order.type.getSize3ByOrientation(order.orientation);
             if (size.x > 1 || size.y > 1) bounds = IntBounds3.byStartAndSize(position, size);
         }
+        init();
     }
 
     public override List<Vector3Int> getAcceptablePositions(LocalModel model) {

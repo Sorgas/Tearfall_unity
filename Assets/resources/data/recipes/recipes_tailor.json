@@ -4,36 +4,42 @@
   "title": "Cloth shirt",
   "itemName": "shirt",
   "ingredients": ["main:cloth_roll:any/cloth:2"], 
-    "workAmount": 200
-}, {
+  "workAmount": 200,
+  "skill": "tailoring"
+  }, {
   "name": "make_pants",
   "title": "Cloth pants",
   "itemName": "pants",
   "ingredients": ["main:cloth_roll:any/cloth:2"],
-  "workAmount": 200
+  "workAmount": 200,
+  "skill": "tailoring"
 }, {
   "name": "make_hat",
   "title": "Cloth hat",
   "itemName": "hat",
   "ingredients": ["main:cloth_roll:any/cloth:1"],
-  "workAmount": 150
+  "workAmount": 150,
+  "skill": "tailoring"
 }, {
   "name": "make_gloves",
   "title": "Cloth glovess",
   "itemName": "gloves",
   "ingredients": ["main:cloth_roll:any/cloth:1"],
-  "workAmount": 300
+  "workAmount": 300,
+  "skill": "tailoring"
 }, {
   "name": "make_boots",
   "title": "Cloth boots",
   "itemName": "boots",
   "ingredients": ["main:cloth_roll:any/cloth:2"],
-  "workAmount": 300
+  "workAmount": 300,
+  "skill": "tailoring"
 }, {
   "name": "make_backpack",
   "title": "Cloth backpack",
   "itemName": "backpack",
   "ingredients": ["main:cloth_roll:any/cloth:1"],
-  "workAmount": 200
+  "workAmount": 200,
+  "skill": "tailoring"
 }
 ]

@@ -75,7 +75,7 @@ public struct UnitSkillComponent {
     public Dictionary<string, UnitSkill> skills;
 
     public void addSkill(UnitSkill skill) {
-        skills.Add(skill.name, skill);
+        skills.Add(skill.type.name, skill);
     }
 }
 

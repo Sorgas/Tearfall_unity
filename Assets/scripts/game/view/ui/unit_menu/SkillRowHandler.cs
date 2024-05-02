@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using game.model.component.unit;
 using game.view.ui.jobs_widget;
 using Leopotam.Ecs;
@@ -21,6 +20,8 @@ public class SkillRowHandler : MonoBehaviour {
     public Image barBackground;
     public Button priorityButton;
     public TextMeshProUGUI buttonText;
+    public Button valueDebugButton;
+    public bool debug = true;
 
     private EcsEntity unit;
     private string job;
@@ -31,6 +32,10 @@ public class SkillRowHandler : MonoBehaviour {
         priorityButton.gameObject.GetComponent<ButtonRightClickHandler>().onRmbClick.Add(() => {
             changeJobPriority(false);
         });
+        valueDebugButton.onClick.AddListener(() => changeSkillValue(true));
+        valueDebugButton.gameObject.GetComponent<ButtonRightClickHandler>().onRmbClick.Add(() => {
+            changeSkillValue(false);
+        });
     }
 
     public void setForJob(EcsEntity unit, string job) {
@@ -39,12 +44,12 @@ public class SkillRowHandler : MonoBehaviour {
         if (Jobs.jobMap[job].skill != null) { // job with skill
             string skillName = Jobs.jobMap[job].skill;
             skill = unit.take<UnitSkillComponent>().skills[skillName];
-            title.text = capitalize(skill.name);
-            showSkillElements(skill);
+            title.text = capitalize(skill.type.name);
         } else { // jow without skill
+            skill = null;
             title.text = capitalize(job);
-            showSkillElements(null);
         }
+        showSkillElements(skill);
         priorityButton.gameObject.SetActive(true);
         buttonText.text = unit.take<UnitJobsComponent>().enabledJobs[job].ToString();
     }
@@ -52,7 +57,7 @@ public class SkillRowHandler : MonoBehaviour {
     public void setForSkill(EcsEntity unit, string skillName) {
         this.unit = unit;
         skill = unit.take<UnitSkillComponent>().skills[skillName];
-        title.text = capitalize(skill.name);
+        title.text = capitalize(skill.type.name);
         priorityButton.gameObject.SetActive(false);
         showSkillElements(skill);
     }
@@ -66,6 +71,7 @@ public class SkillRowHandler : MonoBehaviour {
             barBackground.gameObject.SetActive(true);
             bar.fillAmount = 1f * skill.exp / UnitSkills.expValues[skill.value];
         }
+        valueDebugButton.gameObject.SetActive(debug && skill != null);
     }
 
     private void changeJobPriority(bool increase) {
@@ -73,6 +79,16 @@ public class SkillRowHandler : MonoBehaviour {
         buttonText.text = unit.take<UnitJobsComponent>().enabledJobs[job].ToString();
     }
 
+    private void changeSkillValue(bool increase) {
+        if (skill.value < UnitSkills.MAX_VALUE && increase) {
+            skill.value += 1;
+        }
+        if (skill.value > UnitSkills.MIN_VALUE && !increase) {
+            skill.value -= 1;
+        }
+        showSkillElements(skill);
+    }
+    
     private string capitalize(string value) {
         return string.Concat(value[0].ToString().ToUpper(), value.Substring(1));
     }

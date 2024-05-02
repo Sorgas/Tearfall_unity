@@ -14,9 +14,6 @@ public class SelfActionTarget : ActionTarget {
     public SelfActionTarget() : base(ActionTargetTypeEnum.EXACT) { }
 
     public override Vector3Int pos => Vector3Int.back;
-    protected override List<Vector3Int> positions { get; }
-
-    public override void init() { }
 
     public override string check(EcsEntity performer, LocalModel model) => "ready";
 

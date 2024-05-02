@@ -1,9 +1,12 @@
 using game.model.component.item;
 using game.model.component.task.order;
+using game.model.component.unit;
 using game.model.container;
 using Leopotam.Ecs;
 using types;
+using types.item;
 using types.material;
+using types.unit.skill;
 using UnityEngine;
 using util.lang.extension;
 
@@ -16,7 +19,7 @@ public class ConstructionAction : GenericBuildingAction {
         name = "construction action";
         blockType = order.blockType;
         bounds = new(order.position, order.position);
-        
+
         onFinish = () => {
             EcsEntity item = order.ingredients["main"].items[0]; // all selected items should be same
             ItemComponent itemComponent = item.take<ItemComponent>();

@@ -5,6 +5,7 @@ namespace types.unit.skill {
 // Lists all skills of units in game. Some actions can use skill level of performer to provide bonuses.
 // Actions can give skill experience to performer.
 public class UnitSkills {
+    // colors
     private const float MinR = 235;
     private const float MaxR = 255;
     private const float MinG = 230;
@@ -61,7 +62,6 @@ public class UnitSkills {
             skills.Add(skill.name, skill);
         }
     }
-    
 
     public static Color getColor(int skillLevel, Color color) {
 
@@ -80,10 +80,12 @@ public class UnitSkills {
 public class Skill {
     public readonly string name;
     public readonly string professionName; // displayed in unit menu
-
+    public readonly float speedFactor; // additive workspeed increase for each performer level in this skill
+    
     public Skill(string name, string professionName) {
         this.name = name;
         this.professionName = professionName;
+        speedFactor = 0.04f;
     }
 }
 }

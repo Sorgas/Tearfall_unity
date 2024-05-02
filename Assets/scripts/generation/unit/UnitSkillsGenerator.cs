@@ -42,7 +42,7 @@ public class UnitSkillsGenerator {
     }
     
     private void addSkill(Dictionary<string, UnitSkill> skills, Skill skill, int value, int exp) {
-        skills.Add(skill.name, new UnitSkill(skill.name, value, exp));
+        skills.Add(skill.name, new UnitSkill(skill, value, exp));
     }
 
     private void addPrimarySkills() {

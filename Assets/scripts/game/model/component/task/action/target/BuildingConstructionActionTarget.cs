@@ -32,6 +32,7 @@ public class BuildingConstructionActionTarget : StaticActionTarget {
         } else {
             throw new ArgumentException("Unsupported type of GenericBuildingOrder");
         }
+        init();
     }
 
     protected override Vector3Int calculatePosition() => center;

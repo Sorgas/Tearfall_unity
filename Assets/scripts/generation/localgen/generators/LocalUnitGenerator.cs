@@ -69,9 +69,9 @@ namespace generation.localgen.generators {
                 }
                 break;
                 case 1: {
-                    IEnumerable<UnitSkill> skills = entity.take<UnitSkillComponent>().skills.Values.Where(skill => skill.value > 0 && Jobs.jobsBySkill.ContainsKey(skill.name));
+                    IEnumerable<UnitSkill> skills = entity.take<UnitSkillComponent>().skills.Values.Where(skill => skill.value > 0 && Jobs.jobsBySkill.ContainsKey(skill.type.name));
                     foreach (var unitSkill in skills) {
-                        jobsComponent.enabledJobs[Jobs.jobsBySkill[unitSkill.name].name] = 2;
+                        jobsComponent.enabledJobs[Jobs.jobsBySkill[unitSkill.type.name].name] = 2;
                     }
                     jobsComponent.enabledJobs[Jobs.HAULER.name] = 2;
                     jobsComponent.enabledJobs[Jobs.BUILDER.name] = 2;

@@ -1,13 +1,19 @@
 using System.Collections.Generic;
 using System.Linq;
+using game.model.component.item;
 using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
 using game.model.component.task.order;
+using game.model.component.unit;
 using game.model.container.item;
 using Leopotam.Ecs;
 using MoreLinq;
 using types.action;
+using types.item;
+using types.material;
+using types.unit.skill;
 using UnityEngine;
+using util;
 using util.geometry.bounds;
 using util.lang.extension;
 using static types.action.ActionCheckingEnum;
@@ -23,9 +29,15 @@ public abstract class GenericBuildingAction : GenericItemConsumingAction {
     protected GenericBuildingAction(EcsEntity designation, GenericBuildingOrder order) : base(new BuildingConstructionActionTarget(order), order, designation) {
         this.order = order;
         name = "generic building action";
-
+        usedSkill = getSkill();
+        
         assignmentCondition = (unit) => OK;
+        usedSkill = UnitSkills.FARMING.name;
 
+        onStart = () => {
+            speed = getSpeed();
+        };
+        
         startCondition = () => {
             if (!validateOrder()) return failAction("order invalid");
             if (checkBringingItems()) return NEW;
@@ -85,6 +97,18 @@ public abstract class GenericBuildingAction : GenericItemConsumingAction {
         }
     }
 
+    private string getSkill() {
+        int materialId = order.ingredients["main"].items[0].take<ItemComponent>().material;
+        Material_ material = MaterialMap.get().material(materialId);
+        if (material.tags.Contains(ItemTags.WOOD.name)) {
+            return UnitSkills.CARPENTRY.name;
+        }
+        if (material.tags.Contains(ItemTags.STONE.name)) {
+            return UnitSkills.MASONRY.name;
+        }
+        throw new GameException($"Building from unsupported material {material.name}");
+    }
+    
     protected ItemContainerComponent getDesignationContainer() => containerEntity.take<ItemContainerComponent>();
 }
 }

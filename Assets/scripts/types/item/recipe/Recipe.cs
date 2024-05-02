@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using util.lang;
 
 namespace types.item.recipe {
-// Recipe describes crafting operation of turning items other items. 
+// Recipe describes crafting operation of turning items into other items. 
 // Crafting takes some ingredient items described in Ingredient. Crafting produces result item described in recipe.
 // TODO combine with blueprints for buildigns
 public class Recipe {
@@ -21,7 +20,6 @@ public class Recipe {
     public string newTag; // this tag will be added to product
     public string removeTag; // this tag will be removed from main ingredient item
     public bool uniqueIngredients; // same itemtype, material and origin cannot be used for ingredients
-
 
     public float workAmount; // increases crafting time
     public string job;

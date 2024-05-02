@@ -1,17 +1,16 @@
-﻿using game.model.component;
-using game.model.component.task.action;
-using game.model.component.task.action.equipment.use;
+﻿using game.model.component.task.action.equipment.use;
 using game.model.component.task.action.target;
 using game.model.component.unit;
 using game.model.util;
 using Leopotam.Ecs;
 using types.action;
+using types.unit.skill;
 using UnityEngine;
 using util.item;
 using util.lang.extension;
 using static types.action.ActionCheckingEnum;
 
-namespace game.model.action.plant.farm {
+namespace game.model.component.task.action.plant.farm {
 // actually hoes one tile of a farm. See FarmHoeingAction
 // also destroys plant and substrate on tile
 public class FarmTileHoeingAction : ToolAction {
@@ -21,7 +20,7 @@ public class FarmTileHoeingAction : ToolAction {
     public FarmTileHoeingAction(Vector3Int tile, EcsEntity zone) : base(TOOL_ACTION_NAME, new FarmTileHoeingActionTarget(tile)) {
         name = "tile hoeing action";
         this.zone = zone;
-        maxProgress = 100;
+        usedSkill = UnitSkills.FARMING.name;
         startCondition = () => {
             if (!performer.take<UnitEquipmentComponent>().toolWithActionEquipped(TOOL_ACTION_NAME)) return tryCreateEquippingAction();
             if (!zone.take<ZoneComponent>().tiles.Contains(tile)) return FAIL;
@@ -32,6 +31,12 @@ public class FarmTileHoeingAction : ToolAction {
             lockZoneTile(zone, tile);
             return OK;
         };
+
+        onStart = () => {
+            maxProgress = 100;
+            speed = getSpeed();
+        };
+        
         onFinish = () => {
             hoeTile(tile);
             unlockZoneTile(zone, tile);

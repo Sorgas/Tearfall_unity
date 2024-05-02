@@ -12,7 +12,6 @@ namespace game.model.component.task.action.target {
         private readonly EcsEntity zone;
         public Vector3Int tile = Vector3Int.back; // should be set by action during conditions checking
         public override Vector3Int pos => getPosition();
-        protected override List<Vector3Int> positions => getPositions();
 
         public ZoneActionTarget(EcsEntity zone, ActionTargetTypeEnum type) : base(type) {
             this.zone = zone;
@@ -22,10 +21,6 @@ namespace game.model.component.task.action.target {
             return tile != Vector3Int.back ? tile : zone.take<ZoneComponent>().tiles[0];
         }
 
-        private List<Vector3Int> getPositions() {
-            return zone.take<ZoneComponent>().tiles;
-        }
-        
         public override List<Vector3Int> getAcceptablePositions(LocalModel model) {
             return zone.take<ZoneComponent>().tiles;
         }

@@ -13,6 +13,7 @@ public class FarmTileHoeingActionTarget : StaticActionTarget {
 
     public FarmTileHoeingActionTarget(Vector3Int tile) : base(ActionTargetTypeEnum.NEAR) {
         this.tile = tile;
+        init();
     }
     
     protected override Vector3Int calculatePosition() => tile;

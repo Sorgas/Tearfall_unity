@@ -7,6 +7,7 @@ using generation.item;
 using Leopotam.Ecs;
 using types;
 using types.action;
+using types.unit.skill;
 using UnityEngine;
 using util.lang.extension;
 using static types.action.ActionCheckingEnum;
@@ -14,29 +15,31 @@ using static types.BlockTypes;
 using Random = UnityEngine.Random;
 
 namespace game.model.component.task.action {
-// digs a tile of map. performer should have tool with dig action in hands
+// Action for digging a tile of map. Performer should have tool with dig action in hands
+// Skill boosts speed up to 160%. Yield is not affected
 public class DigAction : ToolAction {
-    private readonly DesignationType type;
+    private readonly DesignationType dessignationType;
 
     public DigAction(Vector3Int position, DesignationType type) : base("dig", new DiggingActionTarget(position, type.getDiggingBlockType())) {
         name = "dig action";
         animation = "mining";
-        this.type = type;
+        usedSkill = UnitSkills.MINING.name;
+        dessignationType = type;
 
         startCondition = () => {
-            if (!type.validator.validate(target.pos, model)) return FAIL; // tile became invalid
+            if (!dessignationType.validator.validate(target.pos, model)) return FAIL; // tile became invalid
             if (!performer.take<UnitEquipmentComponent>().toolWithActionEquipped(toolAction))
                 return addEquipAction(); // find tool
             return OK; // tool already equipped
         };
 
-        onStart = () => { 
-            // TODO consider performer skill
+        onStart = () => {
             maxProgress = new DiggingWorkAmountCalculator().getWorkAmount(position, type, model);
+            speed = getSpeed();
         };
 
         onFinish = () => {
-            if (!type.validator.validate(target.pos, model)) return;
+            if (!dessignationType.validator.validate(target.pos, model)) return;
             updateMap();
             // TODO give exp
         };
@@ -55,7 +58,7 @@ public class DigAction : ToolAction {
     private void updateMap() {
         LocalMap map = model.localMap;
         Vector3Int targetPos = target.pos;
-        switch (type.name) {
+        switch (dessignationType.name) {
             case "dig":
                 updateAndRevealMap(targetPos, FLOOR);
                 break;

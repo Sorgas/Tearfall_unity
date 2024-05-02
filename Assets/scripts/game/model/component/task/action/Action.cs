@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using game.model.component.task.action.target;
+using game.model.component.unit;
 using game.model.localmap;
 using game.model.system.unit;
 using game.model.util;
@@ -43,7 +44,7 @@ namespace game.model.component.task.action {
         public Func<ActionCheckingEnum> startCondition;
 
         public System.Action onStart = () => { }; // performed on phase start
-        public Action<float> ticksConsumer; // performs logic based on elapsed ticks
+        public Action<int> ticksConsumer; // performs logic based on elapsed ticks
         public Func<Boolean> finishCondition; // when reached, action ends
         public System.Action onFinish = () => { }; // performed on phase finish
 
@@ -51,15 +52,16 @@ namespace game.model.component.task.action {
         protected float speed = 1;
         public float progress = 0;
         public float maxProgress = 0;
+        protected string usedSkill;
         public bool debug = false;
 
+        // target can be null
         protected Action(ActionTarget target) {
             this.target = target;
-            target.init();
             assignmentCondition = (unit) => throw new NotImplementedException($"assignment condition for action {name} not implemented."); // prevent assigning unimplemented action
             startCondition = () => throw new NotImplementedException($"start condition for action {name} not implemented."); // prevent assigning unimplemented action
             finishCondition = () => progress >= maxProgress;
-            ticksConsumer = delta => progress += delta; // performs logic
+            ticksConsumer = ticks => progress += ticks * speed; // performs logic
         }
         
         public ActionCheckingEnum addPreAction(Action action) {
@@ -81,6 +83,13 @@ namespace game.model.component.task.action {
         protected void log(string message) => Debug.Log($"[{name}]: {message}");
         protected void logDebug(string message) {
             if (debug) Debug.Log($"[{name}]: {message}");
+        }
+        
+        // TODO use performer health condition(work slowly when tired). 
+        protected float getSpeed() {
+            float workSpeed = 1f;
+            if(usedSkill != null) workSpeed += performer.take<UnitSkillComponent>().skills[usedSkill].getSpeedChange();
+            return workSpeed;
         }
 }
 }
