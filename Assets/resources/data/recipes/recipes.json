@@ -4,29 +4,37 @@
     "title": "Metal pickaxe",
     "itemName": "pickaxe",
     "ingredients": ["main:bar:any/metal:1"],
-    "skill": "smithing"
+    "skill": "smithing",
+    "workAmount": 400,
+    "exp": 25
 }, {
     "name": "make_sickle",
     "title": "Metal sickle",
     "itemName": "sickle",
     "ingredients": ["main:bar:any/metal:1"],
-    "skill": "smithing"
+    "skill": "smithing",
+    "workAmount": 300,
+    "exp": 20
 }, {
     "name": "make_axe",
     "title": "Metal axe",
     "itemName": "axe",
     "ingredients": ["main:bar:any/metal:1"],
-    "skill": "smithing"
+    "skill": "smithing",
+    "workAmount": 400,
+    "exp": 25
 }, {
     "name": "melt_ore",
     "title": "Melt ore to metal bar",
     "itemName": "bar",
     "newMaterial": "_smelt:bar",
-    "ingredients": ["main:rock:any/ore:1", "consumed:any:any/fuel:1"]
+    "ingredients": ["main:rock:any/ore:1", "consumed:any:any/fuel:1"],
+    "workAmount": 300
 }, {
     "name": "extract_seeds",
     "title": "Get seeds from plants",
     "itemName": "seed",
-    "ingredients": ["main:any:any/seed_produce:1"]
+    "ingredients": ["main:any:any/seed_produce:1"],
+    "workAmount": 100
 }
 ]

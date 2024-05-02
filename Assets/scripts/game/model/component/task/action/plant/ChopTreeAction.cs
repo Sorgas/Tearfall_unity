@@ -47,6 +47,7 @@ public class ChopTreeAction : ToolAction {
             generator.generatePlantProduct(model.plantContainer.getBlock(targetPosition), item);
             if (plant.take<PlantComponent>().type.isTree) container.removePlant(plant, true);
             model.itemContainer.onMap.putItemToMap(item, targetPosition);
+            giveExp(10);
         };
     }
 

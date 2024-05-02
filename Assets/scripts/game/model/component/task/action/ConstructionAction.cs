@@ -1,12 +1,9 @@
 using game.model.component.item;
 using game.model.component.task.order;
-using game.model.component.unit;
 using game.model.container;
 using Leopotam.Ecs;
 using types;
-using types.item;
 using types.material;
-using types.unit.skill;
 using UnityEngine;
 using util.lang.extension;
 
@@ -32,6 +29,7 @@ public class ConstructionAction : GenericBuildingAction {
             plantContainer.removePlant(plantContainer.getPlant(order.position), true); // remove plant
             model.localMap.substrateMap.remove(order.position); // remove substrates
             consumeItems();
+            giveExp(order.allIngredientItems().Count * 3);
             Debug.Log(blockType.NAME + " built at " + order.position);
         };
     }

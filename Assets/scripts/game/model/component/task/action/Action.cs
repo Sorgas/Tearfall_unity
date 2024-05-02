@@ -85,11 +85,15 @@ namespace game.model.component.task.action {
             if (debug) Debug.Log($"[{name}]: {message}");
         }
         
-        // TODO use performer health condition(work slowly when tired). 
-        protected float getSpeed() {
-            float workSpeed = 1f;
-            if(usedSkill != null) workSpeed += performer.take<UnitSkillComponent>().skills[usedSkill].getSpeedChange();
-            return workSpeed;
-        }
+    // TODO use performer health condition(work slowly when tired). 
+    protected float getSpeed() {
+        float workSpeed = 1f;
+        if(usedSkill != null) workSpeed += performer.take<UnitSkillComponent>().skills[usedSkill].getSpeedChange();
+        return workSpeed;
+    }
+
+    protected void giveExp(int expGain) {
+        if (usedSkill != null) performer.take<UnitSkillComponent>().skills[usedSkill].addExp(expGain);
+    }
 }
 }

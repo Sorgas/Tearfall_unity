@@ -24,6 +24,7 @@ namespace game.model.component.task.action.plant {
 
             onFinish = () => {
                 model.plantContainer.removePlant(entity);
+                giveExp(2);
             };
         }
     }

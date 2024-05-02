@@ -41,7 +41,7 @@ public class DigAction : ToolAction {
         onFinish = () => {
             if (!dessignationType.validator.validate(target.pos, model)) return;
             updateMap();
-            // TODO give exp
+            giveExp(4);
         };
     }
 

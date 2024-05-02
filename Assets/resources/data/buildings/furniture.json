@@ -8,7 +8,8 @@
     "positionE" : [0,1],
     "positionW" : [0,0],
     "ingredients" : ["main:log:any/wood:4"],
-    "rawComponents" : ["sleepFurniture"]
+    "rawComponents" : ["sleepFurniture"],
+    "buildingExp": 20
   }, {
     "name" : "stool",
     "tileset": "furniture",
@@ -17,7 +18,8 @@
     "positionS" : [4,0],
     "positionE" : [4,0],
     "positionW" : [4,0],
-    "ingredients" : ["main:log:any/wood:4"]
+    "ingredients" : ["main:log:any/wood:1"],
+    "buildingExp": 20
   }, {
     "name" : "table",
     "tileset": "furniture",
@@ -26,7 +28,8 @@
     "positionS" : [7,0],
     "positionE" : [5,0],
     "positionW" : [5,0],
-    "ingredients" : ["main:log:any/wood:4"]
+    "ingredients" : ["main:log:any/wood:3"],
+    "buildingExp": 15
   }, {
   "name" : "door",
   "tileset": "door",
@@ -39,6 +42,7 @@
   "positionW" : [0,0],
   "passage" : "door",
   "ingredients" : ["main:log:any/wood:2", "main:plank:any/wood:2", "main:bar:any/metal:2"],
-  "components" : ["door"]
+  "components" : ["door"],
+  "buildingExp": 15
 }
 ]

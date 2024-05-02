@@ -7,7 +7,6 @@ using util.geometry.bounds;
 using util.lang;
 
 namespace types.building {
-    [Serializable]
     public class BuildingType {
         public const string SLEEP_FURNITURE = "sleepFurniture";
         public const string DOOR = "door";
@@ -33,6 +32,7 @@ namespace types.building {
 
         public List<string> components = new(); // components that should be added to building
         public MultiValueDictionary<string, Ingredient> ingredients = new();
+        public int buildingExp;
         
         public BuildingOrder dummyOrder;
         
@@ -84,5 +84,6 @@ public class RawBuildingType {
 
     public string[] components;
     public string[] ingredients;
+    public int buildingExp;
 }
 }

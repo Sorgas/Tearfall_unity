@@ -1,14 +1,8 @@
-using game.model.component.item;
 using game.model.component.task.order;
-using game.model.component.unit;
 using game.model.container;
 using Leopotam.Ecs;
-using types.item;
-using types.material;
-using types.unit.skill;
 using UnityEngine;
 using util.geometry.bounds;
-using util.lang.extension;
 
 namespace game.model.component.task.action {
 // action for building buildings: (furniture, workbenches, etc.)
@@ -27,6 +21,7 @@ public class BuildingAction : GenericBuildingAction {
             // GameMvc.model().get(SubstrateContainer.class).remove(order.position); // remove substrates
             consumeItems();
             Debug.Log(order.type.name + " built at " + order.position);
+            giveExp(buildingOrder.type.buildingExp);
         };
     }
 }

@@ -16,5 +16,6 @@ namespace types.item.recipe {
         public float workAmount; // increases crafting time
         public string job;
         public string skill;
+        public int exp;
     }
 }

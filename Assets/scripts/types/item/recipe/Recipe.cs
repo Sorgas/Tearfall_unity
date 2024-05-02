@@ -24,7 +24,8 @@ public class Recipe {
     public float workAmount; // increases crafting time
     public string job;
     public string skill; // if set, crafting gets bonus and gives experience in that skill
-
+    public int exp; 
+    
     public Recipe(RawRecipe raw) {
         name = raw.name;
         title = raw.title;
@@ -38,6 +39,7 @@ public class Recipe {
         workAmount = raw.workAmount != 0 ? raw.workAmount : 1f;
         job = raw.job;
         skill = raw.skill;
+        exp = raw.exp;
     }
 }
 }

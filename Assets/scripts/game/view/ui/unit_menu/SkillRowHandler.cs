@@ -38,6 +38,8 @@ public class SkillRowHandler : MonoBehaviour {
         });
     }
 
+    public void updateValues() => showSkillElements();
+
     public void setForJob(EcsEntity unit, string job) {
         this.unit = unit;
         this.job = job;
@@ -49,7 +51,8 @@ public class SkillRowHandler : MonoBehaviour {
             skill = null;
             title.text = capitalize(job);
         }
-        showSkillElements(skill);
+        showSkillElements();
+        valueDebugButton.gameObject.SetActive(debug && skill != null);
         priorityButton.gameObject.SetActive(true);
         buttonText.text = unit.take<UnitJobsComponent>().enabledJobs[job].ToString();
     }
@@ -59,19 +62,19 @@ public class SkillRowHandler : MonoBehaviour {
         skill = unit.take<UnitSkillComponent>().skills[skillName];
         title.text = capitalize(skill.type.name);
         priorityButton.gameObject.SetActive(false);
-        showSkillElements(skill);
+        valueDebugButton.gameObject.SetActive(debug && skill != null);
+        showSkillElements();
     }
 
     // shows skill level and exp bar
-    private void showSkillElements(UnitSkill skill) {
-        value.text = skill != null ? skill.value.ToString() : "";
-        if (skill == null || skill.value >= UnitSkills.MAX_VALUE) {
+    private void showSkillElements() {
+        value.text = skill != null ? skill.level.ToString() : "";
+        if (skill == null || skill.level >= UnitSkills.MAX_VALUE) {
             barBackground.gameObject.SetActive(false);
         } else {
             barBackground.gameObject.SetActive(true);
-            bar.fillAmount = 1f * skill.exp / UnitSkills.expValues[skill.value];
+            bar.fillAmount = 1f * skill.exp / UnitSkills.expValues[skill.level];
         }
-        valueDebugButton.gameObject.SetActive(debug && skill != null);
     }
 
     private void changeJobPriority(bool increase) {
@@ -80,13 +83,13 @@ public class SkillRowHandler : MonoBehaviour {
     }
 
     private void changeSkillValue(bool increase) {
-        if (skill.value < UnitSkills.MAX_VALUE && increase) {
-            skill.value += 1;
+        if (skill.level < UnitSkills.MAX_VALUE && increase) {
+            skill.level += 1;
         }
-        if (skill.value > UnitSkills.MIN_VALUE && !increase) {
-            skill.value -= 1;
+        if (skill.level > UnitSkills.MIN_VALUE && !increase) {
+            skill.level -= 1;
         }
-        showSkillElements(skill);
+        showSkillElements();
     }
     
     private string capitalize(string value) {

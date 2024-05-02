@@ -5,8 +5,9 @@
     "itemName": "simple_meal",
     "ingredients": ["main:any/cookable:any/organic:1"],
     "newMaterial": "organic",
+    "skill": "cooking",
     "workAmount": 200,
-    "skill": "cooking"
+    "exp": 10
   }, {
     "name": "cook_medium_meal",
     "title": "Meal",
@@ -14,8 +15,9 @@
     "ingredients": ["main:any/cookable:any/organic:1", "consumed:any/cookable2:any/organic:1"],
     "uniqueIngredients": true,
     "newMaterial": "organic",
+    "skill": "cooking",
     "workAmount": 250,
-    "skill": "cooking"
+    "exp": 15
   }, {
     "name": "cook_noble_meal",
     "title": "Noble meal",
@@ -23,7 +25,8 @@
     "ingredients": ["main:any/cookable:any/organic:1", "consumed:any/cookable:any/organic:1", "consumed_2:any/cookable2:any/organic:1"],
     "uniqueIngredients": true,
     "newMaterial": "organic",
+    "skill": "cooking",
     "workAmount": 300,
-    "skill": "cooking"
+    "exp": 20
   }
 ]

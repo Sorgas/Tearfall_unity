@@ -40,12 +40,14 @@ namespace game.model.component.task.action.plant {
                 speed = getSpeed();
             };
 
+            // TODO add chance to fail based on skill and plant rarity. Change exp amount based on plant rarity
             onFinish = () => {
                 zone = model.zoneContainer.getZone(plantPosition);
                 plant.Del<PlantHarvestableComponent>();
                 plant.Replace(new PlantHarvestedComponent());
                 if (zone != EcsEntity.Null) unlockZoneTile(zone, plantPosition);
                 createItems();
+                giveExp(5);
             };
         }
 

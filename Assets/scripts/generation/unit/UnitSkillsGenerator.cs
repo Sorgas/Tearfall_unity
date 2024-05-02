@@ -32,12 +32,12 @@ public class UnitSkillsGenerator {
         UnitSkillComponent component = unit.take<UnitSkillComponent>();
         WeightedSkill primary = primarySkills.getRandomSkill();
         int value = Random.Range(4, 9);
-        component.skills[primary.name].value = value;
+        component.skills[primary.name].level = value;
         unit.takeRef<UnitNamesComponent>().professionName = primary.professionName;
         for (int i = 0; i < 4; i++) {
             WeightedSkill secondary = secondarySkills.getRandomSkill();
             int value2 = Random.Range(1, 3);
-            component.skills[secondary.name].value = value2;
+            component.skills[secondary.name].level = value2;
         }
     }
     

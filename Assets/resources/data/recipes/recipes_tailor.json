@@ -4,42 +4,48 @@
   "title": "Cloth shirt",
   "itemName": "shirt",
   "ingredients": ["main:cloth_roll:any/cloth:2"], 
+  "skill": "tailoring",
   "workAmount": 200,
-  "skill": "tailoring"
+  "exp": 20
   }, {
   "name": "make_pants",
   "title": "Cloth pants",
   "itemName": "pants",
   "ingredients": ["main:cloth_roll:any/cloth:2"],
+  "skill": "tailoring",
   "workAmount": 200,
-  "skill": "tailoring"
+  "exp": 20
 }, {
   "name": "make_hat",
   "title": "Cloth hat",
   "itemName": "hat",
   "ingredients": ["main:cloth_roll:any/cloth:1"],
+  "skill": "tailoring",
   "workAmount": 150,
-  "skill": "tailoring"
+  "exp": 10
 }, {
   "name": "make_gloves",
   "title": "Cloth glovess",
   "itemName": "gloves",
   "ingredients": ["main:cloth_roll:any/cloth:1"],
+  "skill": "tailoring",
   "workAmount": 300,
-  "skill": "tailoring"
+  "exp": 25
 }, {
   "name": "make_boots",
   "title": "Cloth boots",
   "itemName": "boots",
   "ingredients": ["main:cloth_roll:any/cloth:2"],
+  "skill": "tailoring",
   "workAmount": 300,
-  "skill": "tailoring"
+  "exp": 25
 }, {
   "name": "make_backpack",
   "title": "Cloth backpack",
   "itemName": "backpack",
   "ingredients": ["main:cloth_roll:any/cloth:1"],
+  "skill": "tailoring",
   "workAmount": 200,
-  "skill": "tailoring"
+  "exp": 15
 }
 ]

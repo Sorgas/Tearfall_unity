@@ -44,7 +44,7 @@ namespace game.model.component.task.action.plant {
             onFinish = () => {
                 createPlant();
                 unlockZoneTile(zone, tile);
-                // Debug.Log("action " + name + " finished " + tile);
+                giveExp(5);  
             };
         }
 

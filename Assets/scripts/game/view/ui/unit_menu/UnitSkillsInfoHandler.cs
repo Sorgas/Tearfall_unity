@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using game.model.component.unit;
+using game.view.ui.jobs_widget;
 using Leopotam.Ecs;
 using TMPro;
 using types.unit;
@@ -26,6 +27,7 @@ public class UnitSkillsInfoHandler : UnitMenuTab {
     }
 
     public override void showUnit(EcsEntity unit) {
+        this.unit = unit;
         UnitAttributesComponent attributes = unit.take<UnitAttributesComponent>();
         strengthAttributeText.text = attributes.strength.ToString();
         agilityAttributeText.text = attributes.agility.ToString();
@@ -37,7 +39,9 @@ public class UnitSkillsInfoHandler : UnitMenuTab {
     }
 
     protected override void updateView() {
-        setSkillValues(unit);
+        foreach (SkillRowHandler row in rows.Values) {
+            row.updateValues();
+        }
     }
 
     private void setSkillValues(EcsEntity unit) {

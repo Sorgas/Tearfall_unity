@@ -35,7 +35,7 @@ public class UnitJobButtonHandler : MonoBehaviour {
         text.text = component.enabledJobs[job].ToString();
         Job jo = Jobs.jobMap[job];
         if (jo.skill != null) {
-            int skillLevel = unit.take<UnitSkillComponent>().skills[jo.skill].value;
+            int skillLevel = unit.take<UnitSkillComponent>().skills[jo.skill].level;
             image.color = UnitSkills.getColor(skillLevel, image.color);
         }
     }

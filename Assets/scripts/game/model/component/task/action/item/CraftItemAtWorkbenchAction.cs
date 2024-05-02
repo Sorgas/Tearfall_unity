@@ -51,6 +51,7 @@ class CraftItemAtWorkbenchAction : GenericItemConsumingAction {
                 item.Destroy();
             }
             storeProduct(result);
+            giveExp(order.recipe.exp);
         };
     }
 

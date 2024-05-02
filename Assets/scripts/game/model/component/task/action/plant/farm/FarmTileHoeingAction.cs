@@ -40,6 +40,7 @@ public class FarmTileHoeingAction : ToolAction {
         onFinish = () => {
             hoeTile(tile);
             unlockZoneTile(zone, tile);
+            giveExp(5);
         };
     }
 

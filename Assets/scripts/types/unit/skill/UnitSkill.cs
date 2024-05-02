@@ -1,15 +1,29 @@
 namespace types.unit.skill {
 public class UnitSkill {
     public Skill type;
-    public int value;
+    public int level;
     public int exp;
     
-    public UnitSkill(Skill type, int value, int exp) {
+    public UnitSkill(Skill type, int level, int exp) {
         this.type = type;
-        this.value = value;
+        this.level = level;
         this.exp = exp;
     }
 
-    public float getSpeedChange() => type.speedFactor * value;
+    public void addExp(int gain) {
+        while (gain > 0 && level < UnitSkills.MAX_VALUE) {
+            int toNextLevel = UnitSkills.expValues[level] - exp;
+            if (toNextLevel > gain) { // no level up
+                exp += gain;
+                gain = 0;
+            } else { // level up
+                gain -= toNextLevel;
+                level++;
+                exp = 0;
+            }
+        }
+    }
+    
+    public float getSpeedChange() => type.speedFactor * level;
 }
 }

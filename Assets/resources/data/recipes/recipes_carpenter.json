@@ -4,21 +4,24 @@
         "title": "Wooden barrel",
         "itemName": "barrel",
         "ingredients": ["main:log:any/wood:2"],
+        "skill": "carpentry",
         "workAmount": 400,
-        "skill": "carpentry"
+        "exp": 20
     },{
         "name": "make_bin",
         "title": "Wooden bin",
         "itemName": "bin",
         "ingredients": ["main:log:any/wood:2"],
+        "skill": "carpentry",
         "workAmount": 200,
-        "skill": "carpentry"
+        "exp": 15
     },{
         "name": "saw_log",
         "title": "Saw log into planks",
         "itemName": "plank",
         "ingredients": ["main:log:any/wood:1"],
+        "skill": "carpentry",
         "workAmount": 50,
-        "skill": "carpentry"
+        "exp": 5
     }
 ]

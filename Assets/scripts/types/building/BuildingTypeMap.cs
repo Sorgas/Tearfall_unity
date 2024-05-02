@@ -88,6 +88,7 @@ public class BuildingTypeMap : Singleton<BuildingTypeMap> {
         }
 
         raw.ingredients.Select(processor.parseIngredient).ForEach(ingredient => type.ingredients.add(ingredient.key, ingredient));
+        type.buildingExp = raw.buildingExp;
         type.init();
         type.dummyOrder = generator.generateBuildingOrder(type);
         return type;

@@ -11,7 +11,8 @@
     "ingredients" : ["main:log:any/wood:4"],
     "passage" : "impassable",
     "access" : [-1, 0],
-    "job" : "carpenter"
+    "job" : "carpenter",
+    "buildingExp": 20
   }, {
     "name" : "tailor's table",
     "title" : "Tailor's table",
@@ -25,7 +26,8 @@
     "ingredients" : ["main:log:any/wood:4"],
     "passage" : "impassable",
     "access" : [-1, 0],
-    "job" : "tailor"
+    "job" : "tailor",
+    "buildingExp": 20
   }, {
     "name" : "kitchen",
     "title" : "Kitchen",
@@ -39,6 +41,7 @@
     "ingredients" : ["main:log:any/wood:4"],
     "passage" : "impassable",
     "access" : [-1, 0],
-    "job" : "cook"
+    "job" : "cook",
+    "buildingExp": 20
   }
 ]
