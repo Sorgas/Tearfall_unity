@@ -93,7 +93,8 @@ namespace game.model.component.task.action {
     }
 
     protected void giveExp(int expGain) {
-        if (usedSkill != null) performer.take<UnitSkillComponent>().skills[usedSkill].addExp(expGain);
+        float learningFactor = 1 + (performer.take<UnitAttributesComponent>().intelligence - 10) * 0.04f; 
+        if (usedSkill != null) performer.take<UnitSkillComponent>().skills[usedSkill].addExp(expGain * learningFactor);
     }
 }
 }

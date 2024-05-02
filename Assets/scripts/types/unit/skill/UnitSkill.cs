@@ -2,7 +2,7 @@ namespace types.unit.skill {
 public class UnitSkill {
     public Skill type;
     public int level;
-    public int exp;
+    public float exp;
     
     public UnitSkill(Skill type, int level, int exp) {
         this.type = type;
@@ -10,9 +10,9 @@ public class UnitSkill {
         this.exp = exp;
     }
 
-    public void addExp(int gain) {
+    public void addExp(float gain) {
         while (gain > 0 && level < UnitSkills.MAX_VALUE) {
-            int toNextLevel = UnitSkills.expValues[level] - exp;
+            float toNextLevel = UnitSkills.expValues[level] - exp;
             if (toNextLevel > gain) { // no level up
                 exp += gain;
                 gain = 0;
