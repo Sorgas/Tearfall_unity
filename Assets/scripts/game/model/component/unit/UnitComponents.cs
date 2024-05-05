@@ -101,9 +101,9 @@ public struct UnitSkillComponent {
     }
 
     public struct UnitAnimationComponent : IEcsIgnoreInFilter {
-        public string animationName; // name of state in animator
-        public float animationDelay;
-        public float animationDelayMax;
+        public string animationName; // name of state in animator, all states have transition to delay state
+        public float animationDelayMax; // seconds between animation plays 
+        public float animationDelay; // current time elapsed, Time.DeltaTime is added each frame
     }
 
     public struct UnitVisualOnBuildingComponent {

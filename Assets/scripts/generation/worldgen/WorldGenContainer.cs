@@ -21,7 +21,6 @@ namespace generation.worldgen {
         public WorldGenContainer() {
             WorldGenConfig config = GenerationState.get().worldGenConfig;
             size = config.size;
-            Random.InitState(config.seed);
             elevation = new float[size, size];
             drainage = new float[size, size];
             summerTemperature = new float[size, size];

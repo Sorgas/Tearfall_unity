@@ -9,7 +9,9 @@ public class TestLevelInitializer {
             Debug.LogWarning("world already exists in GameModel");
             return;
         }
-        new GenerationStateTestInitializer().initState();
+        int seed = System.DateTime.Now.Millisecond;
+        Debug.Log($"Seed used for generation: {seed}");
+        new GenerationStateTestInitializer().initState(seed);
         GenerationState.get().generateLocalMap("main");
     }
 }

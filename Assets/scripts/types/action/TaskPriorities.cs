@@ -2,8 +2,7 @@
 
 namespace types.action {
     public class TaskPriorities {
-        public static TaskPriorities instance { get; } = new();
-        public const int NONE = 0;                 // task not required.
+        public const int NONE = 0;                 // task not required. (used for needs)
         public const int TASK_MIN_PRIORITY = 1;
         public const int COMFORT = 3;               // performed, when no job is available
         public const int JOB = 5;                   // default priority for jobs

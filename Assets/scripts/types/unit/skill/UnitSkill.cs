@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace types.unit.skill {
 public class UnitSkill {
     public Skill type;

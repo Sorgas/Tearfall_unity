@@ -53,7 +53,7 @@ namespace game.view.system.unit {
                 if (animationComponent.animationDelay < animationComponent.animationDelayMax) return;
                 animationComponent.animationDelay %= animationComponent.animationDelayMax;
             }
-            visual.handler.actionAnimator. Play(animationComponent.animationName);
+            visual.handler.actionAnimator.Play(animationComponent.animationName);
         }
         
         private void disableVisuals(EcsEntity entity, UnitVisualComponent visual) {

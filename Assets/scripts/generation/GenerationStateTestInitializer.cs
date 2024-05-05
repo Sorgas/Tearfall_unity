@@ -4,9 +4,11 @@ using UnityEngine;
 namespace generation {
 // fills generation state for test level
 public class GenerationStateTestInitializer {
-    public void initState() {
+    public void initState(int seed) {
         GenerationState state = GenerationState.get();
         state.worldGenConfig.size = 10;
+        Random.InitState(seed);
+        Debug.Log($" {Random.Range(0, 100)}, {Random.Range(0, 100)}, {Random.Range(0, 100)}, {Random.Range(0, 100)}, {Random.Range(0, 100)}, ");
         state.generateWorld(); // sets world map to game model
         createTestSettler();
         createTestItem();

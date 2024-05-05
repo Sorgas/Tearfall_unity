@@ -28,7 +28,7 @@ public class MainMenuStageHandler : StageHandler {
     }
 
     private void toTestLevel() {
-        new GenerationStateTestInitializer().initState();
+        new GenerationStateTestInitializer().initState(1);
         switchTo(localGenStage);
         localGenStage.startGeneration();
     }
