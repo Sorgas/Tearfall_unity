@@ -17,22 +17,21 @@ using static types.action.TaskPriorities;
 
 namespace game.model.system.unit {
 /**
- * 1. find tasks for all units (without assignment)
- * 2. if multiple units selected one task, keep only nearest unit, drop others (tasks for others will be selected on next tick)
- * 3. assign tasks to remaining units (should be 1-to-1)
- * 4. repeat 1 for units without tasks
+ * 1. Find task targets for all units (without assignment), save into assignments map.
+ * 2. If target is selected by one unit, create and assign task.  
+ * 3. If target is selected by multiple units, create and assign task to nearest one. (tasks for others will be selected on next tick).
  */
 public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
     public EcsFilter<UnitComponent>.Exclude<TaskComponent, TaskTimeoutComponent> filter; // units without tasks
     private readonly UnitNeedActionCreator needActionCreator = new();
     private readonly int maxPriority = range.max;
     private readonly int minPriority = range.min;
-    private readonly MultiValueDictionary<TaskTargetDescriptor, TaskPerformerDescriptor> assignments = new();
+    private readonly MultiValueDictionary<TaskTargetDescriptor, TaskPerformerDescriptor> assignments = new(); // for cases when 
 
     public UnitTaskAssignmentSystem() {
         name = "UnitTaskAssignmentSystem";
     }
-
+    
     public override void Run() {
         assignments.Clear();
         foreach (int i in filter) {

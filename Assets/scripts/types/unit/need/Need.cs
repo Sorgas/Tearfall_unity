@@ -1,4 +1,5 @@
-﻿using game.model.component.task.action;
+﻿using System.Collections.Generic;
+using game.model.component.task.action;
 using game.model.localmap;
 using game.model.system.unit;
 using Leopotam.Ecs;
@@ -13,9 +14,13 @@ namespace types.unit.need {
         // returns priority by need value
         public abstract int getPriority(float value);
 
+        // returns name of status effect to applied on given need value
+        public abstract string getStatusEffect(float value);
+
         public abstract Action tryCreateAction(LocalModel model, EcsEntity unit);
 
         public abstract UnitTaskAssignment createDescriptor(LocalModel model, EcsEntity unit);
+
 
         // public abstract int getHoursTo0();
 

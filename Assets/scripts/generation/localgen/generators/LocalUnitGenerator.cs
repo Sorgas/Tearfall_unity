@@ -14,7 +14,8 @@ using util.lang.extension;
 using MoreEnumerable = MoreLinq.MoreEnumerable;
 
 namespace generation.localgen.generators {
-    public class LocalUnitGenerator : LocalGenerator {
+// generates units on local map    
+public class LocalUnitGenerator : LocalGenerator {
         private LocalMap map;
         private int spawnSearchMaxAttempts = 100;
         private UnitGenerator unitGenerator = new();
@@ -37,8 +38,7 @@ namespace generation.localgen.generators {
                     unitGenerator.generateUnit(settler, entity);
                     ref PositionComponent positionComponent = ref entity.Get<PositionComponent>();
                     positionComponent.position = spawnPoint.Value;
-                    ref UnitVisualComponent visual = ref entity.takeRef<UnitVisualComponent>();
-                    ininJobs(entity);
+                    initJobs(entity);
                     log("unit spawned at " + spawnPoint.Value);
                 } else {
                     Debug.LogWarning("position to spawn unit not found");
@@ -59,7 +59,8 @@ namespace generation.localgen.generators {
             return null;
         }
 
-        private void ininJobs(EcsEntity entity) {
+        // applies job assign policy to unit's skills
+        private void initJobs(EcsEntity entity) {
             UnitJobsComponent jobsComponent = entity.take<UnitJobsComponent>();
             switch (GlobalSettings.jobAssignPolicy) {
                 case 0: {

@@ -29,7 +29,7 @@ public class UnitMenuGeneralInfoHandler : UnitMenuTab {
 
     protected override void updateView() {
         healthMoodWealthText.text =
-            unit.take<HealthComponent>().overallStatus + ", " +
+            unit.take<UnitHealthComponent>().overallStatus + ", " +
             unit.take<MoodComponent>().status + ", " + 
             unit.take<OwnershipComponent>().wealthStatus;
         showTools(unit);

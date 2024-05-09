@@ -48,7 +48,7 @@ namespace game.model.component.unit {
         public List<string> bodyParts;
     }
 
-    public struct HealthComponent {
+    public struct UnitHealthComponent {
         public string overallStatus;
         public List<string> injures;
     }
@@ -115,12 +115,24 @@ public struct UnitSkillComponent {
     }
 
 public struct UnitAttributesComponent {
-    public int strength;
-    public int agility;
-    public int endurance;
-    public int intelligence;
-    public int will;
-    public int charisma;
+    public UnitIntProperty strength;
+    public UnitIntProperty agility;
+    public UnitIntProperty endurance;
+    public UnitIntProperty intelligence;
+    public UnitIntProperty will;
+    public UnitIntProperty charisma;
+}
+
+public struct UnitPropertiesComponent {
+    public float baseMoveSpeed;
+    public float moveSpeed;
+    public float manipulationSpeed; // for working and combat
+}
+
+public struct UnitStatusEffectsComponent {
+    public string restNeedEffect; // only one need effect can present at time
+    public string hungerNeedEffect;
+    public Dictionary<string, UnitStatusEffect> effects;
 }
 
 public struct UnitMoodModifier {

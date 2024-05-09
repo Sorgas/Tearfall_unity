@@ -56,7 +56,7 @@ public class UnitMenuHealthInfoHandler : UnitMenuTab {
 
     protected override void updateView() {
         if (unit == EcsEntity.Null) return;
-        HealthComponent component = unit.take<HealthComponent>();
+        UnitHealthComponent component = unit.take<UnitHealthComponent>();
         UnitNeedComponent needs = unit.take<UnitNeedComponent>();
         statusText.text = component.overallStatus;
         rest.setValue(needs.rest);

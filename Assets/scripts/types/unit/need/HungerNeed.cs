@@ -6,7 +6,6 @@ using game.model.system;
 using game.model.system.unit;
 using Leopotam.Ecs;
 using types.action;
-using UnityEngine;
 using util.lang.extension;
 
 namespace types.unit.need {
@@ -28,6 +27,13 @@ namespace types.unit.need {
             return TaskPriorities.SAFETY;
         }
 
+        public override string getStatusEffect(float value) {
+            if (value > comfortThreshold) return null;
+            if (value > healthThreshold) return "peckish";
+            if (value > 0) return "hungry";
+            return "starving";
+        }
+        
         public override Action tryCreateAction(LocalModel model, EcsEntity unit) {
             EcsEntity item = model.itemContainer.findingUtil.findFoodItem(unit.pos());
             if (item == EcsEntity.Null) return null;

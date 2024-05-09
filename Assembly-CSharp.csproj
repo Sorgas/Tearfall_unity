@@ -49,9 +49,11 @@
      <Compile Include="Assets\scripts\game\model\component\plant\PlantComponents.cs" />
      <Compile Include="Assets\scripts\types\plant\PlantTypeMap.cs" />
      <Compile Include="Assets\scripts\mainMenu\WorldGenStageHandler.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitStatusEffectUtility.cs" />
      <Compile Include="Assets\scripts\types\unit\CreatureTypeProcessor.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalRampFloorPlacer.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\RectanglePacking\RectanglePacker.cs" />
+     <Compile Include="Assets\scripts\game\model\component\unit\UnitIntProperty.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\AbstractPassageHelper.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\AreaInitializerGroundImpassableDoors.cs" />
      <Compile Include="Assets\scripts\game\view\camera\SelectorSpriteUpdater.cs" />
@@ -165,7 +167,6 @@
      <Compile Include="Assets\scripts\game\model\system\util\TileUpdateSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarWidgetHandler.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\AssetPacker\AssetPacker.cs" />
-     <Compile Include="Assets\scripts\game\model\system\unit\TaskAssignmentTest.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\deity\DeityAspects.cs" />
      <Compile Include="Assets\scripts\game\view\ui\FarmMenuHandler.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenSequence.cs" />
@@ -189,7 +190,7 @@
      <Compile Include="Assets\scripts\game\model\system\ModelUpdateSystem.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\RampUtil.cs" />
      <Compile Include="Assets\scripts\mainMenu\MainMenuInitializer.cs" />
-     <Compile Include="Assets\scripts\game\model\UnitContainer.cs" />
+     <Compile Include="Assets\scripts\game\model\container\UnitContainer.cs" />
      <Compile Include="Assets\scripts\game\view\util\UnitSoundPlayer.cs" />
      <Compile Include="Assets\scripts\game\view\ui\menu_widget\MenuWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\model\container\LocalMapModelComponent.cs" />
@@ -319,6 +320,7 @@
      <Compile Include="Assets\scripts\util\lang\ToggleableLogger.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\EquipmentAction.cs" />
      <Compile Include="Assets\scripts\game\view\ui\stockpileMenu\StockpileConfigItem.cs" />
+     <Compile Include="Assets\scripts\game\view\util\SoundLoader.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\ItemConsumingMouseTool.cs" />
      <Compile Include="Assets\scripts\types\unit\health\GameplayStatEnum.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap_stage\WorldTiles.cs" />
@@ -342,6 +344,7 @@
      <Compile Include="Assets\scripts\util\input\DelayedConditionController.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\tooltip\trigger\TMPLinkTooltipTrigger.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedEffectsSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\order\ConstructionOrder.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\RectanglePacking\SortableSize.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\SelfActionTarget.cs" />
@@ -503,6 +506,7 @@
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\EquipmentSlotHandler.cs" />
      <Compile Include="Assets\scripts\game\model\container\task\TaskCompletionUtil.cs" />
      <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\ItemTooltipHandler.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedValueUtility.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromContainerAction.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />
      <Compile Include="Assets\scripts\game\view\ui\gamespeed_widget\GamespeedWidgetHandler.cs" />
@@ -510,7 +514,8 @@
      <Compile Include="Assets\scripts\mainMenu\ui\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
-     <Compile Include="Assets\scripts\game\view\util\SoundLoader.cs" />
+     <Compile Include="Assets\scripts\game\model\component\unit\UnitStatusEffect.cs" />
+     <Compile Include="Assets\scripts\game\model\component\unit\UnitStatusEffects.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\resources\icons\unit_window" />
      <Folder Include="Assets\resources\prefabs\materialSelector" />
@@ -639,7 +644,7 @@
      <Folder Include="Assets\scripts\game\model\system\zone" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
      <Folder Include="Assets\scripts\types\unit\health" />
-     <Folder Include="Assets\resources\sound" />
+     <Folder Include="Assets\resources\sounds" />
      <Folder Include="Assets\scripts\game\model\container\task" />
      <Folder Include="Assets\scripts\game\model\system\util" />
      <None Include="Assets\resources\data\creatures\jobs.json" />

@@ -29,12 +29,12 @@ public class UnitSkillsInfoHandler : UnitMenuTab {
     public override void showUnit(EcsEntity unit) {
         this.unit = unit;
         UnitAttributesComponent attributes = unit.take<UnitAttributesComponent>();
-        strengthAttributeText.text = attributes.strength.ToString();
-        agilityAttributeText.text = attributes.agility.ToString();
-        enduranceAttributeText.text = attributes.endurance.ToString();
-        intelligenceAttributeText.text = attributes.intelligence.ToString();
-        willAttributeText.text = attributes.will.ToString();
-        charismaAttributeText.text = attributes.charisma.ToString();
+        strengthAttributeText.text = attributes.strength.value.ToString();
+        agilityAttributeText.text = attributes.agility.value.ToString();
+        enduranceAttributeText.text = attributes.endurance.value.ToString();
+        intelligenceAttributeText.text = attributes.intelligence.value.ToString();
+        willAttributeText.text = attributes.will.value.ToString();
+        charismaAttributeText.text = attributes.charisma.value.ToString();
         setSkillValues(unit);
     }
 

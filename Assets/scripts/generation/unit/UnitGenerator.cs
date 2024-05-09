@@ -1,10 +1,8 @@
-using System.Collections.Generic;
 using game.model.component;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using types.unit;
 using UnityEngine;
-using util.lang.extension;
 
 namespace generation.unit {
 class UnitGenerator {
@@ -37,8 +35,9 @@ class UnitGenerator {
             .Replace(new PositionComponent { position = new Vector3Int() })
             .Replace(bodyGenerator.generate(type))
             .Replace(createAttributesComponent(data.statsData))
-            .Replace(new HealthComponent { overallStatus = "healthy" })
-            .Replace(new MoodComponent { status = "content" })
+            .Replace(new UnitHealthComponent { overallStatus = "healthy" })
+            .Replace(new UnitStatusEffectsComponent { effects = new() })
+            .Replace(new MoodComponent { status = "content", value = 0, modifiers = new() })
             .Replace(new OwnershipComponent { wealthStatus = "poor" })
             .Replace(new UnitComponent { type = type })
             .Replace(new AgeComponent { age = data.age });
@@ -66,12 +65,12 @@ class UnitGenerator {
 
     private UnitAttributesComponent createAttributesComponent(StatsData data) {
         return new UnitAttributesComponent {
-            strength = data.strength,
-            agility = data.agility,
-            endurance = data.endurance,
-            intelligence = data.intelligence,
-            will = data.spirit,
-            charisma = data.charisma
+            strength = new UnitIntProperty(data.strength),
+            agility = new UnitIntProperty(data.agility),
+            endurance = new UnitIntProperty(data.endurance),
+            intelligence = new UnitIntProperty(data.intelligence),
+            will = new UnitIntProperty(data.spirit),
+            charisma = new UnitIntProperty(data.charisma)
         };
     }
 }

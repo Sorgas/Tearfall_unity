@@ -5,6 +5,7 @@ using game.model.component.task.action;
 using game.model.component.task.action.needs;
 using game.model.component.unit;
 using game.model.localmap;
+using game.model.system;
 using game.model.system.unit;
 using Leopotam.Ecs;
 using types.action;
@@ -14,18 +15,26 @@ using util.lang.extension;
 // TODO make sleeping restore diminishing fatigue values
 namespace types.unit.need {
 public class RestNeed : Need {
-    public const float hoursToComfort = 8f;
-    public const float hoursToHealth = 16f;
+    public const float hoursToComfort = 16f;
+    public const float hoursToHealth = 20f;
     public const float hoursToSafety = 36f; // full need capacity 1 to 0
 
-    public const float comfortThreshold = 1 - hoursToComfort / hoursToSafety;
-    public const float healthThreshold = 1 - hoursToHealth / hoursToSafety;
+    public const float comfortThreshold = 1f - hoursToComfort / hoursToSafety;
+    public const float healthThreshold = 1f - hoursToHealth / hoursToSafety;
+    public const float perTickChange = 1f / hoursToSafety / GameTime.ticksPerHour;
 
     public override int getPriority(float value) {
-        // if (value > comfortThreshold) return TaskPriorityEnum.NONE;
-        if (value > healthThreshold) return TaskPriorities.NONE;
+        if (value > comfortThreshold) return TaskPriorities.NONE;
+        if (value > healthThreshold) return TaskPriorities.COMFORT;
         if (value > 0) return TaskPriorities.HEALTH_NEEDS;
         return TaskPriorities.SAFETY;
+    }
+
+    public override string getStatusEffect(float value) {
+        if (value > comfortThreshold) return null;
+        if (value > healthThreshold) return "sleepy";
+        if (value > 0) return "tired";
+        return "exhausted";
     }
 
     public override Action tryCreateAction(LocalModel model, EcsEntity unit) {
@@ -33,7 +42,6 @@ public class RestNeed : Need {
         if (component.rest <= 0) {
             return new SleepOnGroundAction(unit.pos());
         }
-        Vector3Int unitPos = unit.pos();
         switch (component.restPriority) {
             case TaskPriorities.COMFORT:
             case TaskPriorities.HEALTH_NEEDS: { // select bed

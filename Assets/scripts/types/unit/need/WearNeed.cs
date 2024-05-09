@@ -19,6 +19,10 @@ public class WearNeed : Need {
         return TaskPriorities.HEALTH_NEEDS;
     }
 
+    public override string getStatusEffect(float value) {
+        return null;
+    }
+
     public override Action tryCreateAction(LocalModel model, EcsEntity unit) {
         if (!unit.Has<UnitCalculatedWearNeedComponent>()) return null;
         UnitCalculatedWearNeedComponent wear = unit.take<UnitCalculatedWearNeedComponent>();

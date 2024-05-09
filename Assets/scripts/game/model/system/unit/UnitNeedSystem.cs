@@ -2,6 +2,7 @@
 using Leopotam.Ecs;
 using types.unit.need;
 using UnityEngine;
+using util.lang.extension;
 
 namespace game.model.system.unit {
     // Rolls needs counters in NeedsComponent (hunger, thirst, rest) from 1 to 0.
@@ -10,33 +11,53 @@ namespace game.model.system.unit {
         private const int interval = GameTime.ticksPerMinute * 5; // every 5 in-game minutes
         private readonly float restTick;
         private readonly float hungerTick;
+        private readonly float thirstTick;
         private EcsFilter<UnitNeedComponent> filter;
 
         public UnitNeedSystem() : base(interval) {
-            restTick = 1f / RestNeed.hoursToSafety / GameTime.ticksPerHour * interval;
+            restTick = RestNeed.perTickChange * interval;
             hungerTick = HungerNeed.perTickChange * interval;
+            // thirstTick = ThirstNeed.perTickChange * interval;
         }
         
         protected override void runIntervalLogic(int updates) {
             foreach (var i in filter) {
                 ref UnitNeedComponent component = ref filter.Get1(i);
                 ref EcsEntity unit = ref filter.GetEntity(i);
-                rollNeeds(ref component, updates);
+                rollNeeds(unit, ref component, updates);
                 // updateSlots(ref component, ref unit);
             }
         }
 
+        // TODO add thirst
         // rolls needs values from 1 to 0
-        private void rollNeeds(ref UnitNeedComponent component, int updates) {
-            component.hunger -= hungerTick * updates;
-            if(component.hunger < 0) component.hunger = 0;
+        private void rollNeeds(EcsEntity unit, ref UnitNeedComponent component, int updates) {
+            bool recalculateEffects = false;
+            component.hunger = clampValue(component.hunger, -hungerTick, updates);
             component.hungerPriority = Needs.hunger.getPriority(component.hunger);
-            // component.thirst += 1 * updates;
-            component.rest -= restTick * updates;
-            if(component.rest < 0) component.rest = 0;
+            ref UnitStatusEffectsComponent effectsComponent = ref unit.takeRef<UnitStatusEffectsComponent>();
+            string hungerEffect = Needs.hunger.getStatusEffect(component.hunger);
+            if (effectsComponent.hungerNeedEffect != hungerEffect) {
+                effectsComponent.hungerNeedEffect = hungerEffect;
+                Debug.Log("hunger effect set to " + hungerEffect);
+                recalculateEffects = true;
+            }
+            component.rest = clampValue(component.rest, -restTick, updates);
             component.restPriority = Needs.rest.getPriority(component.rest);
+            string restEffect = Needs.rest.getStatusEffect(component.rest);
+            if (effectsComponent.restNeedEffect != restEffect) {
+                effectsComponent.restNeedEffect = restEffect;
+                Debug.Log("rest effect set to " + restEffect);
+                recalculateEffects = true;
+            }
+            if(recalculateEffects) model.unitContainer.statusEffectUtility.recalculate(unit);
         }
 
+        private float clampValue(float value, float delta, int updates) {
+            value += delta * updates;
+            return value > 0 ? value : 0;
+        }
+        
         // private void updateSlots(ref UnitNeedComponent component, ref EcsEntity unit) {
         //     // todo add flag for updating
         //     if (unit.Has<UnitEquipmentComponent>()) {

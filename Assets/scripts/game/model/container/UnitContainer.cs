@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using game.model.system.unit;
 using Leopotam.Ecs;
 
-namespace game.model {
+namespace game.model.container {
     public class UnitContainer {
         public readonly Dictionary<int, EcsEntity> playerUnits = new();
         public readonly List<EcsEntity> units = new();
         private readonly HashSet<int> usedIds = new();
+        public readonly UnitStatusEffectUtility statusEffectUtility = new();
 
         public void addNewPlayerUnit(EcsEntity unit) {
             playerUnits.Add(getFreeId(), unit);
