@@ -6,6 +6,7 @@ using game.model.component.unit;
 using game.view.util;
 using Leopotam.Ecs;
 using types;
+using types.unit;
 using UnityEngine;
 using util.lang.extension;
 using static types.PassageTypes;
@@ -103,17 +104,19 @@ public class UnitMovementSystem : LocalModelScalableEcsSystem {
 
     // calculates speed for reaching next tile. updates sprites orientation
     private void pathTilesChanged(EcsEntity unit, ref UnitMovementComponent movement, Vector3Int current, Vector3Int next) {
-        updateCurrentSpeed(ref movement, current, next);
+        updateCurrentSpeed(unit, ref movement, current, next);
         updateVisual(unit, current, next);
     }
 
-    private void updateCurrentSpeed(ref UnitMovementComponent movement, Vector3Int current, Vector3Int next) {
+    // updates current speed from unit's properties and basing on current step direction
+    private void updateCurrentSpeed(EcsEntity unit, ref UnitMovementComponent movement, Vector3Int current, Vector3Int next) {
         if (current == next) {
             movement.currentSpeed = -1;
             return;
         }
         Vector3Int direction = next - current;
-        movement.currentSpeed = movement.speed;
+        movement.currentSpeed = 
+            unit.take<UnitPropertiesComponent>().properties[UnitProperties.MOVESPEED.name].value / GlobalSettings.UPDATES_PER_SECOND;
         if (direction.z != 0) {
             if (direction.x != 0 || direction.y != 0) {
                 movement.currentSpeed /= diagonalSpeedMod;

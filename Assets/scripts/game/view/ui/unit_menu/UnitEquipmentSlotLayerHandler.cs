@@ -15,7 +15,6 @@ using util.lang.extension;
 
 namespace game.view.ui.unit_menu {
 // handles display of item equipped in layer of unit's slot
-// adds drop button to ItemButtonWithTooltipHandler
 public class UnitEquipmentSlotLayerHandler : ItemButtonWithTooltipHandler {
     public Button dropButton;
     private bool dropButtonEnabled;
@@ -35,8 +34,8 @@ public class UnitEquipmentSlotLayerHandler : ItemButtonWithTooltipHandler {
     public void initFor(EcsEntity unit, EcsEntity item, int amount = -1) {
         base.initFor(item, amount); // displays item
         this.unit = unit;
-        TooltipParentHandler handler = gameObject.GetComponent<TooltipParentHandler>();
-        handler.addTooltipObject(dropButton.gameObject, item != EcsEntity.Null);
+        // TooltipParentHandler handler = gameObject.GetComponent<TooltipParentHandler>();
+        // handler.addTooltipObject(dropButton.gameObject, item != EcsEntity.Null);
             // if (decal.Equals("hand")) {
             //     showDecal(IconLoader.get().getSprite("unit_window/empty_hand"), Color.white);
             // }

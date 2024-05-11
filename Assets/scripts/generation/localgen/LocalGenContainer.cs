@@ -5,7 +5,10 @@ using UnityEngine;
 using util.geometry;
 
 namespace generation.localgen {
-    public class LocalGenContainer {
+// Container for intermediate and final results of localMap generation.
+// Creates and stores LocalModel during generation.
+// LocalModel creates EcsWorld immediately, generators can create entities directly into it.
+public class LocalGenContainer {
         public string mapName;
         public LocalModel model;
         public LocalMap map;

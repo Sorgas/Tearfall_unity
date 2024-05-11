@@ -39,7 +39,7 @@ namespace game.model.system.unit {
             string hungerEffect = Needs.hunger.getStatusEffect(component.hunger);
             if (effectsComponent.hungerNeedEffect != hungerEffect) {
                 effectsComponent.hungerNeedEffect = hungerEffect;
-                Debug.Log("hunger effect set to " + hungerEffect);
+                log("hunger effect set to " + hungerEffect);
                 recalculateEffects = true;
             }
             component.rest = clampValue(component.rest, -restTick, updates);
@@ -47,7 +47,7 @@ namespace game.model.system.unit {
             string restEffect = Needs.rest.getStatusEffect(component.rest);
             if (effectsComponent.restNeedEffect != restEffect) {
                 effectsComponent.restNeedEffect = restEffect;
-                Debug.Log("rest effect set to " + restEffect);
+                log("rest effect set to " + restEffect);
                 recalculateEffects = true;
             }
             if(recalculateEffects) model.unitContainer.statusEffectUtility.recalculate(unit);

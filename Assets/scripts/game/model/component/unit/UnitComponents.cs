@@ -19,7 +19,6 @@ namespace game.model.component.unit {
 
     // stores unit's movement properties
     public struct UnitMovementComponent {
-        public float speed; // tiles per model tick
         public float currentSpeed; // depends on movement direction
         public float step; // speed is added to this value; when reaches 1, position changes
     }
@@ -124,9 +123,7 @@ public struct UnitAttributesComponent {
 }
 
 public struct UnitPropertiesComponent {
-    public float baseMoveSpeed;
-    public float moveSpeed;
-    public float manipulationSpeed; // for working and combat
+    public Dictionary<string, UnitFloatProperty> properties;
 }
 
 public struct UnitStatusEffectsComponent {

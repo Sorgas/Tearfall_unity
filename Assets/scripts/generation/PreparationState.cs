@@ -14,6 +14,7 @@ public class PreparationState : Singleton<PreparationState> {
 // Descriptor for settler. Used to generate unit when game starts.
 public class SettlerData {
     public string name;
+    public string race;
     public int age;
     public string type;
     public bool male;

@@ -19,6 +19,7 @@ public static class CreatureAttributesUtil {
         return array[Random.Range(0, array.Length)];
     }
 
+    // attributes relate to each other
     public static CreatureAttributesEnum getRandomRelated(CreatureAttributesEnum source) {
         return source switch {
             STRENGTH => selectRandomFromArray(SPIRIT, ENDURANCE),

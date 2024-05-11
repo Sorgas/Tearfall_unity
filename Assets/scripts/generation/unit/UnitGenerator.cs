@@ -30,11 +30,12 @@ class UnitGenerator {
     private void addCommonComponents(ref EcsEntity entity, SettlerData data, CreatureType type) {
         entity
             .Replace(nameGenerator.generate(data))
-            .Replace(new UnitMovementComponent { speed = 0.03f, currentSpeed = -1, step = 0 }) // TODO add stat or trait dependency
+            .Replace(createAttributesComponent(data.statsData))
+            .Replace(createPropertiesComponent(data))
+            .Replace(new UnitMovementComponent())
             .Replace(new UnitVisualComponent { headVariant = data.headVariant, bodyVariant = data.bodyVariant }) // sprite go is created in UnitVisualSystem
             .Replace(new PositionComponent { position = new Vector3Int() })
             .Replace(bodyGenerator.generate(type))
-            .Replace(createAttributesComponent(data.statsData))
             .Replace(new UnitHealthComponent { overallStatus = "healthy" })
             .Replace(new UnitStatusEffectsComponent { effects = new() })
             .Replace(new MoodComponent { status = "content", value = 0, modifiers = new() })
@@ -72,6 +73,17 @@ class UnitGenerator {
             will = new UnitIntProperty(data.spirit),
             charisma = new UnitIntProperty(data.charisma)
         };
+    }
+
+    // TODO use default values from race
+    private UnitPropertiesComponent createPropertiesComponent(SettlerData data) {
+        UnitPropertiesComponent component = new UnitPropertiesComponent {
+            properties = new()
+        };
+        foreach (UnitProperty property in UnitProperties.all) {
+            component.properties.Add(property.name, new UnitFloatProperty(property.baseValue));
+        }
+        return component;
     }
 }
 }

@@ -5,7 +5,7 @@ namespace game.model {
     // Counts how many update ticks should be performed during 1 engine update
     // Should be called once per update
     public class GameModelUpdateController {
-        public const float UPDATE_TICK_DELTA = 1 / 30f; // ticks per second on normal game speed
+        public const float UPDATE_TICK_DELTA = 1f / GlobalSettings.UPDATES_PER_SECOND; // ticks per second on normal game speed
         private float remainingTime; // excess time after counting ticks
         
         // returns ticks to be passed to game model

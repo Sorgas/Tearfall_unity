@@ -6,12 +6,10 @@ using game.model.localmap;
 using generation.unit;
 using Leopotam.Ecs;
 using types;
-using types.action;
 using types.unit;
 using types.unit.skill;
 using UnityEngine;
 using util.lang.extension;
-using MoreEnumerable = MoreLinq.MoreEnumerable;
 
 namespace generation.localgen.generators {
 // generates units on local map    
@@ -39,6 +37,7 @@ public class LocalUnitGenerator : LocalGenerator {
                     ref PositionComponent positionComponent = ref entity.Get<PositionComponent>();
                     positionComponent.position = spawnPoint.Value;
                     initJobs(entity);
+                    container.model.unitContainer.statusEffectUtility.recalculate(entity);
                     log("unit spawned at " + spawnPoint.Value);
                 } else {
                     Debug.LogWarning("position to spawn unit not found");
