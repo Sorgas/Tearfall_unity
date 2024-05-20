@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using util.lang.extension;
 
 namespace game.view.ui {
-    public class PlantMenuHandler : WindowManagerMenu {
+    public class PlantMenuHandler : GameWindow {
         public const string name = "plant_menu";
         public Image image;
         public TextMeshProUGUI plantTitle;

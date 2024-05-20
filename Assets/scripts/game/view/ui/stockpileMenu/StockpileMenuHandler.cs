@@ -10,7 +10,7 @@ using util.lang.extension;
 namespace game.view.ui.stockpileMenu {
     // menu for stockpiles. allows to do basic actions. allows to open config menu and presets menu.
     // TODO stats block, containers buttons
-    public class StockpileMenuHandler : WindowManagerMenu {
+    public class StockpileMenuHandler : GameWindow {
         public const string name = "stockpile";
         public Button closeButton;
         public Button pauseButton;

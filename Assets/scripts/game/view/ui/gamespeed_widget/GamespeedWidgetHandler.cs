@@ -11,7 +11,7 @@ using util.lang;
 // buttons call handler methods
 // handler methods update GameModel state and update buttons visual
 namespace game.view.ui.gamespeed_widget {
-    public class GamespeedWidgetHandler : MonoBehaviour, IHotKeyAcceptor, Initable {
+    public class GamespeedWidgetHandler : GameWidget {
         public GameObject pauseButton;
         public GameObject speed1Button;
         public GameObject speed2Button;
@@ -27,7 +27,7 @@ namespace game.view.ui.gamespeed_widget {
             speed3Button.GetComponent<Button>().onClick.AddListener(() => setSpeed(6));
         }
         
-        public void init() => updateVisual();
+        public override void init() => updateVisual();
 
         private void togglePause() {
             if (Time.timeScale != 0) {
@@ -44,7 +44,7 @@ namespace game.view.ui.gamespeed_widget {
             updateVisual();
         }
 
-        public bool accept(KeyCode key) {
+        public override bool accept(KeyCode key) {
             if (key == KeyCode.Space) return pressButton(pauseButton);
             if (key == KeyCode.Keypad1 || key == KeyCode.Alpha1) return pressButton(speed1Button);
             if (key == KeyCode.Keypad2 || key == KeyCode.Alpha2) return pressButton(speed2Button);
@@ -52,6 +52,12 @@ namespace game.view.ui.gamespeed_widget {
             return false;
         }
 
+        public override string getName() {
+            return "game_speed_widget";
+        }
+
+        public override void reset() { }
+        
         private bool pressButton(GameObject button) {
             ExecuteEvents.Execute(button, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
             return true;

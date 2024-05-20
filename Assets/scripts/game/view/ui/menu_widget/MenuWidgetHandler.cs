@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using game.input;
-using game.view.ui.jobs_widget;
 using game.view.ui.jobs_window;
 using game.view.ui.util;
 using UnityEngine;
@@ -8,9 +7,9 @@ using UnityEngine.UI;
 
 namespace game.view.ui.menu_widget {
 // create buttons in side menu widget
-    public class MenuWidgetHandler : MonoBehaviour, IHotKeyAcceptor {
+    public class MenuWidgetHandler : GameWidget {
         public RectTransform buttonPrefab;
-        private readonly Dictionary<KeyCode, Button> hotKeys = new Dictionary<KeyCode, Button>();
+        private readonly Dictionary<KeyCode, Button> hotKeys = new();
 
         private void Start() {
             createButton("toolbar/scroll-quill", 0, JobsWindowHandler.name, KeyCode.J);
@@ -27,12 +26,20 @@ namespace game.view.ui.menu_widget {
             hotKeys.Add(hotKey, button.GetComponentInChildren<Button>());
         }
 
-        public bool accept(KeyCode key) {
+        public override void reset() { }
+
+        public override bool accept(KeyCode key) {
             if (hotKeys.ContainsKey(key)) {
                 hotKeys[key].onClick.Invoke();
                 return true;
             }
             return false;
         }
+
+        public override string getName() {
+            return "menu_widget";
+        }
+
+        public override void init() { }
     }
 }

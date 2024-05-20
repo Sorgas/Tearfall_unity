@@ -4,7 +4,7 @@ using Leopotam.Ecs;
 using UnityEngine.UI;
 
 namespace game.view.ui.unit_menu {
-    public class UnitMenuHandler : WindowManagerMenu {
+    public class UnitMenuHandler : GameWindow {
         public const string NAME = "unit";
         public Image portrait;
         // tabs

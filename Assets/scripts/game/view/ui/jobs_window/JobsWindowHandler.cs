@@ -2,7 +2,6 @@
 using game.model;
 using game.model.component;
 using game.model.component.unit;
-using game.view.ui.jobs_widget;
 using game.view.ui.util;
 using game.view.util;
 using Leopotam.Ecs;
@@ -14,7 +13,7 @@ using util.lang.extension;
 
 namespace game.view.ui.jobs_window {
 // Handles window for changing jobs for all settlers. Displays table of settlers and jobs.    
-public class JobsWindowHandler : WindowManagerMenu {
+public class JobsWindowHandler : GameWindow {
         public const string name = "jobs";
 
         public RectTransform header;
@@ -77,7 +76,7 @@ public class JobsWindowHandler : WindowManagerMenu {
 
         public override string getName() => name;
 
-        public bool accept(KeyCode key) {
+        public override bool accept(KeyCode key) {
             if (!base.accept(key)) {
                 if (key == KeyCode.J) {
                     WindowManager.get().closeWindow(name);

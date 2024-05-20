@@ -52,7 +52,7 @@ namespace game.input {
             data.position = Input.mousePosition;
             List<RaycastResult> results = new();
             EventSystem.current.RaycastAll(data, results);
-            return results.Any(result => result.gameObject.hasComponent<Image>());
+            return results.Any(result => result.gameObject.hasComponent<Image>()); // all ui elements have background with image component
         }
     }
 }

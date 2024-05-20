@@ -8,7 +8,7 @@ namespace game.input {
     // widgets hot key maps should not intersect with each other and camera controls 
     // passes input to widgets
     public class WidgetManager : Singleton<WidgetManager>, IHotKeyAcceptor {
-        public HashSet<IHotKeyAcceptor> widgets = new();
+        public HashSet<GameWidget> widgets = new();
         
         public bool accept(KeyCode key) {
             foreach (var hotKeyAcceptor in widgets) {
@@ -17,8 +17,12 @@ namespace game.input {
             return false;
         }
 
-        public void addWidget(IHotKeyAcceptor widget) {
+        public void addWidget(GameWidget widget) {
             widgets.Add(widget);
+        }
+
+        public void resetAllWidgets() {
+            // TODO close toolbar
         }
     }
 }

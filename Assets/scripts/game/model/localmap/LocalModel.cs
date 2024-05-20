@@ -61,11 +61,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         }
 
         //TODO move ecs world to global game model. (as units should travel between regions)
-        public EcsEntity createEntity() {
-            EcsEntity entity = ecsWorld.NewEntity();
-            // log("created entity: " + entity.GetInternalId());
-            return entity;
-        }
+        public EcsEntity createEntity() => ecsWorld.NewEntity();
 
         // to receive update events from UI. 
         public void addUpdateEvent(ModelUpdateEvent newEvent) {
@@ -81,14 +77,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
                 return result;
             }
         }
-
-        // should be called after tile is updated by any reason(digging, construction, building, plant growth)
-        public void updateTile(Vector3Int position, bool updateRamps) {
-            
-        }
         
-        public string getDebugInfo() => taskContainer.getDebugIngo();
-
         private void log(string message) {
             if(debug) Debug.Log($"[LocalModel]: {message}");
         }

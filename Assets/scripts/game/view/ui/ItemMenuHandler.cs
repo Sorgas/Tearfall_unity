@@ -9,7 +9,7 @@ using UnityEngine.UI;
 using util.lang.extension;
 
 namespace game.view.ui {
-    public class ItemMenuHandler : WindowManagerMenu {
+    public class ItemMenuHandler : GameWindow {
         public const string name = "item_menu";
         public Image image;
         public TextMeshProUGUI itemTitle;

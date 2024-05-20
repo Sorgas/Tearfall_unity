@@ -3,7 +3,7 @@ using UnityEngine;
 using util.lang;
 
 namespace game.input {
-    // dispatches all non-camera key presses in the game
+    // Dispatches all non-camera key presses in the game
     // key event may go to ui-windows or ui-widgets. 
     public class KeyInputSystem : Singleton<KeyInputSystem> {
         private List<KeyCode> keyCodes;

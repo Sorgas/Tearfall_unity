@@ -1,7 +1,6 @@
 using game.view.ui;
 using game.view.ui.debug_tools;
 using game.view.ui.gamespeed_widget;
-using game.view.ui.jobs_widget;
 using game.view.ui.jobs_window;
 using game.view.ui.menu_widget;
 using game.view.ui.stockpileMenu;

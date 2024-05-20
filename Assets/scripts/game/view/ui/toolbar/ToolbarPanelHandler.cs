@@ -4,14 +4,13 @@ using game.view.ui.util;
 using game.view.util;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace game.view.ui.toolbar {
 // holds and manages sub-panels for toolbar panel
 // only one sub-panel can be enabled at once
 // passes input to sub-panels
 // for buttons initialisation see ToolbarWidgetHandler 
-public class ToolbarPanelHandler : MonoBehaviour, IHotKeyAcceptor, ICloseable {
+public class ToolbarPanelHandler : GameWidget {
     public Action toggleAction;
     private readonly Dictionary<KeyCode, ToolbarPanelChild> children = new();
 
@@ -21,7 +20,7 @@ public class ToolbarPanelHandler : MonoBehaviour, IHotKeyAcceptor, ICloseable {
     private string name = "toolbar panel";
     private const bool debug = true;
     
-    public bool accept(KeyCode key) {
+    public override bool accept(KeyCode key) {
         log($"handling {key} in {name}");
         if (activeSubpanel != null) return activeSubpanel.accept(key); // pass to subpanel
         if (children.ContainsKey(key)) {
@@ -31,14 +30,18 @@ public class ToolbarPanelHandler : MonoBehaviour, IHotKeyAcceptor, ICloseable {
         return false; // not handled
     }
 
-    public void open() {
+    public override string getName() {
+        return "toolbar_panel_widget";
+    }
+
+    public override void open() {
         gameObject.SetActive(true);
         if (parentPanel != null) parentPanel.activeSubpanel = this;
         toggleAction?.Invoke();
     }
 
     // closes current and all subpanels recursively
-    public virtual void close() {
+    public new virtual void close() {
         log($"closing {name}");
         if (activeSubpanel != null) activeSubpanel.close();
         toggleAction?.Invoke();

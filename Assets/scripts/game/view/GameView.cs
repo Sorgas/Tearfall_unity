@@ -26,7 +26,7 @@ public class GameView : Singleton<GameView> {
     public readonly IntBounds2 screenBounds = new(Screen.width, Screen.height);
     public SceneElementsReferences sceneElementsReferences;
     public EntitySelector selector;
-
+    
     public void init(LocalGameRunner runner, LocalModel model) {
         Debug.Log("initializing view");
         sceneElementsReferences = runner.sceneElementsReferences;

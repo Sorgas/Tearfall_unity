@@ -16,7 +16,7 @@ using util.lang.extension;
 using ZoneTasksComponent = game.model.component.ZoneTasksComponent;
 
 namespace game.view.ui {
-    public class FarmMenuHandler : WindowManagerMenu {
+    public class FarmMenuHandler : GameWindow {
         public const string NAME = "farm";
         public TextMeshProUGUI farmName;
         public Image selectedPlantIcon;

@@ -142,7 +142,6 @@
      <Compile Include="Assets\scripts\game\input\WidgetManager.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\BuildingMouseTool.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\DesignationActionTarget.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\util\MbWindow.cs" />
      <Compile Include="Assets\scripts\game\view\ui\jobs_window\UnitJobRow.cs" />
      <Compile Include="Assets\scripts\types\unit\need\WearNeed.cs" />
      <Compile Include="Assets\scripts\game\model\util\ZoneUtils.cs" />
@@ -188,6 +187,7 @@
      <Compile Include="Assets\scripts\types\building\ConstructionType.cs" />
      <Compile Include="Assets\scripts\types\plant\PlantSpriteMap.cs" />
      <Compile Include="Assets\scripts\types\plant\SubstrateType.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\trigger\ClickingTooltipTrigger.cs" />
      <Compile Include="Assets\scripts\game\model\system\ModelUpdateSystem.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\RampUtil.cs" />
      <Compile Include="Assets\scripts\mainMenu\MainMenuInitializer.cs" />
@@ -353,6 +353,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\target\SelfActionTarget.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\RecipeProcessor.cs" />
      <Compile Include="Assets\scripts\game\model\container\RoomContainer.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\trigger\HoveringTooltipTrigger.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\zone\StoreItemToStockpileAction.cs" />
      <Compile Include="Assets\scripts\game\view\ui\tooltip\InfoTooltipData.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\AssetPacker\TextureToPack.cs" />
@@ -420,7 +421,6 @@
      <Compile Include="Assets\scripts\types\unit\body\raw\RawBodyPart.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\ConstructionValidator.cs" />
      <Compile Include="Assets\scripts\util\lang\Initable.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\util\IHotKeyAcceptor.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\LocalModelPlantSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\tooltip\trigger\ReusedTooltipClickTrigger.cs" />
      <Compile Include="Assets\scripts\generation\GenerationState.cs" />
@@ -474,6 +474,7 @@
      <Compile Include="Assets\scripts\game\view\tilemaps\BlockTileSetHolder.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitWearNeedSystem.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\NeighbourPositionStream.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\util\UiInterfaces.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\TaskCreationTimeoutSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\FarmDebugInfoHandler.cs" />
@@ -517,8 +518,6 @@
      <Compile Include="Assets\scripts\mainMenu\ui\SliderLabelUpdater.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\tooltip\trigger\ClickingTooltipTrigger.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\tooltip\trigger\HoveringTooltipTrigger.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\resources\icons\unit_window" />
      <Folder Include="Assets\resources\prefabs\materialSelector" />

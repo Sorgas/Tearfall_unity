@@ -1,4 +1,5 @@
-﻿using game.view.system.mouse_tool;
+﻿using game.input;
+using game.view.system.mouse_tool;
 using UnityEngine;
 
 namespace game.view.camera {
@@ -6,6 +7,7 @@ namespace game.view.camera {
     // passes completed selections to MouseToolManager
     // TODO cancel selection when type changed
     // TODO add visual validation for designations
+    // TODO rename to not have 'handler' in name, handlers are ui 
     public class SelectionHandler {
         public SelectionState state = new();
         public bool enabled = true;
@@ -29,9 +31,16 @@ namespace game.view.camera {
             }
         }
 
-        // TODO add canceling tools, closing menus on RMB click (ES2)
         public void handleSecondaryMouseClick() {
-            if (state.started) state.reset();
+            if (state.started) {
+                state.reset();
+            } else {
+                MouseToolManager.get().reset();
+                // TODO make mouse tool always align with state of toolbar (close toolbar on RMB click)
+                // WindowManager.get().closeAll();
+                // TODO closing menus on RMB click (ES2)
+                
+            }
         }
 
         public void handleMouseMove(Vector3Int newPosition) {

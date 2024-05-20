@@ -10,7 +10,7 @@ using static generation.zone.StockpileConfigItemStatus;
 using Vector3 = UnityEngine.Vector3;
 
 namespace game.view.ui.stockpileMenu {
-    public class StockpileConfigMenuHandler : MbWindow {
+    public class StockpileConfigMenuHandler : GameWindow {
         private static string ROW_NAME = "StockpileCategoryRow";
         public Transform categoriesContainer;
         public Transform itemTypesContainer;
@@ -111,6 +111,10 @@ namespace game.view.ui.stockpileMenu {
         public bool accept(KeyCode key) {
             if (key == KeyCode.Q) close();
             return true;
+        }
+
+        public override string getName() {
+            return "scockpile_config_menu";
         }
 
         private void updateButtonsState() {

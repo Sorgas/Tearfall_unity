@@ -6,7 +6,7 @@ using util;
 using util.lang;
 
 namespace game.view.ui.toolbar {
-    public class PrioritySelectionWidgetHandler : MbWindow, Initable {
+    public class PrioritySelectionWidgetHandler : GameWindow, Initable {
         public Button button1;
         public Button button2;
         public Button button3;
@@ -51,6 +51,10 @@ namespace game.view.ui.toolbar {
                 buttons[i].gameObject.GetComponent<Image>().color =
                     priority == i + 1 ? activeColor : inactiveColor;
             }
+        }
+
+        public override string getName() {
+            return "priority_selection_widget";
         }
     }
 }

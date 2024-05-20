@@ -10,29 +10,32 @@ using UnityEngine;
 using util.lang;
 
 namespace game.input {
-    // keeps only one opened window on the screen (active)
+// keeps only one opened window on the screen (active)
     // opens and closes windows by window name
     // passes input to active window
     public class WindowManager : Singleton<WindowManager>, IHotKeyAcceptor {
-        public readonly Dictionary<string, INamed> windows = new(); // windows by name
+        public readonly Dictionary<string, GameWindow> windows = new(); // windows by name
         public string activeWindowName = "";
-        public INamed activeWindow;
+        public GameWindow activeWindow;
         private bool debug = false;
         
         public bool accept(KeyCode key) {
-            return (activeWindow as IHotKeyAcceptor)?.accept(key) ?? false;
+            return activeWindow?.accept(key) ?? false;
         }
 
-        public void addWindow(INamed window) {
+        public void addWindow(GameWindow window) {
             windows.Add(window.getName(), window);
         }
 
-        public bool showWindowByName(string name, bool disableCamera) {
-            return windows.ContainsKey(name) && showWindow(name, disableCamera);
+        public void showWindowByName(string name, bool disableCamera) {
+            if (windows.ContainsKey(name)) {
+                showWindow(name, disableCamera);
+                WidgetManager.get().resetAllWidgets();
+            }
         }
 
-        public bool toggleWindowByName(string name) {
-            return windows.ContainsKey(name) && toggleWindow(name);
+        public void toggleWindowByName(string name) {
+            if(windows.ContainsKey(name)) toggleWindow(name);
         }
 
         public void closeWindow(string name) {
@@ -79,7 +82,7 @@ namespace game.input {
 
         public bool showWindow(string name, bool disableCamera) {
             closeWindow(activeWindowName);
-            INamed window = windows[name];
+            GameWindow window = windows[name];
             log("window " + window.getName() + " shown.");
             activeWindow = window;
             activeWindowName = name;

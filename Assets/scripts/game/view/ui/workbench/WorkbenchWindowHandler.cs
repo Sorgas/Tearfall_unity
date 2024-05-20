@@ -16,7 +16,7 @@ using UnityEngine.UI;
 using util.lang.extension;
 
 namespace game.view.ui.workbench {
-public class WorkbenchWindowHandler : WindowManagerMenu {
+public class WorkbenchWindowHandler : GameWindow {
     public const string name = "workbench";
     public TextMeshProUGUI workbenchNameText;
     public Button addOrderButton;
