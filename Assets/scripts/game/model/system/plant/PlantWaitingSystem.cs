@@ -15,7 +15,7 @@ namespace game.model.system.plant {
         public EcsFilter<PlantHarvestKeepComponent> harvestDestroyFilter;
         private readonly PlantGenerator generator = new();
 
-        protected override void runIntervalLogic(int updates) {
+        protected override void runLogic(int updates) {
             foreach (int i in growthStartFilter) {
                 PlantProductGrowthWaitingComponent component = growthStartFilter.Get1(i);
                 EcsEntity entity = growthStartFilter.GetEntity(i);

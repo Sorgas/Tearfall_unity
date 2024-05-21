@@ -17,20 +17,16 @@ namespace game.model.component.unit {
         public string sex;
     }
 
-    // stores unit's movement properties
-    public struct UnitMovementComponent {
-        public float currentSpeed; // depends on movement direction
-        public float step; // speed is added to this value; when reaches 1, position changes
-    }
-
     // present when action checked, but path is not yet found
     public struct UnitMovementTargetComponent {
         public ActionTarget target;
     }
 
-    // present after finding path
-    public struct UnitMovementPathComponent {
+    // present after pathfinding, while unit is moving
+    public struct UnitMovementComponent {
         public List<Vector3Int> path;
+        public float currentSpeed; // depends on movement direction
+        public float step; // speed is added to this value; when reaches 1, position changes
     }
 
     public struct UnitVisualComponent {

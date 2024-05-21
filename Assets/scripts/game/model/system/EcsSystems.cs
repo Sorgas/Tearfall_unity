@@ -2,72 +2,72 @@ using game.model.localmap;
 using Leopotam.Ecs;
 using UnityEngine;
 
+// Declares custom classes for IEcsRunSystem. They are treated differently regarding game speed for performance purposes.
 namespace game.model.system {
-    // EcsSystem that have link to LocalMapModel for operating on entities
-    // cannot emulate faster game speed, called multiple times from game model
-    public abstract class LocalModelUnscalableEcsSystem : MyEcsRunSystem {
-        protected EcsGlobalSharedData globalSharedData; // injected
-        protected LocalModel model; // injected
-        
-        public override abstract void Run();
+
+// Triggered each engine update per number of elapsed tics.
+public abstract class LocalModelUnscalableEcsSystem : EcsModelSystem { }
+
+// Runs independently from game speed. Triggered once per engine update.
+public abstract class LocalModelTimeIndependentEcsSystem : EcsModelSystem { }
+
+// Triggered once per engine update if there were elapsed ticks. Should scale its effects to number of elapsed ticks
+public abstract class LocalModelScalableEcsSystem : EcsModelSystem {
+    public override void Run() => runLogic(globalSharedData.ticks);
+
+    protected abstract void runLogic(int ticks);
+}
+
+// Implementation of scalable system, which runs its logic each [interval] ticks elapsed.
+public abstract class LocalModelIntervalEcsSystem : LocalModelScalableEcsSystem {
+    private int counter;
+    private readonly int interval; // in ticks
+
+    protected LocalModelIntervalEcsSystem(int interval) {
+        this.interval = interval;
     }
-    
-    // can emulate faster game speed by multiplying changes to number of emulated ticks
-    public abstract class LocalModelScalableEcsSystem : LocalModelUnscalableEcsSystem {
-        // gets more ticks on high gamespeed
-        protected abstract void runLogic(int ticks);
 
-        public override sealed void Run() => runLogic(globalSharedData.ticks);
+    public override void Run() {
+        int updates = rollTimer(globalSharedData.ticks);
+        if (updates > 0) runLogic(updates);
     }
 
-    public abstract class LocalModelIntervalEcsSystem : LocalModelScalableEcsSystem {
-        private int counter;
-        private readonly int interval; // in ticks
-
-        protected LocalModelIntervalEcsSystem(int interval) {
-            this.interval = interval;
-        }
-        
-        protected abstract void runIntervalLogic(int updates);
-
-        protected override sealed void runLogic(int ticks) {
-            int updates = rollTimer(ticks); 
-            if(updates > 0) runIntervalLogic(updates);
-        }
-        
-        private int rollTimer(int ticks) {
-            counter += ticks;
-            int updates = counter / interval;
-            counter %= interval;
-            return updates;
-        }
+    private int rollTimer(int ticks) {
+        counter += ticks;
+        int updates = counter / interval;
+        counter %= interval;
+        return updates;
     }
-    
-    // just to make Run() virtual
-    public class MyEcsRunSystem : IEcsRunSystem {
-        public virtual void Run() { }
-        protected bool debug = false;
-        protected string name = "DefaultSystem";
-        protected string logMessage = "";
+}
 
-        protected void log(string message) {
-            if(debug) Debug.Log($"[{name}]: {message}");
-        }
+// game local model-aware system with logging utility methods. 
+public abstract class EcsModelSystem : IEcsRunSystem {
+    // injected
+    protected EcsGlobalSharedData globalSharedData;
+    protected LocalModel model;
 
-        protected void logWarn(string message) {
-            Debug.LogWarning($"[{name}]: {message}");
-        }
-    
-        protected void logError(string message) {
-            Debug.LogError($"[{name}]: {message}");
-        }
-    
-        protected void logAdd(string message) {
-            if(debug) logMessage += $"{message} \n";
-        }
-    
-        protected void flushLog() {
-            if(debug) Debug.Log(logMessage);
-        }
+    protected string name = "DefaultSystem";
+    protected bool debug = false;
+
+    public abstract void Run();
+
+    protected void log(string message) {
+        if (debug) Debug.Log($"[{name}]: {message}");
     }
+
+    protected void logWarn(string message) {
+        Debug.LogWarning($"[{name}]: {message}");
+    }
+
+    protected void logError(string message) {
+        Debug.LogError($"[{name}]: {message}");
+    }
+}
+
+// injected to all systems of GameModel
+public class EcsGlobalSharedData {
+    public int ticks { get; private set; }
+
+    public void set(int value) => ticks = value;
+}
 }

@@ -17,7 +17,7 @@ public class FarmTaskCreationSystem : LocalModelIntervalEcsSystem {
 
     public FarmTaskCreationSystem() : base(100) { }
 
-    protected override void runIntervalLogic(int updates) {
+    protected override void runLogic(int updates) {
         foreach (int i in workFilter) {
             EcsEntity entity = workFilter.GetEntity(i);
             FarmComponent farm = workFilter.Get1(i);

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using game.model.component;
 using game.model.component.building;
 using game.model.component.unit;
@@ -18,56 +17,57 @@ namespace game.model.system.unit {
 // TODO when door is on the path, it should be opened first, then settler passes and closes door.
 // Doors counted as 'difficult terrain' during pathfinding
 // Add 'openness' value to door. This system should contribute to door openness (displayed visually)
-// Animals should not be able to use doors. 
+// Animals should not be able to use doors.
+
+// TODO add MovementInterruptedComponent - when present, unit should drop path after next completed step. 
 public class UnitMovementSystem : LocalModelScalableEcsSystem {
     public readonly float diagonalSpeedMod = (float)Math.Sqrt(2);
     
-    public EcsFilter<UnitMovementComponent, UnitMovementPathComponent> filter;
+    public EcsFilter<UnitMovementComponent> filter;
 
     protected override void runLogic(int ticks) {
         foreach (int i in filter) {
             ref UnitMovementComponent movement = ref filter.Get1(i);
-            ref UnitMovementPathComponent pathComponent = ref filter.Get2(i);
             ref EcsEntity unit = ref filter.GetEntity(i);
-            updateMovement(ref movement, ref pathComponent, ref unit, ticks);
+            updateMovement(ref movement, ref unit, ticks);
         }
     }
 
     // checks path, accumulates unit speed and makes step to next tile of path
-    private void updateMovement(ref UnitMovementComponent movement, ref UnitMovementPathComponent path, ref EcsEntity unit, int ticks) {
-        Vector3Int nextPosition = path.path[0];
-        if (pathBlocked(unit, nextPosition, ref movement)) return; // cannot move
+    private void updateMovement(ref UnitMovementComponent movement, ref EcsEntity unit, int ticks) {
+        Vector3Int nextPosition = movement.path[0];
+        if (checkAndHandleBlockedPath(unit, nextPosition, ref movement)) return;
         if (movement.currentSpeed < 0) {
-            pathTilesChanged(unit, ref movement, unit.pos(), nextPosition);
+            updateCurrentSpeed(unit, ref movement, nextPosition - unit.pos());
+            updateVisual(unit, unit.pos(), nextPosition);
         }
-        if (handleDoors(unit.pos(), nextPosition)) {
-            movement.step += movement.currentSpeed * ticks; // accumulate speed
-            if (movement.step > 1f) {
-                movement.step -= 1f;
-                makeStep(ref path, ref movement, ref unit);
-            }
+        if (!checkAndHandleDoors(unit.pos(), nextPosition)) return;
+        movement.step += movement.currentSpeed * ticks; // accumulate speed
+        if (movement.step > 1f) {
+            movement.step -= 1f;
+            makeStep(ref movement, ref unit);
         }
     }
 
     // checks if path is blocked by impassable tile. 
-    private bool pathBlocked(EcsEntity unit, Vector3Int position, ref UnitMovementComponent movement) {
+    private bool checkAndHandleBlockedPath(EcsEntity unit, Vector3Int position, ref UnitMovementComponent movement) {
         if (model.localMap.passageMap.passage.get(position) != IMPASSABLE.VALUE) return false;
         movement.step = 0;
-        unit.Del<UnitMovementPathComponent>(); // remove invalid path, will be found again on next tick
+        unit.Del<UnitMovementComponent>(); // remove invalid path, will be found again on next tick
         pathTilesChanged(unit, ref movement, unit.pos());
         return true;
     }
 
     // change position to next position in path
-    private void makeStep(ref UnitMovementPathComponent path, ref UnitMovementComponent movement, ref EcsEntity unit) {
-        Vector3Int current = path.path[0];
+    private void makeStep(ref UnitMovementComponent movement, ref EcsEntity unit) {
+        Vector3Int current = movement.path[0];
         unit.Get<PositionComponent>().position = current;
-        path.path.RemoveAt(0);
-        if (path.path.Count > 0) {
-            pathTilesChanged(unit, ref movement, current, path.path[0]);
+        movement.path.RemoveAt(0);
+        if (movement.path.Count > 0) {
+            pathTilesChanged(unit, ref movement, current, movement.path[0]);
         } else {
             movement.step = 0; // reset movement
-            unit.Del<UnitMovementPathComponent>();
+            unit.Del<UnitMovementComponent>();
             unit.Del<UnitMovementTargetComponent>();
             pathTilesChanged(unit, ref movement, unit.pos());
         }
@@ -77,7 +77,7 @@ public class UnitMovementSystem : LocalModelScalableEcsSystem {
     // opens door on next tile
     // prevents door on next tile from closing
     // returns true if path not blocked by closed door
-    private bool handleDoors(Vector3Int currentPosition, Vector3Int nextPosition) {
+    private bool checkAndHandleDoors(Vector3Int currentPosition, Vector3Int nextPosition) {
         EcsEntity currentDoor = model.buildingContainer.getBuilding(currentPosition);
         if (isDoor(currentDoor)) {
             ref BuildingDoorComponent component = ref currentDoor.takeRef<BuildingDoorComponent>();
@@ -104,17 +104,16 @@ public class UnitMovementSystem : LocalModelScalableEcsSystem {
 
     // calculates speed for reaching next tile. updates sprites orientation
     private void pathTilesChanged(EcsEntity unit, ref UnitMovementComponent movement, Vector3Int current, Vector3Int next) {
-        updateCurrentSpeed(unit, ref movement, current, next);
+        updateCurrentSpeed(unit, ref movement, next - current);
         updateVisual(unit, current, next);
     }
 
     // updates current speed from unit's properties and basing on current step direction
-    private void updateCurrentSpeed(EcsEntity unit, ref UnitMovementComponent movement, Vector3Int current, Vector3Int next) {
-        if (current == next) {
+    private void updateCurrentSpeed(EcsEntity unit, ref UnitMovementComponent movement, Vector3Int direction) {
+        if (direction == Vector3Int.zero) {
             movement.currentSpeed = -1;
             return;
         }
-        Vector3Int direction = next - current;
         movement.currentSpeed = 
             unit.take<UnitPropertiesComponent>().properties[UnitProperties.MOVESPEED.name].value / GlobalSettings.UPDATES_PER_SECOND;
         if (direction.z != 0) {

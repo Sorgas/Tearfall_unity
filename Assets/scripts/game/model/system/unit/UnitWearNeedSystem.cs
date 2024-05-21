@@ -15,7 +15,7 @@ public class UnitWearNeedSystem : LocalModelIntervalEcsSystem {
         debug = true;
     }
 
-    protected override void runIntervalLogic(int updates) {
+    protected override void runLogic(int updates) {
         foreach (var i in filter) {
             EcsEntity unit = filter.GetEntity(i);
             UnitWearNeedComponent wearNeed = filter.Get1(i);

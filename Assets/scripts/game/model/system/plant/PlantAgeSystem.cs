@@ -8,7 +8,7 @@ namespace game.model.system.plant {
 public class PlantAgeSystem : LocalModelPlantSystem {
     public EcsFilter<PlantAgeComponent> filter;
 
-    protected override void runIntervalLogic(int updates) {
+    protected override void runLogic(int updates) {
         foreach (int i in filter) {
             ref PlantAgeComponent ageComponent = ref filter.Get1(i);
             ageComponent.age += TIME_DELTA * updates;

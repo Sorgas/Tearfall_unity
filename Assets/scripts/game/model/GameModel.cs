@@ -43,14 +43,4 @@ namespace game.model {
             localMapModels.Add(name, model);
         }
     }
-    
-    // injected to all systems of GameModel
-    public class EcsGlobalSharedData {
-        public int ticks => value; // number of ticks to calculate
-        private int value;
-        
-        public void set(int value) {
-            this.value = value;
-        }
-    }
 }

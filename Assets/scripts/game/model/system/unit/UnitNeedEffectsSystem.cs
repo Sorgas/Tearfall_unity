@@ -10,7 +10,7 @@ public class UnitNeedEffectsSystem : LocalModelIntervalEcsSystem {
 
     public UnitNeedEffectsSystem() : base(interval) { }
 
-    protected override void runIntervalLogic(int updates) {
+    protected override void runLogic(int updates) {
         foreach (var i in filter) {
             filter.Get1(i);
         }

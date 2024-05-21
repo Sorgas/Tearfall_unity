@@ -32,7 +32,6 @@ class UnitGenerator {
             .Replace(nameGenerator.generate(data))
             .Replace(createAttributesComponent(data.statsData))
             .Replace(createPropertiesComponent(data))
-            .Replace(new UnitMovementComponent())
             .Replace(new UnitVisualComponent { headVariant = data.headVariant, bodyVariant = data.bodyVariant }) // sprite go is created in UnitVisualSystem
             .Replace(new PositionComponent { position = new Vector3Int() })
             .Replace(bodyGenerator.generate(type))

@@ -35,7 +35,7 @@ namespace game.model.container.task {
             if (!task.Has<TaskPerformerComponent>()) return;
             EcsEntity unit = task.takeRef<TaskPerformerComponent>().performer;
             // TODO perform action cancellation (drop items)
-            unit.Del<UnitMovementPathComponent>();
+            unit.Del<UnitMovementComponent>(); 
             unit.Del<UnitMovementTargetComponent>();
             unit.Del<UnitCurrentActionComponent>();
             unit.Del<TaskComponent>();

@@ -15,7 +15,7 @@ namespace game.model.system.plant {
         public SubstrateGrowingSystem() : base(500) { }
         
         // updates not used due to long interval
-        protected override void runIntervalLogic(int updates) {
+        protected override void runLogic(int updates) {
             SubstrateMap map = model.localMap.substrateMap;
             if (map.hasActive()) return;
             HashSet<SubstrateCell> toAdd = new();

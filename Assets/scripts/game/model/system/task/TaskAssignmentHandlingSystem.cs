@@ -9,10 +9,10 @@ namespace game.model.system.task {
     // some entities, like farms and stockpiles, create and keep only one open task and wait until it is assigned before create another task
     // all tasks get TaskAssignedComponent on assignment.
     // this system notifies this entities that task is assigned
-    public class TaskAssignmentHandlingSystem : IEcsRunSystem {
+    public class TaskAssignmentHandlingEcsSystem : LocalModelTimeIndependentEcsSystem {
         public EcsFilter<TaskAssignedComponent> filter;
 
-        public void Run() {
+        public override void Run() {
             foreach (int i in filter) {
                 EcsEntity task = filter.GetEntity(i);
                 if (task.Has<TaskZoneComponent>()) handleZoneTask(task);

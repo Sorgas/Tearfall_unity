@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using game.model.component;
 using game.model.component.unit;
-using game.model.localmap;
-using game.view.util;
 using Leopotam.Ecs;
 using MoreLinq;
 using types.action;
 using UnityEngine;
 using util.lang.extension;
-using util.pathfinding;
 
 namespace game.model.system.unit {
     // When unit has UnitMovementTargetComponent, this system finds path to target and adds UnitMovementPathComponent to unit
     // Can fail unit's task if path not found
     public class UnitPathfindingSystem : LocalModelUnscalableEcsSystem {
-        EcsFilter<UnitComponent, UnitMovementTargetComponent>.Exclude<UnitMovementPathComponent> filter = null;
-        
+        EcsFilter<UnitComponent, UnitMovementTargetComponent>.Exclude<UnitMovementComponent> filter = null;
+
+        public UnitPathfindingSystem() {
+            debug = true;
+        }
+
         public override void Run() {
             foreach (int i in filter) {
                 UnitMovementTargetComponent target = filter.Get2(i);
@@ -39,9 +39,9 @@ namespace game.model.system.unit {
             
                 List<Vector3Int> path = 
                     model.localMap.passageMap.defaultHelper.aStar.makeShortestPath(unit.pos(), targetPosition);
-                if (path != null) {
+                if (path != null) { // start movement
                     path.RemoveAt(0);
-                    unit.Replace(new UnitMovementPathComponent { path = path });
+                    unit.Replace(new UnitMovementComponent { path = path, currentSpeed = -1, step = 0});
                     return;
                 }
             } 

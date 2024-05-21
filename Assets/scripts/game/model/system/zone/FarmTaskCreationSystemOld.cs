@@ -20,7 +20,7 @@ namespace game.model.system.zone {
 
         public FarmTaskCreationSystemOld() : base(100) { }
 
-        protected override void runIntervalLogic(int updates) {
+        protected override void runLogic(int updates) {
             // foreach (int i in hoeingFilter) {
             //     EcsEntity entity = hoeingFilter.GetEntity(i);
             //     FarmComponent farm = hoeingFilter.Get1(i);

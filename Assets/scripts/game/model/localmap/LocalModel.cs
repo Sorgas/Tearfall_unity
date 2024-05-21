@@ -5,7 +5,6 @@ using game.model.container.task;
 using game.model.localmap.update;
 using Leopotam.Ecs;
 using UnityEngine;
-using UnityEngine.Purchasing;
 
 namespace game.model.localmap { // contains LocalMap and ECS world for its entities
     public class LocalModel {
@@ -14,6 +13,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public readonly EcsWorld ecsWorld = new();
         public EcsSystems unscalableSystems;
         public EcsSystems scalableSystems; // for scalable and interval systems
+        public EcsSystems timeIndependentSystems; // for scalable and interval systems
         
         // containers for referencing and CRUD on entities
         public readonly UnitContainer unitContainer = new();
@@ -26,7 +26,6 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public readonly FarmContainer farmContainer;
         public readonly RoomContainer roomContainer;
         public readonly TileUpdateUtil updateUtil;
-        
         
         private readonly List<ModelUpdateEvent> modelUpdateEventQueue = new();
         private readonly bool debug = false;
@@ -51,6 +50,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
             for (var i = 0; i < ticks; i++) {
                 unscalableSystems?.Run();
             }
+            timeIndependentSystems?.Run();
         }
 
         public void init() {

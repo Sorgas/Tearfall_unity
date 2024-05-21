@@ -20,7 +20,7 @@ namespace game.model.system.unit {
             // thirstTick = ThirstNeed.perTickChange * interval;
         }
         
-        protected override void runIntervalLogic(int updates) {
+        protected override void runLogic(int updates) {
             foreach (var i in filter) {
                 ref UnitNeedComponent component = ref filter.Get1(i);
                 ref EcsEntity unit = ref filter.GetEntity(i);

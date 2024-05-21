@@ -8,7 +8,6 @@ public class GenerationStateTestInitializer {
         GenerationState state = GenerationState.get();
         state.worldGenConfig.size = 10;
         Random.InitState(seed);
-        Debug.Log($" {Random.Range(0, 100)}, {Random.Range(0, 100)}, {Random.Range(0, 100)}, {Random.Range(0, 100)}, {Random.Range(0, 100)}, ");
         state.generateWorld(); // sets world map to game model
         createTestSettler();
         createTestItem();

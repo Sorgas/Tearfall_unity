@@ -11,7 +11,7 @@ namespace game.model.system.plant {
 public class PlantGrowthSystem : LocalModelPlantSystem {
     public EcsFilter<PlantGrowthComponent> filter;
 
-    protected override void runIntervalLogic(int updates) {
+    protected override void runLogic(int updates) {
         foreach (int i in filter) {
             ref PlantGrowthComponent growthComponent = ref filter.Get1(i);
             if (growthComponent.growth < growthComponent.maturityAge) {

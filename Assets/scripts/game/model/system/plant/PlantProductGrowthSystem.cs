@@ -9,7 +9,7 @@ namespace game.model.system.plant {
     public class PlantProductGrowthSystem : LocalModelPlantSystem {
         public EcsFilter<PlantProductGrowthComponent> filter;
 
-        protected override void runIntervalLogic(int updates) {
+        protected override void runLogic(int updates) {
             foreach (int i in filter) {
                 EcsEntity entity = filter.GetEntity(i);
                 ref PlantProductGrowthComponent component = ref filter.Get1(i);
