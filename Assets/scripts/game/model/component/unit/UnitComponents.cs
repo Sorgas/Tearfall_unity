@@ -48,23 +48,17 @@ namespace game.model.component.unit {
         public List<string> injures;
     }
 
-    public struct MoodComponent {
-        public string status;
-        public int value;
-        public List<UnitMoodModifier> modifiers;
+public struct UnitJobsComponent {
+    public Dictionary<string, int> enabledJobs; // job -> priority
+
+    public List<string> getByPriority(int priority) =>
+        enabledJobs.Where(pair => pair.Value == priority)
+            .Select(pair => pair.Key).ToList();
+
+    public void changePriority(string job, bool positive) {
+        enabledJobs[job] = (enabledJobs[job] + (positive ? 1 : -1) + Jobs.PRIORITIES_COUNT) % Jobs.PRIORITIES_COUNT;
     }
-
-    public struct UnitJobsComponent {
-        public Dictionary<string, int> enabledJobs; // job -> priority
-
-        public List<string> getByPriority(int priority) =>
-            enabledJobs.Where(pair => pair.Value == priority)
-                .Select(pair => pair.Key).ToList();
-
-        public void changePriority(string job, bool positive) {
-            enabledJobs[job] = (enabledJobs[job] + (positive ? 1 : -1) + Jobs.PRIORITIES_COUNT) % Jobs.PRIORITIES_COUNT;
-        }
-    }
+}
 
 public struct UnitSkillComponent {
     public Dictionary<string, UnitSkill> skills;

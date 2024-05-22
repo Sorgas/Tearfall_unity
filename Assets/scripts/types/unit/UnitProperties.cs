@@ -2,10 +2,10 @@ namespace types.unit {
 // Describes all unit properties in game. Properties affect most unit activities in game.
 // Some base values can be defined by race. Status effects can change values (See UnitStatusEffectUtility).
 public class UnitProperties {
-    public static readonly UnitProperty MOOD = new("mood", 1f);
+    public static readonly UnitProperty MOOD = new("mood", 0f);
     public static readonly UnitProperty MOVESPEED = new("movespeed ", 1f); // tiles per real time second
     public static readonly UnitProperty CARRYWEIGHT = new("carryweight", 1f);
-    public static readonly UnitProperty WORKSPEED = new("workspeed", 1f);
+    public static readonly UnitProperty WORKSPEED = new("workspeed", 1f); // multiplier
     public static readonly UnitProperty STUNRESIST = new("stunresist", 1f);
     public static readonly UnitProperty PAINRESIST = new("painresist", 1f);
     public static readonly UnitProperty HEATRESIST = new("heatresist", 1f);

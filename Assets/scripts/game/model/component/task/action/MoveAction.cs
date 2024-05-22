@@ -12,17 +12,7 @@ namespace game.model.component.task.action {
 
         public MoveAction(Vector3Int targetPosition) : base(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.EXACT)) {
             name = "Move to " + targetPosition;
-            startCondition = () => {
-                if (performer.Has<UnitMovementComponent>()) {
-                    Vector3Int currentPosition = performer.pos();
-                    Debug.Log("checking in same area");
-                    if (model.localMap.passageMap.inSameArea(currentPosition, targetPosition)) {
-                        return ActionCheckingEnum.OK;
-                    }
-                }
-                Debug.LogWarning("Creature cannot move to " + targetPosition);
-                return ActionCheckingEnum.FAIL;
-            };
+            startCondition = () => ActionCheckingEnum.OK;
             finishCondition = () => true;
         }
 

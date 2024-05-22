@@ -18,6 +18,8 @@ public class UiColorsEnum {
     public static readonly Color PAPER_LIGHT = new(0.961f, 0.945f, 0.855f); // f5f1da
     public static readonly Color PAPER_RED = new(0.678f, 0.337f, 0.325f); // ad5653
     public static readonly Color PAPER_GREEN = new(0.302f, 0.549f, 0.310f); // 4d8c4f
+    public static readonly Color RED_BRIGHT;
+    public static readonly Color GREEN_BRIGHT;
 
     public static readonly Color BUTTON_NORMAL = new Color(0.5765f, 0.5765f, 0.6235f); // 93939F
     public static readonly Color BUTTON_HIGHLIGHTED = new Color(0.7804f, 0.7804f, 0.8196f, 1f); // C7C7D1
@@ -26,6 +28,11 @@ public class UiColorsEnum {
     public static readonly Color BUTTON_DISABLED = new(1, 1, 1, 1);
     public static readonly Color BUTTON_CHOSEN = new(239f / 255, 195f / 255, 85f / 255, 1);
 
+    static UiColorsEnum() {
+        ColorUtility.TryParseHtmlString("#AD403D", out RED_BRIGHT);
+        ColorUtility.TryParseHtmlString("#318C34", out GREEN_BRIGHT);
+    }
+    
     public static void initButton(Button button) {
         // TODO init colors of button
     }

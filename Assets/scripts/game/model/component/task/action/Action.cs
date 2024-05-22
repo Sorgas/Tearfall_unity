@@ -7,6 +7,7 @@ using game.model.system.unit;
 using game.model.util;
 using Leopotam.Ecs;
 using types.action;
+using types.unit;
 using UnityEngine;
 using util.lang.extension;
 
@@ -89,6 +90,7 @@ namespace game.model.component.task.action {
     protected float getSpeed() {
         float workSpeed = 1f;
         if(usedSkill != null) workSpeed += performer.take<UnitSkillComponent>().skills[usedSkill].getSpeedChange();
+        workSpeed *= performer.take<UnitPropertiesComponent>().properties[UnitProperties.WORKSPEED.name].value;
         return workSpeed;
     }
 

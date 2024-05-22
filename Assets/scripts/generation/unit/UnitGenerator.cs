@@ -37,7 +37,6 @@ class UnitGenerator {
             .Replace(bodyGenerator.generate(type))
             .Replace(new UnitHealthComponent { overallStatus = "healthy" })
             .Replace(new UnitStatusEffectsComponent { effects = new() })
-            .Replace(new MoodComponent { status = "content", value = 0, modifiers = new() })
             .Replace(new OwnershipComponent { wealthStatus = "poor" })
             .Replace(new UnitComponent { type = type })
             .Replace(new AgeComponent { age = data.age });
