@@ -8,13 +8,11 @@ public abstract class ClickingTooltipTrigger : AbstractTooltipTrigger {
     public override void Awake() {
         base.Awake();
         gameObject.GetComponent<Button>().onClick.AddListener(() => {
-            Vector3 localPosition = self.InverseTransformPoint(Input.mousePosition);
-            openWithCallbacks(localPosition);
-            openCallback?.Invoke();
+            open(self.InverseTransformPoint(Input.mousePosition));
         });
     }
     
-    public override bool update() {
+    public override bool updateInternal() {
         if (isTooltipOpen()) {
             Vector3 localPosition = self.InverseTransformPoint(Input.mousePosition);
             bool mouseInTrigger = self.rect.Contains(localPosition);

@@ -7,5 +7,13 @@ public class UnitFloatProperty {
         baseValue = value;
         this.value = value;
     }
+
+    public void reset() {
+        value = baseValue;
+    }
+    
+    public void applyOffset(float multiplier) {
+        value = baseValue * multiplier;
+    }
 }
 }

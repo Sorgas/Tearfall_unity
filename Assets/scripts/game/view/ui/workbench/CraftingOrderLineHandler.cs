@@ -52,7 +52,7 @@ public class CraftingOrderLineHandler : MonoBehaviour {
         plusButton.addListener(() => changeQuantity(1));
         minusButton.addListener(() => changeQuantity(-1));
         ReusedTooltipClickTrigger trigger = configureButton.GetComponent<ReusedTooltipClickTrigger>();
-        trigger.tooltip = configurePanel.GetComponent<HidingTooltipHandler>();
+        trigger.setTooltip(configurePanel.GetComponent<HidingTooltipHandler>());
         trigger.closeCallback = () => configureButton.setColor(BUTTON_NORMAL);
         trigger.openCallback = () => {
             configurePanel.fillFor(order);

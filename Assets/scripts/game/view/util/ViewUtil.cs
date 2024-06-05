@@ -15,7 +15,7 @@ public static class ViewUtil {
     }
 
     public static Vector3 fromScreenToSceneGlobal(Vector3 pos, GameView view) {
-        return view.sceneElementsReferences.mainCamera.ScreenToWorldPoint(pos);
+        return view.sceneElements.mainCamera.ScreenToWorldPoint(pos);
     }
 
     public static Vector3 fromModelToSceneForUnit(Vector3Int position, LocalModel model) {
@@ -27,8 +27,8 @@ public static class ViewUtil {
     // y-offset between layers = 0.5
     // camera height = -1 from current layer
     public static Vector3Int mouseScreenPositionToModel(Vector3 pos, GameView view) {
-        Vector3 worldPosition = view.sceneElementsReferences.mainCamera.ScreenToWorldPoint(pos);
-        Vector3 holderPos = view.sceneElementsReferences.mapHolder.InverseTransformPoint(worldPosition); // position relative to mapHolder
+        Vector3 worldPosition = view.sceneElements.mainCamera.ScreenToWorldPoint(pos);
+        Vector3 holderPos = view.sceneElements.mapHolder.InverseTransformPoint(worldPosition); // position relative to mapHolder
         return new Vector3Int((int)holderPos.x, (int)(holderPos.y + holderPos.z / 4f + 0.25f), (int)(-holderPos.z / 2f));
     }
 }

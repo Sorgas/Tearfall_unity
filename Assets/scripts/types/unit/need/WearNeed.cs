@@ -7,6 +7,7 @@ using game.model.localmap;
 using game.model.system.unit;
 using Leopotam.Ecs;
 using types.action;
+using types.unit.disease;
 using UnityEngine;
 using util.item;
 using util.lang.extension;
@@ -42,6 +43,10 @@ public class WearNeed : Need {
         if (undesiredItem != EcsEntity.Null)
             return new UnitTaskAssignment(undesiredItem, model.itemContainer.getItemAccessPosition(undesiredItem), "wear", unit, TaskPriorities.JOB);
         return null;
+    }
+
+    public override UnitDisease createDisease() {
+        return null; 
     }
 
     public EcsEntity findItemForSlots(LocalModel model, List<string> slots, Vector3Int unitPosition) {

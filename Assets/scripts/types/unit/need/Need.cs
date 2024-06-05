@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using game.model.component.task.action;
+﻿using game.model.component.task.action;
 using game.model.localmap;
 using game.model.system.unit;
 using Leopotam.Ecs;
+using types.unit.disease;
 
 namespace types.unit.need {
     // defines need thresholds, priorities, penalties, task creation
@@ -21,6 +21,7 @@ namespace types.unit.need {
 
         public abstract UnitTaskAssignment createDescriptor(LocalModel model, EcsEntity unit);
 
+        public abstract UnitDisease createDisease();
 
         // public abstract int getHoursTo0();
 

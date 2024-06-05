@@ -10,7 +10,7 @@ namespace game.view.ui.tooltip {
 public class InfoTooltipGenerator : Singleton<InfoTooltipGenerator> {
     private Dictionary<string, InfoTooltipData> textTooltipDefinitions;
 
-    public DestroyingTooltipHandler generate(InfoTooltipData data) {
+    public AbstractTooltipHandler generate(InfoTooltipData data) {
         if (data.type == "entity") {
             if (data.entityType == "item") {
                 GameObject go = PrefabLoader.create("itemTooltip");
@@ -22,6 +22,12 @@ public class InfoTooltipGenerator : Singleton<InfoTooltipGenerator> {
         if (data.type == "dummy") {
             GameObject tooltip = PrefabLoader.create("dummyTooltip");
             return tooltip.GetComponent<DestroyingTooltipHandler>();
+        }
+        if (data.type == "disease") {
+            GameObject tooltip = PrefabLoader.create("unitDiseaseTooltip");
+            DiseaseTooltipHandler handler = tooltip.GetComponent<DiseaseTooltipHandler>();
+            handler.init(data);
+            return handler;
         }
         return null;
     }

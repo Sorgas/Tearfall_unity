@@ -1,67 +1,72 @@
-using System;
+using System.Collections.Generic;
+using System.Linq;
 using game.model.component.unit;
 using game.view.ui.util;
+using game.view.util;
 using Leopotam.Ecs;
 using TMPro;
-using UnityEngine.UI;
+using UnityEngine;
 using util.lang.extension;
 
 namespace game.view.ui.unit_menu {
 public class UnitMenuHealthInfoHandler : UnitMenuTab {
     public TextMeshProUGUI statusText;
-    public ProgressBarHandler rest;
-    public ProgressBarHandler hunger;
-    public ProgressBarHandler thirst;
-    public Button restPlusButton;
-    public Button restMinusButton;
-    public Button hungerPlusButton;
-    public Button hungerMinusButton;
-    public Button thirstPlusButton;
-    public Button thirstMinusButton;
+    public UnitNeedRowHandler restNeed;
+    public UnitNeedRowHandler hungerNeed;
+    public UnitNeedRowHandler thirstNeed;
+    public RectTransform diseaseColumn;
+
+    private readonly Dictionary<string, DiseaseRowHandler> diseaseRows = new();
 
     // TODO lists for injures
     // TODO use ModelUpdateEvent to change need values
-    public void Start() {
-        restPlusButton.onClick.AddListener(() => {
-            if (unit == EcsEntity.Null) return;
-            ref UnitNeedComponent component = ref unit.takeRef<UnitNeedComponent>();
-            component.rest = Math.Min(component.rest + 0.05f, 1f);
-        });
-        restMinusButton.onClick.AddListener(() => {
-            if (unit == EcsEntity.Null) return;
-            ref UnitNeedComponent component = ref unit.takeRef<UnitNeedComponent>();
-            component.rest = Math.Max(component.rest - 0.05f, 0);
-        });
-        hungerPlusButton.onClick.AddListener(() => {
-            if (unit == EcsEntity.Null) return;
-            ref UnitNeedComponent component = ref unit.takeRef<UnitNeedComponent>();
-            component.hunger = Math.Min(component.hunger + 0.05f, 1f);
-        });
-        hungerMinusButton.onClick.AddListener(() => {
-            if (unit == EcsEntity.Null) return;
-            ref UnitNeedComponent component = ref unit.takeRef<UnitNeedComponent>();
-            component.hunger = Math.Max(component.hunger - 0.05f, 0);
-        });
-        thirstPlusButton.onClick.AddListener(() => {
-            if (unit == EcsEntity.Null) return;
-            ref UnitNeedComponent component = ref unit.takeRef<UnitNeedComponent>();
-            component.thirst = Math.Min(component.thirst + 0.05f, 1f);
-        });
-        thirstMinusButton.onClick.AddListener(() => {
-            if (unit == EcsEntity.Null) return;
-            ref UnitNeedComponent component = ref unit.takeRef<UnitNeedComponent>();
-            component.thirst = Math.Max(component.thirst - 0.05f, 0);
-        });
+
+    public override void showUnit(EcsEntity unit) {
+        base.showUnit(unit);
+        restNeed.init(unit, "rest");
+        hungerNeed.init(unit, "hunger");
+        thirstNeed.init(unit, "thirst");
     }
 
     protected override void updateView() {
-        if (unit == EcsEntity.Null) return;
         UnitHealthComponent component = unit.take<UnitHealthComponent>();
         UnitNeedComponent needs = unit.take<UnitNeedComponent>();
-        statusText.text = component.overallStatus;
-        rest.setValue(needs.rest);
-        hunger.setValue(needs.hunger);
-        thirst.setValue(needs.thirst);
+        // statusText.text = component.overallStatus;
+        restNeed.update();
+        hungerNeed.update();
+        thirstNeed.update();
+        updateDiseaseColumn();
+    }
+
+    private void updateDiseaseColumn() {
+        if (!unit.Has<UnitDiseaseComponent>()) return;
+        UnitDiseaseComponent component = unit.take<UnitDiseaseComponent>();
+        bool changed = false;
+        List<string> sortedDiseases = component.diseases.Keys.OrderBy(s => s).ToList();
+        foreach (string diseaseName in sortedDiseases) {
+            if (!diseaseRows.Keys.Contains(diseaseName)) {
+                GameObject row = PrefabLoader.create("UnitDiseaseRow", diseaseColumn, Vector3.zero);
+                row.name = diseaseName + "Row";
+                DiseaseRowHandler handler = row.GetComponent<DiseaseRowHandler>();
+                diseaseRows.Add(diseaseName, handler);
+                handler.init(component.diseases[diseaseName]);
+                changed = true;
+            }
+            diseaseRows[diseaseName].init(component.diseases[diseaseName]);
+        }
+        List<string> toRemove = diseaseRows.Keys
+            .Where(key => !component.diseases.ContainsKey(key)).ToList();
+        changed = changed || toRemove.Count > 0;
+        toRemove.ForEach(key => {
+            Destroy(diseaseRows[key]);
+            diseaseRows.Remove(key);
+        });
+        if (changed) {
+            int count = 0;
+            foreach (var key in diseaseRows.Keys) {
+                diseaseRows[key].gameObject.transform.localPosition = new Vector3(0, 0, 0);
+            }
+        }
     }
 }
 }

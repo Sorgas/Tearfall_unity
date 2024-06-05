@@ -41,7 +41,7 @@ namespace game.view.system.item {
             ItemComponent item = entity.takeRef<ItemComponent>();
             ItemVisualComponent visual = new();
             Sprite sprite = ItemTypeMap.get().getSprite(item.type);
-            GameObject go = PrefabLoader.create("Item", GameView.get().sceneElementsReferences.mapHolder);
+            GameObject go = PrefabLoader.create("Item", GameView.get().sceneElements.mapHolder);
             go.name = "Item " + item.type + " " + item.materialString;
             visual.go = go;
             visual.spriteRenderer = go.GetComponent<SpriteRenderer>();

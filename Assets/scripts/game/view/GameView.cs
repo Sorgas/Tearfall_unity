@@ -24,14 +24,14 @@ public class GameView : Singleton<GameView> {
     private EcsSystems systems; // systems for updating scene
     public LocalMapTileUpdater tileUpdater; // manager for tilemaps
     public readonly IntBounds2 screenBounds = new(Screen.width, Screen.height);
-    public SceneElementsReferences sceneElementsReferences;
+    public SceneElementsReferences sceneElements;
     public EntitySelector selector;
     
     public void init(LocalGameRunner runner, LocalModel model) {
         Debug.Log("initializing view");
-        sceneElementsReferences = runner.sceneElementsReferences;
+        sceneElements = runner.sceneElementsReferences;
         initEcs(GameModel.get().currentLocalModel.ecsWorld);
-        tileUpdater = new LocalMapTileUpdater(sceneElementsReferences.mapHolder, model);
+        tileUpdater = new LocalMapTileUpdater(sceneElements.mapHolder, model);
         PlayerControls playerControls = new();
         cameraAndMouseHandler = new CameraAndMouseHandler(runner, playerControls);
         KeyInputSystem.get().playerControls = playerControls;
@@ -81,18 +81,18 @@ public class GameView : Singleton<GameView> {
     // add windows and widgets to manager
     private void initWindowManager() {
         KeyInputSystem system = KeyInputSystem.get();
-        system.windowManager.addWindow(sceneElementsReferences.jobsWindow);
-        system.windowManager.addWindow(sceneElementsReferences.workbenchWindowHandler);
-        system.windowManager.addWindow(sceneElementsReferences.itemMenuHandler);
-        system.windowManager.addWindow(sceneElementsReferences.unitMenuHandler);
-        system.windowManager.addWindow(sceneElementsReferences.stockpileMenuHandler);
-        system.windowManager.addWindow(sceneElementsReferences.farmMenuHandler);
-        system.windowManager.addWindow(sceneElementsReferences.plantMenuHandler);
+        system.windowManager.addWindow(sceneElements.jobsWindow);
+        system.windowManager.addWindow(sceneElements.workbenchWindowHandler);
+        system.windowManager.addWindow(sceneElements.itemMenuHandler);
+        system.windowManager.addWindow(sceneElements.unitMenuHandler);
+        system.windowManager.addWindow(sceneElements.stockpileMenuHandler);
+        system.windowManager.addWindow(sceneElements.farmMenuHandler);
+        system.windowManager.addWindow(sceneElements.plantMenuHandler);
         system.windowManager.closeAll();
 
-        system.widgetManager.addWidget(sceneElementsReferences.gamespeedWidgetHandler);
-        system.widgetManager.addWidget(sceneElementsReferences.menuWidget);
-        system.widgetManager.addWidget(sceneElementsReferences.toolbarWidget);
+        system.widgetManager.addWidget(sceneElements.gamespeedWidgetHandler);
+        system.widgetManager.addWidget(sceneElements.menuWidget);
+        system.widgetManager.addWidget(sceneElements.toolbarWidget);
     }
 
     // move selector and camera to ground level in map center

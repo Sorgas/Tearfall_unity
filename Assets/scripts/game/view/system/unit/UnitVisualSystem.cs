@@ -45,7 +45,7 @@ public class UnitVisualSystem : IEcsRunSystem {
     private void createSpriteGo(EcsEntity unit, ref UnitVisualComponent component) {
         CreatureType type = unit.take<UnitComponent>().type;
         Vector3Int pos = unit.pos();
-        GameObject instance = PrefabLoader.create("Unit", GameView.get().sceneElementsReferences.mapHolder);
+        GameObject instance = PrefabLoader.create("Unit", GameView.get().sceneElements.mapHolder);
         instance.name = "Unit " + unit.name();
         
         component.current = ViewUtil.fromModelToSceneForUnit(pos, GameModel.get().currentLocalModel);

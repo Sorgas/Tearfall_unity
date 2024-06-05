@@ -27,6 +27,7 @@ namespace game.model.localmap {
             // addSystem(model, new TaskCompletionSystem()); // handle completed tasks
 
             addSystem(model, new UnitNeedSystem());
+            addSystem(model, new UnitDiseaseSystem());
             addSystem(model, new UnitWearNeedSystem());
             // addSystem(model, new DesignationCompletionSystem()); // handle designation with completed tasks
             addSystem(model, new DesignationTaskCreationSystem()); // create tasks for designations

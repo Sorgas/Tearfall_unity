@@ -1,11 +1,11 @@
+using game.view.ui.tooltip.handler;
 using UnityEngine;
 
 namespace game.view.ui.tooltip.trigger {
-// triggers tooltip when trigger object is clicked, instead of mouse hovered.
 // expects tooltip to hide GO instead of destroying.
 public class ReusedTooltipClickTrigger : ClickingTooltipTrigger {
 
-    protected override void openTooltip(Vector3 position) {
+    protected override void createTooltip(Vector3 position) {
         Vector3 worldPosition = fixedPosition
             ? getTopLeftCorner()
             : Input.mousePosition;
@@ -15,7 +15,7 @@ public class ReusedTooltipClickTrigger : ClickingTooltipTrigger {
         tooltip.parent = this; // link tooltip to this trigger
     }
 
-    protected override bool isTooltipOpen() {
+    public override bool isTooltipOpen() {
         return tooltip.parent == this && tooltip.gameObject.activeSelf;
     }
 
@@ -24,6 +24,10 @@ public class ReusedTooltipClickTrigger : ClickingTooltipTrigger {
         var rect = rectTransform.rect;
         Vector2 local = new Vector2(rect.xMin, rect.yMax);
         return rectTransform.TransformPoint(local);
+    }
+
+    public void setTooltip(AbstractTooltipHandler tooltip) {
+        this.tooltip = tooltip;
     }
 }
 }

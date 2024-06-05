@@ -13,6 +13,7 @@ public class UnitProperties {
     public static readonly UnitProperty LIGHTNINGRESIST = new("lightningresist", 1f);
     public static readonly UnitProperty POISONRESIST = new("poisonresist", 1f);
     public static readonly UnitProperty DISEASERESIST = new("diseaseresist", 1f);
+    public static readonly UnitProperty BLEEDRESIST = new("bleedresist", 1f);
     public static readonly UnitProperty DAMAGEMODIFIER = new("damagemodifier", 1f);
     public static readonly UnitProperty ACCURACY = new("accuracy", 1f);
     public static readonly UnitProperty CASTSPEED = new("castspeed", 1f);
@@ -22,11 +23,22 @@ public class UnitProperties {
     public static readonly UnitProperty LEARNINGSPEED = new("learningspeed", 1f);
     public static readonly UnitProperty CRITCHANCE = new("critchance", 1f);
     public static readonly UnitProperty MAGICRESIST = new("magicresist", 1f);
+    public static readonly UnitProperty PAIN = new("pain", 1f);
+    public static readonly UnitProperty BLOOD = new("blood", 1f);
+    public static readonly UnitProperty HUNGERRATE = new("hunger rate", 1f);
+    public static readonly UnitProperty THIRSTRATE = new("thirst rate", 1f);
+    public static readonly UnitProperty FATIGUERATE = new("fatigue rate", 1f);
+    public static readonly UnitProperty CONSCIOUSNESS = new("consciousness", 1f);
+    public static readonly UnitProperty BREATHING = new("breathing", 1f);
+    public static readonly UnitProperty EATING = new("eating", 1f);
+    public static readonly UnitProperty DRINKING = new("drinking", 1f);
+    public static readonly UnitProperty SIGHT = new("sight", 1f);
 
-    public static readonly UnitProperty[] all = {
+    public static readonly UnitProperty[] ALL = {
         MOOD, MOVESPEED, CARRYWEIGHT, WORKSPEED, STUNRESIST, PAINRESIST, HEATRESIST, FROSTRESIST, LIGHTNINGRESIST,
-        POISONRESIST, DISEASERESIST, DAMAGEMODIFIER, ACCURACY, CASTSPEED, SPELLSLOTS, MANA, DODGECHANCE,
-        LEARNINGSPEED, CRITCHANCE, MAGICRESIST,
+        POISONRESIST, DISEASERESIST, BLEEDRESIST, DAMAGEMODIFIER, ACCURACY, CASTSPEED, SPELLSLOTS, MANA, DODGECHANCE,
+        LEARNINGSPEED, CRITCHANCE, MAGICRESIST, PAIN, BLOOD, HUNGERRATE, THIRSTRATE, FATIGUERATE, CONSCIOUSNESS, BREATHING, 
+        EATING, DRINKING, SIGHT,
     };
 }
 

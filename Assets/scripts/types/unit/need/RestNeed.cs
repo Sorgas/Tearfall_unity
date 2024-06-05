@@ -9,6 +9,7 @@ using game.model.system;
 using game.model.system.unit;
 using Leopotam.Ecs;
 using types.action;
+using types.unit.disease;
 using UnityEngine;
 using util.lang.extension;
 
@@ -80,6 +81,10 @@ public class RestNeed : Need {
                 return new UnitTaskAssignment(EcsEntity.Null, placeToSleep, "sleep_ground", unit, component.restPriority);
             }
         }
+        return null;
+    }
+
+    public override UnitDisease createDisease() {
         return null;
     }
 

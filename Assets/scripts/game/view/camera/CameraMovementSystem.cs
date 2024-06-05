@@ -20,7 +20,7 @@ namespace game.view.camera {
         // private Vector3 cameraSpeed;
 
         public void init() {
-            camera = GameView.get().sceneElementsReferences.mainCamera;
+            camera = GameView.get().sceneElements.mainCamera;
             camera.farClipPlane = GlobalSettings.cameraLayerDepth * 2 + 1;
             updateCameraBounds();
             updateCameraSpeed();

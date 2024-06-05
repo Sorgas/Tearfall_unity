@@ -6,6 +6,7 @@ using game.view.util;
 using Leopotam.Ecs;
 using types;
 using types.unit;
+using types.unit.disease;
 using types.unit.skill;
 using UnityEngine;
 
@@ -103,29 +104,19 @@ public struct UnitSkillComponent {
         public Action action;
     }
 
-public struct UnitAttributesComponent {
-    public UnitIntProperty strength;
-    public UnitIntProperty agility;
-    public UnitIntProperty endurance;
-    public UnitIntProperty intelligence;
-    public UnitIntProperty will;
-    public UnitIntProperty charisma;
-}
-
 public struct UnitPropertiesComponent {
+    public Dictionary<string, UnitIntProperty> attributes;
     public Dictionary<string, UnitFloatProperty> properties;
 }
 
 public struct UnitStatusEffectsComponent {
     public string restNeedEffect; // only one need effect can present at time
     public string hungerNeedEffect;
-    public Dictionary<string, UnitStatusEffect> effects;
+    public HashSet<string> effects;
 }
 
-public struct UnitMoodModifier {
-    public string name;
-    public int value;
-    public int remainingTime; // hours
+public struct UnitDiseaseComponent {
+    public Dictionary<string, UnitDisease> diseases;
 }
 
 public struct UnitDoorUserComponent { } // 

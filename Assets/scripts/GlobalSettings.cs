@@ -5,7 +5,8 @@
     public const int cameraLayerDepth = 6;
     
     // tooltips
-    public const float tooltipShowDelay = 0.05f;
+    public const float tooltipShowDelay = 0.15f;
+    public const float tooltipHideDelay = 0.1f;
     public const float tooltipLockDelay = 0.1f;
     
     // gameplay

@@ -29,5 +29,6 @@ public class SceneElementsReferences : MonoBehaviour {
     public PlantMenuHandler plantMenuHandler;
     public TextMeshProUGUI modelDebugInfoPanel;
     public DebugToolsHandler debugToolsHandler;
+    public Canvas tooltipCanvas;
 }
 }

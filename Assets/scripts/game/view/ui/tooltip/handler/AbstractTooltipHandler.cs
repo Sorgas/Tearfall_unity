@@ -22,12 +22,13 @@ public abstract class AbstractTooltipHandler : MonoBehaviour {
 
     // custom update, called from root tooltip trigger
     // keep self - should tooltip not close itself, even if mouse is outside
+    // returns true, if tooltip not closed after update
     public bool update(bool keepSelf) {
         AbstractTooltipTrigger activeTrigger = getActiveTrigger();
         if (activeTrigger == null) { // update triggers to try to open tooltip
             bool hasChild = false;
             foreach (var trigger in triggers) {
-                hasChild = trigger.update();
+                hasChild = trigger.updateInternal();
                 if (hasChild) break;
             }
             // close self if have no children, parent trigger not hovered, and self not hovered
@@ -37,7 +38,7 @@ public abstract class AbstractTooltipHandler : MonoBehaviour {
                 return false;
             }
         } else {
-            activeTrigger.update();
+            return activeTrigger.updateInternal();
         }
         return true;
     }
@@ -51,7 +52,7 @@ public abstract class AbstractTooltipHandler : MonoBehaviour {
     }
 
     private AbstractTooltipTrigger getActiveTrigger() {
-        return triggers.FirstOrDefault(trigger => trigger.tooltip != null);
+        return triggers.FirstOrDefault(trigger => trigger.isTooltipOpen());
     }
 }
 }

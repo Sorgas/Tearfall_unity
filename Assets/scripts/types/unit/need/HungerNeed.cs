@@ -6,9 +6,12 @@ using game.model.system;
 using game.model.system.unit;
 using Leopotam.Ecs;
 using types.action;
+using types.unit.disease;
 using util.lang.extension;
 
 namespace types.unit.need {
+// Describes unit's need for food. Need has value [0..1] where 1 means satisfied.
+// Depending on value, units get different status effects and seek food with different priority. 
     public class HungerNeed : Need {
         // from full satisfaction
         public const float hoursToComfort = 8f;
@@ -29,9 +32,9 @@ namespace types.unit.need {
 
         public override string getStatusEffect(float value) {
             if (value > comfortThreshold) return null;
-            if (value > healthThreshold) return "peckish";
-            if (value > 0) return "hungry";
-            return "starving";
+            if (value > healthThreshold) return UnitStatusEffects.PECKISH.name;
+            if (value > 0) return UnitStatusEffects.HUNGRY.name;
+            return UnitStatusEffects.RAVENOUSLY_HUNGRY.name;
         }
         
         public override Action tryCreateAction(LocalModel model, EcsEntity unit) {
@@ -49,6 +52,10 @@ namespace types.unit.need {
                     return new UnitTaskAssignment(item, model.itemContainer.getItemAccessPosition(item), "eat", unit, hungerPriority);
             }
             return null;
+        }
+
+        public override UnitDisease createDisease() {
+            return new UnitDisease(Diseases.STARVATION);
         }
     }
 }

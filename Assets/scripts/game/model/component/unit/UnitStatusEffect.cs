@@ -17,7 +17,7 @@ public class UnitStatusEffect {
     }
 
     public UnitStatusEffect(string name, int moodDelta) : this(name) {
-        if (moodDelta != 0) offsets["mood"] = moodDelta;
+        if (moodDelta != 0) bonuses["mood"] = moodDelta;
     }
 }
 }

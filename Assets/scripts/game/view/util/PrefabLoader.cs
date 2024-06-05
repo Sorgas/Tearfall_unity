@@ -75,6 +75,10 @@ namespace game.view.util {
             paths.Add("itemTooltip", "prefabs/infoTooltips/ItemTooltip");
             paths.Add("dummyTooltip", "prefabs/infoTooltips/DummyTooltip");
             paths.Add("textTooltip", "prefabs/infoTooltips/TextTooltip");
+            paths.Add("unitDiseaseTooltip", "prefabs/infoTooltips/UnitDiseaseTooltip");
+            
+            // unit menu
+            paths.Add("UnitDiseaseRow", "prefabs/unitMenu/UnitDiseaseRow");
         }
     }
 }

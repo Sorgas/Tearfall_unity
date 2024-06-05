@@ -13,7 +13,7 @@ public class TMPLinkTooltipTrigger : AbstractTooltipTrigger {
     }
 
     // if tooltip is open, passes update to it. Otherwise, checks if mouse is over any link in text and opens corresponding tooltip
-    public override bool update() {
+    public override bool updateInternal() {
         // Debug.Log("updating text trigger");
         int linkIndex = TMP_TextUtilities.FindIntersectingLink(text, Input.mousePosition, null);
         if (tooltip == null) { // try to open tooltip
@@ -23,7 +23,7 @@ public class TMPLinkTooltipTrigger : AbstractTooltipTrigger {
                 string linkId = linkInfo.GetLinkID();
                 tooltip = InfoTooltipGenerator.get().generateFromLink(linkId);
                 Vector3 localPosition = self.InverseTransformPoint(Input.mousePosition);
-                openTooltip(localPosition);
+                createTooltip(localPosition);
                 currentLink = linkIndex;
                 return true;
             }
@@ -34,12 +34,12 @@ public class TMPLinkTooltipTrigger : AbstractTooltipTrigger {
         return false;
     }
 
-    protected override void openTooltip(Vector3 position) {
+    protected override void createTooltip(Vector3 position) {
         tooltip.transform.SetParent(self, false);
         tooltip.gameObject.transform.localPosition = position;
     }
 
-    protected override bool isTooltipOpen() {
+    public override bool isTooltipOpen() {
         return tooltip != null;
     }
 }

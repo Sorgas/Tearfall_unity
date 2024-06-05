@@ -20,9 +20,9 @@ public abstract class MouseTool {
     public string name = "mouse tool";
 
     protected MouseTool() {
-        materialSelector = GameView.get().sceneElementsReferences.materialSelectionWidgetHandler;
-        prioritySelector = GameView.get().sceneElementsReferences.prioritySelectionWidgetHandler;
-        selectorHandler = GameView.get().sceneElementsReferences.selector.GetComponent<SelectorHandler>();
+        materialSelector = GameView.get().sceneElements.materialSelectionWidgetHandler;
+        prioritySelector = GameView.get().sceneElements.prioritySelectionWidgetHandler;
+        selectorHandler = GameView.get().sceneElements.selector.GetComponent<SelectorHandler>();
     }
 
     // called when tool is selected in MouseToolManager

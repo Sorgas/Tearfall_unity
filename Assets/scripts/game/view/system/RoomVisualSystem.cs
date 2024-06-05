@@ -23,7 +23,7 @@ public class RoomVisualSystem : IEcsRunSystem {
             EcsEntity entity = filter.GetEntity(i);
             List<GameObject> list = new();
             GameObject parent = new GameObject();
-            parent.transform.parent = GameView.get().sceneElementsReferences.mapHolder;
+            parent.transform.parent = GameView.get().sceneElements.mapHolder;
             Vector3 roomPosition = ViewUtil.fromModelToScene(room.positions.First());
             Debug.Log(roomPosition);
             parent.transform.localPosition = ViewUtil.fromModelToScene(room.positions.First()) + spriteOffset;

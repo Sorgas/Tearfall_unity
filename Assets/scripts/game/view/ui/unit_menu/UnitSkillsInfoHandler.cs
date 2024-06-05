@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using game.model.component.unit;
-using game.view.ui.jobs_widget;
 using Leopotam.Ecs;
 using TMPro;
 using types.unit;
@@ -28,13 +26,13 @@ public class UnitSkillsInfoHandler : UnitMenuTab {
 
     public override void showUnit(EcsEntity unit) {
         this.unit = unit;
-        UnitAttributesComponent attributes = unit.take<UnitAttributesComponent>();
-        strengthAttributeText.text = attributes.strength.value.ToString();
-        agilityAttributeText.text = attributes.agility.value.ToString();
-        enduranceAttributeText.text = attributes.endurance.value.ToString();
-        intelligenceAttributeText.text = attributes.intelligence.value.ToString();
-        willAttributeText.text = attributes.will.value.ToString();
-        charismaAttributeText.text = attributes.charisma.value.ToString();
+        UnitPropertiesComponent component = unit.take<UnitPropertiesComponent>();
+        strengthAttributeText.text = component.attributes[UnitAttributes.STRENGTH].value.ToString();
+        agilityAttributeText.text = component.attributes[UnitAttributes.AGILITY].value.ToString();
+        enduranceAttributeText.text = component.attributes[UnitAttributes.ENDURANCE].value.ToString();
+        intelligenceAttributeText.text = component.attributes[UnitAttributes.INTELLIGENCE].value.ToString();
+        willAttributeText.text = component.attributes[UnitAttributes.SPIRIT].value.ToString();
+        charismaAttributeText.text = component.attributes[UnitAttributes.CHARISMA].value.ToString();
         setSkillValues(unit);
     }
 

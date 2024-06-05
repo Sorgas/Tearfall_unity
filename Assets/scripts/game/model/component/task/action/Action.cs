@@ -95,7 +95,7 @@ namespace game.model.component.task.action {
     }
 
     protected void giveExp(int expGain) {
-        float learningFactor = 1 + (performer.take<UnitAttributesComponent>().intelligence.value - 10) * 0.04f; 
+        float learningFactor = 1 + (performer.take<UnitPropertiesComponent>().attributes[UnitAttributes.INTELLIGENCE].value - 10) * 0.04f; 
         if (usedSkill != null) performer.take<UnitSkillComponent>().skills[usedSkill].addExp(expGain * learningFactor);
     }
 }

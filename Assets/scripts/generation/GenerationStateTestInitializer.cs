@@ -42,7 +42,7 @@ public class GenerationStateTestInitializer {
         GenerationState.get().preparationState.items.Add(new ItemData { material = "oak", type = "log", quantity = 10 });
         GenerationState.get().preparationState.items.Add(new ItemData { material = "oak", type = "plank", quantity = 10 });
         GenerationState.get().preparationState.items.Add(new ItemData { material = "silk", type = "cloth_roll", quantity = 10 });
-        GenerationState.get().preparationState.items.Add(new ItemData { material = "silk", type = "simple_meal", quantity = 10 });
+        // GenerationState.get().preparationState.items.Add(new ItemData { material = "silk", type = "simple_meal", quantity = 10 });
         // GenerationState.get().preparationState.items.Add(new ItemData {material = "meat", type = "meat_piece", quantity = 5});
     }
 
@@ -53,8 +53,8 @@ public class GenerationStateTestInitializer {
             new[] { "cloth_roll/silk", 
                 "cloth_roll/linen", "cloth_roll/wool", "cloth_roll/cotton" 
             });
-        GenerationState.get().localMapGenerator.itemsToStore.Add("kitchen",
-            new[] { "meat_piece/meat", "turnip/plant", "pumpkin/plant", "pepper/plant" });
+        // GenerationState.get().localMapGenerator.itemsToStore.Add("kitchen",
+        //     new[] { "meat_piece/meat", "turnip/plant", "pumpkin/plant", "pepper/plant" });
     }
 }
 }

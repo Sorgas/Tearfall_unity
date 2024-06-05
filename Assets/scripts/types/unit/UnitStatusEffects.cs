@@ -1,29 +1,50 @@
+using System.Collections.Generic;
 using game.model.component.unit;
-using util.lang;
+using MoreLinq;
 
 namespace types.unit {
 // Lists all possible status effects in game. Initializes 
 // Effect instances are reused for all units.  
-public class UnitStatusEffects : Singleton<UnitStatusEffects> {
-    public static readonly UnitStatusEffect sleepy = new ("sleepy", -2);
-    public static readonly UnitStatusEffect tired = new ("tired", -5);
-    public static readonly UnitStatusEffect exhausted = new ("exhausted", -10);
-    public static readonly UnitStatusEffect peckish = new ("peckish", -2);
-    public static readonly UnitStatusEffect hungry = new ("hungry", -5);
-    public static readonly UnitStatusEffect starving = new ("starving", -10);
+public class UnitStatusEffects {
+    public static readonly UnitStatusEffect SLEEPY = new("sleepy", -2);
+    public static readonly UnitStatusEffect TIRED = new("tired", -5);
+    public static readonly UnitStatusEffect EXHAUSTED = new("exhausted", -10);
+    
+    public static readonly UnitStatusEffect PECKISH = new("peckish", -2);
+    public static readonly UnitStatusEffect HUNGRY = new("hungry", -5);
+    public static readonly UnitStatusEffect RAVENOUSLY_HUNGRY = new("ravenouslyHungry", -10);
+    
+    public static readonly UnitStatusEffect MODERATE_STARVATION = new("moderateStarvation", -10);
+    public static readonly UnitStatusEffect STARVATION = new("starvation", -15);
+    public static readonly UnitStatusEffect EXTREME_STARVATION = new("extremeStarvation", -20);
+    public static readonly Dictionary<string, UnitStatusEffect> effects = new();
+    private static readonly UnitStatusEffect[] all = {
+        SLEEPY, TIRED, EXHAUSTED, PECKISH, HUNGRY, RAVENOUSLY_HUNGRY, MODERATE_STARVATION, STARVATION, EXTREME_STARVATION
+    };
 
-    public UnitStatusEffects() {
-        tired.offsets["movespeed"] = -0.1f;
+    static UnitStatusEffects() {
+        all.ForEach(effect => effects.Add(effect.name, effect));
+        TIRED.offsets["movespeed"] = -0.1f;
         // multipliers["movespeed"] = 0.9f;
-        tired. multipliers["workspeed"] = 0.9f;
-        exhausted.multipliers["movespeed"] = 0.5f;
-        exhausted.multipliers["workspeed"] = 0.5f;
-        hungry.multipliers["frostresist"] = 0.9f;
-        hungry.multipliers["movespeed"] = 0.9f;
-        hungry.multipliers["carryweight"] = 0.75f;
-        starving.multipliers["frostresist"] = 0.5f;
-        starving.multipliers["damagemodifier"] = 0.5f;
-        starving.multipliers["carryweight"] = 0.3f;
+        TIRED.multipliers["workspeed"] = 0.9f;
+        EXHAUSTED.multipliers["movespeed"] = 0.5f;
+        EXHAUSTED.multipliers["workspeed"] = 0.5f;
+        HUNGRY.multipliers["frostresist"] = 0.9f;
+        HUNGRY.multipliers["movespeed"] = 0.9f;
+        HUNGRY.multipliers["carryweight"] = 0.75f;
+        RAVENOUSLY_HUNGRY.multipliers["frostresist"] = 0.5f;
+        RAVENOUSLY_HUNGRY.multipliers["damagemodifier"] = 0.5f;
+        RAVENOUSLY_HUNGRY.multipliers["carryweight"] = 0.3f;
+
+        MODERATE_STARVATION.bonuses["strength"] = -1;
+        MODERATE_STARVATION.bonuses["agility"] = -1;
+        MODERATE_STARVATION.bonuses["endurance"] = -1;
+        STARVATION.bonuses["strength"] = -2;
+        STARVATION.bonuses["agility"] = -2;
+        STARVATION.bonuses["endurance"] = -2;
+        EXTREME_STARVATION.bonuses["strength"] = -4;
+        EXTREME_STARVATION.bonuses["agility"] = -4;
+        EXTREME_STARVATION.bonuses["endurance"] = -4;
     }
 }
 }

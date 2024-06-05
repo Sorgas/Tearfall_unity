@@ -43,6 +43,7 @@
   <ItemGroup>
      <Compile Include="Assets\scripts\game\model\component\task\action\plant\farm\FarmingAction.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\finding\CraftingItemFindingUtil.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitNeedRowHandler.cs" />
      <Compile Include="Assets\scripts\util\lang\Singleton.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\SubstrateMap.cs" />
      <Compile Include="Assets\scripts\types\item\type\ItemTypeMap.cs" />
@@ -50,6 +51,7 @@
      <Compile Include="Assets\scripts\types\plant\PlantTypeMap.cs" />
      <Compile Include="Assets\scripts\mainMenu\WorldGenStageHandler.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitStatusEffectUtility.cs" />
+     <Compile Include="Assets\scripts\types\unit\UnitAttributes.cs" />
      <Compile Include="Assets\scripts\types\unit\CreatureTypeProcessor.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalRampFloorPlacer.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\UnitFloatProperty.cs" />
@@ -150,6 +152,7 @@
      <Compile Include="Assets\scripts\generation\unit\UnitGenerator.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitBodyComponentGenerator.cs" />
      <Compile Include="Assets\scripts\types\unit\CreatureAttributesEnum.cs" />
+     <Compile Include="Assets\scripts\types\unit\disease\UnitDisease.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\plant\PlantHarvestAction.cs" />
      <Compile Include="Assets\scripts\game\view\ui\toolbar\ToolbarPanelHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\order\IngredientOrder.cs" />
@@ -171,6 +174,7 @@
      <Compile Include="Assets\scripts\game\view\ui\FarmMenuHandler.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenSequence.cs" />
      <Compile Include="Assets\scripts\generation\item\DiggingProductGenerator.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitDiseaseSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\EquipToolItemAction.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\AssetPacker\TextureAsset.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\plant\PlantRemoveAction.cs" />
@@ -206,6 +210,7 @@
      <Compile Include="Assets\scripts\types\deity\DeityAspectMap.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\UnitStatusEffect.cs" />
      <Compile Include="Assets\scripts\game\LocalGameRunner.cs" />
+     <Compile Include="Assets\scripts\types\unit\disease\Diseases.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\ZoneMouseTool.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitNameGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\PassageMap.cs" />
@@ -259,6 +264,7 @@
      <Compile Include="Assets\scripts\types\item\type\ItemType.cs" />
      <Compile Include="Assets\scripts\generation\item\CraftingOrderGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantProductGrowthSystem.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\DiseaseTooltipHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\gamespeed_widget\GameTimeWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\stockpileMenu\StockpileMenuHandler.cs" />
      <Compile Include="Assets\scripts\game\view\system\item\ItemVIsualRemoveSystem.cs" />
@@ -483,6 +489,7 @@
      <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\AbstractTooltipHandler.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\GameObjectExtension.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\AStar.cs" />
+     <Compile Include="Assets\scripts\types\unit\disease\Disease.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskAssignmentSystem.cs" />
      <Compile Include="Assets\scripts\types\building\ConstructionTypeMap.cs" />
      <Compile Include="Assets\scripts\game\model\system\zone\StockpileTaskCreationSystem.cs" />
@@ -502,6 +509,7 @@
      <Compile Include="Assets\scripts\game\view\with_entity_selector\CameraWithEsMovementSystem.cs" />
      <Compile Include="Assets\scripts\types\plant\raw\RawPlantLifeStage.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\ButtonRightClickHandler.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\unit_menu\DiseaseRowHandler.cs" />
      <Compile Include="Assets\scripts\game\input\GameInputManager.cs" />
      <Compile Include="Assets\scripts\mainMenu\MainMenuStageHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\SoundButton.cs" />
@@ -579,6 +587,7 @@
      <Folder Include="Assets\scripts\types\unit\body" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
      <Folder Include="Assets\TextMesh Pro\Resources" />
+     <Folder Include="Assets\scripts\types\unit\disease" />
      <None Include="Assets\resources\data\materials\ore.json" />
      <None Include="Assets\resources\data\creatures\creatures.json" />
      <None Include="Assets\resources\data\buildings\workbenches.json" />

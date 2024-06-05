@@ -30,7 +30,6 @@ class UnitGenerator {
     private void addCommonComponents(ref EcsEntity entity, SettlerData data, CreatureType type) {
         entity
             .Replace(nameGenerator.generate(data))
-            .Replace(createAttributesComponent(data.statsData))
             .Replace(createPropertiesComponent(data))
             .Replace(new UnitVisualComponent { headVariant = data.headVariant, bodyVariant = data.bodyVariant }) // sprite go is created in UnitVisualSystem
             .Replace(new PositionComponent { position = new Vector3Int() })
@@ -62,23 +61,19 @@ class UnitGenerator {
         }
     }
 
-    private UnitAttributesComponent createAttributesComponent(StatsData data) {
-        return new UnitAttributesComponent {
-            strength = new UnitIntProperty(data.strength),
-            agility = new UnitIntProperty(data.agility),
-            endurance = new UnitIntProperty(data.endurance),
-            intelligence = new UnitIntProperty(data.intelligence),
-            will = new UnitIntProperty(data.spirit),
-            charisma = new UnitIntProperty(data.charisma)
-        };
-    }
-
     // TODO use default values from race
     private UnitPropertiesComponent createPropertiesComponent(SettlerData data) {
         UnitPropertiesComponent component = new UnitPropertiesComponent {
+            attributes = new(),
             properties = new()
         };
-        foreach (UnitProperty property in UnitProperties.all) {
+        component.attributes[UnitAttributes.STRENGTH] = new UnitIntProperty(data.statsData.strength);
+        component.attributes[UnitAttributes.AGILITY] = new UnitIntProperty(data.statsData.agility);
+        component.attributes[UnitAttributes.ENDURANCE] = new UnitIntProperty(data.statsData.endurance);
+        component.attributes[UnitAttributes.INTELLIGENCE] = new UnitIntProperty(data.statsData.intelligence);
+        component.attributes[UnitAttributes.SPIRIT] = new UnitIntProperty(data.statsData.spirit);
+        component.attributes[UnitAttributes.CHARISMA] = new UnitIntProperty(data.statsData.charisma);
+        foreach (UnitProperty property in UnitProperties.ALL) {
             component.properties.Add(property.name, new UnitFloatProperty(property.baseValue));
         }
         return component;
