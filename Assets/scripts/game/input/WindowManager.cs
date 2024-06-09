@@ -88,6 +88,7 @@ namespace game.input {
             activeWindowName = name;
             activeWindow.open();
             if(disableCamera) GameView.get().cameraAndMouseHandler.enabled = false;
+            // TODO cancel selection
             return true;
         }
 

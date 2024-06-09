@@ -1,4 +1,6 @@
-﻿using game.model.component.unit;
+﻿using System;
+using game.model.component.unit;
+using game.view;
 using Leopotam.Ecs;
 using types.unit.disease;
 using types.unit.need;
@@ -78,8 +80,11 @@ public class UnitNeedSystem : LocalModelIntervalEcsSystem {
             unit.Replace(new UnitDiseaseComponent { diseases = new() });
         }
         UnitDiseaseComponent component = unit.take<UnitDiseaseComponent>();
-        if (!component.diseases.ContainsKey(disease.type.name))
+        if (!component.diseases.ContainsKey(disease.type.name)) {
+            GameView.get().sceneElements.notificationsPanelHandler.addNotification(String.Format(disease.type.notificationText, unit.name()), 
+                disease.type.notificationIcon, unit);
             component.diseases.Add(disease.type.name, disease);
+        }
     }
 }
 }

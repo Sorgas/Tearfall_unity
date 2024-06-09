@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using game.model.component.unit;
-using game.view.ui.util;
 using game.view.util;
 using Leopotam.Ecs;
+using MoreLinq;
 using TMPro;
+using types.unit.disease;
 using UnityEngine;
 using util.lang.extension;
 
@@ -17,7 +18,8 @@ public class UnitMenuHealthInfoHandler : UnitMenuTab {
     public RectTransform diseaseColumn;
 
     private readonly Dictionary<string, DiseaseRowHandler> diseaseRows = new();
-
+    private readonly Dictionary<string, UnitDisease> emptyMap = new();
+    
     // TODO lists for injures
     // TODO use ModelUpdateEvent to change need values
 
@@ -39,34 +41,35 @@ public class UnitMenuHealthInfoHandler : UnitMenuTab {
     }
 
     private void updateDiseaseColumn() {
-        if (!unit.Has<UnitDiseaseComponent>()) return;
-        UnitDiseaseComponent component = unit.take<UnitDiseaseComponent>();
+        Dictionary<string, UnitDisease> unitDiseases = getUnitDiseases(unit);
         bool changed = false;
-        List<string> sortedDiseases = component.diseases.Keys.OrderBy(s => s).ToList();
-        foreach (string diseaseName in sortedDiseases) {
-            if (!diseaseRows.Keys.Contains(diseaseName)) {
-                GameObject row = PrefabLoader.create("UnitDiseaseRow", diseaseColumn, Vector3.zero);
-                row.name = diseaseName + "Row";
-                DiseaseRowHandler handler = row.GetComponent<DiseaseRowHandler>();
-                diseaseRows.Add(diseaseName, handler);
-                handler.init(component.diseases[diseaseName]);
-                changed = true;
-            }
-            diseaseRows[diseaseName].init(component.diseases[diseaseName]);
-        }
-        List<string> toRemove = diseaseRows.Keys
-            .Where(key => !component.diseases.ContainsKey(key)).ToList();
-        changed = changed || toRemove.Count > 0;
-        toRemove.ForEach(key => {
-            Destroy(diseaseRows[key]);
-            diseaseRows.Remove(key);
+        // add missing
+        unitDiseases.Where(pair => !diseaseRows.ContainsKey(pair.Key)).ForEach(pair => {
+            GameObject row = PrefabLoader.create("UnitDiseaseRow", diseaseColumn, Vector3.zero);
+            string diseaseName = pair.Key;
+            row.name = diseaseName + "Row";
+            DiseaseRowHandler handler = row.GetComponent<DiseaseRowHandler>();
+            diseaseRows.Add(diseaseName, handler);
+            handler.init(pair.Value);
+            changed = true;
         });
+        // remove 
+        diseaseRows.Keys.Where(diseaseName => !unitDiseases.Keys.Contains(diseaseName)).ToList().ForEach(diseaseName => {
+            Destroy(diseaseRows[diseaseName].gameObject);
+            diseaseRows.Remove(diseaseName);
+            changed = true;
+        });
+        // rearrange positions
         if (changed) {
             int count = 0;
             foreach (var key in diseaseRows.Keys) {
                 diseaseRows[key].gameObject.transform.localPosition = new Vector3(0, 0, 0);
             }
         }
+    }
+
+    private Dictionary<string, UnitDisease> getUnitDiseases(EcsEntity unit) {
+        return unit.Has<UnitDiseaseComponent>() ? unit.take<UnitDiseaseComponent>().diseases : emptyMap;
     }
 }
 }

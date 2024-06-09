@@ -1,7 +1,6 @@
 using game.input;
 using game.model;
 using game.model.localmap;
-using game.view.camera;
 using game.view.system;
 using game.view.system.building;
 using game.view.system.designation;
@@ -25,7 +24,7 @@ public class GameView : Singleton<GameView> {
     public LocalMapTileUpdater tileUpdater; // manager for tilemaps
     public readonly IntBounds2 screenBounds = new(Screen.width, Screen.height);
     public SceneElementsReferences sceneElements;
-    public EntitySelector selector;
+    // public EntitySelector selector;
     
     public void init(LocalGameRunner runner, LocalModel model) {
         Debug.Log("initializing view");
@@ -36,11 +35,8 @@ public class GameView : Singleton<GameView> {
         cameraAndMouseHandler = new CameraAndMouseHandler(runner, playerControls);
         KeyInputSystem.get().playerControls = playerControls;
         cameraAndMouseHandler.init();
-        selector = new();
         initWindowManager();
 
-        selector.updateBounds();
-        selector.zRange.set(0, GameModel.get().currentLocalModel.localMap.bounds.maxZ - 1);
         tileUpdater.flush();
         resetCameraPosition();
         MouseToolManager.get().reset();
@@ -105,11 +101,7 @@ public class GameView : Singleton<GameView> {
                 break;
             }
         }
-        selector.updatePosition(cameraPosition);
-        selector.setLayer(cameraPosition.z + 1); // hack to disable unseen levels renderers
-        selector.setLayer(cameraPosition.z);
-        cameraAndMouseHandler.cameraMovementSystem.setTargetModel(cameraPosition);
-        cameraAndMouseHandler.mouseMovementSystem.updateTargetAndSprite(cameraPosition);
+        cameraAndMouseHandler.resetCameraPosition(cameraPosition);
     }
 }
 }

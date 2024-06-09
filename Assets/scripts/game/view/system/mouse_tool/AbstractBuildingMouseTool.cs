@@ -41,7 +41,7 @@ public abstract class AbstractBuildingMouseTool : ItemConsumingMouseTool {
     public override void rotate() {
         Debug.Log($"rotating {name}");
         updateOrientationAndSize(OrientationUtil.getNext(orientation));
-        GameView.get().selector.changeSelectorSize(size);
+        GameView.get().cameraAndMouseHandler.selector.changeSelectorSize(size);
         updateSprite();
         onPositionChange(new Vector3Int());
     }
@@ -65,7 +65,7 @@ public abstract class AbstractBuildingMouseTool : ItemConsumingMouseTool {
         if (!bounds.isSingleTile()) {
             Debug.LogWarning("building selection bounds not single tile !!!");
         }
-        if (GameView.get().selector.position != bounds.getStart()) {
+        if (GameView.get().cameraAndMouseHandler.selector.position != bounds.getStart()) {
             Debug.LogWarning("building selection bounds not on selector position !!!");
         }
     }

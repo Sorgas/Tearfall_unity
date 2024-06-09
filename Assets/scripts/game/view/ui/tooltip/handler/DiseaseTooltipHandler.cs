@@ -31,7 +31,7 @@ public class DiseaseTooltipHandler : AbstractTooltipHandler {
         foreach (string key in effect.bonuses.Keys) {
             progress.text += $"{key}: {(effect.bonuses[key]):+###;-###} \n";
         }
-        if (disease.healProgress < 1) {
+        if (disease.type is CausedDisease) {
             treatment.text = $"Time to heal: {getHealTime(disease):##.#} hours \n";
         } else {
             treatment.text = "\n";
@@ -49,7 +49,7 @@ public class DiseaseTooltipHandler : AbstractTooltipHandler {
     }
 
     private float getHealTime(UnitDisease disease) {
-        return disease.type.hoursToHeal * (1 - disease.healProgress);
+        return ((CausedDisease)disease.type).hoursToHeal * (1 - disease.healProgress);
     }
 
     private DiseaseStage getStage(UnitDisease disease) {

@@ -62,7 +62,7 @@ namespace game.view.system.mouse_tool {
         public override void onPositionChange(Vector3Int position) { }
 
         public List<EcsEntity> raycastUnits() {
-            Vector3 selectorPos = ViewUtil.fromModelToScene(GameView.get().selector.position);
+            Vector3 selectorPos = ViewUtil.fromModelToScene(GameView.get().cameraAndMouseHandler.selector.position);
             Vector3 scenePos = ViewUtil.fromScreenToSceneGlobal(Input.mousePosition, GameView.get());
             Vector2 castPos = new(scenePos.x, scenePos.y);
             RaycastHit2D[] hits = Physics2D.RaycastAll(castPos, new Vector2(1, 1), 0.01f, 1, selectorPos.z - 0.6f, selectorPos.z + 1.4f);

@@ -11,6 +11,7 @@ namespace game.input {
         private readonly CameraMovementSystem cameraMovementSystem;
         private readonly List<DelayedConditionController> controllers = new();
 
+        // TODO remove DelayedCompositeNavigationController because it has 0 as delays
         public CameraInputSystem(CameraMovementSystem cameraMovementSystem, PlayerControls playerControls) {
             this.cameraMovementSystem = cameraMovementSystem;
             controllers.Add(new DelayedCompositeNavigationController(playerControls.Player.CameraMove, handleWasd));
@@ -47,7 +48,10 @@ namespace game.input {
         }
 
         private void changeLayer(int dz) {
-            if (dz != 0) cameraMovementSystem.moveCameraTargetZ(dz);
+            if (dz != 0) {
+                dz = GameView.get().cameraAndMouseHandler.selector.changeLayer(dz);
+                cameraMovementSystem.moveCameraTargetZ(dz);
+            }
         }
     }
 }

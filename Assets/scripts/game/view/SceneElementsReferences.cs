@@ -3,6 +3,7 @@ using game.view.ui.debug_tools;
 using game.view.ui.gamespeed_widget;
 using game.view.ui.jobs_window;
 using game.view.ui.menu_widget;
+using game.view.ui.notifications;
 using game.view.ui.stockpileMenu;
 using game.view.ui.toolbar;
 using game.view.ui.unit_menu;
@@ -28,6 +29,7 @@ public class SceneElementsReferences : MonoBehaviour {
     public FarmMenuHandler farmMenuHandler;
     public PlantMenuHandler plantMenuHandler;
     public TextMeshProUGUI modelDebugInfoPanel;
+    public NotificationsPanelHandler notificationsPanelHandler;
     public DebugToolsHandler debugToolsHandler;
     public Canvas tooltipCanvas;
 }

@@ -79,6 +79,9 @@ namespace game.view.util {
             
             // unit menu
             paths.Add("UnitDiseaseRow", "prefabs/unitMenu/UnitDiseaseRow");
+            
+            // notifications
+            paths.Add("Notification", "prefabs/notifications/Notification");
         }
     }
 }
