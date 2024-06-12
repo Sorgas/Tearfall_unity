@@ -32,9 +32,8 @@ public class GameView : Singleton<GameView> {
         initEcs(GameModel.get().currentLocalModel.ecsWorld);
         tileUpdater = new LocalMapTileUpdater(sceneElements.mapHolder, model);
         PlayerControls playerControls = new();
-        cameraAndMouseHandler = new CameraAndMouseHandler(runner, playerControls);
         KeyInputSystem.get().playerControls = playerControls;
-        cameraAndMouseHandler.init();
+        cameraAndMouseHandler = new CameraAndMouseHandler(playerControls);
         initWindowManager();
 
         tileUpdater.flush();
@@ -42,7 +41,7 @@ public class GameView : Singleton<GameView> {
         MouseToolManager.get().reset();
         // runner.sceneElementsReferences.init();
         Debug.Log("initialising ui components");
-        foreach (Transform o in runner.sceneElementsReferences.transform) {
+        foreach (Transform o in sceneElements.transform) {
             Debug.Log(o.gameObject.name);
             o.GetComponent<Initable>()?.init();
         }

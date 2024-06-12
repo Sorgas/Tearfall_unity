@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Leopotam.Ecs;
+using types.unit.need;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -130,6 +131,7 @@ public struct ItemVisualComponent {
 public struct ItemFoodComponent {
     public float nutrition; // [0, 1] - restores unit's hunger level
     public int foodQuality; // can give mood buffs
+    public float spoiling;
 }
 
 public struct ItemSeedComponent {

@@ -227,7 +227,6 @@
      <Compile Include="Assets\scripts\util\item\ToolWithActionItemSelector.cs" />
      <Compile Include="Assets\scripts\game\view\ui\UiColorsEnum.cs" />
      <Compile Include="Assets\scripts\types\unit\body\raw\RawBodyTemplate.cs" />
-     <Compile Include="Assets\scripts\types\item\FoodCategoryEnum.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\ICloseable.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\UnitMovementTargetTool.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalPlantGenerator.cs" />
@@ -265,6 +264,7 @@
      <Compile Include="Assets\scripts\game\model\WorldMap.cs" />
      <Compile Include="Assets\scripts\types\item\type\ItemType.cs" />
      <Compile Include="Assets\scripts\generation\item\CraftingOrderGenerator.cs" />
+     <Compile Include="Assets\scripts\game\model\container\item\finding\ConsumableItemsFindingUtil.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantProductGrowthSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\DiseaseTooltipHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\gamespeed_widget\GameTimeWidgetHandler.cs" />
@@ -437,6 +437,7 @@
      <Compile Include="Assets\scripts\util\pathfinding\Node.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\AbstractAreaInitializer.cs" />
      <Compile Include="Assets\scripts\types\plant\SubstrateTypeMap.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\DebugInfoPanelHandler.cs" />
      <Compile Include="Assets\scripts\types\BlockTypes.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalItemGenerator.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\elevation\WorldElevationGenerator.cs" />
@@ -1439,6 +1440,9 @@
      <Reference Include="Unity.VSCode.Editor">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.2D.PixelPerfect">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.2D.PixelPerfect.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.RenderPipelines.Universal.Shaders">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
      </Reference>
@@ -1570,6 +1574,9 @@
      </Reference>
      <Reference Include="Unity.Services.Core.Environments">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Services.Core.Environments.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.2D.PixelPerfect.Editor">
+     <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.2D.PixelPerfect.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Timeline.Editor">
      <HintPath>D:\projects\tearfall\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>

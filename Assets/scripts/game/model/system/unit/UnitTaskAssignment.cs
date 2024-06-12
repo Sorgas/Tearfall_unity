@@ -12,7 +12,7 @@ namespace game.model.system.unit {
 
 // Units should not be assigned to the same task simultaneously.
 // Also, two need satisfying tasks targeting same entity should not be created simultaneously (two tasks for eating same piece of food);
-// This class combines task and need target entity as equatable objects to prevent simultaneous creation of multiple conflicting tasks.
+// This class combines task and target entity as equatable objects to prevent simultaneous creation of multiple conflicting tasks.
 // Also, stores unit and priority for selection of best(max prioritized and nearest) performer when conflict occurs. 
 public class UnitTaskAssignment {
     public TaskTargetDescriptor target;
@@ -23,13 +23,13 @@ public class UnitTaskAssignment {
         performer = new TaskPerformerDescriptor(unit, priority);
     }
 
-    public override string ToString() => $"{target}{performer}";
+    public override string ToString() => $"{target}-{performer}";
 }
 
 public class TaskTargetDescriptor : IEquatable<TaskTargetDescriptor> {
-    public readonly EcsEntity target; // can be task, item, building or null
+    private readonly EcsEntity target; // can be task, item, building or null
     public readonly Vector3Int targetPosition;
-    public readonly string actionType; // task, eat, wear, sleep
+    private readonly string actionType; // task, eat, wear, sleep
     
     public TaskTargetDescriptor(EcsEntity target, Vector3Int targetPosition, string actionType) {
         this.target = target;

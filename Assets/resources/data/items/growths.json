@@ -16,7 +16,7 @@
     "baseItem": "generic_fruit",
     "description": "Large sweet vegetable with thick walls and many seeds inside.",
     "value": 4,
-    "components": ["food(100)"],
+    "components": ["food(1, 1)"],
     "atlasXY": [2, 0]
 }, {
     "name": "tomato",
@@ -74,8 +74,8 @@
 }, {
     "name": "generic_fruit",
     "title": "Generic Fruit",
-    "description": "Base item type for farm plant products.",
-    "components": ["food(15)"],
+    "description": "Base item type for farm plant products. Replace this description in plant definition.",
+    "components": ["food(0.2, 1)"],
     "tags": ["cookable", "cookable2"],
     "stockpileCategory": "food",
     "atlasXY": [0, 5]
@@ -93,6 +93,7 @@
 }, {
     "name": "generic_berry",
     "description": "Replace this description in plant definition.",
+    "components": ["food(0.2, 1)"],
     "stockpileCategory": "food",
     "stockpileMaterialTags": "organic",
     "atlasXY": [3, 5]

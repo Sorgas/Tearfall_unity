@@ -113,7 +113,7 @@ public class CraftingItemFindingUtil : AbstractItemFindingUtil {
     // removes from item group all items except nearest [quantity] items
     private ItemGroup selectNNearest(ItemGroup group, int quantity, Vector3Int position) {
         List<KeyValuePair<EcsEntity, float>> pairs = group.items
-            .Select(item => new KeyValuePair<EcsEntity, float>(item, fastDistance(item, position)))
+            .Select(item => new KeyValuePair<EcsEntity, float>(item, fastDistanceToItem(item, position)))
             .PartialSortBy(quantity, pair => pair.Value).ToList();
         group.items.Clear();
         MoreEnumerable.ForEach(pairs, pair => {

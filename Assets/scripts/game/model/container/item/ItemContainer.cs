@@ -20,12 +20,14 @@ public class ItemContainer : LocalModelUpdateContainer {
     public readonly AvailableItemsManager availableItemsManager = new();
     public readonly ItemFindingUtil findingUtil;
     public readonly CraftingItemFindingUtil craftingUtil;
+    public readonly ConsumableItemsFindingUtil consumableItemsFindingUtil;
     public readonly ItemTransitionUtil transition;
 
     public ItemContainer(LocalModel model) : base(model) {
         onMap = new(model, this);
         findingUtil = new(model, this);
         craftingUtil = new(model, this);
+        consumableItemsFindingUtil = new(model, this);
         transition = new(model, this);
         stored = new(model, this);
     }

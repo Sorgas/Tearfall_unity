@@ -16,19 +16,21 @@ using util.lang.extension;
 // TODO make sleeping restore diminishing fatigue values
 namespace types.unit.need {
 public class RestNeed : Need {
-    public const float hoursToComfort = 16f;
+    private const float hoursToComfort = 16f;
     public const float hoursToHealth = 20f;
     public const float hoursToSafety = 36f; // full need capacity 1 to 0
 
-    public const float comfortThreshold = 1f - hoursToComfort / hoursToSafety;
-    public const float healthThreshold = 1f - hoursToHealth / hoursToSafety;
+    private const float comfortThreshold = 1f - hoursToComfort / hoursToSafety;
+    private const float healthThreshold = 1f - hoursToHealth / hoursToSafety;
     public const float perTickChange = 1f / hoursToSafety / GameTime.ticksPerHour;
 
     public override int getPriority(float value) {
-        if (value > comfortThreshold) return TaskPriorities.NONE;
-        if (value > healthThreshold) return TaskPriorities.COMFORT;
-        if (value > 0) return TaskPriorities.HEALTH_NEEDS;
-        return TaskPriorities.SAFETY;
+        return value switch {
+            > comfortThreshold => TaskPriorities.NONE,
+            > healthThreshold => TaskPriorities.COMFORT,
+            > 0 => TaskPriorities.HEALTH_NEEDS,
+            _ => 8
+        };
     }
 
     public override string getStatusEffect(float value) {
@@ -60,7 +62,7 @@ public class RestNeed : Need {
         return null;
     }
 
-    public override UnitTaskAssignment createDescriptor(LocalModel model, EcsEntity unit) {
+    public override UnitTaskAssignment tryCreateAssignment(LocalModel model, EcsEntity unit) {
         UnitNeedComponent component = unit.take<UnitNeedComponent>();
         if (component.restPriority == TaskPriorities.NONE) return null;
         if (component.rest <= 0) {

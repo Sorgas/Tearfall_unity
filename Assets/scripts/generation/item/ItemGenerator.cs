@@ -37,7 +37,7 @@ namespace generation.item {
                 entity.Replace(new ItemToolComponent { action = type.tool.action });
             }
             entity.Replace(new NameComponent { name = material.name + " " + type.title });
-            addComponentsFromType(type, ref entity);
+            addComponentsFromType(type, ref entity, material.id);
             return entity;
         }
 
@@ -54,15 +54,16 @@ namespace generation.item {
         }
 
         // adds optional item components not all items should have
-        private void addComponentsFromType(ItemType type, ref EcsEntity item) {
+        private void addComponentsFromType(ItemType type, ref EcsEntity item, int material) {
             if (type.components.ContainsKey("wear")) {
                 string[] args = type.components["wear"];
                 item.Replace(new ItemWearComponent { slot = args[0], layer = args[1] });
             }
             if(type.components.ContainsKey("food")) {
                 string[] args = type.components["food"];
-                item.Replace(new ItemFoodComponent { nutrition = float.Parse(args[0], CultureInfo.InvariantCulture.NumberFormat)
-                // , foodQuality = int.Parse(args[1]) 
+                item.Replace(new ItemFoodComponent { nutrition = float.Parse(args[0], CultureInfo.InvariantCulture.NumberFormat),
+                    foodQuality = int.Parse(args[1]),
+                    spoiling = 0
                 });
             }
         }

@@ -41,5 +41,15 @@ namespace util.lang.extension {
             }
             return dictionary;
         }
+        
+        public static MultiValueDictionary<K, T> toMultiValueDictionary<K, T>(this IEnumerable<T> source, Func<T, K> keyMapper) {
+            MultiValueDictionary<K, T> dictionary = new();
+            foreach (T element in source) {
+                K key = keyMapper(element);
+                if(!dictionary.ContainsKey(key)) dictionary.Add(key, new List<T>());
+                dictionary[key].Add(element);
+            }
+            return dictionary;
+        }
     }
 }

@@ -4,24 +4,17 @@ using UnityEngine;
 namespace game.input {
     // container for all logic of mouse and camera
     public class CameraAndMouseHandler {
-        private readonly CameraInputSystem cameraInputSystem;
-        public readonly CameraMovementSystem cameraMovementSystem = new();
-        public readonly MouseInputSystem mouseInputSystem = new(); // handles mouse movement and clicks
-        public readonly SelectionHandler selectionHandler = new();
         public readonly EntitySelector selector = new(); 
+        public readonly SelectionHandler selectionHandler = new();
+        public readonly CameraMovementSystem cameraMovementSystem = new();
+        private readonly CameraInputSystem cameraInputSystem;
+        public readonly MouseInputSystem mouseInputSystem; // handles mouse movement and clicks
         public bool enabled = true;
 
-        public CameraAndMouseHandler(LocalGameRunner initializer, PlayerControls playerControls) {
-            // TODO link systems after creation with init() methods
+        public CameraAndMouseHandler(PlayerControls playerControls) {
             cameraInputSystem = new CameraInputSystem(cameraMovementSystem, playerControls);
+            mouseInputSystem = new MouseInputSystem(cameraMovementSystem, selectionHandler, selector);
             playerControls.Enable();
-        }
-
-        public void init() {
-            selectionHandler.init();
-            mouseInputSystem.init();
-            cameraMovementSystem.init();
-            selector.init();
         }
 
         public void update() {

@@ -13,9 +13,9 @@ using util.lang;
 using util.lang.extension;
 
 namespace game.model.container.item.finding {
+// General utility class for searching items
     public class ItemFindingUtil : AbstractItemFindingUtil {
-        // TODO rewrite stockpile method to use item
-        // selectors. selector should be stored in stockpile component and updated from stockpile config menu.
+        // TODO rewrite stockpile method to use item selectors. selector should be stored in stockpile component and updated from stockpile config menu.
         public ItemFindingUtil(LocalModel model, ItemContainer container) : base(model, container) { }
 
         public EcsEntity findItemBySelector(ItemSelector selector, Vector3Int pos) {
@@ -37,14 +37,6 @@ namespace game.model.container.item.finding {
                     cur.Key == EcsEntity.Null || (fastDistance(item.Value, pos) < fastDistance(cur.Value, pos)) ? item : cur)
                 .Key; // select nearest
         }
-        
-        public EcsEntity findFoodItem(Vector3Int position) {
-            List<EcsEntity> list = container.availableItemsManager.getAll()
-                .Where(item => item.Has<ItemFoodComponent>())
-                .ToList();
-            if (list.Count == 0) return EcsEntity.Null;
-            return selectNearest(list, position);
-        }
 
         public EcsEntity findForStockpile(StockpileComponent stockpile, List<Vector3Int> zonePositions, Vector3Int position) {
             List<EcsEntity> list = container.availableItemsManager.getAll()
@@ -59,7 +51,7 @@ namespace game.model.container.item.finding {
             float minDistance = -1;
             EcsEntity result = EcsEntity.Null;
             foreach (EcsEntity item in items) {
-                float distance = fastDistance(item, position);
+                float distance = fastDistanceToItem(item, position);
                 if (distance == 0) return item;
                 if (distance < minDistance || minDistance < 0) {
                     result = item;

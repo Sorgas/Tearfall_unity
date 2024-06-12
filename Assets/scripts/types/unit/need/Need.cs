@@ -18,8 +18,8 @@ namespace types.unit.need {
         public abstract string getStatusEffect(float value);
 
         public abstract Action tryCreateAction(LocalModel model, EcsEntity unit);
-
-        public abstract UnitTaskAssignment createDescriptor(LocalModel model, EcsEntity unit);
+        
+        public abstract UnitTaskAssignment tryCreateAssignment(LocalModel model, EcsEntity unit);
 
         public abstract UnitDisease createDisease();
 

@@ -15,8 +15,7 @@ public class EntitySelector {
     private readonly IntBounds3 bounds = new(); // inclusive
     // private readonly ValueRangeInt zRange = new(); // range for current z in model units
 
-    public void init() {
-        // zRange.set(0, GameModel.get().currentLocalModel.localMap.bounds.maxZ);
+    public EntitySelector() {
         updateBounds();
     }
 

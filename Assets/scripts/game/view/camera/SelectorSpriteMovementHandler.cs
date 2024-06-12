@@ -15,6 +15,7 @@ namespace game.view.camera {
         // move selector towards target
         public void Update() {
             // updateText(modelTarget);
+            if (GameView.get().cameraAndMouseHandler == null) return;
             updateTarget(GameView.get().cameraAndMouseHandler.selector.position);
             if (selectorSprite.localPosition == target) return;
             selectorSprite.localPosition = Vector3.SmoothDamp(selectorSprite.localPosition, target, ref speed, 0.05f,
@@ -26,17 +27,5 @@ namespace game.view.camera {
             Vector3 scenePosition = ViewUtil.fromModelToScene(modelPosition);
             target.Set(scenePosition.x, scenePosition.y, scenePosition.z - 0.1f);
         }
-
-        // private void updateText(Vector3Int modelPosition) {
-        //     if (!map.inMap(modelPosition)) return;
-        //     debugLabelText.text =
-        //         $"pos: [{modelPosition.x},  {modelPosition.y},  {modelPosition.z}]\n" +
-        //         $"block: {map.blockType.getEnumValue(modelPosition).NAME} {MaterialMap.get().material(map.blockType.getMaterial(modelPosition)).name}\n" +
-        //         $"passage: {map.passageMap.getPassageType(modelPosition).name}\n" +
-        //         $"area: {map.passageMap.defaultHelper.getArea(modelPosition)}\n" +
-        //         $"area(rooms): {map.passageMap.groundNoDoorsHelper.getArea(modelPosition)}\n" + 
-        //         $"area(fly): {map.passageMap.indoorHelper.getArea(modelPosition)}\n" + 
-        //         $"UPS: {GameModel.get().counter.lastUps}"; 
-        // }
     }
 }

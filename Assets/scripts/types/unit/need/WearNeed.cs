@@ -33,7 +33,7 @@ public class WearNeed : Need {
         return null;
     }
 
-    public override UnitTaskAssignment createDescriptor(LocalModel model, EcsEntity unit) {
+    public override UnitTaskAssignment tryCreateAssignment(LocalModel model, EcsEntity unit) {
         if (!unit.Has<UnitCalculatedWearNeedComponent>()) return null;
         UnitCalculatedWearNeedComponent wear = unit.take<UnitCalculatedWearNeedComponent>();
         EcsEntity desiredItem = findItemForSlots(model, wear.desiredSlotsToFill, unit.pos());

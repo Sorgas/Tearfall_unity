@@ -11,8 +11,8 @@ namespace game.view.camera {
         public SelectionState state = new();
         public bool enabled = true;
         public bool debug = false;
-        
-        public void init() {
+
+        public SelectionHandler() {
             state.updater = GameView.get().tileUpdater;
         }
 

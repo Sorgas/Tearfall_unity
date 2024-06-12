@@ -19,7 +19,7 @@ namespace game.view.camera {
         private readonly ValueRange cameraZoomRange = new(2, 20);
         private float cameraTargetChangeMod;
 
-        public void init() {
+        public CameraMovementSystem() {
             camera = GameView.get().sceneElements.mainCamera;
             camera.farClipPlane = GlobalSettings.cameraLayerDepth * 2 + 1;
             updateCameraBounds();

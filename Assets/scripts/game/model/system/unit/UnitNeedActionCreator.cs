@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using game.model.component.task.action.equipment.use;
 using game.model.component.unit;
 using game.model.localmap;
 using Leopotam.Ecs;
 using MoreLinq;
-using types.action;
 using types.unit.need;
 using util.item;
 using util.lang.extension;
@@ -53,9 +50,9 @@ public class UnitNeedActionCreator {
 
     public UnitTaskAssignment getMaxPriorityPerformableNeedAction(LocalModel model, EcsEntity unit) {
         List<UnitTaskAssignment> list = new();
-        list.Add(Needs.wear.createDescriptor(model, unit));
-        list.Add(Needs.rest.createDescriptor(model, unit));
-        list.Add(Needs.hunger.createDescriptor(model, unit));
+        list.Add(Needs.wear.tryCreateAssignment(model, unit));
+        list.Add(Needs.rest.tryCreateAssignment(model, unit));
+        list.Add(Needs.hunger.tryCreateAssignment(model, unit));
         return list.MaxBy(descriptor => descriptor?.performer.priority ?? NONE);
     }
 }
