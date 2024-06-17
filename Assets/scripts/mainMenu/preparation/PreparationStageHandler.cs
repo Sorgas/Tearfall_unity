@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace mainMenu.preparation {
-    public class PreparationStageHandler : StageHandler {
+    public class PreparationStageHandler : GameMenuPanelHandler {
         public WorldGenStageHandler worldGenStage;
         public LocalGenerationHandler localGenStage;
         public RectTransform characterListContent;

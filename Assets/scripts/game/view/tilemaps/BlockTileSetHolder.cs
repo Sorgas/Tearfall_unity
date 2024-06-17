@@ -94,8 +94,7 @@ namespace game.view.tilemaps {
                 zoneTiles.Add(zoneType.value, createTile(sprite, zoneType.tileColor));
             }
         }
-
-
+        
         // creates tile by applying color to sprite
         private Tile createTile(Sprite sprite, Color color) {
             Tile tile = ScriptableObject.CreateInstance<Tile>();
@@ -103,8 +102,7 @@ namespace game.view.tilemaps {
             tile.color = color;
             return tile;
         }
-
-
+        
         private void log(string message) {
             if (debug) logMessage += message + "\n";
         }

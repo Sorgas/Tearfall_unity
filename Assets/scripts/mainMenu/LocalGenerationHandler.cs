@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace mainMenu {
 // Handler for local generation stage. Shows progress bar, messages from localGenerators and counts executed generators.
-public class LocalGenerationHandler : StageHandler {
+public class LocalGenerationHandler : GameMenuPanelHandler {
     public Image progressBar;
     public TextMeshProUGUI descriptionText;
     public TextMeshProUGUI counterText;

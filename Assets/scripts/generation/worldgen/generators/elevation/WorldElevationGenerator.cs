@@ -54,7 +54,10 @@ namespace generation.worldgen.generators.elevation {
 
         // Modifies elevation map to be within [0,1]
         private void normalizeElevation() {
-            bounds.iterate((x, y) => container.elevation[x, y] = (elevation[x, y] = (elevation[x, y] + 1) / 2f));
+            bounds.iterate((x, y) => {
+                elevation[x, y] = (elevation[x, y] + 1) / 2f;
+                container.elevation[x, y] = elevation[x,y];
+            });
         }
     }
 }

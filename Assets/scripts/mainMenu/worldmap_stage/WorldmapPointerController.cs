@@ -15,13 +15,14 @@ public class WorldmapPointerController {
     private PlayerControls playerControls;
     private RectTransform worldViewport;
     private Camera worldCamera;
-    private WorldmapController controller;
+    private WorldMapStageHandler controller;
 
-    public void init(WorldmapController controller) {
+    public WorldmapPointerController(WorldMapStageHandler controller) {
         this.controller = controller;
         pointer = controller.pointer;
         locationSelector = controller.locationSelector;
-        playerControls = controller.playerControls;
+        playerControls = new PlayerControls();
+        playerControls.Enable();
         worldViewport = controller.mask;
         worldCamera = controller._camera;
         controller.mapPanel.onClick.AddListener(handleClick);

@@ -83,11 +83,19 @@ namespace util.geometry.bounds {
         public void extendX(float value) {
             minX -= value;
             maxX += value;
+            if (maxX < minX) {
+                maxX = (maxX + minX) / 2f;
+                minX = maxX;
+            }
         }
 
         public void extendY(float value) {
             minY -= value;
             maxY += value;
+            if (maxY < minY) {
+                maxY = (maxY + minY) / 2f;
+                minY = maxY;
+            }
         }
 
         // adds vector components to bounds components, 'moving' the frame

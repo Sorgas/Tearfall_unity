@@ -6,6 +6,7 @@ namespace mainMenu {
 public class MainMenuInitializer : MonoBehaviour {
     public GameObject mainMenuStage;
     public GameObject worldGenStage;
+    public GameObject worldMapStage;
     public GameObject locationSelectionStage;
     public GameObject preparationStage;
     public GameObject optionsStage;
@@ -14,6 +15,7 @@ public class MainMenuInitializer : MonoBehaviour {
     public void Start() {
         mainMenuStage.SetActive(true);
         worldGenStage.SetActive(false);
+        worldMapStage.SetActive(false);
         locationSelectionStage.SetActive(false);
         preparationStage.SetActive(false); 
         optionsStage.SetActive(false);

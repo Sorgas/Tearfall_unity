@@ -96,7 +96,7 @@
      <Compile Include="Assets\scripts\game\input\CameraInputSystem.cs" />
      <Compile Include="Assets\scripts\types\unit\race\CreatureAppearance.cs" />
      <Compile Include="Assets\scripts\game\model\container\TechnologyContainer.cs" />
-     <Compile Include="Assets\scripts\mainMenu\worldmap_stage\WorldmapController.cs" />
+     <Compile Include="Assets\scripts\mainMenu\worldmap_stage\WorldMapStageHandler.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\update\TileUpdateUtil.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitActionPerformingSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\DynamicActionTarget.cs" />
@@ -238,7 +238,7 @@
      <Compile Include="Assets\scripts\util\geometry\IntVector3.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\UnitNeedComponents.cs" />
      <Compile Include="Assets\scripts\game\model\WorldModel.cs" />
-     <Compile Include="Assets\scripts\mainMenu\StageHandler.cs" />
+     <Compile Include="Assets\scripts\mainMenu\GameMenuPanelHandler.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalStoneLayersGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantGrowthSystem.cs" />
      <Compile Include="Assets\scripts\types\material\Material.cs" />
@@ -391,6 +391,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromEquipmentAction.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\WorldGenerator.cs" />
      <Compile Include="Assets\scripts\types\unit\body\BodyTemplate.cs" />
+     <Compile Include="Assets\scripts\game\view\tilemaps\WorldMapTilesetHolder.cs" />
      <Compile Include="Assets\scripts\game\input\CameraAndMouseHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\material_selector\MaterialTooltipHandler.cs" />
      <Compile Include="Assets\scripts\util\UtilUshortArrayWithCounter.cs" />
@@ -513,6 +514,7 @@
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalSubstrateGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\with_entity_selector\CameraWithEsMovementSystem.cs" />
      <Compile Include="Assets\scripts\types\plant\raw\RawPlantLifeStage.cs" />
+     <Compile Include="Assets\scripts\mainMenu\worldmap_stage\WorldMapHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\ButtonRightClickHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\DiseaseRowHandler.cs" />
      <Compile Include="Assets\scripts\game\input\GameInputManager.cs" />
@@ -528,7 +530,7 @@
      <Compile Include="Assets\scripts\util\input\DelayedController.cs" />
      <Compile Include="Assets\scripts\game\view\ui\gamespeed_widget\GamespeedWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\stockpileMenu\StockpileConfigRowHandler.cs" />
-     <Compile Include="Assets\scripts\mainMenu\ui\SliderLabelUpdater.cs" />
+     <Compile Include="Assets\scripts\mainMenu\ui\SliderWithLabelHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
      <Folder Include="Assets" />

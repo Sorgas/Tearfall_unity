@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace generation.worldgen.generators {
-    // Gets generation parameters from ui, launches generation, renders world to tilemap
+// Abstract world generator. Generators should not use game model.
     public abstract class WorldGenerator {
         protected WorldGenConfig config;
         protected WorldGenContainer container;

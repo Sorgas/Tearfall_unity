@@ -5,71 +5,65 @@ using generation;
 using mainMenu.location_selection_stage;
 using mainMenu.worldmap_stage;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = System.Random;
 using Slider = UnityEngine.UI.Slider;
 
 namespace mainMenu {
 // TODO add world config popup with more options
-public class WorldGenStageHandler : StageHandler {
-    // controls
+// Panel for generating worlds.
+// Can generate world through GenerationState singleton, and display it with WorldMapHandler.
+public class WorldGenStageHandler : GameMenuPanelHandler {
+    // world gen parameters controls
     public InputField seedField;
     public Slider sizeSlider;
     public Slider deityCountSlider;
     public Slider civCountSlider;
-
-    public WorldmapController worldmapController;
-    public MainMenuStageHandler mainMenuStage; // previous
-    public LocationSelectionStageHandler locationSelectionStage; // next
-    private GameObject continueButton;
-
-    protected override List<ButtonData> getButtonsData() {
-        return new List<ButtonData> {
-            new("CreateButton", KeyCode.C, createWorld),
-            new("BackButton", KeyCode.Q, backToMainMenu),
-            new("ContinueButton", KeyCode.V, toPositionSelection)
-        };
-    }
+    
+    public Button createButton;
+    public Button backButton;
+    public Button continueButton;
+    
+    [FormerlySerializedAs("worldMapHandler")] public WorldMapStageHandler worldMapStageHandler;
+    public MainMenuStageHandler mainMenuStage;
+    public LocationSelectionStageHandler locationSelectionStage;
 
     public new void Start() {
         base.Start();
         seedField.text = new Random().Next().ToString();
-        continueButton = buttons["ContinueButton"].gameObject;
-    }
-
-    public new void Update() {
-        base.Update();
-    }
-
-    public void initWorldMapController() {
-        worldmapController.gameObject.SetActive(true);
-        worldmapController.setWorldMap(GameModel.get().world.worldModel.worldMap);
-        worldmapController.setWorldName(GameModel.get().world.name);
-        worldmapController.setCameraToCenter();
-        worldmapController.enablePointer();
-        continueButton.gameObject.SetActive(true);
+        createButtonListener(createButton, KeyCode.C, createWorld);
+        createButtonListener(backButton, KeyCode.Q, backToMainMenu);
+        createButtonListener(continueButton, KeyCode.V, toPositionSelection);
     }
     
-    // invoked several times
     // TODO add ui spinner for world generation
-    private void createWorld() {
+    // Creates world and stores it in GameModel singleton. Can be invoked several times.
+    public void createWorld() {
         int seed = Convert.ToInt32(seedField.text);
         int size = (int)sizeSlider.value * 100;
         GenerationState.get().worldGenConfig.seed = seed;
         GenerationState.get().worldGenConfig.size = size;
         // TODO add other parameters
         GenerationState.get().generateWorld();
-        initWorldMapController();
+        showWorld(GameModel.get().world);
     }
 
-    private void resetState() {
-        worldmapController.clear();
+    // Passes world to WorldMapHandler, activates Continue button.
+    private void showWorld(World world) {
+        worldMapStageHandler.gameObject.SetActive(true);
+        worldMapStageHandler.setWorld(world);
+        continueButton.gameObject.SetActive(true);
+    }
+
+    private void clear() {
+        worldMapStageHandler.clear();
         continueButton.gameObject.SetActive(false);
     }
 
     private void backToMainMenu() {
         switchTo(mainMenuStage);
-        resetState();
+        clear();
     }
 
     private void toPositionSelection() {

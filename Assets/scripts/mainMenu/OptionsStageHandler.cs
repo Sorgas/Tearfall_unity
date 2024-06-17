@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace mainMenu {
-public class OptionsStageHandler : StageHandler {
+public class OptionsStageHandler : GameMenuPanelHandler {
     public MainMenuStageHandler mainMenuStage;
 
     protected override List<ButtonData> getButtonsData() {
