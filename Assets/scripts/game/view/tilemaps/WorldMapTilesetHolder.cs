@@ -45,7 +45,7 @@ public class WorldMapTilesetHolder {
     private Sprite cutSprite(int x, int y, Sprite sprite) {
         Texture2D texture = sprite.texture;
         Rect rect = sprite.rect;
-        cacheRect.Set(rect.x * texture.width + x * TILESIZE, rect.y * texture.height + y, TILESIZE, TILESIZE);
+        cacheRect.Set(rect.x * texture.width + x * TILESIZE, rect.y * texture.height + y * TILESIZE, TILESIZE, TILESIZE);
         Sprite tileSprite = Sprite.Create(texture, cacheRect, Vector2.zero, TILESIZE);
         return tileSprite;
     }

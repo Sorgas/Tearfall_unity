@@ -1,4 +1,5 @@
-﻿using game.model;
+﻿using System;
+using game.model;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -17,11 +18,12 @@ public class WorldMapStageHandler : MonoBehaviour {
     public Transform pointer;
     public Transform locationSelector;
     public Tilemap tilemap;
-    public Camera _camera;
 
     public bool pointerMoved;
     public bool locationChanged;
 
+    public TextMeshProUGUI tileInfoText;
+    
     // overlay buttons
     public RectTransform overlayButtonsPanel;
     public Button elevationOverlayButton;
@@ -31,19 +33,23 @@ public class WorldMapStageHandler : MonoBehaviour {
     public WorldMapHandler worldMapHandler;
     private WorldmapCameraController cameraController;
     private WorldmapPointerController pointerController;
-    public WorldMap worldMap;
+    private WorldMap worldMap;
 
+    private Vector3Int pointerPosition;
+    
     private bool enabled = false;
     
     public void Start() {
         cameraController = gameObject.GetComponent<WorldmapCameraController>();
-        pointerController = new(this);
+        pointerController = gameObject.GetComponent<WorldmapPointerController>();
         elevationOverlayButton.onClick.AddListener(() => worldMapHandler.toggleElevationOverlay());
     }
-    
+
     public void Update() {
-        if (!enabled) return;
-        pointerController.update();
+        if (pointerPosition != pointerController.pointerPosition) {
+            pointerPosition = pointerController.pointerPosition;
+            updateTileInfoText();
+        }
     }
 
     // Redraws tilemap with map of given world
@@ -82,9 +88,15 @@ public class WorldMapStageHandler : MonoBehaviour {
         enabled = false;
     }
 
-    public void setWorldMap(WorldMap map) {
+    private void setWorldMap(WorldMap map) {
         worldMap = map;
         cameraController.setWorldMap(map);
+        pointerController.setWorldMap(map);
+    }
+
+    private void updateTileInfoText() {
+        tileInfoText.text = $"Position: [{pointerPosition.x:###}.{pointerPosition.y:###}] \n" +
+                            $"    elevation: {worldMap.elevation[pointerPosition.x, pointerPosition.y]}";
     }
     
     public Vector3 getPointerPosition() => pointerController.pointer.localPosition;

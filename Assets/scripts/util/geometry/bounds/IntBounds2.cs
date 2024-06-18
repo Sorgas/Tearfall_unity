@@ -123,7 +123,7 @@ namespace util.geometry.bounds {
             return (x == minX || x == maxX) && (y == minY || y == maxY);
         }
 
-        public Vector3 putInto(Vector3 vector) {
+        public Vector3Int putInto(Vector3Int vector) {
             vector.x = Math.Min(maxX, Math.Max(minX, vector.x));
             vector.y = Math.Min(maxY, Math.Max(minY, vector.y));
             return vector;

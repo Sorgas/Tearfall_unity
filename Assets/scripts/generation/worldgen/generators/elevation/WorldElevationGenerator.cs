@@ -20,19 +20,19 @@ namespace generation.worldgen.generators.elevation {
             xOffset = Random.value * 10000;
             yOffset = Random.value * 10000;
             size = config.size;
-            elevation = new float[size, size];
+            elevation = container.elevation;
             bounds = new IntBounds2(0, 0, size - 1, size - 1);
             log("generating world elevation");
-            addElevation(5, 0.5f, 0.005f, 0.7f);
-            addElevation(6, 0.5f, 0.015f, 0.2f);
-            addElevation(7, 0.5f, 0.03f, 0.1f);
+            addElevation(0.05f, 0.7f);
+            addElevation(0.15f, 0.2f);
+            addElevation(0.3f, 0.1f);
             // lowerBorders();
-            normalizeElevation();
+            // normalizeElevation();
             // hack. noise generator always has 0 in (0,0)
             // container.elevation[0, 0] = (elevation[0, 1] + elevation[1, 1] + elevation[1, 0]) / 3f;
         }
 
-        private void addElevation(int octaves, float roughness, float scale, float amplitude) {
+        private void addElevation(float scale, float amplitude) {
             bounds.iterate((x, y) => { elevation[x, y] += Mathf.PerlinNoise(xOffset + (x * scale), yOffset + (y * scale)) * amplitude; });
         }
 
@@ -56,7 +56,6 @@ namespace generation.worldgen.generators.elevation {
         private void normalizeElevation() {
             bounds.iterate((x, y) => {
                 elevation[x, y] = (elevation[x, y] + 1) / 2f;
-                container.elevation[x, y] = elevation[x,y];
             });
         }
     }
