@@ -1,14 +1,15 @@
 ﻿using generation.worldgen.generators;
 using generation.worldgen.generators.drainage;
 using generation.worldgen.generators.elevation;
+using generation.worldgen.generators.temperature;
 
 namespace generation.worldgen {
 public class WorldGenSequence {
     private WorldNameGenerator nameGenerator = new();
     private WorldElevationGenerator elevationGenerator = new();
     private WorldOceanFiller oceanFiller = new();
-    // private TemperatureGenerator temperatureGenerator;
-    // private RainfallGenerator rainfallGenerator;
+    private WorldTemperatureGenerator temperatureGenerator = new();
+    private RainfallGenerator rainfallGenerator = new();
     // private ErosionGenerator erosionGenerator;
     // private ElevationModifier elevationModifier;
     // private RiverGenerator riverGenerator;
@@ -25,8 +26,8 @@ public class WorldGenSequence {
         // container.fillMap();
         oceanFiller.generate();
         // erosionGenerator.execute(container);
-        // temperatureGenerator.execute(container);
-        // rainfallGenerator.execute(container);
+        temperatureGenerator.generate();
+        rainfallGenerator.generate();
         // elevationModifier.execute(container);
         // riverGenerator.execute(container);
 //        brookGenerator.execute(container);

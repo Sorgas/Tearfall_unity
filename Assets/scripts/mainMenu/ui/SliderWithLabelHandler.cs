@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Globalization;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class SliderWithLabelHandler : MonoBehaviour {
     public TextMeshProUGUI text;
     public Slider slider;
     public int magnitude = 1;
+    public bool isFloat;
     private int value;
 
     public void Start() {
@@ -14,8 +16,12 @@ public class SliderWithLabelHandler : MonoBehaviour {
     }
     
     public void updateText(float newValue) {
-        value = (int)(newValue * magnitude);
-        text.text = value.ToString();
+        if (isFloat) {
+            text.text = (newValue * magnitude).ToString(CultureInfo.CurrentCulture);
+        } else {
+            value = (int)(newValue * magnitude);
+            text.text = value.ToString();
+        }
     }
 }
 }

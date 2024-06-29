@@ -27,8 +27,9 @@ public class WorldMapStageHandler : MonoBehaviour {
     // overlay buttons
     public RectTransform overlayButtonsPanel;
     public Button elevationOverlayButton;
-    private bool elevationShown;
-    
+    public Button temperatureOverlayButton;
+    public Button rainfallOverlayButton;
+
     private int tileSize = 32;
     public WorldMapHandler worldMapHandler;
     private WorldmapCameraController cameraController;
@@ -42,7 +43,9 @@ public class WorldMapStageHandler : MonoBehaviour {
     public void Start() {
         cameraController = gameObject.GetComponent<WorldmapCameraController>();
         pointerController = gameObject.GetComponent<WorldmapPointerController>();
-        elevationOverlayButton.onClick.AddListener(() => worldMapHandler.toggleElevationOverlay());
+        elevationOverlayButton.onClick.AddListener(() => worldMapHandler.toggleOverlay(WorldMapHandler.ELEVATION_OVERLAY));
+        temperatureOverlayButton.onClick.AddListener(() => worldMapHandler.toggleOverlay(WorldMapHandler.TEMPERATURE_OVERLAY));
+        rainfallOverlayButton.onClick.AddListener(() => worldMapHandler.toggleOverlay(WorldMapHandler.RAINFALL_OVERLAY));
     }
 
     public void Update() {
@@ -96,7 +99,10 @@ public class WorldMapStageHandler : MonoBehaviour {
 
     private void updateTileInfoText() {
         tileInfoText.text = $"Position: [{pointerPosition.x:###}.{pointerPosition.y:###}] \n" +
-                            $"    elevation: {worldMap.elevation[pointerPosition.x, pointerPosition.y]}";
+                            $"    elevation: {worldMap.elevation[pointerPosition.x, pointerPosition.y]} \n" +
+                            $"    summer temperature: {worldMap.summerTemperature[pointerPosition.x, pointerPosition.y]} \n" + 
+                            $"    winter temperature: {worldMap.winterTemperature[pointerPosition.x, pointerPosition.y]} \n" +
+                            $"    rainfall: {worldMap.rainfall[pointerPosition.x, pointerPosition.y]} \n";
     }
     
     public Vector3 getPointerPosition() => pointerController.pointer.localPosition;

@@ -354,6 +354,7 @@
      <Compile Include="Assets\scripts\util\GameLogger.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedConditionController.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedSystem.cs" />
+     <Compile Include="Assets\scripts\generation\worldgen\generators\drainage\RainfallGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\ui\tooltip\trigger\TMPLinkTooltipTrigger.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitNeedEffectsSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\order\ConstructionOrder.cs" />
@@ -495,6 +496,7 @@
      <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\AbstractTooltipHandler.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\GameObjectExtension.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\AStar.cs" />
+     <Compile Include="Assets\scripts\generation\worldgen\generators\temperature\WorldTemperatureGenerator.cs" />
      <Compile Include="Assets\scripts\types\unit\disease\Disease.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskAssignmentSystem.cs" />
      <Compile Include="Assets\scripts\types\building\ConstructionTypeMap.cs" />

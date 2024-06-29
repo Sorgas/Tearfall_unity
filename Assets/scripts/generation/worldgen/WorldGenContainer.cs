@@ -39,6 +39,9 @@ namespace generation.worldgen {
             for (int x = 0; x < size; x++) {
                 for (int y = 0; y < size; y++) {
                     worldMap.elevation[x, y] = elevation[x, y];
+                    worldMap.summerTemperature[x, y] = summerTemperature[x, y];
+                    worldMap.winterTemperature[x, y] = winterTemperature[x, y];
+                    worldMap.rainfall[x, y] = rainfall[x, y];
                 }
             }
             return worldMap;

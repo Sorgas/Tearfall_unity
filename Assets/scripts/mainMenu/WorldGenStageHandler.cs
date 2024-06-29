@@ -18,6 +18,7 @@ public class WorldGenStageHandler : GameMenuPanelHandler {
     // world gen parameters controls
     public InputField seedField;
     public Slider sizeSlider;
+    public Slider perlinScaleSlider;
     public Slider deityCountSlider;
     public Slider civCountSlider;
     
@@ -41,7 +42,7 @@ public class WorldGenStageHandler : GameMenuPanelHandler {
     // Creates world and stores it in GameModel singleton. Can be invoked several times.
     public void createWorld() {
         int seed = Convert.ToInt32(seedField.text);
-        int size = (int)sizeSlider.value * 100;
+        int size = (int)sizeSlider.value * 50;
         GenerationState.get().worldGenConfig.seed = seed;
         GenerationState.get().worldGenConfig.size = size;
         // TODO add other parameters

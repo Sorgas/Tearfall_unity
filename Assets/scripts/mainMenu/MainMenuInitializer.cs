@@ -13,6 +13,7 @@ public class MainMenuInitializer : MonoBehaviour {
     public GameObject localGenStage;
 
     public void Start() {
+        Application.targetFrameRate = 60;
         mainMenuStage.SetActive(true);
         worldGenStage.SetActive(false);
         worldMapStage.SetActive(false);
