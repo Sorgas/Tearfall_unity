@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using types.unit;
 using types.unit.disease;
-using UnityEngine.UI;
 using util;
 using util.lang.extension;
 
@@ -15,7 +13,8 @@ public class UnitDiseaseSystem : LocalModelIntervalEcsSystem {
     public static readonly float delta = ((float)interval) / GameTime.ticksPerHour; // in-game hours of one interval
 
     public EcsFilter<UnitDiseaseComponent> filter;
-
+    private List<string> toRemoveDiseases = new();
+    
     public UnitDiseaseSystem() : base(interval) { }
 
     protected override void runLogic(int updates) {
@@ -29,15 +28,11 @@ public class UnitDiseaseSystem : LocalModelIntervalEcsSystem {
         UnitPropertiesComponent propertiesComponent = unit.take<UnitPropertiesComponent>();
         float diseaseResistance = propertiesComponent.properties[UnitProperties.DISEASERESIST.name].value;
         List<string> diseases = new(component.diseases.Keys);
-        foreach (string diseaseName in diseases) {
+        foreach (string diseaseName in component.diseases.Keys) {
             UnitDisease disease = component.diseases[diseaseName];
-            DiseaseStage stage = disease.getStage();
             if (disease.type is ConditionalDisease) {
-                if (((ConditionalDisease)disease.type).condition.Invoke(unit)) {
-                    disease.addProgress(disease.type.progressDelta * updates);
-                } else {
-                    disease.addProgress(-disease.type.progressDelta * updates);
-                }
+                bool condition = ((ConditionalDisease)disease.type).condition.Invoke(unit);
+                disease.addProgress(condition ? 1 : -1 * disease.type.progressDelta * updates);
             } else if (disease.type is CausedDisease) {
                 CausedDisease causedDisease = (CausedDisease)disease.type;
                 if (causedDisease.hoursToHeal > 0) {
@@ -54,6 +49,7 @@ public class UnitDiseaseSystem : LocalModelIntervalEcsSystem {
                 throw new GameException($"disease {disease.type.name} type {disease.type.GetType().Name} not supported");
             }
 
+            DiseaseStage stage = disease.getStage();
             DiseaseStage newStage = disease.getStage();
             if (stage.name != newStage.name) {
                 ref UnitStatusEffectsComponent effectsComponent = ref unit.takeRef<UnitStatusEffectsComponent>();
@@ -65,8 +61,14 @@ public class UnitDiseaseSystem : LocalModelIntervalEcsSystem {
                 // TODO kill unit
             }
             if (disease.progress <= 0) {
-                removeDisease(unit, disease.type.name);
+                toRemoveDiseases.Add(diseaseName);
             }
+        }
+        if (toRemoveDiseases.Count > 0) {
+            foreach (string diseaseName in toRemoveDiseases) {
+                removeDisease(unit, diseaseName);
+            }
+            toRemoveDiseases.Clear();
         }
         if (recalculateEffects) model.unitContainer.statusEffectUtility.recalculate(unit);
     }

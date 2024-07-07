@@ -305,6 +305,7 @@
      <Compile Include="Assets\scripts\generation\worldgen\generators\deity\WorldDeityGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\component\plant\PlantBlock.cs" />
      <Compile Include="Assets\scripts\types\unit\RawCreatureType.cs" />
+     <Compile Include="Assets\scripts\generation\localgen\generators\LocalOresGeneration.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EnumExtension.cs" />
      <Compile Include="Assets\scripts\game\view\ui\workbench\ItemButtonWithTooltipHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\TooltipParentHandler.cs" />

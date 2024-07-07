@@ -26,10 +26,10 @@ public class RainfallGenerator : WorldGenerator {
         rainfallSet = new bool[config.size, config.size];
     }
 
+    // gradient has min on poles and max on equator.
     private void addMainGradientOnWater() {
         float equator = config.size / 2f;
         for (int y = 0; y < config.size; y++) {
-            // gradient has min on poles and max on equator.
             float rainfall = ((-Math.Abs(y - (equator))) / (equator) + 1) * (maxRainfall - minRainfall) + minRainfall;
             for (int x = 0; x < config.size; x++) {
                 if (container.elevation[x, y] <= config.seaLevel) {
@@ -79,7 +79,8 @@ public class RainfallGenerator : WorldGenerator {
                 }
             }
         }
-        rainfall = count != 0 ? rainfall / count : 0;
+        if (count == 0) return 0; // should never happen
+        rainfall /= count;
         rainfall *= (elevationFactor - container.elevation[centerX, centerY]) / elevationFactor;
         return rainfall;
     }

@@ -9,8 +9,8 @@
             "_smelt": ["copper"]
         },
         "value": "5",
-        "atlasY": "0",
-        "color": "ffffffff"
+        "tileset": "ore",
+        "color": "5b989cff"
     }, {
     "id": 203,
     "name": "magnetite",
@@ -21,8 +21,8 @@
         "_smelt": ["iron"]
     },
     "value": "3",
-    "atlasY": "0",
-    "color": "ffffffff"
+    "tileset": "ore",
+    "color": "55646dff"
 }, {
     "id": 204,
     "name": "hematite",
@@ -33,8 +33,8 @@
         "_smelt": ["iron"]
     },
     "value": "2",
-    "atlasY": "0",
-    "color": "ffffffff"
+    "tileset": "ore",
+    "color": "b65643ff"
 }, {
     "id": 205,
     "name": "native gold",
@@ -45,8 +45,8 @@
         "_smelt": ["gold"]
     },
     "value": "30",
-    "atlasY": "0",
-    "color": "ffffffff"
+    "tileset": "ore",
+    "color": "fddb5dff"
 }, {
     "id": 210,
     "name": "native silver",
@@ -58,15 +58,15 @@
         "_smelt": ["silver"]
     },
     "value": "12",
-    "atlasY": "0",
-    "color": "ffffffff"
+    "tileset": "ore",
+    "color": "e7e8e3ff"
 }, {
     "id": 211,
     "name": "coal",
     "tags": ["ore", "fuel"],
     "density": "10.5",
     "value": "1",
-    "atlasY": "0",
-    "color": "ffffffff"
+    "tileset": "stone",
+    "color": "484846ff"
 }
 ]

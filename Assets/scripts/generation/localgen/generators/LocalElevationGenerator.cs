@@ -9,34 +9,29 @@ namespace generation.localgen.generators {
         public LocalElevationGenerator(LocalMapGenerator generator) : base(generator) {}
 
         // TODO take in account elevation of surrounding tiles
+        // TODO calculate worldmap slope direction and incline
         public override void generate() {
             Debug.Log("[LocalElevationGenerator]: generating elevation");
             Vector2Int location = config.location;
             bounds.set(0, 0, config.areaSize - 1, config.areaSize - 1);
-            // GenerationState.get().world.worldMap.biome;
             createElevation();
-            // TODO base modifier on biome (plains, hills mountain regions)
-            modifyElevation(8, container.localElevation);
-            logElevation();
+            modifyElevation(container.localElevation - 4, container.localElevation + 4); // TODO base modifier on biome (plains, hills mountain regions)
         }
 
         // TODO use different settings for different biomes
         private void createElevation() {
-            addElevation(5, 0.5f, 0.05f, 0.5f);
-            // addElevation(6, 0.5f, 0.015f, 2f);
-            // addElevation(7, 0.5f, 0.03f, 1f);
+            createHillElevation();
         }
 
-        private void addElevation(int octaves, float roughness, float scale, float amplitude) {
-            xOffset = Random.value * 10000;
-            yOffset = Random.value * 10000;
-            bounds.iterate((x, y) => container.heightsMap[x, y] += Mathf.PerlinNoise(xOffset + x * scale, yOffset + y * scale) * amplitude);
+        private void normalizeElevation() {
+            
         }
 
-        private void modifyElevation(float modifier, int addition) {
+        // rearranges heights map to be in given range
+        private void modifyElevation(int min, int max) {
             bounds.iterate((x, y) => {
-                container.heightsMap[x, y] *= modifier;
-                container.heightsMap[x, y] += addition;
+                container.heightsMap[x, y] *= max - min;
+                container.heightsMap[x, y] += min;
             });
         }
 
@@ -48,9 +43,22 @@ namespace generation.localgen.generators {
                 if(min > current) min = current;
                 if(max < current) max = current;
             });
-            // Debug.Log("elevation generated, min: " + min + ", max: " + max);
         }
-
+        
+        // creates local elevation values 
+        private void createHillElevation() {
+            addElevation(0.014f, 0.6f);
+            addElevation(0.05f, 0.3f);
+            addElevation(0.11f, 0.1f);
+        }
+  
+        // more scale -> more detailed noise
+        private void addElevation(float scale, float amplitude) {
+            xOffset = Random.value * 10000;
+            yOffset = Random.value * 10000;
+            bounds.iterate((x, y) => container.heightsMap[x, y] += Mathf.PerlinNoise(xOffset + x * scale, yOffset + y * scale) * amplitude);
+        }
+        
         public override string getMessage() {
             return "generating elevation..";
         }

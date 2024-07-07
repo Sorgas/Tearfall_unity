@@ -2,7 +2,7 @@
     public const int UPDATES_PER_SECOND = 30; // not available to player
     
     public const bool USE_SPRITE_SORTING_LAYERS = false;
-    public const int cameraLayerDepth = 6;
+    public const int cameraLayerDepth = 8;
     
     // tooltips
     public const float tooltipShowDelay = 0.15f;

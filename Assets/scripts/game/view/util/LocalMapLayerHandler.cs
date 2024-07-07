@@ -6,13 +6,11 @@ namespace game.view.util {
     public class LocalMapLayerHandler : MonoBehaviour {
         public Tilemap tilemap;
         public TilemapRenderer tilemapRenderer;
-        public MeshRenderer planeRenderer;
         public bool locked;
         private List<TileChangeData> tilesToSet = new();
 
         public void setVisible(bool value) {
             tilemapRenderer.enabled = value;
-            planeRenderer.enabled = value;
         }
 
         public void setTile(Vector3Int position, Tile tile) => setTile(position, tile, tile != null ? tile.color : Color.white);

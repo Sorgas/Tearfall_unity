@@ -72,11 +72,12 @@ public class WorldElevationGenerator : WorldGenerator {
     }
 
     private float selectPerlinScale(int size) {
-        if(size == 50) return 0.06f;
-        if(size == 100) return 0.03f;
-        if(size == 150) return 0.0235f;
-        if(size == 200) return 0.02f;
-        if(size == 250) return 0.0175f;
+        if (size == 10) return 0.06f;
+        if (size == 50) return 0.06f;
+        if (size == 100) return 0.03f;
+        if (size == 150) return 0.0235f;
+        if (size == 200) return 0.02f;
+        if (size == 250) return 0.0175f;
         throw new GameException("Unsupported world size");
     }
 }

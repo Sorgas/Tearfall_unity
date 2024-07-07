@@ -68,7 +68,7 @@ namespace game.view.tilemaps {
             if (blockType != SPACE) { // tile has floor part
                 string floorTileName = (blockType == STAIRS || blockType == DOWNSTAIRS) ? DOWNSTAIRS.PREFIX : FLOOR.PREFIX;
                 floorTile = blockTileSetHolder.tiles[material][floorTileName]; // draw wall part
-                if (blockType == FLOOR || blockType == DOWNSTAIRS) {
+                if (blockType == FLOOR || blockType == DOWNSTAIRS) { // no wall part, can have substrate
                     if (map.substrateMap.has(position)) {
                         int id = map.substrateMap.get(position).type;
                         SubstrateType type = SubstrateTypeMap.get().get(id);
@@ -112,7 +112,6 @@ namespace game.view.tilemaps {
                 layers.Add(layer.transform.GetComponentInChildren<LocalMapLayerHandler>());
                 if (GlobalSettings.USE_SPRITE_SORTING_LAYERS) {
                     layers[i].tilemap.GetComponent<TilemapRenderer>().sortingOrder = i;
-                    layers[i].planeRenderer.sortingOrder = i;
                 }
             }
         }
@@ -173,9 +172,6 @@ namespace game.view.tilemaps {
             for (int z = 0; z < map.bounds.maxZ; z++) {
                 bool visible = z > (newZ - GlobalSettings.cameraLayerDepth) && z <= newZ;
                 layers[z].setVisible(visible);
-                if (visible) {
-                    // layers[z].tilemap.color.
-                }
             }
         }
     }
