@@ -10,6 +10,7 @@ namespace generation.localgen.generators {
 public class LocalStoneLayersGenerator : LocalGenerator {
     private ValueRange layerThicknessRange = new();
     private int[,] currentHeight;
+    int[,] borderArray;
     private float xOffset;
     private float yOffset;
 
@@ -21,11 +22,9 @@ public class LocalStoneLayersGenerator : LocalGenerator {
 
     public override void generate() {
         currentHeight = new int[config.areaSize, config.areaSize];
-        bounds.iterate((x, y) => currentHeight[x, y] = (int)container.heightsMap[x, y]);
-        // countAverageElevation();
+        // borderArray = new int[config.areaSize, config.areaSize];
+        bounds.iterate((x, y) => { currentHeight[x, y] = (int)container.heightsMap[x, y]; });
         generateLayers();
-        container.stoneLayers.ForEach(layer => { fillLayer(layer); });
-        finalizeBottom();
     }
 
     // counts average
@@ -42,56 +41,57 @@ public class LocalStoneLayersGenerator : LocalGenerator {
     }
 
     private void generateLayers() {
-        int localElevation = container.localElevation;
-        int soilLayer = (int)Math.Max(localElevation * config.soilThickness, 1);
-        container.stoneLayers.Add(generateLayer("soil", soilLayer - 1, soilLayer + 1));
-        int sedimentaryLayer = (int)(localElevation * (0.25 + UnityEngine.Random.Range(0, 0.1f)));
-        int metamorficLayer = (int)(localElevation * (0.25 + UnityEngine.Random.Range(0, 0.1f)));
-        int igneousLayer = (int)(localElevation - soilLayer - sedimentaryLayer - metamorficLayer);
-        createLayerGroup("stone_sedimentary", sedimentaryLayer, "sedimentary");
-        createLayerGroup("stone_metamorfic", metamorficLayer, "metamorfic");
-        createLayerGroup("stone_igneous", igneousLayer, "igneous");
-        log($"{container.stoneLayers.Count} layers generated");
+        // TODO get soil thickness from biome
+        int soilThickness = (int)Math.Max(GlobalSettings.localElevation * config.soilThickness, 1);
+        generateLayer(MaterialMap.get().id("soil"), soilThickness - 1, soilThickness + 1);
+        int sedStart = GlobalSettings.localElevation - soilThickness - 1;
+        int metStart = createLayerGroup("stone_sedimentary", sedStart);
+        int ignStart = createLayerGroup("stone_metamorfic", metStart);
+        createLayerGroup("stone_igneous", ignStart);
+        generateOre("sedimentary",sedStart, metStart);
+        generateOre("sedimentary",metStart, ignStart);
+        generateOre("sedimentary",ignStart, 3);
+        finalizeBottom(MaterialMap.get().getByTag("stone_igneous")[0].id);
     }
 
-    // generates layers of all materials with tag
-    private void createLayerGroup(string tag, int totalThickness, string type) {
+    // generates layers of all materials with tag, returns lower point of layer group
+    private int createLayerGroup(string tag, int previousHeight) {
+        int groupThickness = (int)(GlobalSettings.localElevation * UnityEngine.Random.Range(0.25f, 0.3f));
+        int lowerBorderHeight = previousHeight - groupThickness;
+        xOffset = UnityEngine.Random.value * 10000;
+        yOffset = UnityEngine.Random.value * 10000;
         List<Material_> materials = MaterialMap.get().getByTag(tag);
-        int singleLayerThickness = totalThickness / materials.Count;
-        materials.ForEach(material => container.stoneLayers.Add(generateLayer(material.name, singleLayerThickness - 1, singleLayerThickness + 1)));
-        log(type + " stone layers created, total: " + totalThickness + ", single: " + singleLayerThickness);
+        bounds.iterate((x, y) => {
+            int targetHeight = lowerBorderHeight - 1 + (int)(Mathf.PerlinNoise(xOffset + x * 0.03f, yOffset + y * 0.03f) * 3); // noised height
+            int thickness = (currentHeight[x, y] - targetHeight) / materials.Count;
+            for (int z = currentHeight[x, y]; z >= targetHeight; z--) {
+                int i = (z - targetHeight) / thickness % materials.Count;
+                container.map.blockType.setRaw(x, y, z, BlockTypes.WALL.CODE, materials[i].id);
+            }
+            currentHeight[x, y] = targetHeight - 1;
+        });
+        return lowerBorderHeight;
     }
 
-    // creates layer descriptor with perlin noise between given range
-    private LayerDescriptor generateLayer(string material, int minThickness, int maxThickness) {
-        LayerDescriptor layer = new LayerDescriptor(material, config.areaSize);
-        layer.material = material;
+    // generates layer of single material and fills it into map.
+    private void generateLayer(int material, int minThickness, int maxThickness) {
         xOffset = UnityEngine.Random.value * 10000;
         yOffset = UnityEngine.Random.value * 10000;
         int thicknessRange = maxThickness - minThickness;
-        bounds.iterate((x, y) =>
-            layer.thickness[x, y] = minThickness + (int)(Mathf.PerlinNoise(xOffset + x * 0.03f, yOffset + y * 0.03f) * thicknessRange));
-        log($"stone layer generated: {material} {minThickness} {maxThickness}");
-        return layer;
-    }
-
-    // adds layers blocks beneath currentHeight values
-    private void fillLayer(LayerDescriptor layer) {
         bounds.iterate((x, y) => {
-            if (currentHeight[x, y] > 0) {
-                for (int z = 0; z <= layer.thickness[x, y]; z++) {
-                    if (currentHeight[x, y] >= 0) {
-                        container.map.blockType.setRaw(x, y, currentHeight[x, y], BlockTypes.WALL.CODE, layer.material);
-                        currentHeight[x, y]--;
-                    }
+            int thickness = minThickness + (int)(Mathf.PerlinNoise(xOffset + x * 0.03f, yOffset + y * 0.03f) * thicknessRange);
+            int targetHeight = Math.Max(currentHeight[x, y] - thickness, 0);
+            if (targetHeight < currentHeight[x, y]) {
+                for (int z = currentHeight[x, y]; z >= targetHeight; z--) {
+                    container.map.blockType.setRaw(x, y, z, BlockTypes.WALL.CODE, material);
                 }
             }
+            currentHeight[x, y] = targetHeight;
         });
     }
 
     // fills all free space in the map bottom with last layer material
-    private void finalizeBottom() {
-        string material = container.stoneLayers[^1].material;
+    private void finalizeBottom(int material) {
         bounds.iterate((x, y) => {
             if (currentHeight[x, y] >= 0) {
                 for (int z = 0; z <= currentHeight[x, y]; z++) {
@@ -105,18 +105,25 @@ public class LocalStoneLayersGenerator : LocalGenerator {
         return "generating stone layers..";
     }
 
-    public class LayerDescriptor {
-        public string material;
-        public int[,] thickness; // thickness of a layer
-
-        public LayerDescriptor(string material, int areaSize) {
-            this.material = material;
-            thickness = new int[areaSize, areaSize];
+    private void generateOre(string tag, int maxHeight, int minHeight) {
+        xOffset = UnityEngine.Random.value * 10000;
+        yOffset = UnityEngine.Random.value * 10000;
+        OreVeinGenerator generator = new();
+        int oreId = MaterialMap.get().id("hematite");
+        for (int z = maxHeight; z > minHeight; z -= 2) {
+            Debug.Log($"generated ore at {z}");
+            int[,] vein = generator.createVein(50);
+            for (int x = 0; x < 50; x++) {
+                for (int y = 0; y < 50; y++) {
+                    if (vein[x,y] != 0) {
+                        int noiseZ = z - 1 + (int)Math.Floor(Mathf.PerlinNoise(xOffset + x * 0.03f, yOffset + y * 0.03f) * 2); // noised height
+                        container.map.blockType.setRaw(x, y, noiseZ, BlockTypes.WALL.CODE, 204);
+                    }
+                }
+            }
         }
     }
 
-    
-    
     // public void GenerateOreVeins(int numberOfVeins, int veinSize) {
     //     for (int i = 0; i < numberOfVeins; i++) {
     //         int startX = random.Next(width);

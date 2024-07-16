@@ -15,7 +15,8 @@ namespace generation.localgen.generators {
             Vector2Int location = config.location;
             bounds.set(0, 0, config.areaSize - 1, config.areaSize - 1);
             createElevation();
-            modifyElevation(container.localElevation - 4, container.localElevation + 4); // TODO base modifier on biome (plains, hills mountain regions)
+            // TODO base modifier on biome (plains, hills mountain regions)
+            modifyElevation(GlobalSettings.localElevation - 4, GlobalSettings.localElevation + 4); 
         }
 
         // TODO use different settings for different biomes
