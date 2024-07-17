@@ -106,69 +106,28 @@ public class LocalStoneLayersGenerator : LocalGenerator {
     }
 
     private void generateOre(string tag, int maxHeight, int minHeight) {
+        OreVeinGenerator generator = new();
         xOffset = UnityEngine.Random.value * 10000;
         yOffset = UnityEngine.Random.value * 10000;
-        OreVeinGenerator generator = new();
         int oreId = MaterialMap.get().id("hematite");
+        int[,] oreArray = new int[50, 50];
         for (int z = maxHeight; z > minHeight; z -= 2) {
             Debug.Log($"generated ore at {z}");
-            int[,] vein = generator.createVein(50);
-            for (int x = 0; x < 50; x++) {
-                for (int y = 0; y < 50; y++) {
-                    if (vein[x,y] != 0) {
-                        int noiseZ = z - 1 + (int)Math.Floor(Mathf.PerlinNoise(xOffset + x * 0.03f, yOffset + y * 0.03f) * 2); // noised height
-                        container.map.blockType.setRaw(x, y, noiseZ, BlockTypes.WALL.CODE, 204);
+            for (int largeX = 0; largeX < config.areaSize; largeX += 50) {
+                for (int largeY = 0; largeY < config.areaSize; largeY += 50) {
+                    generator.createVein(50, oreArray);
+                    for (int x = 0; x < 50; x++) {
+                        for (int y = 0; y < 50; y++) {
+                            if (oreArray[x,y] != 0) {
+                                // int noiseZ = z - 1 + (int)Math.Floor(Mathf.PerlinNoise(xOffset + x * 0.03f, yOffset + y * 0.03f) * 2); // noised height
+                                container.map.blockType.setRaw(largeX + x, largeY + y, z, BlockTypes.WALL.CODE, 204);
+                                oreArray[x, y] = 0;
+                            }
+                        }
                     }
                 }
             }
         }
     }
-
-    // public void GenerateOreVeins(int numberOfVeins, int veinSize) {
-    //     for (int i = 0; i < numberOfVeins; i++) {
-    //         int startX = random.Next(width);
-    //         int startY = random.Next(height);
-    //         int startZ = random.Next(depth);
-    //         GenerateVein(startX, startY, startZ, veinSize);
-    //     }
-    // }
-    //
-    // private void GenerateVein(int startX, int startY, int startZ, int veinSize) {
-    //     for (int i = 0; i < veinSize; i++) {
-    //         int thickness = random.Next(2, 6); // Thickness between 2 and 5
-    //         List<(int x, int y, int z)> veinPoints = new List<(int x, int y, int z)>();
-    //
-    //         for (int t = 0; t < thickness; t++) {
-    //             int x = startX + random.Next(-1, 2);
-    //             int y = startY + random.Next(-1, 2);
-    //             int z = startZ + random.Next(-1, 2);
-    //
-    //             if (IsValidCoordinate(x, y, z))
-    //                 veinPoints.Add((x, y, z));
-    //         }
-    //
-    //         foreach (var point in veinPoints) {
-    //             if (IsValidCoordinate(point.x, point.y, point.z)) {
-    //                 map[point.x, point.y, point.z] = 1; // Assuming 1 represents metal ore
-    //                 startX = point.x;
-    //                 startY = point.y;
-    //                 startZ = point.z;
-    //             }
-    //         }
-    //     }
-    // }
-    //
-    // private bool IsValidCoordinate(int x, int y, int z) {
-    //     return x >= 0 && x < width && y >= 0 && y < height && z >= 0 && z < depth;
-    // }
-    //
-    // public void PrintMapSlice(int zLevel) {
-    //     for (int y = 0; y < height; y++) {
-    //         for (int x = 0; x < width; x++) {
-    //             Console.Write(map[x, y, zLevel] + " ");
-    //         }
-    //         Console.WriteLine();
-    //     }
-    // }
 }
 }
