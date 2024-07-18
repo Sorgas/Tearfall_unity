@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using types;
 using types.material;
 using UnityEngine;
 using util.geometry;
+using Random = System.Random;
 
 namespace generation.localgen.generators {
 // generates several layers of stone and soil materials and flushes them to local map 
@@ -15,8 +17,15 @@ public class LocalStoneLayersGenerator : LocalGenerator {
     private float yOffset;
 
     // private float effectiveElevation = 0;
+    private Dictionary<string, (int, int)> oreDepthRanges = new();
 
     public LocalStoneLayersGenerator(LocalMapGenerator generator) : base(generator) {
+        oreDepthRanges.Add("chalcopyrite", (20, 50));
+        oreDepthRanges.Add("magnetite", (25, 45));
+        oreDepthRanges.Add("hematite", (20, 35));
+        oreDepthRanges.Add("native gold", (10, 25));
+        oreDepthRanges.Add("native silver", (15, 35));
+        oreDepthRanges.Add("coal", (35, 50));
         debug = true;
     }
 
@@ -48,9 +57,9 @@ public class LocalStoneLayersGenerator : LocalGenerator {
         int metStart = createLayerGroup("stone_sedimentary", sedStart);
         int ignStart = createLayerGroup("stone_metamorfic", metStart);
         createLayerGroup("stone_igneous", ignStart);
-        generateOre("sedimentary",sedStart, metStart);
-        generateOre("sedimentary",metStart, ignStart);
-        generateOre("sedimentary",ignStart, 3);
+        generateOre("sedimentary", sedStart, metStart);
+        generateOre("sedimentary", metStart, ignStart);
+        generateOre("sedimentary", ignStart, 3);
         finalizeBottom(MaterialMap.get().getByTag("stone_igneous")[0].id);
     }
 
@@ -109,18 +118,20 @@ public class LocalStoneLayersGenerator : LocalGenerator {
         OreVeinGenerator generator = new();
         xOffset = UnityEngine.Random.value * 10000;
         yOffset = UnityEngine.Random.value * 10000;
-        int oreId = MaterialMap.get().id("hematite");
         int[,] oreArray = new int[50, 50];
         for (int z = maxHeight; z > minHeight; z -= 2) {
             Debug.Log($"generated ore at {z}");
             for (int largeX = 0; largeX < config.areaSize; largeX += 50) {
                 for (int largeY = 0; largeY < config.areaSize; largeY += 50) {
+                    string material = selectOreMaterial(z);
+                    if (material == "none") continue;
+                    int oreId = MaterialMap.get().id(material);
                     generator.createVein(50, oreArray);
                     for (int x = 0; x < 50; x++) {
                         for (int y = 0; y < 50; y++) {
-                            if (oreArray[x,y] != 0) {
+                            if (oreArray[x, y] != 0) {
                                 // int noiseZ = z - 1 + (int)Math.Floor(Mathf.PerlinNoise(xOffset + x * 0.03f, yOffset + y * 0.03f) * 2); // noised height
-                                container.map.blockType.setRaw(largeX + x, largeY + y, z, BlockTypes.WALL.CODE, 204);
+                                container.map.blockType.setRaw(largeX + x, largeY + y, z, BlockTypes.WALL.CODE, oreId);
                                 oreArray[x, y] = 0;
                             }
                         }
@@ -128,6 +139,14 @@ public class LocalStoneLayersGenerator : LocalGenerator {
                 }
             }
         }
+    }
+
+    private string selectOreMaterial(int z) {
+        List<string> ores = oreDepthRanges.Where(pair => pair.Value.Item1 < z && pair.Value.Item2 > z)
+            .Select(pair => pair.Key)
+            .ToList();
+        if (ores.Count == 0) return "none";
+        return ores[UnityEngine.Random.Range(0, ores.Count)];
     }
 }
 }
