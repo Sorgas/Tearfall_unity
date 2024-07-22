@@ -31,9 +31,14 @@ public class ItemType {
         baseItem = raw.baseItem;
         description = raw.description;
         value = raw.value;
-        if (raw.toolActions != null && raw.toolActions.Length > 0) {
+        if (raw.toolAction != null) {
             tool = new ToolItemType();
-            tool.action = raw.toolActions[0];
+            tool.action = raw.toolAction;
+            tool.damage = raw.damage;
+            tool.accuracy = raw.accuracy;
+            tool.reload = raw.reload;
+            tool.skill = raw.skill;
+            tool.damageType = raw.damageType;
         }
         atlasXY = raw.atlasXY;
         // if (raw.parts == null || raw.parts.Length == 0) {
@@ -77,7 +82,6 @@ public class RawItemType {
     public string description; // displayable description
     public int value = 1; // default value for material items
     
-    public string[] toolActions; // some actions require tools or get bonus from having tool equipped
     // public string[] parts; // defines parts of item. first one is main
     public string[] tags; // tags will be copied to items
 
@@ -88,6 +92,15 @@ public class RawItemType {
     // render
     public int[] atlasXY;
     public string color = "0xffffffff";
+
+    // tools
+    public string toolAction; // some actions require tools or get bonus from having tool equipped
+    // weapons
+    public float damage; // if 0, item is not a weapon
+    public float accuracy;
+    public float reload; // attack reload turns
+    public string skill; // combat skill to use
+    public string damageType;
 
     public RawItemType() {
         // parts = Array.Empty<string>();

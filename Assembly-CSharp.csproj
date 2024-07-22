@@ -788,6 +788,7 @@
      <Folder Include="Assets\scripts\util\TexturePacker\AssetPacker" />
      <None Include="Assets\resources\data\plants\bushes.json" />
      <Folder Include="Assets\SharpUI\Prefabs\UI" />
+     <None Include="Assets\resources\data\items\weapons.json" />
      <None Include="Assets\resources\data\materials\cloth.json" />
      <Folder Include="Assets\scripts\game\view\tilemaps" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />

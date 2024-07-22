@@ -1,18 +1,16 @@
 ﻿using System.Collections.Generic;
 
 namespace types.item.type {
-    public class ToolItemType {
-        public string action;  // some jobs, (mining, lumbering) require tools with specific name.
-        public List<ToolAttack> attacks = new List<ToolAttack>();  // creatures will choose tools with best attack characteristics to use in combat.
-        public string usedSkill; //TODO replace with enum
-
-        public class ToolAttack {
-            public string attack; //TODO replace with enum
-            public float damageMod; // item efficiency or this attack
-            public float baseReload; // attack reload turns
-            public string damageType; //TODO replace with enum
-            public string ammo; // ammo item name
-            public string part;
-        }
-    }
+// part of ItemType for tools and weapons
+public class ToolItemType {
+    // tools
+    public string action; // some jobs, (mining, lumbering) require tools with specific action.
+    // weapons
+    public float damage; // if 0, item is not a weapon
+    public float accuracy;
+    public float reload; // attack reload turns
+    public string skill; // combat skill to use
+    public string damageType;
+    // public string ammo; // ammo item name
+}
 }

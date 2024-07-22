@@ -4,6 +4,7 @@ using System.Linq;
 using types;
 using types.material;
 using UnityEngine;
+using util;
 using util.geometry;
 using Random = System.Random;
 
@@ -123,15 +124,19 @@ public class LocalStoneLayersGenerator : LocalGenerator {
             Debug.Log($"generated ore at {z}");
             for (int largeX = 0; largeX < config.areaSize; largeX += 50) {
                 for (int largeY = 0; largeY < config.areaSize; largeY += 50) {
-                    string material = selectOreMaterial(z);
-                    if (material == "none") continue;
-                    int oreId = MaterialMap.get().id(material);
+                    string materialName = selectOreMaterial(z);
+                    if (materialName == "none") continue;
+                    Material_ material = MaterialMap.get().material(materialName);
+                    if (!material.tags.Contains("ore_vein_thick")) {
+                        // TODO support other types of ore distribution
+                        throw new GameException($"ore distribution tag not supported: {material.tags.Aggregate((t1, t2) => t1 + " " + t2)}");
+                    }
                     generator.createVein(50, oreArray);
                     for (int x = 0; x < 50; x++) {
                         for (int y = 0; y < 50; y++) {
                             if (oreArray[x, y] != 0) {
                                 // int noiseZ = z - 1 + (int)Math.Floor(Mathf.PerlinNoise(xOffset + x * 0.03f, yOffset + y * 0.03f) * 2); // noised height
-                                container.map.blockType.setRaw(largeX + x, largeY + y, z, BlockTypes.WALL.CODE, oreId);
+                                container.map.blockType.setRaw(largeX + x, largeY + y, z, BlockTypes.WALL.CODE, material.id);
                                 oreArray[x, y] = 0;
                             }
                         }

@@ -2,7 +2,7 @@
     {
         "id": 201,
         "name": "chalcopyrite",
-        "tags": ["ore"],
+        "tags": ["ore", "ore_vein_thick"],
         "density": "4.2",
         "reactions": {
             "melt": ["1223"],
@@ -14,7 +14,7 @@
     }, {
     "id": 203,
     "name": "magnetite",
-    "tags": ["ore"],
+    "tags": ["ore", "ore_vein_thick"],
     "density": "5.2",
     "reactions": {
         "melt": ["1867"],
@@ -26,7 +26,7 @@
 }, {
     "id": 204,
     "name": "hematite",
-    "tags": ["ore"],
+    "tags": ["ore", "ore_vein_thick"],
     "density": "5.2",
     "reactions": {
         "melt": ["1838"],
@@ -38,7 +38,7 @@
 }, {
     "id": 205,
     "name": "native gold",
-    "tags": ["ore"],
+    "tags": ["ore", "ore_vein_thick"],
     "density": "19",
     "reactions": {
         "melt": ["1337"],
@@ -50,7 +50,7 @@
 }, {
     "id": 210,
     "name": "native silver",
-    "tags": ["ore"],
+    "tags": ["ore", "ore_vein_thick"],
     "aspects": ["ore(silver, 1)"],
     "density": "10.5",
     "reactions": {
@@ -63,7 +63,7 @@
 }, {
     "id": 211,
     "name": "coal",
-    "tags": ["ore", "fuel"],
+    "tags": ["ore", "fuel", "ore_vein_thick"],
     "density": "10.5",
     "value": "1",
     "tileset": "stone",
