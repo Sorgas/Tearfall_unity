@@ -6,7 +6,6 @@ using types.material;
 using UnityEngine;
 using util;
 using util.geometry;
-using Random = System.Random;
 
 namespace generation.localgen.generators {
 // generates several layers of stone and soil materials and flushes them to local map 

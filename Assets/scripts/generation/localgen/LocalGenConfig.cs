@@ -11,7 +11,7 @@ namespace generation.localgen {
         public int maxCaveLayerHeight = 20;
         public int minLocalElevation = 30; // for 0 world elevation
         public int maxLocalElevation = 80; // for 1 world elevation
-        
+        public string localBiome = "hills"; 
         
         public int elevationVariation = 6; // TODO base on world cell's biome (plains/mountains)
         public float soilThickness = 0.05f; // relative to localElevation TODO base on world cell's moisture (swamps/mountains)

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using util;
 
 // fills heights map in local gen container. properties selected based on world cell's biome
 namespace generation.localgen.generators {
@@ -8,7 +9,7 @@ namespace generation.localgen.generators {
 
         public LocalElevationGenerator(LocalMapGenerator generator) : base(generator) {}
 
-        // TODO take in account elevation of surrounding tiles
+        // TODO take in account elevation of surrounding world tiles
         // TODO calculate worldmap slope direction and incline
         public override void generate() {
             Debug.Log("[LocalElevationGenerator]: generating elevation");
@@ -19,15 +20,18 @@ namespace generation.localgen.generators {
             modifyElevation(GlobalSettings.localElevation - 4, GlobalSettings.localElevation + 4); 
         }
 
-        // TODO use different settings for different biomes
+        // TODO add more biomes
         private void createElevation() {
-            createHillElevation();
+            string biome = config.localBiome;
+            if ("hills".Equals(biome)) {
+                createHillElevation();
+            } else if ("flat".Equals(biome)) {
+                createFlatElevation();
+            } else {
+                throw new GameException($"Unsupported biome type {biome}");
+            }
         }
-
-        private void normalizeElevation() {
-            
-        }
-
+        
         // rearranges heights map to be in given range
         private void modifyElevation(int min, int max) {
             bounds.iterate((x, y) => {
@@ -52,7 +56,11 @@ namespace generation.localgen.generators {
             addElevation(0.05f, 0.3f);
             addElevation(0.11f, 0.1f);
         }
-  
+
+        private void createFlatElevation() {
+            bounds.iterate((x, y) => container.heightsMap[x, y] = 0.5f);
+        }
+        
         // more scale -> more detailed noise
         private void addElevation(float scale, float amplitude) {
             xOffset = Random.value * 10000;

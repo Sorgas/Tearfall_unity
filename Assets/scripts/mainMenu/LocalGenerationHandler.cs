@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 namespace mainMenu {
 // Handler for local generation stage. Shows progress bar, messages from localGenerators and counts executed generators.
+// Should be shown during localMap generation
 public class LocalGenerationHandler : GameMenuPanelHandler {
     public Image progressBar;
     public TextMeshProUGUI descriptionText;
@@ -17,11 +18,8 @@ public class LocalGenerationHandler : GameMenuPanelHandler {
         return new List<ButtonData>();
     }
 
-    // generates local map based on data saved in GenerationState
-    public void startGeneration() {
-        GenerationState.get().generateLocalMap("main");
-    }
-
+    // Updates state of generation progress bar. Values taken from singleton GenerationState
+    // Loads next scene when generation completes
     public new void Update() {
         LocalGenSequence sequence = GenerationState.get().localMapGenerator.localGenSequence;
         if (sequence == null) return;

@@ -34,6 +34,10 @@ namespace generation.localgen {
             generators.Add(new LocalItemGenerator(generator));
         }
 
+        public LocalGenSequence(LocalMapGenerator generator, bool flat) {
+            
+        }
+        
         public LocalModel run() {
             progress = 0;
             maxProgress = generators.Count;

@@ -17,7 +17,8 @@ public class MainMenuStageHandler : GameMenuPanelHandler {
     
     protected override List<ButtonData> getButtonsData() {
         return new List<ButtonData> {
-            new("TestLevelButton", KeyCode.T, toTestLevel),
+            new("TestLevelButton", KeyCode.T, () => toTestLevel(false)),
+            new("TestLevelCombatButton", KeyCode.P, () => toTestLevel(true)),
             new("ContinueGameButton", KeyCode.C, toPreviousGame),
             new("NewGameButton", KeyCode.E, toNewGameWorldGen),
             new("LoadGameButton", KeyCode.S, () => switchTo(gameLoadStage)),
@@ -26,13 +27,17 @@ public class MainMenuStageHandler : GameMenuPanelHandler {
         };
     }
 
-    private void toTestLevel() {
+    private void toTestLevel(bool combat) {
         gameObject.SetActive(false);
-        new GenerationStateTestInitializer().initState(1);
+        if (combat) {
+            new GenerationStateTestInitializer().initCombatState();
+        } else {
+            new GenerationStateTestInitializer().initState(1);
+        }
         localGenStage.gameObject.SetActive(true);
-        localGenStage.startGeneration();
+        GenerationState.get().generateLocalMap("main");
     }
-    
+
     private void toNewGameWorldGen() {
         gameObject.SetActive(false);
         worldGenStage.gameObject.SetActive(true);

@@ -44,7 +44,7 @@ namespace mainMenu.preparation {
                 GenerationState.get().preparationState.settlers.Add(settler);
             }
             switchTo(localGenStage);
-            localGenStage.startGeneration();
+            GenerationState.get().generateLocalMap("main");
         }
 
         private void back() {

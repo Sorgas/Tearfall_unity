@@ -33,5 +33,12 @@ namespace generation {
             LocalModel localModel = localMapGenerator.generateLocalMap(name);
             GameModel.get().addLocalModel(name, localModel);
         }
+
+        public void generateFlatLocalMap(string name) {
+            localMapGenerator.localGenConfig.location = preparationState.location;
+            localMapGenerator.localGenConfig.areaSize = preparationState.size;
+            LocalModel localModel = localMapGenerator.generateLocalMap(name);
+            GameModel.get().addLocalModel(name, localModel);
+        }
     }
 }

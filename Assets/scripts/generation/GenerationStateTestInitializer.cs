@@ -2,26 +2,39 @@ using generation.unit;
 using UnityEngine;
 
 namespace generation {
-// fills generation state for test level
+// fills generation state for test level. Settlement position is not selected for test levels, so world is generated immediately.
 public class GenerationStateTestInitializer {
+    // TODO remove duplication
     public void initState(int seed) {
         GenerationState state = GenerationState.get();
         state.worldGenConfig.size = 10;
         Random.InitState(seed);
         state.generateWorld(); // sets world map to game model
-        createTestSettler();
+        createSettlers(1);
         createTestItem();
         createBuildings();
         state.preparationState.location = new Vector2Int(5, 5);
         state.preparationState.size = 100;
     }
 
+    public void initCombatState() {
+        GenerationState state = GenerationState.get();
+        state.worldGenConfig.size = 10;
+        Random.InitState(1);
+        state.generateWorld(); // sets world map to game model
+        createSettlers(1);
+        createWeapons();
+        state.preparationState.location = new Vector2Int(5, 5);
+        state.preparationState.size = 100;
+        state.localMapGenerator.localGenConfig.localBiome = "flat";
+    }
+
     // creates test settler as it was selected on preparation screen
-    private void createTestSettler() {
+    private void createSettlers(int number) {
         SettlerDataGenerator generator = new();
-        GenerationState.get().preparationState.settlers.Add(generator.generate());
-        // GenerationState.get().preparationState.settlers.Add(generator.generate());
-        // GenerationState.get().preparationState.settlers.Add(generator.generate());
+        for (int i = 0; i < number; i++) {
+            GenerationState.get().preparationState.settlers.Add(generator.generate());
+        }
     }
 
     // creates test item as it was selected on preparation screen
@@ -55,6 +68,14 @@ public class GenerationStateTestInitializer {
             });
         // GenerationState.get().localMapGenerator.itemsToStore.Add("kitchen",
         //     new[] { "meat_piece/meat", "turnip/plant", "pumpkin/plant", "pepper/plant" });
+    }
+
+    private void createEnemy() {
+        
+    }
+
+    private void createWeapons() {
+        GenerationState.get().preparationState.items.Add(new ItemData { material = "iron", type = "sword", quantity = 2 });
     }
 }
 }
