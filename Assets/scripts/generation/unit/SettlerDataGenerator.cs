@@ -1,10 +1,11 @@
 using types.unit;
+using UnityEngine;
 using static types.unit.CreatureAttributesEnum;
 using Random = UnityEngine.Random;
 
 namespace generation.unit {
 public class SettlerDataGenerator {
-    private UnitNameGenerator nameGenerator = new();
+    private UnitNameGenerator nameGenerator = new(new System.Random(System.DateTime.Now.Millisecond));
 
     public SettlerData generate() {
         SettlerData result = new();

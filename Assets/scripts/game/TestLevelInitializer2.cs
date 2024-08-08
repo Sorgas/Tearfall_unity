@@ -1,19 +1,13 @@
 ﻿using game.model;
-using game.model.component;
-using game.model.component.unit;
 using game.model.localmap;
 using generation;
-using generation.unit;
 using Leopotam.Ecs;
 using types;
-using types.action;
-using types.unit;
 using UnityEngine;
 using static types.BlockTypes;
 
 namespace game {
     public class TestLevelInitializer2 {
-
         public void createTestLocalMap(string modelName) {
             if (GameModel.get().world != null) {
                 Debug.LogWarning("world already exists in GameModel");
@@ -59,15 +53,15 @@ namespace game {
             for (int i = 0; i < 1; i++) {
                 Vector3Int spawnPoint = new(5 + i, 5, 5);
                 EcsEntity entity = model.createEntity();
-                UnitGenerator unitGenerator = new();
-                unitGenerator.generateUnit(new SettlerData {name = "settler", age = 30, type = "human"}, entity);
-                ref PositionComponent positionComponent = ref entity.Get<PositionComponent>();
-                positionComponent.position = spawnPoint;
-                
-                UnitJobsComponent jobsComponent = entity.Get<UnitJobsComponent>();
-                for (var j = 0; j < Jobs.all.Length; j++) {
-                    jobsComponent.enabledJobs.Add(Jobs.all[j].name, 1);
-                }
+                // UnitGenerator unitGenerator = new();
+                // unitGenerator.generateUnit(new SettlerData {name = "settler", age = 30, type = "human"}, entity);
+                // ref PositionComponent positionComponent = ref entity.Get<PositionComponent>();
+                // positionComponent.position = spawnPoint;
+                //
+                // UnitJobsComponent jobsComponent = entity.Get<UnitJobsComponent>();
+                // for (var j = 0; j < Jobs.all.Length; j++) {
+                //     jobsComponent.enabledJobs.Add(Jobs.all[j].name, 1);
+                // }
             }
         }
 

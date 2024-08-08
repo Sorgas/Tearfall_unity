@@ -1,34 +1,42 @@
 using generation.unit;
+using types.building;
+using types.item.recipe;
+using types.item.type;
+using types.material;
+using types.plant;
+using types.unit;
 using UnityEngine;
 
 namespace generation {
 // fills generation state for test level. Settlement position is not selected for test levels, so world is generated immediately.
 public class GenerationStateTestInitializer {
-    // TODO remove duplication
-    public void initState(int seed) {
-        GenerationState state = GenerationState.get();
-        state.worldGenConfig.size = 10;
-        Random.InitState(seed);
-        state.generateWorld(); // sets world map to game model
+    // inits regular map in tiny world
+    public void initState() {
+        initAndGenerateTestWorld();
         createSettlers(1);
         createTestItem();
         createBuildings();
-        state.preparationState.location = new Vector2Int(5, 5);
-        state.preparationState.size = 100;
     }
 
+    // inits flat map with weapon items
     public void initCombatState() {
-        GenerationState state = GenerationState.get();
-        state.worldGenConfig.size = 10;
-        Random.InitState(1);
-        state.generateWorld(); // sets world map to game model
+        initAndGenerateTestWorld();
         createSettlers(1);
         createWeapons();
-        state.preparationState.location = new Vector2Int(5, 5);
-        state.preparationState.size = 100;
-        state.localMapGenerator.localGenConfig.localBiome = "flat";
+        GenerationState.get().localMapGenerator.localGenConfig.localBiome = "flat";
     }
 
+    // test world is 10x10 tiles
+    private void initAndGenerateTestWorld() {
+        GenerationState state = GenerationState.get();
+        preLoadTypeMaps();
+        state.worldGenConfig.size = 10;
+        state.worldGenConfig.seed = 1;
+        state.generateWorld(); // sets world map to game model
+        state.preparationState.location = new Vector2Int(5, 5);
+        state.preparationState.size = 100;
+    }
+    
     // creates test settler as it was selected on preparation screen
     private void createSettlers(int number) {
         SettlerDataGenerator generator = new();
@@ -60,9 +68,9 @@ public class GenerationStateTestInitializer {
     }
 
     private void createBuildings() {
-        GenerationState.get().localMapGenerator.buildingsToGenerate.Add("tailor's table", "oak");
-        GenerationState.get().localMapGenerator.buildingsToGenerate.Add("kitchen", "oak");
-        GenerationState.get().localMapGenerator.itemsToStore.Add("tailor's table",
+        GenerationState.get().localMapGenerator.testBuildingsToGenerate.Add("tailor's table", "oak");
+        GenerationState.get().localMapGenerator.testBuildingsToGenerate.Add("kitchen", "oak");
+        GenerationState.get().localMapGenerator.testItemsToStore.Add("tailor's table",
             new[] { "cloth_roll/silk", 
                 "cloth_roll/linen", "cloth_roll/wool", "cloth_roll/cotton" 
             });
@@ -76,6 +84,16 @@ public class GenerationStateTestInitializer {
 
     private void createWeapons() {
         GenerationState.get().preparationState.items.Add(new ItemData { material = "iron", type = "sword", quantity = 2 });
+    }
+    
+    private void preLoadTypeMaps() {
+        MaterialMap.get();
+        ItemTypeMap.get();
+        PlantTypeMap.get();
+        CreatureTypeMap.get();
+        BuildingTypeMap.get();
+        RecipeMap.get();
+        SubstrateTypeMap.get();
     }
 }
 }

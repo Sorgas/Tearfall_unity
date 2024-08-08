@@ -12,7 +12,7 @@ public class WorldTemperatureGenerator : WorldGenerator {
     private float[,] yearTemperature;
     private float elevationInfluence;
 
-    public override void generate() {
+    protected override void generateInternal() {
         init();
         createGradient();
         addNoiseAndElevation();

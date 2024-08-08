@@ -2,7 +2,6 @@
 using UnityEngine;
 using util;
 using util.geometry.bounds;
-using Random = UnityEngine.Random;
 
 namespace generation.worldgen.generators.elevation {
 public class WorldElevationGenerator : WorldGenerator {
@@ -16,10 +15,11 @@ public class WorldElevationGenerator : WorldGenerator {
         name = "WorldElevationGenerator";
     }
 
-    public override void generate() {
+    protected override void generateInternal() {
         log("generating world elevation");
-        xOffset = Random.value * 10000;
-        yOffset = Random.value * 10000;
+        xOffset = random(0, 1000) ;
+        yOffset = random(0, 1000) ;
+        Debug.Log($" offsets: {xOffset} {yOffset}");
         elevation = container.elevation;
         bounds = new IntBounds2(0, 0, config.size - 1, config.size - 1);
         float baseScale = selectPerlinScale(config.size);

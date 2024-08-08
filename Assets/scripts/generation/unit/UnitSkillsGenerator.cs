@@ -2,21 +2,22 @@ using System.Collections.Generic;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using types.unit.skill;
-using UnityEngine;
 using util.lang.extension;
 
 namespace generation.unit {
 public class UnitSkillsGenerator {
+    private readonly System.Random random;
     private WeightedSkills primarySkills = new();
     private WeightedSkills secondarySkills = new();
 
-    public UnitSkillsGenerator() {
+    public UnitSkillsGenerator(System.Random random) {
+        this.random = random;
         addPrimarySkills();
         addSecondarySkills();
     }
 
     public void generate(EcsEntity unit) {
-        unit.Replace(new UnitSkillComponent() { skills = new() });
+        unit.Replace(new UnitSkillComponent { skills = new() });
         fillSkills(unit);
         addSkillLevels(unit);
     }
@@ -30,13 +31,13 @@ public class UnitSkillsGenerator {
 
     private void addSkillLevels(EcsEntity unit) {
         UnitSkillComponent component = unit.take<UnitSkillComponent>();
-        WeightedSkill primary = primarySkills.getRandomSkill();
-        int value = Random.Range(4, 9);
+        WeightedSkill primary = primarySkills.getSkillByRoll((float)random.NextDouble());
+        int value = random.Next(4, 9);
         component.skills[primary.name].level = value;
         unit.takeRef<UnitNamesComponent>().professionName = primary.professionName;
         for (int i = 0; i < 4; i++) {
-            WeightedSkill secondary = secondarySkills.getRandomSkill();
-            int value2 = Random.Range(1, 3);
+            WeightedSkill secondary = secondarySkills.getSkillByRoll((float)random.NextDouble());
+            int value2 = random.Next(1, 3);
             component.skills[secondary.name].level = value2;
         }
     }
@@ -98,9 +99,8 @@ public class UnitSkillsGenerator {
             totalWeight += weight;
         }
 
-        public WeightedSkill getRandomSkill() {
-            float rand = Random.Range(0, 1f);
-            float value = rand * totalWeight;
+        public WeightedSkill getSkillByRoll(float roll) {
+            float value = roll * totalWeight;
             foreach (var weightedSkill in skills) {
                 if (value < weightedSkill.weight) {
                     return weightedSkill;

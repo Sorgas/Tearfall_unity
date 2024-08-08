@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace generation.unit {
 class UnitNameGenerator : AbstractNameGenerator {
+    private readonly System.Random random;
     private NamesDescriptor namesDescriptor_;
     private NamesDescriptor namesDescriptor {
         get {
@@ -13,6 +14,10 @@ class UnitNameGenerator : AbstractNameGenerator {
             }
             return namesDescriptor_;
         }
+    }
+
+    public UnitNameGenerator(System.Random random) {
+        this.random = random;
     }
 
     public NameComponent generate(bool male) {
@@ -28,7 +33,7 @@ class UnitNameGenerator : AbstractNameGenerator {
     }
 
     private string getRandomFromArray(string[] array) {
-        return array[Random.Range(0, array.Length)];
+        return array[random.Next(0, array.Length)];
     }
 }
 

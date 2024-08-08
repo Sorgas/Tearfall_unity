@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
 namespace generation.localgen {
-    public class LocalGenConfig {
+// class for storing all parameters for local map generation    
+public class LocalGenConfig {
+        public int seed;
         public Vector2Int location; // position on WorldMap
         public int airLayersAboveGround = 20;
         public int areaSize = 100;

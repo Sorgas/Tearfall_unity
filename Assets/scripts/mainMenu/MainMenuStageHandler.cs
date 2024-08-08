@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using generation;
 using mainMenu.location_selection_stage;
 using mainMenu.worldmap_stage;
@@ -32,10 +33,10 @@ public class MainMenuStageHandler : GameMenuPanelHandler {
         if (combat) {
             new GenerationStateTestInitializer().initCombatState();
         } else {
-            new GenerationStateTestInitializer().initState(1);
+            new GenerationStateTestInitializer().initState();
         }
+        Task.Run(() => GenerationState.get().generateLocalMap("main"));
         localGenStage.gameObject.SetActive(true);
-        GenerationState.get().generateLocalMap("main");
     }
 
     private void toNewGameWorldGen() {

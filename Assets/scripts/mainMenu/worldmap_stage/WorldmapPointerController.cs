@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using util.geometry.bounds;
-using Vector3 = UnityEngine.Vector3;
 
 namespace mainMenu.worldmap_stage {
 // Moves pointer around world map. Updates target position for camera.
@@ -28,9 +27,11 @@ public class WorldmapPointerController : MonoBehaviour {
     
     public void Update() {
         if (bounds == null) return; 
-        Vector2 mousePosition = playerControls.UI.Point.ReadValue<Vector2>();
+        Vector2 mousePosition = playerControls.UI.Point.ReadValue<Vector2>(); // on screen position
         if (mousePosition != previousMousePosition) {
+            // Debug.Log(mousePosition);
             pointerPosition = bounds.putInto(getWorldPositionByScreenPosition(mousePosition));
+            // Debug.Log(pointerPosition);
             if (pointer.localPosition != pointerPosition) {
                 pointer.localPosition = pointerPosition;
             }
@@ -53,6 +54,7 @@ public class WorldmapPointerController : MonoBehaviour {
         float cameraW = camera.aspect * cameraH; // map units
         Vector2 onMapPosition = (cameraW * 2 / viewport.rect.width) * viewportPosition; // map units
         var cameraLocalPosition = camera.transform.localPosition;
+        // Debug.Log($"{viewportPosition} __ {cameraW}_{cameraH} __ {onMapPosition} __ {cameraLocalPosition}");
         onMapPosition.x += cameraLocalPosition.x;
         onMapPosition.y += cameraLocalPosition.y;
         return new Vector3Int((int)onMapPosition.x, (int)onMapPosition.y, -1);

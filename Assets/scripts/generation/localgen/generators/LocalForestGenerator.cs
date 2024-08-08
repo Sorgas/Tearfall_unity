@@ -1,27 +1,27 @@
-using game.model;
+using System;
 using game.model.localmap;
 using generation.plant;
 using Leopotam.Ecs;
 using types;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace generation.localgen.generators {
     // TODO add plant type selection based on position on world map
     public class LocalForestGenerator : LocalGenerator {
         private int maxAttempts = 20;
         private LocalMap map;
-        private PlantGenerator generator = new();
+        private PlantGenerator generator;
 
         public LocalForestGenerator(LocalMapGenerator generator) : base(generator) {
             name = "LocalForestGenerator";
         }
 
-        public override void generate() {
+        protected override void generateInternal() {
             log("generating trees");
+            generator = new PlantGenerator(random(0, 1000));
             map = container.map;
             int treesNumber = config.areaSize * config.areaSize / 125 * config.forestationLevel;
-            treesNumber += Random.Range(-1, 1) * 20;
+            treesNumber += random(-1, 1) * 20;
             for (int i = 0; i < treesNumber; i++) {
                 Vector3Int treePosition = findPlaceForTree();
                 if(treePosition.x >= 0) createTree(treePosition);
@@ -30,8 +30,8 @@ namespace generation.localgen.generators {
 
         private Vector3Int findPlaceForTree() {
             for (int i = 0; i < maxAttempts; i++) {
-                int x = Random.Range(0, map.bounds.maxX);
-                int y = Random.Range(0, map.bounds.maxY);
+                int x = random(0, map.bounds.maxX);
+                int y = random(0, map.bounds.maxY);
                 int z = findZ(x, y);
                 Vector3Int position = new(x, y, z);
                 if (z >= 0 && checkTreeOverlap(position)) return position;

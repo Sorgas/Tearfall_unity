@@ -1,6 +1,6 @@
 ﻿namespace generation.worldgen {
     public class WorldGenConfig {
-        public int seed = 0; // add random
+        public int seed = 0;
         public int minWorldSize = 50;
         public int maxWorldSize = 250;
         public int size = 50;

@@ -16,14 +16,15 @@ namespace generation.localgen.generators {
 public class LocalUnitGenerator : LocalGenerator {
         private LocalMap map;
         private int spawnSearchMaxAttempts = 100;
-        private UnitGenerator unitGenerator = new();
+        private UnitGenerator unitGenerator;
 
         public LocalUnitGenerator(LocalMapGenerator generator) : base(generator) {
             name = "LocalUnitGenerator";
         }
 
-        public override void generate() {
+        protected override void generateInternal() {
             map = container.map;
+            unitGenerator = new UnitGenerator(random(0, 1000));
             spawnSettlers(GenerationState.get().preparationState.settlers);
         }
 
@@ -46,7 +47,7 @@ public class LocalUnitGenerator : LocalGenerator {
         }
 
         private Vector3Int? getSpawnPosition(Vector2Int center, int range) {
-            Vector3Int spawnPoint = new(center.x + Random.Range(-range, +range), center.y + Random.Range(-range, range), 0);
+            Vector3Int spawnPoint = new(center.x + random(-range, +range), center.y + random(-range, range), 0);
             for (int z = map.bounds.maxZ - 1; z >= 0; z--) {
                 int blockType = map.blockType.get(spawnPoint.x, spawnPoint.y, z);
                 if (blockType == BlockTypes.FLOOR.CODE || blockType == BlockTypes.RAMP.CODE) {

@@ -1,10 +1,10 @@
-using System;
 using game.model;
 using game.view.tilemaps;
 using generation.worldgen;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using util;
+using util.geometry.bounds;
 
 namespace mainMenu.worldmap_stage {
 // Draws tiles of world on tilemap 
@@ -20,6 +20,8 @@ public class WorldMapHandler : MonoBehaviour {
     private static float overlayAlpha = 0.5f;
     private Color maxTemperatureColor = new(1, 0, 0, overlayAlpha);
     private Color minTemperatureColor = new(0, 0, 1, overlayAlpha);
+    private IntBounds2 bounds;
+    
     public static string ELEVATION_OVERLAY = "elevationOverlay";
     public static string TEMPERATURE_OVERLAY = "temperatureOverlay";
     public static string RAINFALL_OVERLAY = "rainfallOverlay";
@@ -27,17 +29,17 @@ public class WorldMapHandler : MonoBehaviour {
     private void Start() {
         tilesetHolder = new();
     }
-
+    
     public void draw(WorldMap worldMap) {
         this.worldMap = worldMap;
-        int worldSize = worldMap.size;
-        Vector3Int cachePosition = new Vector3Int();
-        for (int x = 0; x < worldSize; x++) {
-            for (int y = 0; y < worldSize; y++) {
-                cachePosition.Set(x, y, 0);
-                string tileName = getWorldTileName(x, y);
-                tilemap.SetTile(new Vector3Int(x, y, 0), tilesetHolder.getTile(tileName));
-            }
+        bounds = new IntBounds2(worldMap.size, worldMap.size);
+        bounds.iterate((x, y) => {
+            cachePosition.Set(x, y, 0);
+            string tileName = getWorldTileName(x, y);
+            tilemap.SetTile(new Vector3Int(x, y, 0), tilesetHolder.getTile(tileName));
+        });
+        if (currentOverlay != null) {
+            showOverlay(currentOverlay);
         }
     }
 
@@ -45,7 +47,6 @@ public class WorldMapHandler : MonoBehaviour {
         if (worldMap == null) return;
         // if(elevationOverlayShown) toggleElevationOverlay();
         int worldSize = worldMap.size;
-        Vector3Int cachePosition = new Vector3Int();
         for (int x = 0; x < worldSize; x++) {
             for (int y = 0; y < worldSize; y++) {
                 cachePosition.Set(x, y, 0);
@@ -57,27 +58,31 @@ public class WorldMapHandler : MonoBehaviour {
 
     public void toggleOverlay(string overlayName) {
         if (worldMap == null) return;
-        if (currentOverlay == overlayName) {
+        if (currentOverlay == overlayName) { // same button pressed
             clearOverlay();
         } else {
             if (currentOverlay != null) { // another overlay
                 clearOverlay();
             }
-            if (overlayName == ELEVATION_OVERLAY) {
-                showElevationOverlay();
-            } else if (overlayName == TEMPERATURE_OVERLAY) {
-                showTemperatureOverlay();
-            } else if (overlayName == RAINFALL_OVERLAY) {
-                showRainfallOverlay();
-            } else {
-                throw new GameException("Overlay name not supported");
-            }
-            currentOverlay = overlayName;
+            showOverlay(overlayName);
         }
     }
 
+    private void showOverlay(string overlayName) {
+        if (overlayName == ELEVATION_OVERLAY) {
+            showElevationOverlay();
+        } else if (overlayName == TEMPERATURE_OVERLAY) {
+            showTemperatureOverlay();
+        } else if (overlayName == RAINFALL_OVERLAY) {
+            showRainfallOverlay();
+        } else {
+            throw new GameException("Overlay name not supported");
+        }
+        currentOverlay = overlayName;
+    }
+    
     private void showElevationOverlay() {
-        iterateWorldTiles((x, y) => {
+        bounds.iterate((x, y) => {
             cachePosition.Set(x, y, -1);
             Tile tile = tilesetHolder.getTile("overlay");
             float colorValue = (worldMap.elevation[x, y] + config.minElevation) / config.maxElevation - config.minElevation;
@@ -87,18 +92,17 @@ public class WorldMapHandler : MonoBehaviour {
     }
 
     private void showTemperatureOverlay() {
-        iterateWorldTiles((x, y) => {
+        bounds.iterate((x, y) => {
             cachePosition.Set(x, y, -1);
             Tile tile = tilesetHolder.getTile("overlay");
             float meanTemperature = (worldMap.summerTemperature[x, y] + worldMap.winterTemperature[x, y]) / 2f;
-            ;
             tile.color = Color.Lerp(minTemperatureColor, maxTemperatureColor, (meanTemperature - config.minTemperature) / (config.maxTemperature - config.minTemperature));
             tilemap.SetTile(cachePosition, tile);
         });
     } 
     
     private void showRainfallOverlay() {
-        iterateWorldTiles((x, y) => {
+        bounds.iterate((x, y) => {
             cachePosition.Set(x, y, -1);
             Tile tile = tilesetHolder.getTile("overlay");
             float rainfall = (worldMap.rainfall[x, y] - config.minRainfall) / (config.maxRainfall - config.minRainfall);
@@ -108,21 +112,13 @@ public class WorldMapHandler : MonoBehaviour {
     }
 
     private void clearOverlay() {
-        iterateWorldTiles((x, y) => {
+        bounds.iterate((x, y) => {
             cachePosition.Set(x, y, -1);
             tilemap.SetTile(cachePosition, null);
         });
         currentOverlay = null;
     }
-
-    private void iterateWorldTiles(Action<int, int> action) {
-        for (int x = 0; x < worldMap.size; x++) {
-            for (int y = 0; y < worldMap.size; y++) {
-                action.Invoke(x, y);
-            }
-        }
-    }
-
+    
     private string getWorldTileName(int x, int y) {
         if (worldMap.elevation[x, y] > 0.85f) return "snowMountain";
         if (worldMap.elevation[x, y] > 0.5f) return "mountain";

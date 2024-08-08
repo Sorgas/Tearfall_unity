@@ -11,7 +11,7 @@ namespace generation.localgen.generators {
 
         public LocalRampFloorPlacer(LocalMapGenerator generator) : base(generator) { }
 
-        public override void generate() {
+        protected override void generateInternal() {
             Debug.Log("[LocalRampFloorPlacer]: placing ramps");
             localMap = container.map;
             fillRamps();

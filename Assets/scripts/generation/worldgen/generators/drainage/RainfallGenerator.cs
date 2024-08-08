@@ -9,8 +9,8 @@ public class RainfallGenerator : WorldGenerator {
     private float[,] rainfallBuffer;
     private bool[,] rainfallSet;
     private float elevationFactor = 3f;
-    
-    public override void generate() {
+
+    protected override void generateInternal() {
         Debug.Log("generating rainfall");
         init();
         addMainGradientOnWater();

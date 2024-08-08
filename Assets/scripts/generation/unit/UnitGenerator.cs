@@ -3,15 +3,26 @@ using game.model.component.unit;
 using Leopotam.Ecs;
 using types.unit;
 using UnityEngine;
+using Random = System.Random;
 
 namespace generation.unit {
 class UnitGenerator {
-    private UnitEquipmentComponentGenerator equipmentGenerator = new();
-    private UnitBodyComponentGenerator bodyGenerator = new();
-    private UnitNameGenerator nameGenerator = new();
-    private UnitNeedComponentGenerator needGenerator = new();
-    private UnitSkillsGenerator skillsGenerator = new();
+    private UnitEquipmentComponentGenerator equipmentGenerator;
+    private UnitBodyComponentGenerator bodyGenerator;
+    private UnitNameGenerator nameGenerator;
+    private UnitNeedComponentGenerator needGenerator;
+    private UnitSkillsGenerator skillsGenerator;
+    private Random random;
     private bool debug = false;
+
+    public UnitGenerator(int seed) {
+        random = new Random(seed);
+        equipmentGenerator = new(random);
+        bodyGenerator = new(random);
+        nameGenerator = new(random);
+        needGenerator = new(random);
+        skillsGenerator = new(random);
+    }
 
     // generates units from settler data on game start or migration
     public void generateUnit(SettlerData data, EcsEntity entity) {

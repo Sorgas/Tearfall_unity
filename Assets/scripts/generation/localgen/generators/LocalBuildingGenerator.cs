@@ -18,7 +18,7 @@ namespace generation.localgen.generators {
 
         public LocalBuildingGenerator(LocalMapGenerator generator) : base(generator) {}
 
-        public override void generate() {
+        protected override void generateInternal() {
             Debug.Log("[LocalBuildingGenerator]: generating buildings ");
             foreach (var entry in container.buildingsToAdd) {
                 BuildingType type = BuildingTypeMap.get(entry.Key);

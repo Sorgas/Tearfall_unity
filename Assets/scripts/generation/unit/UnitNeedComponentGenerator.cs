@@ -1,11 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using types.unit;
-using UnityEngine;
 
 namespace generation.unit {
     public class UnitNeedComponentGenerator {
+        private readonly Random random;
+
+        public UnitNeedComponentGenerator(Random random) {
+            this.random = random;
+        }
+
         public void generate(ref EcsEntity entity, CreatureType type) {
             UnitNeedComponent component = new UnitNeedComponent{rest = 0.5f, hunger = 0.8f, thirst = 0.8f};
             entity.Replace(component);

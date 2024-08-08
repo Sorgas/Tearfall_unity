@@ -1,7 +1,7 @@
-﻿using game.model.component.plant;
+﻿using System;
+using game.model.component.plant;
 using generation.plant;
 using Leopotam.Ecs;
-using types.plant;
 using UnityEngine;
 using util.lang.extension;
 

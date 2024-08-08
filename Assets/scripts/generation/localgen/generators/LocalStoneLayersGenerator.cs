@@ -29,24 +29,11 @@ public class LocalStoneLayersGenerator : LocalGenerator {
         debug = true;
     }
 
-    public override void generate() {
+    protected override void generateInternal() {
         currentHeight = new int[config.areaSize, config.areaSize];
         // borderArray = new int[config.areaSize, config.areaSize];
         bounds.iterate((x, y) => { currentHeight[x, y] = (int)container.heightsMap[x, y]; });
         generateLayers();
-    }
-
-    // counts average
-    private void countAverageElevation() {
-        float average = 0;
-        float maxElevation = 0;
-        bounds.iterate((x, y) => {
-            float elevation = container.heightsMap[x, y];
-            average += elevation;
-            if (maxElevation < elevation) maxElevation = elevation;
-        });
-        average /= (config.areaSize * config.areaSize);
-        // effectiveElevation = average + (maxElevation - average) / 2;
     }
 
     private void generateLayers() {
@@ -65,10 +52,10 @@ public class LocalStoneLayersGenerator : LocalGenerator {
 
     // generates layers of all materials with tag, returns lower point of layer group
     private int createLayerGroup(string tag, int previousHeight) {
-        int groupThickness = (int)(GlobalSettings.localElevation * UnityEngine.Random.Range(0.25f, 0.3f));
+        int groupThickness = (int)(GlobalSettings.localElevation * random(0.25f, 0.3f));
         int lowerBorderHeight = previousHeight - groupThickness;
-        xOffset = UnityEngine.Random.value * 10000;
-        yOffset = UnityEngine.Random.value * 10000;
+        xOffset = random() * 10000;
+        yOffset = random() * 10000;
         List<Material_> materials = MaterialMap.get().getByTag(tag);
         bounds.iterate((x, y) => {
             int targetHeight = lowerBorderHeight - 1 + (int)(Mathf.PerlinNoise(xOffset + x * 0.03f, yOffset + y * 0.03f) * 3); // noised height
@@ -84,8 +71,8 @@ public class LocalStoneLayersGenerator : LocalGenerator {
 
     // generates layer of single material and fills it into map.
     private void generateLayer(int material, int minThickness, int maxThickness) {
-        xOffset = UnityEngine.Random.value * 10000;
-        yOffset = UnityEngine.Random.value * 10000;
+        xOffset = random() * 10000;
+        yOffset = random() * 10000;
         int thicknessRange = maxThickness - minThickness;
         bounds.iterate((x, y) => {
             int thickness = minThickness + (int)(Mathf.PerlinNoise(xOffset + x * 0.03f, yOffset + y * 0.03f) * thicknessRange);
@@ -115,14 +102,15 @@ public class LocalStoneLayersGenerator : LocalGenerator {
     }
 
     private void generateOre(string tag, int maxHeight, int minHeight) {
-        OreVeinGenerator generator = new();
-        xOffset = UnityEngine.Random.value * 10000;
-        yOffset = UnityEngine.Random.value * 10000;
+        OreVeinGenerator generator = new(new System.Random());
+        xOffset = random() * 10000;
+        yOffset = random() * 10000;
         int[,] oreArray = new int[50, 50];
         for (int z = maxHeight; z > minHeight; z -= 2) {
             Debug.Log($"generated ore at {z}");
             for (int largeX = 0; largeX < config.areaSize; largeX += 50) {
                 for (int largeY = 0; largeY < config.areaSize; largeY += 50) {
+                    Debug.Log($"creating vein {largeX} {largeY}");
                     string materialName = selectOreMaterial(z);
                     if (materialName == "none") continue;
                     Material_ material = MaterialMap.get().material(materialName);
@@ -131,6 +119,7 @@ public class LocalStoneLayersGenerator : LocalGenerator {
                         throw new GameException($"ore distribution tag not supported: {material.tags.Aggregate((t1, t2) => t1 + " " + t2)}");
                     }
                     generator.createVein(50, oreArray);
+                    Debug.Log($"vein created");
                     for (int x = 0; x < 50; x++) {
                         for (int y = 0; y < 50; y++) {
                             if (oreArray[x, y] != 0) {
@@ -150,7 +139,7 @@ public class LocalStoneLayersGenerator : LocalGenerator {
             .Select(pair => pair.Key)
             .ToList();
         if (ores.Count == 0) return "none";
-        return ores[UnityEngine.Random.Range(0, ores.Count)];
+        return ores[random(0, ores.Count)];
     }
 }
 }

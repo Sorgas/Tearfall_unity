@@ -21,18 +21,22 @@ public class WorldGenStageHandler : GameMenuPanelHandler {
     public Slider perlinScaleSlider;
     public Slider deityCountSlider;
     public Slider civCountSlider;
-    
+
+    public Button randomizeSeedButton;
     public Button createButton;
     public Button backButton;
     public Button continueButton;
-    
+
     [FormerlySerializedAs("worldMapHandler")] public WorldMapStageHandler worldMapStageHandler;
     public MainMenuStageHandler mainMenuStage;
     public LocationSelectionStageHandler locationSelectionStage;
 
+    private Random random = new (DateTime.Now.Millisecond);
+    
     public new void Start() {
         base.Start();
-        seedField.text = new Random().Next().ToString();
+        // seedField.text = new Random().Next().ToString();
+        // createButtonListener(randomizeSeedButton, KeyCode.R, randomizeSeed);
         createButtonListener(createButton, KeyCode.C, createWorld);
         createButtonListener(backButton, KeyCode.Q, backToMainMenu);
         createButtonListener(continueButton, KeyCode.V, toPositionSelection);
@@ -41,7 +45,7 @@ public class WorldGenStageHandler : GameMenuPanelHandler {
     // TODO add ui spinner for world generation
     // Creates world and stores it in GameModel singleton. Can be invoked several times.
     public void createWorld() {
-        int seed = Convert.ToInt32(seedField.text);
+        int seed = random.Next(); // 0..maxInt
         int size = (int)sizeSlider.value * 50;
         GenerationState.get().worldGenConfig.seed = seed;
         GenerationState.get().worldGenConfig.size = size;
@@ -70,6 +74,10 @@ public class WorldGenStageHandler : GameMenuPanelHandler {
     private void toPositionSelection() {
         switchTo(locationSelectionStage);
         locationSelectionStage.init();
+    }
+
+    private void randomizeSeed() {
+        seedField.text = random.Next().ToString();
     }
 }
 }

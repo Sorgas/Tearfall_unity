@@ -6,7 +6,7 @@ namespace generation.localgen.generators {
     public class LocalSubstrateGenerator : LocalGenerator {
         public LocalSubstrateGenerator(LocalMapGenerator generator) : base(generator) { }
 
-        public override void generate() {
+        protected override void generateInternal() {
             LocalMap map = container.map;
             int mapHeight = map.bounds.maxZ;
             for (int x = 0; x <= map.bounds.maxX; x++) {

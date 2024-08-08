@@ -11,7 +11,7 @@ namespace generation.localgen.generators {
 
         // TODO take in account elevation of surrounding world tiles
         // TODO calculate worldmap slope direction and incline
-        public override void generate() {
+        protected override void generateInternal() {
             Debug.Log("[LocalElevationGenerator]: generating elevation");
             Vector2Int location = config.location;
             bounds.set(0, 0, config.areaSize - 1, config.areaSize - 1);
@@ -63,8 +63,8 @@ namespace generation.localgen.generators {
         
         // more scale -> more detailed noise
         private void addElevation(float scale, float amplitude) {
-            xOffset = Random.value * 10000;
-            yOffset = Random.value * 10000;
+            xOffset = random() * 10000;
+            yOffset = random() * 10000;
             bounds.iterate((x, y) => container.heightsMap[x, y] += Mathf.PerlinNoise(xOffset + x * scale, yOffset + y * scale) * amplitude);
         }
         

@@ -7,20 +7,20 @@ using Leopotam.Ecs;
 using types;
 using types.plant;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace generation.localgen.generators {
     public class LocalPlantGenerator : LocalGenerator {
         private int maxAttempts = 20;
         private LocalMap map;
-        private PlantGenerator generator = new();
+        private PlantGenerator generator;
 
         public LocalPlantGenerator(LocalMapGenerator generator) : base(generator) { }
-        
-        public override void generate() {
+
+        protected override void generateInternal() {
             map = container.map;
+            generator = new(random(0, 1000));
             int plantsNumber = config.areaSize * config.areaSize / 100 * config.forestationLevel;
-            plantsNumber += Random.Range(-1, 1) * 20;
+            plantsNumber += random(-1, 1) * 20;
             Dictionary<PlantType, float> plantTypes = getPlantTypes();
             foreach (PlantType type in plantTypes.Keys) {
                 int number = (int)Math.Round(plantsNumber * plantTypes[type]);
@@ -28,15 +28,14 @@ namespace generation.localgen.generators {
                     Vector3Int position = findPlaceForPlant(type);
                     if(position.x >= 0) createPlant(position, type);
                 }
-                
             }
         }
         
         // TODO assess plant placing requirements
         private Vector3Int findPlaceForPlant(PlantType plantType) {
             for (int i = 0; i < maxAttempts; i++) {
-                int x = Random.Range(0, map.bounds.maxX);
-                int y = Random.Range(0, map.bounds.maxY);
+                int x = random(0, map.bounds.maxX);
+                int y = random(0, map.bounds.maxY);
                 int z = findZ(x, y);
                 Vector3Int position = new(x, y, z);
                 if (z >= 0 && checkPlantOverlap(position)) return position;
@@ -59,7 +58,7 @@ namespace generation.localgen.generators {
         }
         
         private void createPlant(Vector3Int position, PlantType type) {
-            float age = Random.Range(0, type.maxAge);
+            float age = random(0, type.maxAge);
             EcsEntity entity = generator.generate(type.name, age, container.model.createEntity());
             container.model.plantContainer.addPlant(entity, position);
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using game.model.localmap;
 using generation.localgen.generators;
 
@@ -11,7 +12,8 @@ namespace generation.localgen {
         public int maxProgress;
         public string currentMessage;
         private List<LocalGenerator> generators = new();
-
+        public Random random;
+        
         //private LocalRiverGenerator localRiverGenerator;
         //private LocalCaveGenerator localCaveGenerator;
         //private LocalPlantsGenerator localPlantsGenerator;
@@ -34,13 +36,10 @@ namespace generation.localgen {
             generators.Add(new LocalItemGenerator(generator));
         }
 
-        public LocalGenSequence(LocalMapGenerator generator, bool flat) {
-            
-        }
-        
         public LocalModel run() {
             progress = 0;
             maxProgress = generators.Count;
+            random = new Random(generator.localGenConfig.seed);
             generators.ForEach(generator => {
                 currentMessage = generator.getMessage();
                 generator.generate();

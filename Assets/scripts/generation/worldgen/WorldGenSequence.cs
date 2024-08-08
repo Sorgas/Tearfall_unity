@@ -1,15 +1,18 @@
-﻿using generation.worldgen.generators;
+﻿using System;
+using generation.worldgen.generators;
 using generation.worldgen.generators.drainage;
 using generation.worldgen.generators.elevation;
 using generation.worldgen.generators.temperature;
 
 namespace generation.worldgen {
+// stores all generators for world generation and executes them in correct order. 
+// all generators share same System.Random object
 public class WorldGenSequence {
-    private WorldNameGenerator nameGenerator = new();
-    private WorldElevationGenerator elevationGenerator = new();
-    private WorldOceanFiller oceanFiller = new();
-    private WorldTemperatureGenerator temperatureGenerator = new();
-    private RainfallGenerator rainfallGenerator = new();
+    private WorldNameGenerator nameGenerator;
+    private WorldElevationGenerator elevationGenerator;
+    private WorldOceanFiller oceanFiller;
+    private WorldTemperatureGenerator temperatureGenerator;
+    private RainfallGenerator rainfallGenerator;
     // private ErosionGenerator erosionGenerator;
     // private ElevationModifier elevationModifier;
     // private RiverGenerator riverGenerator;
@@ -18,8 +21,18 @@ public class WorldGenSequence {
     // private DrainageGenerator drainageGenerator;
     // private BiomeGenerator biomeGenerator;
     // private CelestialBodiesGenerator celestialBodiesGenerator;
+    public Random random; // shared to generators
+    
+    public WorldGenSequence() {
+        nameGenerator = new WorldNameGenerator();
+        elevationGenerator = new WorldElevationGenerator();
+        oceanFiller = new WorldOceanFiller();
+        temperatureGenerator = new WorldTemperatureGenerator();
+        rainfallGenerator = new RainfallGenerator();
+    }
 
     public void run() {
+        random = new Random(GenerationState.get().worldGenConfig.seed);
         nameGenerator.generate();
         elevationGenerator.generate(); // generates elevation [0, 1]
         // celestialBodiesGenerator.execute(container); 
@@ -30,10 +43,10 @@ public class WorldGenSequence {
         rainfallGenerator.generate();
         // elevationModifier.execute(container);
         // riverGenerator.execute(container);
-//        brookGenerator.execute(container);
-//        lakeGenerator.execute(container);
-//        drainageGenerator.execute(container);
-//        biomeGenerator.execute(container);
+        // brookGenerator.execute(container);
+        // lakeGenerator.execute(container);
+        // drainageGenerator.execute(container);
+        // biomeGenerator.execute(container);
         // container.fillMap();
     }
 }

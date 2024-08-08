@@ -50,6 +50,7 @@ public class WorldMapStageHandler : MonoBehaviour {
 
     public void Update() {
         if (pointerPosition != pointerController.pointerPosition) {
+            
             pointerPosition = pointerController.pointerPosition;
             updateTileInfoText();
         }

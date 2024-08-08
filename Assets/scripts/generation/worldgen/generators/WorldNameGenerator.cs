@@ -11,12 +11,12 @@ public class WorldNameGenerator : WorldGenerator {
         "oceans", "seas", "reach"
     };
 
-    public override void generate() {
+    protected override void generateInternal() {
         container.worldName = getRandomFromArray(adjectives) + " " + getRandomFromArray(nouns);
     }
     
     private string getRandomFromArray(string[] array) {
-        return array[Random.Range(0, array.Length)];
+        return array[random(0, array.Length)];
     }
 }
 }

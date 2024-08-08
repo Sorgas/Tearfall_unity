@@ -1,12 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using game.model.component.unit;
 using Leopotam.Ecs;
-using MoreLinq;
 using types.unit;
 
 namespace generation.unit {
     public class UnitEquipmentComponentGenerator {
+        private readonly Random random;
+
+        public UnitEquipmentComponentGenerator(Random random) {
+            this.random = random;
+        }
 
         public UnitEquipmentComponent generate(CreatureType type) {
             var component = new UnitEquipmentComponent();
