@@ -10,6 +10,7 @@ using game.view.system.plant;
 using game.view.system.unit;
 using game.view.system.zone;
 using game.view.tilemaps;
+using game.view.ui.tooltip;
 using Leopotam.Ecs;
 using types;
 using UnityEngine;
@@ -25,6 +26,7 @@ public class GameView : Singleton<GameView> {
     public readonly IntBounds2 screenBounds = new(Screen.width, Screen.height);
     public SceneElementsReferences sceneElements;
     // public EntitySelector selector;
+    public SelectionTooltip selectionTooltip;
     
     public void init(LocalGameRunner runner, LocalModel model) {
         Debug.Log("initializing view");
@@ -35,7 +37,7 @@ public class GameView : Singleton<GameView> {
         KeyInputSystem.get().playerControls = playerControls;
         cameraAndMouseHandler = new CameraAndMouseHandler(playerControls);
         initWindowManager();
-
+        selectionTooltip = sceneElements.selectionTooltip;
         tileUpdater.flush();
         resetCameraPosition();
         MouseToolManager.get().reset();

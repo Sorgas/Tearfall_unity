@@ -11,6 +11,7 @@ using game.model.localmap;
 using game.view.camera;
 using game.view.ui;
 using game.view.ui.stockpileMenu;
+using game.view.ui.tooltip;
 using game.view.ui.unit_menu;
 using game.view.util;
 using Leopotam.Ecs;
@@ -62,7 +63,7 @@ namespace game.view.system.mouse_tool {
         public void handleRightClick(Vector3Int position) {
             if (selectedEntity != EcsEntity.Null) {
                 if (selectedEntity.Has<UnitComponent>()) {
-                    // TODO show unit order  tooltip
+                    GameView.get().selectionTooltip.showForEntity(selectedEntity, position);
                 }
             }
         }

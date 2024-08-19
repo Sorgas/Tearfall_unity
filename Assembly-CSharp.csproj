@@ -535,6 +535,7 @@
      <Compile Include="Assets\scripts\mainMenu\ui\SliderWithLabelHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\SelectionTooltip.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\resources\icons\unit_window" />
      <Folder Include="Assets\resources\prefabs\materialSelector" />
@@ -630,6 +631,7 @@
      <None Include="Assets\resources\data\deity\deity_aspects.json" />
      <Folder Include="Assets\scripts\game\view\ui\debug_tools" />
      <Folder Include="Assets\scripts\game\model\container\item" />
+     <Folder Include="Assets\resources\prefabs\ui\mouseTools" />
      <Folder Include="Assets\resources\icons\toolbar\constructions" />
      <Folder Include="Assets\scripts\util\item" />
      <Folder Include="Assets\resources\tilesets\furniture" />
@@ -707,6 +709,7 @@
      <Folder Include="Assets\scripts" />
      <Folder Include="Assets\scripts\generation\zone" />
      <Folder Include="Assets\TextMesh Pro\Fonts" />
+     <Folder Include="Assets\resources\prefabs\ui" />
      <Folder Include="Assets\resources\data\substrates" />
      <Folder Include="Assets\scripts\game\model\localmap" />
      <Folder Include="Assets\scripts\util\pathfinding" />

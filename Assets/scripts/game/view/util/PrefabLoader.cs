@@ -82,6 +82,9 @@ namespace game.view.util {
             
             // notifications
             paths.Add("Notification", "prefabs/notifications/Notification");
+            
+            paths.Add("SelectionTooltip", "prefabs/ui/tooltips/SelectionTooltip");
+            paths.Add("GenericTextButton", "prefabs/ui/GenericTextButton");
         }
     }
 }

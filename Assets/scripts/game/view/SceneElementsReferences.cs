@@ -6,6 +6,7 @@ using game.view.ui.menu_widget;
 using game.view.ui.notifications;
 using game.view.ui.stockpileMenu;
 using game.view.ui.toolbar;
+using game.view.ui.tooltip;
 using game.view.ui.unit_menu;
 using game.view.ui.workbench;
 using TMPro;
@@ -32,5 +33,6 @@ public class SceneElementsReferences : MonoBehaviour {
     public NotificationsPanelHandler notificationsPanelHandler;
     public DebugToolsHandler debugToolsHandler;
     public Canvas tooltipCanvas;
+    public SelectionTooltip selectionTooltip;
 }
 }
