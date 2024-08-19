@@ -33,7 +33,6 @@ namespace game.view.system.mouse_tool {
                 if (model.localMap.passageMap.getPassage(target) == PassageTypes.PASSABLE.VALUE) {
                     if (unit.Has<TaskComponent>()) {
                         GameModel.get().currentLocalModel.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED);
-                        // unit.Replace(new TaskFinishedComponent { status = TaskStatusEnum.FAILED });
                     }
                     unit.Replace(new UnitNextTaskComponent { action = new MoveAction(bounds.getStart()) });
                 }

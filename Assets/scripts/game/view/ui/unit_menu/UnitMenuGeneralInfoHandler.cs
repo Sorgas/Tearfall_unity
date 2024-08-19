@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using game.model;
+using game.model.component;
 using game.model.component.unit;
 using game.view.system.mouse_tool;
 using Leopotam.Ecs;
 using TMPro;
+using types.action;
 using types.unit;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,11 +28,13 @@ public class UnitMenuGeneralInfoHandler : UnitMenuTab {
     public Image activityImage;
     public TextMeshProUGUI activityText;
     public Button moveToButton;
+    public Button draftButton;
 
     public TextMeshProUGUI moodText;
 
     public void Start() {
         moveToButton.onClick.AddListener(() => { MouseToolManager.get().setUnitMovementTarget(unit); });
+        draftButton.onClick.AddListener(() => toggleUnitDraft(unit));
     }
 
     protected override void updateView() {
@@ -104,6 +109,21 @@ public class UnitMenuGeneralInfoHandler : UnitMenuTab {
         if (mood < 10) moodText.color = FONT_COLOR;
         else if (mood < 30) moodText.color = Color.Lerp(FONT_COLOR, GREEN_BRIGHT, (mood - 10) / 20f);
         else moodText.color = GREEN_BRIGHT;
+    }
+
+    private void toggleUnitDraft(EcsEntity unit) {
+        if (!unit.Has<UnitDraftedComponent>()) {
+            unit.Replace(new UnitDraftedComponent());
+            if (unit.Has<TaskComponent>()) {
+                GameModel.get().currentLocalModel.addModelAction(model => {
+                    model.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED);
+                });
+            }
+            Debug.Log($"unit {unit.name()} drafted");
+        } else {
+            unit.Del<UnitDraftedComponent>();
+            Debug.Log($"unit {unit.name()} undrafted");
+        }
     }
 }
 }

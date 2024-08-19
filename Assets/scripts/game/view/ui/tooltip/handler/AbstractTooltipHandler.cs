@@ -21,29 +21,29 @@ public abstract class AbstractTooltipHandler : MonoBehaviour {
     public virtual void init(InfoTooltipData newData) => data = newData;
 
     // custom update, called from root tooltip trigger
-    // keep self - should tooltip not close itself, even if mouse is outside
+    // preserve - should tooltip not close itself, even if mouse is outside
     // returns true, if tooltip not closed after update
-    public bool update(bool keepSelf) {
+    public void update(bool preserve) {
         AbstractTooltipTrigger activeTrigger = getActiveTrigger();
-        if (activeTrigger == null) { // update triggers to try to open tooltip
+        if (activeTrigger == null) { // no triggers have tooltip open
             bool hasChild = false;
             foreach (var trigger in triggers) {
                 hasChild = trigger.updateInternal();
                 if (hasChild) break;
             }
             // close self if have no children, parent trigger not hovered, and self not hovered
-            if (!hasChild && !keepSelf &&
+            if (!hasChild && !preserve &&
                 !self.rect.Contains(self.InverseTransformPoint(Input.mousePosition))) {
                 handleMouseLeave();
-                return false;
             }
         } else {
-            return activeTrigger.updateInternal();
+            activeTrigger.updateInternal();
         }
-        return true;
     }
 
-    protected abstract void closeTooltip();
+    protected void closeTooltip() {
+        parent.closeTooltip();
+    }
 
     // unlink from parent and close self
     private void handleMouseLeave() {

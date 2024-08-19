@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace game.view.ui.tooltip {
 // handler for general text tooltip
-public class TextTooltipHandler : DestroyingTooltipHandler {
+public class TextTooltipHandler : AbstractTooltipHandler {
     public Image icon;
     public TextMeshProUGUI title;
     public TextMeshProUGUI text;

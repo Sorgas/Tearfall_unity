@@ -6,7 +6,7 @@ using util.lang.extension;
 
 namespace game.view.ui.tooltip {
 // special handler for tooltips of items
-public class ItemTooltipHandler : DestroyingTooltipHandler {
+public class ItemTooltipHandler : AbstractTooltipHandler {
     private EcsEntity item;
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI mainText;

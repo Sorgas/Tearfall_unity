@@ -27,7 +27,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public readonly RoomContainer roomContainer;
         public readonly TileUpdateUtil updateUtil;
         
-        private readonly List<ModelUpdateEvent> modelUpdateEventQueue = new();
+        private readonly List<ModelAction> modelUpdateEventQueue = new();
         private readonly bool debug = false;
         
         public LocalModel() {
@@ -64,15 +64,15 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public EcsEntity createEntity() => ecsWorld.NewEntity();
 
         // to receive update events from UI. 
-        public void addUpdateEvent(ModelUpdateEvent newEvent) {
+        public void addModelAction(ModelAction action) {
             lock (modelUpdateEventQueue) {
-                modelUpdateEventQueue.Add(newEvent);
+                modelUpdateEventQueue.Add(action);
             }
         }
 
-        public List<ModelUpdateEvent> getUpdateEvents() {
+        public List<ModelAction> getModelActions() {
             lock (modelUpdateEventQueue) {
-                List<ModelUpdateEvent> result = new(modelUpdateEventQueue);
+                List<ModelAction> result = new(modelUpdateEventQueue);
                 modelUpdateEventQueue.Clear();
                 return result;
             }
@@ -82,4 +82,6 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
             if(debug) Debug.Log($"[LocalModel]: {message}");
         }
     }
+
+public delegate void ModelAction(LocalModel model);
 } 

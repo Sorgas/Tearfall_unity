@@ -1,4 +1,5 @@
 ﻿using game.model.container;
+using game.model.localmap;
 
 namespace game.model.system {
     // all updates to model made from mouse tools and ui, should pass through this system.
@@ -6,8 +7,8 @@ namespace game.model.system {
     public class ModelUpdateEcsSystem : LocalModelTimeIndependentEcsSystem {
         
         public override void Run() {
-            foreach (ModelUpdateEvent updateEvent in model.getUpdateEvents()) {
-                updateEvent.action.Invoke(model);
+            foreach (ModelAction action in model.getModelActions()) {
+                action.Invoke(model);
             }
         }
     }

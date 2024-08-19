@@ -116,8 +116,8 @@ public class WorkbenchWindowHandler : GameWindow {
         if (entity.Has<TaskComponent>()) {
             EcsEntity task = entity.take<TaskComponent>().task;
             if (task.take<TaskCraftingOrderComponent>().order == order) {
-                GameModel.get().currentLocalModel.addUpdateEvent(
-                    new ModelUpdateEvent(model => model.taskContainer.removeTask(task, TaskStatusEnum.CANCELED)));
+                GameModel.get().currentLocalModel.addModelAction(
+                    model => model.taskContainer.removeTask(task, TaskStatusEnum.CANCELED));
             }
         }
     }

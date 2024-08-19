@@ -44,5 +44,16 @@
   "ingredients" : ["main:log:any/wood:2", "main:plank:any/wood:2", "main:bar:any/metal:2"],
   "components" : ["door"],
   "buildingExp": 15
+}, {
+  "name" : "training dummy",
+  "tileset": "furniture",
+  "size": [1,1],
+  "positionN" : [8,0],
+  "positionS" : [8,0],
+  "positionE" : [8,0],
+  "positionW" : [8,0],
+  "passage" : "impassable_building",
+  "ingredients" : ["main:log:any/wood:2", "main:plank:any/wood:2", "main:bar:any/metal:2"],
+  "buildingExp": 15
 }
 ]

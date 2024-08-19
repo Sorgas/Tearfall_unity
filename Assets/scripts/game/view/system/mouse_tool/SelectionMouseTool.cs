@@ -18,13 +18,14 @@ using UnityEngine;
 using util.geometry.bounds;
 
 namespace game.view.system.mouse_tool {
-    // selects entities from local map. does not generate ModelUpdateEvents.
-    // keeps selected position and entity. when tile is selected again, chooses next entity on this tile
+    // Selects entities from local map. Does not generate ModelUpdateEvents.
+    // Keeps selected position and entity. When tile is selected again, chooses next entity on this tile
     // TODO add frame selection (units only)
     public class SelectionMouseTool : MouseTool {
         private Vector3Int previousPosition;
         private EcsEntity previousEntity;
-
+        private EcsEntity selectedEntity;
+        
         public SelectionMouseTool() {
             name = "selection mouse tool";
             selectionType = SelectionType.SINGLE;
@@ -33,6 +34,7 @@ namespace game.view.system.mouse_tool {
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {
             Vector3Int position = new(bounds.minX, bounds.minY, bounds.minZ);
             EcsEntity entity = getEntityForSelection(position);
+            selectedEntity = entity;
             if (entity == EcsEntity.Null) return;
             if (entity.Has<WorkbenchComponent>()) {
                 WindowManager.get().showWindowForBuilding(entity);
@@ -57,11 +59,17 @@ namespace game.view.system.mouse_tool {
             }
         }
 
-        public override void rotate() { }
+        public void handleRightClick(Vector3Int position) {
+            if (selectedEntity != EcsEntity.Null) {
+                if (selectedEntity.Has<UnitComponent>()) {
+                    // TODO show unit order  tooltip
+                }
+            }
+        }
+        
+        public override void onPositionChange(Vector3Int position) { } // TODO
 
-        public override void onPositionChange(Vector3Int position) { }
-
-        public List<EcsEntity> raycastUnits() {
+        private List<EcsEntity> raycastUnits() {
             Vector3 selectorPos = ViewUtil.fromModelToScene(GameView.get().cameraAndMouseHandler.selector.position);
             Vector3 scenePos = ViewUtil.fromScreenToSceneGlobal(Input.mousePosition, GameView.get());
             Vector2 castPos = new(scenePos.x, scenePos.y);

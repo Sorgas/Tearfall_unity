@@ -3,10 +3,10 @@
 namespace types {
 // describes passage types for map tiles. Different creatures can move through different passage types.
 public static class PassageTypes {
-    public static Passage IMPASSABLE = new(0, "impassable");
-    public static Passage PASSABLE = new(1, "passable");
+    public static Passage IMPASSABLE = new(0, "impassable"); // wall
+    public static Passage PASSABLE = new(1, "passable"); // floor, stairs, ramps etc.
     public static Passage DOOR = new(2, "door");
-    public static Passage FLY = new(3, "fly");
+    public static Passage FLY = new(3, "fly"); // open space tiles
     public static Passage IMPASSABLE_BUILDING = new(4, "impassable_building"); // does not block room area calculation
 
     private static Dictionary<int, Passage> map = new();

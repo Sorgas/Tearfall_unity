@@ -9,14 +9,14 @@ using util.lang.extension;
 using Image = UnityEngine.UI.Image;
 
 namespace game.input {
-// Reads input from mouse, passes them to MouseMovementSystem for updating visual, to SelectionHandler for updating logic
+// Reads input from mouse, passes them to MouseMovementSystem for updating visual, to SelectionHandler for updating logic.
 public class MouseInputSystem {
     private readonly CameraMovementSystem cameraMovementSystem;
     private readonly SelectionHandler selectionHandler;
     private readonly EntitySelector selector;
     private const int LMB = 0;
     private const int RMB = 1;
-
+    
     public MouseInputSystem(CameraMovementSystem cameraMovementSystem, SelectionHandler selectionHandler, EntitySelector selector) {
         this.cameraMovementSystem = cameraMovementSystem;
         this.selectionHandler = selectionHandler;
@@ -25,21 +25,25 @@ public class MouseInputSystem {
 
     // detects mouse move, scroll, and mouse clicks
     public void update() {
-        // if in screen, handle moves and lmb clicks
+        // if in screen, handle moves, scrolls and clicks
         if (GameView.get().screenBounds.isIn(Input.mousePosition)) {
             Vector3Int modelPosition = ViewUtil.mouseScreenPositionToModel(Input.mousePosition, GameView.get());
             selector.setPosition(modelPosition); // put selector to mouse position
             selectionHandler.handleMouseMove(selector.position); // update selection handler with selector position
-            if (Input.GetMouseButtonDown(LMB) && !mouseIsOverUi()) { // pass click to selection handler
-                selectionHandler.handleMouseDown(selector.position);
+            if (Input.GetMouseButtonDown(LMB) && !mouseIsOverUi()) { 
+                selectionHandler.handleMouseDown(selector.position); // starts selection
+            }
+            if (Input.GetMouseButtonUp(RMB) && !mouseIsOverUi()) {
+                selectionHandler.handleSecondaryMouseUp(selector.position); // rmb click or cancels selection
             }
             float zoomDelta = Input.GetAxis("Mouse ScrollWheel");
             if (zoomDelta != 0 && !mouseIsOverUi()) { // pass zoom to camera system
                 cameraMovementSystem.zoomCamera(zoomDelta);
             }
+        } else {
+            if (Input.GetMouseButtonUp(RMB)) selectionHandler.handleSecondaryMouseOffscreenUp(); // cancels selection
         }
-        if (Input.GetMouseButtonUp(LMB)) selectionHandler.handleMouseUp();
-        if (Input.GetMouseButtonDown(RMB)) selectionHandler.handleSecondaryMouseClick();
+        if (Input.GetMouseButtonUp(LMB)) selectionHandler.handleMouseUp(); // completes selection
     }
 
     // raycasts mouse position to ui element

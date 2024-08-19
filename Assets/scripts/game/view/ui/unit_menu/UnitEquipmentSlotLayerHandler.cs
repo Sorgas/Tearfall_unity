@@ -1,14 +1,10 @@
 using game.model;
 using game.model.component;
-using game.model.component.task.action;
 using game.model.component.task.action.equipment.use;
 using game.model.component.unit;
-using game.model.container;
-using game.view.ui.util;
 using game.view.ui.workbench;
 using Leopotam.Ecs;
 using types.action;
-using types.unit;
 using UnityEngine;
 using UnityEngine.UI;
 using util.lang.extension;
@@ -22,12 +18,12 @@ public class UnitEquipmentSlotLayerHandler : ItemButtonWithTooltipHandler {
     
     public void Start() {
         dropButton.onClick.AddListener(() => {
-            GameModel.get().currentLocalModel.addUpdateEvent(new ModelUpdateEvent(model => {
+            GameModel.get().currentLocalModel.addModelAction(model => {
                 if (unit.Has<TaskComponent>()) { // fail current task
                     GameModel.get().currentLocalModel.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED);
                 }
                 unit.Replace(new UnitNextTaskComponent { action = new PutItemToPositionAction(item, unit.pos()) });
-            }));
+            });
         });
     }
 

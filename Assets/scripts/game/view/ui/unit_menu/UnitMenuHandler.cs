@@ -4,6 +4,7 @@ using Leopotam.Ecs;
 using UnityEngine.UI;
 
 namespace game.view.ui.unit_menu {
+// Handler for unit menu. Switches tabs of menu, passes update 
     public class UnitMenuHandler : GameWindow {
         public const string NAME = "unit";
         public Image portrait;
@@ -36,10 +37,6 @@ namespace game.view.ui.unit_menu {
         public void showUnit(EcsEntity unit) {
             this.unit = unit;
             showPanel(generalInfoHandler);
-        }
-
-        public void updateFor(EcsEntity unit) {
-            activeTab.showUnit(unit);
         }
 
         private void showPanel(UnitMenuTab panel) {

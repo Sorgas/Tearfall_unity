@@ -2,8 +2,9 @@
 using UnityEngine;
 
 namespace game.view.camera {
-    // handles input events of mouse. stores state and logic of selecting tiles with frames.
-    // passes completed selections to MouseToolManager
+    // Handles input events of mouse. Receives model positions as input.
+    // Stores state and logic of selecting tiles with frames.
+    // Passes completed selections to MouseToolManager
     // TODO cancel selection when type changed
     // TODO add visual validation for designations
     // TODO rename to not have 'handler' in name, handlers are ui 
@@ -30,15 +31,19 @@ namespace game.view.camera {
             }
         }
 
-        public void handleSecondaryMouseClick() {
+        
+        public void handleSecondaryMouseUp(Vector3Int position) {
             if (state.started) {
                 state.reset();
             } else {
-                MouseToolManager.get().reset();
-                // TODO make mouse tool always align with state of toolbar (close toolbar on RMB click)
-                // WindowManager.get().closeAll();
-                // TODO closing menus on RMB click (ES2)
-                
+                MouseToolManager.get().handleRightClick(position);
+            }
+        }
+        
+        // reset selection frame when rmb clicked offscreen
+        public void handleSecondaryMouseOffscreenUp() {
+            if (state.started) {
+                state.reset();
             }
         }
 

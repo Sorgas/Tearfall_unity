@@ -14,14 +14,14 @@ public class InfoTooltipGenerator : Singleton<InfoTooltipGenerator> {
         if (data.type == "entity") {
             if (data.entityType == "item") {
                 GameObject go = PrefabLoader.create("itemTooltip");
-                DestroyingTooltipHandler handler = go.GetComponent<DestroyingTooltipHandler>();
+                AbstractTooltipHandler handler = go.GetComponent<AbstractTooltipHandler>();
                 handler.init(data);
                 return handler;
             }
         }
         if (data.type == "dummy") {
             GameObject tooltip = PrefabLoader.create("dummyTooltip");
-            return tooltip.GetComponent<DestroyingTooltipHandler>();
+            return tooltip.GetComponent<AbstractTooltipHandler>();
         }
         if (data.type == "disease") {
             GameObject tooltip = PrefabLoader.create("unitDiseaseTooltip");
@@ -32,11 +32,11 @@ public class InfoTooltipGenerator : Singleton<InfoTooltipGenerator> {
         return null;
     }
 
-    public DestroyingTooltipHandler generateFromLink(string link) {
+    public AbstractTooltipHandler generateFromLink(string link) {
         // TODO reformat text
         GameObject tooltip = PrefabLoader.create("textTooltip");
         tooltip.GetComponent<TextTooltipHandler>().init(getDataForTextTooltip(link));
-        return tooltip.GetComponent<DestroyingTooltipHandler>();
+        return tooltip.GetComponent<AbstractTooltipHandler>();
     }
 
     private InfoTooltipData getDataForTextTooltip(string name) {

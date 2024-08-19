@@ -40,10 +40,6 @@ public class DiseaseTooltipHandler : AbstractTooltipHandler {
         description.text = disease.type.description;
     }
 
-    protected override void closeTooltip() {
-        Destroy(gameObject);
-    }
-
     private float getKillTime(UnitDisease disease) {
         return disease.type.hoursToKill * (1 - disease.progress);
     }

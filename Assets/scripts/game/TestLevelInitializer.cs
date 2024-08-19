@@ -9,7 +9,8 @@ public class TestLevelInitializer {
             Debug.LogWarning("world already exists in GameModel");
             return;
         }
-        new GenerationStateTestInitializer().initState();
+        // new GenerationStateTestInitializer().initState();
+        new GenerationStateTestInitializer().initCombatState();
         GenerationState.get().generateLocalMap("main");
     }
 }

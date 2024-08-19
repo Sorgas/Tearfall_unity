@@ -22,6 +22,15 @@ namespace game.view.system.mouse_tool {
         // apply tool when player finishes dragging selection frame
         public void handleSelection(IntBounds3 bounds, Vector3Int start) => tool?.applyTool(bounds, start);
 
+        public void handleRightClick(Vector3Int position) {
+            if (tool == selectionTool) {
+                selectionTool.handleRightClick(position);
+                // TODO open tooltip
+            } else {
+                reset();
+            }
+        }
+        
         // revalidate position when mouse moved
         public void mouseMoved(Vector3Int position) {
             tool?.onPositionChange(position);

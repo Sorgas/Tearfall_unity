@@ -15,7 +15,7 @@ using util.lang.extension;
 namespace game.view.ui.workbench {
 // Displays item icon. On mouse hover, can show tooltip.
 // TODO make tooltips to be related to mouse pointer
-[RequireComponent(typeof(InfoTooltipTrigger))]
+[RequireComponent(typeof(AbstractTooltipTrigger))]
 public class ItemButtonWithTooltipHandler : MonoBehaviour {
     protected EcsEntity item;
     // button
@@ -41,7 +41,7 @@ public class ItemButtonWithTooltipHandler : MonoBehaviour {
     }
 
     private void initTooltipTrigger(EcsEntity item) {
-        InfoTooltipTrigger trigger = gameObject.GetComponent<InfoTooltipTrigger>();
+        AbstractTooltipTrigger trigger = gameObject.GetComponent<AbstractTooltipTrigger>();
         trigger.setToolTipData(new InfoTooltipData(item, "item"));
         trigger.isRoot = true;
     }

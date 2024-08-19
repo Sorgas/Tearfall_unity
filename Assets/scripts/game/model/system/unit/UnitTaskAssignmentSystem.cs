@@ -35,6 +35,8 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
     public override void Run() {
         assignments.Clear();
         foreach (int i in filter) {
+            EcsEntity unit = filter.GetEntity(i);
+            if(unit.Has<UnitDraftedComponent>()) continue; // TODO add special UnitTaskReceivingComponent
             UnitTaskAssignment assignment = findTaskForUnit(filter.GetEntity(i));
             if (assignment != null) {
                 assignments.add(assignment.target, assignment.performer);

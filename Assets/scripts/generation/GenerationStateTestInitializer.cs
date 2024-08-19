@@ -23,6 +23,7 @@ public class GenerationStateTestInitializer {
         initAndGenerateTestWorld();
         createSettlers(1);
         createWeapons();
+        createCombatBuildings();
         GenerationState.get().localMapGenerator.localGenConfig.localBiome = "flat";
     }
 
@@ -80,6 +81,10 @@ public class GenerationStateTestInitializer {
 
     private void createEnemy() {
         
+    }
+
+    private void createCombatBuildings() {
+        GenerationState.get().localMapGenerator.testBuildingsToGenerate.Add("training dummy", "oak");
     }
 
     private void createWeapons() {

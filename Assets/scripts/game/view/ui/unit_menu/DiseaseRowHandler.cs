@@ -10,7 +10,7 @@ public class DiseaseRowHandler : MonoBehaviour {
     public TextMeshProUGUI diseaseName;
     public TextMeshProUGUI diseaseProgress;
     public Image diseaseIcon;
-    private InfoTooltipTrigger tooltipTrigger;
+    private AbstractTooltipTrigger tooltipTrigger;
     private UnitDisease unitDisease;
     
     // public void Start() {
@@ -23,7 +23,7 @@ public class DiseaseRowHandler : MonoBehaviour {
     public void init(UnitDisease unitDisease) {
         this.unitDisease = unitDisease;
         diseaseName.text = unitDisease.type.name;
-        tooltipTrigger = gameObject.GetComponent<InfoTooltipTrigger>();
+        tooltipTrigger = gameObject.GetComponent<AbstractTooltipTrigger>();
         tooltipTrigger.isRoot = true;
         tooltipTrigger.setToolTipData(new InfoTooltipData("disease", unitDisease));
     }

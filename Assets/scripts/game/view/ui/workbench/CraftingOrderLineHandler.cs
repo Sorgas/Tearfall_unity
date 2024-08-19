@@ -3,7 +3,6 @@ using game.model;
 using game.model.component;
 using game.model.component.building;
 using game.model.component.task.order;
-using game.model.container;
 using game.view.ui.tooltip.handler;
 using game.view.ui.tooltip.trigger;
 using Leopotam.Ecs;
@@ -51,8 +50,8 @@ public class CraftingOrderLineHandler : MonoBehaviour {
         duplicateButton.addListener(() => workbenchWindow.duplicateOrder(order));
         plusButton.addListener(() => changeQuantity(1));
         minusButton.addListener(() => changeQuantity(-1));
-        ReusedTooltipClickTrigger trigger = configureButton.GetComponent<ReusedTooltipClickTrigger>();
-        trigger.setTooltip(configurePanel.GetComponent<HidingTooltipHandler>());
+        AbstractTooltipTrigger trigger = configureButton.GetComponent<AbstractTooltipTrigger>();
+        trigger.setTooltip(configurePanel.GetComponent<AbstractTooltipHandler>());
         trigger.closeCallback = () => configureButton.setColor(BUTTON_NORMAL);
         trigger.openCallback = () => {
             configurePanel.fillFor(order);
@@ -97,9 +96,9 @@ public class CraftingOrderLineHandler : MonoBehaviour {
         if (order.status == PAUSED) {
             if (workbench.Has<TaskComponent>()) {
                 Debug.Log("has task");
-                GameModel.get().currentLocalModel.addUpdateEvent(new ModelUpdateEvent(model => {
+                GameModel.get().currentLocalModel.addModelAction(model => {
                     model.taskContainer.removeTask(workbench.take<TaskComponent>().task, TaskStatusEnum.CANCELED);
-                }));
+                });
             }
         } else {
             workbench.takeRef<WorkbenchComponent>().hasActiveOrders = true;
@@ -108,10 +107,10 @@ public class CraftingOrderLineHandler : MonoBehaviour {
 
     // order modification should not interfere with order handling in WorkbenchTaskCreationSystem
     private void changeQuantity(int delta) {
-        GameModel.get().currentLocalModel.addUpdateEvent(new ModelUpdateEvent(model => {
+        GameModel.get().currentLocalModel.addModelAction(model => {
             order.targetQuantity += delta;
             updateQuantityVisual();
-        }));
+        });
     }
 
     private void updateQuantityVisual() {

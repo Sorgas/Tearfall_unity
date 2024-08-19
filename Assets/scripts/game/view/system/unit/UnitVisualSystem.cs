@@ -11,7 +11,7 @@ using Transform = UnityEngine.Transform;
 namespace game.view.system.unit {
 // creates sprite GO for units without it. update GO position
 public class UnitVisualSystem : IEcsRunSystem {
-    public EcsFilter<UnitVisualComponent, UnitMovementComponent> filter;
+    public EcsFilter<UnitVisualComponent> filter;
 
     public void Run() {
         foreach (int i in filter) {
@@ -25,9 +25,12 @@ public class UnitVisualSystem : IEcsRunSystem {
     private void update(EcsEntity unit, ref UnitVisualComponent visual) {
         Transform transform = visual.handler.gameObject.transform;
         if (transform.localPosition == visual.target) return;
-        
-        UnitMovementComponent movement = unit.take<UnitMovementComponent>();
-        float step = movement.step;
+
+        float step = 0;
+        if (unit.Has<UnitMovementComponent>()) {
+            UnitMovementComponent movement = unit.take<UnitMovementComponent>();
+            step = movement.step;
+        }
         transform.localPosition = Vector3.Lerp(visual.current, visual.target, step);
         // transform.localPosition
         // bool isOnRamp = GameModel.get().currentLocalModel.localMap.blockType.get(pos) == BlockTypes.RAMP.CODE
@@ -39,7 +42,6 @@ public class UnitVisualSystem : IEcsRunSystem {
             visual.handler.updateSpriteSorting(pos.z);
         }
         visual.handler.setOrientation(visual.orientation);
-        
     }
 
     private void createSpriteGo(EcsEntity unit, ref UnitVisualComponent component) {

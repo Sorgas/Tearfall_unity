@@ -125,4 +125,9 @@ public struct UnitNamesComponent {
     public string professionName;
     public string nickName;
 }
+
+// when present, unit will not receive tasks from container or needs
+public struct UnitDraftedComponent {
+    
+}
 }

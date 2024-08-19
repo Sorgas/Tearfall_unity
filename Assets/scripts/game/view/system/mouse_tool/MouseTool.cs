@@ -35,14 +35,14 @@ public abstract class MouseTool {
     // called when mouse changes position and rotation
     public abstract void onPositionChange(Vector3Int position);
 
-    // should apply tool changes to localMap
+    // should apply tool changes to localMap. called when mouse clicked or area seletion completed
     public abstract void applyTool(IntBounds3 bounds, Vector3Int start);
 
     // called when player presses rotate keys
     public virtual void rotate() { }
 
-    protected void addUpdateEvent(Action<LocalModel> action) {
-        GameModel.get().currentLocalModel.addUpdateEvent(new ModelUpdateEvent(action));
+    protected void addUpdateEvent(ModelAction action) {
+        GameModel.get().currentLocalModel.addModelAction(action);
     }
 }
 }
