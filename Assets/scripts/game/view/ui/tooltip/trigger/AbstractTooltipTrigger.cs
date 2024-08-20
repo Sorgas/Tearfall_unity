@@ -51,6 +51,9 @@ public abstract class AbstractTooltipTrigger : MonoBehaviour {
         if (keepAfterClose && tooltip != null) {
             tooltip.gameObject.SetActive(true);
         } else {
+            if (tooltip != null) {
+                Destroy(tooltip.gameObject);
+            }
             tooltip = InfoTooltipGenerator.get().generate(data);
             tooltip.transform.SetParent(self, false);
             tooltip.gameObject.transform.localPosition = position;

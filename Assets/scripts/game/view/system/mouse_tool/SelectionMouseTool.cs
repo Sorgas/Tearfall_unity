@@ -130,5 +130,11 @@ namespace game.view.system.mouse_tool {
             }
             return result;
         }
+
+        public void reset() {
+            selectedEntity = EcsEntity.Null;
+            previousEntity = EcsEntity.Null;
+            previousPosition = Vector3Int.back;
+        }
     }
 }

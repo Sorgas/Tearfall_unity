@@ -25,7 +25,6 @@ namespace game.view.system.mouse_tool {
         public void handleRightClick(Vector3Int position) {
             if (tool == selectionTool) {
                 selectionTool.handleRightClick(position);
-                // TODO open tooltip
             } else {
                 reset();
             }
@@ -38,7 +37,10 @@ namespace game.view.system.mouse_tool {
         }
 
         // sets SelectionTool as current
-        public void reset() => set(selectionTool);
+        public void reset() {
+            selectionTool.reset();
+            set(selectionTool);
+        }
 
         public void set(DesignationType type) {
             designationTool.designation = type;

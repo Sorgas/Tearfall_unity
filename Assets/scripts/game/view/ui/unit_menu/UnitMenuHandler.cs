@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using game.view.system.mouse_tool;
 using game.view.ui.util;
 using Leopotam.Ecs;
 using UnityEngine.UI;
@@ -53,6 +54,11 @@ namespace game.view.ui.unit_menu {
 
         public override string getName() {
             return NAME;
+        }
+
+        public override void close() {
+            base.close();
+            MouseToolManager.get().reset();
         }
     }
 }

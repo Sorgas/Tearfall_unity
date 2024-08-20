@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace game.view.ui.tooltip.trigger {
-public abstract class HoveringTooltipTrigger : AbstractTooltipTrigger {
+public class HoveringTooltipTrigger : AbstractTooltipTrigger {
     private float delay;
     
     protected override bool openCondition() {

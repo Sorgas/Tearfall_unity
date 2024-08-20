@@ -851,10 +851,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8445689332976692909}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce996f6ff2e043ef93c97ab87c8c32b4, type: 3}
+  m_Script: {fileID: 11500000, guid: a113185eced4462b8774f2a09e6dc803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipName: 
-  parent: {fileID: 0}
-  child: {fileID: 0}
-  isRoot: 0
+  isRoot: 1
+  fixedPosition: 1
+  keepAfterClose: 1
