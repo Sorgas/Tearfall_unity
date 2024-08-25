@@ -19,8 +19,12 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
     private bool debug = false;
 
     public ItemTypeMap() {
-        loadItemTypes();
-        applyBaseTypes();
+        ItemTypeMerger merger = new();
+        List<RawItemType> raws = loadRawTypes();
+        merger.mergeRawTypes(raws);
+        List<ItemType> types = createTypes(raws);
+        merger.mergeItemTypes(types);
+        addTypesToMap(types);
     }
 
     public static ItemType getItemType(string name) => get().getType(name);
@@ -35,6 +39,46 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
         return get().types.Values.ToList();
     }
 
+    private List<RawItemType> loadRawTypes() {
+        log("Loading item types");
+        TextAsset[] files = Resources.LoadAll<TextAsset>("data/items");
+        List<RawItemType> result = new();
+        foreach (var file in files) {
+            if (debug) log(logMessage);
+            log("   Loading from " + file.name);
+            List<RawItemType> raws = JsonConvert.DeserializeObject<List<RawItemType>>(file.text);
+            if (raws != null) {
+                for (var i = 0; i < raws.Count; i++) {
+                    raws[i].atlasName = file.name;
+                }
+            } else {
+                Debug.LogError($"Can't load item types, {file.name} cannot be parsed");
+            }
+            result.AddRange(raws);
+            log($"   {raws.Count} loaded from {file.name}");
+        }
+        return result;
+    }
+
+    private List<ItemType> createTypes(List<RawItemType> raws) {
+        List<ItemType> result = new();
+        for (var i = 0; i < raws.Count; i++) {
+            ItemType type = new(raws[i]);
+            // processor.process(raws[i], type);
+            types.Add(type.name, type);
+            addToolMapping(type);
+        }
+        return result;
+    }
+
+    private void addTypesToMap(List<ItemType> types) {
+        foreach (var type in types) {
+            // processor.process(raws[i], type);
+            this.types.Add(type.name, type);
+            addToolMapping(type);
+        }
+    }
+    
     private void loadItemTypes() {
         log("Loading item types");
         TextAsset[] files = Resources.LoadAll<TextAsset>("data/items");
@@ -60,7 +104,7 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
         }
         log($"   {raws.Count} loaded from {file.name}");
     }
-
+    
     private void applyBaseTypes() {
         foreach (var type in types.Values) {
             if (type.baseItem != null) {
@@ -76,7 +120,7 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
     }
 
     private void addToolMapping(ItemType type) {
-        if (type.tool != null) toolActionsToTypes.add(type.tool.action, type);
+        if (type.weapon != null) toolActionsToTypes.add(type.toolAction, type);
     }
 
     // TODO add material arg to tint sprite with material color

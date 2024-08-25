@@ -43,12 +43,12 @@ public class SelectionTooltip : MonoBehaviour {
     
     public void Update() {
         if (!self.rect.Contains(self.InverseTransformPoint(Input.mousePosition))) {
-            // close();
+            close();
         }
     }
     
     private void fillForUnit(EcsEntity unit, Vector3Int position) {
-        addButton(0, "move", () => GameModel.get().currentLocalModel.addModelAction(model => {
+        addButton("move", () => GameModel.get().currentLocalModel.addModelAction(model => {
                 if (model.localMap.passageMap.getPassage(position) == PassageTypes.PASSABLE.VALUE) {
                     if (unit.Has<TaskComponent>()) {
                         GameModel.get().currentLocalModel.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED);
@@ -57,10 +57,12 @@ public class SelectionTooltip : MonoBehaviour {
                 }
             })
         );
+        List<EcsEntity> usedItems = new ();
         List<EcsEntity> items = GameModel.get().currentLocalModel.itemContainer.onMap.getItems(position);
         foreach (var item in items) {
-            if (items.Any(item => item.Has<ItemWearComponent>())) {
-                addButton(0, $"equip {item.name()}", () => GameModel.get().currentLocalModel.addModelAction(model => {
+            if (items.Any(item => item.Has<ItemWearComponent>()) && !usedItems.Contains(item)) {
+                usedItems.Add(item);
+                addButton($"equip {item.name()}", () => GameModel.get().currentLocalModel.addModelAction(model => {
                         if (model.localMap.passageMap.getPassage(position) == PassageTypes.PASSABLE.VALUE) {
                             if (unit.Has<TaskComponent>()) {
                                 GameModel.get().currentLocalModel.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED);
@@ -71,17 +73,32 @@ public class SelectionTooltip : MonoBehaviour {
                 );
             }
         }
+        foreach (var item in items) {
+            if (items.Any(item => item.Has<ItemToolComponent>()) && !usedItems.Contains(item)) {
+                usedItems.Add(item);
+                addButton($"equip {item.name()}", () => GameModel.get().currentLocalModel.addModelAction(model => {
+                        if (model.localMap.passageMap.getPassage(position) == PassageTypes.PASSABLE.VALUE) {
+                            if (unit.Has<TaskComponent>()) {
+                                GameModel.get().currentLocalModel.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED);
+                            }
+                            unit.Replace(new UnitNextTaskComponent { action = new EquipToolItemAction(item) });
+                        }
+                    })
+                );
+            }
+        }
     }
 
-    private void addButton(int index, string text, Action action) {
-        GameObject buttonGo = PrefabLoader.create("GenericTextButton", transform, new Vector3(0, -index * 30, 0));
+    private void addButton(string text, Action action) {
+        GameObject buttonGo = PrefabLoader.create("GenericTextButton", transform, new Vector3(0, -currentIndex * 30, 0));
         buttonGo.GetComponent<Button>().onClick.AddListener(action.Invoke);
         buttonGo.GetComponent<Button>().onClick.AddListener(close);
         buttonGo.GetComponentInChildren<TextMeshProUGUI>().text = text;
-        index++;
+        currentIndex++;
     }
 
     private void clear() {
+        currentIndex = 0;
         foreach (Transform o in transform) {
             Destroy(o.gameObject);
         }

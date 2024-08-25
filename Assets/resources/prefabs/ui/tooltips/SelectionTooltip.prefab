@@ -38,7 +38,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 250, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &130115866752000495
 CanvasRenderer:
@@ -97,6 +97,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7200537645484723074}
     m_Modifications:
+    - target: {fileID: 1100084523120314561, guid: 3e2a19c198a5b1547ac56b497202a29a,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1100084523120314561, guid: 3e2a19c198a5b1547ac56b497202a29a,
+        type: 3}
+      propertyPath: m_margin.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1100084523120314561, guid: 3e2a19c198a5b1547ac56b497202a29a,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1100084523120314561, guid: 3e2a19c198a5b1547ac56b497202a29a,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1779891447448398217, guid: 3e2a19c198a5b1547ac56b497202a29a,
         type: 3}
       propertyPath: m_Pivot.x
@@ -115,7 +135,7 @@ PrefabInstance:
     - target: {fileID: 1779891447448398217, guid: 3e2a19c198a5b1547ac56b497202a29a,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1779891447448398217, guid: 3e2a19c198a5b1547ac56b497202a29a,
         type: 3}
@@ -135,7 +155,7 @@ PrefabInstance:
     - target: {fileID: 1779891447448398217, guid: 3e2a19c198a5b1547ac56b497202a29a,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1779891447448398217, guid: 3e2a19c198a5b1547ac56b497202a29a,
         type: 3}

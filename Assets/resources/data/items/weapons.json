@@ -1,9 +1,11 @@
 [
   {
     "name": "generic_weapon",
-    "description": "Replace description",
+    "title": "Generic weapon. Replace title in weapons.json",
+    "description": "Generic weapon. Replace description in weapons.json",
     "value": 10,
     "stockpileCategory": "weapon",
+    "toolAction": "combat",
     "damage": 10,
     "accuracy": 0.5,
     "reload": 25,

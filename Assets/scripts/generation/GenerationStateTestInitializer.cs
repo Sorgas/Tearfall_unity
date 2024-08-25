@@ -89,6 +89,7 @@ public class GenerationStateTestInitializer {
     private void createWeapons() {
         GenerationState.get().preparationState.items.Add(new ItemData { material = "iron", type = "sword", quantity = 2 });
         GenerationState.get().preparationState.items.Add(new ItemData { material = "cotton", type = "hat", quantity = 1 });
+        GenerationState.get().preparationState.items.Add(new ItemData { material = "cotton", type = "gloves", quantity = 1 });
     }
 
     private void preLoadTypeMaps() {

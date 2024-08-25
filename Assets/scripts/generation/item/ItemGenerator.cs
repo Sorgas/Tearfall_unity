@@ -33,8 +33,8 @@ namespace generation.item {
                 tags = new(tags)
             });
             entity.take<ItemComponent>().tags.AddRange(type.tags);
-            if (type.tool != null) {
-                entity.Replace(new ItemToolComponent { action = type.tool.action });
+            if (type.weapon != null) {
+                entity.Replace(new ItemToolComponent { action = type.toolAction });
             }
             entity.Replace(new NameComponent { name = material.name + " " + type.title });
             addComponentsFromType(type, ref entity, material.id);

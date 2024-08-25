@@ -15,7 +15,8 @@ public class ItemType {
     // public List<string> parts = new(); // if set, player will see parts when selecting materials for crafting. // TODO post MVP
     // components
     public Dictionary<string, string[]> components = new(); // component name to array of component arguments
-    public ToolItemType tool; // is set if this item could be used as tool
+    public string toolAction;
+    public WeaponItemType weapon; // is set if this item could be used as tool
     // storage
     public string stockpileCategory;
     public List<string> stockpileMaterialTags = new();
@@ -31,15 +32,16 @@ public class ItemType {
         baseItem = raw.baseItem;
         description = raw.description;
         value = raw.value;
-        if (raw.toolAction != null) {
-            tool = new ToolItemType();
-            tool.action = raw.toolAction;
-            tool.damage = raw.damage;
-            tool.accuracy = raw.accuracy;
-            tool.reload = raw.reload;
-            tool.skill = raw.skill;
-            tool.damageType = raw.damageType;
+        toolAction = raw.toolAction;
+        if (raw.weapon != null) {
+            weapon = new WeaponItemType();
+            weapon.damage = raw.weapon.damage;
+            weapon.accuracy = raw.weapon.accuracy;
+            weapon.reload = raw.weapon.reload;
+            weapon.skill = raw.weapon.skill;
+            weapon.damageType = raw.weapon.damageType;
         }
+        atlasName = raw.atlasName;
         atlasXY = raw.atlasXY;
         // if (raw.parts == null || raw.parts.Length == 0) {
         //     parts.Add("main"); // single part item
@@ -74,39 +76,13 @@ public class ItemType {
     }
 }
 
-[Serializable]
-public class RawItemType {
-    public string name; // id
-    public string baseItem; // items can extends other items
-    public string title; // displayable name
-    public string description; // displayable description
-    public int value = 1; // default value for material items
-    
-    // public string[] parts; // defines parts of item. first one is main
-    public string[] tags; // tags will be copied to items
-
-    public string[] components; // string representation of components: NAME/[ARGUMENT[/ARGUMENT]]
-    public string stockpileCategory; // mandatory for all items
-    public string stockpileMaterialTags;
-
-    // render
-    public int[] atlasXY;
-    public string color = "0xffffffff";
-
-    // tools
-    public string toolAction; // some actions require tools or get bonus from having tool equipped
+public class WeaponItemType {
     // weapons
     public float damage; // if 0, item is not a weapon
     public float accuracy;
     public float reload; // attack reload turns
     public string skill; // combat skill to use
     public string damageType;
-
-    public RawItemType() {
-        // parts = Array.Empty<string>();
-        tags = Array.Empty<string>();
-        components = Array.Empty<string>();
-        atlasXY = Array.Empty<int>();
-    }
+    // public string ammo; // ammo item name
 }
 }
