@@ -36,7 +36,7 @@ public class BodyTemplateProcessor {
 
         // Multiplies limbs if they are mirrored.
         private Dictionary<string, RawBodyPart> doubleMirroredParts(Dictionary<string, RawBodyPart> map) {
-            Dictionary<string, RawBodyPart> newMap = new Dictionary<string, RawBodyPart>();
+            Dictionary<string, RawBodyPart> newMap = new();
             foreach (RawBodyPart part in map.Values) {
                 if (part.mirrored) {
                     RawBodyPart leftPart = cloneMirroredPart(map, part, LEFT_PREFIX);

@@ -107,10 +107,10 @@ public class LocalStoneLayersGenerator : LocalGenerator {
         yOffset = random() * 10000;
         int[,] oreArray = new int[50, 50];
         for (int z = maxHeight; z > minHeight; z -= 2) {
-            Debug.Log($"generated ore at {z}");
+            // Debug.Log($"generated ore at {z}");
             for (int largeX = 0; largeX < config.areaSize; largeX += 50) {
                 for (int largeY = 0; largeY < config.areaSize; largeY += 50) {
-                    Debug.Log($"creating vein {largeX} {largeY}");
+                    // Debug.Log($"creating vein {largeX} {largeY}");
                     string materialName = selectOreMaterial(z);
                     if (materialName == "none") continue;
                     Material_ material = MaterialMap.get().material(materialName);
@@ -119,7 +119,7 @@ public class LocalStoneLayersGenerator : LocalGenerator {
                         throw new GameException($"ore distribution tag not supported: {material.tags.Aggregate((t1, t2) => t1 + " " + t2)}");
                     }
                     generator.createVein(50, oreArray);
-                    Debug.Log($"vein created");
+                    // Debug.Log($"vein created");
                     for (int x = 0; x < 50; x++) {
                         for (int y = 0; y < 50; y++) {
                             if (oreArray[x, y] != 0) {

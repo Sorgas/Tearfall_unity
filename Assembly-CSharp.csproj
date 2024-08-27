@@ -311,6 +311,7 @@
      <Compile Include="Assets\scripts\util\lang\extension\EnumExtension.cs" />
      <Compile Include="Assets\scripts\game\view\ui\workbench\ItemButtonWithTooltipHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\util\TooltipParentHandler.cs" />
+     <Compile Include="Assets\scripts\types\item\type\ItemTypeMerger.cs" />
      <Compile Include="Assets\scripts\game\view\util\IconLoader.cs" />
      <Compile Include="Assets\scripts\util\geometry\bounds\TwoPointIntBounds3.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\IngredientProcessor.cs" />
@@ -536,7 +537,6 @@
      <Compile Include="Assets\scripts\mainMenu\ui\SliderWithLabelHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
-     <Compile Include="Assets\scripts\types\item\type\ItemTypeMerger.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\resources\icons\unit_window" />
      <Folder Include="Assets\resources\prefabs\materialSelector" />

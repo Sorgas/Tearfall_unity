@@ -5,16 +5,19 @@
     "description": "Generic weapon. Replace description in weapons.json",
     "value": 10,
     "stockpileCategory": "weapon",
-    "toolAction": "combat",
-    "damage": 10,
-    "accuracy": 0.5,
-    "reload": 25,
-    "skill": "melee",
-    "damageType": "slashing",
+    "components": ["grip(main)"],
+    "weapon": {
+      "damage": 10,
+      "accuracy": 0.5,
+      "reload": 25,
+      "skill": "melee",
+      "damageType": "slashing",
+    },
     "atlasXY": [0, 0]
   },
   {
     "name": "sword",
+    "title": "Sword",
     "baseItem": "generic_weapon",
     "description": "Replace description",
     "value": 100,
@@ -22,22 +25,30 @@
   },
   {
     "name": "claymore",
+    "title": "Claymore",
     "baseItem": "generic_weapon",
     "description": "Replace description",
-    "damage": 10,
-    "accuracy": 0.8,
-    "reload": 40,
+    "components": ["grip(two)"],
+    "weapon": {
+      "damage": 10,
+      "accuracy": 0.8,
+      "reload": 40
+    },
     "value": 500,
     "atlasXY": [1, 0]
   },
   {
     "name": "hunting_bow",
+    "title": "Hunting bow",
     "baseItem": "generic_weapon",
     "description": "Replace description",
-    "reload": 50,
-    "accuracy": 0.7,
-    "skill": "ranged",
-    "damageType": "piercing",
+    "components": ["grip(two)"],
+    "weapon": {
+      "reload": 50,
+      "accuracy": 0.7,
+      "skill": "ranged",
+      "damageType": "piercing"
+    },
     "value": 40,
     "atlasXY": [2, 0]
   }

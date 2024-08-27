@@ -2,6 +2,7 @@
     {
         "name": "generic_tool",
         "description": "Replace description",
+        "components": ["grip(main)"],
         "value": 10,
         "stockpileCategory": "tool",
         "atlasXY": [0, 4]
@@ -10,6 +11,7 @@
         "name": "pickaxe",
         "baseItem": "generic_tool",
         "description": "Tool for digging through rock and ore.",
+        "components": ["grip(two)"],
         "value": 10,
         "toolAction": "dig",
         "atlasXY": [0, 0]
@@ -31,6 +33,7 @@
     "name": "hoe",
     "baseItem": "generic_tool",
     "description": "Tool for preparing soil for farming.",
+    "components": ["grip(two)"],
     "value": 10,
     "toolAction": "hoe",
     "atlasXY": [3, 0]
@@ -38,6 +41,7 @@
     "name": "hammer",
     "baseItem": "generic_tool",
     "description": "Smith tool.",
+    "components": ["grip(main)"],
     "value": 10,
     "toolAction": "smith",
     "atlasXY": [4, 0]

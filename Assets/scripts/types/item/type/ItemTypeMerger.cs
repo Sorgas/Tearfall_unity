@@ -32,12 +32,13 @@ public class ItemTypeMerger {
     }
 
     private void mergeRawWeaponType(RawItemType target, RawItemType baseType) {
-        RawWeaponItemType targetWeapon = target.weapon;
+        RawWeaponItemType targetWeapon = target.weapon ?? new RawWeaponItemType();
         if (targetWeapon.damage < 0) targetWeapon.damage = baseType.weapon.damage;
         if (targetWeapon.accuracy < 0) targetWeapon.accuracy = baseType.weapon.accuracy;
         if (targetWeapon.reload < 0) targetWeapon.reload = baseType.weapon.reload;
         if (targetWeapon.skill == null) targetWeapon.skill = baseType.weapon.skill;
         if (targetWeapon.damageType == null) targetWeapon.damageType = baseType.weapon.damageType;
+        target.weapon = targetWeapon;
     }
 
     // merging of complex fields occurs after parsing

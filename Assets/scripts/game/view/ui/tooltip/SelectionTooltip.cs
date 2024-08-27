@@ -14,7 +14,6 @@ using types.action;
 using UnityEngine;
 using UnityEngine.UI;
 using util.lang.extension;
-using Action = System.Action;
 
 namespace game.view.ui.tooltip {
 // Shown when player clicks rmb while SelectionMouseTool is used.
@@ -60,36 +59,52 @@ public class SelectionTooltip : MonoBehaviour {
         List<EcsEntity> usedItems = new ();
         List<EcsEntity> items = GameModel.get().currentLocalModel.itemContainer.onMap.getItems(position);
         foreach (var item in items) {
-            if (items.Any(item => item.Has<ItemWearComponent>()) && !usedItems.Contains(item)) {
+            if (items.Any(item => item.Has<ItemWeaponComponent>()) && !usedItems.Contains(item)) {
                 usedItems.Add(item);
-                addButton($"equip {item.name()}", () => GameModel.get().currentLocalModel.addModelAction(model => {
-                        if (model.localMap.passageMap.getPassage(position) == PassageTypes.PASSABLE.VALUE) {
-                            if (unit.Has<TaskComponent>()) {
-                                GameModel.get().currentLocalModel.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED);
-                            }
-                            unit.Replace(new UnitNextTaskComponent { action = new EquipWearItemAction(item) });
-                        }
-                    })
-                );
+                createEquipButton(item, unit);
             }
         }
         foreach (var item in items) {
             if (items.Any(item => item.Has<ItemToolComponent>()) && !usedItems.Contains(item)) {
                 usedItems.Add(item);
-                addButton($"equip {item.name()}", () => GameModel.get().currentLocalModel.addModelAction(model => {
-                        if (model.localMap.passageMap.getPassage(position) == PassageTypes.PASSABLE.VALUE) {
-                            if (unit.Has<TaskComponent>()) {
-                                GameModel.get().currentLocalModel.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED);
-                            }
-                            unit.Replace(new UnitNextTaskComponent { action = new EquipToolItemAction(item) });
-                        }
-                    })
-                );
+                createEquipButton(item, unit);
+            }
+        }
+        foreach (var item in items) {
+            if (items.Any(item => item.Has<ItemWearComponent>()) && !usedItems.Contains(item)) {
+                usedItems.Add(item);
+                createEquipButton(item, unit);
             }
         }
     }
 
-    private void addButton(string text, Action action) {
+    private void createEquipButton(EcsEntity item, EcsEntity unit) {
+        addButton($"equip {item.name()}", () => GameModel.get().currentLocalModel.addModelAction(model => {
+                Vector3Int position = model.itemContainer.getItemAccessPosition(item);
+                if (model.localMap.passageMap.getPassage(position) == PassageTypes.PASSABLE.VALUE) {
+                    Action action = getEquipAction(item);
+                    if (action != null) {
+                        if (unit.Has<TaskComponent>()) {
+                            GameModel.get().currentLocalModel.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED);
+                        }
+                        unit.Replace(new UnitNextTaskComponent { action = action });
+                    }
+                }
+            })
+        );
+    }
+
+    private Action getEquipAction(EcsEntity item) {
+        if (item.Has<ItemWeaponComponent>() || item.Has<ItemToolComponent>()) {
+            return new EquipToolItemAction(item);
+        }
+        if (item.Has<ItemWearComponent>()) {
+            return new EquipWearItemAction(item);
+        }
+        return null;
+    }
+    
+    private void addButton(string text, System.Action action) {
         GameObject buttonGo = PrefabLoader.create("GenericTextButton", transform, new Vector3(0, -currentIndex * 30, 0));
         buttonGo.GetComponent<Button>().onClick.AddListener(action.Invoke);
         buttonGo.GetComponent<Button>().onClick.AddListener(close);

@@ -64,9 +64,7 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
         List<ItemType> result = new();
         for (var i = 0; i < raws.Count; i++) {
             ItemType type = new(raws[i]);
-            // processor.process(raws[i], type);
-            types.Add(type.name, type);
-            addToolMapping(type);
+            result.Add(type);
         }
         return result;
     }
@@ -120,7 +118,7 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
     }
 
     private void addToolMapping(ItemType type) {
-        if (type.weapon != null) toolActionsToTypes.add(type.toolAction, type);
+        if (type.toolAction != null) toolActionsToTypes.add(type.toolAction, type);
     }
 
     // TODO add material arg to tint sprite with material color

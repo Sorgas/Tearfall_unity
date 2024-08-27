@@ -7,9 +7,8 @@ public class RawItemType {
     public string baseItem; // items can extends other items
     public string title; // displayable name
     public string description; // displayable description
-    public int value = 1; // default value for material items
+    public int value = -1;
 
-    // public string[] parts; // defines parts of item. first one is main
     public string[] tags; // tags will be copied to items
 
     public string[] components; // string representation of components: NAME/[ARGUMENT[/ARGUMENT]]
@@ -22,11 +21,11 @@ public class RawItemType {
     public string color = "0xffffffff";
 
     // tools
+    // TODO replace with component
     public string toolAction; // some actions require tools or get bonus from having tool equipped
     public RawWeaponItemType weapon; // present if item can be used in combat
 
     public RawItemType() {
-        // parts = Array.Empty<string>();
         tags = Array.Empty<string>();
         components = Array.Empty<string>();
         atlasXY = Array.Empty<int>();
@@ -35,9 +34,9 @@ public class RawItemType {
 
 public class RawWeaponItemType {
     // weapons
-    public float damage; // if 0, item is not a weapon
-    public float accuracy;
-    public float reload; // attack reload turns
+    public float damage = -1; // if 0, item is not a weapon
+    public float accuracy = -1;
+    public float reload = -1; // attack reload turns
     public string skill; // combat skill to use
     public string damageType;
     // public string ammo; // ammo item name

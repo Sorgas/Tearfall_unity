@@ -68,6 +68,11 @@ public struct ItemToolComponent {
     public string action;
 }
 
+// If present, item should be hold in hands to be used. (e.g. tools and weapons)
+public struct ItemGripComponent {
+    public string type; // main, off, any, two
+}
+
 // item gives temporary effect when consumed
 public struct PotionEffectComponent {
     public string effect; // todo
@@ -88,11 +93,12 @@ public struct ContainerComponent {
 public struct ForbiddenComponent { }
 
 // item can be used as weapon in combat
-public struct CombatComponent {
+public struct ItemWeaponComponent {
+    public float damage;
+    public float accuracy;
+    public float reload;
+    public string skill;
     public string damageType;
-    public int damage;
-    public int hitReload;
-    public int blockEfficiency;
 }
 
 // item is cursed and will put negative effect when used

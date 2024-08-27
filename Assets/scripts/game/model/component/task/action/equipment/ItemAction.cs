@@ -10,7 +10,7 @@ namespace game.model.component.task.action.equipment {
     /**
      * Base class for actions that manipulate a specific item.
      * Equipment tasks are composed of several actions 'get from source' -> 'put to destination'
-     * Examples: get from container, get from ground, 
+     * Examples: get from container, get from ground -> put to container, equip onto performer.
      * 
      * @author Alexander on 22.06.2020.
      */
