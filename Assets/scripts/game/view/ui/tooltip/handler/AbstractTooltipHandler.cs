@@ -11,6 +11,7 @@ public abstract class AbstractTooltipHandler : MonoBehaviour {
     private EcsEntity targetEntity;
     protected List<AbstractTooltipTrigger> triggers = new();
     private RectTransform self;
+    [HideInInspector]
     public AbstractTooltipTrigger parent; // link to trigger
 
     public void Awake() {
@@ -47,8 +48,8 @@ public abstract class AbstractTooltipHandler : MonoBehaviour {
 
     // unlink from parent and close self
     private void handleMouseLeave() {
-        parent = null;
         closeTooltip();
+        parent = null;
     }
 
     private AbstractTooltipTrigger getActiveTrigger() {

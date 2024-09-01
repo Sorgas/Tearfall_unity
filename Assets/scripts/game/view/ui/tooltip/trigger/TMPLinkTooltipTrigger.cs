@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace game.view.ui.tooltip.trigger {
 // Handles TMP text with multiple links. Opens tooltip when link in text is hovered.
-// This class is 'stateful': linkIndex is set in openCondition() and could then be used in openTooltip()
+// This class is 'stateful': hoveredLinkIndex is set in openCondition() and could then be used in openTooltip()
 public class TMPLinkTooltipTrigger : AbstractTooltipTrigger {
     private TextMeshProUGUI text;
     private int hoveredLinkIndex = -1; // currently hovered link
@@ -35,6 +35,11 @@ public class TMPLinkTooltipTrigger : AbstractTooltipTrigger {
     protected override bool openCondition() {
         hoveredLinkIndex = TMP_TextUtilities.FindIntersectingLink(text, Input.mousePosition, null);
         return hoveredLinkIndex >= 0;
+    }
+
+    protected override bool closeCondition() {
+        hoveredLinkIndex = TMP_TextUtilities.FindIntersectingLink(text, Input.mousePosition, null);
+        return hoveredLinkIndex < 0;
     }
 
     protected override void openTooltip() {

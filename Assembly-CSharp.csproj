@@ -90,6 +90,7 @@
      <Compile Include="Assets\scripts\generation\plant\PlantGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\RoomTilesetHolder.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\EquipWearItemAction.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\producer\AbstractTooltipProducer.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\MouseToolManager.cs" />
      <Compile Include="Assets\scripts\game\view\ui\jobs_window\UnitJobButtonHandler.cs" />
      <Compile Include="Assets\scripts\game\model\system\EcsSystems.cs" />
@@ -222,6 +223,7 @@
      <Compile Include="Assets\scripts\game\model\system\plant\SubstrateGrowingSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\item\CraftItemAtWorkbenchAction.cs" />
      <Compile Include="Assets\scripts\types\item\type\RawItemType.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\producer\ReusedTooltipProducer.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\GenericItemConsumingAction.cs" />
      <Compile Include="Assets\scripts\types\unit\need\Needs.cs" />
      <Compile Include="Assets\scripts\game\model\container\FarmContainer.cs" />
@@ -319,6 +321,7 @@
      <Compile Include="Assets\scripts\game\view\ui\workbench\WorkbenchInventoryHandler.cs" />
      <Compile Include="Assets\scripts\game\model\system\building\WorkbenchTaskCreationSystem.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\AbstractBuildingMouseTool.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\TooltipCanvasHandler.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenConfig.cs" />
      <Compile Include="Assets\scripts\game\view\system\item\ItemVisualSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\ZoneActionTarget.cs" />
@@ -500,6 +503,7 @@
      <Compile Include="Assets\scripts\util\pathfinding\AStar.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\temperature\WorldTemperatureGenerator.cs" />
      <Compile Include="Assets\scripts\types\unit\disease\Disease.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\producer\GeneratedTooltipProducer.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitTaskAssignmentSystem.cs" />
      <Compile Include="Assets\scripts\types\building\ConstructionTypeMap.cs" />
      <Compile Include="Assets\scripts\game\model\system\zone\StockpileTaskCreationSystem.cs" />

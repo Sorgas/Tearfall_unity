@@ -36,7 +36,10 @@ namespace game.view.system.mouse_tool {
             Vector3Int position = new(bounds.minX, bounds.minY, bounds.minZ);
             EcsEntity entity = getEntityForSelection(position);
             selectedEntity = entity;
-            if (entity == EcsEntity.Null) return;
+            if (entity == EcsEntity.Null) {
+                WindowManager.get().closeAll();
+                return;
+            }
             if (entity.Has<WorkbenchComponent>()) {
                 WindowManager.get().showWindowForBuilding(entity);
             }

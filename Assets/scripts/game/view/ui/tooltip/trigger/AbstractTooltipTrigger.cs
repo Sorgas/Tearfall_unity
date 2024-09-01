@@ -1,24 +1,31 @@
 using System;
+using System.Linq;
 using game.view.ui.tooltip.handler;
+using game.view.ui.tooltip.producer;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace game.view.ui.tooltip.trigger {
-// Base class for tooltip triggers. Stores data to initialize tooltip.
-// Defines that only root tooltip should be updated from Unity engine.
+// Tooltip triggers are elements which initiate appearance of tooltip when some event occurs.
+// Stores data to initialize tooltip. Defines that only root tooltip should be updated from Unity engine.
 public abstract class AbstractTooltipTrigger : MonoBehaviour {
+    public bool isRoot; // if trigger is root, it will use Unity updates
+    public bool fixedPosition; // place tooltip at mouse position or trigger corner
+
     protected RectTransform self;
     protected InfoTooltipData data; // data to be used for tooltip
     protected AbstractTooltipHandler tooltip; // should be null if tooltip is closed
-    public bool isRoot; // if trigger is root, it will use Unity updates
-    public bool fixedPosition; // place tooltip at mouse position or trigger corner
-    public bool keepAfterClose; // destroy tooltip go after close or not. 
+
     public Action openCallback; // will be invoked, when tooltip opens
     public Action closeCallback; // will be invoked, when tooltip closes
-    protected Canvas tooltipCanvas;
+    private Canvas tooltipCanvas;
+    private AbstractTooltipProducer producer;
     
     public virtual void Awake() {
         self = gameObject.GetComponent<RectTransform>();
-        // TODO get canvas from scene
+        producer = gameObject.GetComponent<AbstractTooltipProducer>();
+        tooltipCanvas = SceneManager.GetActiveScene()
+            .GetRootGameObjects().First(go => go.name.Equals("TooltipCanvas")).GetComponent<Canvas>();
     }
 
     public void Update() {
@@ -28,47 +35,37 @@ public abstract class AbstractTooltipTrigger : MonoBehaviour {
     // Custom update, called from parent element in tooltip chain
     // Should return true, if trigger has tooltip after update
     public virtual bool updateInternal() {
-        bool condition = openCondition();
         if (isTooltipOpen()) {
-            tooltip.update(condition); // can close tooltip
-            if (!isTooltipOpen()) {
-                closeCallback?.Invoke();
-            }
+            bool preserve = !closeCondition(); // if tooltip cannot be closed, it should be preserved
+            tooltip.update(preserve); // can close tooltip
         } else {
-            if(condition && isCanvasFree()) {
+            if (openCondition()) {
                 openTooltip();
-                openCallback?.Invoke();
             }
         }
         return tooltip != null;
     }
 
-    // should check if tooltip should be opened
+    // should return true, when tooltip should be opened (e.g. trigger hovered)
     protected abstract bool openCondition();
 
+    // should return true, when tooltip can be closed (e.g. trigger not hovered)
+    protected abstract bool closeCondition();
+    
+    // sets tooltip from tooltipInstance or creates from generator
     protected virtual void openTooltip() {
-        Vector3 position = getPositionForTooltip();
-        if (keepAfterClose && tooltip != null) {
-            tooltip.gameObject.SetActive(true);
-        } else {
-            if (tooltip != null) {
-                Destroy(tooltip.gameObject);
-            }
-            tooltip = InfoTooltipGenerator.get().generate(data);
-            tooltip.transform.SetParent(self, false);
-            tooltip.gameObject.transform.localPosition = position;
-        }
+        tooltip = producer.openTooltip(getPositionForTooltip());
+        openCallback?.Invoke();
+        tooltip.parent = this;
     }
 
     // called by tooltips
     public virtual void closeTooltip() {
-        if (keepAfterClose) {
-            tooltip.gameObject.SetActive(false);
-        } else {
-            Destroy(tooltip.gameObject);
-        }
+        producer.closeTooltip();
+        closeCallback?.Invoke();
+        tooltip = null;
     }
-    
+
     // should check if tooltip is open
     public bool isTooltipOpen() => tooltip != null && tooltip.gameObject.activeSelf;
 
@@ -82,9 +79,8 @@ public abstract class AbstractTooltipTrigger : MonoBehaviour {
             var rect = rectTransform.rect;
             Vector2 local = new Vector2(rect.xMin, rect.yMax);
             return rectTransform.TransformPoint(local);
-        } else {
-            return self.InverseTransformPoint(Input.mousePosition);
         }
+        return tooltipCanvas.transform.InverseTransformPoint(Input.mousePosition);
     }
 
     public void setTooltip(AbstractTooltipHandler tooltip) {
