@@ -1,11 +1,9 @@
-using System;
-using System.Linq;
 using game.model.component.item;
 using game.view.ui.tooltip;
+using game.view.ui.tooltip.producer;
 using game.view.ui.tooltip.trigger;
 using Leopotam.Ecs;
 using TMPro;
-using types.item;
 using types.item.type;
 using types.material;
 using UnityEngine;
@@ -13,55 +11,39 @@ using UnityEngine.UI;
 using util.lang.extension;
 
 namespace game.view.ui.workbench {
-// Displays item icon. On mouse hover, can show tooltip.
-// TODO make tooltips to be related to mouse pointer
+// Displays item icon. When item set, initializes tooltip trigger.
 [RequireComponent(typeof(AbstractTooltipTrigger))]
+[RequireComponent(typeof(AbstractTooltipProducer))]
 public class ItemButtonWithTooltipHandler : MonoBehaviour {
     protected EcsEntity item;
     // button
-    public Image background;
+    public Image background; // TODO change background by item quality
     public Image image; // item image
     public TextMeshProUGUI quantityText;
 
-    // tooltip
-    public bool tooltipEnabled;
-    public RectTransform tooltip;
-    public TextMeshProUGUI tooltipTitle;
-    public TextMeshProUGUI tooltipText;
+    private AbstractTooltipTrigger tooltipTrigger;
+    private AbstractTooltipProducer tooltipProducer;
+
+    public void Awake() {
+        tooltipTrigger = GetComponent<AbstractTooltipTrigger>();
+        tooltipProducer = GetComponent<AbstractTooltipProducer>();
+    }
 
     public void initFor(EcsEntity item, int amount = -1) {
         this.item = item;
         bool haveItem = item != EcsEntity.Null;
+        if (haveItem) showItem(item, amount);
         image.gameObject.SetActive(haveItem);
-        // Debug.Log("initing item button " + haveItem);
-        if (haveItem) {
-            showItem(item.take<ItemComponent>(), amount);
-            initTooltipTrigger(item);
-        }
-    }
-
-    private void initTooltipTrigger(EcsEntity item) {
-        AbstractTooltipTrigger trigger = gameObject.GetComponent<AbstractTooltipTrigger>();
-        trigger.setToolTipData(new InfoTooltipData(item, "item"));
-        trigger.isRoot = true;
+        tooltipTrigger.enabled = haveItem;
     }
 
     // sets icon, fills tooltip, sets quantity text
-    private void showItem(ItemComponent item, int amount) {
+    private void showItem(EcsEntity entity, int amount) {
+        ItemComponent item = entity.take<ItemComponent>();
         string typeName = item.type;
-        Material_ material = MaterialMap.get().material(item.material);
+        tooltipProducer.setData(new InfoTooltipData(entity, "item"));
         image.sprite = ItemTypeMap.get().getSprite(typeName);
         image.color = MaterialMap.get().material(item.material).color;
-        // TODO add item stats
-        tooltipTitle.text = material.name + " " + typeName;
-        tooltipText.text = item.tags // TODO add item description as main text
-            .Select(tag => ItemTags.findTag(tag))
-            .Where(tag => tag.displayable)
-            .Select(tag => tag.displayName)
-            .Aggregate((tag1, tag2) => tag1 + ", " + tag2);
-        Vector2 size = new Vector2(Math.Max(tooltipTitle.preferredWidth, tooltipText.preferredWidth) + 10,
-            tooltipTitle.preferredHeight + tooltipTitle.preferredHeight + 15);
-        tooltip.sizeDelta = size;
         quantityText.text = amount < 0 ? "" : $"{amount}";
     }
 }

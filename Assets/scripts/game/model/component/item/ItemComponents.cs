@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Leopotam.Ecs;
+using types.item;
 using types.unit.need;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -25,6 +26,7 @@ public struct ItemWearComponent {
     public string slot; // equpped to slot
     public string layer; // equpped to slot at layer
     public int insulation;
+    public int defence;
 }
 
 public struct ConditionComponent {
@@ -142,5 +144,10 @@ public struct ItemFoodComponent {
 
 public struct ItemSeedComponent {
     public string plant;
+}
+
+// crafted items have quality, affecting their value and other stats
+public struct ItemQualityComponent {
+    public ItemQuality quality;
 }
 }

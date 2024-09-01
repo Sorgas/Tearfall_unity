@@ -104,19 +104,5 @@ public class RestNeed : Need {
     private Vector3Int findPlaceUnderRoof(LocalModel model, EcsEntity unit) {
         return unit.pos(); // TODO
     }
-
-    public float getSleepSpeedByBedQuality(QualityEnum quality) {
-        switch (quality) {
-            case QualityEnum.AWFUL: return 0.9f;
-            case QualityEnum.BAD: return 0.95f;
-            case QualityEnum.NORMAL: return 1;
-            case QualityEnum.FINE: return 1.03f;
-            case QualityEnum.EXCELLENT: return 1.06f;
-            case QualityEnum.MASTERWORK: return 1.09f;
-            case QualityEnum.LEGENDARY: return 1.12f;
-        }
-        Debug.LogWarning("[RestNeed]: unknown quality value!");
-        return 0.9f;
-    }
 }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace game.view.ui.tooltip.producer {
 public class ReusedTooltipProducer : AbstractTooltipProducer {
-    public AbstractTooltipHandler tooltip;
+    public AbstractTooltipHandler tooltip; // should be set in editor
     
     public override AbstractTooltipHandler openTooltip(Vector3 position) {
         tooltip.gameObject.SetActive(true);

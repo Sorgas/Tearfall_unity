@@ -6,6 +6,7 @@ using game.view.ui.debug_tools;
 using Leopotam.Ecs;
 using types;
 using types.action;
+using types.item;
 using types.unit.need;
 using UnityEngine;
 using util.lang.extension;
@@ -52,8 +53,8 @@ namespace game.model.component.task.action.needs {
 
         // TODO consider bed quality and treats
         private float countRestSpeed(EcsEntity bed) {
-            QualityEnum bedQuality = bed.Has<QualityComponent>() ? bed.take<QualityComponent>().quality : QualityEnum.AWFUL;
-            return baseSleepSpeed * Needs.rest.getSleepSpeedByBedQuality(bedQuality);
+            ItemQuality bedQuality = bed.Has<QualityComponent>() ? ItemQualities.get(bed.take<QualityComponent>().quality) : ItemQualities.AWFUL;
+            return baseSleepSpeed * bedQuality.sleepSpeedMod;
         }
 
         public override bool validate() {

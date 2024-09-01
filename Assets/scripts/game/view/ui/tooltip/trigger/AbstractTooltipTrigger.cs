@@ -13,7 +13,6 @@ public abstract class AbstractTooltipTrigger : MonoBehaviour {
     public bool fixedPosition; // place tooltip at mouse position or trigger corner
 
     protected RectTransform self;
-    protected InfoTooltipData data; // data to be used for tooltip
     protected AbstractTooltipHandler tooltip; // should be null if tooltip is closed
 
     public Action openCallback; // will be invoked, when tooltip opens
@@ -70,8 +69,6 @@ public abstract class AbstractTooltipTrigger : MonoBehaviour {
     public bool isTooltipOpen() => tooltip != null && tooltip.gameObject.activeSelf;
 
     protected bool isCanvasFree() => tooltipCanvas.transform.childCount == 0;
-
-    public void setToolTipData(InfoTooltipData data) => this.data = data;
 
     private Vector3 getPositionForTooltip() {
         if (fixedPosition) {

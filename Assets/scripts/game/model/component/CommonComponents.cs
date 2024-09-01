@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Leopotam.Ecs;
 using types;
+using types.item;
 using UnityEngine;
 
 namespace game.model.component {
@@ -41,7 +42,7 @@ namespace game.model.component {
 
     // shows how well item or building is crafted. 
     public struct QualityComponent {
-        public QualityEnum quality;
+        public string quality;
     }
 
     // event component

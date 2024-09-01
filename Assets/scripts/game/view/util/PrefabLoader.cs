@@ -72,10 +72,13 @@ namespace game.view.util {
             // paths.Add("materialRow", "prefabs/materialSelector/MaterialRow");
             
             // tooltips
-            paths.Add("itemTooltip", "prefabs/infoTooltips/ItemTooltip");
-            paths.Add("dummyTooltip", "prefabs/infoTooltips/DummyTooltip");
-            paths.Add("textTooltip", "prefabs/infoTooltips/TextTooltip");
-            paths.Add("unitDiseaseTooltip", "prefabs/infoTooltips/UnitDiseaseTooltip");
+            paths.Add("SelectionTooltip", "prefabs/ui/tooltips/SelectionTooltip");
+            paths.Add("ItemTooltip", "prefabs/ui/tooltips/ItemTooltip");
+            paths.Add("WeaponItemTooltip", "prefabs/ui/tooltips/WeaponItemTooltip");
+            paths.Add("WearItemTooltip", "prefabs/ui/tooltips/WearItemTooltip");
+            paths.Add("dummyTooltip", "prefabs/ui/tooltips/DummyTooltip");
+            paths.Add("textTooltip", "prefabs/ui/tooltips/TextTooltip");
+            paths.Add("unitDiseaseTooltip", "prefabs/ui/tooltips/UnitDiseaseTooltip");
             
             // unit menu
             paths.Add("UnitDiseaseRow", "prefabs/unitMenu/UnitDiseaseRow");
@@ -83,7 +86,6 @@ namespace game.view.util {
             // notifications
             paths.Add("Notification", "prefabs/notifications/Notification");
             
-            paths.Add("SelectionTooltip", "prefabs/ui/tooltips/SelectionTooltip");
             paths.Add("GenericTextButton", "prefabs/ui/GenericTextButton");
         }
     }

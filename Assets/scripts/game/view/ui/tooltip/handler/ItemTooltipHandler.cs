@@ -1,25 +1,29 @@
 using game.model.component.item;
-using game.view.ui.tooltip.handler;
 using Leopotam.Ecs;
 using TMPro;
 using util.lang.extension;
 
-namespace game.view.ui.tooltip {
+namespace game.view.ui.tooltip.handler {
 // special handler for tooltips of items
 public class ItemTooltipHandler : AbstractTooltipHandler {
-    private EcsEntity item;
+    protected EcsEntity item;
     public TextMeshProUGUI titleText;
-    public TextMeshProUGUI mainText;
+    public TextMeshProUGUI qualityText;
+    public TextMeshProUGUI valueText; // weight + value
+    
     
     public override void init(InfoTooltipData data) {
         base.init(data);
         item = data.entity;
         titleText.text = item.name();
-        string text = "Tags: ";
-        foreach (var itemTag in item.take<ItemComponent>().tags) {
-            text += itemTag + " ";
+        if (item.Has<ItemQualityComponent>()) {
+            qualityText.text = item.take<ItemQualityComponent>().quality.name;
+        } else {
+            qualityText.text = "";
         }
-        mainText.text = text;
+        ItemComponent itemComponent = item.take<ItemComponent>();
+        valueText.text = $"{itemComponent.weight}kg, {itemComponent.value}g";
+        // consider adding tags?
     }
 }
 }

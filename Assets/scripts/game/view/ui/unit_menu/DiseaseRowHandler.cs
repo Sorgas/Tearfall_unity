@@ -1,4 +1,5 @@
 using game.view.ui.tooltip;
+using game.view.ui.tooltip.producer;
 using game.view.ui.tooltip.trigger;
 using TMPro;
 using types.unit.disease;
@@ -24,8 +25,9 @@ public class DiseaseRowHandler : MonoBehaviour {
         this.unitDisease = unitDisease;
         diseaseName.text = unitDisease.type.name;
         tooltipTrigger = gameObject.GetComponent<AbstractTooltipTrigger>();
+        AbstractTooltipProducer producer = gameObject.GetComponent<AbstractTooltipProducer>();
         tooltipTrigger.isRoot = true;
-        tooltipTrigger.setToolTipData(new InfoTooltipData("disease", unitDisease));
+        producer.setData(new InfoTooltipData("disease", unitDisease));
     }
 
     private void udpateDiseaseProgress() {

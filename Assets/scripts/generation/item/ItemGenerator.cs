@@ -68,6 +68,7 @@ public class ItemGenerator {
             item.Replace(new ItemGripComponent { type = args[0] });
         }
         if (type.weapon != null) {
+            // TODO use multipliers from quality and material
             item.Replace(new ItemWeaponComponent {
                 damage = type.weapon.damage,
                 accuracy = type.weapon.accuracy,

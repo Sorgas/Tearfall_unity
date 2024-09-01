@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using game.model.component.item;
 using game.view.ui.tooltip.handler;
 using game.view.util;
+using Leopotam.Ecs;
 using UnityEngine;
 using util.lang;
 
@@ -13,7 +15,13 @@ public class InfoTooltipGenerator : Singleton<InfoTooltipGenerator> {
     public AbstractTooltipHandler generate(InfoTooltipData data) {
         if (data.type == "entity") {
             if (data.entityType == "item") {
-                GameObject go = PrefabLoader.create("itemTooltip");
+                string tooltipName = "itemTooltip";
+                if (data.entity.Has<ItemWeaponComponent>()) {
+                    tooltipName = "WeaponItemTooltip";
+                } else if (data.entity.Has<ItemWearComponent>()) {
+                    tooltipName = "WearItemTooltip";
+                }
+                GameObject go = PrefabLoader.create(tooltipName);
                 AbstractTooltipHandler handler = go.GetComponent<AbstractTooltipHandler>();
                 handler.init(data);
                 return handler;

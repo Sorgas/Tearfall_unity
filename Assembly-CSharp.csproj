@@ -402,7 +402,7 @@
      <Compile Include="Assets\scripts\game\view\ui\material_selector\MaterialTooltipHandler.cs" />
      <Compile Include="Assets\scripts\util\UtilUshortArrayWithCounter.cs" />
      <Compile Include="Assets\scripts\game\model\system\plant\PlantWaitingSystem.cs" />
-     <Compile Include="Assets\scripts\types\QualityEnum.cs" />
+     <Compile Include="Assets\scripts\types\item\ItemQualities.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\order\AbstractItemConsumingOrder.cs" />
      <Compile Include="Assets\scripts\util\item\SeedItemSelector.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\generators\deity\DeityAspect.cs" />
@@ -541,6 +541,10 @@
      <Compile Include="Assets\scripts\mainMenu\ui\SliderWithLabelHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\WeaponItemTooltipHandler.cs" />
+     <Compile Include="Assets\scripts\types\item\DamageTypes.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\producer\GeneratedPreservedTooltipProducer.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\WearItemTooltipHandler.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\resources\icons\unit_window" />
      <Folder Include="Assets\resources\prefabs\materialSelector" />
@@ -741,6 +745,7 @@
      <Folder Include="Assets\scripts\game\view\system\mouse_tool" />
      <Folder Include="Assets\scripts\generation\worldgen\generators\elevation" />
      <None Include="Assets\resources\data\constructions.json" />
+     <Folder Include="Assets\resources\icons\damage_types" />
      <Folder Include="Assets\Scenes\LocalWorld\LocalWorldScene" />
      <Folder Include="Assets\scripts\game\model\system\building" />
      <Folder Include="Assets\resources\tilesets\items" />

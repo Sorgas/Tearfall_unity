@@ -4,6 +4,7 @@ using game.model.system;
 using Leopotam.Ecs;
 using types;
 using types.action;
+using types.item;
 using types.unit.need;
 using UnityEngine;
 using util.lang.extension;
@@ -20,7 +21,7 @@ namespace game.model.component.task.action.needs {
             // TODO disable vision decrease hearing
             onStart = () => {
                 log("starting sleeping");
-                speed = baseSleepSpeed * Needs.rest.getSleepSpeedByBedQuality(QualityEnum.AWFUL);
+                speed = baseSleepSpeed * ItemQualities.AWFUL.sleepSpeedMod;
                 performer.take<UnitVisualComponent>().handler.rotate(OrientationUtil.getRandom());
             };
         
