@@ -33,9 +33,9 @@ public class DesignationActionTarget : StaticActionTarget {
             .ToList();
     }
 
-    protected override Vector3Int calculatePosition() => position;
+    protected override Vector3Int calculateStaticPosition() => position;
 
-    protected override List<Vector3Int> calculatePositions() {
+    protected override List<Vector3Int> calculateStaticPositions() {
         if (bounds != null)
             return bounds.getExternalBorders(true)
                 .Select(value => {

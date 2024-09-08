@@ -10,7 +10,7 @@ using util.geometry.bounds;
 using static types.action.ActionTargetTypeEnum;
 
 namespace game.model.component.task.action.target {
-// action target for building buildings or constructions. Allows interacting from adjacent tiles on same z-level.
+// Action target for building buildings or constructions. Allows interacting from adjacent tiles on same z-level.
 public class BuildingConstructionActionTarget : StaticActionTarget {
     public readonly Vector3Int center;
     private readonly IntBounds3 bounds;
@@ -35,9 +35,9 @@ public class BuildingConstructionActionTarget : StaticActionTarget {
         init();
     }
 
-    protected override Vector3Int calculatePosition() => center;
+    protected override Vector3Int calculateStaticPosition() => center;
 
-    protected override List<Vector3Int> calculatePositions() => bounds.getExternalBorders(true)
+    protected override List<Vector3Int> calculateStaticPositions() => bounds.getExternalBorders(true)
         .Select(position => {
             position.z = center.z;
             return position;

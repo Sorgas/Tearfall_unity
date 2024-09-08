@@ -15,11 +15,11 @@ class WorkbenchActionTarget : StaticActionTarget {
         init();
     }
 
-    protected override Vector3Int calculatePosition() {
+    protected override Vector3Int calculateStaticPosition() {
         return workbench.take<BuildingComponent>().getAccessPosition(workbench.pos());
     }
     
-    protected override List<Vector3Int> calculatePositions() {
+    protected override List<Vector3Int> calculateStaticPositions() {
         return emptyList;
     }
 

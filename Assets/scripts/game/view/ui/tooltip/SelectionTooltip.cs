@@ -2,10 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using game.model;
 using game.model.component;
+using game.model.component.building;
 using game.model.component.item;
 using game.model.component.task.action;
+using game.model.component.task.action.combat;
 using game.model.component.task.action.equipment.use;
+using game.model.component.task.action.target;
 using game.model.component.unit;
+using game.model.localmap;
 using game.view.util;
 using Leopotam.Ecs;
 using TMPro;
@@ -20,7 +24,7 @@ namespace game.view.ui.tooltip {
 public class SelectionTooltip : MonoBehaviour {
     private RectTransform self;
     private int currentIndex = 0;
-    
+
     public void showForEntity(EcsEntity selectedEntity, Vector3Int position) {
         clear();
         Debug.Log(Input.mousePosition);
@@ -32,32 +36,35 @@ public class SelectionTooltip : MonoBehaviour {
         if (selectedEntity.Has<UnitComponent>()) {
             fillForUnit(selectedEntity, position);
         }
-        
+
         gameObject.SetActive(true);
     }
 
     public void Awake() {
         self = gameObject.GetComponent<RectTransform>();
     }
-    
+
     public void Update() {
         if (!self.rect.Contains(self.InverseTransformPoint(Input.mousePosition))) {
             close();
         }
     }
-    
+
     private void fillForUnit(EcsEntity unit, Vector3Int position) {
-        addButton("move", () => GameModel.get().currentLocalModel.addModelAction(model => {
-                if (model.localMap.passageMap.getPassage(position) == PassageTypes.PASSABLE.VALUE) {
-                    if (unit.Has<TaskComponent>()) {
-                        GameModel.get().currentLocalModel.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED);
+        LocalModel model = GameModel.get().currentLocalModel;
+        if (model.localMap.passageMap.getPassage(position) == PassageTypes.PASSABLE.VALUE) {
+            addButton("move", () => GameModel.get().currentLocalModel.addModelAction(model => {
+                    if (model.localMap.passageMap.getPassage(position) == PassageTypes.PASSABLE.VALUE) {
+                        if (unit.Has<TaskComponent>()) {
+                            GameModel.get().currentLocalModel.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED);
+                        }
+                        unit.Replace(new UnitNextTaskComponent { action = new MoveAction(position) });
                     }
-                    unit.Replace(new UnitNextTaskComponent { action = new MoveAction(position) });
-                }
-            })
-        );
-        List<EcsEntity> usedItems = new ();
-        List<EcsEntity> items = GameModel.get().currentLocalModel.itemContainer.onMap.getItems(position);
+                })
+            );
+        }
+        List<EcsEntity> usedItems = new();
+        List<EcsEntity> items = model.itemContainer.onMap.getItems(position);
         foreach (var item in items) {
             if (items.Any(item => item.Has<ItemWeaponComponent>()) && !usedItems.Contains(item)) {
                 usedItems.Add(item);
@@ -74,6 +81,12 @@ public class SelectionTooltip : MonoBehaviour {
             if (items.Any(item => item.Has<ItemWearComponent>()) && !usedItems.Contains(item)) {
                 usedItems.Add(item);
                 createEquipButton(item, unit);
+            }
+        }
+        EcsEntity building = model.buildingContainer.getBuilding(position);
+        if (building != EcsEntity.Null) {
+            if (building.Has<EnemyBuildingComponent>()) {
+                createAttackButton(building, unit);
             }
         }
     }
@@ -94,6 +107,20 @@ public class SelectionTooltip : MonoBehaviour {
         );
     }
 
+    private void createAttackButton(EcsEntity target, EcsEntity unit) {
+        addButton($"attack {target.name()}", () => GameModel.get().currentLocalModel.addModelAction(model => {
+                Action action = null;
+                
+                if (target.Has<UnitComponent>() || target.Has<BuildingComponent>()) {
+                    if (unit.Has<TaskComponent>()) {
+                        GameModel.get().currentLocalModel.taskContainer.removeTask(unit.take<TaskComponent>().task, TaskStatusEnum.FAILED);
+                    }
+                    unit.Replace(new UnitNextTaskComponent { action = new EngageAction(target) });
+                }
+            })
+        );
+    }
+
     private Action getEquipAction(EcsEntity item) {
         if (item.Has<ItemWeaponComponent>() || item.Has<ItemToolComponent>()) {
             return new EquipToolItemAction(item);
@@ -103,7 +130,7 @@ public class SelectionTooltip : MonoBehaviour {
         }
         return null;
     }
-    
+
     private void addButton(string text, System.Action action) {
         GameObject buttonGo = PrefabLoader.create("GenericTextButton", transform, new Vector3(0, -currentIndex * 30, 0));
         buttonGo.GetComponent<Button>().onClick.AddListener(action.Invoke);
@@ -118,7 +145,7 @@ public class SelectionTooltip : MonoBehaviour {
             Destroy(o.gameObject);
         }
     }
-    
+
     private void close() {
         gameObject.SetActive(false);
     }

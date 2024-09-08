@@ -9,6 +9,7 @@ namespace game.model.localmap {
     public class LocalMap : LocalModelContainer {
         public readonly PassageMap passageMap; // not saved to savegame,
         public readonly BlockTypeMap blockType;
+        public readonly PassageUtil passageUtil;
         
         public readonly SubstrateMap substrateMap; 
 
@@ -26,6 +27,7 @@ namespace game.model.localmap {
             util = new LocalMapUtil(this);
             passageMap = new PassageMap(model, this);
             substrateMap = new(model);
+            passageUtil = new PassageUtil(this);
         }
 
         public void init() {

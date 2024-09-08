@@ -16,9 +16,9 @@ public class FarmTileHoeingActionTarget : StaticActionTarget {
         init();
     }
     
-    protected override Vector3Int calculatePosition() => tile;
+    protected override Vector3Int calculateStaticPosition() => tile;
 
-    protected override List<Vector3Int> calculatePositions() {
+    protected override List<Vector3Int> calculateStaticPositions() {
         return PositionUtil.allNeighbour
             .Select(delta => tile + delta)
             .ToList();

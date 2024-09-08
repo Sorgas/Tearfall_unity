@@ -54,6 +54,7 @@
   "positionW" : [8,0],
   "passage" : "impassable_building",
   "ingredients" : ["main:log:any/wood:2", "main:plank:any/wood:2", "main:bar:any/metal:2"],
+  "components" : ["enemy"],
   "buildingExp": 15
 }
 ]

@@ -26,6 +26,9 @@ namespace generation {
             if(order.type.components.Contains(BuildingType.SLEEP_FURNITURE)) {
                 entity.Replace(new BuildingSleepFurnitureC());
             }
+            if(order.type.components.Contains("enemy")) {
+                entity.Replace(new EnemyBuildingComponent());
+            }
             if (order.type.components.Contains(BuildingType.DOOR)) {
                 entity.Replace(new BuildingDoorComponent {openingSpeed = 0.06f, closingSpeed = 0.04f});
             }

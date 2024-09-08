@@ -33,7 +33,12 @@ public struct UnitEquipmentComponent {
             .Where(slot => slot.item == item)
             .DefaultIfEmpty(null).First();
     }
-    
+
+    // returns ranged weapon with corresponding ammunition available
+    public EcsEntity getRangedWeapon() {
+        return EcsEntity.Null; // TODO 
+    }
+
     //
     // public Optional<GrabEquipmentSlot> grabSlotWithItem(Progress.Item item) {
     //     return grabSlotStream().filter(slot->slot.grabbedItem == item).findFirst();

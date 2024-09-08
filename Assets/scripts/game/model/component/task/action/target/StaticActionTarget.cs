@@ -18,18 +18,18 @@ public abstract class StaticActionTarget : ActionTarget {
 
     protected StaticActionTarget(ActionTargetTypeEnum type) : base(type) { }
 
-    protected abstract Vector3Int calculatePosition();
-    protected abstract List<Vector3Int> calculatePositions();
+    protected abstract Vector3Int calculateStaticPosition();
+    protected abstract List<Vector3Int> calculateStaticPositions();
     
     // different z-level access is rare case
     protected virtual List<Vector3Int> calculateLowerPositions() => emptyList;
     protected virtual List<Vector3Int> calculateUpperPositions() => emptyList;
     
-    // calculates positions
+    // calculates positions, should be called in subclasses constructors
     protected void init() {
         Debug.Log($"initing static action target {ToString()}");
-        staticPos = calculatePosition();
-        positions = calculatePositions();
+        staticPos = calculateStaticPosition();
+        positions = calculateStaticPositions();
         lowerPositions = calculateLowerPositions();
         upperPositions = calculateUpperPositions();
     }

@@ -29,6 +29,8 @@ namespace game.model.localmap {
             addSystem(model, new UnitNeedSystem());
             addSystem(model, new UnitDiseaseSystem());
             addSystem(model, new UnitWearNeedSystem());
+            addSystem(model, new UnitAttackCooldownSystem()); // rolls cooldowns for unit attacks
+            
             // addSystem(model, new DesignationCompletionSystem()); // handle designation with completed tasks
             addSystem(model, new DesignationTaskCreationSystem()); // create tasks for designations
             addSystem(model, new TileUpdateSystem()); // dispatches entities updates to other update systems
@@ -48,6 +50,7 @@ namespace game.model.localmap {
             addSystem(model, new SubstrateGrowingSystem()); // spreads substrates to free tiles
             addSystem(model, new PlantHarvestSystem()); // kills plants or restarts product growth
             // addSystem(model, new PlantVisualUpdateSystem()); // updates sprites of plants
+            
             
             addSystem(model, new ModelUpdateEcsSystem());
             

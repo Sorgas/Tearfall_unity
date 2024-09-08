@@ -67,6 +67,7 @@
      <Compile Include="Assets\scripts\mainMenu\worldmap_stage\WorldmapPointerController.cs" />
      <Compile Include="Assets\scripts\util\item\FoodItemSelector.cs" />
      <Compile Include="Assets\scripts\game\model\component\building\BuildingComponents.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\producer\GeneratedPreservedTooltipProducer.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\BlockTilesetSlicer.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuTab.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\ItemAction.cs" />
@@ -84,6 +85,7 @@
      <Compile Include="Assets\scripts\types\item\recipe\RawRecipe.cs" />
      <Compile Include="Assets\scripts\util\input\DelayedCompositeNavigationController.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToPositionAction.cs" />
+     <Compile Include="Assets\scripts\types\item\DamageTypes.cs" />
      <Compile Include="Assets\scripts\mainMenu\OptionsStageHandler.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\ListExtensions.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EcsEntityExtension.cs" />
@@ -94,6 +96,7 @@
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\MouseToolManager.cs" />
      <Compile Include="Assets\scripts\game\view\ui\jobs_window\UnitJobButtonHandler.cs" />
      <Compile Include="Assets\scripts\game\model\system\EcsSystems.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\WearItemTooltipHandler.cs" />
      <Compile Include="Assets\scripts\game\model\container\DesignationContainer.cs" />
      <Compile Include="Assets\scripts\game\input\CameraInputSystem.cs" />
      <Compile Include="Assets\scripts\types\unit\race\CreatureAppearance.cs" />
@@ -106,6 +109,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\target\PositionActionTarget.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitMovementSystem.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\BlockTypeMap.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\WeaponItemTooltipHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\notifications\NotificationsPanelHandler.cs" />
      <Compile Include="Assets\scripts\types\Orientations.cs" />
      <Compile Include="Assets\scripts\game\view\ui\stockpileMenu\StockpileConfiguration.cs" />
@@ -150,6 +154,7 @@
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\BuildingMouseTool.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\DesignationActionTarget.cs" />
      <Compile Include="Assets\scripts\game\view\ui\jobs_window\UnitJobRow.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\combat\AttackAction.cs" />
      <Compile Include="Assets\scripts\types\unit\need\WearNeed.cs" />
      <Compile Include="Assets\scripts\game\model\util\ZoneUtils.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\PassageUtil.cs" />
@@ -205,6 +210,7 @@
      <Compile Include="Assets\scripts\game\view\ui\menu_widget\MenuWidgetHandler.cs" />
      <Compile Include="Assets\scripts\game\model\container\LocalMapModelComponent.cs" />
      <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\TextTooltipHandler.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\combat\EngageAction.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\UnitComponents.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\TextureLoader.cs" />
      <Compile Include="Assets\scripts\types\unit\UnitProperties.cs" />
@@ -290,6 +296,7 @@
      <Compile Include="Assets\scripts\game\view\ui\debug_tools\DebugToolsPanelHandler.cs" />
      <Compile Include="Assets\scripts\GlobalSettings.cs" />
      <Compile Include="Assets\scripts\game\model\util\EquipmentSlotUtil.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\target\MeleeBuildingActionTarget.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\TaskComponents.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitVisualGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\ActionLockingUtility.cs" />
@@ -298,6 +305,7 @@
      <Compile Include="Assets\scripts\types\unit\CreatureSpriteMap.cs" />
      <Compile Include="Assets\scripts\game\view\camera\SelectionState.cs" />
      <Compile Include="Assets\scripts\mainMenu\worldmap_stage\WorldmapCameraController.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\combat\CombatAction.cs" />
      <Compile Include="Assets\scripts\util\demoScene\OreVeinGeneratonSceneHandler.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\DefaultPassageHelper.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuHandler.cs" />
@@ -328,6 +336,7 @@
      <Compile Include="Assets\scripts\game\model\container\task\TaskGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\plant\ChopTreeAction.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\DictionaryExtention.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\target\MeleeUnitActionTarget.cs" />
      <Compile Include="Assets\scripts\generation\PreparationState.cs" />
      <Compile Include="Assets\scripts\game\view\ui\material_selector\MaterialRowHandler.cs" />
      <Compile Include="Assets\scripts\game\view\system\unit\UnitMenuUpdateSystem.cs" />
@@ -541,10 +550,8 @@
      <Compile Include="Assets\scripts\mainMenu\ui\SliderWithLabelHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\WeaponItemTooltipHandler.cs" />
-     <Compile Include="Assets\scripts\types\item\DamageTypes.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\tooltip\producer\GeneratedPreservedTooltipProducer.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\tooltip\handler\WearItemTooltipHandler.cs" />
+     <Compile Include="Assets\scripts\game\model\localmap\passage\PassageUtil.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitAttackCooldownSystem.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\resources\icons\unit_window" />
      <Folder Include="Assets\resources\prefabs\materialSelector" />

@@ -18,11 +18,11 @@ public class PlantActionTarget : StaticActionTarget {
         init();
     }
 
-    protected override Vector3Int calculatePosition() {
+    protected override Vector3Int calculateStaticPosition() {
         return plant.pos();
     }
 
-    protected override List<Vector3Int> calculatePositions() {
+    protected override List<Vector3Int> calculateStaticPositions() {
         return PositionUtil.allNeighbour
             .Select(delta => pos + delta)
             .ToList();

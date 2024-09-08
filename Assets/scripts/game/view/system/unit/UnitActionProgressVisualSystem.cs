@@ -3,9 +3,9 @@ using Leopotam.Ecs;
 using UnityEngine;
 using util.lang.extension;
 
+namespace game.view.system.unit {
 // controls progress bar for current action of unit
 // plays animation for action
-namespace game.view.system.unit {
     class UnitActionVisualSystem : IEcsRunSystem {
         public EcsFilter<UnitVisualComponent, UnitCurrentActionComponent>.Exclude<UnitAnimationComponent> createFilter;
         public EcsFilter<UnitVisualComponent, UnitCurrentActionComponent, UnitAnimationComponent> filter;

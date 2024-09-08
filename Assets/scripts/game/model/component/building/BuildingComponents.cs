@@ -58,4 +58,6 @@ public struct BuildingDoorComponent {
 }
 
 public struct BuildingDoorOpenComponent { }
+
+public struct EnemyBuildingComponent { }
 }

@@ -45,7 +45,8 @@ namespace game.model.component.task.action {
         public Func<ActionCheckingEnum> startCondition;
 
         public System.Action onStart = () => { }; // performed on phase start
-        public Action<int> ticksConsumer; // performs logic based on elapsed ticks
+        // performs logic based on elapsed ticks
+        public Action<int> ticksConsumer; 
         public Func<Boolean> finishCondition; // when reached, action ends
         public System.Action onFinish = () => { }; // performed on phase finish
 

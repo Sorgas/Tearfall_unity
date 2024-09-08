@@ -130,4 +130,14 @@ public struct UnitNamesComponent {
 public struct UnitDraftedComponent {
     
 }
+
+// when unit falls unconscious by any reason (e.g. combat) this component is present
+public struct UnitDownedComponent {
+    
+}
+
+// after attack, this component is added to unit
+public struct UnitAttackCooldownComponent {
+    public int ticks;
+}
 }
