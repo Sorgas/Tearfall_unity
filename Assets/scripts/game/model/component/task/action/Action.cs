@@ -55,8 +55,10 @@ namespace game.model.component.task.action {
         public float progress = 0;
         public float maxProgress = 0;
         protected string usedSkill;
+        public bool displayProgressBar = true;
         public bool debug = false;
-
+        
+        
         // target can be null
         protected Action(ActionTarget target) {
             this.target = target;

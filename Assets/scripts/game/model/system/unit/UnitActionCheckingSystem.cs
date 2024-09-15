@@ -75,6 +75,9 @@ namespace game.model.system.unit {
             string checkResult = action.target.check(unit, model);
             if (checkResult.Equals("ready")) {
                 unit.Replace(new UnitCurrentActionComponent { action = action });
+                if (action.animation != null) {
+                    unit.Replace(new UnitCurrentAnimatedActionComponent { animationName = action.animation });
+                }
             } else if (checkResult.Equals("move")) {
                 unit.Replace(new UnitMovementTargetComponent { target = action.target });
             } else if (checkResult.Equals("no positions")) {

@@ -1,7 +1,7 @@
 ﻿public static class GlobalSettings {
     public const int UPDATES_PER_SECOND = 30; // not available to player
     
-    public const bool USE_SPRITE_SORTING_LAYERS = false;
+    public static bool USE_SPRITE_SORTING_LAYERS = false;
     public const int cameraLayerDepth = 8;
 
     // tooltips

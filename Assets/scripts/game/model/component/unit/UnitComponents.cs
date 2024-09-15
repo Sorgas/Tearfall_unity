@@ -37,7 +37,12 @@ namespace game.model.component.unit {
         public int headVariant;
         public int bodyVariant;
         public Vector2Int direction;
-        public SpriteOrientations orientation;
+        public UnitOrientations orientation;
+        // public bool orientationChanged; // to be raised only when orientation changes
+
+        // public void setOrientation(UnitOrientations orientation) {
+        //     if(orientation != this.orientation)
+        // }
     }
 
     public struct BodyComponent {
@@ -87,8 +92,16 @@ public struct UnitSkillComponent {
         public Action action;
     }
 
+// if action has animation specified, this component is created along with UnitCurrentActionComponent
+public struct UnitCurrentAnimatedActionComponent {
+    public string animationName; 
+}
+
     public struct UnitSleepingComponent {
     }
+
+// present when unit is performing action which requires display of progress bar
+public struct UnitProgressBarComponent { }
 
     public struct UnitAnimationComponent : IEcsIgnoreInFilter {
         public string animationName; // name of state in animator, all states have transition to delay state

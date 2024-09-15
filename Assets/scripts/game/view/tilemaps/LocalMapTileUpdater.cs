@@ -104,7 +104,7 @@ namespace game.view.tilemaps {
         }
         
         private void createLayers() {
-            Transform transform = mapHolder.transform;
+            Transform transform = mapHolder.Find("MapLayers").transform;
             for (int i = 0; i <= map.bounds.maxZ; i++) {
                 GameObject layer = Object.Instantiate(layerPrefab, new Vector3(0, i / 2f, -i * 2) + transform.position,
                     Quaternion.identity, transform);

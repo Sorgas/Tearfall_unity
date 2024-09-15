@@ -15,7 +15,10 @@ public abstract class EntityActionTarget : ActionTarget {
     public override Vector3Int pos {
         get {
             if (entity.Has<BuildingComponent>()) {
-                return entity.take<BuildingComponent>().getAccessPosition(entity.pos());
+                BuildingComponent building = entity.take<BuildingComponent>();
+                if (building.type.access != null) {
+                    return entity.take<BuildingComponent>().getAccessPosition(entity.pos());
+                }
             }
             return entity.pos();
         }

@@ -8,6 +8,17 @@ public enum Orientations {
     W = 3
 }
 
+public enum UnitOrientations {
+    N = 0,
+    NE = 1,
+    E = 2,
+    SE = 3,
+    S = 4,
+    SW = 5,
+    W = 6,
+    NW = 7
+}
+
 public enum SpriteOrientations {
     FR,
     FL,
@@ -61,6 +72,40 @@ public static class SpriteOrientationsUtil {
     
     public static bool isFront(SpriteOrientations orientation) {
         return orientation == SpriteOrientations.FR || orientation == SpriteOrientations.FL;
+    }
+}
+
+public static class UnitOrientationsUtil {
+    public static UnitOrientations byVector(Vector3Int vector) {
+        if (vector.y > 0) {
+            if (vector.x > 0) return UnitOrientations.NE;
+            if (vector.x < 0) return UnitOrientations.NW;
+            return UnitOrientations.N;
+        }
+        if(vector.y < 0) {
+            if (vector.x > 0) return UnitOrientations.SE;
+            if (vector.x < 0) return UnitOrientations.SW;
+            return UnitOrientations.S;
+        }
+        if (vector.x > 0) return UnitOrientations.E;
+        if (vector.x < 0) return UnitOrientations.W;
+        return UnitOrientations.SW; // default
+    }
+
+    public static bool isWest(UnitOrientations orientation) {
+        return orientation == UnitOrientations.W || orientation == UnitOrientations.NW || orientation == UnitOrientations.SW;
+    }
+    
+    public static bool isEast(UnitOrientations orientation) {
+        return orientation == UnitOrientations.E || orientation == UnitOrientations.NE || orientation == UnitOrientations.SE;
+    }
+    
+    public static bool isNorth(UnitOrientations orientation) {
+        return orientation == UnitOrientations.NW || orientation == UnitOrientations.N || orientation == UnitOrientations.NE;
+    }
+    
+    public static bool isSouth(UnitOrientations orientation) {
+        return orientation == UnitOrientations.SW || orientation == UnitOrientations.S || orientation == UnitOrientations.SE;
     }
 }
 }

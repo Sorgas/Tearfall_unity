@@ -26,6 +26,7 @@ public class UnitActionPerformingSystem : LocalModelScalableEcsSystem {
             if (action.status == ActionStatusEnum.COMPLETE) {
                 Debug.Log("[UnitActionPerformingSystem]: action " + action.name + " complete");
                 unit.Del<UnitCurrentActionComponent>();
+                unit.Del<UnitCurrentAnimatedActionComponent>();
             }
         }
     }

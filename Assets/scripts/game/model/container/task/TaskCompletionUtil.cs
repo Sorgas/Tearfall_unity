@@ -38,6 +38,7 @@ namespace game.model.container.task {
             unit.Del<UnitMovementComponent>(); 
             unit.Del<UnitMovementTargetComponent>();
             unit.Del<UnitCurrentActionComponent>();
+            unit.Del<UnitCurrentAnimatedActionComponent>();
             unit.Del<TaskComponent>();
             task.Del<TaskPerformerComponent>();
         }

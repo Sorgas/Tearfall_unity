@@ -58,6 +58,7 @@
      <Compile Include="Assets\scripts\util\TexturePacker\RectanglePacking\RectanglePacker.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\UnitIntProperty.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\AbstractPassageHelper.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitAttackCooldownSystem.cs" />
      <Compile Include="Assets\scripts\util\demoScene\OreVeinGenerationSceneHandler.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\AreaInitializerGroundImpassableDoors.cs" />
      <Compile Include="Assets\scripts\game\view\camera\SelectorSpriteUpdater.cs" />
@@ -87,6 +88,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\PutItemToPositionAction.cs" />
      <Compile Include="Assets\scripts\types\item\DamageTypes.cs" />
      <Compile Include="Assets\scripts\mainMenu\OptionsStageHandler.cs" />
+     <Compile Include="Assets\scripts\game\model\localmap\passage\PassageUtil.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\ListExtensions.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\EcsEntityExtension.cs" />
      <Compile Include="Assets\scripts\generation\plant\PlantGenerator.cs" />
@@ -550,8 +552,6 @@
      <Compile Include="Assets\scripts\mainMenu\ui\SliderWithLabelHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\item\ItemComponents.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\needs\SleepInBedAction.cs" />
-     <Compile Include="Assets\scripts\game\model\localmap\passage\PassageUtil.cs" />
-     <Compile Include="Assets\scripts\game\model\system\unit\UnitAttackCooldownSystem.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\resources\icons\unit_window" />
      <Folder Include="Assets\resources\prefabs\materialSelector" />
@@ -665,6 +665,7 @@
      <Folder Include="Assets\resources\data\buildings" />
      <Folder Include="Assets\scripts\game\model\system\task\designation" />
      <Folder Include="Assets\scripts\game" />
+     <Folder Include="Assets\resources\ui\unit" />
      <Folder Include="Assets\scripts\util\TexturePacker\RectanglePacking" />
      <Folder Include="Assets\scripts\game\model\component\unit" />
      <Folder Include="Assets\Materials" />
@@ -673,6 +674,7 @@
      <Folder Include="Assets\SharpUI\Prefabs" />
      <Folder Include="Assets\resources\prefabs\jobsmenu" />
      <None Include="Assets\resources\data\materials\organic.json" />
+     <Folder Include="Assets\animations\attack" />
      <None Include="Assets\resources\data\lists.json" />
      <Folder Include="Assets\scripts\util\pathfinding copy" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
@@ -788,12 +790,12 @@
      <Folder Include="Assets\resources\prefabs\menuWidget" />
      <Folder Include="Assets\scripts\game\model\component\task\action\equipment\obtain" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+     <Folder Include="Assets\animations\attack\movement" />
      <Folder Include="Assets\scripts\mainMenu\ui" />
      <Folder Include="Assets\scripts\game\model\component" />
      <Folder Include="Assets\scripts\game\input" />
      <Folder Include="Assets\scripts\game\view\ui\tooltip" />
      <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-     <Folder Include="Assets\resources\animations" />
      <Folder Include="Assets\scripts\types\item\type" />
      <Folder Include="Assets\scripts\util\geometry" />
      <Folder Include="Assets\scripts\game\view\ui\gamespeed_widget" />

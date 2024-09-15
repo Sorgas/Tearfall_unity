@@ -9,7 +9,7 @@ using util.lang.extension;
 using Transform = UnityEngine.Transform;
 
 namespace game.view.system.unit {
-// creates sprite GO for units without it. update GO position
+// Creates sprite GO for units without it. Update GO position for all units
 public class UnitVisualSystem : IEcsRunSystem {
     public EcsFilter<UnitVisualComponent> filter;
 
@@ -42,6 +42,7 @@ public class UnitVisualSystem : IEcsRunSystem {
             visual.handler.updateSpriteSorting(pos.z);
         }
         visual.handler.setOrientation(visual.orientation);
+        // visual.orientationChanged = false;
     }
 
     private void createSpriteGo(EcsEntity unit, ref UnitVisualComponent component) {
@@ -51,14 +52,15 @@ public class UnitVisualSystem : IEcsRunSystem {
         instance.name = "Unit " + unit.name();
         
         component.current = ViewUtil.fromModelToSceneForUnit(pos, GameModel.get().currentLocalModel);
-        component.target = ViewUtil.fromModelToSceneForUnit(pos, GameModel.get().currentLocalModel);
+        component.target = component.current;
         UnitGoHandler handler = instance.GetComponent<UnitGoHandler>();
         component.handler = handler;
-        component.orientation = SpriteOrientations.FR;
+        component.orientation = UnitOrientations.SW;
         handler.unit = unit;
         handler.headSprite.sprite = CreatureSpriteMap.get().getFor(type, "head", component.headVariant);
         handler.bodySprite.sprite = CreatureSpriteMap.get().getFor(type, "body", component.bodyVariant);
         handler.setOrientation(component.orientation);
+        handler.toggleProgressBar(false);
     }
 }
 }

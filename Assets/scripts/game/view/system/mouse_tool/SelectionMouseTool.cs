@@ -11,7 +11,6 @@ using game.model.localmap;
 using game.view.camera;
 using game.view.ui;
 using game.view.ui.stockpileMenu;
-using game.view.ui.tooltip;
 using game.view.ui.unit_menu;
 using game.view.util;
 using Leopotam.Ecs;
@@ -35,32 +34,9 @@ namespace game.view.system.mouse_tool {
         public override void applyTool(IntBounds3 bounds, Vector3Int start) {
             Vector3Int position = new(bounds.minX, bounds.minY, bounds.minZ);
             EcsEntity entity = getEntityForSelection(position);
+            if (selectedEntity == entity) return; // clicking on already selected entity, do nothing. 
+            handleEntitySelection(entity);
             selectedEntity = entity;
-            if (entity == EcsEntity.Null) {
-                WindowManager.get().closeAll();
-                return;
-            }
-            if (entity.Has<WorkbenchComponent>()) {
-                WindowManager.get().showWindowForBuilding(entity);
-            }
-            if (entity.Has<ItemComponent>()) {
-                ItemMenuHandler window = (ItemMenuHandler)WindowManager.get().windows[ItemMenuHandler.name];
-                window.FillForItem(entity);
-                WindowManager.get().showWindowByName(ItemMenuHandler.name, false);
-            }
-            if (entity.Has<ZoneComponent>()) {
-                selectZone(entity);
-            }
-            if (entity.Has<PlantComponent>()) {
-                PlantMenuHandler window = (PlantMenuHandler)WindowManager.get().windows[PlantMenuHandler.name];
-                window.fillForPlant(entity);
-                WindowManager.get().showWindowByName(PlantMenuHandler.name, false);
-            }
-            if (entity.Has<UnitComponent>()) {
-                UnitMenuHandler window = (UnitMenuHandler)WindowManager.get().windows[UnitMenuHandler.NAME];
-                window.showUnit(entity);
-                WindowManager.get().showWindowByName(UnitMenuHandler.NAME, false);
-            }
         }
 
         public void handleRightClick(Vector3Int position) {
@@ -73,6 +49,29 @@ namespace game.view.system.mouse_tool {
         
         public override void onPositionChange(Vector3Int position) { } // TODO
 
+        // calls WindowManager to show appropriate window for given entity
+        private void handleEntitySelection(EcsEntity entity) {
+            if (entity == EcsEntity.Null) { 
+                WindowManager.get().closeAll();
+            } else if (entity.Has<WorkbenchComponent>()) {
+                WindowManager.get().showWindowForBuilding(entity);
+            } else if (entity.Has<ItemComponent>()) {
+                ItemMenuHandler window = (ItemMenuHandler)WindowManager.get().windows[ItemMenuHandler.name];
+                window.FillForItem(entity);
+                WindowManager.get().showWindowByName(ItemMenuHandler.name, false);
+            } else if (entity.Has<ZoneComponent>()) {
+                selectZone(entity);
+            } else if (entity.Has<PlantComponent>()) {
+                PlantMenuHandler window = (PlantMenuHandler)WindowManager.get().windows[PlantMenuHandler.name];
+                window.fillForPlant(entity);
+                WindowManager.get().showWindowByName(PlantMenuHandler.name, false);
+            } else if (entity.Has<UnitComponent>()) {
+                UnitMenuHandler window = (UnitMenuHandler)WindowManager.get().windows[UnitMenuHandler.NAME];
+                window.showUnit(entity);
+                WindowManager.get().showWindowByName(UnitMenuHandler.NAME, false);
+            }
+        }
+        
         private List<EcsEntity> raycastUnits() {
             Vector3 selectorPos = ViewUtil.fromModelToScene(GameView.get().cameraAndMouseHandler.selector.position);
             Vector3 scenePos = ViewUtil.fromScreenToSceneGlobal(Input.mousePosition, GameView.get());

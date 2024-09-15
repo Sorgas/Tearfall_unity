@@ -37,7 +37,7 @@ public class UnitMovementSystem : LocalModelScalableEcsSystem {
     private void updateMovement(ref UnitMovementComponent movement, ref EcsEntity unit, int ticks) {
         Vector3Int nextPosition = movement.path[0];
         if (checkAndHandleBlockedPath(unit, nextPosition, ref movement)) return;
-        if (movement.currentSpeed < 0) {
+        if (movement.currentSpeed < 0) { // start of movement
             updateCurrentSpeed(unit, ref movement, nextPosition - unit.pos());
             updateVisual(unit, unit.pos(), nextPosition);
         }
@@ -131,18 +131,8 @@ public class UnitMovementSystem : LocalModelScalableEcsSystem {
         visual.current = ViewUtil.fromModelToSceneForUnit(current, model);
         visual.target = ViewUtil.fromModelToSceneForUnit(next, model);
         if (direction.x != 0 || direction.y != 0) {
-            visual.orientation = getOrientation(direction);
-        }
-    }
-
-    // TODO rework to take in account previous orientation
-    private SpriteOrientations getOrientation(Vector3Int directionVector) {
-        if (directionVector.y > 0) {
-            if (directionVector.x > 0) return SpriteOrientations.BR;
-            return SpriteOrientations.BL;
-        } else {
-            if (directionVector.x > 0) return SpriteOrientations.FR;
-            return SpriteOrientations.FL;
+            visual.orientation = UnitOrientationsUtil.byVector(direction);
+            // visual.orientationChanged = true;
         }
     }
 }
