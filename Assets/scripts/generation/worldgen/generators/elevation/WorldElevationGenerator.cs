@@ -4,7 +4,7 @@ using util;
 using util.geometry.bounds;
 
 namespace generation.worldgen.generators.elevation {
-public class WorldElevationGenerator : WorldGenerator {
+public class WorldElevationGenerator : AbstractWorldGenerator {
     private float[,] elevation;
     private IntBounds2 bounds;
 

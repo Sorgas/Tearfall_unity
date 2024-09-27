@@ -26,7 +26,7 @@ namespace mainMenu.preparation {
 
         // generate and add new settler
         public void addSettler() {
-            SettlerData data = settlerDataGenerator.generate();
+            UnitData data = settlerDataGenerator.generate("player");
             // generate // add to state // add to view // update buttons
         }
 
@@ -37,11 +37,11 @@ namespace mainMenu.preparation {
         // preparation to game model 
         private void startGame() {
             for (int i = 0; i < 1; i++) {
-                SettlerData settler = new SettlerData();
+                UnitData settler = new UnitData();
                 settler.name = "qwer" + i;
                 settler.age = 30;
                 settler.type = "human";
-                GenerationState.get().preparationState.settlers.Add(settler);
+                GenerationState.get().preparationState.units.Add(settler);
             }
             switchTo(localGenStage);
             GenerationState.get().generateLocalMap("main");

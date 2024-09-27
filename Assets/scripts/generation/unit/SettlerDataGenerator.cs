@@ -7,8 +7,8 @@ namespace generation.unit {
 public class SettlerDataGenerator {
     private UnitNameGenerator nameGenerator = new(new System.Random(System.DateTime.Now.Millisecond));
 
-    public SettlerData generate() {
-        SettlerData result = new();
+    public UnitData generate(string faction) {
+        UnitData result = new();
         result.male = Random.Range(0, 2) == 0;
         result.name = nameGenerator.generateName(result.male);
         result.age = Random.Range(16, 60);
@@ -17,11 +17,12 @@ public class SettlerDataGenerator {
         result.bodyVariant = Random.Range(0, type.appearance.body[result.male ? 1 : 2]);
         result.headVariant = Random.Range(0, type.appearance.head[result.male ? 1 : 2]);
         result.statsData = generateStats(result);
+        result.faction = faction;
         // TODO health conditions, skills, stats, pets, relations, deity
         return result;
     }
 
-    private StatsData generateStats(SettlerData settler) {
+    private StatsData generateStats(UnitData settler) {
         StatsData data = new();
         int[] mods = getRandomModifiers();
         data.strength = 8 + mods[0];

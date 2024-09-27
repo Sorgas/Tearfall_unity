@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace generation.worldgen.generators {
-public class WorldNameGenerator : WorldGenerator {
+public class WorldNameGenerator : AbstractWorldGenerator {
     private string[] adjectives = {
         "red", "blue", "black", "white", "green", "grey", "pale", "shady", "vast", "dark",
         "even"

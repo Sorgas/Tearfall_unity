@@ -13,7 +13,7 @@ public class GenerationStateTestInitializer {
     // inits regular map in tiny world
     public void initState() {
         initAndGenerateTestWorld();
-        createSettlers(1);
+        createUnits(1, "player");
         createTestItem();
         createBuildings();
     }
@@ -21,7 +21,8 @@ public class GenerationStateTestInitializer {
     // inits flat map with weapon items
     public void initCombatState() {
         initAndGenerateTestWorld();
-        createSettlers(1);
+        createUnits(1, "player");
+        createUnits(1, "raider");
         createWeapons();
         createCombatBuildings();
         GenerationState.get().localMapGenerator.localGenConfig.localBiome = "flat";
@@ -31,18 +32,18 @@ public class GenerationStateTestInitializer {
     private void initAndGenerateTestWorld() {
         GenerationState state = GenerationState.get();
         preLoadTypeMaps();
-        state.worldGenConfig.size = 10;
-        state.worldGenConfig.seed = 1;
-        state.generateWorld(); // sets world map to game model
+        state.worldGenerator.worldGenConfig.size = 10;
+        state.worldGenerator.worldGenConfig.seed = 1;
+        state.generateWorldModel(); // sets world map to game model
         state.preparationState.location = new Vector2Int(5, 5);
         state.preparationState.size = 100;
     }
 
     // creates test settler as it was selected on preparation screen
-    private void createSettlers(int number) {
+    private void createUnits(int number, string faction) {
         SettlerDataGenerator generator = new();
         for (int i = 0; i < number; i++) {
-            GenerationState.get().preparationState.settlers.Add(generator.generate());
+            GenerationState.get().preparationState.units.Add(generator.generate(faction));
         }
     }
 

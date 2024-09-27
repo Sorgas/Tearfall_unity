@@ -1,5 +1,6 @@
 using System;
 using Leopotam.Ecs;
+using TMPro;
 using types;
 using UnityEngine;
 
@@ -17,12 +18,13 @@ public class UnitGoHandler : MonoBehaviour {
     public SpriteRenderer headSprite;
     public SpriteRenderer bodySprite;
     public SpriteMask mask;
-
+    public TextMeshPro nameText;
+    
     // progress bar
     public GameObject actionProgressBarHolder;
     public SpriteRenderer background;
     public SpriteRenderer progressBar;
-    private const float progressBarFullSize = 0.75f;
+    public const float progressBarFullSize = 0.75f;
 
     public EcsEntity unit; // for selecting with mouse
 

@@ -9,13 +9,13 @@ using static types.BlockTypes;
 namespace game {
     public class TestLevelInitializer2 {
         public void createTestLocalMap(string modelName) {
-            if (GameModel.get().world != null) {
+            if (GameModel.get().worldModel != null) {
                 Debug.LogWarning("world already exists in GameModel");
                 return;
             }
             GenerationState state = GenerationState.get();
-            state.worldGenConfig.size = 10;
-            state.generateWorld(); // sets world map to game model
+            state.worldGenerator.worldGenConfig.size = 10;
+            state.generateWorldModel(); // sets world map to game model
             Vector2Int position = new(5, 5);
             state.localMapGenerator.localGenConfig.location = position;
             

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 namespace generation.worldgen.generators.drainage {
-public class RainfallGenerator : WorldGenerator {
+public class RainfallGenerator : AbstractWorldGenerator {
     private int minRainfall;
     private int maxRainfall;
 

@@ -82,4 +82,10 @@ public struct ItemContainerComponent {
 
     public void setUpdated(bool value) => updated = value;
 }
+
+
+public struct FactionComponent {
+    public string name;
+    public string unitGroup; // assigned by FactionContainer
+}
 }

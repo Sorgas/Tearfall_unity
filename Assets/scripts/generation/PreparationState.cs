@@ -5,14 +5,15 @@ using util.lang;
 namespace generation {
 // filled from UI when player selects settlers and items
 public class PreparationState : Singleton<PreparationState> {
-    public List<SettlerData> settlers = new();
+    public List<UnitData> units = new();
     public List<ItemData> items = new();
     public Vector2Int location;
     public int size = 100;
 }
 
 // Descriptor for settler. Used to generate unit when game starts.
-public class SettlerData {
+public class UnitData {
+    public string faction;
     public string name;
     public string race;
     public int age;

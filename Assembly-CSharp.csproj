@@ -78,6 +78,7 @@
      <Compile Include="Assets\scripts\game\input\KeyInputSystem.cs" />
      <Compile Include="Assets\scripts\generation\unit\UnitSkillsGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\EquippedItemsManager.cs" />
+     <Compile Include="Assets\scripts\generation\worldgen\generators\WorldFactionGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\BuildingTilesetSlicer.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\zone\ZoneAction.cs" />
      <Compile Include="Assets\scripts\game\model\system\task\designation\DesignationTaskCreationSystem.cs" />
@@ -124,6 +125,7 @@
      <Compile Include="Assets\scripts\game\model\component\RoomComponents.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitDoorClosingPreventionSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\material_selector\MaterialButtonHandler.cs" />
+     <Compile Include="Assets\scripts\game\model\container\WorldFactionContainer.cs" />
      <Compile Include="Assets\scripts\generation\localgen\LocalGenContainer.cs" />
      <Compile Include="Assets\scripts\types\item\recipe\Recipe.cs" />
      <Compile Include="Assets\scripts\generation\item\ItemGenerator.cs" />
@@ -143,6 +145,7 @@
      <Compile Include="Assets\scripts\util\geometry\ValueRangeInt.cs" />
      <Compile Include="Assets\scripts\mainMenu\preparation\PreparationStageHandler.cs" />
      <Compile Include="Assets\scripts\util\lang\extension\ArrayExtension.cs" />
+     <Compile Include="Assets\scripts\game\model\container\FactionContainer.cs" />
      <Compile Include="Assets\scripts\types\plant\PlantBlockTypeEnum.cs" />
      <Compile Include="Assets\scripts\types\deity\DeityAspectEnum.cs" />
      <Compile Include="Assets\scripts\types\plant\PlantType.cs" />
@@ -155,6 +158,7 @@
      <Compile Include="Assets\scripts\game\input\WidgetManager.cs" />
      <Compile Include="Assets\scripts\game\view\system\mouse_tool\BuildingMouseTool.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\target\DesignationActionTarget.cs" />
+     <Compile Include="Assets\scripts\generation\worldgen\WorldGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\ui\jobs_window\UnitJobRow.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\combat\AttackAction.cs" />
      <Compile Include="Assets\scripts\types\unit\need\WearNeed.cs" />
@@ -185,7 +189,9 @@
      <Compile Include="Assets\scripts\generation\worldgen\generators\deity\DeityAspects.cs" />
      <Compile Include="Assets\scripts\game\view\ui\FarmMenuHandler.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenSequence.cs" />
+     <Compile Include="Assets\scripts\types\FactionBehaviourTypes.cs" />
      <Compile Include="Assets\scripts\generation\item\DiggingProductGenerator.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\combat\GuardAction.cs" />
      <Compile Include="Assets\scripts\game\model\system\unit\UnitDiseaseSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\use\EquipToolItemAction.cs" />
      <Compile Include="Assets\scripts\util\TexturePacker\AssetPacker\TextureAsset.cs" />
@@ -347,6 +353,7 @@
      <Compile Include="Assets\scripts\game\view\system\plant\PlantVisualUpdateSystem.cs" />
      <Compile Include="Assets\scripts\game\view\ui\unit_menu\UnitMenuGeneralInfoHandler.cs" />
      <Compile Include="Assets\scripts\game\model\util\DiggingWorkAmountCalculator.cs" />
+     <Compile Include="Assets\scripts\game\model\Faction.cs" />
      <Compile Include="Assets\scripts\util\lang\ToggleableLogger.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\EquipmentAction.cs" />
      <Compile Include="Assets\scripts\game\view\ui\stockpileMenu\StockpileConfigItem.cs" />
@@ -406,7 +413,7 @@
      <Compile Include="Assets\scripts\mainMenu\preparation\UnitDetailsHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\generation\DifficultySelectorHandler.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\equipment\obtain\GetItemFromEquipmentAction.cs" />
-     <Compile Include="Assets\scripts\generation\worldgen\generators\WorldGenerator.cs" />
+     <Compile Include="Assets\scripts\generation\worldgen\generators\AbstractWorldGenerator.cs" />
      <Compile Include="Assets\scripts\types\unit\body\BodyTemplate.cs" />
      <Compile Include="Assets\scripts\game\view\tilemaps\WorldMapTilesetHolder.cs" />
      <Compile Include="Assets\scripts\game\input\CameraAndMouseHandler.cs" />
@@ -520,7 +527,6 @@
      <Compile Include="Assets\scripts\game\model\system\zone\StockpileTaskCreationSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\deity\DeityComponents.cs" />
      <Compile Include="Assets\scripts\game\view\GameView.cs" />
-     <Compile Include="Assets\scripts\game\model\World.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\order\GenericBuildingOrder.cs" />
      <Compile Include="Assets\scripts\generation\AbstractNameGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\ui\SquareIconButtonHandler.cs" />

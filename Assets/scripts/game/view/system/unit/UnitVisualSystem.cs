@@ -1,4 +1,5 @@
 using game.model;
+using game.model.component;
 using game.model.component.unit;
 using game.view.util;
 using Leopotam.Ecs;
@@ -61,6 +62,18 @@ public class UnitVisualSystem : IEcsRunSystem {
         handler.bodySprite.sprite = CreatureSpriteMap.get().getFor(type, "body", component.bodyVariant);
         handler.setOrientation(component.orientation);
         handler.toggleProgressBar(false);
+        handler.nameText.text = unit.name();
+        handler.nameText.color = selectColorByFaction(unit);
+    }
+
+    private Color selectColorByFaction(EcsEntity unit) {
+        string faction = unit.take<FactionComponent>().name;
+        if (faction == "player") {
+            return Color.white;
+        } else if (faction == "raider") {
+            return Color.red;
+        }
+        return Color.white;
     }
 }
 }

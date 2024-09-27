@@ -3,6 +3,7 @@ using System.Linq;
 using game.model.component;
 using game.model.component.task;
 using game.model.component.task.action;
+using game.model.component.task.action.combat;
 using game.model.component.task.action.target;
 using game.model.component.unit;
 using Leopotam.Ecs;
@@ -10,6 +11,7 @@ using MoreLinq;
 using types.action;
 using types.unit;
 using UnityEngine;
+using util;
 using util.geometry;
 using util.lang;
 using util.lang.extension;
@@ -26,10 +28,12 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
     private readonly UnitNeedActionCreator needActionCreator = new();
     private readonly int maxPriority = range.max;
     private readonly int minPriority = range.min;
-    private readonly MultiValueDictionary<TaskTargetDescriptor, TaskPerformerDescriptor> assignments = new(); // for cases when 
-
+    // for cases when many units select same task
+    private readonly MultiValueDictionary<TaskTargetDescriptor, TaskPerformerDescriptor> assignments = new();
+    
     public UnitTaskAssignmentSystem() {
         name = "UnitTaskAssignmentSystem";
+        debug = true;
     }
     
     public override void Run() {
@@ -37,21 +41,26 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
         foreach (int i in filter) {
             EcsEntity unit = filter.GetEntity(i);
             if(unit.Has<UnitDraftedComponent>()) continue; // TODO add special UnitTaskReceivingComponent
-            UnitTaskAssignment assignment = findTaskForUnit(filter.GetEntity(i));
-            if (assignment != null) {
-                assignments.add(assignment.target, assignment.performer);
+            string faction = unit.take<FactionComponent>().name;
+            if ("player".Equals(faction)) {
+                addAssignment(findPlayerUnitTaskAssignment(unit));
+            } else {
+                createTaskForNonPlayerUnit(unit);
             }
         }
         foreach ((TaskTargetDescriptor target, List<TaskPerformerDescriptor> performers) in assignments) {
             TaskPerformerDescriptor performer = performers.Count > 0
                 ? selectUnitForTask(target, performers)
                 : performers[0];
-            assignTask(performer, target);
+            assignTaskFromDescriptors(performer, target);
         }
     }
 
-    private UnitTaskAssignment findTaskForUnit(EcsEntity unit) {
-        if (unit.Has<UnitNextTaskComponent>()) return createNextTask(unit);
+    // Creates task assignment with task in TaskContainer or with task from by unit's needs.
+    private UnitTaskAssignment findPlayerUnitTaskAssignment(EcsEntity unit) {
+        if (unit.Has<UnitNextTaskComponent>()) {
+            return createNextTask(unit);
+        }
         UnitTaskAssignment needAssignment = needActionCreator.getMaxPriorityPerformableNeedAction(model, unit);
         int needPriority = needAssignment?.performer.priority ?? NONE;
         EcsEntity jobTask = getTaskFromContainer(unit, needPriority + 1);
@@ -59,9 +68,32 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
             Vector3Int position = jobTask.take<TaskActionsComponent>().initialAction.target.pos;
             return new UnitTaskAssignment(jobTask, position, "task", unit, jobTask.take<TaskJobComponent>().priority);
         }
-        if (needAssignment != null) return needAssignment;
+        return needAssignment;
         // return createIdleTask(unit);
-        return null;
+    }
+    
+    private void addAssignment(UnitTaskAssignment assignment) {
+        if (assignment != null) {
+            assignments.add(assignment.target, assignment.performer);
+        }
+    }
+    
+    // Applies faction's strategy to create task
+    private void createTaskForNonPlayerUnit(EcsEntity unit) {
+        string faction = unit.take<FactionComponent>().name;
+        string group = unit.take<FactionComponent>().unitGroup;
+        Debug.Log($"looking task for unit from {faction}-{group}" );
+        string strategy = model.factionContainer.factionToGroups[faction][0].strategy;
+        EcsEntity task = EcsEntity.Null;
+        if (strategy.Equals("attack")) {
+            Action action = new CombatAction();
+            task = model.taskContainer.generator
+                .createTask(action, Jobs.NONE, model.createEntity(), model);
+        } else if (strategy.Equals("idle")) {
+            task = createIdleTask(unit);
+        }
+        if (task == EcsEntity.Null) throw new GameException("Unsupported behaviour strategy");
+        assignTask(unit, task);
     }
 
     private UnitTaskAssignment createNextTask(EcsEntity unit) {
@@ -123,6 +155,7 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
             : EcsEntity.Null;
     }
 
+    // selects nearest performer for task
     private TaskPerformerDescriptor selectUnitForTask(TaskTargetDescriptor target, List<TaskPerformerDescriptor> units) {
         int priority = units.Max(performer => performer.priority);
         return units
@@ -131,13 +164,17 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
     }
 
     // bind unit and task entities
-    private void assignTask(TaskPerformerDescriptor performer, TaskTargetDescriptor target) {
+    private void assignTaskFromDescriptors(TaskPerformerDescriptor performer, TaskTargetDescriptor target) {
         EcsEntity task = target.createTask(performer, model);
-        log($"[UnitTaskAssignmentSystem] assigning task [{task.name()}] to {performer.unit.name()}");
-        performer.unit.Replace(new TaskComponent { task = task });
-        task.Replace(new TaskPerformerComponent { performer = performer.unit });
+        assignTask(performer.unit, task);
+    }
+
+    private void assignTask(EcsEntity unit, EcsEntity task) {
+        log($"[UnitTaskAssignmentSystem] assigning task [{task.name()}] to {unit.name()}");
+        unit.Replace(new TaskComponent { task = task });
+        task.Replace(new TaskPerformerComponent { performer = unit });
         task.Replace(new TaskAssignedComponent());
-        model.taskContainer.claimTask(task, performer.unit);
+        model.taskContainer.claimTask(task, unit);
     }
 
     private EcsEntity selectNearestTask(Vector3Int position, List<EcsEntity> tasks) {

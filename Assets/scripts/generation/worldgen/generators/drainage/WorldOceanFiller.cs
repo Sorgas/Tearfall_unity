@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace generation.worldgen.generators.drainage {
-    public class WorldOceanFiller : WorldGenerator {
+    public class WorldOceanFiller : AbstractWorldGenerator {
         private float seaLevel;
         
         protected override void generateInternal() {

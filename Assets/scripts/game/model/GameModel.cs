@@ -9,7 +9,7 @@ namespace game.model {
     // global game model. Contains one WorldModel and multiple LocalMapModels.
     // Passes updates to all models.
     public class GameModel : Singleton<GameModel> {
-        public World world; // global game state
+        public WorldModel worldModel;
         private readonly Dictionary<string, LocalModel> localMapModels = new();
         public LocalModel currentLocalModel;
         public readonly GameTime gameTime = new();
@@ -39,7 +39,6 @@ namespace game.model {
         }
         
         public void addLocalModel(string name, LocalModel model) {
-            world.localMapModels.Add(name, model);
             localMapModels.Add(name, model);
         }
     }

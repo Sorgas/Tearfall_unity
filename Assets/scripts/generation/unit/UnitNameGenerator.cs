@@ -24,7 +24,7 @@ class UnitNameGenerator : AbstractNameGenerator {
         return new NameComponent { name = generateName(male) };
     }
 
-    public NameComponent generate(SettlerData data) {
+    public NameComponent generate(UnitData data) {
         return new NameComponent { name = data.name };
     }
 

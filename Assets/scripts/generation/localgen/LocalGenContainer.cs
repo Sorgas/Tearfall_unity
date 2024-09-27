@@ -27,7 +27,6 @@ public class LocalGenContainer {
         mapName = name;
         LocalGenConfig config = GenerationState.get().localMapGenerator.localGenConfig;
         heightsMap = new float[config.areaSize, config.areaSize];
-        World world = GameModel.get().world;
         Debug.Log("[LocalGenContainer]: area size " + config.areaSize + " localElevation: ");
         model = new LocalModel();
         model.localMap = new LocalMap(config.areaSize, config.areaSize, GlobalSettings.localElevation + config.airLayersAboveGround, model);

@@ -25,11 +25,12 @@ class UnitGenerator {
     }
 
     // generates units from settler data on game start or migration
-    public void generateUnit(SettlerData data, EcsEntity entity) {
+    public void generateUnit(UnitData data, EcsEntity entity) {
         CreatureType type = CreatureTypeMap.getType(data.type);
         addCommonComponents(ref entity, data, type);
         addOptionalComponents(ref entity, type);
         addSettlerComponents(ref entity);
+        entity.Replace(new FactionComponent { name = data.faction });
     }
 
     // TODO
@@ -38,7 +39,7 @@ class UnitGenerator {
         type.components.Contains("equipment");
     }
 
-    private void addCommonComponents(ref EcsEntity entity, SettlerData data, CreatureType type) {
+    private void addCommonComponents(ref EcsEntity entity, UnitData data, CreatureType type) {
         entity
             .Replace(nameGenerator.generate(data))
             .Replace(createPropertiesComponent(data))
@@ -73,7 +74,7 @@ class UnitGenerator {
     }
 
     // TODO use default values from race
-    private UnitPropertiesComponent createPropertiesComponent(SettlerData data) {
+    private UnitPropertiesComponent createPropertiesComponent(UnitData data) {
         UnitPropertiesComponent component = new UnitPropertiesComponent {
             attributes = new(),
             properties = new()

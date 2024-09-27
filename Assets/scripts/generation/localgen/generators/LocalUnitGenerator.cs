@@ -25,20 +25,21 @@ public class LocalUnitGenerator : LocalGenerator {
         protected override void generateInternal() {
             map = container.map;
             unitGenerator = new UnitGenerator(random(0, 1000));
-            spawnSettlers(GenerationState.get().preparationState.settlers);
+            spawnUnits(GenerationState.get().preparationState.units);
         }
 
-        private void spawnSettlers(List<SettlerData> settlers) {
+        private void spawnUnits(List<UnitData> settlers) {
             Vector2Int center = new(map.bounds.maxX / 2, map.bounds.maxY / 2);
             settlers.ForEach(settler => {
                 Vector3Int? spawnPoint = getSpawnPosition(center, 5);
                 if (spawnPoint.HasValue) {
                     EcsEntity entity = container.model.createEntity();
                     unitGenerator.generateUnit(settler, entity);
-                    ref PositionComponent positionComponent = ref entity.Get<PositionComponent>();
+                    ref PositionComponent positionComponent = ref entity.takeRef<PositionComponent>();
                     positionComponent.position = spawnPoint.Value;
                     initJobs(entity);
                     container.model.unitContainer.statusEffectUtility.recalculate(entity);
+                    container.model.factionContainer.addUnit(entity);
                     log("unit spawned at " + spawnPoint.Value);
                 } else {
                     Debug.LogWarning("position to spawn unit not found");

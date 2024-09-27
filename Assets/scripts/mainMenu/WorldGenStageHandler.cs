@@ -47,15 +47,15 @@ public class WorldGenStageHandler : GameMenuPanelHandler {
     public void createWorld() {
         int seed = random.Next(); // 0..maxInt
         int size = (int)sizeSlider.value * 50;
-        GenerationState.get().worldGenConfig.seed = seed;
-        GenerationState.get().worldGenConfig.size = size;
+        GenerationState.get().worldGenerator.worldGenConfig.seed = seed;
+        GenerationState.get().worldGenerator.worldGenConfig.size = size;
         // TODO add other parameters
-        GenerationState.get().generateWorld();
-        showWorld(GameModel.get().world);
+        GenerationState.get().generateWorldModel();
+        showWorld(GameModel.get().worldModel);
     }
 
     // Passes world to WorldMapHandler, activates Continue button.
-    private void showWorld(World world) {
+    private void showWorld(WorldModel world) {
         worldMapStageHandler.gameObject.SetActive(true);
         worldMapStageHandler.setWorld(world);
         continueButton.gameObject.SetActive(true);

@@ -62,6 +62,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleUnitInfoOverlay"",
+                    ""type"": ""Value"",
+                    ""id"": ""7f69ab02-e3a3-49d8-8019-c9b3978a37ac"",
+                    ""expectedControlType"": ""Integer"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -172,6 +181,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf4a7364-2aa2-4e38-b182-1a8044d5ef6e"",
+                    ""path"": ""<Keyboard>/leftAlt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleUnitInfoOverlay"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -658,6 +678,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_ChangeLayer = m_Player.FindAction("ChangeLayer", throwIfNotFound: true);
         m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
         m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
+        m_Player_ToggleUnitInfoOverlay = m_Player.FindAction("ToggleUnitInfoOverlay", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -735,6 +756,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ChangeLayer;
     private readonly InputAction m_Player_Select;
     private readonly InputAction m_Player_Cancel;
+    private readonly InputAction m_Player_ToggleUnitInfoOverlay;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -743,6 +765,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @ChangeLayer => m_Wrapper.m_Player_ChangeLayer;
         public InputAction @Select => m_Wrapper.m_Player_Select;
         public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
+        public InputAction @ToggleUnitInfoOverlay => m_Wrapper.m_Player_ToggleUnitInfoOverlay;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -764,6 +787,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Cancel.started += instance.OnCancel;
             @Cancel.performed += instance.OnCancel;
             @Cancel.canceled += instance.OnCancel;
+            @ToggleUnitInfoOverlay.started += instance.OnToggleUnitInfoOverlay;
+            @ToggleUnitInfoOverlay.performed += instance.OnToggleUnitInfoOverlay;
+            @ToggleUnitInfoOverlay.canceled += instance.OnToggleUnitInfoOverlay;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -780,6 +806,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Cancel.started -= instance.OnCancel;
             @Cancel.performed -= instance.OnCancel;
             @Cancel.canceled -= instance.OnCancel;
+            @ToggleUnitInfoOverlay.started -= instance.OnToggleUnitInfoOverlay;
+            @ToggleUnitInfoOverlay.performed -= instance.OnToggleUnitInfoOverlay;
+            @ToggleUnitInfoOverlay.canceled -= instance.OnToggleUnitInfoOverlay;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -921,6 +950,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnChangeLayer(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
+        void OnToggleUnitInfoOverlay(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

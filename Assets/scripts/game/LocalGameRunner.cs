@@ -31,7 +31,7 @@ namespace game {
 
         // gets world either from worldgen/localgen, savefile, or creates test one
         private void resolveWorld() {
-            if(GameModel.get().world == null) {
+            if(GameModel.get().worldModel == null) {
                 if (true) {
                     new TestLevelInitializer().createTestLocalMap();
                     // new TestLevelInitializer2().createTestLocalMap(defaultModelName);

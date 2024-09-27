@@ -58,7 +58,7 @@ public class LocationSelectionStageHandler : GameMenuPanelHandler {
     }
 
     private void updateText() {
-        WorldMap worldMap = GameModel.get().world.worldModel.worldMap;
+        WorldMap worldMap = GameModel.get().worldModel.worldMap;
         // Vector3 pointerPosition = worldMapHandler.getPointerPosition();
         // Vector2Int cacheVector = new((int)pointerPosition.x, (int)pointerPosition.y);
         // text.text = cacheVector + " " + worldMap.elevation[cacheVector.x, cacheVector.y];

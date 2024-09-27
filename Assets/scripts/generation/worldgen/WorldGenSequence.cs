@@ -5,7 +5,7 @@ using generation.worldgen.generators.elevation;
 using generation.worldgen.generators.temperature;
 
 namespace generation.worldgen {
-// stores all generators for world generation and executes them in correct order. 
+// Stores all generators for world generation and executes them in correct order.
 // all generators share same System.Random object
 public class WorldGenSequence {
     private WorldNameGenerator nameGenerator;
@@ -21,6 +21,7 @@ public class WorldGenSequence {
     // private DrainageGenerator drainageGenerator;
     // private BiomeGenerator biomeGenerator;
     // private CelestialBodiesGenerator celestialBodiesGenerator;
+    private WorldFactionGenerator factionGenerator;
     public Random random; // shared to generators
     
     public WorldGenSequence() {
@@ -29,10 +30,11 @@ public class WorldGenSequence {
         oceanFiller = new WorldOceanFiller();
         temperatureGenerator = new WorldTemperatureGenerator();
         rainfallGenerator = new RainfallGenerator();
+        factionGenerator = new WorldFactionGenerator();
     }
 
     public void run() {
-        random = new Random(GenerationState.get().worldGenConfig.seed);
+        random = new Random(GenerationState.get().worldGenerator.worldGenConfig.seed);
         nameGenerator.generate();
         elevationGenerator.generate(); // generates elevation [0, 1]
         // celestialBodiesGenerator.execute(container); 
@@ -41,6 +43,7 @@ public class WorldGenSequence {
         // erosionGenerator.execute(container);
         temperatureGenerator.generate();
         rainfallGenerator.generate();
+        factionGenerator.generate();
         // elevationModifier.execute(container);
         // riverGenerator.execute(container);
         // brookGenerator.execute(container);

@@ -26,6 +26,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
         public readonly FarmContainer farmContainer;
         public readonly RoomContainer roomContainer;
         public readonly TileUpdateUtil updateUtil;
+        public readonly FactionContainer factionContainer;
         
         private readonly List<ModelAction> modelUpdateEventQueue = new();
         private readonly bool debug = false;
@@ -41,6 +42,7 @@ namespace game.model.localmap { // contains LocalMap and ECS world for its entit
             farmContainer = new(this);
             roomContainer = new(this);
             updateUtil = new(this);
+            factionContainer = new(this);
         }
 
         public void update(int ticks) {

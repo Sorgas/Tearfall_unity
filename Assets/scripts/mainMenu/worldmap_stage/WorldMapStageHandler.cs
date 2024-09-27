@@ -58,13 +58,13 @@ public class WorldMapStageHandler : MonoBehaviour {
 
     // Redraws tilemap with map of given world
     // TODO overlays
-    public void setWorld(World world) {
+    public void setWorld(WorldModel worldModel) {
         clear();
-        setWorldMap(world.worldModel.worldMap);
-        worldMapHandler.draw(world.worldModel.worldMap);
+        setWorldMap(worldModel.worldMap);
+        worldMapHandler.draw(worldModel.worldMap);
         pointerController.setWorldMap(worldMap);
         
-        nameText.text = world.name;
+        nameText.text = worldModel.worldName;
         setCameraToCenter();
         enablePointer();
         overlayButtonsPanel.gameObject.SetActive(true);

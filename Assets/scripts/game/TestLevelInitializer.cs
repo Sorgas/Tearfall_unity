@@ -5,7 +5,7 @@ using UnityEngine;
 namespace game {
 public class TestLevelInitializer {
     public void createTestLocalMap() {
-        if (GameModel.get().world != null) {
+        if (GameModel.get().worldModel != null) {
             Debug.LogWarning("world already exists in GameModel");
             return;
         }

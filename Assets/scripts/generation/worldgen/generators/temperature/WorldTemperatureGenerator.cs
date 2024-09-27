@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 namespace generation.worldgen.generators.temperature {
-public class WorldTemperatureGenerator : WorldGenerator {
+public class WorldTemperatureGenerator : AbstractWorldGenerator {
     private float polarLineWidth; //temperature in it is always minimal
     private float equatorLineWidth; //temperature in it is always maximum
     private float maxYearTemperature; // max summer temperature
@@ -55,7 +55,7 @@ public class WorldTemperatureGenerator : WorldGenerator {
      */
     private void addNoiseAndElevation() {
         //TODO add coastal and continental climates difference
-        float seaLevel = GenerationState.get().worldGenConfig.seaLevel;
+        float seaLevel = config.seaLevel;
         // PerlinNoiseGenerator noiseGen = new PerlinNoiseGenerator();
         // float[][] noise = noiseGen.generateOctavedSimplexNoise(config.size, config.size, 7, 0.6f, 0.006f);
         for (int x = 0; x < config.size; x++) {
