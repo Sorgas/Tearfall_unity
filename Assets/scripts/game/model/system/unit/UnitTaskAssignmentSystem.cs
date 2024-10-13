@@ -8,6 +8,7 @@ using game.model.component.task.action.target;
 using game.model.component.unit;
 using Leopotam.Ecs;
 using MoreLinq;
+using types;
 using types.action;
 using types.unit;
 using UnityEngine;
@@ -43,7 +44,7 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
             if(unit.Has<UnitDraftedComponent>()) continue; // TODO add special UnitTaskReceivingComponent
             string faction = unit.take<FactionComponent>().name;
             if ("player".Equals(faction)) {
-                addAssignment(findPlayerUnitTaskAssignment(unit));
+                addAssignment(findTaskAssignmentForPlayerUnit(unit));
             } else {
                 createTaskForNonPlayerUnit(unit);
             }
@@ -57,7 +58,7 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
     }
 
     // Creates task assignment with task in TaskContainer or with task from by unit's needs.
-    private UnitTaskAssignment findPlayerUnitTaskAssignment(EcsEntity unit) {
+    private UnitTaskAssignment findTaskAssignmentForPlayerUnit(EcsEntity unit) {
         if (unit.Has<UnitNextTaskComponent>()) {
             return createNextTask(unit);
         }
@@ -78,22 +79,21 @@ public class UnitTaskAssignmentSystem : LocalModelUnscalableEcsSystem {
         }
     }
     
-    // Applies faction's strategy to create task
+    // Creates task for unit by its group mission.
     private void createTaskForNonPlayerUnit(EcsEntity unit) {
         string faction = unit.take<FactionComponent>().name;
         string group = unit.take<FactionComponent>().unitGroup;
         Debug.Log($"looking task for unit from {faction}-{group}" );
-        string strategy = model.factionContainer.factionToGroups[faction][0].strategy;
+        string mission = model.factionContainer.factions[faction].groups[group].mission;
         EcsEntity task = EcsEntity.Null;
-        if (strategy.Equals("attack")) {
-            Action action = new CombatAction();
+        if (mission.Equals(UnitGroupMissions.HOSTILE_AGGRESSIVE)) {
+            Action action = new AggressiveCombatAction();
             task = model.taskContainer.generator
                 .createTask(action, Jobs.NONE, model.createEntity(), model);
-        } else if (strategy.Equals("idle")) {
-            task = createIdleTask(unit);
+        } else {
+            throw new GameException($"Unsupported unit group mission: {mission}");
         }
-        if (task == EcsEntity.Null) throw new GameException("Unsupported behaviour strategy");
-        assignTask(unit, task);
+        if (task != EcsEntity.Null) assignTask(unit, task);
     }
 
     private UnitTaskAssignment createNextTask(EcsEntity unit) {

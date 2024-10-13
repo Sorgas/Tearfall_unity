@@ -13,6 +13,7 @@ public class AttackAction : Action {
     private int preparationTicks;
 
     public AttackAction(ActionTarget target) : base(target) {
+        name = "attack action";
         displayProgressBar = false;
         preparationTicks = 3; // TODO use weapon stat
         startCondition = () => ActionCheckingEnum.OK;

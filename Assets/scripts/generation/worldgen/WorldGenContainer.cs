@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using game.model;
-using game.model.container;
+using generation.worldgen.generators;
 using util.geometry;
 
 namespace generation.worldgen {
@@ -18,7 +18,7 @@ namespace generation.worldgen {
         public int[,] biome;
 
         public int size;
-        public Dictionary<string, FactionDescriptor> factions = new();
+        public Dictionary<string, Faction> factions = new();
         
         // public Random random;
 
@@ -40,9 +40,8 @@ namespace generation.worldgen {
             WorldModel model = new();
             model.worldName = worldName;
             model.worldMap = createWorldMap();
-            model.factions = factions.Values
-                .Select(createFaction)
-                .ToDictionary(faction => faction.name, faction => faction);
+            model.factions = factions;
+            model.initRelations();
             return model;
         }
         
@@ -58,13 +57,6 @@ namespace generation.worldgen {
                 }
             }
             return worldMap;
-        }
-
-        private Faction createFaction(FactionDescriptor descriptor) {
-            Faction faction = new Faction(descriptor.name);
-            faction.relation = descriptor.relation;
-            faction.strategy = descriptor.behaviour;
-            return faction;
         }
     }
 }

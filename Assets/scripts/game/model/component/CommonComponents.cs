@@ -87,5 +87,6 @@ public struct ItemContainerComponent {
 public struct FactionComponent {
     public string name;
     public string unitGroup; // assigned by FactionContainer
+    public string mission;
 }
 }

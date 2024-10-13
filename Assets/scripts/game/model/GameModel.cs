@@ -36,6 +36,7 @@ namespace game.model {
             foreach (LocalModel model in localMapModels.Values) {
                 model.update(ticks); // ticks passed with globalSharedData
             }
+            worldModel.update(ticks);
         }
         
         public void addLocalModel(string name, LocalModel model) {

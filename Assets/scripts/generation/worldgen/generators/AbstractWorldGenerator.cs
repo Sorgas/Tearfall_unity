@@ -8,7 +8,7 @@ public abstract class AbstractWorldGenerator {
     protected WorldGenContainer container;
     protected string name = "WorldGenerator";
     protected bool debug = false;
-    private Random numberGenerator;
+    protected Random numberGenerator;
 
     public void generate() {
         bindStateObjects();

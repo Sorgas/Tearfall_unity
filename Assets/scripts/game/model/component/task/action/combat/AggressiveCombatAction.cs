@@ -1,16 +1,19 @@
+using System.Collections.Generic;
 using game.model.component.task.action.target;
 using game.model.component.unit;
 using Leopotam.Ecs;
+using MoreLinq;
 using types.action;
+using UnityEngine;
 using util.lang.extension;
 
 namespace game.model.component.task.action.combat {
 // Continuous action for performing in combat. Selects nearest target of hostile faction, then creates action to hit it.
-public class CombatAction : Action {
+public class AggressiveCombatAction : Action {
     private EcsEntity currentTarget;
-    
-    
-    public CombatAction() : base(new SelfActionTarget()) {
+
+    public AggressiveCombatAction() : base(new SelfActionTarget()) {
+        name = "aggressive combat action";
         startCondition = () => {
             if (currentTarget == EcsEntity.Null) {
                 currentTarget = selectTarget();
@@ -23,21 +26,13 @@ public class CombatAction : Action {
             }
             return ActionCheckingEnum.FAIL;
         };
-        
     }
 
     private EcsEntity selectTarget() {
-        string performerFaction = performer.take<FactionComponent>().name;
-        // TODO replace with hostile faction selection
-        if (performerFaction == "player") {
-            // TODO replace with nearest unit selection
-            EcsEntity target = model.factionContainer.units.get("raider")[0];
-            return target;
-        } else if (performerFaction == "raider") {
-            EcsEntity target = model.factionContainer.units.get("player")[0];
-            return target;
-        }
-        return EcsEntity.Null;
+        List<EcsEntity> units = model.factionContainer.getUnitsOfHostileFactions(performer);
+        if (units.Count == 0) return EcsEntity.Null;
+        Vector3Int performerPositon = performer.pos();
+        return units.MinBy(unit => (unit.pos() - performerPositon).sqrMagnitude);
     }
 }
 }
