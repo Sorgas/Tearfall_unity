@@ -21,8 +21,8 @@ public class AggressiveCombatAction : Action {
             if (currentTarget == EcsEntity.Null) {
                 return ActionCheckingEnum.OK; // will complete action successfully
             }
-            if (currentTarget.Has<UnitComponent>()) {
-                return addPreAction(new AttackAction(new MeleeUnitActionTarget(currentTarget)));
+            if (currentTarget.Has<UnitComponent>()) { // target not dead TODO add lethal flag, add downed property
+                return addPreAction(new AttackUnitInMeleeAction(currentTarget));
             }
             return ActionCheckingEnum.FAIL;
         };

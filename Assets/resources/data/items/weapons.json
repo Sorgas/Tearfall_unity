@@ -11,7 +11,31 @@
       "accuracy": 0.5,
       "reload": 25,
       "skill": "melee",
+      "attribute": "strength",
       "damageType": "slashing",
+    },
+    "atlasXY": [0, 0]
+  },
+  {
+    "name": "generic_shield",
+    "title": "Generic shield. Replace title in weapons.json",
+    "description": "Generic shield. Replace description in weapons.json",
+    "value": 10,
+    "stockpileCategory": "shield",
+    "components": ["grip(offhand)"],
+    "shield": {
+      "blockChance": 60,
+      "reload": 25,
+      "skill": "blocking",
+      "attribute": "strength"
+    },
+    "weapon": {
+      "damage": 1,
+      "accuracy": 80,
+      "reload": 60,
+      "skill": "blocking",
+      "attribute": "strength",
+      "damageType": "bludgeoning"
     },
     "atlasXY": [0, 0]
   },
@@ -47,9 +71,90 @@
       "reload": 50,
       "accuracy": 0.7,
       "skill": "ranged",
+      "attribute": "agility",
       "damageType": "piercing"
     },
     "value": 40,
+    "atlasXY": [2, 0]
+  },
+  {
+    "name": "round_shield",
+    "title": "Round shield",
+    "baseItem": "generic_shield",
+    "description": "Replace description",
+    "components": ["grip(offhand)"],
+    "shield": {
+      "blockChance": 30,
+      "reload": 20
+    },
+    "weapon": {
+      "reload": 50,
+      "accuracy": 0.7,
+      "skill": "block",
+      "attribute": "agility",
+      "damageType": "piercing"
+    },
+    "value": 30,
+    "atlasXY": [2, 0]
+  },
+  {
+    "name": "kite_shield",
+    "title": "Kite shield",
+    "baseItem": "generic_shield",
+    "description": "Replace description",
+    "components": ["grip(offhand)"],
+    "shield": {
+      "blockChance": 45,
+      "reload": 30
+    },
+    "weapon": {
+      "reload": 50,
+      "accuracy": 0.7,
+      "skill": "ranged",
+      "attribute": "agility",
+      "damageType": "piercing"
+    },
+    "value": 30,
+    "atlasXY": [2, 0]
+  },
+  {
+    "name": "tower_shield",
+    "title": "Tower shield",
+    "baseItem": "generic_shield",
+    "description": "Replace description",
+    "components": ["grip(offhand)"],
+    "shield": {
+      "blockChance": 60,
+      "reload": 50
+    },
+    "weapon": {
+      "reload": 50,
+      "accuracy": 0.7,
+      "skill": "ranged",
+      "attribute": "agility",
+      "damageType": "piercing"
+    },
+    "value": 30,
+    "atlasXY": [2, 0]
+  },
+  {
+    "name": "buckler_shield",
+    "title": "Buckler",
+    "baseItem": "generic_shield",
+    "description": "Replace description",
+    "components": ["grip(offhand)"],
+    "shield": {
+      "blockChance": 15,
+      "reload": 10
+    },
+    "weapon": {
+      "reload": 50,
+      "accuracy": 0.7,
+      "skill": "ranged",
+      "attribute": "agility",
+      "damageType": "piercing"
+    },
+    "value": 30,
     "atlasXY": [2, 0]
   }
 ]

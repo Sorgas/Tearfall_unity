@@ -96,11 +96,18 @@ public struct ForbiddenComponent { }
 
 // item can be used as weapon in combat
 public struct ItemWeaponComponent {
-    public float damage;
+    public int damage;
     public float accuracy;
     public float reload;
     public string skill;
+    public string attribute;
     public string damageType;
+}
+
+public struct ItemShieldComponent {
+    public float blockChance;
+    public float reload;
+    public float cooldown;
 }
 
 // item is cursed and will put negative effect when used

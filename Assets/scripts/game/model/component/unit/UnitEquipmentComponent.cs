@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using game.model.component.item;
 using Leopotam.Ecs;
+using util.lang.extension;
 
 namespace game.model.component.unit {
 // contains slots for wearable and holdable items (clothes and tools)
@@ -33,7 +34,29 @@ public struct UnitEquipmentComponent {
             .Where(slot => slot.item == item)
             .DefaultIfEmpty(null).First();
     }
-
+    
+    public GrabEquipmentSlot getSlotWithoutCooldown() {
+        foreach (var slot in grabSlots.Values) {
+            if (slot.cooldown <= 0) {
+                if (slot.item == EcsEntity.Null || slot.item.Has<ItemWeaponComponent>()) { // empty slots for unarmed attacks
+                    return slot;
+                }
+            }
+        }
+        return null;
+    }
+    
+    public EcsEntity getEquippedShieldWithoutCooldown() {
+        foreach (var slot in grabSlots.Values) {
+            if (slot.item != EcsEntity.Null && slot.item.Has<ItemShieldComponent>()) {
+                if (slot.item.take<ItemShieldComponent>().cooldown <= 0) {
+                    return slot.item;
+                }
+            }
+        }
+        return EcsEntity.Null;
+    }
+    
     // returns ranged weapon with corresponding ammunition available
     public EcsEntity getRangedWeapon() {
         return EcsEntity.Null; // TODO 
@@ -76,6 +99,7 @@ public class WearEquipmentSlot : AbstractEquipmentSlot {
 // for holding items like tools and weapons
 public class GrabEquipmentSlot : AbstractEquipmentSlot {
     public EcsEntity item = EcsEntity.Null;
+    public float cooldown;
 
     public GrabEquipmentSlot(string name, List<string> limbs) : base(name, limbs) { }
 

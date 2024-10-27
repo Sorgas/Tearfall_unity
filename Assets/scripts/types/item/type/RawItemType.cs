@@ -24,7 +24,8 @@ public class RawItemType {
     // TODO replace with component
     public string toolAction; // some actions require tools or get bonus from having tool equipped
     public RawWeaponItemType weapon; // present if item can be used in combat
-
+    public RawShieldItemType shield;
+    
     public RawItemType() {
         tags = Array.Empty<string>();
         components = Array.Empty<string>();
@@ -34,11 +35,17 @@ public class RawItemType {
 
 public class RawWeaponItemType {
     // weapons
-    public float damage = -1; // if 0, item is not a weapon
+    public int damage = -1; // if 0, item is not a weapon
     public float accuracy = -1;
     public float reload = -1; // attack reload turns
     public string skill; // combat skill to use
+    public string attribute; // strength or dexterity
     public string damageType;
     // public string ammo; // ammo item name
+}
+
+public class RawShieldItemType {
+    public float blockChance = -1;
+    public float reload = -1;
 }
 }

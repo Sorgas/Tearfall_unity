@@ -6,7 +6,7 @@ using util.lang.extension;
 
 namespace game.model.component.task.action.target {
 public abstract class EntityActionTarget : ActionTarget {
-    protected EcsEntity entity;
+    public EcsEntity entity;
 
     public EntityActionTarget(EcsEntity entity, ActionTargetTypeEnum placement) : base(placement) {
         this.entity = entity;

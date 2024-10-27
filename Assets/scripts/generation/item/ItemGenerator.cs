@@ -77,6 +77,12 @@ public class ItemGenerator {
                 damageType = type.weapon.damageType,
             });
         }
+        if (type.shield != null) {
+            item.Replace(new ItemShieldComponent {
+                blockChance = type.shield.blockChance,
+                reload = type.shield.reload
+            });
+        }
         if (type.toolAction != null) {
             item.Replace(new ItemToolComponent { action = type.toolAction });
         }

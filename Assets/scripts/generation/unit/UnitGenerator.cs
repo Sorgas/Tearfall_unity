@@ -46,7 +46,7 @@ class UnitGenerator {
             .Replace(new UnitVisualComponent { headVariant = data.headVariant, bodyVariant = data.bodyVariant }) // sprite go is created in UnitVisualSystem
             .Replace(new PositionComponent { position = new Vector3Int() })
             .Replace(bodyGenerator.generate(type))
-            .Replace(new UnitHealthComponent { overallStatus = "healthy" })
+            .Replace(new UnitHealthComponent { overallStatus = "healthy" , stamina = 1f, injuries = new()})
             .Replace(new UnitStatusEffectsComponent { effects = new() })
             .Replace(new OwnershipComponent { wealthStatus = "poor" })
             .Replace(new UnitComponent { type = type })

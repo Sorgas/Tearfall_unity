@@ -58,7 +58,7 @@
      <Compile Include="Assets\scripts\util\TexturePacker\RectanglePacking\RectanglePacker.cs" />
      <Compile Include="Assets\scripts\game\model\component\unit\UnitIntProperty.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\AbstractPassageHelper.cs" />
-     <Compile Include="Assets\scripts\game\model\system\unit\UnitAttackCooldownSystem.cs" />
+     <Compile Include="Assets\scripts\game\model\system\unit\UnitEquipmentSlotCooldownSystem.cs" />
      <Compile Include="Assets\scripts\util\demoScene\OreVeinGenerationSceneHandler.cs" />
      <Compile Include="Assets\scripts\game\model\localmap\passage\AreaInitializerGroundImpassableDoors.cs" />
      <Compile Include="Assets\scripts\game\view\camera\SelectorSpriteUpdater.cs" />
@@ -159,7 +159,7 @@
      <Compile Include="Assets\scripts\game\model\component\task\action\target\DesignationActionTarget.cs" />
      <Compile Include="Assets\scripts\generation\worldgen\WorldGenerator.cs" />
      <Compile Include="Assets\scripts\game\view\ui\jobs_window\UnitJobRow.cs" />
-     <Compile Include="Assets\scripts\game\model\component\task\action\combat\AttackAction.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\combat\MeleeAttackAction.cs" />
      <Compile Include="Assets\scripts\types\unit\need\WearNeed.cs" />
      <Compile Include="Assets\scripts\game\model\util\ZoneUtils.cs" />
      <Compile Include="Assets\scripts\util\pathfinding\PassageUtil.cs" />
@@ -201,6 +201,7 @@
      <Compile Include="Assets\scripts\game\view\system\zone\TileUpdateVisualSystem.cs" />
      <Compile Include="Assets\scripts\game\model\component\task\action\DigAction.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalUnitGenerator.cs" />
+     <Compile Include="Assets\scripts\types\unit\body\Injury.cs" />
      <Compile Include="Assets\scripts\game\view\system\designation\DesignationVisualSystem.cs" />
      <Compile Include="Assets\scripts\generation\GenerationStateTestInitializer.cs" />
      <Compile Include="Assets\scripts\game\model\GamemodelUpdateController.cs" />
@@ -272,8 +273,9 @@
      <Compile Include="Assets\scripts\game\TestLevelInitializer2.cs" />
      <Compile Include="Assets\scripts\util\lang\CachedVariable.cs" />
      <Compile Include="Assets\scripts\game\model\util\validation\PositionValidator.cs" />
-     <Compile Include="Assets\scripts\game\view\ui\PlantMenuHandler.cs" />
+     <Compile Include="Assets\scripts\game\model\component\task\action\combat\AttackUnitInMeleeAction.cs" />
      <Compile Include="Assets\scripts\game\model\container\item\OnMapItemsManager.cs" />
+     <Compile Include="Assets\scripts\game\view\ui\PlantMenuHandler.cs" />
      <Compile Include="Assets\scripts\game\view\ui\workbench\CraftingOrderConfigPanelIngredientHandler.cs" />
      <Compile Include="Assets\scripts\generation\localgen\generators\LocalBuildingGenerator.cs" />
      <Compile Include="Assets\scripts\game\model\container\AbstractContainer.cs" />

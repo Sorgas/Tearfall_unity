@@ -11,7 +11,7 @@ using util.lang.extension;
 namespace game.model.component.task.action.target {
 // ActionTarget for targeting unit in melee combat
 public class MeleeUnitActionTarget : EntityActionTarget {
-    // private EcsEntity unit
+    // private EcsEntity unit;
     
     public MeleeUnitActionTarget(EcsEntity unit) : base(unit, ActionTargetTypeEnum.NEAR) { }
     

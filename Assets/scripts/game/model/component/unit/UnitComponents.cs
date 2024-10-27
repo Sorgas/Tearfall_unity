@@ -6,9 +6,11 @@ using game.view.util;
 using Leopotam.Ecs;
 using types;
 using types.unit;
+using types.unit.body;
 using types.unit.disease;
 using types.unit.skill;
 using UnityEngine;
+using util.lang;
 
 namespace game.model.component.unit {
 
@@ -51,7 +53,8 @@ namespace game.model.component.unit {
 
     public struct UnitHealthComponent {
         public string overallStatus;
-        public List<string> injures;
+        public MultiValueDictionary<string, Injury> injuries; // body 
+        public float stamina;
     }
 
 public struct UnitJobsComponent {
@@ -152,5 +155,13 @@ public struct UnitDownedComponent {
 // after attack, this component is added to unit
 public struct UnitAttackCooldownComponent {
     public int ticks;
+}
+
+public struct CorpseComponent { }
+
+public struct UnitCombatComponent {
+    public float blockingCooldown;
+    public float parryCooldown;
+    public float dodgeCooldown;
 }
 }

@@ -46,7 +46,7 @@ public class EngageAction : Action {
             // compare weapon and target distance, 
             return null; // TODO
         } else {
-            return new AttackAction(new MeleeUnitActionTarget(currentTarget));
+            return new AttackUnitInMeleeAction(currentTarget);
         }
     }
 }
