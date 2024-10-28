@@ -1,5 +1,6 @@
 using game.model;
 using game.model.component;
+using game.model.component.item;
 using game.model.component.unit;
 using game.view.util;
 using Leopotam.Ecs;
@@ -64,6 +65,10 @@ public class UnitVisualSystem : IEcsRunSystem {
         handler.toggleProgressBar(false);
         handler.nameText.text = unit.name();
         handler.nameText.color = selectColorByFaction(unit);
+        UnitEquipmentComponent equipment = unit.take<UnitEquipmentComponent>();
+        
+        handler.setHandItems(getItemSpriteFromSlot(equipment, "right hand"), 
+            getItemSpriteFromSlot(equipment, "left hand"));
     }
 
     private Color selectColorByFaction(EcsEntity unit) {
@@ -74,6 +79,13 @@ public class UnitVisualSystem : IEcsRunSystem {
             return Color.red;
         }
         return Color.white;
+    }
+
+    private Sprite getItemSpriteFromSlot(UnitEquipmentComponent equipment, string slotName) {
+        if (equipment.grabSlots[slotName].item != EcsEntity.Null) {
+            return equipment.grabSlots[slotName].item.take<ItemVisualComponent>().sprite;
+        }
+        return null;
     }
 }
 }

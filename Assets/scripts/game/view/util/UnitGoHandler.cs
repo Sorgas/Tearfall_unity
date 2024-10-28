@@ -5,7 +5,8 @@ using types;
 using UnityEngine;
 
 namespace game.view.util {
-// TODO add status icons, thought cloud, 
+// TODO add status icons
+// TODO add thought cloud
 // unit sprites should be faced left by default
 public class UnitGoHandler : MonoBehaviour {
     private static readonly Vector3 spritePosWest = new(0, 0, 0);
@@ -13,10 +14,16 @@ public class UnitGoHandler : MonoBehaviour {
     private static readonly Vector3 spritePosBack = new(0, 0, 0.01f);
     private static readonly Vector3 spritePosFront = new(0, 0, -0.01f);
 
+    // private static readonly Vector3 itemPosWest = new(-0.37f, -0.1f, 0.01f);
+    // private static readonly Vector3 spritePosBack = new(0, 0, 0.01f);
     // unit
     public RectTransform spriteHolder;
     public SpriteRenderer headSprite;
     public SpriteRenderer bodySprite;
+    public SpriteRenderer westRightItemSprite;
+    public SpriteRenderer westLeftItemSprite;
+    public SpriteRenderer eastRightItemSprite;
+    public SpriteRenderer eastLeftItemSprite;
     public SpriteMask mask;
     public TextMeshPro nameText;
     
@@ -70,20 +77,32 @@ public class UnitGoHandler : MonoBehaviour {
         if (this.orientation == orientation) return;
         Debug.Log("updating orientation");
         rotateAttackAnimation(orientation);
-        bool right = isRight(this.orientation, orientation);
+        bool east = isRight(this.orientation, orientation);
         bool front = isFront(orientation);
-        headSprite.flipX = right;
-        bodySprite.flipX = right;
+        headSprite.flipX = east;
+        bodySprite.flipX = east;
         this.orientation = orientation;
-        if (right) {
+        if (east) {
             bodySprite.GetComponent<RectTransform>().anchoredPosition3D = spritePosEast;
             headSprite.GetComponent<RectTransform>().anchoredPosition3D = spritePosEast + (front ? spritePosFront : spritePosBack);
         } else {
             bodySprite.GetComponent<RectTransform>().anchoredPosition3D = spritePosWest;
             headSprite.GetComponent<RectTransform>().anchoredPosition3D = spritePosWest + (front ? spritePosFront : spritePosBack);
         }
+        westRightItemSprite.gameObject.SetActive(!east);
+        westLeftItemSprite.gameObject.SetActive(!east);
+        eastRightItemSprite.gameObject.SetActive(east);
+        eastLeftItemSprite.gameObject.SetActive(east);
     }
 
+    // item sprites should have pivots on handle and be oriented upwards
+    public void setHandItems(Sprite rightItem, Sprite leftItem) {
+        westRightItemSprite.sprite = rightItem;
+        westLeftItemSprite.sprite = leftItem;
+        eastRightItemSprite.sprite = rightItem;
+        eastLeftItemSprite.sprite = leftItem;
+    }
+    
     // Standing straight orientation is N
     public void rotate(Orientations orientation) {
         RectTransform transform = headSprite.gameObject.GetComponent<RectTransform>();

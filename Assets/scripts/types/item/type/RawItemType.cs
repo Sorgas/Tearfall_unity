@@ -17,6 +17,7 @@ public class RawItemType {
 
     // render
     public int[] atlasXY;
+    public string spriteName = "defaultItem"; // TODO add default item sprite
     public string atlasName; // set by item type map
     public string color = "0xffffffff";
 

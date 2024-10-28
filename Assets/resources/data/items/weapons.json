@@ -48,6 +48,15 @@
     "atlasXY": [0, 0]
   },
   {
+    "name": "dagger",
+    "title": "Dagger",
+    "baseItem": "generic_weapon",
+    "description": "Replace description",
+    "value": 100,
+    "spriteName": "weapons/dagger",
+    "atlasXY": [0, 0]
+  },
+  {
     "name": "claymore",
     "title": "Claymore",
     "baseItem": "generic_weapon",

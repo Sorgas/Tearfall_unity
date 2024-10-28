@@ -63,6 +63,9 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
     private List<ItemType> createTypes(List<RawItemType> raws) {
         List<ItemType> result = new();
         for (var i = 0; i < raws.Count; i++) {
+            if (raws[i].atlasXY == null && raws[i].spriteName.Equals("defaultItem")) {
+                Debug.LogWarning($"Item {raws[i].name} has no atlas tile or sprite specified");
+            }
             ItemType type = new(raws[i]);
             result.Add(type);
         }
@@ -76,7 +79,7 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
             addToolMapping(type);
         }
     }
-    
+
     private void loadItemTypes() {
         log("Loading item types");
         TextAsset[] files = Resources.LoadAll<TextAsset>("data/items");
@@ -102,7 +105,7 @@ public class ItemTypeMap : Singleton<ItemTypeMap> {
         }
         log($"   {raws.Count} loaded from {file.name}");
     }
-    
+
     private void applyBaseTypes() {
         foreach (var type in types.Values) {
             if (type.baseItem != null) {

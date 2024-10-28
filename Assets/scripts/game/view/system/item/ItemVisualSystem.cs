@@ -13,6 +13,7 @@ using static game.view.util.TilemapLayersConstants;
 namespace game.view.system.item {
     // creates sprite GO for items on ground. updates GO position for moved items
     // TODO add item sprite GO monobeh handler
+    // TODO support loading single sprites from item type to go
     public class ItemVisualSystem : IEcsRunSystem {
         // TODO add marker component instead of position
         public EcsFilter<ItemComponent, PositionComponent>.Exclude<ItemVisualComponent>

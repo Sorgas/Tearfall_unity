@@ -25,6 +25,7 @@ public class ItemType {
     // render
     public string atlasName;
     public int[] atlasXY;
+    public string spriteName; // used, if tile in atlas is not specified
     public string color;
 
     public ItemType(RawItemType raw) {
@@ -50,6 +51,7 @@ public class ItemType {
         }
         atlasName = raw.atlasName;
         atlasXY = raw.atlasXY;
+        spriteName = raw.spriteName;
         // if (raw.parts == null || raw.parts.Length == 0) {
         //     parts.Add("main"); // single part item
         // } else {
